@@ -1,0 +1,15 @@
+#!/usr/local/bin/ruby
+# -*- coding: utf-8 -*-
+require 'rubygems'
+require 'daemons'
+  options = { 
+    :app_name   => "ul_authserver",
+    :dir_mode   => :normal,
+    :dir        => 'pids',
+    :backtrace  => true,
+#     :monitor    => true,
+    :log_output    => true
+}
+f =  File.join(File.expand_path(__FILE__).gsub!("/bin/authserver",""), "/src")
+Dir.chdir(File.join(File.expand_path(__FILE__).gsub!("authserver","")))
+Daemons.run("#{f}/authentication.rb",options)

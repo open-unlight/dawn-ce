@@ -1,0 +1,12 @@
+source :rubygems
+gem 'dalli', '~>2.0.2'
+gem 'eventmachine'
+gem 'mysql2','~>0.3.7'
+gem 'oauth','~>0.4.5'
+gem 'RocketAMF','~>0.2.1'
+gem 'rspec','~>2.11.0'
+gem 'sequel','~>4.0'
+gem 'RubyInline','~>3.12.4'
+gem 'sqlite3','~>1.3.11'
+gem 'daemons'
+gem 'gmp'

@@ -1,0 +1,14 @@
+service flashpolicy
+{
+		disable = no
+		wait = no
+		socket_type = stream
+		flags = IPv4
+		port = 11999
+		user = root
+		group = root
+                cps =  = 100 3
+                instances = UNLIMITED
+		server = /usr/local/sbin/in.flashpolicyd.pl
+		server_args = --file=/usr/local/etc/flashpolicy.xml
+}

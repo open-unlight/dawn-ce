@@ -1,0 +1,16 @@
+#!/usr/local/bin/ruby
+# -*- coding: utf-8 -*-
+require 'rubygems'
+require 'daemons'
+  options = {
+    :app_name   => "ul_lobbyserver",
+    :dir_mode   => :normal,
+    :ARGV => [ARGV[0],'--','-p','12002'],
+    :dir        => 'pids',
+    :backtrace  => true,
+#    :monitor    => false,
+    :log_output    => true
+}
+f =  File.join(File.expand_path(__FILE__).gsub!("/bin/lobbyserver",""), "/src")
+Dir.chdir(File.join(File.expand_path(__FILE__).gsub!("lobbyserver","")))
+Daemons.run("#{f}/lobby.rb",options)

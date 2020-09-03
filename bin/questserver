@@ -1,0 +1,16 @@
+#!/usr/local/bin/ruby
+# -*- coding: utf-8 -*-
+require 'rubygems'
+require 'daemons'
+  options = { 
+    :app_name   => "ul_questserver",
+    :dir_mode   => :normal,
+    :dir        => 'pids',
+    :backtrace  => true,
+    :ARGV => [ARGV[0],'--','-p','12005'],
+#    :monitor    => false,
+    :log_output    => true
+}
+f =  File.join(File.expand_path(__FILE__).gsub!("/bin/questserver",""), "/src")
+Dir.chdir(File.join(File.expand_path(__FILE__).gsub!("questserver","")))
+Daemons.run("#{f}/quest.rb",options)

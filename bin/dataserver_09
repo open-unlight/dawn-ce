@@ -1,0 +1,18 @@
+#!/usr/local/bin/ruby
+# -*- coding: utf-8 -*-
+require 'rubygems'
+require 'daemons'
+
+NAME = "dataserver_09"
+options = { 
+  :app_name   => "ul_#{NAME}",
+  :dir_mode   => :normal,
+  :ARGV => [ARGV[0],'--','-p','12040'],
+  :dir        => 'pids',
+  :backtrace  => true,
+  #    :monitor    => true,
+  :log_output    => false
+}
+f =  File.join(File.expand_path(__FILE__).gsub!("/bin/#{NAME}",""), "/src")
+Dir.chdir(File.join(File.expand_path(__FILE__).gsub!(NAME,"")))
+Daemons.run("#{f}/data_lobby.rb",options)
