@@ -12,9 +12,9 @@ gem 'sequel','~> 4.0'
 
 # Utils
 gem 'dalli', '~>2.0.2'
-gem 'RubyInline','~>3.12.4'
 gem 'gmp'
 gem 'rake'
+gem 'RubyInline','~>3.12.4'
 
 # Auth
 gem 'oauth','~>0.4.5'
@@ -25,16 +25,16 @@ group :build do
 end
 
 group :development, :test do
-  gem 'rubocop', '~> 0.90', require: false
-  gem 'rubocop-performance', require: false
+  gem 'rubocop', '~> 0.90', :require => false
+  gem 'rubocop-performance', :require => false
 
-  gem 'bundler-audit', require: false
+  gem 'bundler-audit', :require => false
 end
 
 group :development do
   gem 'dotenv'
 
-  gem 'overcommit', require: false
+  gem 'overcommit', :require => false
 end
 
 group :test do
