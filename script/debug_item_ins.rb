@@ -4,7 +4,6 @@ require 'unlight'
 $arg = ARGV.shift
 
 module Unlight
-
   # デバッグ用アイテム追加
   puts "アイテムを追加しますか？(y/n)"
   answer = gets.chomp
@@ -26,7 +25,7 @@ module Unlight
     set_list = []
     cnt = 0
     num.times do
-      tmp = [avatar_id,item_id,AT_TIME,AT_TIME]
+      tmp = [avatar_id, item_id, AT_TIME, AT_TIME]
       set_list << tmp
       if set_list.size > 500
         import_list << set_list
@@ -41,16 +40,13 @@ module Unlight
       import_list << set_list
       set_list = []
     end
-    columns = [:avatar_id,:avatar_item_id,:created_at,:updated_at]
+    columns = [:avatar_id, :avatar_item_id, :created_at, :updated_at]
     puts "import_list:#{import_list.size}"
 
     DB.transaction do
       import_list.each do |import_set|
-        ItemInventory.import(columns,import_set)
+        ItemInventory.import(columns, import_set)
       end
     end
   end
-
-
 end
-

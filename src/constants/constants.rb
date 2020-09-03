@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 #
 # 定数モジュール
 #
@@ -6,9 +7,9 @@
 module Unlight
   # ライブラリのパス
   $:.unshift File.expand_path(File.dirname(__FILE__))
-  LIB_PATH = File.dirname(__FILE__).gsub("src/constants","")+'lib'
+  LIB_PATH = File.dirname(__FILE__).gsub("src/constants", "") + 'lib'
   # BotTest用セッションキー固定
-  BOT_SESSION =false
+  BOT_SESSION = false
   BOT_SESSION_KEY = "49c5de87eced403d533526afc6ef0cbe3993efcd"
 
   # ============== サーバタイプ ==================
@@ -32,11 +33,10 @@ module Unlight
   RMI_TYPE_CHARA_CARD  = 4
   RMI_TYPE_DECK        = 5
 
-
   # ============== Duelルール関連定数 ==================
 
   # イニシアチブ待ち時間
-  INIT_WAIT_TIME  = 120
+  INIT_WAIT_TIME = 120
   # 移動待ち時間
   MOVE_WAIT_TIME = 120
   # 攻撃待ち時間
@@ -49,14 +49,13 @@ module Unlight
 
   # 対戦ルールの種類
   # 0:1対1，1:3対3
-  RULE_1VS1, RULE_3VS3  = (0..1).to_a
-
+  RULE_1VS1, RULE_3VS3 = (0..1).to_a
 
   # 対戦ルールでの必須人数
-  DUEL_CARDS_NUM  = [1,3]
+  DUEL_CARDS_NUM = [1, 3]
 
   # 対戦の状態
-  MATCH_OK,  MATCH_START, MATCH_END, MATCH_ABORT, MATCH_ABORT_END = (0..5).to_a
+  MATCH_OK, MATCH_START, MATCH_END, MATCH_ABORT, MATCH_ABORT_END = (0..5).to_a
 
   # 対戦結果のアラート
   M_WARN_SAME_IP = 1
@@ -71,16 +70,15 @@ module Unlight
   RESULT_TIMEUP    = 6           # レイド戦で指定ターンの終了
 
   # 移動フェイズに使えないイベントカードのイベントNO
-  MOVE_RULE_EVENT_CARD_NO  = [11, 12, 13, 14, 15, 17]
+  MOVE_RULE_EVENT_CARD_NO = [11, 12, 13, 14, 15, 17]
 
   # 戦闘フェイズに使えないイベントカードのイベントNO
-  BATTLE_RULE_EVENT_CARD_NO  = [18]
+  BATTLE_RULE_EVENT_CARD_NO = [18]
 
   # DEAD_END
 
   # 対戦サーバのデフォルトMAX人数
   DUEL_CHANNEL_MAX = 2000
-
 
   # ペナルティのタイプ
   DUEL_PENALTY_TYPE_AI = 0      # 相手が切り替わる
@@ -97,10 +95,9 @@ module Unlight
   DUEL_WATCH_MODE_ON  = 1
 
   # 接続チェックの間隔定数
-  GAME_CHECK_CONNECT_INTERVAL = 10  # 10分割する
+  GAME_CHECK_CONNECT_INTERVAL = 10 # 10分割する
   # 切断チェック時間間隔
-  GAME_CHECK_CONNECT_TIME_INTERVAL = 180  # 最後の接続確認から、3分以上反応がなければ、切断と断定
-
+  GAME_CHECK_CONNECT_TIME_INTERVAL = 180 # 最後の接続確認から、3分以上反応がなければ、切断と断定
 
   # Raid戦時のダメージのスコアMAX値
   RAID_MAX_DAMAGE_SCORE = 100
@@ -116,17 +113,17 @@ module Unlight
   AI_PLAYER_ID = 1
 
   # チャンネルごとのCPUランク(order順)
-  CPU_RANK_TABLE = [1..99, 1..5, 1..3,  1..1]
-  CPU_POP_TABLE =  [ false, false, false, false, false, false]
+  CPU_RANK_TABLE = [1..99, 1..5, 1..3, 1..1]
+  CPU_POP_TABLE =  [false, false, false, false, false, false]
 
   # CPU部屋が沸くどうかのチェック間隔(s)
   CPU_POP_TIME = 60
   # CPU部屋が沸く数
   CPU_SPAWN_NUM = [
-                   5,5,5,5,5,5, # UTC0-5時(9-14)
-                   5,5,5,5,10,10, # UTC6-11時(15-20)
-                   20,20,20,10,10,10, # UTC12-17時(21-2)
-                   5,5,3,3,5,5, # UTC18-23時(3-8)
+                   5, 5, 5, 5, 5, 5, # UTC0-5時(9-14)
+                   5, 5, 5, 5, 10, 10, # UTC6-11時(15-20)
+                   20, 20, 20, 10, 10, 10, # UTC12-17時(21-2)
+                   5, 5, 3, 3, 5, 5, # UTC18-23時(3-8)
                   ]
 
   # 勝利報酬アイテムテーブル(未使用)
@@ -140,7 +137,6 @@ module Unlight
                     1,
                     1,
                     1]
-
 
   CPU_AI_OLD = 10
   CPU_AI_MEDIUM = 15
@@ -167,27 +163,27 @@ module Unlight
 
   # ============== レジスト関連定数 ==================
   # 初期から選択可能なパーツID
-  REGIST_PARTS = [1,2,3,
-                  5,6,7, 10,11,12, 15,16,17,
-                  24,25,26,
-                  27,28,29, 32,33,34, 37,38,39
+  REGIST_PARTS = [1, 2, 3,
+                  5, 6, 7, 10, 11, 12, 15, 16, 17,
+                  24, 25, 26,
+                  27, 28, 29, 32, 33, 34, 37, 38, 39
                  ]
   # 初期から取得可能なキャラID
 #  REGIST_CARDS = [1,3,4]#旧版
-  REGIST_CARDS = [1,21,31,101,111]        # 新版
+  REGIST_CARDS = [1, 21, 31, 101, 111] # 新版
 
   # 初期から取得可能なイベントカードID
 #  REGIST_EVENT_CARDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38]
   REGIST_EVENT_CARDS = []
 
   # デフォルトで着ている服
-  DEFAULT_CLOTHES = [42,43]
+  DEFAULT_CLOTHES = [42, 43]
 
   # ============== キャラカード関連定数 ==================
   # 会話ダイアログのタイプ定数
   DLG_DUEL_START, DLG_DUEL_END, DLG_QUEST_END_CHARA, DLG_QUEST_END_AVATAR, DLG_QUEST_EVENT, DLG_LOBBY, DLG_QUEST_START_CHARA = (0..6).to_a
   # キャラID定数
-  CHARA_EVA, CHAR_IZA, CHAR_GRU, CHAR_ABE, CHAR_LEA, CHAR_KRO, CHAR_JEA, CHAR_ARC, CHAR_MAX, CHAR_BLA  = (0..9).to_a
+  CHARA_EVA, CHAR_IZA, CHAR_GRU, CHAR_ABE, CHAR_LEA, CHAR_KRO, CHAR_JEA, CHAR_ARC, CHAR_MAX, CHAR_BLA = (0..9).to_a
 
   # ===== 捨てる予定 ========
   # モンスターカード
@@ -213,7 +209,7 @@ module Unlight
   EX_TIPS_CARD_ID = 10012
 
   # コインのセット
-  COIN_SET = [1,COIN_IRON_ID, COIN_BRONZE_ID, COIN_SILVER_ID, COIN_PLATINUM_ID]
+  COIN_SET = [1, COIN_IRON_ID, COIN_BRONZE_ID, COIN_SILVER_ID, COIN_PLATINUM_ID]
 
   # 汚染イベントカード
   USELESS_EVENT_CARD_ID = 84
@@ -294,16 +290,16 @@ module Unlight
   QUEST_MAX = 4
 
   # クエストプレゼント同IP制限保存時間 (8時間)
-  QUEST_SEND_SAME_IP_LIMIT = (60*60*8)
+  QUEST_SEND_SAME_IP_LIMIT = (60 * 60 * 8)
   # QUEST_SEND_SAME_IP_LIMIT = 1
 
   # クエストキャップ
   # locale_constantsに移動！
   # QUEST_CAP = 11
 
-  RANK_ARROW_TTL = 60*60*24           # 何秒間隔でアローを更新すべきか（２４時間前の状態と比べてのランキング変化）
+  RANK_ARROW_TTL = 60 * 60 * 24 # 何秒間隔でアローを更新すべきか（２４時間前の状態と比べてのランキング変化）
 
-  RANK_CACHE_TTL = 60*5          # 何秒キャッシュするか
+  RANK_CACHE_TTL = 60 * 5 # 何秒キャッシュするか
 
   RANK_OUT_LIMIT = 999          # 圏外のアバターをどれだけデータとして取る？
   RANK_OUT_SLEEP = 1            # 圏外のアバターを更新するときにどれくらいゆっくり更新するか？
@@ -312,7 +308,7 @@ module Unlight
   DECK_MAX = 11 # Binderの分を含む為、実際は-1
 
   # ============== プレイヤー関連定数 ==================
-  MAX_BLOCK_NUM = 10            # ブロック出来るプレイヤー数
+  MAX_BLOCK_NUM = 10 # ブロック出来るプレイヤー数
 
   # プレイヤーの役割定数（追加はいいが変更はダメ）
   # 0:通常プレイヤー, 1:管理者, 2:GM, 3:BL登録プレイヤー,4:CPUプレイヤー
@@ -335,10 +331,10 @@ module Unlight
   # 登録の結果定数
   # 0b0001 = 名前, 0b0010=Email, 0b_0100 = PASS,
   RG_NG = {
-    :none     => 0b0000,
-    :name     => 0b0001,
-    :email    => 0b0010,
-    :salt     => 0b0100,
+    none: 0b0000,
+    name: 0b0001,
+    email: 0b0010,
+    salt: 0b0100,
   }
 
   # プレイヤーのペナルティ定数（追加はいいが変更はダメ）
@@ -356,7 +352,7 @@ module Unlight
   PN_2015_NY = 32768            # 1000_0000_0000_0000 # 2015/01/01 新年ログイン
 
   #プレイヤーの自動セーブ間隔(秒)
-  SAVE_INTERVAL = 60*10
+  SAVE_INTERVAL = 60 * 10
 
   #プレイヤデータのバージョン
   PL_DATA_VER = "0.1"
@@ -375,20 +371,20 @@ module Unlight
 
   #Sqlite3設定のデフォルト
   SQLITE3 =  {
-    :DB_File => File.dirname(__FILE__).gsub("src/constants","")+'data/game_dev2.db',
-    :LOG_File =>File.dirname(__FILE__).gsub("src/constants","")+'data/db.log',
+    DB_File: File.dirname(__FILE__).gsub("src/constants", "") + 'data/game_dev2.db',
+    LOG_File: File.dirname(__FILE__).gsub("src/constants", "") + 'data/db.log',
   }
 
   case STORE_TYPE
   when :sqlite3
   # ログレベル
-    DB_SERVER_LOG = Logger.new(File.dirname(__FILE__).gsub("src/constants","")+"data/#{$SERVER_NAME}_mysqldb.log", 48, 10*1024*1024)
+    DB_SERVER_LOG = Logger.new(File.dirname(__FILE__).gsub("src/constants", "") + "data/#{$SERVER_NAME}_mysqldb.log", 48, 10 * 1024 * 1024)
     DB_SERVER_LOG.level = Logger::DEBUG
 #    DB = Sequel.connect("sqlite://#{SQLITE3[:DB_File]}", :loggers => [Logger.new(SQLITE3[:LOG_File],3,)])
-    DB = Sequel.connect("sqlite://#{SQLITE3[:DB_File]}", :loggers => [DB_SERVER_LOG])
+    DB = Sequel.connect("sqlite://#{SQLITE3[:DB_File]}", loggers: [DB_SERVER_LOG])
   when :mysql
 #    Sequel::MySQL2.default_engine = 'InnoDB'
-    DB = Sequel.mysql2(nil,MYSQL_CONFIG)
+    DB = Sequel.mysql2(nil, MYSQL_CONFIG)
   end
 #  DB = Sequel.mysql(nil,MYSQL)
 
@@ -400,13 +396,12 @@ module Unlight
   end
 
   # ログの出力先
-  SERVER_LOG = Logger.new(File.dirname(__FILE__).gsub("src/constants","")+"bin/pids/#{$SERVER_NAME}.log", 128, 10*1024*1024)
+  SERVER_LOG = Logger.new(File.dirname(__FILE__).gsub("src/constants", "") + "bin/pids/#{$SERVER_NAME}.log", 128, 10 * 1024 * 1024)
   # ログレベル
 #  SERVER_LOG.level = Logger::DEBUG
   SERVER_LOG.level = Logger::INFO
   #  puts"いまconstantsがDBを初期化"
   #  SERVER_LOG.debug("Avatar: [add_new_achievement] ID: #{a_id}")
-
 end
 
 # sequelの高速化パッチ
@@ -426,7 +421,7 @@ class Time
         hour = $4.to_i
         min = $5.to_i
         sec = $6.to_i
-        usec = $7 ? "#{ $7}000000"[0,6].to_i : 0
+        usec = $7 ? "#{$7}000000"[0, 6].to_i : 0
         if $8
           zone = $8
           if zone == 'Z'
@@ -493,7 +488,7 @@ class OrderHash < Hash
   end
 
   def each
-    @keys.each{ |k|
+    @keys.each { |k|
       arr_tmp = Array.new
       arr_tmp << k
       arr_tmp << self[k]
@@ -503,7 +498,7 @@ class OrderHash < Hash
   end
 
   def each_pair
-    @keys.each{ |k|
+    @keys.each { |k|
       yield(k, self[k])
     }
     return self
@@ -511,7 +506,7 @@ class OrderHash < Hash
 
   def reject!(&block)
     del = ""
-     @keys.each{ |k|
+     @keys.each { |k|
              del = k if yield(k, self[k])
      }
     @keys.delete(del)
@@ -519,7 +514,7 @@ class OrderHash < Hash
   end
 
   def each_value
-    @keys.each{ |k|
+    @keys.each { |k|
       yield(self[k])
     }
     return self
@@ -527,7 +522,7 @@ class OrderHash < Hash
 
   def map
     arr_tmp = Array.new
-    @keys.each{ |k|
+    @keys.each { |k|
       arg_arr = Array.new
       arg_arr << k
       arg_arr << self[k]
@@ -543,11 +538,9 @@ class OrderHash < Hash
       arr_tmp = self.sort
     end
     hash_tmp = OrderHash.new
-    arr_tmp.each{ |item|
+    arr_tmp.each { |item|
       hash_tmp[item[0]] = item[1]
     }
     return hash_tmp
   end
-
-
 end

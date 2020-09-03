@@ -45,7 +45,7 @@ module Unlight
   class SetDirectionAction < EventRule
     dsc        "移動方向を設定する"
     context    ["MultiDuel", :move_card_drop_phase]
-    guard      ["self",:current_live?]
+    guard      ["self", :current_live?]
     func       :set_direction
     event      :finish
   end
@@ -53,7 +53,7 @@ module Unlight
   class MoveCardAddAction < EventRule
     dsc        "移動カードをテーブルに出す"
     context    ["MultiDuel", :move_card_drop_phase]
-    guard      ["self",:current_live?]
+    guard      ["self", :current_live?]
     func       :move_card_add
     event      :finish
   end
@@ -61,15 +61,15 @@ module Unlight
   class MoveCardRemoveAction < EventRule
     dsc        "移動カードをテーブルから戻す"
     context    ["MultiDuel", :move_card_drop_phase]
-    guard      ["self",:current_live?]
-    guard      ["self",:direction_set?]
+    guard      ["self", :current_live?]
+    guard      ["self", :direction_set?]
     func       :move_card_remove
     event      :finish
   end
 
   class MoveCardRotateAction < EventRule
     dsc        "移動カードをテーブルで回転させる"
-    guard      ["self",:current_live?]
+    guard      ["self", :current_live?]
     func       :move_card_rotate
     event      :finish
   end
@@ -77,8 +77,8 @@ module Unlight
   class AttackCardAddAction < EventRule
     dsc        "攻撃カードをテーブルに出す"
     context    ["MultiDuel", :attack_card_drop_phase]
-    guard      ["self",:current_live?]
-    guard      ["self",:initiative?]
+    guard      ["self", :current_live?]
+    guard      ["self", :initiative?]
     func       :battle_card_add
     event      :finish
   end
@@ -86,15 +86,15 @@ module Unlight
   class AttackCardRemoveAction < EventRule
     dsc        "攻撃カードをテーブルから戻す"
     context    ["MultiDuel", :attack_card_drop_phase]
-    guard      ["self",:current_live?]
-    guard      ["self",:initiative?]
+    guard      ["self", :current_live?]
+    guard      ["self", :initiative?]
     func       :battle_card_remove
     event      :finish
   end
 
   class AttackCardRotateAction < EventRule
     dsc        "攻撃カードをテーブルで回転させる"
-    guard      ["self",:current_live?]
+    guard      ["self", :current_live?]
     func       :battle_card_rotate
     event      :finish
   end
@@ -102,8 +102,8 @@ module Unlight
   class DeffenceCardAddAction < EventRule
     dsc        "防御カードをテーブルに出す"
     context    ["MultiDuel", :deffence_card_drop_phase]
-    guard      ["self",:current_live?]
-    guard      ["self",:not_initiative?]
+    guard      ["self", :current_live?]
+    guard      ["self", :not_initiative?]
     func       :battle_card_add
     event      :finish
   end
@@ -111,15 +111,15 @@ module Unlight
   class DeffenceCardRemoveAction < EventRule
     dsc        "防御カードをテーブルから戻す"
     context    ["MultiDuel", :deffence_card_drop_phase]
-    guard      ["self",:current_live?]
-    guard      ["self",:not_initiative?]
+    guard      ["self", :current_live?]
+    guard      ["self", :not_initiative?]
     func       :battle_card_remove
     event      :finish
   end
 
   class DeffenceCardRotateAction < EventRule
     dsc        "防御カードをテーブルで回転させる"
-    guard      ["self",:current_live?]
+    guard      ["self", :current_live?]
     func       :battle_card_rotate
     event      :finish
   end
@@ -129,7 +129,7 @@ module Unlight
     context    ["MultiDuel", :move_card_drop_phase]
     context    ["MultiDuel", :deffence_card_drop_phase]
     context    ["MultiDuel", :attack_card_drop_phase]
-    guard      ["self",:current_live?]
+    guard      ["self", :current_live?]
     func       :card_rotate
     event      :finish
   end
@@ -177,7 +177,7 @@ module Unlight
   class AttackDoneAction < EventRule
     dsc        "攻撃フェイズの完了"
     context    ["MultiDuel", :attack_card_drop_phase]
-    guard      ["self",:initiative?]
+    guard      ["self", :initiative?]
     func       :attack_done
     event      :finish
   end
@@ -303,31 +303,31 @@ module Unlight
     event     :finish
   end
 
-  class UseActionCardEvent <EventRule
+  class UseActionCardEvent < EventRule
     dsc       "アクションカードを使用する"
     func      :use_action_card
     event     :finish
   end
 
-  class DiscardEvent <EventRule
+  class DiscardEvent < EventRule
     dsc       "アクションカードを手札から破棄する"
     func      :discard
     event     :finish
   end
 
-  class DiscardTableEvent <EventRule
+  class DiscardTableEvent < EventRule
     dsc       "アクションカードをテーブルから破棄する"
     func      :discard_table
     event     :finish
   end
 
-  class PointUpdateEvent <EventRule
+  class PointUpdateEvent < EventRule
     dsc       "ポイントが更新された"
     func      :point_update
     event     :finish
   end
 
-  class PointRewriteEvent <EventRule
+  class PointRewriteEvent < EventRule
     dsc       "ポイントが上書きされた"
     func      :point_rewrite
     event     :finish
@@ -381,42 +381,41 @@ module Unlight
     event     :finish
   end
 
-  class CardsMaxUpdateEvent <EventRule
+  class CardsMaxUpdateEvent < EventRule
     dsc       "最大所持カード枚数が更新された"
     func      :cards_max_update
     event     :finish
   end
 
-  class DuelBonusEvent <EventRule
-    dsc      "デュエルボーナスが発生した"
+  class DuelBonusEvent < EventRule
+    dsc "デュエルボーナスが発生した"
     func      :duel_bonus
     event     :finish
   end
 
-  class SpecialMessageEvent <EventRule
-    dsc      "特殊メッセージ"
+  class SpecialMessageEvent < EventRule
+    dsc "特殊メッセージ"
     func      :special_message
     event     :finish
   end
 
-  class DuelMessageEvent <EventRule
-    dsc      "汎用メッセージ"
+  class DuelMessageEvent < EventRule
+    dsc "汎用メッセージ"
     func      :duel_message
     event     :finish
   end
 
-  class AttributeRegistMessageEvent <EventRule
-    dsc      "属性抵抗メッセージ"
+  class AttributeRegistMessageEvent < EventRule
+    dsc "属性抵抗メッセージ"
     func      :attribute_regist_message
     event     :finish
   end
 
-  class SetTurnEvent <EventRule
-    dsc      "現在ターン数を変更する"
+  class SetTurnEvent < EventRule
+    dsc "現在ターン数を変更する"
     func      :set_turn
     event     :finish
   end
-
 
   class MovePhaseInitEvent < EventRule
     dsc       "移動フェイズの終了時の初期化"
@@ -498,6 +497,4 @@ module Unlight
     dsc       "移動点処理完了後「nitiativeセット＆moveアクション」の前に割り込む"
     func      :mp_evaluation
   end
-
 end
-

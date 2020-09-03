@@ -66,11 +66,11 @@ module Unlight
     act       :dead_chara_change_phase
     act       :determine_dead_chara_change_phase
     act       :finish_turn_phase
-    goal       ["alpha",:dead?]
-    goal       ["beta",:dead?]
-    goal       ["self",:timeout?]
-    duration  :type => :times,:value => BATTLE_TIMEOUT_TURN
-    event     :start,:finish
+    goal       ["alpha", :dead?]
+    goal       ["beta", :dead?]
+    goal       ["self", :timeout?]
+    duration  type: :times, value: BATTLE_TIMEOUT_TURN
+    event     :start, :finish
   end
 
   # ===========================
@@ -79,71 +79,71 @@ module Unlight
 
   class StartTurnPhase < EventRule
     dsc        "ターンのスタート"
-    guard      ["alpha",:start_ok?],["beta",:start_ok?]
+    guard      ["alpha", :start_ok?], ["beta", :start_ok?]
     func       :start_turn
     event      :start, :finish
-    goal       ["alpha",:dead?]
-    goal       ["beta",:dead?]
-    goal       ["alpha",:start_ok?],["beta",:start_ok?]
-    duration  :type => :sec,:value => 60
+    goal       ["alpha", :dead?]
+    goal       ["beta", :dead?]
+    goal       ["alpha", :start_ok?], ["beta", :start_ok?]
+    duration type: :sec, value: 60
   end
 
   class RefillCardPhase < EventRule
     dsc        "カードの補充"
-    guard      ["alpha",:live?],["beta",:live?]
+    guard      ["alpha", :live?], ["beta", :live?]
     func       :refill_card
     event      :finish
   end
 
   class RefillEventCardPhase < EventRule
     dsc        "イベントカードの補充"
-    guard      ["alpha",:live?],["beta",:live?]
+    guard      ["alpha", :live?], ["beta", :live?]
     func       :refill_event_card
     event      :finish
   end
 
   class MoveCardDropPhase < EventRule
     dsc        "移動カードの提出を待つ"
-    guard      ["alpha",:current_live?],["beta",:current_live?]
+    guard      ["alpha", :current_live?], ["beta", :current_live?]
     func       :move_card_drop
-    goal       ["alpha", :init_done?],["beta", :init_done?]
-    goal       ["alpha",:dead?]
-    goal       ["beta",:dead?]
-    duration   :type => :sec, :value => INIT_WAIT_TIME
+    goal       ["alpha", :init_done?], ["beta", :init_done?]
+    goal       ["alpha", :dead?]
+    goal       ["beta", :dead?]
+    duration   type: :sec, value: INIT_WAIT_TIME
     event      :start, :finish
   end
 
   class DetermineMovePhase < EventRule
     dsc        "移動の決定"
-    guard      ["alpha",:live?],["beta",:live?]
+    guard      ["alpha", :live?], ["beta", :live?]
     func       :determine_move
     event      :finish
   end
 
   class FinishMovePhase < EventRule
     dsc        "移動の終了"
-    guard      ["alpha",:live?],["beta",:live?]
+    guard      ["alpha", :live?], ["beta", :live?]
     func       :finish_move
     event      :finish
   end
 
   class CharaChangePhase < EventRule
     dsc        "キャラ変更を待つ"
-    guard      ["alpha",:current_live?],["beta",:current_live?],["beta",:change_need?]
-    guard      ["alpha",:current_live?],["beta",:current_live?],["alpha",:change_need?]
-    goal       ["alpha",:change_done?],["beta",:change_done?]
-    goal       ["alpha",:current_dead?]
-    goal       ["beta",:current_dead?]
-    goal       ["alpha",:dead?]
-    goal       ["beta",:dead?]
-    duration   :type => :sec, :value => BATTLE_WAIT_TIME
+    guard      ["alpha", :current_live?], ["beta", :current_live?], ["beta", :change_need?]
+    guard      ["alpha", :current_live?], ["beta", :current_live?], ["alpha", :change_need?]
+    goal       ["alpha", :change_done?], ["beta", :change_done?]
+    goal       ["alpha", :current_dead?]
+    goal       ["beta", :current_dead?]
+    goal       ["alpha", :dead?]
+    goal       ["beta", :dead?]
+    duration   type: :sec, value: BATTLE_WAIT_TIME
     func       :chara_change
     event      :start, :finish
   end
 
   class DetermineCharaChangePhase < EventRule
     dsc        "キャラ変更を決定"
-    guard      ["alpha",:current_live?],["beta",:current_live?]
+    guard      ["alpha", :current_live?], ["beta", :current_live?]
     func       :determine_chara_change
     event      :finish
   end
@@ -151,83 +151,82 @@ module Unlight
   class AttackCardDropPhase < EventRule
     dsc        "攻撃カードの提出を待つ"
     func       :battle_card_drop
-    guard      ["alpha",:current_live?],["beta",:current_live?]
-    goal       ["first_entrant",:attack_done?]
-    goal       ["alpha",:not_change_done?]
-    goal       ["beta",:not_change_done?]
-    goal       ["alpha",:dead?]
-    goal       ["beta",:dead?]
-    duration   :type => :sec, :value => BATTLE_WAIT_TIME
+    guard      ["alpha", :current_live?], ["beta", :current_live?]
+    goal       ["first_entrant", :attack_done?]
+    goal       ["alpha", :not_change_done?]
+    goal       ["beta", :not_change_done?]
+    goal       ["alpha", :dead?]
+    goal       ["beta", :dead?]
+    duration   type: :sec, value: BATTLE_WAIT_TIME
     event      :start, :finish
   end
 
   class DeffenceCardDropPhase < EventRule
     dsc        "防御カードの提出を待つ"
     func       :battle_card_drop
-    guard      ["alpha",:current_live?],["beta",:current_live?]
-    goal       ["second_entrant",:deffence_done?]
-    goal       ["alpha",:not_change_done?]
-    goal       ["beta",:not_change_done?]
-    goal       ["alpha",:dead?]
-    goal       ["beta",:dead?]
-    duration   :type => :sec, :value => BATTLE_WAIT_TIME
+    guard      ["alpha", :current_live?], ["beta", :current_live?]
+    goal       ["second_entrant", :deffence_done?]
+    goal       ["alpha", :not_change_done?]
+    goal       ["beta", :not_change_done?]
+    goal       ["alpha", :dead?]
+    goal       ["beta", :dead?]
+    duration   type: :sec, value: BATTLE_WAIT_TIME
     event      :start, :finish
   end
 
   class DetermineBattlePointPhase < EventRule
-    dsc       "戦闘ポイントの計算"
-    guard      ["alpha",:current_live?],["beta",:current_live?]
+    dsc "戦闘ポイントの計算"
+    guard      ["alpha", :current_live?], ["beta", :current_live?]
     func       :determine_battle_point
     event      :finish
   end
 
   class BattleResultPhase < EventRule
-    dsc       "戦闘結果"
-    guard      ["alpha",:current_live?],["beta",:current_live?]
+    dsc "戦闘結果"
+    guard ["alpha", :current_live?], ["beta", :current_live?]
     func      :battle_result
     event     :finish
   end
 
   class DamagePhase < EventRule
     dsc       "ダメージ適用"
-    guard      ["alpha",:current_live?],["beta",:current_live?]
+    guard ["alpha", :current_live?], ["beta", :current_live?]
     func      :damage
     event     :finish
   end
 
   class ChangeInitiativePhase < EventRule
     dsc       "攻守の交代"
-    guard      ["alpha",:current_live?],["beta",:current_live?]
+    guard ["alpha", :current_live?], ["beta", :current_live?]
     func      :change_initiative
     event     :finish
   end
 
   class DeadCharaChangePhase < EventRule
     dsc        "キャラ変更を待つ"
-    guard      ["alpha",:live?],["beta",:live?],["beta",:change_need?]
-    guard      ["alpha",:live?],["beta",:live?],["alpha",:change_need?]
+    guard      ["alpha", :live?], ["beta", :live?], ["beta", :change_need?]
+    guard      ["alpha", :live?], ["beta", :live?], ["alpha", :change_need?]
     func       :dead_chara_change
-    goal       ["alpha", :change_done?],["beta", :change_done?]
-    goal       ["alpha",:dead?]
-    goal       ["beta",:dead?]
-    duration   :type => :sec, :value => BATTLE_WAIT_TIME
+    goal       ["alpha", :change_done?], ["beta", :change_done?]
+    goal       ["alpha", :dead?]
+    goal       ["beta", :dead?]
+    duration   type: :sec, value: BATTLE_WAIT_TIME
     event      :start, :finish
   end
 
   class DetermineDeadCharaChangePhase < EventRule
     dsc        "キャラ変更を決定"
-    guard      ["alpha",:live?],["beta",:live?]
+    guard      ["alpha", :live?], ["beta", :live?]
     func       :determine_dead_chara_change
     event      :finish
   end
 
   class FinishTurnPhase < EventRule
-    dsc       "ターンの終了"
-    guard      ["alpha",:live?],["beta",:live?]
+    dsc "ターンの終了"
+    guard ["alpha", :live?], ["beta", :live?]
     func      :finish_turn
     event     :finish
   end
-
 
   # ===========================
   # イベント定義
@@ -239,4 +238,3 @@ module Unlight
     event     :finish
   end
 end
-

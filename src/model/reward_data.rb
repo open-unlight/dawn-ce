@@ -10,7 +10,7 @@ module Unlight
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # 他クラスのアソシエーション
     Sequel::Model.plugin :schema
@@ -18,24 +18,22 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer     :exps,               :default => 0
-      integer     :gems,               :default => 0
-      integer     :item_id,            :default => 0
-      integer     :item_num,           :default => 0
-      integer     :own_card_lv,        :default => 0
-      integer     :own_card_num,       :default => 0
-      integer     :random_card_rarity, :default => 0
-      integer     :random_card_num,    :default => 0
-      integer     :rare_card_lv,       :default => 0
-      integer     :event_card_id,      :default => 0
-      integer     :event_card_num,     :default => 0
-      integer     :weapon_card_id,     :default => 0
-      integer     :weapon_card_num,    :default => 0
-
+      integer     :exps,               default: 0
+      integer     :gems,               default: 0
+      integer     :item_id,            default: 0
+      integer     :item_num,           default: 0
+      integer     :own_card_lv,        default: 0
+      integer     :own_card_num,       default: 0
+      integer     :random_card_rarity, default: 0
+      integer     :random_card_num,    default: 0
+      integer     :rare_card_lv,       default: 0
+      integer     :event_card_id,      default: 0
+      integer     :event_card_num,     default: 0
+      integer     :weapon_card_id,     default: 0
+      integer     :weapon_card_num,    default: 0
 
       datetime    :created_at
       datetime    :updated_at
-
     end
 
     # バリデーションの設定
@@ -69,7 +67,7 @@ module Unlight
       ret = cache_store.get("RewardDataVersion")
       unless ret
         ret = refresh_data_version
-        cache_store.set("RewardDataVersion",ret)
+        cache_store.set("RewardDataVersion", ret)
       end
       ret
     end

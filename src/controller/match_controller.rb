@@ -11,11 +11,9 @@ if RUBY_VERSION == "1.9.2"
   end
 end
 
-
 module Unlight
-
   module MatchController
-    RADDER_DECK_COST_LIMEN  = 5  # コストレベル差の制限
+    RADDER_DECK_COST_LIMEN  = 5 # コストレベル差の制限
     RADDER_DECK_LV_LIMEN    = 10  # デッキレベル差の制限
     RADDER_BP_LIMEN         = 300 # BP差の制限
     RADDER_WAITING_TIME     = 3   # 最低マッチウィエト回数
@@ -23,23 +21,21 @@ module Unlight
 
     # 定期的に_roomの更新情報を送る（変化があれば）
     def update_room
-
     end
 
     # コネクションの生存確認（）
     def check_connection
     end
 
-
     # サーバのOn/Offの更新
     def self::check_boot(server_channel)
-
       if server_channel
         server_channel.refresh
         b = server_channel.before_channel
-        return unless b          # 自分が最後のチャンネルならなにもしない
-        return if server_channel.rule == 0          # ルールがディートならば閉じない
+        return unless b # 自分が最後のチャンネルならなにもしない
+        return if server_channel.rule == 0 # ルールがディートならば閉じない
         return if server_channel.rule == 0 # ルールがディートならなにもしない
+
         # チャンネルがオフの時なら起動チェック、オンの時なら終了チェック
         if server_channel.state == Unlight::DSS_DOWN
           if b.congestion_rate > 90
@@ -55,7 +51,7 @@ module Unlight
     end
 
     def self::init
-      @@radder_match_waiting_list = { }
+      @@radder_match_waiting_list = {}
     end
 
     def self::radder_match_waiting_list
@@ -98,20 +94,19 @@ module Unlight
       else
         check_val = avatar.chara_card_decks[avatar.current_deck].current_level
       end
-      @@radder_match_waiting_list[@player.id] = {:bp=>avatar.point, :check_val=>check_val, :rule =>rule, :started=>false, :waiting_time=>RADDER_WAITING_TIME, :time_limit=>Time.now.utc()+MATCHING_TIME_LIMIT[rand(MATCHING_TIME_LIMIT.size)] }
+      @@radder_match_waiting_list[@player.id] = { bp: avatar.point, check_val: check_val, rule: rule, started: false, waiting_time: RADDER_WAITING_TIME, time_limit: Time.now.utc() + MATCHING_TIME_LIMIT[rand(MATCHING_TIME_LIMIT.size)] }
       return ret
     end
 
-
     # クイックマッチ用のユーザーリストに追加
-    def cs_add_quickmatch_list( rule )
+    def cs_add_quickmatch_list(rule)
       # プレイヤーはログインしていないと入れない
       unless @player
         return
       end
 
       # AbortPenaltyがtrueなら入れない
-      abort_penalty = CACHE.get( "penalty_id:#{@uid}" )
+      abort_penalty = CACHE.get("penalty_id:#{@uid}")
       if abort_penalty
         sc_error_no(ERROR_DUEL_CREATE_ROOM)
         return
@@ -131,13 +126,13 @@ module Unlight
       end
 
       # ルールに適合した行動力があるか？
-      unless  @player.current_avatar.duel_check_energy(need_ap)
+      unless @player.current_avatar.duel_check_energy(need_ap)
         sc_error_no(ERROR_AP_LACK)
         return
       end
 
       # ルールに適応しているか？
-      unless  @player.current_avatar.duel_deck.cards.size == DUEL_CARDS_NUM[RULE_3VS3]  || (!server_channel.is_radder?)
+      unless @player.current_avatar.duel_deck.cards.size == DUEL_CARDS_NUM[RULE_3VS3] || (!server_channel.is_radder?)
         sc_error_no(ERROR_NO_RULE_MATCH)
         return
       end
@@ -156,21 +151,21 @@ module Unlight
        unless @player
          return
        end
-       if @@radder_match_waiting_list[@player.id]&&@@radder_match_waiting_list[@player.id][:started] == false
+
+       if @@radder_match_waiting_list[@player.id] && @@radder_match_waiting_list[@player.id][:started] == false
          @@radder_match_waiting_list.delete(@player.id)
          sc_quickmatch_cancel
          SERVER_LOG.info("<UID:#{@uid}>MatchServer: [cs_quickmatch_cancel] player:#{@player.id}");
        end
      end
 
-
     # マッチングチェック用の関数
      def self::radder_matching_check(list)
        # リストをBP、コストの順でソートしてArrayに変換
-       tmp_list =list.sort{ |a,b|
-         if  a[1][:bp] == b[1][:bp]
+       tmp_list = list.sort { |a, b|
+         if a[1][:bp] == b[1][:bp]
 
-           a[1][:check_val]<=>b[1][:check_val]
+           a[1][:check_val] <=> b[1][:check_val]
          else
            a[1][:bp] <=> b[1][:bp]
          end
@@ -183,24 +178,24 @@ module Unlight
          limen_val = RADDER_DECK_LV_LIMEN
        end
 
-       tmp_list.each_with_index do |t,i|
-         list[t[0]][:waiting_time] -=1
-         unless list[t[0]][:started]||list[t[0]][:waiting_time] > 0
-           (tmp_list.size-1-i).times do |ii|
+       tmp_list.each_with_index do |t, i|
+         list[t[0]][:waiting_time] -= 1
+         unless list[t[0]][:started] || list[t[0]][:waiting_time] > 0
+           (tmp_list.size - 1 - i).times do |ii|
              a = t[0]
-             b = tmp_list[ii+i+1][0]
+             b = tmp_list[ii + i + 1][0]
              pa = Player[a]
              pb = Player[b]
              # IPチェック
              ip_check = (Unlight::DUEL_IP_CHECK) ? (pa.last_ip != pb.last_ip) : true;
              # 8時間以内に対戦してる場合、相手に選ばれない
-             match_cache1 = CACHE.get( "quickmatch_pair:#{a},#{b}" )
-             match_cache2 = CACHE.get( "quickmatch_pair:#{b},#{a}" )
+             match_cache1 = CACHE.get("quickmatch_pair:#{a},#{b}")
+             match_cache2 = CACHE.get("quickmatch_pair:#{b},#{a}")
 
              a_p = list[a]
              b_p = list[b]
              if a_p && b_p && ip_check && !(match_cache1 || match_cache2) || pa.role == ROLE_ADMIN || pb.role == ROLE_ADMIN
-               if (a_p[:bp]-b_p[:bp]).abs <= RADDER_BP_LIMEN && (a_p[:check_val] - b_p[:check_val]).abs <= limen_val
+               if (a_p[:bp] - b_p[:bp]).abs <= RADDER_BP_LIMEN && (a_p[:check_val] - b_p[:check_val]).abs <= limen_val
                  if a_p[:started] == false && b_p[:started] == false
                    a_p[:started] = b
                    b_p[:started] = a
@@ -218,30 +213,30 @@ module Unlight
            end
          end
        end
-       cpu_radder_matching_start(@@radder_match_waiting_list,Unlight::Protocol::MatchServer::server_channel,Unlight::Protocol::MatchServer::match_list)
+       cpu_radder_matching_start(@@radder_match_waiting_list, Unlight::Protocol::MatchServer::server_channel, Unlight::Protocol::MatchServer::match_list)
      end
 
     # マッチングを実際スタートする関数
-    def self::radder_matching_start(list,channel,match_list)
+    def self::radder_matching_start(list, channel, match_list)
       tmp_list = list.clone
       del_list = []
       # ペアを取り出す
-      tmp_list.each do |k,v|
-        unless v[:started]==false || v[:started] == true
+      tmp_list.each do |k, v|
+        unless v[:started] == false || v[:started] == true
           # すでにDuelを開始しているか？
-          unless Match::room_from_player_id(k, channel.id)||Match::room_from_player_id(k, channel.id)
+          unless Match::room_from_player_id(k, channel.id) || Match::room_from_player_id(k, channel.id)
             # 部屋作成及び部屋に強制参加
             if match_list[k]
-              room_id = match_list[k].create_quickmatch_room(v[:rule] )
+              room_id = match_list[k].create_quickmatch_room(v[:rule])
             end
             if match_list[v[:started]] && room_id
-              success = match_list[v[:started]].join_quickmatch_room( room_id ) if room_id
+              success = match_list[v[:started]].join_quickmatch_room(room_id) if room_id
             end
             del_list << v[:started]
             del_list << k
             if success
               # 対戦相手をキャッシュに保持しておく
-              CACHE.set("quickmatch_pair:#{k},#{v[:started]}", true, Unlight::DUEL_RADDER_LIST_CACHE_TIME )
+              CACHE.set("quickmatch_pair:#{k},#{v[:started]}", true, Unlight::DUEL_RADDER_LIST_CACHE_TIME)
             else
               # 失敗した場合
               if room_id
@@ -259,23 +254,22 @@ module Unlight
       del_list.each do |d|
         list.delete(d)
       end
-
     end
 
     # CPUマッチングチェック用の関数
      def self::cpu_radder_matching_check(list)
        # リストをBP、コストの順でソートしてArrayに変換
-       tmp_list =list.sort{ |a,b|
-         if  a[1][:bp] == b[1][:bp]
+       tmp_list = list.sort { |a, b|
+         if a[1][:bp] == b[1][:bp]
 
-           a[1][:check_val]<=>b[1][:check_val]
+           a[1][:check_val] <=> b[1][:check_val]
          else
            a[1][:bp] <=> b[1][:bp]
          end
        }
 
        # 全ての対戦相手にCPUを入れる
-       tmp_list.each_with_index do |t,i|
+       tmp_list.each_with_index do |t, i|
          unless list[t[0]][:started] #list[t[0]][:waiting_time] > 0
            list[t[0]][:started] = AI_PLAYER_ID if list[t[0]][:started] == false
          end
@@ -284,26 +278,26 @@ module Unlight
      end
 
     # マッチングを実際スタートする関数
-    def self::cpu_radder_matching_start(list,channel,match_list)
+    def self::cpu_radder_matching_start(list, channel, match_list)
       tmp_list = list.clone
       del_list = []
       success = nil
       # CPUとマッチしているプレイヤーをマッチさせるペアを取り出す
-      tmp_list.each do |k,v|
+      tmp_list.each do |k, v|
         success = nil
         if channel.cpu_matching_type? != 0 || rand(RADDER_CPU_CREATE_RAND) == 0
-          if v[:started]==AI_PLAYER_ID
+          if v[:started] == AI_PLAYER_ID
             # すでにDuelを開始しているか？
-            unless Match::room_from_player_id(k, channel.id)||Match::room_from_player_id(k, channel.id)
+            unless Match::room_from_player_id(k, channel.id) || Match::room_from_player_id(k, channel.id)
               # CPU部屋を作成
               if channel
                 room = self.get_cpu_room(0, 99, Player[k])
                 @match = Match.create_room(channel, AI_PLAYER_ID, "R#{room.level} #{room.name}", 0, room.rule, 0, 0, room.cpu_card_data_id)
                 # 作った部屋のidを送る
                 if @match
-                  success = match_list[k].cpu_quickmatch_join( @match.id ) if @match.id
+                  success = match_list[k].cpu_quickmatch_join(@match.id) if @match.id
                   info = @match.room_info_str
-                  channel.player_list.each{  |p| match_list[p].sc_matching_info_update(info)if match_list[p] }
+                  channel.player_list.each { |p| match_list[p].sc_matching_info_update(info)if match_list[p] }
                 end
               end
             end
@@ -314,7 +308,7 @@ module Unlight
             del_list << k
           else
             # 失敗した場合
-            if @match && v[:started]==AI_PLAYER_ID
+            if @match && v[:started] == AI_PLAYER_ID
               # 作成した部屋を消す
               match_list[k].cs_room_exit if match_list[k]
             end
@@ -337,7 +331,7 @@ module Unlight
         return if @@radder_match_waiting_list.size == 0
       end
       radder_matching_check(@@radder_match_waiting_list)
-      radder_matching_start(@@radder_match_waiting_list,Unlight::Protocol::MatchServer::server_channel,Unlight::Protocol::MatchServer::match_list)
+      radder_matching_start(@@radder_match_waiting_list, Unlight::Protocol::MatchServer::server_channel, Unlight::Protocol::MatchServer::match_list)
     end
 
     # 一定時間ごとに呼ばれるCPUクイックマッチの更新
@@ -346,12 +340,13 @@ module Unlight
       unless @@radder_match_waiting_list.size > 0 && (Unlight::Protocol::MatchServer::server_channel.is_radder?)
         return
       end
+
       cpu_radder_matching_check(@@radder_match_waiting_list)
-      cpu_radder_matching_start(@@radder_match_waiting_list,Unlight::Protocol::MatchServer::server_channel,Unlight::Protocol::MatchServer::match_list)
+      cpu_radder_matching_start(@@radder_match_waiting_list, Unlight::Protocol::MatchServer::server_channel, Unlight::Protocol::MatchServer::match_list)
     end
 
     # クイックマッチの部屋を作成する
-    def create_quickmatch_room( rule )
+    def create_quickmatch_room(rule)
       # 部屋を作成
       if server_channel && @match == nil && server_channel.is_radder?
         @match = Match.create_room(server_channel, @player.id, "QuickMatch", rand(STAGE_GATE), rule, 0, 0)
@@ -372,9 +367,9 @@ module Unlight
     end
 
     # クイックマッチの部屋に入る
-    def join_quickmatch_room( room_id )
+    def join_quickmatch_room(room_id)
       # エラーチェック
-      @match = server_channel.room_list[room_id] if server_channel&&@player
+      @match = server_channel.room_list[room_id] if server_channel && @player
 
       # マッチが存在する？(部屋が存在しない)
       unless @match
@@ -386,7 +381,7 @@ module Unlight
       ret = false
 
       # 相手を部屋に入れる
-      ok = Match.room_join(server_channel, @match.id, @player.id)  if server_channel&&@player
+      ok = Match.room_join(server_channel, @match.id, @player.id) if server_channel && @player
 
       if ok
         @opponent_player = online_list[ok[0]]
@@ -395,7 +390,7 @@ module Unlight
         info = @match.room_info_str
 
         # 参加者以外に情報を信配
-        server_channel.player_list.each{ |p| online_list[p].sc_matching_info_update(info) if online_list[p]}
+        server_channel.player_list.each { |p| online_list[p].sc_matching_info_update(info) if online_list[p] }
 
         # 二人そろったのでデュエルを開始する
         if ok.size == Match::ROOM_CAP
@@ -403,7 +398,7 @@ module Unlight
             @opponent_player = online_list[ok[0]]
             @opponent_player.opponent_player = self
             # 部屋のルールを見て決める
-            @match_log =  MatchLog::create_room(server_channel.id, @match.name, @match.stage, @match.avatar_ids, @match.rule, @match.id, @match.cpu_card_data_id, server_channel.server_type, server_channel.watch_mode, 1, server_channel.rule)
+            @match_log = MatchLog::create_room(server_channel.id, @match.name, @match.stage, @match.avatar_ids, @match.rule, @match.id, @match.cpu_card_data_id, server_channel.server_type, server_channel.watch_mode, 1, server_channel.rule)
             sc_quickmatch_join_ok(@match.id)
             @opponent_player.sc_match_join_ok(@match.id)
             Avatar[@match.avatar_ids[0]].achievement_check([EVENT_DUEL_3VS3_ACHIEVEMENT_ID])
@@ -445,7 +440,7 @@ module Unlight
       end
 
       # AbortPenaltyがtrueなら入れない
-      abort_penalty = CACHE.get( "penalty_id:#{@uid}" )
+      abort_penalty = CACHE.get("penalty_id:#{@uid}")
       if abort_penalty
         case DUEL_PENALTY
         when DUEL_PENALTY_TYPE_AI
@@ -468,13 +463,13 @@ module Unlight
       end
 
       # ルールに適合した行動力があるか？
-      unless  @player.current_avatar.duel_check_energy(need_ap)
+      unless @player.current_avatar.duel_check_energy(need_ap)
         sc_error_no(ERROR_AP_LACK)
         return
       end
 
       # ルールに適応しているか？
-      unless  @player.current_avatar.duel_deck.cards.size == DUEL_CARDS_NUM[rule]
+      unless @player.current_avatar.duel_deck.cards.size == DUEL_CARDS_NUM[rule]
         sc_error_no(ERROR_NO_RULE_MATCH)
         return
       end
@@ -485,7 +480,7 @@ module Unlight
         if @match
           sc_create_room_id(@match.id);
           info = @match.room_info_str
-          server_channel.player_list.each{  |p| online_list[p].sc_matching_info_update(info)if online_list[p] }
+          server_channel.player_list.each { |p| online_list[p].sc_matching_info_update(info)if online_list[p] }
           SERVER_LOG.info("<UID:#{@uid}>GameServer: [create_room] id:#{info}");
         end
       end
@@ -500,22 +495,21 @@ module Unlight
         # 作った部屋のidを送る
         if @match
           info = @match.room_info_str
-          c.player_list.each{  |p| Unlight::MatchServer::match_list[p].sc_matching_info_update(info)if Unlight::MatchServer::match_list[p] }
+          c.player_list.each { |p| Unlight::MatchServer::match_list[p].sc_matching_info_update(info)if Unlight::MatchServer::match_list[p] }
         end
       end
     end
 
     # CPUROOMから1つランダムでかえす
-    def self::get_cpu_room(low = 0, high = 99, player=nil)
-
+    def self::get_cpu_room(low = 0, high = 99, player = nil)
       case Unlight::MatchServer::match_channel.cpu_matching_type?
       when CPU_MATCHING_TYPE_COST
         avatar = player.current_avatar
         deck_cost = avatar.chara_card_decks[avatar.current_deck].current_cost
-        cost_conditions = Unlight::MatchServer::match_channel.cpu_matching_condition?.split(",").map{ |s| s.scan(/([\d~]+):([\d+]+)/)[0] }
+        cost_conditions = Unlight::MatchServer::match_channel.cpu_matching_condition?.split(",").map { |s| s.scan(/([\d~]+):([\d+]+)/)[0] }
         cost_conditions.each do |cond|
-          range = cond[0].split("~", 2).map{ |n| n.to_i }
-          room_ids = cond[1].split("+").map{ |n| n.to_i }
+          range = cond[0].split("~", 2).map { |n| n.to_i }
+          room_ids = cond[1].split("+").map { |n| n.to_i }
           SERVER_LOG.info("ids ... #{room_ids}")
           if check_condition(range, deck_cost)
             return CpuRoomData[room_ids[rand(room_ids.size)]]
@@ -545,7 +539,7 @@ module Unlight
     # プレイヤルームに入る
     def normal_join(room_id)
       # AbortPenaltyがtrueなら入れない
-      abort_penalty = CACHE.get( "penalty_id:#{@uid}" )
+      abort_penalty = CACHE.get("penalty_id:#{@uid}")
       if abort_penalty
         sc_error_no(ERROR_DUEL_JOIN_ROOM)
         @match = nil
@@ -576,7 +570,7 @@ module Unlight
         return
       end
       # ルールに適応しているか？
-      unless  @player.current_avatar.duel_deck.cards.size == DUEL_CARDS_NUM[@match.rule]
+      unless @player.current_avatar.duel_deck.cards.size == DUEL_CARDS_NUM[@match.rule]
         sc_error_no(ERROR_NO_RULE_MATCH)
         @match = nil
         return
@@ -584,7 +578,7 @@ module Unlight
 
       SERVER_LOG.info("<UID:#{@uid}>MatchServer: [room_join] @match: #{@match}");
 
-      ok = Match.room_join(server_channel, room_id, @player.id)  if server_channel&&@player
+      ok = Match.room_join(server_channel, room_id, @player.id) if server_channel && @player
 
       if ok
         @opponent_player = online_list[ok[0]]
@@ -593,7 +587,7 @@ module Unlight
         # 新しいプレイヤーが入室したことを同じチャンネルのプレイヤーにしらせる
         info = @match.room_info_str
 
-        server_channel.player_list.each{ |p| online_list[p].sc_matching_info_update(info)if online_list[p] }
+        server_channel.player_list.each { |p| online_list[p].sc_matching_info_update(info)if online_list[p] }
         # サーバにカードを送る
         # 二人そろったのでデュエルを開始する
         if ok.size >= Match::ROOM_CAP
@@ -601,7 +595,7 @@ module Unlight
             @opponent_player = online_list[ok[0]]
             @opponent_player.opponent_player = self
             # 部屋のルールを見て決める
-            @match_log =  MatchLog::create_room(server_channel.id, @match.name, @match.stage, @match.avatar_ids, @match.rule, @match.id, @match.cpu_card_data_id, server_channel.server_type, server_channel.watch_mode, 0, server_channel.rule)
+            @match_log = MatchLog::create_room(server_channel.id, @match.name, @match.stage, @match.avatar_ids, @match.rule, @match.id, @match.cpu_card_data_id, server_channel.server_type, server_channel.watch_mode, 0, server_channel.rule)
             @opponent_player.sc_match_join_ok(@match.id)
             # 3vs3チェック
             if @match.rule == RULE_3VS3
@@ -610,8 +604,8 @@ module Unlight
             end
             # フレンドレコードチェック
             if option == Unlight::DUEL_OPTION_FRIEND
-              Avatar[@match.avatar_ids[0]].achievement_check([EVENT_DUEL_FRIEND_ACHIEVEMENT_ID+@match.rule])
-              Avatar[@match.avatar_ids[1]].achievement_check([EVENT_DUEL_FRIEND_ACHIEVEMENT_ID+@match.rule])
+              Avatar[@match.avatar_ids[0]].achievement_check([EVENT_DUEL_FRIEND_ACHIEVEMENT_ID + @match.rule])
+              Avatar[@match.avatar_ids[1]].achievement_check([EVENT_DUEL_FRIEND_ACHIEVEMENT_ID + @match.rule])
             end
           else
             sc_error_no(ERROR_DUEL_ALREADY_START);
@@ -632,13 +626,12 @@ module Unlight
         @match = nil
         SERVER_LOG.info("<UID:#{@uid}>GameServer: [room_join] same ip error.");
       end
-
     end
 
     # CPUルームに入る
     def cpu_join(room_id)
       # AbortPenaltyがtrueなら入れない
-      abort_penalty = CACHE.get( "penalty_id:#{@uid}" )
+      abort_penalty = CACHE.get("penalty_id:#{@uid}")
       if abort_penalty
         sc_error_no(ERROR_DUEL_CREATE_ROOM)
         return
@@ -670,23 +663,23 @@ module Unlight
         return
       end
       # ルールに適応しているか？
-      unless  @player.current_avatar.duel_deck.cards.size == DUEL_CARDS_NUM[@match.rule]
+      unless @player.current_avatar.duel_deck.cards.size == DUEL_CARDS_NUM[@match.rule]
         sc_error_no(ERROR_NO_RULE_MATCH)
         @match = nil
         return
       end
 
-      ok = Match.room_join(server_channel, room_id, @player.id)  if server_channel&&@player
+      ok = Match.room_join(server_channel, room_id, @player.id) if server_channel && @player
 
       if ok
         # 新しいプレイヤーが入室したことを同じチャンネルのプレイヤーにしらせる
         info = @match.room_info_str
-        server_channel.player_list.each{ |p| online_list[p].sc_matching_info_update(info)if online_list[p] }
+        server_channel.player_list.each { |p| online_list[p].sc_matching_info_update(info)if online_list[p] }
         # サーバにカードを送る
 
         # 二人そろったのでデュエルを開始する
         # 部屋のルールを見て決める
-        @match_log =  MatchLog::create_room(server_channel.id, @match.name, @match.stage, @match.avatar_ids, @match.rule, @match.id, @match.cpu_card_data_id, server_channel.server_type, server_channel.watch_mode, 0, server_channel.rule)
+        @match_log = MatchLog::create_room(server_channel.id, @match.name, @match.stage, @match.avatar_ids, @match.rule, @match.id, @match.cpu_card_data_id, server_channel.server_type, server_channel.watch_mode, 0, server_channel.rule)
         sc_match_join_ok(@match.id)
 
         SERVER_LOG.info("<UID:#{@uid}>GameServer: [room_join] join ok. room_id:#{room_id} player_id:#{@player.id}");
@@ -695,11 +688,11 @@ module Unlight
 
     # QuickMatch専用のCPUルームに入る
     def cpu_quickmatch_join(room_id)
-      @match = server_channel.room_list[room_id] if server_channel&&@player
+      @match = server_channel.room_list[room_id] if server_channel && @player
       ret = false
 
       # AbortPenaltyがtrueなら入れない
-      abort_penalty = CACHE.get( "penalty_id:#{@uid}" )
+      abort_penalty = CACHE.get("penalty_id:#{@uid}")
       if abort_penalty
         sc_error_no(ERROR_DUEL_CREATE_ROOM)
         ret = false
@@ -727,23 +720,23 @@ module Unlight
         return
       end
       # ルールに適応しているか？
-      unless  @player.current_avatar.duel_deck.cards.size == DUEL_CARDS_NUM[@match.rule]
+      unless @player.current_avatar.duel_deck.cards.size == DUEL_CARDS_NUM[@match.rule]
         sc_error_no(ERROR_NO_RULE_MATCH)
         @match = nil
         return
       end
 
-      ok = Match.room_join(server_channel, room_id, @player.id)  if server_channel&&@player
+      ok = Match.room_join(server_channel, room_id, @player.id) if server_channel && @player
 
       if ok
         # 新しいプレイヤーが入室したことを同じチャンネルのプレイヤーにしらせる
         info = @match.room_info_str
-        server_channel.player_list.each{ |p| online_list[p].sc_matching_info_update(info)if online_list[p] }
+        server_channel.player_list.each { |p| online_list[p].sc_matching_info_update(info)if online_list[p] }
         # サーバにカードを送る
 
         # 二人そろったのでデュエルを開始する
         # 部屋のルールを見て決める
-        @match_log =  MatchLog::create_room(server_channel.id, @match.name, @match.stage, @match.avatar_ids, @match.rule, @match.id, @match.cpu_card_data_id, server_channel.server_type, server_channel.watch_mode, 0, server_channel.rule)
+        @match_log = MatchLog::create_room(server_channel.id, @match.name, @match.stage, @match.avatar_ids, @match.rule, @match.id, @match.cpu_card_data_id, server_channel.server_type, server_channel.watch_mode, 0, server_channel.rule)
 
         # 入室した部屋のIDを送る
         sc_quickmatch_join_ok(@match.id)
@@ -754,11 +747,10 @@ module Unlight
       end
     end
 
-
     # 指定した部屋に入室
     def cs_room_join(room_id)
       # AbortPenaltyがtrueなら入れない
-      abort_penalty = CACHE.get( "penalty_id:#{@uid}" )
+      abort_penalty = CACHE.get("penalty_id:#{@uid}")
       abort_penalty = false
       if abort_penalty
         sc_error_no(ERROR_DUEL_JOIN_ROOM)
@@ -774,7 +766,7 @@ module Unlight
       end
 
       # エラーチェック
-      @match = server_channel.room_list[room_id] if server_channel&&@player
+      @match = server_channel.room_list[room_id] if server_channel && @player
 
       # マッチが存在する？(部屋が存在しない)
       unless @match
@@ -792,7 +784,7 @@ module Unlight
 
     # 部屋から退出
     def cs_room_exit
-      if  @player&&server_channel&&Match.exit_room(server_channel, @player.id)
+      if @player && server_channel && Match.exit_room(server_channel, @player.id)
         # キャッシュに保存されているMatchLogを削除
         MatchLog::delete_cache(@match.id)
         server_channel.player_list.each do |p|
@@ -805,7 +797,7 @@ module Unlight
         if @opponent_player
           @opponent_player.opponent_player = nil
           @opponent_player.cs_room_exit
-          @opponent_player= nil
+          @opponent_player = nil
         end
       end
       @match = nil
@@ -817,7 +809,7 @@ module Unlight
       if @opponent_player
         @opponent_player.opponent_player = nil
         @opponent_player.cs_room_exit
-        @opponent_player= nil
+        @opponent_player = nil
       end
       cs_room_exit
     end
@@ -825,17 +817,18 @@ module Unlight
     # 強制部屋削除
     def cs_room_delete(room_id)
       SERVER_LOG.info("<UID:#{@uid}>MatchServer: [#{__method__}] id:#{room_id}")
-      if @player&&server_channel
-        del_match = server_channel.room_list[room_id] if server_channel&&@player
+      if @player && server_channel
+        del_match = server_channel.room_list[room_id] if server_channel && @player
         # 見つからないのでなにもしない
         return unless del_match
+
         # 所持していて削除対象の場合、退出する
         if @match && @match.id == del_match.id
           SERVER_LOG.info("<UID:#{@uid}>MatchServer: [#{__method__}] @match:#{@match.id} del_match:#{del_match.id}")
           cs_room_exit
         end
         # 削除する
-        Match::delete_room(server_channel,room_id)
+        Match::delete_room(server_channel, room_id)
       end
     end
 
@@ -845,7 +838,7 @@ module Unlight
         if @avatar
           @avatar.achievement_check
           n = @avatar.get_notice
-          sc_add_notice(n) if n!=""&&n!=nil
+          sc_add_notice(n) if n != "" && n != nil
         end
       end
 
@@ -883,10 +876,9 @@ module Unlight
       end
 
       # アチーブメントが更新された
-      def update_achievement_info_event_handler(target,ret)
-        sc_update_achievement_info(ret[0],ret[1],ret[2],ret[3],ret[4])
+      def update_achievement_info_event_handler(target, ret)
+        sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
       end
-
 
     # 押し出し処理
     def pushout()
@@ -895,7 +887,7 @@ module Unlight
 
     def do_login
       # サーバーのルールが10番の時アドミン以外入れない
-      if server_channel.rule == CRULE_EVENT &&  @player.role != ROLE_ADMIN
+      if server_channel.rule == CRULE_EVENT && @player.role != ROLE_ADMIN
         logout
         return
       end
@@ -920,11 +912,11 @@ module Unlight
       if @opponent_player
         @opponent_player.opponent_player = nil
         @opponent_player.cs_room_exit if @opponent_player
-        @opponent_player= nil
+        @opponent_player = nil
       end
       cs_room_exit
       # 自分がチャンネルにはいっていたらチャンネルから
-      server_channel.exit_player(@player.id) if server_channel&&@player
+      server_channel.exit_player(@player.id) if server_channel && @player
       @@radder_match_waiting_list.delete(@player.id) if @player
 
       # 削除する
@@ -935,19 +927,17 @@ module Unlight
         @avatar.remove_all_event_listener
         @avatar.remove_all_hook
       end
-
     end
 
     # 相手の中断、ログアウト
     def opponent_duel_out
     end
 
-
     # 部屋のログイン人数をアップーデート
     def update_count
       if server_channel
         server_channel.update_count
-        server_channel.player_list.each{  |p| online_list[p].sc_update_count(server_channel.player_list.size)if online_list[p] }
+        server_channel.player_list.each { |p| online_list[p].sc_update_count(server_channel.player_list.size)if online_list[p] }
       end
     end
   end

@@ -6,28 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 9
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: with_first_argument, with_fixed_indentation
-Layout/ArgumentAlignment:
-  Exclude:
-    - 'src/controller/quest_controller.rb'
-    - 'src/model/watch_real_duel.rb'
-    - 'src/rule/entrant.rb'
-
-# Offense count: 206
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: with_first_element, with_fixed_indentation
-Layout/ArrayAlignment:
-  Exclude:
-    - 'src/constants/common_constants.rb'
-    - 'src/model/action_card.rb'
-    - 'src/model/rare_card_lot.rb'
-    - 'src/protocol/command/gamecommand.rb'
-    - 'src/protocol/command/matchcommand.rb'
-
 # Offense count: 31
 # Cop supports --auto-correct.
 # Configuration parameters: IndentationWidth.
@@ -41,26 +19,6 @@ Layout/AssignmentIndentation:
 # SupportedStylesAlignWith: either, start_of_block, start_of_line
 Layout/BlockAlignment:
   Enabled: false
-
-# Offense count: 18
-# Cop supports --auto-correct.
-Layout/BlockEndNewline:
-  Exclude:
-    - 'src/authentication.rb'
-    - 'src/chat.rb'
-    - 'src/data_lobby.rb'
-    - 'src/game.rb'
-    - 'src/global_chat.rb'
-    - 'src/lobby.rb'
-    - 'src/matching.rb'
-    - 'src/model/channel.rb'
-    - 'src/quest.rb'
-    - 'src/raid.rb'
-    - 'src/raid_chat.rb'
-    - 'src/raid_data.rb'
-    - 'src/raid_rank.rb'
-    - 'src/rule/entrant.rb'
-    - 'src/watch.rb'
 
 # Offense count: 5
 # Cop supports --auto-correct.
@@ -136,92 +94,11 @@ Layout/ElseAlignment:
   Exclude:
     - 'src/model/chara_card.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: AllowBorderComment, AllowMarginComment.
-Layout/EmptyComment:
-  Exclude:
-    - 'src/constants/reward_constants.rb'
-    - 'src/controller/lobby_controller.rb'
-
-# Offense count: 88
-# Cop supports --auto-correct.
-Layout/EmptyLineAfterGuardClause:
-  Enabled: false
-
-# Offense count: 119
-# Cop supports --auto-correct.
-Layout/EmptyLineAfterMagicComment:
-  Enabled: false
-
-# Offense count: 198
-# Cop supports --auto-correct.
-# Configuration parameters: AllowAdjacentOneLineDefs, NumberOfEmptyLines.
-Layout/EmptyLineBetweenDefs:
-  Enabled: false
-
-# Offense count: 602
-# Cop supports --auto-correct.
-Layout/EmptyLines:
-  Enabled: false
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/EmptyLinesAroundArguments:
-  Exclude:
-    - 'src/controller/data_controller.rb'
-
-# Offense count: 29
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, no_empty_lines
-Layout/EmptyLinesAroundBlockBody:
-  Exclude:
-    - 'src/chat.rb'
-    - 'src/controller/lobby_controller.rb'
-    - 'src/model/avatar.rb'
-    - 'src/model/avatar_part.rb'
-    - 'src/model/chara_card.rb'
-    - 'src/model/dialogue.rb'
-    - 'src/model/dialogue_weight.rb'
-    - 'src/model/feat.rb'
-    - 'src/model/match_log.rb'
-    - 'src/model/reward_data.rb'
-    - 'src/model/scenario.rb'
-    - 'src/model/weekly_quest_ranking.rb'
-    - 'src/rule/event_deck.rb'
-    - 'src/rule/multi_duel.rb'
-
-# Offense count: 106
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines, beginning_only, ending_only
-Layout/EmptyLinesAroundClassBody:
-  Enabled: false
-
-# Offense count: 67
-# Cop supports --auto-correct.
-Layout/EmptyLinesAroundMethodBody:
-  Enabled: false
-
-# Offense count: 170
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
-Layout/EmptyLinesAroundModuleBody:
-  Enabled: false
-
 # Offense count: 26
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleAlignWith, Severity.
 # SupportedStylesAlignWith: keyword, variable, start_of_line
 Layout/EndAlignment:
-  Enabled: false
-
-# Offense count: 749
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment, AllowBeforeTrailingComments, ForceEqualSignAlignment.
-Layout/ExtraSpacing:
   Enabled: false
 
 # Offense count: 2
@@ -339,11 +216,6 @@ Layout/MultilineOperationIndentation:
     - 'src/model/chara_card.rb'
     - 'src/rule/entrant.rb'
 
-# Offense count: 8253
-# Cop supports --auto-correct.
-Layout/SpaceAfterComma:
-  Enabled: false
-
 # Offense count: 14
 # Cop supports --auto-correct.
 Layout/SpaceAfterMethodName:
@@ -409,113 +281,6 @@ Layout/SpaceAroundKeyword:
     - 'src/net/srp.rb'
     - 'src/protocol/command/command.rb'
     - 'src/rule/event/event.rb'
-
-# Offense count: 12202
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment, EnforcedStyleForExponentOperator.
-# SupportedStylesForExponentOperator: space, no_space
-Layout/SpaceAroundOperators:
-  Enabled: false
-
-# Offense count: 375
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForEmptyBraces.
-# SupportedStyles: space, no_space
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceBeforeBlockBraces:
-  EnforcedStyle: space
-
-# Offense count: 73
-# Cop supports --auto-correct.
-Layout/SpaceBeforeComma:
-  Enabled: false
-
-# Offense count: 1054
-# Cop supports --auto-correct.
-Layout/SpaceBeforeComment:
-  Enabled: false
-
-# Offense count: 53
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment.
-Layout/SpaceBeforeFirstArg:
-  Enabled: false
-
-# Offense count: 58
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBrackets.
-# SupportedStyles: space, no_space, compact
-# SupportedStylesForEmptyBrackets: space, no_space
-Layout/SpaceInsideArrayLiteralBrackets:
-  Enabled: false
-
-# Offense count: 71
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces, SpaceBeforeBlockParameters.
-# SupportedStyles: space, no_space
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceInsideBlockBraces:
-  Enabled: false
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
-# SupportedStyles: space, no_space, compact
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceInsideHashLiteralBraces:
-  Exclude:
-    - 'script/bp_ranking_reward.rb'
-    - 'script/delete_all_cpu_data.rb'
-
-# Offense count: 128
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: space, no_space
-Layout/SpaceInsideParens:
-  Enabled: false
-
-# Offense count: 13
-# Cop supports --auto-correct.
-Layout/SpaceInsideRangeLiteral:
-  Exclude:
-    - 'src/model/chara_card.rb'
-    - 'src/rule/event_deck.rb'
-
-# Offense count: 52
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBrackets.
-# SupportedStyles: space, no_space
-# SupportedStylesForEmptyBrackets: space, no_space
-Layout/SpaceInsideReferenceBrackets:
-  Exclude:
-    - 'src/model/total_chara_vote_ranking.rb'
-    - 'src/model/total_event_ranking.rb'
-
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: space, no_space
-Layout/SpaceInsideStringInterpolation:
-  Exclude:
-    - 'script/delete_rental_card.rb'
-    - 'script/ranking_event_reward.rb'
-    - 'src/constants/constants.rb'
-    - 'src/controller/quest_controller.rb'
-    - 'src/model/avatar.rb'
-    - 'src/rule/multi_duel.rb'
-
-# Offense count: 18
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: final_newline, final_blank_line
-Layout/TrailingEmptyLines:
-  Enabled: false
-
-# Offense count: 99
-# Cop supports --auto-correct.
-# Configuration parameters: AllowInHeredoc.
-Layout/TrailingWhitespace:
-  Enabled: false
 
 # Offense count: 1
 Lint/AmbiguousBlockAssociation:
@@ -1010,13 +775,6 @@ Style/GlobalVars:
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
   Enabled: false
-
-# Offense count: 11459
-# Cop supports --auto-correct.
-# Configuration parameters: UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
-  EnforcedStyle: hash_rockets
 
 # Offense count: 63
 Style/IdenticalConditionalBranches:

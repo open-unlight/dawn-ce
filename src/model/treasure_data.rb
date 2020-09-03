@@ -10,7 +10,7 @@ module Unlight
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # 他クラスのアソシエーション
     Sequel::Model.plugin :schema
@@ -18,12 +18,12 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, :default => "treasure"
-      integer     :allocation_type, :default => 0 # 新規追加2015/05/15
-      String      :allocation_id, :default => ""  # 新規追加2015/05/15
-      integer     :treasure_type, :default => 0
-      integer     :slot_type, :default => 0
-      integer     :value, :default => 0
+      String      :name, default: "treasure"
+      integer     :allocation_type, default: 0 # 新規追加2015/05/15
+      String      :allocation_id, default: ""  # 新規追加2015/05/15
+      integer     :treasure_type, default: 0
+      integer     :slot_type, default: 0
+      integer     :value, default: 0
       datetime    :created_at
       datetime    :updated_at
     end
@@ -40,8 +40,8 @@ module Unlight
 
     #   テーブルを変更する（履歴を残せ）
     DB.alter_table :treasure_datas do
-      add_column :allocation_type, :integer, :default => 0 unless Unlight::TreasureData.columns.include?(:allocation_type)  # 新規追加 2015/05/15
-      add_column :allocation_id, String, :default => "" unless Unlight::TreasureData.columns.include?(:allocation_id)       # 新規追加 2012/05/15
+      add_column :allocation_type, :integer, default: 0 unless Unlight::TreasureData.columns.include?(:allocation_type)  # 新規追加 2015/05/15
+      add_column :allocation_id, String, default: "" unless Unlight::TreasureData.columns.include?(:allocation_id)       # 新規追加 2012/05/15
     end
 
     # インサート時の前処理
@@ -65,7 +65,7 @@ module Unlight
       ret = cache_store.get("TreasureDataVersion")
       unless ret
         ret = refresh_data_version
-        cache_store.set("TreasureDataVersion",ret)
+        cache_store.set("TreasureDataVersion", ret)
       end
       ret
     end
@@ -81,7 +81,6 @@ module Unlight
       end
     end
 
-
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
       self.updated_at.to_i % MODEL_CACHE_INT
@@ -89,15 +88,14 @@ module Unlight
 
     # 宝箱の内容をかえす
     def get_treasure(player)
-
       case self.allocation_type
       when TREASURE_ALLOC_TYPE_COST
 
         avatar = player.current_avatar
         deck_cost = avatar.chara_card_decks[avatar.current_deck].current_cost
-        cost_conditions = self.allocation_id.split(",").map{ |s| s.scan(/([\d~]+):(\d+)/)[0] }
+        cost_conditions = self.allocation_id.split(",").map { |s| s.scan(/([\d~]+):(\d+)/)[0] }
         cost_conditions.each do |cond|
-          range = cond[0].split("~", 2).map{ |n| n.to_i }
+          range = cond[0].split("~", 2).map { |n| n.to_i }
           if check_condition(range, deck_cost)
             allocated_td = TreasureData[cond[1].to_i]
             return [allocated_td.treasure_type, allocated_td.slot_type, allocated_td.value]
@@ -116,7 +114,5 @@ module Unlight
         return range[0] <= value && value <= range[1]
       end
     end
-
   end
-
 end

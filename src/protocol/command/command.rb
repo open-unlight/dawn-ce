@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
+
 # 通信コマンド生成クラス
 # サーバごとの受信・送信コマンドを動的に生成する
 require "zlib"
 module Unlight
   class Command
-    OUTPUT_EVAL = false         # Evalの内容を出力する
+    OUTPUT_EVAL = false # Evalの内容を出力する
     attr_reader :method_list
     # コンストラクタ（Cはコマンドを追加するクラス）
-    def initialize(c,type)
+    def initialize(c, type)
       @klass = c
       @cmd_val = Struct.new(:name, :type, :size)
       @method_list = []
@@ -48,12 +49,12 @@ module Unlight
     # 受信コマンドの初期化
     def init_receive(cmd)
       cmd.each do |c|
-        n = c[0].id2name+"_r"
+        n = c[0].id2name + "_r"
         @method_list << n.intern
         ret = <<-EOF
           def #{n}(data)
            # p data
-#{gen_receve_cmd(c[1],c[0])} 
+#{gen_receve_cmd(c[1], c[0])}
           end
           EOF
       puts ret if OUTPUT_EVAL
@@ -69,19 +70,19 @@ module Unlight
       q = ''
       if val
         val.each do|i|
-          c = @cmd_val.new(i[0], i[1],i[2])
+          c = @cmd_val.new(i[0], i[1], i[2])
           if c.size == 0
-            ret << "            #{c.name}_len = data[#{s unless s==""}#{pos},2].unpack('n*')[0]\n"
+            ret << "            #{c.name}_len = data[#{s unless s == ""}#{pos},2].unpack('n*')[0]\n"
 #            ret << "p data[#{pos},2]\n"
             pos += 2
 #            ret << "p #{c.name}_len\n"
-            ret << "            #{c.name} = data[#{s unless s==""}#{pos},#{c.name}_len]#{type_rec_res(c.type)}\n"
+            ret << "            #{c.name} = data[#{s unless s == ""}#{pos},#{c.name}_len]#{type_rec_res(c.type)}\n"
             s << "#{c.name}_len+"
           else
-            ret << "            #{c.name} = data[#{s unless s==""}#{pos},#{c.size}]#{type_rec_res(c.type)}\n"
+            ret << "            #{c.name} = data[#{s unless s == ""}#{pos},#{c.size}]#{type_rec_res(c.type)}\n"
             pos += c.size
           end
-          q << c.name+","
+          q << c.name + ","
         end
       end
       ret << "            #{name}(#{q.chop!})"
@@ -113,19 +114,18 @@ module Unlight
 #            puts "#{n}が実行されました#{i}"
             data =""
             data << [#{i}].pack('n')
-#{gen_send_cmd(cmd[i][1],cmd[i][2])}
+#{gen_send_cmd(cmd[i][1], cmd[i][2])}
             send_data(data)
           end
           EOF
           puts ret if OUTPUT_EVAL
        @klass.class_eval(ret)
       end
-
     end
 
     # 引数を生成して返す
     def gen_arg(val)
-      ret =''
+      ret = ''
       if val
         val.each do |v|
           ret << v[0]
@@ -137,22 +137,22 @@ module Unlight
     end
 
     # 送信コマンドの中身の文字列を生成
-    def gen_send_cmd(val,comp)
+    def gen_send_cmd(val, comp)
       ret = ''
-      d= "data"
+      d = "data"
       if comp
         d = "data2"
-        ret <<     "            data2 = \"\"\n"
+        ret << "            data2 = \"\"\n"
       end
-      
+
       if val
         val.each do|i|
           c = @cmd_val.new(i[0], i[1], i[2])
-          if c.size == 0&&c.type !=:int
+          if c.size == 0 && c.type != :int
             ret << "            #{d} << [#{c.name}.bytesize].pack('N')\n"
           end
-          ret << ( "            #{c.name}.force_encoding"+'("ASCII-8BIT")'+"\n") if c.type ==:String
-          ret <<   "            #{d} << #{type_send_res(c.type, c.name)}\n"
+          ret << ("            #{c.name}.force_encoding" + '("ASCII-8BIT")' + "\n") if c.type == :String
+          ret << "            #{d} << #{type_send_res(c.type, c.name)}\n"
         end
       end
 
@@ -167,7 +167,7 @@ module Unlight
     private :gen_receve_cmd
 
     # 型によって返す変換する文字列を返す
-    def type_send_res(t,v)
+    def type_send_res(t, v)
       case t
       when :String
         v

@@ -10,13 +10,12 @@ require 'net/srp'
 module Unlight
   module Protocol
     class AuthServer < ULServer
-
       # クラスの初期化
       def self.setup
         super
         Player.auth_off_all
         # コマンドクラスをつくる
-        @@receive_cmd=Command.new(self,:Auth)
+        @@receive_cmd = Command.new(self, :Auth)
         # 暗号化クラスを作る
         @@srp = SRP.new()
         @@invited_id_set = []
@@ -42,7 +41,7 @@ module Unlight
           # 認証のスタート
           SERVER_LOG.info("#{@@class_name}: [auth_start] #{name} ,#{client_pub_key} ,#{@@online_list.size}")
           # プレイヤーは登録されているか？
-          if @player = Player[:name=>name]
+          if @player = Player[name: name]
             if @player.penalty?
               # ペナルティではじく
               SERVER_LOG.error("#{@@class_name}: [auth_fail] penalty #{name}")
@@ -58,9 +57,9 @@ module Unlight
                 # 認証中にして認証処理を進める
                 @player.auth_on
                 @salt = @player.salt
-                @rnd =@@srp.rand_hex
+                @rnd = @@srp.rand_hex
                 @c_pub = client_pub_key
-                @pub = @@srp.get_server_public_key(@rnd, @player.verifier )
+                @pub = @@srp.get_server_public_key(@rnd, @player.verifier)
                 SERVER_LOG.info("#{@@class_name}: [auth_return] #{@salt},#{@pub}")
                 auth_return(@salt, @pub)
               end
@@ -71,7 +70,6 @@ module Unlight
             auth_fail
           end
         end
-
       end
 
       # 認証の判定を行う
@@ -99,13 +97,12 @@ module Unlight
         end
       end
 
-
       # OpenSocial用Auth
       def cs_open_social_auth(name, client_pub_key)
         # 認証のスタート
         SERVER_LOG.info("#{@@class_name}: [cs_os_auth_start] #{name} ,#{client_pub_key}")
         # プレイヤーは登録されているか？
-        if @player = Player[:name=>name]
+        if @player = Player[name: name]
           if @player.penalty?
             # ペナルティではじく
             SERVER_LOG.error("#{@@class_name}: [cs_os_auth_fail] penalty #{name}")
@@ -122,9 +119,9 @@ module Unlight
               # 認証中にして認証処理を進める
               @player.auth_on
               @salt = @player.salt
-              @rnd =@@srp.rand_hex
+              @rnd = @@srp.rand_hex
               @c_pub = client_pub_key
-              @pub = @@srp.get_server_public_key(@rnd, @player.verifier )
+              @pub = @@srp.get_server_public_key(@rnd, @player.verifier)
               SERVER_LOG.info("#{@@class_name}: [cs_os_auth_return] #{@salt},#{@pub}")
               auth_return(@salt, @pub)
             end
@@ -149,7 +146,7 @@ module Unlight
 
       # 自分を招待してくれたひとを更新
       def cs_update_invited_user(users)
-        u =users.split(",")
+        u = users.split(",")
         if @player
           SERVER_LOG.info("<UID:#{@player.id}>AUTHServer: [cs_update_invited_users] #{users}")
           a = InviteLog::check_already_invited?(@player.name) # すでに自分がインバイトアイテムをもらっているか？
@@ -172,7 +169,7 @@ module Unlight
       # クライアントへ確認コマンドを送る
       def cert(m)
         SERVER_LOG.info("#{@@class_name}: [auth_cert] #{@player.name}")
-        auth_cert(@@srp.get_cert(@c_pub,m,@strong_key),@player.id)
+        auth_cert(@@srp.get_cert(@c_pub, m, @strong_key), @player.id)
         @player.login(@ip, @strong_key)
         if @@online_list.include?(@player.id)
           SERVER_LOG.info("<UID:#{@player.id}>#{@@class_name}: [login push out] pushed out")
@@ -191,7 +188,6 @@ module Unlight
         @@online_list[@player.id].player = nil
       end
 
-
       # 切断時
       def unbind
         # 例外をrescueしないのAbortするので注意
@@ -202,7 +198,7 @@ module Unlight
              delete_connection
              SERVER_LOG.info("#{@@class_name}: [online num] #{@@online_list.size}")
            end
-        rescue =>e
+        rescue => e
             puts e.message
         end
        SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")

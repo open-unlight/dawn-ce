@@ -4,24 +4,22 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # お詫び用データ
   class AvatarApology < Sequel::Model
-
     # 他クラスのアソシエーション
-    one_to_one :avatar         # アバターと一対一
+    one_to_one :avatar # アバターと一対一
 
     # プラグインの設定
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer     :avatar_id,:index=>true #, :table => :avatars
-      String      :body, :text=>true, :default => ""
+      integer     :avatar_id, index: true #, :table => :avatars
+      String      :body, text: true, default: ""
       datetime    :created_at
       datetime    :updated_at
     end
@@ -71,12 +69,12 @@ module Unlight
     # 内容を取得
     def get_body
       refresh
-      ret = { }
+      ret = {}
       self.body.split("|").each do |str|
         if str != ""
-          date_str,item_str = str.split("_")
-          y,m,d = date_str.split("-")
-          date = Time.new(y,m,d)
+          date_str, item_str = str.split("_")
+          y, m, d = date_str.split("-")
+          date = Time.new(y, m, d)
           set_items = []
           item_str.split("+").each do |i|
             set_items.push([])
@@ -84,12 +82,10 @@ module Unlight
               set_items.last.push(j.to_i)
             end
           end
-          ret[date] = { :date=>date_str.gsub("-","/"), :items=>set_items}
+          ret[date] = { date: date_str.gsub("-", "/"), items: set_items }
         end
       end
       ret.sort
     end
-
-
   end
 end

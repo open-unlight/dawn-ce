@@ -5,48 +5,47 @@
 
 # 各サーバクラスの親
 require 'net/crypt'
-require File::expand_path(__FILE__).gsub(/src\/protocol\/ulserver.rb/, "")+"script/constdata_keys.rb"
+require File::expand_path(__FILE__).gsub(/src\/protocol\/ulserver.rb/, "") + "script/constdata_keys.rb"
 
 module Unlight
   module Protocol
     class ULServer < EventMachine::Connection
-
       # これ以上前に反応していなかった切る
-      CONNECT_LIVE_SEC = 3600   # 1時間
+      CONNECT_LIVE_SEC = 3600 # 1時間
 
       # 何回のコマンドエラーで切断するか
-      COMMAND_ERROR_MAX = 3   #
+      COMMAND_ERROR_MAX = 3 #
 
-      attr_accessor :player,:last_connect
+      attr_accessor :player, :last_connect
       # クラスの初期化
       def self.setup
         @@class_name = self.name[19..-1] # 最後のクラス名だけにしている
         SERVER_LOG.info("#{@@class_name}: Start.")
         @@receive_cmd = nil
-        @@online_list = { };      # オンラインのリストIDとインスタンスのハッシュ
-        @@check_list = Array.new(60){[]} # ソケットのハートビートを60分にいっぺん送るためのリスト
+        @@online_list = {}; # オンラインのリストIDとインスタンスのハッシュ
+        @@check_list = Array.new(60) { [] } # ソケットのハートビートを60分にいっぺん送るためのリスト
         @check_min                       # 自分が何処に入っているか？
         @error_count = 0                 # 無効なコマンドが送られてきた数
         @db_connect_prev_check_time = nil # 前回のDBとの接続チェック時間
         # 終了のシグナルを受け取った場合
-        Signal.trap(:TERM){exit_server}
+        Signal.trap(:TERM) { exit_server }
       end
 
       # 接続時
       def post_init
-        @error_count = 0                 # 無効なコマンドが送られてきた数
+        @error_count = 0 # 無効なコマンドが送られてきた数
         @uid = 0
         # IPを保存
         @ip = ""
         begin
-          @ip = get_peername[2 ,6].unpack("nC4")[1..4].join"." if get_peername&&get_peername[2 ,6].unpack("nC4")# 帰ってこない場合あり
-        rescue =>e
+          @ip = get_peername[2, 6].unpack("nC4")[1..4].join "." if get_peername && get_peername[2, 6].unpack("nC4") # 帰ってこない場合あり
+        rescue => e
           SERVER_LOG.fatal("#{@@class_name}: [Got invalid IP] #{e}")
           @ip = "0.0.0.0"
         end
         SERVER_LOG.info("#{@@class_name}: [Connected IP:] #{@ip}")
         @crypt = Crypt::None.new
-        @command_list =[]
+        @command_list = []
         @func_list = []
         @@receive_cmd.method_list.each do |c|
           @func_list << method(c)
@@ -77,7 +76,7 @@ module Unlight
 
       # コマンドの実行
       def do_command
-        while cmd =@command_list.shift
+        while cmd = @command_list.shift
           if cmd[0] > @func_list.size
             SERVER_LOG.error("#{@@class_name}: [invalid comanndNo.] >> #{cmd[0]}")
             # エラー数をカウントして
@@ -85,12 +84,12 @@ module Unlight
               SERVER_LOG.error("#{@@class_name}: [ErrorMAX disconnect!] >> #{cmd[0]}")
               logout
             else
-              @error_count +=1
+              @error_count += 1
             end
           else
             begin
               @func_list[cmd[0]].call(cmd[1])
-            rescue =>e
+            rescue => e
               SERVER_LOG.fatal("#{@@class_name}: [docommand:] fatal error #{e}:#{e.backtrace}")
             end
           end
@@ -99,9 +98,8 @@ module Unlight
 
       # コマンドから受信メソッドの配列に登録する
       def init_revceive_command(cmd)
-        cmd.each{ |c| @command_method << method(c[0])}
+        cmd.each { |c| @command_method << method(c[0]) }
       end
-
 
       # データを送る
       def send_data(data)
@@ -110,7 +108,6 @@ module Unlight
         d << "\n"
         super(d)
       end
-
 
       # 受信コマンド
       # データ形式は
@@ -124,21 +121,21 @@ module Unlight
       def data2command(data)
         a = []
         i = 0
-        len =0
+        len = 0
         # 総サイズを記録
         d_size = data.bytesize
         # 総サイズ分読み込む
         while i < d_size
           # 最初の2バイトを呼んで長さに変換
-          len = data[i,2].unpack("n*")[0]
+          len = data[i, 2].unpack("n*")[0]
           # もしサイズが０ならば全サイズが長さ,またはnilならば全サイズを入れる（とばすため）
-          len = d_size if len == 0||len ==nil
+          len = d_size if len == 0 || len == nil
           # 長さの後ろに改行が入っているか？（正しいコマンドかをチェック）
-          if data[i+len+2] == "\n"
-            d = @crypt.decrypt(data[i+2,len])
-            a << [d[0,2].unpack('n')[0], d[2..-1]]
+          if data[i + len + 2] == "\n"
+            d = @crypt.decrypt(data[i + 2, len])
+            a << [d[0, 2].unpack('n')[0], d[2..-1]]
           end
-          i += (len+3)
+          i += (len + 3)
         end
         a
       end
@@ -167,7 +164,7 @@ module Unlight
               set_session_key(@player.session_key)
             end
             # ネゴシエーションの確認
-            nego_cert(@nego_crypt ,"are you ok")
+            nego_cert(@nego_crypt, "are you ok")
           else
             f_id = 0
             f_id = @player.id if @player
@@ -175,7 +172,7 @@ module Unlight
             close_connection
             # 不正なアクセスなどをはじく処理
           end
-        rescue =>e
+        rescue => e
           SERVER_LOG.fatal("#{@@class_name}: [negotiatin fatal error] #{e}")
         end
       end
@@ -184,7 +181,7 @@ module Unlight
       def login(ok, crypted_sign)
         if @nego_crypt == crypted_sign
           # ログイン済みの場合押し出し処理を行う
-          if @player&&@@online_list.include?(@player.id)
+          if @player && @@online_list.include?(@player.id)
             SERVER_LOG.info("<UID:#{@player.id}>#{@@class_name}: [login push out] pushed out")
             pushout
           end
@@ -224,10 +221,9 @@ module Unlight
         @@online_list[@player.id] = self if @player
       end
 
-
       # サーバを終了する
       def self::exit_server
-        @@online_list.clone.each_value{|o| o.logout if o}
+        @@online_list.clone.each_value { |o| o.logout if o }
         SERVER_LOG.fatal("#{@@class_name}: [ShutDown!]")
         exit
       end
@@ -294,12 +290,11 @@ module Unlight
           @db_connect_prev_check_time = Time.now.utc
         end
       end
-
     end
   end
 end
 
-if RUBY_VERSION  == "1.9.2"
+if RUBY_VERSION == "1.9.2"
 #  Dateクラスで重たいmethod_missingを差し替え（クソ重たい処理をクソさぼっているので）
   class Date::Format::Bag
     def method_missing(t, *args, &block)
@@ -352,7 +347,7 @@ if RUBY_VERSION  == "1.9.2"
     end
 
     def zone=(v)
-      @elem[:zone] =v
+      @elem[:zone] = v
     end
 
     def year
@@ -394,6 +389,5 @@ if RUBY_VERSION  == "1.9.2"
     def offset
       @elem[:offset]
     end
-
   end
 end

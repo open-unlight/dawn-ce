@@ -10,8 +10,9 @@ require 'eventmachine'
 module Unlight
   # 引数がある場合にポートを変更する
   opt = OptionParser.new
-  opt.on('-p VAL') {|v|
-    SV_PORT = v }
+  opt.on('-p VAL') { |v|
+    SV_PORT = v
+}
 
   opt.parse! ARGV
 
@@ -20,7 +21,6 @@ module Unlight
 end
 require 'unlight'
 require 'protocol/raid_server'
-
 
 module Unlight
   include Protocol
@@ -33,13 +33,13 @@ module Unlight
     SERVER_LOG.info("RaidServer Start: port[#{SV_PORT}]")
     # タイマの制度を上げる
     EM.set_quantum(10)
-    start_time =Time.now
-    tmp_time =Time.now
+    start_time = Time.now
+    tmp_time = Time.now
     # 1/24でメインループを更新
     EM::PeriodicTimer.new(0.3, proc {
                             begin
                               MultiDuel.update
-                            rescue =>e
+                            rescue => e
                               SERVER_LOG.fatal("RaidServer: [RAID:] fatal error #{e}:#{e.backtrace}")
                             end
                                    })
@@ -48,7 +48,7 @@ module Unlight
     EM::PeriodicTimer.new(1, proc {
                             begin
                               AI.update
-                            rescue =>e
+                            rescue => e
                              SERVER_LOG.fatal("RaidServer: [AI:] fatal error #{e}:#{e.backtrace}")
                             end
                           })
@@ -57,22 +57,20 @@ module Unlight
     EM::PeriodicTimer.new(60, proc {
                             begin
                               RaidServer.check_connection
-                            rescue =>e
+                            rescue => e
                              SERVER_LOG.fatal("RaidServer: [check_connection:] fatal error #{e}:#{e.backtrace}")
                             end
                                    })
 
     if DB_CONNECT_CHECK
       # 7時間に一回でDBとの接続をチェック
-      EM::PeriodicTimer.new(60*60*7, proc {
+      EM::PeriodicTimer.new(60 * 60 * 7, proc {
                               begin
                                 RaidServer.check_db_connection
-                              rescue =>e
+                              rescue => e
                                 SERVER_LOG.fatal("RaidServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
                               end
                             })
     end
   end
 end
-
-

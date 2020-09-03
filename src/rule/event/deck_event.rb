@@ -41,7 +41,6 @@ require 'rule/event/event'
 require 'constants'
 
 module Unlight
-
   # ===========================
   # イベント定義
   # ===========================
@@ -76,5 +75,4 @@ module Unlight
     func      :append_joker_card
     event     :finish
   end
-
 end

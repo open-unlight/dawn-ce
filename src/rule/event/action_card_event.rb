@@ -39,13 +39,12 @@
   #   追加実行されるイベント
 
 module Unlight
-
   # ====================
   # イベント
   # ====================
 
   # 追加したら以下の参照番号を付加すること
-  ACTION_EVENT_NO =[
+  ACTION_EVENT_NO = [
                     nil,                          # 0
                     [:occur_chance_event, 1],     # 1 チャンスカードx1
                     [:occur_chance_event, 2],     # 2 チャンスカードx2
@@ -85,43 +84,43 @@ module Unlight
 
   class OccurChanceEvent < EventRule
     dsc        "チャンスカード起動"
-    type       :type=>:after, :obj=>"self", :hook=>:droped_event
+    type       type: :after, obj: "self", hook: :droped_event
     func       :occur_chance
   end
 
   class OccurHealEvent < EventRule
     dsc        "HP回復イベント"
-    type       :type=>:after, :obj=>"self", :hook=>:droped_event
+    type       type: :after, obj: "self", hook: :droped_event
     func       :occur_heal
   end
 
   class OccurDamageEvent < EventRule
     dsc        "ダメージイベント"
-    type       :type=>:after, :obj=>"self", :hook=>:droped_event
+    type       type: :after, obj: "self", hook: :droped_event
     func       :occur_damage
   end
 
   class OccurCureEvent < EventRule
     dsc        "状態回復イベント"
-    type       :type=>:after, :obj=>"self", :hook=>:droped_event
+    type       type: :after, obj: "self", hook: :droped_event
     func       :occur_cure
   end
 
   class OccurCurseEvent < EventRule
     dsc        "カースカード起動"
-    type       :type=>:after, :obj=>"self", :hook=>:droped_event
+    type       type: :after, obj: "self", hook: :droped_event
     func       :occur_curse
   end
 
   class OccurChaliceEvent < EventRule
     dsc        "聖杯イベント"
-    type       :type=>:after, :obj=>"self", :hook=>:droped_event
+    type       type: :after, obj: "self", hook: :droped_event
     func       :occur_chalice
   end
 
   class OccurPoisonEvent < EventRule
     dsc        "毒杯イベント"
-    type       :type=>:after, :obj=>"self", :hook=>:droped_event
+    type       type: :after, obj: "self", hook: :droped_event
     func       :occur_poison
   end
 
@@ -181,5 +180,4 @@ module Unlight
     func       :poison
     event      :finish
   end
-
 end

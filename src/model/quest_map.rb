@@ -4,27 +4,26 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # クエストのマップクラス
   class QuestMap < Sequel::Model
     # プラグインの設定
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # 他クラスのアソシエーション
-    one_to_many :quests         # 複数のクエストデータを保持
+    one_to_many :quests # 複数のクエストデータを保持
 
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name,:default => ""
-      String      :caption,:default => ""
-      integer     :region,:default => 0
-      integer     :level,:default => 0      # 未使用
-      integer     :difficulty,:default => 1 # クリアに必要なDefficulty
-      integer     :ap,:default => 0
+      String      :name, default: ""
+      String      :caption, default: ""
+      integer     :region, default: 0
+      integer     :level, default: 0      # 未使用
+      integer     :difficulty, default: 1 # クリアに必要なDefficulty
+      integer     :ap, default: 0
       datetime    :created_at
       datetime    :updated_at
     end
@@ -32,7 +31,6 @@ module Unlight
     # バリデーションの設定
      validates do
     end
-
 
     # DBにテーブルをつくる
     if !(QuestMap.table_exists?)
@@ -44,7 +42,7 @@ module Unlight
       ret = cache_store.get("QuestMapVersion")
       unless ret
         ret = refresh_data_version
-        cache_store.set("QuestMapVersion",ret)
+        cache_store.set("QuestMapVersion", ret)
       end
       ret
     end
@@ -59,7 +57,6 @@ module Unlight
         0
       end
     end
-
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
@@ -83,11 +80,11 @@ module Unlight
       s = 0
       boss = false
       boss = (clear_num >= difficulty) || cleared_map
-      until s>0
+      until s > 0
         q = Quest.get_map_in_reality(self.id, r, boss)
         s = q.count if q
-        r-=1
-        break if r==0
+        r -= 1
+        break if r == 0
       end
       ret = q[rand(q.count)] if q
       SERVER_LOG.info("<UID:#{}>QuestServer: [#{__method__}] ret:#{ret}")
@@ -125,7 +122,7 @@ module Unlight
       if MAP_REALITY[time]
         MAP_REALITY[time].each_index do |i|
           if MAP_REALITY[time][i] > r
-            ret = i+1
+            ret = i + 1
           else
             break
           end
@@ -135,13 +132,12 @@ module Unlight
       ret
     end
 
-
     # 特定地域のマップIDリストをもらえる
     def QuestMap::get_quest_map_list(reg)
       ret = cache_store.get("region:#{reg}")
       unless ret
         ret = []
-        QuestMap.filter({:region=>reg}).all.each do |s|
+        QuestMap.filter({ region: reg }).all.each do |s|
           ret << s.id
         end
         cache_store.set("region:#{reg}", ret)
@@ -153,7 +149,5 @@ module Unlight
     def QuestMap::refresh_cache(reg)
       cache_store.delete("region:#{reg}")
     end
-
   end
-
 end

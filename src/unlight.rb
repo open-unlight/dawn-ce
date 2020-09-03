@@ -4,8 +4,8 @@
 # http://opensource.org/licenses/mit-license.php
 
 $:.unshift File.dirname(__FILE__)
-d = File.dirname(__FILE__).gsub!("src","")
-ENV['INLINEDIR']="#{d}lib/ruby_inline"
+d = File.dirname(__FILE__).gsub!("src", "")
+ENV['INLINEDIR'] = "#{d}lib/ruby_inline"
 
 require 'rubygems'
 require 'sequel'
@@ -14,7 +14,7 @@ require 'dalli'
 Sequel::Model.require_valid_table = false
 
 require 'db_config'
-if File.exist?(File.dirname(__FILE__)+"/server_ip.rb")
+if File.exist?(File.dirname(__FILE__) + "/server_ip.rb")
   require 'server_ip'
 end
 
@@ -129,7 +129,7 @@ module Unlight
 
   def self::puts_obj_count(c)
     count = ObjectSpace.each_object(c) { |x| x }
-      SERVER_LOG.info( "LEAK_CHECK:#{c.name} num is #{count}")
+      SERVER_LOG.info("LEAK_CHECK:#{c.name} num is #{count}")
   end
 
   def self::debug_memory_leak
@@ -141,7 +141,7 @@ module Unlight
     # puts "OBJ COUNT_SIZE  #{ObjectSpace.count_objects_size}"
     # puts "OBJ MEM_SIZE #{ObjectSpace.memsize_of_all}"
     # puts "OBJ TDATA_COUNT  #{ObjectSpace.count_tdata_objects}"
-    SERVER_LOG.info( "LEAK_CHECK:ModelObj")
+    SERVER_LOG.info("LEAK_CHECK:ModelObj")
     puts_obj_count(ActionCard)
     puts_obj_count(CardInventory)
     puts_obj_count(Channel)
@@ -161,7 +161,7 @@ module Unlight
     puts_obj_count(ProfoundLog)
     puts_obj_count(ProfoundComment)
     puts_obj_count(ProfoundTreasureData)
-    SERVER_LOG.info( "LEAK_CHECK:EventObj")
+    SERVER_LOG.info("LEAK_CHECK:EventObj")
     puts_obj_count(Deck)
     puts_obj_count(EventDeck)
     puts_obj_count(Reward)
@@ -176,6 +176,4 @@ module Unlight
 #     puts_obj_count(MonsterTreasureInventory)
 #     puts_obj_count(PaymentLog)
   end
-
-
 end

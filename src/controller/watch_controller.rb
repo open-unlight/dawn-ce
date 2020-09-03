@@ -8,7 +8,7 @@ module Unlight
 
   module WatchController
     def self::init
-      @@audience_list = { } # 観客リスト
+      @@audience_list = {} # 観客リスト
     end
 
     def self::audience_list
@@ -28,7 +28,7 @@ module Unlight
 
       player_a = Player[watch_data[:pl_id]] if watch_data
 
-      if  player_a&&match_log
+      if player_a && match_log
         # もし前回のDuelが残っていたらまっさらにする
         if @duel
           @duel.entrants[@no].exit_game
@@ -51,7 +51,7 @@ module Unlight
         a_deck   = a_avatar.duel_deck
         b_deck   = b_avatar.duel_deck
 
-        watch_r_duel = WatchRealDuel.new(match_uid,match_log.match_rule,match_log.match_stage,a_deck,b_deck)
+        watch_r_duel = WatchRealDuel.new(match_uid, match_log.match_rule, match_log.match_stage, a_deck, b_deck)
 
         # 部屋のルールを見て決める
         if match_log.cpu_card_data_id == PLAYER_MATCH
@@ -79,7 +79,7 @@ module Unlight
                                  watch_r_duel.foe_damege.join(",")
                                  )
             set_duel_handler(0, RULE_1VS1)
-            sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size,@duel.event_decks[@foe].size, watch_r_duel.dist, false)
+            sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, false)
             @duel.three_to_three_duel
           elsif match_log.match_rule == RULE_3VS3
             # カレントのアバターが持つカレントデッキでデュエル開始
@@ -137,7 +137,7 @@ module Unlight
                                  watch_r_duel.foe_damege.join(",")
                                  )
             set_duel_handler(0, RULE_1VS1)
-            sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size,@duel.event_decks[@foe].size, watch_r_duel.dist, false)
+            sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, false)
             @duel.three_to_three_duel
 
           elsif match_log.match_rule == RULE_3VS3
@@ -211,18 +211,17 @@ module Unlight
     # =====================================
 
     # ゲームセッションの決定
-    def do_determine_session(id, p_name,foe_name,player_chara_id,foe_chara_id,stage,pl_hp,foe_hp)
-      dialogue_id,dialogue_content = CharaCard::duel_start_dialogue(player_chara_id, foe_chara_id)
-      sc_determine_session(id, foe_name, player_chara_id,  foe_chara_id, dialogue_content, dialogue_id,stage,pl_hp,foe_hp )
-      set_message_str_data(DUEL_MSGDLG_WATCH_START,p_name.force_encoding("UTF-8"),foe_name.force_encoding("UTF-8"))
+    def do_determine_session(id, p_name, foe_name, player_chara_id, foe_chara_id, stage, pl_hp, foe_hp)
+      dialogue_id, dialogue_content = CharaCard::duel_start_dialogue(player_chara_id, foe_chara_id)
+      sc_determine_session(id, foe_name, player_chara_id, foe_chara_id, dialogue_content, dialogue_id, stage, pl_hp, foe_hp)
+      set_message_str_data(DUEL_MSGDLG_WATCH_START, p_name.force_encoding("UTF-8"), foe_name.force_encoding("UTF-8"))
     end
 
     # デュエルのイベントハンドラをまとめて登録
     def set_duel_handler(no, rule)
       # Noはエントリの番号 0:alpha 1:beta
       @no = no
-      @foe = (no==1)? 0:1
-
+      @foe = (no == 1) ? 0 : 1
 
       # ============================
       # デュエルのハンドラ
@@ -264,7 +263,6 @@ module Unlight
 
       # 移動決定フェイズの終了を監視
       @duel.add_finish_listener_determine_move_phase(method(:duel_determine_move_phase_handler))
-
 
       # 攻撃カード提出フェイズの開始と終了を監視
       @duel.add_start_listener_attack_card_drop_phase(method(:duel_attack_card_phase_start_handler))
@@ -320,7 +318,6 @@ module Unlight
       @duel.entrants[@no].add_finish_listener_attack_done_action(method(:pl_entrant_attack_done_action_handler))
 
       @duel.entrants[@no].add_finish_listener_move_action(method(:pl_entrant_move_action_handler))
-
 
       # ============================
       # 参加者イベントのハンドラ
@@ -393,56 +390,56 @@ module Unlight
       # キャラカードのハンドラ
       # =================================
       # 状態付加時イベント
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_on_buff_event(method(:pl_entrant_buff_on_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_on_buff_event(method(:foe_entrant_buff_on_event_handler)) }
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_off_buff_event(method(:pl_entrant_buff_off_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_off_buff_event(method(:foe_entrant_buff_off_event_handler)) }
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_update_buff_event(method(:pl_entrant_buff_update_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_update_buff_event(method(:foe_entrant_buff_update_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_on_buff_event(method(:pl_entrant_buff_on_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_on_buff_event(method(:foe_entrant_buff_on_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_off_buff_event(method(:pl_entrant_buff_off_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_off_buff_event(method(:foe_entrant_buff_off_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_update_buff_event(method(:pl_entrant_buff_update_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_update_buff_event(method(:foe_entrant_buff_update_event_handler)) }
 
       # 必殺技のイベントのハンドラ
       # 必殺技のON/OFFのイベント監視
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_on_feat_event(method(:pl_entrant_feat_on_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_on_feat_event(method(:foe_entrant_feat_on_event_handler)) }
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_off_feat_event(method(:pl_entrant_feat_off_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_off_feat_event(method(:foe_entrant_feat_off_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_on_feat_event(method(:pl_entrant_feat_on_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_on_feat_event(method(:foe_entrant_feat_on_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_off_feat_event(method(:pl_entrant_feat_off_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_off_feat_event(method(:foe_entrant_feat_off_event_handler)) }
       # 必殺技が変更された時のイベント
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_change_feat_event(method(:pl_entrant_change_feat_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_change_feat_event(method(:foe_entrant_change_feat_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_change_feat_event(method(:pl_entrant_change_feat_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_change_feat_event(method(:foe_entrant_change_feat_event_handler)) }
       # 必殺技が使われた時イベント
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_use_feat_event(method(:pl_entrant_use_feat_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_use_feat_event(method(:foe_entrant_use_feat_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_use_feat_event(method(:pl_entrant_use_feat_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_use_feat_event(method(:foe_entrant_use_feat_event_handler)) }
       # パッシブが使われた時イベント
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_use_passive_event(method(:pl_entrant_use_passive_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_use_passive_event(method(:foe_entrant_use_passive_event_handler)) }
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_on_passive_event(method(:pl_entrant_on_passive_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_on_passive_event(method(:foe_entrant_on_passive_event_handler)) }
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_off_passive_event(method(:pl_entrant_off_passive_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_off_passive_event(method(:foe_entrant_off_passive_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_use_passive_event(method(:pl_entrant_use_passive_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_use_passive_event(method(:foe_entrant_use_passive_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_on_passive_event(method(:pl_entrant_on_passive_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_on_passive_event(method(:foe_entrant_on_passive_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_off_passive_event(method(:pl_entrant_off_passive_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_off_passive_event(method(:foe_entrant_off_passive_event_handler)) }
 
       # キャラカード変身イベント
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_change_chara_card_event(method(:pl_entrant_change_chara_card_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_change_chara_card_event(method(:foe_entrant_change_chara_card_event_handler)) }
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_on_transform_event(method(:pl_entrant_on_transform_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_on_transform_event(method(:foe_entrant_on_transform_event_handler)) }
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_off_transform_event(method(:pl_entrant_off_transform_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_off_transform_event(method(:foe_entrant_off_transform_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_change_chara_card_event(method(:pl_entrant_change_chara_card_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_change_chara_card_event(method(:foe_entrant_change_chara_card_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_on_transform_event(method(:pl_entrant_on_transform_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_on_transform_event(method(:foe_entrant_on_transform_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_off_transform_event(method(:pl_entrant_off_transform_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_off_transform_event(method(:foe_entrant_off_transform_event_handler)) }
 
       # キャラカードの霧隠れイベント
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_on_lost_in_the_fog_event(method(:pl_entrant_on_lost_in_the_fog_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_on_lost_in_the_fog_event(method(:foe_entrant_on_lost_in_the_fog_event_handler)) }
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_off_lost_in_the_fog_event(method(:pl_entrant_off_lost_in_the_fog_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_off_lost_in_the_fog_event(method(:foe_entrant_off_lost_in_the_fog_event_handler)) }
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_in_the_fog_event(method(:pl_entrant_in_the_fog_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_in_the_fog_event(method(:foe_entrant_in_the_fog_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_on_lost_in_the_fog_event(method(:pl_entrant_on_lost_in_the_fog_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_on_lost_in_the_fog_event(method(:foe_entrant_on_lost_in_the_fog_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_off_lost_in_the_fog_event(method(:pl_entrant_off_lost_in_the_fog_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_off_lost_in_the_fog_event(method(:foe_entrant_off_lost_in_the_fog_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_in_the_fog_event(method(:pl_entrant_in_the_fog_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_in_the_fog_event(method(:foe_entrant_in_the_fog_event_handler)) }
 
       # 技の発動条件を変更するイベント
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_update_feat_condition_event(method(:pl_entrant_update_feat_condition_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_update_feat_condition_event(method(:foe_entrant_update_feat_condition_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_update_feat_condition_event(method(:pl_entrant_update_feat_condition_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_update_feat_condition_event(method(:foe_entrant_update_feat_condition_event_handler)) }
 
       # ヌイグルミをセットするイベント
-      @duel.entrants[@no].chara_cards.each{ |c| c.add_finish_listener_stuffed_toys_set_event(method(:pl_entrant_stuffed_toys_set_event_handler)) }
-      @duel.entrants[@foe].chara_cards.each{ |c| c.add_finish_listener_stuffed_toys_set_event(method(:foe_entrant_stuffed_toys_set_event_handler)) }
+      @duel.entrants[@no].chara_cards.each { |c| c.add_finish_listener_stuffed_toys_set_event(method(:pl_entrant_stuffed_toys_set_event_handler)) }
+      @duel.entrants[@foe].chara_cards.each { |c| c.add_finish_listener_stuffed_toys_set_event(method(:foe_entrant_stuffed_toys_set_event_handler)) }
     end
 
     # =========
@@ -495,18 +492,17 @@ module Unlight
       sc_duel_move_card_drop_phase_finish
     end
 
-
     # 移動の結果がでた時にハンドラ
     def duel_determine_move_phase_handler(args)
       SERVER_LOG.info("<UID:#{@uid}>WatchServer: [#{__method__}] args:#{args} ")
-      set_message_str_data(args[0][0],args[0][1])
+      set_message_str_data(args[0][0], args[0][1])
       sc_duel_determine_move_phase(args[1][0], args[1][1], args[1][2], args[1][3], args[1][4], args[1][5], args[1][6], args[1][7], args[1][8], args[1][9])
-      set_message_str_data(args[2][0],args[2][1])
+      set_message_str_data(args[2][0], args[2][1])
     end
 
     # キャラ変更フェイズ開始
     def duel_chara_change_phase_start_handler(args)
-      sc_duel_chara_change_phase_start(args[0],args[1])
+      sc_duel_chara_change_phase_start(args[0], args[1])
     end
 
    # キャラ変更フェイズ終了
@@ -522,8 +518,8 @@ module Unlight
     # 攻撃カード提出フェイズ開始
     def duel_attack_card_phase_start_handler(args)
       # 攻撃側と防御側のポイントを送る
-      sc_entrant_point_update_event(false,args[0][0],args[0][1],args[0][2])
-      sc_entrant_point_update_event(true,args[1][0],args[1][1],args[1][2])
+      sc_entrant_point_update_event(false, args[0][0], args[0][1], args[0][2])
+      sc_entrant_point_update_event(true, args[1][0], args[1][1], args[1][2])
       # イニシアチブを伝えて攻撃フェイズを始める
       sc_duel_attack_card_drop_phase_start(args[2])
     end
@@ -531,54 +527,54 @@ module Unlight
     # 防御カード提出フェイズ開始
     def duel_deffence_card_phase_start_handler(args)
       # 攻撃側と防御側のポイントを送る
-      sc_entrant_point_update_event(false,args[0][0],args[0][1],args[0][2])
-      sc_entrant_point_update_event(true,args[1][0],args[1][1],args[1][2])
+      sc_entrant_point_update_event(false, args[0][0], args[0][1], args[0][2])
+      sc_entrant_point_update_event(true, args[1][0], args[1][1], args[1][2])
       # イニシアチブを伝えて防御フェイズを始める
       sc_duel_deffence_card_drop_phase_start(args[2])
     end
 
     # 攻撃カード提出フェイズ終了
     def duel_attack_card_phase_finish_handler(args)
-      sc_entrant_point_update_event(false,args[0][0],args[0][1],args[0][2])
-      sc_entrant_point_update_event(true,args[1][0],args[1][1],args[1][2])
-      sc_duel_attack_card_drop_phase_finish(args[2][0],args[2][1],args[2][2],args[2][3],args[2][4],args[2][5])
+      sc_entrant_point_update_event(false, args[0][0], args[0][1], args[0][2])
+      sc_entrant_point_update_event(true, args[1][0], args[1][1], args[1][2])
+      sc_duel_attack_card_drop_phase_finish(args[2][0], args[2][1], args[2][2], args[2][3], args[2][4], args[2][5])
     end
 
     # 防御カード提出フェイズ終了
     def duel_deffence_card_phase_finish_handler(args)
-      sc_entrant_point_update_event(false,args[0][0],args[0][1],args[0][2])
-      sc_entrant_point_update_event(true,args[1][0],args[1][1],args[1][2])
-      sc_duel_deffence_card_drop_phase_finish(args[2][0],args[2][1],args[2][2],args[2][3],args[2][4],args[2][5])
+      sc_entrant_point_update_event(false, args[0][0], args[0][1], args[0][2])
+      sc_entrant_point_update_event(true, args[1][0], args[1][1], args[1][2])
+      sc_duel_deffence_card_drop_phase_finish(args[2][0], args[2][1], args[2][2], args[2][3], args[2][4], args[2][5])
     end
 
     # 戦闘ポイント決定フェイズの時のハンドラ
     def duel_det_battle_point_phase_handler(args)
-      set_message_str_data(args[0][0],args[0][1])
-      sc_duel_determine_battle_point_phase(args[1][0],args[1][1],args[1][2],args[1][3],args[1][4],args[1][5])
+      set_message_str_data(args[0][0], args[0][1])
+      sc_duel_determine_battle_point_phase(args[1][0], args[1][1], args[1][2], args[1][3], args[1][4], args[1][5])
     end
 
     # 戦闘の結果がでた時のハンドラ
     def duel_battle_result_phase_handler(args)
-      set_message_str_data(args[0][0],args[0][1]) if args[0]!=nil
-      sc_duel_battle_result_phase(args[1][0],args[1][1],args[1][2])
+      set_message_str_data(args[0][0], args[0][1]) if args[0] != nil
+      sc_duel_battle_result_phase(args[1][0], args[1][1], args[1][2])
     end
 
     # 死亡キャラ変更フェイズ開始
     def duel_dead_chara_change_phase_start_handler(args)
-      sc_duel_dead_chara_change_phase_start(args[0],args[1],args[2],args[3])
+      sc_duel_dead_chara_change_phase_start(args[0], args[1], args[2], args[3])
     end
 
     # 死亡キャラ変更フェイズ終了
     def duel_dead_chara_change_phase_finish_handler(args)
       # フェイズ終了時に変更キャラが選択されてない場合は適当なキャラに変更する
       @duel.entrants.each { |e| e.chara_change_action if e.not_change_done? }
-      sc_entrant_chara_change_action(false, args[1][0],args[1][1],args[1][2])
+      sc_entrant_chara_change_action(false, args[1][0], args[1][1], args[1][2])
       set_message_str_data(DUEL_MSGDLG_CHANGE_CHARA)
       sc_duel_dead_chara_change_phase_finish
     end
 
     # ターン終了のハンドラ
-    def duel_finish_turn_phase_handler(args)#
+    def duel_finish_turn_phase_handler(args) #
       # 移動ボタンをリセット
       sc_entrant_set_direction_action(true, args[0])
     end
@@ -608,7 +604,7 @@ module Unlight
 
     # 自分側が移動カードを取り除く
     def pl_entrant_move_card_remove_action_handler(args)
-      sc_entrant_move_card_remove_action(true, args[0],args[1])
+      sc_entrant_move_card_remove_action(true, args[0], args[1])
     end
 
     # 敵側がカードを回転させる
@@ -701,23 +697,23 @@ module Unlight
     # プレイヤーダメージのイベント
     def plEntrant_damaged_event_handler(args)
       SERVER_LOG.info("<UID:#{@uid}>WatchServer: [#{__method__}] args:#{args} ")
-      sc_entrant_damaged_event(true,args[0][0],args[0][1])
+      sc_entrant_damaged_event(true, args[0][0], args[0][1])
     end
 
     # 敵ダメージのハンドラのイベント
     def foeEntrant_damaged_event_handler(args)
       SERVER_LOG.info("<UID:#{@uid}>WatchServer: [#{__method__}] args:#{args} ")
-      sc_entrant_damaged_event(false,args[0][0],args[0][1])
+      sc_entrant_damaged_event(false, args[0][0], args[0][1])
     end
 
     # プレイヤーの回復イベント
     def plEntrant_healed_event_handler(args)
-      sc_entrant_healed_event(true,args[0])
+      sc_entrant_healed_event(true, args[0])
     end
 
     # 敵の回復イベント
     def foeEntrant_healed_event_handler(args)
-      sc_entrant_healed_event(false,args[0])
+      sc_entrant_healed_event(false, args[0])
     end
 
     # プレイヤーのパーティ回復イベント
@@ -747,12 +743,12 @@ module Unlight
 
     # プレイヤーのHP変更イベント
     def plEntrant_hit_point_changed_event_handler(args)
-      sc_entrant_hit_point_changed_event(true,args[0])
+      sc_entrant_hit_point_changed_event(true, args[0])
     end
 
     # 敵のHP変更イベント
     def foeEntrant_hit_point_changed_event_handler(args)
-      sc_entrant_hit_point_changed_event(false,args[0])
+      sc_entrant_hit_point_changed_event(false, args[0])
     end
 
     # プレイヤーのパーティダメージイベント
@@ -779,32 +775,32 @@ module Unlight
 
     # プレイヤーアクションカード使用イベント
     def plEntrant_use_action_card_event_handler(args)
-      sc_entrant_use_action_card_event(true,args[0])
+      sc_entrant_use_action_card_event(true, args[0])
     end
 
     # プレイヤーアクションカード使用イベント
     def foeEntrant_use_action_card_event_handler(args)
-      sc_entrant_use_action_card_event(false,args[0])
+      sc_entrant_use_action_card_event(false, args[0])
     end
 
     # プレイヤーアクションカード破棄イベント
     def plEntrant_discard_event_handler(args)
-      sc_entrant_discard_event(true,args[0])
+      sc_entrant_discard_event(true, args[0])
     end
 
     # プレイヤーアクションカード破棄イベント
     def foeEntrant_discard_event_handler(args)
-      sc_entrant_discard_event(false,args[0])
+      sc_entrant_discard_event(false, args[0])
     end
 
     # プレイヤーアクションカード破棄イベント
     def plEntrant_discard_table_event_handler(args)
-      sc_entrant_discard_table_event(true,args[0])
+      sc_entrant_discard_table_event(true, args[0])
     end
 
     # プレイヤーアクションカード破棄イベント
     def foeEntrant_discard_table_event_handler(args)
-      sc_entrant_discard_table_event(false,args[0])
+      sc_entrant_discard_table_event(false, args[0])
     end
 
     # プレイヤーのポイントが更新された場合のイベント
@@ -875,7 +871,7 @@ module Unlight
 
     # 敵のカードの値が変更される場合のイベント
     def foeEntrant_update_card_value_event_handler(args)
-      sc_entrant_update_card_value_event(false, args[0],args[1], args[2], args[3])
+      sc_entrant_update_card_value_event(false, args[0], args[1], args[2], args[3])
     end
 
     # プレイヤーに仮のダイスが振られるときのイベント
@@ -895,12 +891,12 @@ module Unlight
 
     # プレイヤーの最大カード枚数が更新された場合のイベント
     def plEntrant_cards_max_update_event_handler(args)
-      sc_entrant_cards_max_update_event(true,args[0])
+      sc_entrant_cards_max_update_event(true, args[0])
     end
 
     # プレイヤーの最大カード枚数が更新された場合のイベント
     def plEntrant_duel_bonus_event_handler(args)
-      sc_duel_bonus_event(args[0],args[1])
+      sc_duel_bonus_event(args[0], args[1])
     end
 
     # プレイヤーの特殊メッセージのイベント
@@ -945,24 +941,24 @@ module Unlight
 
     # プレイヤーのトラップ発動イベント
     def plEntrant_trap_action_event_handler(args)
-      set_message_str_data(args[0][0],args[0][1])
-      sc_entrant_trap_action_event(true,args[1][0],args[1][1])
+      set_message_str_data(args[0][0], args[0][1])
+      sc_entrant_trap_action_event(true, args[1][0], args[1][1])
     end
 
     # 敵のトラップ発動イベント
     def foeEntrant_trap_action_event_handler(args)
-      set_message_str_data(args[0][0],args[0][1])
-      sc_entrant_trap_action_event(false,args[1][0],args[1][1])
+      set_message_str_data(args[0][0], args[0][1])
+      sc_entrant_trap_action_event(false, args[1][0], args[1][1])
     end
 
     # プレイヤーのトラップ遷移イベント
     def plEntrant_trap_update_event_handler(args)
-      sc_entrant_trap_update_event(true,args[0][0],args[0][1],args[0][2],args[0][3]) if args[0][3]
+      sc_entrant_trap_update_event(true, args[0][0], args[0][1], args[0][2], args[0][3]) if args[0][3]
     end
 
     # 敵のトラップ遷移イベント
     def foeEntrant_trap_update_event_handler(args)
-      sc_entrant_trap_update_event(false,args[0][0],args[0][1],args[0][2],args[0][3]) if args[0][3]
+      sc_entrant_trap_update_event(false, args[0][0], args[0][1], args[0][2], args[0][3]) if args[0][3]
     end
 
     # フィールド状態変更イベント
@@ -1020,13 +1016,13 @@ module Unlight
     # 状態付加ON時のプレイヤー側ハンドラ
     def pl_entrant_buff_on_event_handler(args)
       sc_buff_on_event(args[0][0], args[0][1], args[0][2], args[0][3], args[0][4])
-      set_message_str_data(args[1][0],args[1][1],args[1][2]) if duel.entrants[@no].current_chara_card_no == args[0][1]
+      set_message_str_data(args[1][0], args[1][1], args[1][2]) if duel.entrants[@no].current_chara_card_no == args[0][1]
      end
 
     # 状態付加ON時の敵側側ハンドラ
     def foe_entrant_buff_on_event_handler(args)
       sc_buff_on_event(args[0][0], args[0][1], args[0][2], args[0][3], args[0][4])
-      set_message_str_data(args[1][0],args[1][1],args[1][2]) if duel.entrants[@foe].current_chara_card_no == args[0][1]
+      set_message_str_data(args[1][0], args[1][1], args[1][2]) if duel.entrants[@foe].current_chara_card_no == args[0][1]
     end
 
     # 状態付加Off時のプレイヤー側ハンドラ
@@ -1167,12 +1163,12 @@ module Unlight
 
     # きりがくれプレイヤー側OFF
     def pl_entrant_off_lost_in_the_fog_event_handler(args)
-      sc_entrant_off_lost_in_the_fog_event(args[0],args[1])
+      sc_entrant_off_lost_in_the_fog_event(args[0], args[1])
     end
 
     # きりがくれ的側OFF
     def foe_entrant_off_lost_in_the_fog_event_handler(args)
-      sc_entrant_off_lost_in_the_fog_event(args[0],args[1])
+      sc_entrant_off_lost_in_the_fog_event(args[0], args[1])
     end
 
     # プレイヤー側 霧ライト
@@ -1228,7 +1224,7 @@ module Unlight
     # 準備関数
     # =====================
     def set_buff_handler(args)
-      sc_set_chara_buff_event(args[0],args[1])
+      sc_set_chara_buff_event(args[0], args[1])
     end
 
     def entrant_move_card_add_action_handler(args)
@@ -1240,7 +1236,7 @@ module Unlight
     end
 
     def set_chara_card_idx_handler(args)
-      sc_duel_chara_change_phase_start(args[0][0],args[0][1])
+      sc_duel_chara_change_phase_start(args[0][0], args[0][1])
       args[1].each do |prm|
         sc_entrant_chara_change_action(prm[0], prm[1], prm[2], prm[3])
       end
@@ -1252,19 +1248,19 @@ module Unlight
     end
 
     def set_initi_and_dist_handler(args)
-      sc_set_initi_and_dist_event(args[0],args[1])
+      sc_set_initi_and_dist_event(args[0], args[1])
     end
 
     # ==========
     # 内部用関数
     # ==========
-    def set_message_str_data(msgId,*args)
+    def set_message_str_data(msgId, *args)
       args = [] unless args
       sc_message_str_data("#{msgId}:#{args.join(",")}")
     end
 
     def set_message_str_data_handler(args)
-      set_message_str_data(args[0],args[1])
+      set_message_str_data(args[0], args[1])
     end
 
     def pushout()
@@ -1309,7 +1305,7 @@ module Unlight
           cmds.each do |cmd|
             self.send(cmd[:func], cmd[:args]) if cmd
             # 取得したコマンドが終了コマンドなら抜ける
-            break if @watch_duel==nil||@watch_duel.watch_finish
+            break if @watch_duel == nil || @watch_duel.watch_finish
           end
         end
       end

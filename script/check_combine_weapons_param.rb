@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
+
 $:.unshift(File.join(File.expand_path("."), "src"))
 require 'pathname'
 require 'unlight'
-require File.expand_path(".")+'/script/sql_create.rb'
+require File.expand_path(".") + '/script/sql_create.rb'
 $arg = ARGV.shift
 
 module Unlight
-
   puts "合成武器のパラメータチェックをしますか？（y/n）"
   answer = gets.chomp
   if answer == "y" || answer == "Y" || answer == "Yes" || answer == "yes"
 
-    list = CharaCardSlotInventory.filter([[:kind,SCT_WEAPON]]).exclude([[:chara_card_deck_id,0],[:exp,0]]).order(Sequel.desc(:exp)).all
+    list = CharaCardSlotInventory.filter([[:kind, SCT_WEAPON]]).exclude([[:chara_card_deck_id, 0], [:exp, 0]]).order(Sequel.desc(:exp)).all
 
     puts_data = ["inv_id,card_id,lv,exp,base_sap,base_sdp,base_aap,base_adp,add_sap,add_sdp,add_aap,add_adp"]
     list.each do |ccs|
@@ -28,6 +28,4 @@ module Unlight
     }
 
   end
-
 end
-

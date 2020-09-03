@@ -39,7 +39,6 @@
   #   追加実行されるイベント
 
 module Unlight
-
   AI_WAIT_TIME = 1
 
   # ===========================
@@ -48,8 +47,8 @@ module Unlight
   class OneToOneAi < EventRule
     dsc       "1対１のデュエルのCPU戦"
     func      :think
-    goal       ["entrant",:dead?]
-    event     :start,:finish
+    goal ["entrant", :dead?]
+    event :start, :finish
   end
 
   # ===========================
@@ -59,8 +58,8 @@ module Unlight
   class WaitingAction < EventRule
     dsc        "ターンの切れ目で待つ"
     func       :waiting
-    goal       ["self",:wait?]
-    duration   :type => :sec, :value => AI_WAIT_TIME
+    goal       ["self", :wait?]
+    duration   type: :sec, value: AI_WAIT_TIME
   end
 
   class ChoiceMoveCardAction < EventRule
@@ -82,7 +81,7 @@ module Unlight
 
   class ChoiceAttackCardAction < EventRule
     dsc        "攻撃カードの選択"
-    guard      ["entrant",:initiative?]
+    guard      ["entrant", :initiative?]
     goal       ["entrant", :untill_attack_done?]
     func       :choice_attack_card
     act        :waiting_action
@@ -91,13 +90,13 @@ module Unlight
     act        :drop_attack_card_action
     act        :waiting_action
     act        :done_attack_action
-    goal       ["entrant",:not_initiative?]
+    goal       ["entrant", :not_initiative?]
     goal       ["entrant", :attack_done?]
   end
 
   class ChoiceDeffenceCardAction < EventRule
     dsc        "防御カードの選択"
-    guard      ["entrant",:not_initiative?]
+    guard      ["entrant", :not_initiative?]
     goal       ["entrant", :untill_deffence_done?]
     func       :choice_deffence_card
     act        :waiting_action
@@ -106,24 +105,24 @@ module Unlight
     act        :drop_deffence_card_action
     act        :waiting_action
     act        :done_deffence_action
-    goal       ["entrant",:initiative?]
+    goal       ["entrant", :initiative?]
     goal       ["entrant", :deffence_done?]
   end
 
   class ChoiceCharaCardAction < EventRule
     dsc        "キャラカードの選択"
-    guard      ["entrant",:change_need?]
+    guard      ["entrant", :change_need?]
     func       :choice_chara_card
     act        :waiting_action
     act        :decision_chara_change_action
     act        :set_chara_card_action
-    goal       ["entrant",:change_done?]
+    goal       ["entrant", :change_done?]
   end
 
   class DropChanceCardAction < EventRule
     dsc        "チャンスのカードの提出"
     func       :drop_chance_card
-    goal       ["self",:chance_none?]
+    goal       ["self", :chance_none?]
   end
 
   class DropMoveCardAction < EventRule
@@ -176,8 +175,6 @@ module Unlight
     func       :deffence_feat_hand_set
   end
 
-
-
   class ResetThinkNumAction < EventRule
     dsc        "防御フェイズの必殺技をカードをセット"
     func       :reset_think_num
@@ -191,7 +188,6 @@ module Unlight
     func       :decision_feat
     goal       ["self", :solved?]
   end
-
 
   class DecisionDistAction < EventRule
     dsc        "移動したい距離の判定"
@@ -227,4 +223,3 @@ module Unlight
     event     :finish
   end
 end
-

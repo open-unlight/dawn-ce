@@ -14,18 +14,17 @@ module Unlight
   # 引数がある場合にポートを変更する
   opt = OptionParser.new
 
-  opt.on('-p VAL') {|v|
-    SV_PORT = v }
+  opt.on('-p VAL') { |v|
+    SV_PORT = v
+}
 
   opt.parse! ARGV
   $SERVER_NAME = "GLOBAL_CHAT_SV#{SV_PORT}"
   begin
     SV_IP = `wget -q -O - ipcheck.ieserver.net -T=3`
-  rescue =>e
+  rescue => e
     SERVER_LOG.fatal("GlobalChatServer:IP 未設定")
   end
-
-
 end
 require 'unlight'
 require 'protocol/globalchatserver'
@@ -45,7 +44,7 @@ module Unlight
     EM::PeriodicTimer.new(RAID_HELP_SEND_TIME, proc {
                             begin
                               GlobalChatServer.sending_help_list
-                            rescue =>e
+                            rescue => e
                               SERVER_LOG.fatal("GlobalChatServer: [sending_help_list:] fatal error #{e}:#{e.backtrace}")
                             end
                                    })
@@ -54,17 +53,17 @@ module Unlight
     EM::PeriodicTimer.new(60, proc {
                             begin
                               GlobalChatServer.check_connection
-                            rescue =>e
+                            rescue => e
                               SERVER_LOG.fatal("GlobalChatServer: [check_connection:] fatal error #{e}:#{e.backtrace}")
                             end
                                    })
 
     if DB_CONNECT_CHECK
       # 7時間に一回でDBとの接続をチェック
-      EM::PeriodicTimer.new(60*60*7, proc {
+      EM::PeriodicTimer.new(60 * 60 * 7, proc {
                               begin
                                 GlobalChatServer.check_db_connection
-                              rescue =>e
+                              rescue => e
                                 SERVER_LOG.fatal("GlobalChatServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
                               end
                             })
@@ -74,7 +73,7 @@ module Unlight
       EM::PeriodicTimer.new(PRF_AUTO_CREATE_INTERVAL, proc {
                               begin
                                 GlobalChatController::auto_create_prf
-                              rescue =>e
+                              rescue => e
                                 SERVER_LOG.fatal("GlobalChatServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
                               end
                             })
@@ -82,7 +81,7 @@ module Unlight
       EM::PeriodicTimer.new(PRF_AUTO_HELP_INTERVAL, proc {
                               begin
                                 GlobalChatController::auto_prf_send_help
-                              rescue =>e
+                              rescue => e
                                 SERVER_LOG.fatal("GlobalChatServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
                               end
                             })

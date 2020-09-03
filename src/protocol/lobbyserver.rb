@@ -17,7 +17,7 @@ module Protocol
     def self.setup
       super
       # コマンドクラスをつくる
-      @@receive_cmd=Command.new(self,:Lobby)
+      @@receive_cmd = Command.new(self, :Lobby)
     end
 
     # 切断時
@@ -27,7 +27,7 @@ module Protocol
           if @player
             logout
           end
-      rescue =>e
+      rescue => e
           puts e.message
       end
       SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")
@@ -36,7 +36,5 @@ module Protocol
     def online_list
       @@online_list
     end
-
-
   end
 end

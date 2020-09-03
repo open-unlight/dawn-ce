@@ -4,12 +4,11 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # シナリオフラグインベントリクラス
   class ScenarioFlagInventory < Sequel::Model
     # 他クラスのアソシエーション
-    many_to_one :avatar        # デッキに複数所持される
-    many_to_one :scenario   # キャラカードを複数もてる
+    many_to_one :avatar # デッキに複数所持される
+    many_to_one :scenario # キャラカードを複数もてる
 
     plugin :schema
     plugin :validation_class_methods
@@ -18,8 +17,8 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer     :avatar_id, :index=>true #, :table => :chara_card_decks
-      String      :flags, :default => "{}"
+      integer     :avatar_id, index: true #, :table => :chara_card_decks
+      String      :flags, default: "{}"
       datetime    :created_at
       datetime    :updated_at
     end
@@ -56,7 +55,7 @@ module Unlight
     end
 
     def get_flag
-      @flag_hash = eval(self.flags||"{}")
+      @flag_hash = eval(self.flags || "{}")
     end
   end
 end

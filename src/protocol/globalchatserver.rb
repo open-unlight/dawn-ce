@@ -18,8 +18,8 @@ module Unlight
       def self.setup
         super
         # コマンドクラスをつくる
-        @@receive_cmd=Command.new(self,:GlobalChat)
-        @@online_list = { };      # オンラインのリストIDとインスタンスのハッシュ
+        @@receive_cmd = Command.new(self, :GlobalChat)
+        @@online_list = {}; # オンラインのリストIDとインスタンスのハッシュ
         GlobalChatController::init
       end
 
@@ -38,12 +38,11 @@ module Unlight
            if @player
              logout
            end
-        rescue =>e
+        rescue => e
             puts e.message
         end
         SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}.player#{@player.id}") if @player
       end
-
     end
   end
 end

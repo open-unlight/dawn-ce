@@ -14,18 +14,18 @@ module Unlight
   # 引数がある場合にポートを変更する
   opt = OptionParser.new
 
-  opt.on('-p VAL') {|v|
-    SV_PORT = v }
+  opt.on('-p VAL') { |v|
+    SV_PORT = v
+}
 
   opt.parse! ARGV
   $SERVER_NAME = "LOBBY_SV#{SV_PORT}"
 
   begin
     SV_IP = "0.0.0.0"
-  rescue =>e
+  rescue => e
     SERVER_LOG.fatal("GameServer:IP 未設定")
   end
-
 end
 require 'unlight'
 require 'protocol/lobbyserver'
@@ -47,22 +47,20 @@ module Unlight
     EM::PeriodicTimer.new(60, proc {
                             begin
                               LobbyServer.check_connection
-                            rescue =>e
+                            rescue => e
                               SERVER_LOG.fatal("LobbyServer: [check_connection:] fatal error #{e}:#{e.backtrace}")
                             end
                                    })
 
     if DB_CONNECT_CHECK
       # 7時間に一回でDBとの接続をチェック
-      EM::PeriodicTimer.new(60*60*7, proc {
+      EM::PeriodicTimer.new(60 * 60 * 7, proc {
                               begin
                                 LobbyServer.check_db_connection
-                              rescue =>e
+                              rescue => e
                                 SERVER_LOG.fatal("LobbyServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
                               end
                             })
     end
   end
 end
-
-

@@ -39,14 +39,13 @@
   #   追加実行されるイベント
 
 module Unlight
-
   # ====================
   # 状態イベント
   # ====================
 
   # 追加したら以下の参照番号を付加すること
   # イベントの起動チェック関数を列挙する
-  CHARA_PASSIVE_SKILL_EVENT_NO =[
+  CHARA_PASSIVE_SKILL_EVENT_NO = [
                     [],
                                  # 0
                     [
@@ -517,13 +516,13 @@ module Unlight
 
   class CheckAdditionalDrawPassiveEvent < EventRule
     dsc        "ドローをチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_additional_draw_passive
   end
 
   class FinishAdditionalDrawPassiveEvent < EventRule
     dsc        "ドローを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:refill_event_card_phase
+    type       type: :before, obj: "duel", hook: :refill_event_card_phase
     func       :finish_additional_draw_passive
   end
 
@@ -532,31 +531,31 @@ module Unlight
 
   class CheckIndomitableMindPassiveEvent < EventRule
     dsc        "不屈をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_indomitable_mind_passive
   end
 
   class CheckIndomitableMindPassiveChangeEvent < EventRule
     dsc        "不屈をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_indomitable_mind_passive
   end
 
   class UseIndomitableMindPassiveDamageEvent < EventRule
     dsc        "不屈を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>60
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 60
     func       :use_indomitable_mind_passive_damage
   end
 
   class FinishIndomitableMindPassiveEvent < EventRule
     dsc        "不屈を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_indomitable_mind_passive
   end
 
   class FinishIndomitableMindPassiveDeadCharaChangeEvent < EventRule
     dsc        "不屈を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_indomitable_mind_passive
   end
 
@@ -565,13 +564,13 @@ module Unlight
 
   class CheckDrainSoulPassiveEvent < EventRule
     dsc        "精神の器をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_drain_soul_passive
   end
 
   class FinishDrainSoulPassiveEvent < EventRule
     dsc        "精神の器を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:refill_event_card_phase
+    type       type: :before, obj: "duel", hook: :refill_event_card_phase
     func       :finish_drain_soul_passive
   end
 
@@ -580,19 +579,19 @@ module Unlight
 
   class CheckSealingAttackPassiveEvent < EventRule
     dsc        "封印攻撃をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_sealing_attack_passive
   end
 
   class CheckSealingAttackPassiveChangeEvent < EventRule
     dsc        "封印攻撃をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_sealing_attack_passive
   end
 
   class FinishSealingAttackPassiveEvent < EventRule
     dsc        "封印攻撃を発動"
-    type       :type=>:after, :obj=>"foe", :hook=>:deffence_done_action
+    type       type: :after, obj: "foe", hook: :deffence_done_action
     func       :finish_sealing_attack_passive
   end
 
@@ -601,7 +600,7 @@ module Unlight
 
   class CheckInstantKillGuardPassiveStartTurnEvent < EventRule
     dsc        "千古不朽開始"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_instant_kill_guard_passive
   end
 
@@ -610,25 +609,25 @@ module Unlight
 
   class CheckRageAgainstPassiveStartEvent < EventRule
     dsc        "レイジアゲンストを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_rage_against_only_first_turn_passive
   end
 
   class CheckRageAgainstPassiveCharaChangeEvent < EventRule
     dsc        "レイジアゲンストを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_rage_against_passive
   end
 
   class CheckRageAgainstPassiveDeadChangeEvent < EventRule
     dsc        "レイジアゲンストを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_rage_against_passive
   end
 
   class FinishRageAgainstPassiveEvent < EventRule
     dsc        "レイジアゲンスト"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :finish_rage_against_passive
   end
 
@@ -643,73 +642,73 @@ module Unlight
 
   class CheckCreatorPassiveStartTurnEvent < EventRule
     dsc        "創造主開始"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_creator_passive
   end
 
   class FinishCreatorPassiveCharaChangeEvent < EventRule
     dsc        "創造主終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_chara_change_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_chara_change_phase, priority: 10
     func       :finish_creator_passive
   end
 
   class FinishCreatorPassiveDeadCharaChangeEvent < EventRule
     dsc        "創造主終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase, priority: 10
     func       :finish_creator_passive
   end
 
   class CheckCreatorPassiveCharaChangeEvent < EventRule
     dsc        "創造主開始"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_creator_passive
   end
 
   class CheckCreatorPassiveDeadCharaChangeEvent < EventRule
     dsc        "創造主開始"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_creator_passive
   end
 
   class FinishCreatorPassiveFinishTurnEvent < EventRule
     dsc        "創造主終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_creator_passive
   end
 
   class UseCreatorPassiveDamageEvent < EventRule
     dsc        "創造主終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>199
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 199
     func       :use_creator_passive
   end
 
   class UseCreatorPassiveDetermineBpPhaseEvent < EventRule
     dsc        "創造主終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>199
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 199
     func       :use_creator_passive
   end
 
   class UseCreatorPassiveBattleResultPhaseEvent < EventRule
     dsc        "創造主終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>199
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 199
     func       :use_creator_passive
   end
 
   class TestCreatorPassiveCharaChangeEvent < EventRule
     dsc        "創造主終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :test_creator_passive
   end
 
   class UseCreatorPassiveDetermineMovePhaseEvent < EventRule
     dsc        "創造主終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>199
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 199
     func       :use_creator_passive
   end
 
   class UseCreatorPassiveMovePhaseEvent < EventRule
     dsc        "創造主終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_move_phase, :priority=>199
+    type       type: :after, obj: "duel", hook: :finish_move_phase, priority: 199
     func       :use_creator_passive
   end
 
@@ -718,31 +717,31 @@ module Unlight
 
   class CheckBounceBackPassiveEvent < EventRule
     dsc        "バウンスバックをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_bounce_back_passive
   end
 
   class CheckBounceBackPassiveChangeEvent < EventRule
     dsc        "バウンスバックをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_bounce_back_passive
   end
 
   class UseBounceBackPassiveDamageEvent < EventRule
     dsc        "バウンスバックを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_bounce_back_passive_damage
   end
 
   class FinishBounceBackPassiveEvent < EventRule
     dsc        "バウンスバックを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_bounce_back_passive
   end
 
   class FinishBounceBackPassiveDeadCharaChangeEvent < EventRule
     dsc        "バウンスバックを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_bounce_back_passive
   end
 
@@ -751,19 +750,19 @@ module Unlight
 
   class CheckLinkagePassiveStartTurnEvent < EventRule
     dsc        "リンケージ開始"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_linkage_passive
   end
 
   class CheckLinkagePassiveCharaChangeEvent < EventRule
     dsc        "リンケージ開始"
-    type       :type=>:after, :obj=>"duel", :hook=>:chara_change_phase
+    type       type: :after, obj: "duel", hook: :chara_change_phase
     func       :check_linkage_passive
   end
 
   class CheckLinkagePassiveDeadCharaChangeEvent < EventRule
     dsc        "リンケージ開始"
-    type       :type=>:after, :obj=>"duel", :hook=>:dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :dead_chara_change_phase
     func       :check_linkage_passive
   end
 
@@ -772,19 +771,19 @@ module Unlight
 
   class UseLiberationPassiveEvent < EventRule
     dsc        "リべレーションを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 50
     func       :use_liberation_passive
   end
 
   class FinishLiberationPassiveEvent < EventRule
     dsc        "リべレーションを切る"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase
+    type       type: :after, obj: "duel", hook: :battle_result_phase
     func       :finish_liberation_passive
   end
 
   class FinishLiberationPassiveDeadCharaChangeEvent < EventRule
     dsc        "リべレーションを切る"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_liberation_passive
   end
 
@@ -793,25 +792,25 @@ module Unlight
 
   class CheckHardenPassiveEvent < EventRule
     dsc        "ハーデンをチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_harden_passive
   end
 
   class UseHardenPassiveDamageEvent < EventRule
     dsc        "ハーデンを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 70
     func       :use_harden_passive_damage
   end
 
   class FinishHardenPassiveEvent < EventRule
     dsc        "ハーデンを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_harden_passive
   end
 
   class FinishHardenPassiveDeadCharaChangeEvent < EventRule
     dsc        "ハーデンを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_harden_passive
   end
 
@@ -820,25 +819,25 @@ module Unlight
 
   class CheckAbsorpPassiveEvent < EventRule
     dsc        "アブソープをチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :start_turn_phase, priority: 10
     func       :check_absorp_passive
   end
 
   class UseAbsorpPassiveDamageEvent < EventRule
     dsc        "アブソープを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 70
     func       :use_absorp_passive_damage
   end
 
   class FinishAbsorpPassiveEvent < EventRule
     dsc        "アブソープを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_absorp_passive
   end
 
   class FinishAbsorpPassiveDeadCharaChangeEvent < EventRule
     dsc        "アブソープを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_absorp_passive
   end
 
@@ -847,31 +846,31 @@ module Unlight
 
   class CheckMoondogPassiveEvent < EventRule
     dsc        "幻月をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_moondog_passive
   end
 
   class CheckMoondogPassiveChangeEvent < EventRule
     dsc        "幻月をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_moondog_passive
   end
 
   class UseMoondogPassiveEvent < EventRule
     dsc        "幻月を発動"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_moondog_passive
   end
 
   class FinishMoondogPassiveEvent < EventRule
     dsc        "幻月を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_moondog_passive
   end
 
   class FinishMoondogPassiveDeadCharaChangeEvent < EventRule
     dsc        "幻月を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_moondog_passive
   end
 
@@ -880,49 +879,49 @@ module Unlight
 
   class CheckJumpPassiveEvent < EventRule
     dsc        "跳躍をチェック"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_done_action
+    type       type: :after, obj: "owner", hook: :deffence_done_action
     func       :check_jump_passive
   end
 
   class UseJumpPassiveDamageAfterEvent < EventRule
     dsc        "跳躍をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_jump_passive
   end
 
   class UseJumpPassiveDamageBeforeEvent < EventRule
     dsc        "跳躍をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>150
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 150
     func       :use_jump_passive
   end
 
   class UseJumpPassiveDetBpEvent < EventRule
     dsc        "跳躍をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>100
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 100
     func       :use_jump_passive
   end
 
   class UseJumpPassiveBattleResultBeforeEvent < EventRule
     dsc        "跳躍をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:battle_result_phase, :priority=>150
+    type       type: :before, obj: "duel", hook: :battle_result_phase, priority: 150
     func       :use_jump_passive
   end
 
   class UseJumpPassiveBattleResultAfterEvent < EventRule
     dsc        "跳躍をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>150
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 150
     func       :use_jump_passive
   end
 
   class FinishJumpPassiveEvent < EventRule
     dsc        "跳躍を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>200
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 200
     func       :finish_jump_passive
   end
 
   class FinishJumpPassiveDeadCharaChangeEvent < EventRule
     dsc        "跳躍を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_jump_passive
   end
 
@@ -931,31 +930,31 @@ module Unlight
 
   class CheckProtectionAimPassiveEvent < EventRule
     dsc        "プロテクションエイムをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_protection_aim_passive
   end
 
   class CheckProtectionAimPassiveChangeEvent < EventRule
     dsc        "プロテクションエイムをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_protection_aim_passive
   end
 
   class UseProtectionAimPassiveEvent < EventRule
     dsc        "プロテクションエイムを発動"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_protection_aim_passive
   end
 
   class FinishProtectionAimPassiveEvent < EventRule
     dsc        "プロテクションエイムを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_protection_aim_passive
   end
 
   class FinishProtectionAimPassiveDeadCharaChangeEvent < EventRule
     dsc        "プロテクションエイムを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_protection_aim_passive
   end
 
@@ -963,28 +962,28 @@ module Unlight
 # ミステイク
   class CheckMistakePassiveEvent < EventRule
     dsc        "ミステイクが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_done_action
+    type       type: :after, obj: "owner", hook: :deffence_done_action
     func       :check_mistake_passive
     goal       ["self", :use_end?]
   end
 
   class UseMistakePassiveDamageEvent < EventRule
     dsc        "ミステイク発動。不死になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>99
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 99
     func       :use_mistake_passive_damage
     goal       ["self", :use_end?]
   end
 
   class FinishMistakePassiveEvent < EventRule
     dsc        "ミステイクの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_mistake_passive
     goal       ["self", :use_end?]
   end
 
   class FinishMistakePassiveDeadCharaChangeEvent < EventRule
     dsc        "バウンスバックを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_mistake_passive
   end
 
@@ -992,7 +991,7 @@ module Unlight
 # 状態抵抗 妖蛆
   class CheckStatusResistancePassiveEvent < EventRule
     dsc        "ミステイクが可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_status_resistance_passive
     goal       ["self", :use_end?]
   end
@@ -1002,25 +1001,25 @@ module Unlight
 
   class CheckSenkouPassiveEvent < EventRule
     dsc        "潜行する災厄をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_senkou_passive
   end
 
   class UseSenkouPassiveEvent < EventRule
     dsc        "潜行する災厄を発動"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_senkou_passive
   end
 
   class FinishSenkouPassiveEvent < EventRule
     dsc        "潜行する災厄を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_senkou_passive
   end
 
   class FinishSenkouPassiveDeadCharaChangeEvent < EventRule
     dsc        "潜行する災厄を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_senkou_passive
   end
 
@@ -1029,31 +1028,31 @@ module Unlight
 
   class CheckHatePassiveEvent < EventRule
     dsc        "果てる路をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_hate_passive
   end
 
   class UseHatePassiveEvent < EventRule
     dsc        "果てる路を発動"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hate_passive
   end
 
   class UseHatePassiveDamageEvent < EventRule
     dsc        "果てる路を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 70
     func       :use_hate_passive_damage
   end
 
   class FinishHatePassiveEvent < EventRule
     dsc        "果てる路を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_hate_passive
   end
 
   class FinishHatePassiveDeadCharaChangeEvent < EventRule
     dsc        "果てる路を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_hate_passive
   end
 
@@ -1062,31 +1061,31 @@ module Unlight
 
   class CheckLittlePrincessPassiveEvent < EventRule
     dsc        "リトルプリンセスをチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_little_princess_passive
   end
 
   class CheckLittlePrincessChangePassiveEvent < EventRule
     dsc        "リトルプリンセスをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_little_princess_passive
   end
 
   class UseLittlePrincessPassiveEvent < EventRule
     dsc        "リトルプリンセスを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 70
     func       :use_little_princess_passive
   end
 
   class FinishLittlePrincessPassiveEvent < EventRule
     dsc        "リトルプリンセスを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_little_princess_passive
   end
 
   class FinishLittlePrincessPassiveDeadCharaChangeEvent < EventRule
     dsc        "リトルプリンセスを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_little_princess_passive
   end
 
@@ -1095,31 +1094,31 @@ module Unlight
 
   class CheckCrimsonWitchPassiveEvent < EventRule
     dsc        "深紅の魔女をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_crimson_witch_passive
   end
 
   class CheckCrimsonWitchChangePassiveEvent < EventRule
     dsc        "深紅の魔女をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_crimson_witch_passive
   end
 
   class UseCrimsonWitchPassiveEvent < EventRule
     dsc        "深紅の魔女を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_crimson_witch_passive
   end
 
   class FinishCrimsonWitchPassiveEvent < EventRule
     dsc        "深紅の魔女を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_crimson_witch_passive
   end
 
   class FinishCrimsonWitchPassiveDeadCharaChangeEvent < EventRule
     dsc        "深紅の魔女を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_crimson_witch_passive
   end
 
@@ -1128,31 +1127,31 @@ module Unlight
 
   class CheckAegisPassiveEvent < EventRule
     dsc        "イージスをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_aegis_passive
   end
 
   class CheckAegisPassiveChangeEvent < EventRule
     dsc        "イージスをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_aegis_passive
   end
 
   class UseAegisPassiveEvent < EventRule
     dsc        "イージスを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 70
     func       :use_aegis_passive
   end
 
   class FinishAegisPassiveEvent < EventRule
     dsc        "イージスを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_aegis_passive
   end
 
   class FinishAegisPassiveDeadCharaChangeEvent < EventRule
     dsc        "イージスを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_aegis_passive
   end
 
@@ -1161,31 +1160,31 @@ module Unlight
 
   class CheckOceanPassiveEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :check_ocean_passive
   end
 
   class CheckOceanPassiveChangeEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_ocean_passive
   end
 
   class CheckOceanPassiveDeadChangeEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_ocean_passive
   end
 
   class CheckOceanPassiveDamageEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 100
     func       :check_ocean_passive
   end
 
   class FinishOceanPassiveEvent < EventRule
     dsc        "溟海符を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_ocean_passive
   end
 
@@ -1193,7 +1192,7 @@ module Unlight
 # 状態抵抗 スキュラ
   class CheckResistSkyllaPassiveEvent < EventRule
     dsc        "状態抵抗が可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_resist_skylla_passive
     goal       ["self", :use_end?]
   end
@@ -1203,31 +1202,31 @@ module Unlight
 
   class CheckNightFogPassiveEvent < EventRule
     dsc        "立ち込める夜霧をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_night_fog_passive
   end
 
   class UseNightFogPassiveEvent < EventRule
     dsc        "立ち込める夜霧を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_move_phase
+    type       type: :after, obj: "duel", hook: :finish_move_phase
     func       :use_night_fog_passive
   end
 
   class UseNightFogPassiveDamageEvent < EventRule
     dsc        "立ち込める夜霧を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 50
     func       :use_night_fog_passive_damage
   end
 
   class FinishNightFogPassiveEvent < EventRule
     dsc        "立ち込める夜霧を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_night_fog_passive
   end
 
   class FinishNightFogPassiveDeadCharaChangeEvent < EventRule
     dsc        "立ち込める夜霧を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_night_fog_passive
   end
 
@@ -1236,31 +1235,31 @@ module Unlight
 
   class CheckDoubleBoddyPassiveEvent < EventRule
     dsc        "2つの身体(パッシブ)をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_double_boddy_passive
   end
 
   class CheckDoubleBoddyPassiveChangeEvent < EventRule
     dsc        "2つの身体(パッシブ)をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_double_boddy_passive
   end
 
   class UseDoubleBoddyPassiveEvent < EventRule
     dsc        "2つの身体(パッシブ)を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>60
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 60
     func       :use_double_boddy_passive
   end
 
   class FinishDoubleBoddyPassiveEvent < EventRule
     dsc        "2つの身体(パッシブ)を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_double_boddy_passive
   end
 
   class FinishDoubleBoddyPassiveDeadCharaChangeEvent < EventRule
     dsc        "2つの身体(パッシブ)を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_double_boddy_passive
   end
 
@@ -1269,25 +1268,25 @@ module Unlight
 
   class CheckWitPassiveEvent < EventRule
     dsc        "機知をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_wit_passive
   end
 
   class UseWitPassiveDrawEvent < EventRule
     dsc        "イベカをひく"
-    type       :type=>:before, :obj=>"duel", :hook=>:refill_event_card_phase
+    type       type: :before, obj: "duel", hook: :refill_event_card_phase
     func       :use_wit_passive_draw
   end
 
   class UseWitPassiveEvent < EventRule
     dsc        "機知を発動"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_wit_passive
   end
 
   class FinishWitPassiveEvent < EventRule
     dsc        "機知を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_move_phase
+    type       type: :after, obj: "duel", hook: :finish_move_phase
     func       :finish_wit_passive
   end
 
@@ -1296,61 +1295,61 @@ module Unlight
 
   class CheckCurseCarePassiveEvent < EventRule
     dsc        "修羅をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_curse_care_passive
   end
 
   class CheckCurseCarePassiveChangeEvent < EventRule
     dsc        "修羅をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_curse_care_passive
   end
 
   class RecoverCurseCarePassiveDetBpBfEvent < EventRule
     dsc        "修羅を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :recover_curse_care_passive
   end
 
   class RecoverCurseCarePassiveDetBpAfEvent < EventRule
     dsc        "修羅を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 50
     func       :recover_curse_care_passive
   end
 
   class RecoverCurseCarePassiveDamageBfEvent < EventRule
     dsc        "修羅を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>120
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 120
     func       :recover_curse_care_passive
   end
 
   class RecoverCurseCarePassiveDamageAfEvent < EventRule
     dsc        "修羅を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :recover_curse_care_passive
   end
 
   class RecoverCurseCarePassiveLastEvent < EventRule
     dsc        "修羅を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 50
     func       :recover_curse_care_passive
   end
 
   class UseCurseCarePassiveEvent < EventRule
     dsc        "修羅を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>60
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 60
     func       :use_curse_care_passive
   end
 
   class FinishCurseCarePassiveEvent < EventRule
     dsc        "修羅を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 70
     func       :finish_curse_care_passive
   end
 
   class FinishCurseCarePassiveDeadCharaChangeEvent < EventRule
     dsc        "修羅を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_curse_care_passive
   end
 
@@ -1359,13 +1358,13 @@ module Unlight
 
   class CheckWhiteLightPassiveEvent < EventRule
     dsc        "白晄をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_white_light_passive
   end
 
   class FinishWhiteLightPassiveEvent < EventRule
     dsc        "白晄を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:refill_event_card_phase
+    type       type: :before, obj: "duel", hook: :refill_event_card_phase
     func       :finish_white_light_passive
   end
 
@@ -1374,37 +1373,37 @@ module Unlight
 
   class CheckCarapaceBreakPassiveEvent < EventRule
     dsc        "甲羅割をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :check_carapace_break_passive
   end
 
   class CheckCarapaceBreakChangePassiveEvent < EventRule
     dsc        "甲羅割をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_carapace_break_passive
   end
 
   class CheckCarapaceBreakDeadChangePassiveEvent < EventRule
     dsc        "甲羅割をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_carapace_break_passive
   end
 
   class UseCarapaceBreakPassiveEvent < EventRule
     dsc        "甲羅割を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_carapace_break_passive
   end
 
   class FinishCarapaceBreakPassiveEvent < EventRule
     dsc        "甲羅割を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_carapace_break_passive
   end
 
   class FinishCarapaceBreakPassiveDeadCharaChangeEvent < EventRule
     dsc        "甲羅割を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_carapace_break_passive
   end
 
@@ -1413,25 +1412,25 @@ module Unlight
 
   class CheckCarapacePassiveEvent < EventRule
     dsc        "身隠しをチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_carapace_passive
   end
 
   class UseCarapacePassiveEvent < EventRule
     dsc        "身隠しを発動"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_carapace_passive
   end
 
   class FinishCarapacePassiveEvent < EventRule
     dsc        "身隠しを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_carapace_passive
   end
 
   class FinishCarapacePassiveDeadCharaChangeEvent < EventRule
     dsc        "身隠しを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_carapace_passive
   end
 
@@ -1439,21 +1438,21 @@ module Unlight
 # 状態抵抗 かめ
   class CheckResistKamuyPassiveEvent < EventRule
     dsc        "状態抵抗が可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_resist_kamuy_passive
     goal       ["self", :use_end?]
   end
 
   class CheckCharaResistKamuyPassiveEvent < EventRule
     dsc        "状態抵抗を緩和"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>79
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 79
     func       :check_chara_resist_kamuy_passive
     goal       ["self", :use_end?]
   end
 
   class RestoreResistKamuyPassiveEvent < EventRule
     dsc        "状態抵抗を復元"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>81
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 81
     func       :restore_resist_kamuy_passive
     goal       ["self", :use_end?]
   end
@@ -1463,19 +1462,19 @@ module Unlight
 
   class CheckRevisersPassiveEvent < EventRule
     dsc        "リバイザーズをチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_revisers_passive
   end
 
   class CheckRevisersPassiveChangeEvent < EventRule
     dsc        "リバイザーズをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_revisers_passive
   end
 
   class CheckRevisersPassiveDeadChangeEvent < EventRule
     dsc        "リバイザーズをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_revisers_passive
   end
 
@@ -1483,28 +1482,28 @@ module Unlight
 # レジストウォール
   class CheckResistWallPassiveEvent < EventRule
     dsc        "レジストウォールが可能か"
-    type       :type=>:before, :obj=>"owner", :hook=>:move_phase_init_event
+    type       type: :before, obj: "owner", hook: :move_phase_init_event
     func       :check_resist_wall_passive
     goal       ["self", :use_end?]
   end
 
   class CheckResistWallPassiveChangeEvent < EventRule
     dsc        "レジストウォールが可能か"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_resist_wall_passive
     goal       ["self", :use_end?]
   end
 
   class CheckResistWallPassiveDeadChangeEvent < EventRule
     dsc        "レジストウォールが可能か"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_resist_wall_passive
     goal       ["self", :use_end?]
   end
 
   class CheckResistWallPassiveMoveEvent < EventRule
     dsc        "レジストウォールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_action
+    type       type: :after, obj: "owner", hook: :move_action
     func       :check_resist_wall_passive_move
     goal       ["self", :use_end?]
   end
@@ -1514,37 +1513,37 @@ module Unlight
 
   class CheckCurseSignPassiveEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :check_curse_sign_passive
   end
 
   class CheckCurseSignPassiveChangeEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_curse_sign_passive
   end
 
   class CheckCurseSignPassiveDeadChangeEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_curse_sign_passive
   end
 
   class FinishCurseSignPassiveEvent < EventRule
     dsc        "溟海符を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_curse_sign_passive
   end
 
   class FinishCurseSignPassiveChangeEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_chara_change_phase
     func       :check_curse_sign_passive
   end
 
   class FinishCurseSignPassiveDeadChangeEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_curse_sign_passive
   end
 
@@ -1553,37 +1552,37 @@ module Unlight
 
   class CheckLoyaltyPassiveEvent < EventRule
     dsc        "従者の忠誠をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :check_loyalty_passive
   end
 
   class CheckLoyaltyPassiveChangeEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_loyalty_passive
   end
 
   class CheckLoyaltyPassiveDeadChangeEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_loyalty_passive
   end
 
   class FinishLoyaltyPassiveEvent < EventRule
     dsc        "従者の忠誠をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_loyalty_passive
   end
 
   class FinishLoyaltyPassiveChangeEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_chara_change_phase
     func       :finish_loyalty_passive
   end
 
   class FinishLoyaltyPassiveDeadChangeEvent < EventRule
     dsc        "溟海符をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_loyalty_passive
   end
 
@@ -1592,31 +1591,31 @@ module Unlight
 
   class CheckAimingPlusPassiveEvent < EventRule
     dsc        "精密射撃+をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_aiming_plus_passive
   end
 
   class CheckAimingPlusPassiveChangeEvent < EventRule
     dsc        "精密射撃+をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_aiming_plus_passive
   end
 
   class UseAimingPlusPassiveEvent < EventRule
     dsc        "精密射撃+を発動"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_aiming_plus_passive
   end
 
   class FinishAimingPlusPassiveEvent < EventRule
     dsc        "精密射撃+を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_aiming_plus_passive
   end
 
   class FinishAimingPlusPassiveDeadCharaChangeEvent < EventRule
     dsc        "精密射撃+を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_aiming_plus_passive
   end
 
@@ -1625,19 +1624,19 @@ module Unlight
 
   class CheckEasingCardConditionPassiveEvent < EventRule
     dsc        "精密射撃+をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :check_easing_card_condition_passive
   end
 
   class CheckEasingCardConditionPassiveChangeEvent < EventRule
     dsc        "精密射撃+をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_easing_card_condition_passive
   end
 
   class CheckEasingCardConditionPassiveDeadChangeEvent < EventRule
     dsc        "精密射撃+を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_easing_card_condition_passive
   end
 
@@ -1646,13 +1645,13 @@ module Unlight
 
   class CheckHarvestPassiveEvent < EventRule
     dsc        "収穫をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_harvest_passive
   end
 
   class FinishHarvestPassiveEvent < EventRule
     dsc        "収穫を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_harvest_passive
   end
 
@@ -1661,13 +1660,13 @@ module Unlight
 
   class CheckTdPassiveEvent < EventRule
     dsc        "T.D.をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_td_passive
   end
 
   class FinishTdPassiveEvent < EventRule
     dsc        "T.D.を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:refill_event_card_phase
+    type       type: :before, obj: "duel", hook: :refill_event_card_phase
     func       :finish_td_passive
   end
 
@@ -1676,19 +1675,19 @@ module Unlight
 
   class CheckMoonShinePassiveEvent < EventRule
     dsc        "封印攻撃をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_moon_shine_passive
   end
 
   class CheckMoonShinePassiveChangeEvent < EventRule
     dsc        "封印攻撃をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_moon_shine_passive
   end
 
   class FinishMoonShinePassiveEvent < EventRule
     dsc        "封印攻撃を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_moon_shine_passive
   end
 
@@ -1697,19 +1696,19 @@ module Unlight
 
   class CheckFertilityPassiveEvent < EventRule
     dsc        "豊穣をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_fertility_passive
   end
 
   class FinishFertilityPassivePreEvent < EventRule
     dsc        "豊穣を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :finish_fertility_passive_pre
   end
 
   class FinishFertilityPassiveEvent < EventRule
     dsc        "豊穣を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:refill_event_card_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :refill_event_card_phase, priority: 10
     func       :finish_fertility_passive
   end
 
@@ -1717,7 +1716,7 @@ module Unlight
 # 状態抵抗 クエカボチャ
   class CheckResistPumpkinPassiveEvent < EventRule
     dsc        "状態抵抗が可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_resist_pumpkin_passive
     goal       ["self", :use_end?]
   end
@@ -1727,13 +1726,13 @@ module Unlight
 
   class CheckAwcsPassiveEvent < EventRule
     dsc        "AWCSをチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_awcs_passive
   end
 
   class UseAwcsPassiveDamageEvent < EventRule
     dsc        "AWCSを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 70
     func       :use_awcs_passive_damage
   end
 
@@ -1741,7 +1740,7 @@ module Unlight
 # 状態抵抗 DW
   class CheckResistDwPassiveEvent < EventRule
     dsc        "DWが可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_resist_dw_passive
     goal       ["self", :use_end?]
   end
@@ -1751,25 +1750,25 @@ module Unlight
 
   class CheckLonsbroughEventPassiveEvent < EventRule
     dsc        "LONSBROUGH_EVENTをチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_lonsbrough_event_passive
   end
 
   class CheckLonsbroughEventPassiveChangeEvent < EventRule
     dsc        "LONSBROUGH_EVENTをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_lonsbrough_event_passive
   end
 
   class CheckLonsbroughEventPassiveDeadChangeEvent < EventRule
     dsc        "LONSBROUGH_EVENTをチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_lonsbrough_event_passive
   end
 
   class UseLonsbroughEventPassiveDamageEvent < EventRule
     dsc        "LONSBROUGH_EVENTを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>71
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 71
     func       :use_lonsbrough_event_passive_damage
   end
 
@@ -1778,37 +1777,37 @@ module Unlight
 
   class CheckRockCrusherPassiveEvent < EventRule
     dsc        "岩石割をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :check_rock_crusher_passive
   end
 
   class CheckRockCrusherChangePassiveEvent < EventRule
     dsc        "岩石割をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_rock_crusher_passive
   end
 
   class CheckRockCrusherDeadChangePassiveEvent < EventRule
     dsc        "岩石割をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_rock_crusher_passive
   end
 
   class UseRockCrusherPassiveEvent < EventRule
     dsc        "岩石割を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_rock_crusher_passive
   end
 
   class FinishRockCrusherPassiveEvent < EventRule
     dsc        "岩石割を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_rock_crusher_passive
   end
 
   class FinishRockCrusherPassiveDeadCharaChangeEvent < EventRule
     dsc        "岩石割を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_rock_crusher_passive
   end
 
@@ -1817,19 +1816,19 @@ module Unlight
 
   class CheckProjectionPassiveChangeEvent < EventRule
     dsc        "交錯する影をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :check_projection_passive
   end
 
   class CheckProjectionPassiveDeadChangeEvent < EventRule
     dsc        "交錯する影をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_projection_passive
   end
 
   class FinishProjectionPassiveEvent < EventRule
     dsc        "交錯する影を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_projection_passive
   end
 
@@ -1838,37 +1837,37 @@ module Unlight
 
   class CheckDamageMultiplierPassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :check_damage_multiplier_passive
   end
 
   class CheckDamageMultiplierChangePassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_damage_multiplier_passive
   end
 
   class CheckDamageMultiplierDeadChangePassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_damage_multiplier_passive
   end
 
   class UseDamageMultiplierPassiveEvent < EventRule
     dsc        "ダメージ乗算を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 50
     func       :use_damage_multiplier_passive
   end
 
   class FinishDamageMultiplierPassiveEvent < EventRule
     dsc        "ダメージ乗算を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_damage_multiplier_passive
   end
 
   class FinishDamageMultiplierPassiveDeadCharaChangeEvent < EventRule
     dsc        "ダメージ乗算を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_damage_multiplier_passive
   end
 
@@ -1877,37 +1876,37 @@ module Unlight
 
   class CheckEv201606PassiveEvent < EventRule
     dsc        "2016,6イベントをチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_ev201606_passive
   end
 
   class CheckEv201606ChangePassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_ev201606_passive
   end
 
   class CheckEv201606DeadChangePassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_ev201606_passive
   end
 
   class UseEv201606PassiveEvent < EventRule
     dsc        "2016,6イベントを発動"
-    type       :type=>:after, :obj=>"foe", :hook=>:bp_calc_resolve, :priority=>15
+    type       type: :after, obj: "foe", hook: :bp_calc_resolve, priority: 15
     func       :use_ev201606_passive
   end
 
   class FinishEv201606PassiveEvent < EventRule
     dsc        "2016,6イベントを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_ev201606_passive
   end
 
   class FinishEv201606PassiveDeadCharaChangeEvent < EventRule
     dsc        "2016,6イベントを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_ev201606_passive
   end
 
@@ -1915,7 +1914,7 @@ module Unlight
 # 状態抵抗 鯉
   class CheckStatusResistanceAquamarinePassiveEvent < EventRule
     dsc        "ミステイクが可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_status_resistance_aquamarine_passive
     goal       ["self", :use_end?]
   end
@@ -1925,37 +1924,37 @@ module Unlight
 
   class CheckCoolyPassiveEvent < EventRule
     dsc        "爽涼符をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:refill_event_card_phase
+    type       type: :before, obj: "duel", hook: :refill_event_card_phase
     func       :check_cooly_passive
   end
 
   class CheckCoolyChangePassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_cooly_passive
   end
 
   class CheckCoolyDeadChangePassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_cooly_passive
   end
 
   class UseCoolyPassiveMoveEvent < EventRule
     dsc        "爽涼符を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :before, obj: "duel", hook: :determine_move_phase
     func       :use_cooly_passive_move
   end
 
   class UseCoolyPassiveAttackEvent < EventRule
     dsc        "爽涼符を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :use_cooly_passive_attack
   end
 
   class UseCoolyPassiveDefenseEvent < EventRule
     dsc        "爽涼符を発動"
-    type       :type=>:after, :obj=>"foe", :hook=>:attack_done_action
+    type       type: :after, obj: "foe", hook: :attack_done_action
     func       :use_cooly_passive_defense
   end
 
@@ -1963,7 +1962,7 @@ module Unlight
 # 状態抵抗 Byakhee
   class CheckResistByakheePassiveEvent < EventRule
     dsc        "DWが可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_resist_byakhee_passive
     goal       ["self", :use_end?]
   end
@@ -1973,19 +1972,19 @@ module Unlight
 
   class CheckDisasterFlamePassiveEvent < EventRule
     dsc        "封印攻撃をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_disaster_flame_passive
   end
 
   class CheckDisasterFlamePassiveChangeEvent < EventRule
     dsc        "封印攻撃をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_disaster_flame_passive
   end
 
   class FinishDisasterFlamePassiveEvent < EventRule
     dsc        "封印攻撃を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_disaster_flame_passive
   end
 
@@ -1994,31 +1993,31 @@ module Unlight
 
   class CheckBramblesCardPassiveEvent < EventRule
     dsc        "荊棘符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :check_brambles_card_passive
   end
 
   class CheckBramblesCardPassiveChangeEvent < EventRule
     dsc        "荊棘符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_brambles_card_passive
   end
 
   class CheckBramblesCardPassiveDeadChangeEvent < EventRule
     dsc        "荊棘符をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_brambles_card_passive
   end
 
   class UseBramblesCardPassiveEvent < EventRule
     dsc        "荊棘符をチェック"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_action
+    type       type: :after, obj: "owner", hook: :move_action
     func       :use_brambles_card_passive
   end
 
   class FinishBramblesCardPassiveEvent < EventRule
     dsc        "荊棘符を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_brambles_card_passive
   end
 
@@ -2027,19 +2026,19 @@ module Unlight
 
   class CheckAwakeningOnePassiveEvent < EventRule
     dsc        "封印攻撃をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_awakening_one_passive
   end
 
   class CheckAwakeningOnePassiveChangeEvent < EventRule
     dsc        "封印攻撃をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_awakening_one_passive
   end
 
   class FinishAwakeningOnePassiveEvent < EventRule
     dsc        "封印攻撃を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_awakening_one_passive
   end
 
@@ -2048,31 +2047,31 @@ module Unlight
 
   class CheckServoSkullPassiveEvent < EventRule
     dsc        "サーボスカルをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_servo_skull_passive
   end
 
   class CheckServoSkullPassiveChangeEvent < EventRule
     dsc        "サーボスカルをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_servo_skull_passive
   end
 
   class UseServoSkullPassiveEvent < EventRule
     dsc        "サーボスカルを発動"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 1
     func       :use_servo_skull_passive
   end
 
   class FinishServoSkullPassiveEvent < EventRule
     dsc        "サーボスカルを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_servo_skull_passive
   end
 
   class FinishServoSkullPassiveDeadCharaChangeEvent < EventRule
     dsc        "サーボスカルを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_servo_skull_passive
   end
 
@@ -2081,31 +2080,31 @@ module Unlight
 
   class CheckEv201612PassiveEvent < EventRule
     dsc        "2016,12イベントをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_ev201612_passive
   end
 
   class CheckEv201612ChangePassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_ev201612_passive
   end
 
   class UseEv201612PassiveEvent < EventRule
     dsc        "2016,12イベントを発動"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_ev201612_passive
   end
 
   class FinishEv201612PassiveEvent < EventRule
     dsc        "2016,12イベントを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_ev201612_passive
   end
 
   class FinishEv201612PassiveDeadCharaChangeEvent < EventRule
     dsc        "2016,12イベントを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_ev201612_passive
   end
 
@@ -2114,31 +2113,31 @@ module Unlight
 
   class CheckHighProtectionPassiveEvent < EventRule
     dsc        "ハイプロテクションをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_high_protection_passive
   end
 
   class CheckHighProtectionPassiveChangeEvent < EventRule
     dsc        "ハイプロテクションをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_high_protection_passive
   end
 
   class UseHighProtectionPassiveEvent < EventRule
     dsc        "ハイプロテクションを発動"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_high_protection_passive
   end
 
   class FinishHighProtectionPassiveEvent < EventRule
     dsc        "ハイプロテクションを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_high_protection_passive
   end
 
   class FinishHighProtectionPassiveDeadCharaChangeEvent < EventRule
     dsc        "ハイプロテクションを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_high_protection_passive
   end
 
@@ -2147,31 +2146,31 @@ module Unlight
 
   class CheckPuppetMasterPassiveEvent < EventRule
     dsc        "パペットマスターをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_puppet_master_passive
   end
 
   class CheckPuppetMasterPassiveChangeEvent < EventRule
     dsc        "パペットマスターをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_puppet_master_passive
   end
 
   class UsePuppetMasterPassiveEvent < EventRule
     dsc        "パペットマスターを発動"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event
     func       :use_puppet_master_passive
   end
 
   class FinishPuppetMasterPassiveEvent < EventRule
     dsc        "パペットマスターを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_puppet_master_passive
   end
 
   class FinishPuppetMasterPassiveDeadCharaChangeEvent < EventRule
     dsc        "パペットマスターを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_puppet_master_passive
   end
 
@@ -2180,31 +2179,31 @@ module Unlight
 
   class CheckOgreArmPassiveEvent < EventRule
     dsc        "オーガアームをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_ogre_arm_passive
   end
 
   class CheckOgreArmChangePassiveEvent < EventRule
     dsc        "オーガアームをチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_ogre_arm_passive
   end
 
   class UseOgreArmPassiveEvent < EventRule
     dsc        "オーガアームを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_ogre_arm_passive
   end
 
   class FinishOgreArmPassiveEvent < EventRule
     dsc        "オーガアームを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_ogre_arm_passive
   end
 
   class FinishOgreArmPassiveDeadCharaChangeEvent < EventRule
     dsc        "オーガアームを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_ogre_arm_passive
   end
 
@@ -2213,71 +2212,70 @@ module Unlight
 
   class CheckCrimsonWillPassiveEvent < EventRule
     dsc        "紅の意志をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_crimson_will_passive
   end
 
   class CheckCrimsonWillPassiveChangeEvent < EventRule
     dsc        "紅の意志をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_crimson_will_passive
   end
 
   class UseCrimsonWillPassiveDamageEvent < EventRule
     dsc        "紅の意志を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_crimson_will_passive_damage
   end
 
   class FinishCrimsonWillPassiveEvent < EventRule
     dsc        "紅の意志を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_crimson_will_passive
   end
 
   class FinishCrimsonWillPassiveDeadCharaChangeEvent < EventRule
     dsc        "紅の意志を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_crimson_will_passive
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 生命の守り人
 
   class CheckGuardianOfLifePassiveEvent < EventRule
     dsc        "生命の守り人をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :check_guardian_of_life_passive
   end
 
   class CheckGuardianOfLifePassiveChangeEvent < EventRule
     dsc        "生命の守り人をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_guardian_of_life_passive
   end
 
   class UseGuardianOfLifePassiveDefenseEvent < EventRule
     dsc        "生命の守り人を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_guardian_of_life_passive_defense
   end
 
   class UseGuardianOfLifePassiveAttackEvent < EventRule
     dsc        "生命の守り人を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_guardian_of_life_passive_attack
   end
 
   class FinishGuardianOfLifePassiveEvent < EventRule
     dsc        "生命の守り人を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_guardian_of_life_passive
   end
 
   class FinishGuardianOfLifePassiveDeadCharaChangeEvent < EventRule
     dsc        "生命の守り人を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_guardian_of_life_passive
   end
 
@@ -2286,43 +2284,43 @@ module Unlight
 
   class CheckBurningEmbersPassiveEvent < EventRule
     dsc        "爽涼符をチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:refill_event_card_phase
+    type       type: :before, obj: "duel", hook: :refill_event_card_phase
     func       :check_burning_embers_passive
   end
 
   class CheckBurningEmbersChangePassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_burning_embers_passive
   end
 
   class CheckBurningEmbersDeadChangePassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_burning_embers_passive
   end
 
   class UseBurningEmbersPassiveMoveEvent < EventRule
     dsc        "爽涼符を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :before, obj: "duel", hook: :determine_move_phase
     func       :use_burning_embers_passive_move
   end
 
   class UseBurningEmbersPassiveAttackEvent < EventRule
     dsc        "爽涼符を発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :use_burning_embers_passive_attack
   end
 
   class UseBurningEmbersPassiveDefenseEvent < EventRule
     dsc        "爽涼符を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :use_burning_embers_passive_defense
   end
 
   class UseBurningEmbersPassiveDefenseDetCharaChangeEvent < EventRule
     dsc        "爽涼符を発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase , :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase, priority: 1
     func       :use_burning_embers_passive_defense
   end
 
@@ -2347,7 +2345,7 @@ module Unlight
 
   # 追加したら以下の参照番号を付加すること
   # イベントの起動チェック関数を列挙する
-  CHARA_STATE_EVENT_NO =[
+  CHARA_STATE_EVENT_NO = [
                     [],
                           # 0
                     [
@@ -2454,8 +2452,7 @@ module Unlight
                      :check_control_state_event,
                      :finish_control_state_event,
                     ],    # 操想状態
-                    [
-                    ],    # 正鵠状態
+                    [], # 正鵠状態
                     [
                      :finish_dark_state_event,
                     ],    # 暗黒状態
@@ -2464,14 +2461,12 @@ module Unlight
                     ],    # 人形状態
                    ]
 
-
-
 #---------------------------------------------------------------------------------------------
 # 毒状態
 
   class CheckPoisonStateEvent < EventRule
     dsc        "毒状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_action
+    type       type: :after, obj: "owner", hook: :move_action
     func       :check_poison_state
 #     type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase
 #     func       :check_poison_state
@@ -2479,7 +2474,7 @@ module Unlight
 
   class FinishPoisonStateEvent < EventRule
     dsc        "毒状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_poison_state
   end
 
@@ -2488,13 +2483,13 @@ module Unlight
 
   class CheckPoison2StateEvent < EventRule
     dsc        "毒状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_action
+    type       type: :after, obj: "owner", hook: :move_action
     func       :check_poison2_state
   end
 
   class FinishPoison2StateEvent < EventRule
     dsc        "毒状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_poison2_state
   end
 
@@ -2503,13 +2498,13 @@ module Unlight
 
   class CheckParalysisStateEvent < EventRule
     dsc        "麻痺状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve, :priority=>50
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve, priority: 50
     func       :check_paralysis_state
   end
 
   class FinishParalysisStateEvent < EventRule
     dsc        "麻痺状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_paralysis_state
   end
 
@@ -2518,77 +2513,73 @@ module Unlight
 
   class CheckAttackUpStateEvent < EventRule
     dsc        "ATKアップ状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>15
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 15
     func       :check_attack_up_state
   end
 
   class FinishAttackUpStateEvent < EventRule
     dsc        "ATKアップ状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_attack_up_state
   end
-
 
 #---------------------------------------------------------------------------------------------
 # ATKダウン状態
 
   class CheckAttackDownStateEvent < EventRule
     dsc        "ATKダウン状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>15
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 15
     func       :check_attack_down_state
   end
 
   class FinishAttackDownStateEvent < EventRule
     dsc        "ATKダウン状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_attack_down_state
   end
-
 
 #---------------------------------------------------------------------------------------------
 # DEFアップ状態
 
   class CheckDeffenceUpStateEvent < EventRule
     dsc        "DEFアップ状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>15
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 15
     func       :check_deffence_up_state
   end
 
   class FinishDeffenceUpStateEvent < EventRule
     dsc        "DEFアップ状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_deffence_up_state
   end
-
 
 #---------------------------------------------------------------------------------------------
 # DEFダウン状態
 
   class CheckDeffenceDownStateEvent < EventRule
     dsc        "ATKダウン状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>15
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 15
     func       :check_deffence_down_state
   end
 
   class FinishDeffenceDownStateEvent < EventRule
     dsc        "ATKダウン状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_deffence_down_state
   end
-
 
 #---------------------------------------------------------------------------------------------
 # バーサーク状態
 
   class CheckBerserkStateEvent < EventRule
     dsc        "バーサーク状態か"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 70
     func       :check_berserk_state
   end
 
   class FinishBerserkStateEvent < EventRule
     dsc        "バーサーク使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_berserk_state
   end
 
@@ -2597,19 +2588,19 @@ module Unlight
 
   class CheckAttackStopStateEvent < EventRule
     dsc        "停止状態か"
-    type       :type=>:before, :obj=>"duel", :hook=>:attack_card_drop_phase
+    type       type: :before, obj: "duel", hook: :attack_card_drop_phase
     func       :check_attack_stop_state
   end
 
   class CheckDeffenceStopStateEvent < EventRule
     dsc        "停止状態か"
-    type       :type=>:before, :obj=>"duel", :hook=>:deffence_card_drop_phase
+    type       type: :before, obj: "duel", hook: :deffence_card_drop_phase
     func       :check_deffence_stop_state
   end
 
   class FinishStopStateEvent < EventRule
     dsc        "停止の使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_stop_state
   end
 
@@ -2618,30 +2609,28 @@ module Unlight
 
   class CheckSealStateEvent < EventRule
     dsc        "封印状態か"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :check_seal_state
   end
 
   class FinishSealStateEvent < EventRule
     dsc        "封印の使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_seal_state
   end
-
-
 
 #---------------------------------------------------------------------------------------------
 # 自壊状態
 
   class CheckDeadCountStateEvent < EventRule
     dsc        "自壊状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_action
+    type       type: :after, obj: "owner", hook: :move_action
     func       :check_dead_count_state
   end
 
   class FinishDeadCountStateEvent < EventRule
     dsc        "自壊状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_dead_count_state
   end
 
@@ -2650,13 +2639,13 @@ module Unlight
 
   class CheckUndeadStateEvent < EventRule
     dsc        "不死状態か"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>90
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 90
     func       :check_undead_state
   end
 
   class FinishUndeadStateEvent < EventRule
     dsc        "不死が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_undead_state
   end
 
@@ -2665,13 +2654,13 @@ module Unlight
 
   class CheckStoneStateEvent < EventRule
     dsc        "石化状態か"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>45
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 45
     func       :check_stone_state
   end
 
   class FinishStoneStateEvent < EventRule
     dsc        "石化使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_stone_state
   end
 
@@ -2680,29 +2669,28 @@ module Unlight
 
   class CheckMoveUpStateEvent < EventRule
     dsc        "MOVEアップ状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :check_move_up_state
   end
 
   class FinishMoveUpStateEvent < EventRule
     dsc        "MOVEアップ状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_move_up_state
   end
-
 
 #---------------------------------------------------------------------------------------------
 # MOVEダウン状態
 
   class CheckMoveDownStateEvent < EventRule
     dsc        "MOVEダウン状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve, :priority=>10
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve, priority: 10
     func       :check_move_down_state
   end
 
   class FinishMoveDownStateEvent < EventRule
     dsc        "MOVEダウン状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_move_down_state
   end
 
@@ -2711,13 +2699,13 @@ module Unlight
 
   class CheckRegeneStateEvent < EventRule
     dsc        "リジェネ状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_action
+    type       type: :after, obj: "owner", hook: :move_action
     func       :check_regene_state
   end
 
   class FinishRegeneStateEvent < EventRule
     dsc        "リジェネ状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_regene_state
   end
 
@@ -2726,13 +2714,13 @@ module Unlight
 
   class CheckBindStateEvent < EventRule
     dsc        "呪縛状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_action
+    type       type: :after, obj: "owner", hook: :move_action
     func       :check_bind_state
   end
 
   class FinishBindStateEvent < EventRule
     dsc        "呪縛状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_bind_state
   end
 
@@ -2741,19 +2729,19 @@ module Unlight
 
   class CheckChaosAttackStateEvent < EventRule
     dsc        "混沌状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>30
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 30
     func       :check_chaos_state
   end
 
   class CheckChaosDefenceStateEvent < EventRule
     dsc        "混沌状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>30
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 30
     func       :check_chaos_state
   end
 
   class FinishChaosStateEvent < EventRule
     dsc        "混沌状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_chaos_state
   end
 
@@ -2762,20 +2750,19 @@ module Unlight
 
   class CheckStigmataAttackStateEvent < EventRule
     dsc        "聖痕状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>10
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 10
     func       :check_stigmata_state
   end
 
   class CheckStigmataDefenceStateEvent < EventRule
     dsc        "聖痕状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>10
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 10
     func       :check_stigmata_state
   end
 
-
   class FinishStigmataStateEvent < EventRule
     dsc        "聖痕状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_stigmata_state
   end
 
@@ -2784,19 +2771,19 @@ module Unlight
 
   class CheckStateDownAttackStateEvent < EventRule
     dsc        "能力低下状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>15
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 15
     func       :check_state_down_state
   end
 
   class CheckStateDownDefenceStateEvent < EventRule
     dsc        "能力低下状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>15
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 15
     func       :check_state_down_state
   end
 
   class FinishStateDownStateEvent < EventRule
     dsc        "能力低下状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_state_down_state
   end
 
@@ -2805,19 +2792,19 @@ module Unlight
 
   class CheckAttackStickStateEvent < EventRule
     dsc        "棍術状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>30
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 30
     func       :check_attack_stick_state
   end
 
   class CheckDeffenceStickStateEvent < EventRule
     dsc        "棍術状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>30
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 30
     func       :check_deffence_stick_state
   end
 
   class FinishStickStateEvent < EventRule
     dsc        "棍術状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_stick_state
   end
 
@@ -2826,19 +2813,19 @@ module Unlight
 
   class CheckStateDownAttackStateEvent < EventRule
     dsc        "能力低下状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :check_state_down_state
   end
 
   class CheckStateDownDefenceStateEvent < EventRule
     dsc        "能力低下状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :check_state_down_state
   end
 
   class FinishStateDownStateEvent < EventRule
     dsc        "能力低下状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_state_down_state
   end
 
@@ -2847,7 +2834,7 @@ module Unlight
 
   class CheckCurseAttackStateEvent < EventRule
     dsc        "詛呪によるダメージ制限"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>99
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 99
     func       :check_curse_attack_state
   end
 
@@ -2856,13 +2843,13 @@ module Unlight
 
   class CheckBlessAttackStateEvent < EventRule
     dsc        "臨界の空イベント"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>10
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 10
     func       :check_bless_state
   end
 
   class CheckBlessDeffenceStateEvent < EventRule
     dsc        "臨界の空イベント"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>10
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 10
     func       :check_bless_state
   end
 
@@ -2871,13 +2858,13 @@ module Unlight
 
   class CheckUndead2StateEvent < EventRule
     dsc        "不死2状態か"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>90
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 90
     func       :check_undead2_state
   end
 
   class FinishUndead2StateEvent < EventRule
     dsc        "不死2が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_undead2_state
   end
 
@@ -2886,13 +2873,13 @@ module Unlight
 
   class CheckControlStateEvent < EventRule
     dsc        "操想状態か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_action
+    type       type: :after, obj: "owner", hook: :move_action
     func       :check_control_state
   end
 
   class FinishControlStateEvent < EventRule
     dsc        "操想状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_control_state
   end
 
@@ -2900,7 +2887,7 @@ module Unlight
 # 暗黒状態
   class FinishDarkStateEvent < EventRule
     dsc        "暗黒状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_dark_state
   end
 
@@ -2908,10 +2895,9 @@ module Unlight
 # 人形状態
   class FinishDollStateEvent < EventRule
     dsc        "暗黒状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_doll_state
   end
-
 
 # 汎用
 
@@ -2970,43 +2956,43 @@ module Unlight
 
   class ProgressTrapEvent < EventRule
     dsc        "ターンの最後に自身のトラップの状態を進行させる"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :progress_trap
   end
 
   class CheckStartedTrapDetBpBeforeEvent < EventRule
     dsc        "フェーズ後の更新"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>99
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 99
     func       :open_trap_check
   end
 
   class CheckStartedTrapDetBpEvent < EventRule
     dsc        "フェーズ後の更新"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>99
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 99
     func       :open_trap_check
   end
 
   class CheckStartedTrapBattleResultEvent < EventRule
     dsc        "フェーズ後の更新"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase
+    type       type: :after, obj: "duel", hook: :battle_result_phase
     func       :open_trap_check
   end
 
   class CheckStartedTrapDamageEvent < EventRule
     dsc        "フェーズ後の更新"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :open_trap_check
   end
 
   class CheckStartedTrapFinishMoveEvent < EventRule
     dsc        "フェーズ後の更新"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_move_phase
+    type       type: :after, obj: "duel", hook: :finish_move_phase
     func       :open_trap_check
   end
 
   class CheckStartedTrapDetChangeEvent < EventRule
     dsc        "フェーズ後の更新"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :open_trap_check
   end
 
@@ -3015,7 +3001,7 @@ module Unlight
 
   class CheckBarrierStateEvent < EventRule
     dsc        "結界による無敵状態イベント"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>99
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 99
     func       :check_barrier_state
   end
 
@@ -3024,7 +3010,7 @@ module Unlight
 
   class CheckHarbourEvent < EventRule
     dsc        "かばわれによるダメージ無効化イベント"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>99
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 99
     func       :check_harbour
   end
 
@@ -3033,25 +3019,25 @@ module Unlight
 
   class CheckFieldStatusDetChangeEvent < EventRule
     dsc        "フェイズ前のエイリアス設定"
-    type       :type=>:after, :obj=>"owner", :hook=>:battle_phase_init_event
+    type       type: :after, obj: "owner", hook: :battle_phase_init_event
     func       :check_field_status_det_change
   end
 
   class CheckFieldStatusPlDiceAttrEvent < EventRule
     dsc        "CC後のエイリアス設定"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_done_action
+    type       type: :after, obj: "owner", hook: :deffence_done_action
     func       :check_field_status_dice_attr
   end
 
   class CheckFieldStatusFoeDiceAttrEvent < EventRule
     dsc        "CC後のエイリアス設定"
-    type       :type=>:after, :obj=>"foe", :hook=>:deffence_done_action
+    type       type: :after, obj: "foe", hook: :deffence_done_action
     func       :check_field_status_dice_attr
   end
 
   class CheckFieldStatusFinishTurnEvent < EventRule
     dsc        "ターンの最後に状態更新"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :check_field_status_finish_turn
   end
 
@@ -3065,7 +3051,7 @@ module Unlight
   # end
 
   # アイコンとして表示しない、解除不可能な状態異常。技無効化等で解除される
-  CHARA_SPECIAL_STATE_EVENT_NO =[
+  CHARA_SPECIAL_STATE_EVENT_NO = [
                     [],
                           # 0
                     [
@@ -3073,12 +3059,9 @@ module Unlight
                      :check_cat_state_defence_event,
                      :finish_cat_state_event,
                     ],    # 1 猫状態
-                    [
-                    ],    # 2 アンチセプチック 実体は技の内部で実装
-                    [
-                    ],    # 3 シャープンエッジ状態 実体は技の方で実装
-                    [
-                    ],    # 4 控えでダメージ無効 フラグとして使う
+                    [],    # 2 アンチセプチック 実体は技の内部で実装
+                    [],    # 3 シャープンエッジ状態 実体は技の方で実装
+                    [],    # 4 控えでダメージ無効 フラグとして使う
                     [
                      :check_dealing_restriction_state_event,
                      :finish_dealing_restriction_state_event,
@@ -3087,15 +3070,12 @@ module Unlight
                      :check_constraint_state_event,
                      :finish_constraint_state_event,
                     ],    # 6 行動制限状態
-                    [
-                    ],    # 7 ダメージ追加常態 技の方で実装
-                    [
-                    ],    # 8 スキル上書き状態 技の方で実装
+                    [],    # 7 ダメージ追加常態 技の方で実装
+                    [],    # 8 スキル上書き状態 技の方で実装
                     [
                      :finish_magnetic_field_state_event,
-                    ],    # 9 スキル移動禁止 終了チェック
-                    [
-                    ],    # 10 固定ダメージカウンター ワザの方で実装
+                    ], # 9 スキル移動禁止 終了チェック
+                    [], # 10 固定ダメージカウンター ワザの方で実装
                     [
                      :check_stuffed_toys_state_damage_event,
                      :finish_stuffed_toys_state_damage_event,
@@ -3130,19 +3110,19 @@ module Unlight
 
   class CheckCatStateAttackEvent < EventRule
     dsc        "攻撃力固定 この後に聖痕・ATK補正を加算する"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>5
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 5
     func       :check_cat_state_attack
   end
 
   class CheckCatStateDefenceEvent < EventRule
     dsc        "防御力固定 この期に聖痕・DEF補正を計算する"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>5
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 5
     func       :check_cat_state_defence
   end
 
   class FinishCatStateEvent < EventRule
     dsc        "MOVEアップ状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_cat_state
   end
 
@@ -3151,13 +3131,13 @@ module Unlight
 
   class CheckDealingRestrictionStateEvent < EventRule
     dsc        "ヴンダーカンマーが可能か"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :check_dealing_restriction_state
   end
 
   class FinishDealingRestrictionStateEvent < EventRule
     dsc        "ヴンダーカンマーが可能か"
-    type       :type=>:after, :obj=>"duel", :hook=>:refill_event_card_phase
+    type       type: :after, obj: "duel", hook: :refill_event_card_phase
     func       :finish_dealing_restriction_state
   end
 
@@ -3166,13 +3146,13 @@ module Unlight
 
   class CheckConstraintStateEvent < EventRule
     dsc        "コンストレイント状態チェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_constraint_state
   end
 
   class FinishConstraintStateEvent < EventRule
     dsc        "コンストレイント終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_move_phase
+    type       type: :after, obj: "duel", hook: :finish_move_phase
     func       :finish_constraint_state
   end
 
@@ -3181,7 +3161,7 @@ module Unlight
 
   class FinishMagneticFieldStateEvent < EventRule
     dsc        "コンストレイント終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_magnetic_field_state
   end
 
@@ -3190,13 +3170,13 @@ module Unlight
 
   class CheckStuffedToysStateDamageEvent < EventRule
     dsc        "追加攻撃"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priorit=>10
+    type       type: :after, obj: "duel", hook: :damage_phase, priorit: 10
     func       :check_stuffed_toys_state_damage
   end
 
   class FinishStuffedToysStateDamageEvent < EventRule
     dsc        "追加攻撃"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :finish_stuffed_toys_state_damage
   end
 
@@ -3211,31 +3191,31 @@ module Unlight
 
   class UseMonitoringStateHealBeforeEvent < EventRule
     dsc        "コンストレイント終了"
-    type       :type=>:before, :obj=>"owner", :hook=>:healed_event
+    type       type: :before, obj: "owner", hook: :healed_event
     func       :use_monitoring_state_before_check
   end
 
   class UseMonitoringStateHealAfterEvent < EventRule
     dsc        "コンストレイント終了"
-    type       :type=>:after, :obj=>"owner", :hook=>:healed_event
+    type       type: :after, obj: "owner", hook: :healed_event
     func       :use_monitoring_state_after_check
   end
 
   class UseMonitoringStatePartyHealBeforeEvent < EventRule
     dsc        "コンストレイント終了"
-    type       :type=>:before, :obj=>"owner", :hook=>:party_healed_event
+    type       type: :before, obj: "owner", hook: :party_healed_event
     func       :use_monitoring_state_before_check
   end
 
   class UseMonitoringStatePartyHealAfterEvent < EventRule
     dsc        "コンストレイント終了"
-    type       :type=>:after, :obj=>"owner", :hook=>:party_healed_event
+    type       type: :after, obj: "owner", hook: :party_healed_event
     func       :use_monitoring_state_after_check
   end
 
   class FinishMonitoringStateEvent < EventRule
     dsc        "コンストレイント終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase, :priority=>60
+    type       type: :after, obj: "duel", hook: :finish_turn_phase, priority: 60
     func       :finish_monitoring_state
   end
 
@@ -3244,7 +3224,7 @@ module Unlight
 
   class FinishTimeLagDrawStateEvent < EventRule
     dsc        "コンストレイント終了"
-    type       :type=>:after, :obj=>"owner", :hook=>:set_initiative_event, :priority=>10
+    type       type: :after, obj: "owner", hook: :set_initiative_event, priority: 10
     func       :finish_time_lag_draw_state
   end
 
@@ -3253,7 +3233,7 @@ module Unlight
 
   class FinishTimeLagBuffStateChangeEvent < EventRule
     dsc        "コンストレイント終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :finish_time_lag_buff_state
   end
 
@@ -3262,19 +3242,19 @@ module Unlight
 
   class CheckMachineCellStateEvent < EventRule
     dsc        "使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event
     func       :check_machine_cell_state
   end
 
   class UseMachineCellStateEvent < EventRule
     dsc        "使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_machine_cell_state
   end
 
   class FinishMachineCellStateEvent < EventRule
     dsc        "終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_machine_cell_state
   end
 
@@ -3283,24 +3263,21 @@ module Unlight
 
   class CheckAxGuardStateEvent < EventRule
     dsc        "使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event
     func       :check_ax_guard_state
   end
 
   class UseAxGuardStateEvent < EventRule
     dsc        "使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_ax_guard_state
   end
 
   class FinishAxGuardStateEvent < EventRule
     dsc        "終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_ax_guard_state
   end
-
-
-
 
   # ====================
   # イベント
@@ -3308,7 +3285,7 @@ module Unlight
 
   # 追加したら以下の参照番号を付加すること
   # イベントの起動チェック関数を列挙する
-  CHARA_FEAT_EVENT_NO =[
+  CHARA_FEAT_EVENT_NO = [
                     nil,
                         # 0
                     [
@@ -7076,35 +7053,35 @@ module Unlight
 
   class CheckAddSmashFeatEvent < EventRule
     dsc        "強打が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_smash_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSmashFeatEvent < EventRule
     dsc        "強打が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_smash_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSmashFeatEvent < EventRule
     dsc        "強打が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_smash_feat
     goal       ["self", :use_end?]
   end
 
   class UseSmashFeatEvent < EventRule
     dsc        "強打をを使用 攻撃力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_smash_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSmashFeatEvent < EventRule
     dsc        "強打の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_smash_feat
     goal       ["self", :use_end?]
   end
@@ -7114,81 +7091,80 @@ module Unlight
 
   class CheckAddBloodyHowlFeatEvent < EventRule
     dsc        "強打が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_bloody_howl_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBloodyHowlFeatEvent < EventRule
     dsc        "強打が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_bloody_howl_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBloodyHowlFeatEvent < EventRule
     dsc        "強打が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_bloody_howl_feat
     goal       ["self", :use_end?]
   end
 
   class UseBloodyHowlFeatEvent < EventRule
     dsc        "強打をを使用 攻撃力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_bloody_howl_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBloodyHowlFeatEvent < EventRule
     dsc        "強打の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_bloody_howl_feat
     goal       ["self", :use_end?]
   end
 
   class UseBloodyHowlFeatDamageEvent < EventRule
     dsc        "紅蓮の車輪を使用時に手札をランダムに失わせる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 0
     func       :use_bloody_howl_feat_damage
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 精密射撃
 
   class CheckAddAimingFeatEvent < EventRule
     dsc        "精密射撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_aiming_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAimingFeatEvent < EventRule
     dsc        "精密射撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_aiming_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAimingFeatEvent < EventRule
     dsc        "精密射撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_aiming_feat
     goal       ["self", :use_end?]
   end
 
   class UseAimingFeatEvent < EventRule
     dsc        "精密射撃を使用 攻撃力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_aiming_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAimingFeatEvent < EventRule
     dsc        "精密射撃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_aiming_feat
     goal       ["self", :use_end?]
   end
@@ -7198,42 +7174,42 @@ module Unlight
 
   class CheckAddPrecisionFireFeatEvent < EventRule
     dsc        "精密射撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_precision_fire_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePrecisionFireFeatEvent < EventRule
     dsc        "精密射撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_precision_fire_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePrecisionFireFeatEvent < EventRule
     dsc        "精密射撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_precision_fire_feat
     goal       ["self", :use_end?]
   end
 
   class UsePrecisionFireFeatEvent < EventRule
     dsc        "精密射撃を使用 攻撃力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_precision_fire_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPrecisionFireFeatEvent < EventRule
     dsc        "精密射撃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_precision_fire_feat
     goal       ["self", :use_end?]
   end
 
   class UsePrecisionFireFeatDamageEvent < EventRule
     dsc        "精密射撃を使用 固定ダメ"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 10
     func       :use_precision_fire_feat_damage
     goal       ["self", :use_end?]
   end
@@ -7243,42 +7219,42 @@ module Unlight
 
   class CheckAddStrikeFeatEvent < EventRule
     dsc        "雷撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_strike_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveStrikeFeatEvent < EventRule
     dsc        "雷撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_strike_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateStrikeFeatEvent < EventRule
     dsc        "雷撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_strike_feat
     goal       ["self", :use_end?]
   end
 
   class UseStrikeFeatEvent < EventRule
     dsc        "雷撃を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_strike_feat
     goal       ["self", :use_end?]
   end
 
   class UseStrikeFeatDamageEvent < EventRule
     dsc        "雷撃を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_strike_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishStrikeFeatEvent < EventRule
     dsc        "雷撃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_strike_feat
     goal       ["self", :use_end?]
   end
@@ -7288,42 +7264,42 @@ module Unlight
 
   class CheckAddPurpleLightningFeatEvent < EventRule
     dsc        "雷撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_purple_lightning_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePurpleLightningFeatEvent < EventRule
     dsc        "雷撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_purple_lightning_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePurpleLightningFeatEvent < EventRule
     dsc        "雷撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_purple_lightning_feat
     goal       ["self", :use_end?]
   end
 
   class UsePurpleLightningFeatEvent < EventRule
     dsc        "雷撃を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_purple_lightning_feat
     goal       ["self", :use_end?]
   end
 
   class UsePurpleLightningFeatDamageEvent < EventRule
     dsc        "雷撃を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_purple_lightning_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishPurpleLightningFeatEvent < EventRule
     dsc        "雷撃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_purple_lightning_feat
     goal       ["self", :use_end?]
   end
@@ -7333,35 +7309,35 @@ module Unlight
 
   class CheckAddComboFeatEvent < EventRule
     dsc        "連続技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_combo_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveComboFeatEvent < EventRule
     dsc        "連続技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_combo_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateComboFeatEvent < EventRule
     dsc        "連続技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_combo_feat
     goal       ["self", :use_end?]
   end
 
   class UseComboFeatEvent < EventRule
     dsc        "連続技を使用 攻撃力が+6"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_combo_feat
     goal       ["self", :use_end?]
   end
 
   class FinishComboFeatEvent < EventRule
     dsc        "連続技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_combo_feat
     goal       ["self", :use_end?]
   end
@@ -7371,42 +7347,42 @@ module Unlight
 
   class CheckAddSwordDanceFeatEvent < EventRule
     dsc        "ソードダンスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_sword_dance_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSwordDanceFeatEvent < EventRule
     dsc        "ソードダンスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_sword_dance_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSwordDanceFeatEvent < EventRule
     dsc        "ソードダンスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_sword_dance_feat
     goal       ["self", :use_end?]
   end
 
   class UseSwordDanceFeatEvent < EventRule
     dsc        "ソードダンスを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_sword_dance_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSwordDanceFeatEvent < EventRule
     dsc        "ソードダンスの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_sword_dance_feat
     goal       ["self", :use_end?]
   end
 
   class UseSwordDanceFeatDamageEvent < EventRule
     dsc        "ソードダンスを使用 攻撃力が+6"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_sword_dance_feat_damage
     goal       ["self", :use_end?]
   end
@@ -7416,42 +7392,42 @@ module Unlight
 
   class CheckAddThornFeatEvent < EventRule
     dsc        "茨の森が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_thorn_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveThornFeatEvent < EventRule
     dsc        "茨の森が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_thorn_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateThornFeatEvent < EventRule
     dsc        "茨の森が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_thorn_feat
     goal       ["self", :use_end?]
   end
 
   class UseThornFeatEvent < EventRule
     dsc        "茨の森を使用 防御力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_thorn_feat
     goal       ["self", :use_end?]
   end
 
   class UseThornFeatDamageEvent < EventRule
     dsc        "茨の森使用時に上回った防御点をダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_thorn_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishThornFeatEvent < EventRule
     dsc        "茨の森の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_thorn_feat
     goal       ["self", :use_end?]
   end
@@ -7461,35 +7437,35 @@ module Unlight
 
   class CheckAddChargeFeatEvent < EventRule
     dsc        "突撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_charge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveChargeFeatEvent < EventRule
     dsc        "突撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_charge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateChargeFeatEvent < EventRule
     dsc        "突撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_charge_feat
     goal       ["self", :use_end?]
   end
 
   class UseChargeFeatEvent < EventRule
     dsc        "突撃をを使用 攻撃力が+2、攻撃終了時に近距離になる"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_charge_feat
     goal       ["self", :use_end?]
   end
 
   class FinishChargeFeatEvent < EventRule
     dsc        "突撃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_charge_feat
     goal       ["self", :use_end?]
   end
@@ -7499,35 +7475,35 @@ module Unlight
 
   class CheckAddChargedThrustFeatEvent < EventRule
     dsc        "チャージドスラストが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_charged_thrust_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveChargedThrustFeatEvent < EventRule
     dsc        "チャージドスラストが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_charged_thrust_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateChargedThrustFeatEvent < EventRule
     dsc        "チャージドスラストが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_charged_thrust_feat
     goal       ["self", :use_end?]
   end
 
   class UseChargedThrustFeatEvent < EventRule
     dsc        "チャージドスラストを使用 攻撃力＋"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_charged_thrust_feat
     goal       ["self", :use_end?]
   end
 
   class FinishChargedThrustFeatEvent < EventRule
     dsc        "チャージドスラストの使用が終了 距離操作"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_charged_thrust_feat
     goal       ["self", :use_end?]
   end
@@ -7537,42 +7513,42 @@ module Unlight
 
   class CheckAddMirageFeatEvent < EventRule
     dsc        "砂漠の蜃気楼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_mirage_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMirageFeatEvent < EventRule
     dsc        "砂漠の蜃気楼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_mirage_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMirageFeatEvent < EventRule
     dsc        "砂漠の蜃気楼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_mirage_feat
     goal       ["self", :use_end?]
   end
 
   class CheckMoveMirageFeatEvent < EventRule
     dsc        "砂漠の蜃気楼を使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "foe", hook: :bp_calc_resolve
     func       :check_move_mirage_feat
     goal       ["self", :use_end?]
   end
 
   class UseMirageFeatEvent < EventRule
     dsc        "砂漠の蜃気楼を使用 防御力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_mirage_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMirageFeatEvent < EventRule
     dsc        "砂漠の蜃気楼の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_mirage_feat
     goal       ["self", :use_end?]
   end
@@ -7582,84 +7558,80 @@ module Unlight
 
   class CheckAddFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_frenzy_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_frenzy_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_frenzy_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩を使用 相手の手札を1枚破棄"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_frenzy_eyes_feat
     goal       ["self", :use_end?]
   end
 
-
   class UseFrenzyEyesFeatDamageEvent < EventRule
     dsc        "狂気の眼窩を使用 相手の手札を1枚破棄"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_frenzy_eyes_feat_damage
     goal       ["self", :use_end?]
   end
 
-
   class FinishFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_frenzy_eyes_feat
     goal       ["self", :use_end?]
   end
 
-
 #---------------------------------------------------------------------------------------------
 # 深淵
 
-
   class CheckAddAbyssFeatEvent < EventRule
     dsc        "深淵が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_abyss_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAbyssFeatEvent < EventRule
     dsc        "深淵が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_abyss_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAbyssFeatEvent < EventRule
     dsc        "深淵が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_abyss_feat
     goal       ["self", :use_end?]
   end
 
   class UseAbyssFeatEvent < EventRule
     dsc        "深淵を使用 威力ボーナスをリセット"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
-     func       :use_abyss_feat
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
+     func :use_abyss_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAbyssFeatEvent < EventRule
     dsc        "深淵の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_abyss_feat
     goal       ["self", :use_end?]
   end
@@ -7667,77 +7639,75 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 神速の剣
 
-
   class CheckAddRapidSwordFeatEvent < EventRule
     dsc        "神速の剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_rapid_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRapidSwordFeatEvent < EventRule
     dsc        "神速の剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_rapid_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRapidSwordFeatEvent < EventRule
     dsc        "神速の剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_rapid_sword_feat
     goal       ["self", :use_end?]
   end
 
   class UseRapidSwordFeatEvent < EventRule
     dsc        "神速の剣を使用 剣を攻撃力に加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_rapid_sword_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRapidSwordFeatEvent < EventRule
     dsc        "神速の剣の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_rapid_sword_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 怒りの一撃
 
   class CheckAddAngerFeatEvent < EventRule
     dsc        "怒りの一撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_anger_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAngerFeatEvent < EventRule
     dsc        "怒りの一撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_anger_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAngerFeatEvent < EventRule
     dsc        "怒りの一撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_anger_feat
     goal       ["self", :use_end?]
   end
 
   class UseAngerFeatEvent < EventRule
     dsc        "怒りの一撃を使用 攻撃力にダメージを加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_anger_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAngerFeatEvent < EventRule
     dsc        "怒りの一撃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_anger_feat
     goal       ["self", :use_end?]
   end
@@ -7747,28 +7717,28 @@ module Unlight
 
   class CheckAddPowerStockFeatEvent < EventRule
     dsc        "必殺の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_power_stock_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePowerStockFeatEvent < EventRule
     dsc        "必殺の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_power_stock_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePowerStockFeatEvent < EventRule
     dsc        "必殺の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_power_stock_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPowerStockFeatEvent < EventRule
     dsc        "必殺の構えを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_power_stock_feat
     goal       ["self", :use_end?]
   end
@@ -7778,28 +7748,28 @@ module Unlight
 
   class CheckAddMortalStyleFeatEvent < EventRule
     dsc        "必殺の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_mortal_style_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMortalStyleFeatEvent < EventRule
     dsc        "必殺の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_mortal_style_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMortalStyleFeatEvent < EventRule
     dsc        "必殺の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_mortal_style_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMortalStyleFeatEvent < EventRule
     dsc        "必殺の構えを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_mortal_style_feat
     goal       ["self", :use_end?]
   end
@@ -7809,88 +7779,87 @@ module Unlight
 
   class CheckAddShadowShotFeatEvent < EventRule
     dsc        "影撃ちが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_shadow_shot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveShadowShotFeatEvent < EventRule
     dsc        "影撃ちが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_shadow_shot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateShadowShotFeatEvent < EventRule
     dsc        "影撃ちが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_shadow_shot_feat
     goal       ["self", :use_end?]
   end
 
   class UseShadowShotFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_shadow_shot_feat
     goal       ["self", :use_end?]
   end
 
   class FinishShadowShotFeatEvent < EventRule
     dsc        "影撃ちの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_shadow_shot_feat
     goal       ["self", :use_end?]
   end
 
   class UseShadowShotFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_shadow_shot_feat_damage
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 赫い牙/呪剣
 
   class CheckAddRedFangFeatEvent < EventRule
     dsc        "赫い牙が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_red_fang_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRedFangFeatEvent < EventRule
     dsc        "赫い牙が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_red_fang_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRedFangFeatEvent < EventRule
     dsc        "赫い牙が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_red_fang_feat
     goal       ["self", :use_end?]
   end
 
   class UseRedFangFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_red_fang_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRedFangFeatEvent < EventRule
     dsc        "赫い牙の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_red_fang_feat
     goal       ["self", :use_end?]
   end
 
   class UseRedFangFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_red_fang_feat_damage
     goal       ["self", :use_end?]
   end
@@ -7900,42 +7869,42 @@ module Unlight
 
   class CheckAddBlessingBloodFeatEvent < EventRule
     dsc        "血の恵みが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_blessing_blood_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlessingBloodFeatEvent < EventRule
     dsc        "血の恵みが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_blessing_blood_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlessingBloodFeatEvent < EventRule
     dsc        "血の恵みが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_blessing_blood_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlessingBloodFeatEvent < EventRule
     dsc        "血の恵みを使用 防御力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_blessing_blood_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlessingBloodFeatDamageEvent < EventRule
     dsc        "血の恵み使用時に上回った防御点を回復に当てる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_blessing_blood_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishBlessingBloodFeatEvent < EventRule
     dsc        "血の恵みの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_blessing_blood_feat
     goal       ["self", :use_end?]
   end
@@ -7945,81 +7914,80 @@ module Unlight
 
   class CheckAddCounterPreparationFeatEvent < EventRule
     dsc        "反撃の狼煙が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_counter_preparation_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCounterPreparationFeatEvent < EventRule
     dsc        "反撃の狼煙が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_counter_preparation_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCounterPreparationFeatEvent < EventRule
     dsc        "反撃の狼煙が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_counter_preparation_feat
     goal       ["self", :use_end?]
   end
 
   class UseCounterPreparationFeatDamageEvent < EventRule
     dsc        "反撃の狼煙使用時に上回った攻撃点を手札に当てる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_counter_preparation_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishCounterPreparationFeatEvent < EventRule
     dsc        "反撃の狼煙の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_counter_preparation_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 因果の刻
 
   class CheckAddKarmicTimeFeatEvent < EventRule
     dsc        "因果の刻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_karmic_time_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKarmicTimeFeatEvent < EventRule
     dsc        "因果の刻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_karmic_time_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKarmicTimeFeatEvent < EventRule
     dsc        "因果の刻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_karmic_time_feat
     goal       ["self", :use_end?]
   end
 
   class UseKarmicTimeFeatEvent < EventRule
     dsc        "因果の刻を使用 墓地からカードを拾う"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event
     func       :use_karmic_time_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCharaChangeKarmicTimeFeatEvent < EventRule
     dsc        "因果の刻の使用が終了(キャラチェンジ時)"
-    type       :type=>:before, :obj=>"owner", :hook=>:chara_change_action
+    type       type: :before, obj: "owner", hook: :chara_change_action
     func       :use_karmic_time_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFoeCharaChangeKarmicTimeFeatEvent < EventRule
     dsc        "因果の刻の使用が終了(キャラチェンジ時)"
-    type       :type=>:before, :obj=>"foe", :hook=>:chara_change_action
+    type       type: :before, obj: "foe", hook: :chara_change_action
     func       :use_karmic_time_feat
     goal       ["self", :use_end?]
   end
@@ -8029,106 +7997,104 @@ module Unlight
 
   class CheckAddKarmicRingFeatEvent < EventRule
     dsc        "因果の輪が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_karmic_ring_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKarmicRingFeatEvent < EventRule
     dsc        "因果の輪が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_karmic_ring_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKarmicRingFeatEvent < EventRule
     dsc        "因果の輪が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_karmic_ring_feat
     goal       ["self", :use_end?]
   end
 
   class UseKarmicRingFeatEvent < EventRule
     dsc        "因果の輪を使用 相手のカードを回転させる"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>2
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 2
     func       :use_karmic_ring_feat
     goal       ["self", :use_end?]
   end
 
   class FinishKarmicRingFeatEvent < EventRule
     dsc        "因果の輪の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_karmic_ring_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 因果の糸
 
   class CheckAddKarmicStringFeatEvent < EventRule
     dsc        "因果の糸が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_karmic_string_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKarmicStringFeatEvent < EventRule
     dsc        "因果の糸が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_karmic_string_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKarmicStringFeatEvent < EventRule
     dsc        "因果の糸が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_karmic_string_feat
     goal       ["self", :use_end?]
   end
 
   class UseKarmicStringFeatEvent < EventRule
     dsc        "因果の糸の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_karmic_string_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # ハイスマッシュ
 
   class CheckAddHiSmashFeatEvent < EventRule
     dsc        "強打2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hi_smash_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHiSmashFeatEvent < EventRule
     dsc        "強打2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hi_smash_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHiSmashFeatEvent < EventRule
     dsc        "強打2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hi_smash_feat
     goal       ["self", :use_end?]
   end
 
   class UseHiSmashFeatEvent < EventRule
     dsc        "強打2を使用 攻撃力が+5"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hi_smash_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHiSmashFeatEvent < EventRule
     dsc        "強打2の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hi_smash_feat
     goal       ["self", :use_end?]
   end
@@ -8138,263 +8104,256 @@ module Unlight
 
   class CheckAddHiPowerStockFeatEvent < EventRule
     dsc        "必殺の構え2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_hi_power_stock_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHiPowerStockFeatEvent < EventRule
     dsc        "必殺の構え2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_hi_power_stock_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHiPowerStockFeatEvent < EventRule
     dsc        "必殺の構え2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_hi_power_stock_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHiPowerStockFeatEvent < EventRule
     dsc        "必殺の構え2を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_hi_power_stock_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 精密射撃2
 
   class CheckAddHiAimingFeatEvent < EventRule
     dsc        "精密射撃2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hi_aiming_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHiAimingFeatEvent < EventRule
     dsc        "精密射撃2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hi_aiming_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHiAimingFeatEvent < EventRule
     dsc        "精密射撃2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hi_aiming_feat
     goal       ["self", :use_end?]
   end
 
-
   class UseHiAimingFeatEvent < EventRule
     dsc        "精密射撃2を使用 攻撃力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hi_aiming_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHiAimingFeatEvent < EventRule
     dsc        "精密射撃2の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hi_aiming_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 神速の剣2
 
   class CheckAddHiRapidSwordFeatEvent < EventRule
     dsc        "神速の剣2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hi_rapid_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHiRapidSwordFeatEvent < EventRule
     dsc        "神速の剣2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hi_rapid_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHiRapidSwordFeatEvent < EventRule
     dsc        "神速の剣2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hi_rapid_sword_feat
     goal       ["self", :use_end?]
   end
 
   class UseHiRapidSwordFeatEvent < EventRule
     dsc        "神速の剣2を使用 剣を攻撃力に加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hi_rapid_sword_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHiRapidSwordFeatEvent < EventRule
     dsc        "神速の剣2の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hi_rapid_sword_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 因果の糸2
 
   class CheckAddHiKarmicStringFeatEvent < EventRule
     dsc        "因果の糸2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_hi_karmic_string_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHiKarmicStringFeatEvent < EventRule
     dsc        "因果の糸2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_hi_karmic_string_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHiKarmicStringFeatEvent < EventRule
     dsc        "因果の糸2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_hi_karmic_string_feat
     goal       ["self", :use_end?]
   end
 
   class UseHiKarmicStringFeatEvent < EventRule
     dsc        "因果の糸2の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_hi_karmic_string_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 狂気の眼窩2
 
   class CheckAddHiFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_hi_frenzy_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHiFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_hi_frenzy_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHiFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_hi_frenzy_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseHiFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩2を使用 相手の手札を1枚破棄"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_hi_frenzy_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseHiFrenzyEyesFeatDamageEvent < EventRule
     dsc        "狂気の眼窩2を使用 相手の手札を1枚破棄"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_hi_frenzy_eyes_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishHiFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩2の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hi_frenzy_eyes_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 影撃ち2
 
   class CheckAddHiShadowShotFeatEvent < EventRule
     dsc        "影撃ち2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hi_shadow_shot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHiShadowShotFeatEvent < EventRule
     dsc        "影撃ち2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hi_shadow_shot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHiShadowShotFeatEvent < EventRule
     dsc        "影撃ち2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hi_shadow_shot_feat
     goal       ["self", :use_end?]
   end
 
   class UseHiShadowShotFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hi_shadow_shot_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHiShadowShotFeatEvent < EventRule
     dsc        "影撃ち2の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hi_shadow_shot_feat
     goal       ["self", :use_end?]
   end
 
   class UseHiShadowShotFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_hi_shadow_shot_feat_damage
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 地雷
 
   class CheckAddLandMineFeatEvent < EventRule
     dsc        "地雷が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_land_mine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLandMineFeatEvent < EventRule
     dsc        "地雷が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_land_mine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLandMineFeatEvent < EventRule
     dsc        "地雷が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_land_mine_feat
     goal       ["self", :use_end?]
   end
 
   class UseLandMineFeatEvent < EventRule
     dsc        "地雷の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_land_mine_feat
     goal       ["self", :use_end?]
   end
@@ -8404,35 +8363,35 @@ module Unlight
 
   class CheckAddDesperadoFeatEvent < EventRule
     dsc        "デスペラードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_desperado_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDesperadoFeatEvent < EventRule
     dsc        "デスペラードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_desperado_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDesperadoFeatEvent < EventRule
     dsc        "デスペラードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_desperado_feat
     goal       ["self", :use_end?]
   end
 
   class UseDesperadoFeatEvent < EventRule
     dsc        "デスペラードを使用 攻撃力が+6"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_desperado_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDesperadoFeatEvent < EventRule
     dsc        "デスペラードの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_desperado_feat
     goal       ["self", :use_end?]
   end
@@ -8442,35 +8401,35 @@ module Unlight
 
   class CheckAddRejectSwordFeatEvent < EventRule
     dsc        "リジェクトソードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_reject_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRejectSwordFeatEvent < EventRule
     dsc        "リジェクトソードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_reject_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRejectSwordFeatEvent < EventRule
     dsc        "リジェクトソードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_reject_sword_feat
     goal       ["self", :use_end?]
   end
 
   class UseRejectSwordFeatEvent < EventRule
     dsc        "リジェクトソードを使用 攻撃力が+4"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_reject_sword_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRejectSwordFeatEvent < EventRule
     dsc        "リジェクトソードの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_reject_sword_feat
     goal       ["self", :use_end?]
   end
@@ -8480,42 +8439,42 @@ module Unlight
 
   class CheckAddCounterGuardFeatEvent < EventRule
     dsc        "カウンターガードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_counter_guard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCounterGuardFeatEvent < EventRule
     dsc        "カウンターガードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_counter_guard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCounterGuardFeatEvent < EventRule
     dsc        "カウンターガードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_counter_guard_feat
     goal       ["self", :use_end?]
   end
 
   class UseCounterGuardFeatEvent < EventRule
     dsc        "カウンターガードの使用が終了"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>20
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 20
     func       :use_counter_guard_feat
     goal       ["self", :use_end?]
   end
 
   class UseCounterGuardFeatDiceAttrEvent < EventRule
     dsc        "カウンターガードの使用が終了"
-    type       :type=>:before, :obj=>"foe", :hook=>:dice_attribute_regist_event, :priority=>20
+    type       type: :before, obj: "foe", hook: :dice_attribute_regist_event, priority: 20
     func       :use_counter_guard_feat_dice_attr
     goal       ["self", :use_end?]
   end
 
   class FinishCounterGuardFeatEvent < EventRule
     dsc        "カウンターガードの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>60
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 60
     func       :finish_counter_guard_feat
     goal       ["self", :use_end?]
   end
@@ -8525,14 +8484,14 @@ module Unlight
 
   class UseExCounterGuardFeatEvent < EventRule
     dsc        "カウンターガードの使用が終了"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>60
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 60
     func       :use_counter_guard_feat
     goal       ["self", :use_end?]
   end
 
   class UseExCounterGuardFeatDiceAttrEvent < EventRule
     dsc        "カウンターガードの使用が終了"
-    type       :type=>:after, :obj=>"foe", :hook=>:dice_attribute_regist_event, :priority=>70
+    type       type: :after, obj: "foe", hook: :dice_attribute_regist_event, priority: 70
     func       :use_counter_guard_feat_dice_attr
     goal       ["self", :use_end?]
   end
@@ -8542,67 +8501,66 @@ module Unlight
 
   class CheckAddPainFleeFeatEvent < EventRule
     dsc        "ペインフリーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_pain_flee_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePainFleeFeatEvent < EventRule
     dsc        "ペインフリーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_pain_flee_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePainFleeFeatEvent < EventRule
     dsc        "ペインフリーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_pain_flee_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPainFleeFeatEvent < EventRule
     dsc        "ペインフリーを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_pain_flee_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 光の映し身
 
   class CheckAddBodyOfLightFeatEvent < EventRule
     dsc        "光の映し身が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_body_of_light_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBodyOfLightFeatEvent < EventRule
     dsc        "光の映し身が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_body_of_light_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBodyOfLightFeatEvent < EventRule
     dsc        "光の映し身が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_body_of_light_feat
     goal       ["self", :use_end?]
   end
 
   class UseBodyOfLightFeatEvent < EventRule
     dsc        "光の映し身を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_body_of_light_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBodyOfLightFeatEvent < EventRule
     dsc        "光の映し身の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 50
     func       :finish_body_of_light_feat
     goal       ["self", :use_end?]
   end
@@ -8612,88 +8570,87 @@ module Unlight
 
   class CheckAddSealChainFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_seal_chain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSealChainFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_seal_chain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSealChainFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_seal_chain_feat
     goal       ["self", :use_end?]
   end
 
   class UseSealChainFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_seal_chain_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSealChainFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_seal_chain_feat
     goal       ["self", :use_end?]
   end
 
   class UseSealChainFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_seal_chain_feat_damage
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 降魔の光
 
   class CheckAddPurificationLightFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_purification_light_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePurificationLightFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_purification_light_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePurificationLightFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_purification_light_feat
     goal       ["self", :use_end?]
   end
 
   class UsePurificationLightFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_purification_light_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPurificationLightFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_purification_light_feat
     goal       ["self", :use_end?]
   end
 
   class UsePurificationLightFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_purification_light_feat_damage
     goal       ["self", :use_end?]
   end
@@ -8703,28 +8660,28 @@ module Unlight
 
   class CheckAddCraftinessFeatEvent < EventRule
     dsc        "知略が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_craftiness_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCraftinessFeatEvent < EventRule
     dsc        "知略が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_craftiness_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCraftinessFeatEvent < EventRule
     dsc        "知略が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_craftiness_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCraftinessFeatEvent < EventRule
     dsc        "知略を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_craftiness_feat
     goal       ["self", :use_end?]
   end
@@ -8734,28 +8691,28 @@ module Unlight
 
   class CheckAddLandBombFeatEvent < EventRule
     dsc        "地雷が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_land_bomb_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLandBombFeatEvent < EventRule
     dsc        "地雷が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_land_bomb_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLandBombFeatEvent < EventRule
     dsc        "地雷が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_land_bomb_feat
     goal       ["self", :use_end?]
   end
 
   class UseLandBombFeatEvent < EventRule
     dsc        "地雷の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_land_bomb_feat
     goal       ["self", :use_end?]
   end
@@ -8765,166 +8722,163 @@ module Unlight
 
   class CheckAddRejectBladeFeatEvent < EventRule
     dsc        "リジェクトソードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_reject_blade_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRejectBladeFeatEvent < EventRule
     dsc        "リジェクトソードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_reject_blade_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRejectBladeFeatEvent < EventRule
     dsc        "リジェクトソードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_reject_blade_feat
     goal       ["self", :use_end?]
   end
 
   class UseRejectBladeFeatEvent < EventRule
     dsc        "リジェクトソードを使用 攻撃力が+4"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_reject_blade_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRejectBladeFeatEvent < EventRule
     dsc        "リジェクトソードの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_reject_blade_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 呪縛の鎖
 
   class CheckAddSpellChainFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_spell_chain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSpellChainFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_spell_chain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSpellChainFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_spell_chain_feat
     goal       ["self", :use_end?]
   end
 
   class UseSpellChainFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_spell_chain_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSpellChainFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_spell_chain_feat
     goal       ["self", :use_end?]
   end
 
   class UseSpellChainFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_spell_chain_feat_damage
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 不屈の心
 
   class CheckAddIndomitableMindFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_indomitable_mind_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveIndomitableMindFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_indomitable_mind_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateIndomitableMindFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_indomitable_mind_feat
     goal       ["self", :use_end?]
   end
 
   class UseIndomitableMindFeatEvent < EventRule
     dsc        "必殺技を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :use_indomitable_mind_feat
     goal       ["self", :use_end?]
   end
 
   class UseIndomitableMindFeatDamageEvent < EventRule
     dsc        "必殺技が使用される"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>60
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 60
     func       :use_indomitable_mind_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishIndomitableMindFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 100
     func       :finish_indomitable_mind_feat
     goal       ["self", :use_end?]
   end
 
   class FinishIndomitableMindFeatDeadCharaChangeEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_indomitable_mind_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 精神力吸収
 
   class CheckAddDrainSoulFeatEvent < EventRule
     dsc        "精神力吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_drain_soul_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDrainSoulFeatEvent < EventRule
     dsc        "精神力吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_drain_soul_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDrainSoulFeatEvent < EventRule
     dsc        "精神力吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_drain_soul_feat
     goal       ["self", :use_end?]
   end
 
   class UseDrainSoulFeatEvent < EventRule
     dsc        "精神力吸収の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 0
     func       :use_drain_soul_feat
     goal       ["self", :use_end?]
   end
@@ -8934,35 +8888,35 @@ module Unlight
 
   class CheckAddBackStabFeatEvent < EventRule
     dsc        "バックスタブが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_back_stab_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBackStabFeatEvent < EventRule
     dsc        "バックスタブが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_back_stab_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBackStabFeatEvent < EventRule
     dsc        "バックスタブが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_back_stab_feat
     goal       ["self", :use_end?]
   end
 
   class UseBackStabFeatEvent < EventRule
     dsc        "バックスタブを使用 攻撃力が+4"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_back_stab_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBackStabFeatEvent < EventRule
     dsc        "バックスタブの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_back_stab_feat
     goal       ["self", :use_end?]
   end
@@ -8972,67 +8926,66 @@ module Unlight
 
   class CheckAddEnlightenedFeatEvent < EventRule
     dsc        "精神力吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_enlightened_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveEnlightenedFeatEvent < EventRule
     dsc        "精神力吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_enlightened_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateEnlightenedFeatEvent < EventRule
     dsc        "精神力吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_enlightened_feat
     goal       ["self", :use_end?]
   end
 
   class UseEnlightenedFeatEvent < EventRule
     dsc        "精神力吸収の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 0
     func       :use_enlightened_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 暗黒の渦
 
   class CheckAddDarkWhirlpoolFeatEvent < EventRule
     dsc        "暗黒の渦が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_dark_whirlpool_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDarkWhirlpoolFeatEvent < EventRule
     dsc        "暗黒の渦が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_dark_whirlpool_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDarkWhirlpoolFeatEvent < EventRule
     dsc        "暗黒の渦が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_dark_whirlpool_feat
     goal       ["self", :use_end?]
   end
 
   class UseDarkWhirlpoolFeatEvent < EventRule
     dsc        "暗黒の渦を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_dark_whirlpool_feat
     goal       ["self", :use_end?]
   end
 
   class UseDarkWhirlpoolFeatDamageEvent < EventRule
     dsc        "暗黒の渦を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :use_dark_whirlpool_feat_damage
     goal       ["self", :use_end?]
   end
@@ -9042,139 +8995,135 @@ module Unlight
 
   class CheckAddKarmicPhantomFeatEvent < EventRule
     dsc        "因果の幻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_karmic_phantom_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKarmicPhantomFeatEvent < EventRule
     dsc        "因果の幻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_karmic_phantom_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKarmicPhantomFeatEvent < EventRule
     dsc        "因果の幻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_karmic_phantom_feat
     goal       ["self", :use_end?]
   end
 
   class UseKarmicPhantomFeatEvent < EventRule
     dsc        "因果の幻を使用 攻撃力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_karmic_phantom_feat
     goal       ["self", :use_end?]
   end
 
   class FinishKarmicPhantomFeatEvent < EventRule
     dsc        "因果の幻の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 1
     func       :finish_karmic_phantom_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 治癒の波動
 
   class CheckAddRecoveryWaveFeatEvent < EventRule
     dsc        "治癒の波動が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_recovery_wave_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRecoveryWaveFeatEvent < EventRule
     dsc        "治癒の波動が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_recovery_wave_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRecoveryWaveFeatEvent < EventRule
     dsc        "治癒の波動が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_recovery_wave_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRecoveryWaveFeatEvent < EventRule
     dsc        "治癒の波動の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 0
     func       :finish_recovery_wave_feat
     goal       ["self", :use_end?]
   end
 
-
 #---------------------------------------------------------------------------------------------
 # 自爆
 
-
   class CheckAddSelfDestructionFeatEvent < EventRule
     dsc        "自爆が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_self_destruction_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSelfDestructionFeatEvent < EventRule
     dsc        "自爆が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_self_destruction_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSelfDestructionFeatEvent < EventRule
     dsc        "自爆が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_self_destruction_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSelfDestructionFeatEvent < EventRule
     dsc        "自爆の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_self_destruction_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 防護射撃
 
   class CheckAddDeffenceShootingFeatEvent < EventRule
     dsc        "防護射撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_deffence_shooting_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDeffenceShootingFeatEvent < EventRule
     dsc        "防護射撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_deffence_shooting_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDeffenceShootingFeatEvent < EventRule
     dsc        "防護射撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_deffence_shooting_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeffenceShootingFeatEvent < EventRule
     dsc        "防護射撃を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_deffence_shooting_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeffenceShootingFeatDamageEvent < EventRule
     dsc        "防護射撃を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :use_deffence_shooting_feat_damage
     goal       ["self", :use_end?]
   end
@@ -9184,67 +9133,66 @@ module Unlight
 
   class CheckAddRecoveryFeatEvent < EventRule
     dsc        "再生が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_recovery_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRecoveryFeatEvent < EventRule
     dsc        "再生が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_recovery_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRecoveryFeatEvent < EventRule
     dsc        "再生が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_recovery_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRecoveryFeatEvent < EventRule
     dsc        "再生を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_recovery_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 幻影
 
   class CheckAddShadowAttackFeatEvent < EventRule
     dsc        "幻影が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_shadow_attack_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveShadowAttackFeatEvent < EventRule
     dsc        "幻影が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_shadow_attack_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateShadowAttackFeatEvent < EventRule
     dsc        "幻影が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_shadow_attack_feat
     goal       ["self", :use_end?]
   end
 
   class UseShadowAttackFeatEvent < EventRule
     dsc        "幻影をを使用 攻撃力が+2、攻撃終了時に距離が変化"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_shadow_attack_feat
     goal       ["self", :use_end?]
   end
 
   class FinishShadowAttackFeatEvent < EventRule
     dsc        "幻影の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_shadow_attack_feat
     goal       ["self", :use_end?]
   end
@@ -9254,35 +9202,35 @@ module Unlight
 
   class CheckAddSuicidalTendenciesFeatEvent < EventRule
     dsc        "スーサイダルテンデンシーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_suicidal_tendencies_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSuicidalTendenciesFeatEvent < EventRule
     dsc        "スーサイダルテンデンシーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_suicidal_tendencies_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSuicidalTendenciesFeatEvent < EventRule
     dsc        "スーサイダルテンデンシーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_suicidal_tendencies_feat
     goal       ["self", :use_end?]
   end
 
   class UseSuicidalTendenciesFeatEvent < EventRule
     dsc        "スーサイダルテンデンシーを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_suicidal_tendencies_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSuicidalTendenciesFeatEvent < EventRule
     dsc        "スーサイダルテンデンシーの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_suicidal_tendencies_feat
     goal       ["self", :use_end?]
   end
@@ -9292,42 +9240,42 @@ module Unlight
 
   class CheckAddMisfitFeatEvent < EventRule
     dsc        "ミスフィットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_misfit_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMisfitFeatEvent < EventRule
     dsc        "ミスフィットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_misfit_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMisfitFeatEvent < EventRule
     dsc        "ミスフィットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_misfit_feat
     goal       ["self", :use_end?]
   end
 
   class UseMisfitFeatEvent < EventRule
     dsc        "ミスフィットを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_misfit_feat
     goal       ["self", :use_end?]
   end
 
   class UseMisfitFeatDamageEvent < EventRule
     dsc        "ミスフィット発動。不死になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>99
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 99
     func       :use_misfit_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishMisfitFeatEvent < EventRule
     dsc        "ミスフィットの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_misfit_feat
     goal       ["self", :use_end?]
   end
@@ -9337,28 +9285,28 @@ module Unlight
 
   class CheckAddBigBraggFeatEvent < EventRule
     dsc        "ビッグブラッグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_big_bragg_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBigBraggFeatEvent < EventRule
     dsc        "ビッグブラッグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_big_bragg_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBigBraggFeatEvent < EventRule
     dsc        "ビッグブラッグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_big_bragg_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBigBraggFeatEvent < EventRule
     dsc        "ビッグブラッグを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_big_bragg_feat
     goal       ["self", :use_end?]
   end
@@ -9368,68 +9316,66 @@ module Unlight
 
   class CheckAddLetsKnifeFeatEvent < EventRule
     dsc        "レッツナイフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_lets_knife_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLetsKnifeFeatEvent < EventRule
     dsc        "レッツナイフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_lets_knife_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLetsKnifeFeatEvent < EventRule
     dsc        "レッツナイフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_lets_knife_feat
     goal       ["self", :use_end?]
   end
 
   class UseLetsKnifeFeatEvent < EventRule
     dsc        "レッツナイフを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_lets_knife_feat
     goal       ["self", :use_end?]
   end
 
   class FinishLetsKnifeFeatEvent < EventRule
     dsc        "レッツナイフの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_lets_knife_feat
     goal       ["self", :use_end?]
   end
-
-
 
 #---------------------------------------------------------------------------------------------
 # 1つの心
 
   class CheckAddSingleHeartFeatEvent < EventRule
     dsc        "1つの心が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_single_heart_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSingleHeartFeatEvent < EventRule
     dsc        "1つの心が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_single_heart_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSingleHeartFeatEvent < EventRule
     dsc        "1つの心が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_single_heart_feat
     goal       ["self", :use_end?]
   end
 
   class UseSingleHeartFeatEvent < EventRule
     dsc        "1つの心の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 1
     func       :use_single_heart_feat
     goal       ["self", :use_end?]
   end
@@ -9439,135 +9385,132 @@ module Unlight
 
   class CheckAddDoubleBodyFeatEvent < EventRule
     dsc        "2つの身体が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_double_body_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDoubleBodyFeatEvent < EventRule
     dsc        "2つの身体が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_double_body_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDoubleBodyFeatEvent < EventRule
     dsc        "2つの身体が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_double_body_feat
     goal       ["self", :use_end?]
   end
 
   class UseDoubleBodyFeatEvent < EventRule
     dsc        "2つの身体を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_double_body_feat
     goal       ["self", :use_end?]
   end
 
   class UseDoubleBodyFeatDamageEvent < EventRule
     dsc        "2つの身体使用時にダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_double_body_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishDoubleBodyFeatEvent < EventRule
     dsc        "2つの身体の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_double_body_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 9の魂
 
   class CheckAddNineSoulFeatEvent < EventRule
     dsc        "9の魂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_nine_soul_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveNineSoulFeatEvent < EventRule
     dsc        "9の魂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_nine_soul_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateNineSoulFeatEvent < EventRule
     dsc        "9の魂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_nine_soul_feat
     goal       ["self", :use_end?]
   end
 
   class UseNineSoulFeatEvent < EventRule
     dsc        "9の魂を使用 自分を特殊/2回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_nine_soul_feat
     goal       ["self", :use_end?]
   end
 
   class FinishNineSoulFeatEvent < EventRule
     dsc        "9の魂の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_nine_soul_feat
     goal       ["self", :use_end?]
   end
-
-
 
 #---------------------------------------------------------------------------------------------
 # 13の眼
 
   class CheckAddThirteenEyesFeatEvent < EventRule
     dsc        "13の眼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_thirteen_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveThirteenEyesFeatEvent < EventRule
     dsc        "13の眼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_thirteen_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateThirteenEyesFeatEvent < EventRule
     dsc        "13の眼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_thirteen_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseOwnerThirteenEyesFeatEvent < EventRule
     dsc        "13の眼を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>50
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 50
     func       :use_thirteen_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoeThirteenEyesFeatEvent < EventRule
     dsc        "13の眼を使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:dp_calc_resolve, :priority=>50
+    type       type: :after, obj: "foe", hook: :dp_calc_resolve, priority: 50
     func       :use_thirteen_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class FinishThirteenEyesFeatEvent < EventRule
     dsc        "13の眼の使用が終了"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event, :priority=>60
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event, priority: 60
     func       :finish_thirteen_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseThirteenEyesFeatDamageEvent < EventRule
     dsc        "13の眼を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>60
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 60
     func       :use_thirteen_eyes_feat_damage
     goal       ["self", :use_end?]
   end
@@ -9577,14 +9520,14 @@ module Unlight
 
   class UseFoeExThirteenEyesFeatEvent < EventRule
     dsc        "13の眼を使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:dp_calc_resolve, :priority=>70
+    type       type: :after, obj: "foe", hook: :dp_calc_resolve, priority: 70
     func       :use_thirteen_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class FinishExThirteenEyesFeatEvent < EventRule
     dsc        "13の眼の使用が終了"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event, :priority=>80
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event, priority: 80
     func       :finish_thirteen_eyes_feat
     goal       ["self", :use_end?]
   end
@@ -9594,42 +9537,42 @@ module Unlight
 
   class CheckAddLifeDrainFeatEvent < EventRule
     dsc        "ライフドレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_life_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLifeDrainFeatEvent < EventRule
     dsc        "ライフドレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_life_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLifeDrainFeatEvent < EventRule
     dsc        "ライフドレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_life_drain_feat
     goal       ["self", :use_end?]
   end
 
   class UseLifeDrainFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_life_drain_feat
     goal       ["self", :use_end?]
   end
 
   class FinishLifeDrainFeatEvent < EventRule
     dsc        "ライフドレインの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_life_drain_feat
     goal       ["self", :use_end?]
   end
 
   class UseLifeDrainFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_life_drain_feat_damage
     goal       ["self", :use_end?]
   end
@@ -9639,82 +9582,80 @@ module Unlight
 
   class CheckAddRandomCurseFeatEvent < EventRule
     dsc        "ランダムカースが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_random_curse_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRandomCurseFeatEvent < EventRule
     dsc        "ランダムカースが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_random_curse_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRandomCurseFeatEvent < EventRule
     dsc        "ランダムカースが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_random_curse_feat
     goal       ["self", :use_end?]
   end
 
   class UseRandomCurseFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_random_curse_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRandomCurseFeatEvent < EventRule
     dsc        "ランダムカースの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_random_curse_feat
     goal       ["self", :use_end?]
   end
 
   class UseRandomCurseFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_random_curse_feat_damage
     goal       ["self", :use_end?]
   end
 
-
 #---------------------------------------------------------------------------------------------
 # 癒しの声
 
-
   class CheckAddHealVoiceFeatEvent < EventRule
     dsc        "癒しの声が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_heal_voice_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHealVoiceFeatEvent < EventRule
     dsc        "癒しの声が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_heal_voice_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHealVoiceFeatEvent < EventRule
     dsc        "癒しの声が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_heal_voice_feat
     goal       ["self", :use_end?]
   end
 
   class UseHealVoiceFeatEvent < EventRule
     dsc        "癒しの声を使用 自分を回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_heal_voice_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHealVoiceFeatEvent < EventRule
     dsc        "癒しの声の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_heal_voice_feat
     goal       ["self", :use_end?]
   end
@@ -9724,75 +9665,73 @@ module Unlight
 
   class CheckAddDoubleAttackFeatEvent < EventRule
     dsc        "ダブルアタックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_double_attack_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDoubleAttackFeatEvent < EventRule
     dsc        "ダブルアタックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_double_attack_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDoubleAttackFeatEvent < EventRule
     dsc        "ダブルアタックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_double_attack_feat
     goal       ["self", :use_end?]
   end
 
   class UseDoubleAttackFeatEvent < EventRule
     dsc        "ダブルアタックを使用 攻撃力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_double_attack_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDoubleAttackFeatEvent < EventRule
     dsc        "ダブルアタックの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>20
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 20
     func       :finish_double_attack_feat
     goal       ["self", :use_end?]
   end
 
-
 #---------------------------------------------------------------------------------------------
 # 全体攻撃
 
-
   class CheckAddPartyDamageFeatEvent < EventRule
     dsc        "全体攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_party_damage_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePartyDamageFeatEvent < EventRule
     dsc        "全体攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_party_damage_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePartyDamageFeatEvent < EventRule
     dsc        "全体攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_party_damage_feat
     goal       ["self", :use_end?]
   end
 
   class UsePartyDamageFeatEvent < EventRule
     dsc        "全体攻撃を使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_party_damage_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPartyDamageFeatEvent < EventRule
     dsc        "全体攻撃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_party_damage_feat
     goal       ["self", :use_end?]
   end
@@ -9802,42 +9741,42 @@ module Unlight
 
   class CheckAddGuardFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_guard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGuardFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_guard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGuardFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_guard_feat
     goal       ["self", :use_end?]
   end
 
   class UseGuardFeatEvent < EventRule
     dsc        "必殺技を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_guard_feat
     goal       ["self", :use_end?]
   end
 
   class UseGuardFeatDamageEvent < EventRule
     dsc        "必殺技が使用される"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 50
     func       :use_guard_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishGuardFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_guard_feat
     goal       ["self", :use_end?]
   end
@@ -9847,42 +9786,42 @@ module Unlight
 
   class CheckAddDeathControlFeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_death_control_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDeathControlFeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_death_control_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDeathControlFeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_death_control_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeathControlFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_death_control_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDeathControlFeatEvent < EventRule
     dsc        "自壊攻撃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_death_control_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeathControlFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_death_control_feat_damage
     goal       ["self", :use_end?]
   end
@@ -9892,35 +9831,35 @@ module Unlight
 
   class CheckAddWitFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_wit_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWitFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_wit_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWitFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_wit_feat
     goal       ["self", :use_end?]
   end
 
   class UseWitFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_wit_feat
     goal       ["self", :use_end?]
   end
 
   class FinishWitFeatEvent < EventRule
     dsc        "移動上昇を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_wit_feat
     goal       ["self", :use_end?]
   end
@@ -9930,42 +9869,42 @@ module Unlight
 
   class CheckAddThornCareFeatEvent < EventRule
     dsc        "茨の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_thorn_care_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveThornCareFeatEvent < EventRule
     dsc        "茨の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_thorn_care_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateThornCareFeatEvent < EventRule
     dsc        "茨の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_thorn_care_feat
     goal       ["self", :use_end?]
   end
 
   class UseThornCareFeatEvent < EventRule
     dsc        "茨の構えを使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_thorn_care_feat
     goal       ["self", :use_end?]
   end
 
   class UseThornCareFeatDamageEvent < EventRule
     dsc        "茨の構え使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_thorn_care_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishThornCareFeatEvent < EventRule
     dsc        "茨の構えの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_thorn_care_feat
     goal       ["self", :use_end?]
   end
@@ -9975,42 +9914,42 @@ module Unlight
 
   class CheckAddLiberatingSwordFeatEvent < EventRule
     dsc        "解放剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_liberating_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLiberatingSwordFeatEvent < EventRule
     dsc        "解放剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_liberating_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLiberatingSwordFeatEvent < EventRule
     dsc        "解放剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_liberating_sword_feat
     goal       ["self", :use_end?]
   end
 
   class UseLiberatingSwordFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_liberating_sword_feat
     goal       ["self", :use_end?]
   end
 
   class FinishLiberatingSwordFeatEvent < EventRule
     dsc        "解放剣の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_liberating_sword_feat
     goal       ["self", :use_end?]
   end
 
   class UseLiberatingSwordFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 1
     func       :use_liberating_sword_feat_damage
     goal       ["self", :use_end?]
   end
@@ -10020,81 +9959,80 @@ module Unlight
 
   class CheckAddOneSlashFeatEvent < EventRule
     dsc        "一閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_one_slash_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveOneSlashFeatEvent < EventRule
     dsc        "一閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_one_slash_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateOneSlashFeatEvent < EventRule
     dsc        "一閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_one_slash_feat
     goal       ["self", :use_end?]
   end
 
   class UseOneSlashFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_one_slash_feat
     goal       ["self", :use_end?]
   end
 
   class FinishOneSlashFeatEvent < EventRule
     dsc        "一閃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_one_slash_feat
     goal       ["self", :use_end?]
   end
 
   class UseOneSlashFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 0
     func       :use_one_slash_feat_damage
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 十閃
 
   class CheckAddTenSlashFeatEvent < EventRule
     dsc        "十閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_ten_slash_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTenSlashFeatEvent < EventRule
     dsc        "十閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_ten_slash_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTenSlashFeatEvent < EventRule
     dsc        "十閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_ten_slash_feat
     goal       ["self", :use_end?]
   end
 
   class UseTenSlashFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_ten_slash_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTenSlashFeatEvent < EventRule
     dsc        "十閃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 1
     func       :finish_ten_slash_feat
     goal       ["self", :use_end?]
   end
@@ -10104,35 +10042,35 @@ module Unlight
 
   class CheckAddHassenFeatEvent < EventRule
     dsc        "八閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hassen_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHassenFeatEvent < EventRule
     dsc        "八閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hassen_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHassenFeatEvent < EventRule
     dsc        "八閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hassen_feat
     goal       ["self", :use_end?]
   end
 
   class UseHassenFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hassen_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHassenFeatEvent < EventRule
     dsc        "八閃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hassen_feat
     goal       ["self", :use_end?]
   end
@@ -10142,42 +10080,42 @@ module Unlight
 
   class CheckAddHandledSlashFeatEvent < EventRule
     dsc        "百閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_handled_slash_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHandledSlashFeatEvent < EventRule
     dsc        "百閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_handled_slash_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHandledSlashFeatEvent < EventRule
     dsc        "百閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_handled_slash_feat
     goal       ["self", :use_end?]
   end
 
   class UseHandledSlashFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_handled_slash_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHandledSlashFeatEvent < EventRule
     dsc        "百閃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_handled_slash_feat
     goal       ["self", :use_end?]
   end
 
   class UseHandledSlashFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>20
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 20
     func       :use_handled_slash_feat_damage
     goal       ["self", :use_end?]
   end
@@ -10187,42 +10125,42 @@ module Unlight
 
   class CheckAddHandledSlashRFeatEvent < EventRule
     dsc        "百閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_handled_slash_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHandledSlashRFeatEvent < EventRule
     dsc        "百閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_handled_slash_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHandledSlashRFeatEvent < EventRule
     dsc        "百閃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_handled_slash_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseHandledSlashRFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_handled_slash_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHandledSlashRFeatEvent < EventRule
     dsc        "百閃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_handled_slash_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseHandledSlashRFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>20
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 20
     func       :use_handled_slash_r_feat_damage
     goal       ["self", :use_end?]
   end
@@ -10232,63 +10170,63 @@ module Unlight
 
   class CheckAddCurseCareFeatEvent < EventRule
     dsc        "修羅の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_curse_care_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCurseCareFeatEvent < EventRule
     dsc        "修羅の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_curse_care_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCurseCareFeatEvent < EventRule
     dsc        "修羅の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_curse_care_feat
     goal       ["self", :use_end?]
   end
 
   class UseCurseCareFeatEvent < EventRule
     dsc        "修羅の構えを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_curse_care_feat
     goal       ["self", :use_end?]
   end
 
   class UseCurseCareFeatDamageEvent < EventRule
     dsc        "修羅の構え発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>120
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 120
     func       :use_curse_care_feat_damage
     goal       ["self", :use_end?]
   end
 
   class UseCurseCareFeatHeal1Event < EventRule
     dsc        "修羅の構え発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>2
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 2
     func       :use_curse_care_feat_heal1
     goal       ["self", :use_end?]
   end
 
   class UseCurseCareFeatHealDetBpEvent < EventRule
     dsc        "修羅の構え発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 50
     func       :use_curse_care_feat_heal2
     goal       ["self", :use_end?]
   end
 
   class UseCurseCareFeatHeal2Event < EventRule
     dsc        "修羅の構え発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 0
     func       :use_curse_care_feat_heal2
     goal       ["self", :use_end?]
   end
 
   class UseCurseCareFeatHeal3Event < EventRule
     dsc        "修羅の構え発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 50
     func       :use_curse_care_feat_heal3
     goal       ["self", :use_end?]
   end
@@ -10298,35 +10236,35 @@ module Unlight
 
   class CheckAddMoonShineFeatEvent < EventRule
     dsc        "ムーンシャインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_moon_shine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMoonShineFeatEvent < EventRule
     dsc        "ムーンシャインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_moon_shine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMoonShineFeatEvent < EventRule
     dsc        "ムーンシャインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_moon_shine_feat
     goal       ["self", :use_end?]
   end
 
   class UseMoonShineFeatEvent < EventRule
     dsc        "ムーンシャインを使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_moon_shine_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMoonShineFeatEvent < EventRule
     dsc        "ムーンシャインの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_moon_shine_feat
     goal       ["self", :use_end?]
   end
@@ -10336,74 +10274,73 @@ module Unlight
 
   class CheckAddRaptureFeatEvent < EventRule
     dsc        "ラプチュアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_rapture_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRaptureFeatEvent < EventRule
     dsc        "ラプチュアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_rapture_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRaptureFeatEvent < EventRule
     dsc        "ラプチュアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_rapture_feat
     goal       ["self", :use_end?]
   end
 
   class UseRaptureFeatEvent < EventRule
     dsc        "ラプチュアを使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_rapture_feat
     goal       ["self", :use_end?]
   end
 
   class UseRaptureFeatDamageEvent < EventRule
     dsc        "ラプチュア使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_rapture_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishRaptureFeatEvent < EventRule
     dsc        "ラプチュアの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_rapture_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # ドゥームスデイ
 
   class CheckAddDoomsdayFeatEvent < EventRule
     dsc        "ドゥームスデイが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_doomsday_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDoomsdayFeatEvent < EventRule
     dsc        "ドゥームスデイが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_doomsday_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDoomsdayFeatEvent < EventRule
     dsc        "ドゥームスデイが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_doomsday_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDoomsdayFeatEvent < EventRule
     dsc        "ドゥームスデイを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_doomsday_feat
     goal       ["self", :use_end?]
   end
@@ -10411,38 +10348,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # hellboundheart
 
-
   class CheckAddHellFeatEvent < EventRule
     dsc        "深淵が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hell_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHellFeatEvent < EventRule
     dsc        "深淵が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hell_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHellFeatEvent < EventRule
     dsc        "深淵が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hell_feat
     goal       ["self", :use_end?]
   end
 
   class UseHellFeatEvent < EventRule
     dsc        "深淵を使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hell_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHellFeatEvent < EventRule
     dsc        "深淵の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hell_feat
     goal       ["self", :use_end?]
   end
@@ -10452,28 +10388,28 @@ module Unlight
 
   class CheckAddAwakingFeatEvent < EventRule
     dsc        "スーパーヒロインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_awaking_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAwakingFeatEvent < EventRule
     dsc        "スーパーヒロインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_awaking_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAwakingFeatEvent < EventRule
     dsc        "スーパーヒロインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_awaking_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAwakingFeatEvent < EventRule
     dsc        "スーパーヒロインを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_awaking_feat
     goal       ["self", :use_end?]
   end
@@ -10483,35 +10419,35 @@ module Unlight
 
   class CheckAddMovingOneFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_moving_one_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMovingOneFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_moving_one_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMovingOneFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_moving_one_feat
     goal       ["self", :use_end?]
   end
 
   class UseMovingOneFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_moving_one_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMovingOneFeatEvent < EventRule
     dsc        "移動上昇を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_moving_one_feat
     goal       ["self", :use_end?]
   end
@@ -10521,74 +10457,73 @@ module Unlight
 
   class CheckAddArrogantOneFeatEvent < EventRule
     dsc        "下位防御が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_arrogant_one_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveArrogantOneFeatEvent < EventRule
     dsc        "下位防御が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_arrogant_one_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateArrogantOneFeatEvent < EventRule
     dsc        "下位防御が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_arrogant_one_feat
     goal       ["self", :use_end?]
   end
 
   class UseArrogantOneFeatEvent < EventRule
     dsc        "下位防御を使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_arrogant_one_feat
     goal       ["self", :use_end?]
   end
 
   class FinishArrogantOneFeatEvent < EventRule
     dsc        "下位防御の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_arrogant_one_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 食らうもの
 
   class CheckAddEatingOneFeatEvent < EventRule
     dsc        "食らうものが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_eating_one_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveEatingOneFeatEvent < EventRule
     dsc        "食らうものが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_eating_one_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateEatingOneFeatEvent < EventRule
     dsc        "食らうものが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_eating_one_feat
     goal       ["self", :use_end?]
   end
 
   class UseEatingOneFeatEvent < EventRule
     dsc        "食らうものをを使用 攻撃力が+2、攻撃終了時に近距離になる"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_eating_one_feat
     goal       ["self", :use_end?]
   end
 
   class FinishEatingOneFeatEvent < EventRule
     dsc        "食らうものの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_eating_one_feat
     goal       ["self", :use_end?]
   end
@@ -10598,28 +10533,28 @@ module Unlight
 
   class CheckAddRevivingOneFeatEvent < EventRule
     dsc        "蘇るものが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_reviving_one_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRevivingOneFeatEvent < EventRule
     dsc        "蘇るものが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_reviving_one_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRevivingOneFeatEvent < EventRule
     dsc        "蘇るものが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_reviving_one_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRevivingOneFeatEvent < EventRule
     dsc        "蘇るものを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_reviving_one_feat
     goal       ["self", :use_end?]
   end
@@ -10629,28 +10564,28 @@ module Unlight
 
   class CheckAddWhiteLightFeatEvent < EventRule
     dsc        "ホワイトライトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_white_light_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWhiteLightFeatEvent < EventRule
     dsc        "ホワイトライトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_white_light_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWhiteLightFeatEvent < EventRule
     dsc        "ホワイトライトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_white_light_feat
     goal       ["self", :use_end?]
   end
 
   class FinishWhiteLightFeatEvent < EventRule
     dsc        "ホワイトライトを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_white_light_feat
     goal       ["self", :use_end?]
   end
@@ -10660,42 +10595,42 @@ module Unlight
 
   class CheckAddCrystalShieldFeatEvent < EventRule
     dsc        "クリスタル・Mが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_crystal_shield_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCrystalShieldFeatEvent < EventRule
     dsc        "クリスタル・Mが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_crystal_shield_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCrystalShieldFeatEvent < EventRule
     dsc        "クリスタル・Mが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_crystal_shield_feat
     goal       ["self", :use_end?]
   end
 
   class UseCrystalShieldFeatEvent < EventRule
     dsc        "クリスタル・Mを使用 防御＋"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_crystal_shield_feat
     goal       ["self", :use_end?]
   end
 
   class UseAfterCrystalShieldFeatEvent < EventRule
     dsc        "クリスタル・Mを使用 墓地からカードを拾う"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event
     func       :use_after_crystal_shield_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCrystalShieldFeatEvent < EventRule
     dsc        "クリスタル・Mの使用が終了"
-    type       :type=>:after, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :after, obj: "foe", hook: :battle_phase_init_event
     func       :finish_crystal_shield_feat
     goal       ["self", :use_end?]
   end
@@ -10705,49 +10640,49 @@ module Unlight
 
   class CheckAddSnowBallingFeatEvent < EventRule
     dsc        "スノーボーリングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_snow_balling_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSnowBallingFeatEvent < EventRule
     dsc        "スノーボーリングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_snow_balling_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSnowBallingFeatEvent < EventRule
     dsc        "スノーボーリングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_snow_balling_feat
     goal       ["self", :use_end?]
   end
 
   class UseSnowBallingFeatEvent < EventRule
     dsc        "スノーボーリングを使用 攻撃力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_snow_balling_feat
     goal       ["self", :use_end?]
   end
 
   class UseSnowBallingFeatDamageEvent < EventRule
     dsc        "スノーボーリングを使用時にパーティにダメージ"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_snow_balling_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishSnowBallingFeatEvent < EventRule
     dsc        "スノーボーリングの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_snow_balling_feat
     goal       ["self", :use_end?]
   end
 
   class UseSnowBallingFeatConstDamageEvent < EventRule
     dsc        "スノーボーリングを使用時にパーティにダメージ"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 10
     func       :use_snow_balling_feat_const_damage
     goal       ["self", :use_end?]
   end
@@ -10757,42 +10692,42 @@ module Unlight
 
   class CheckAddObituaryFeatEvent < EventRule
     dsc        "オビチュアリーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_obituary_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveObituaryFeatEvent < EventRule
     dsc        "オビチュアリーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_obituary_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateObituaryFeatEvent < EventRule
     dsc        "オビチュアリーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_obituary_feat
     goal       ["self", :use_end?]
   end
 
   class UseObituaryFeatEvent < EventRule
     dsc        "オビチュアリーを使用 攻撃力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_obituary_feat
     goal       ["self", :use_end?]
   end
 
   class UseObituaryFeatDamageEvent < EventRule
     dsc        "オビチュアリーを使用時にパーティにダメージ"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_obituary_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishObituaryFeatEvent < EventRule
     dsc        "オビチュアリーの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_obituary_feat
     goal       ["self", :use_end?]
   end
@@ -10802,35 +10737,35 @@ module Unlight
 
   class CheckAddSolventRainFeatEvent < EventRule
     dsc        "ソルベントレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_solvent_rain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSolventRainFeatEvent < EventRule
     dsc        "ソルベントレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_solvent_rain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSolventRainFeatEvent < EventRule
     dsc        "ソルベントレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_solvent_rain_feat
     goal       ["self", :use_end?]
   end
 
   class UseSolventRainFeatEvent < EventRule
     dsc        "ソルベントレインを使用 攻撃力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>50
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 50
     func       :use_solvent_rain_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSolventRainFeatEvent < EventRule
     dsc        "ソルベントレインの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_solvent_rain_feat
     goal       ["self", :use_end?]
   end
@@ -10840,35 +10775,35 @@ module Unlight
 
   class CheckAddSolventRainRFeatEvent < EventRule
     dsc        "ソルベントレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_solvent_rain_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSolventRainRFeatEvent < EventRule
     dsc        "ソルベントレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_solvent_rain_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSolventRainRFeatEvent < EventRule
     dsc        "ソルベントレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_solvent_rain_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseSolventRainRFeatEvent < EventRule
     dsc        "ソルベントレインを使用 攻撃力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>50
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 50
     func       :use_solvent_rain_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSolventRainRFeatEvent < EventRule
     dsc        "ソルベントレインの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_solvent_rain_r_feat
     goal       ["self", :use_end?]
   end
@@ -10878,28 +10813,28 @@ module Unlight
 
   class CheckAddAwakingDoorFeatEvent < EventRule
     dsc        "知覚の扉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_awaking_door_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAwakingDoorFeatEvent < EventRule
     dsc        "知覚の扉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_awaking_door_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAwakingDoorFeatEvent < EventRule
     dsc        "知覚の扉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_awaking_door_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAwakingDoorFeatEvent < EventRule
     dsc        "知覚の扉を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>9
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 9
     func       :finish_awaking_door_feat
     goal       ["self", :use_end?]
   end
@@ -10909,35 +10844,35 @@ module Unlight
 
   class CheckAddOverDoseFeatEvent < EventRule
     dsc        "オーバードウズが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_over_dose_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveOverDoseFeatEvent < EventRule
     dsc        "オーバードウズが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_over_dose_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateOverDoseFeatEvent < EventRule
     dsc        "オーバードウズが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_over_dose_feat
     goal       ["self", :use_end?]
   end
 
   class UseOverDoseFeatEvent < EventRule
     dsc        "オーバードウズを使用 攻撃力にダメージを加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_over_dose_feat
     goal       ["self", :use_end?]
   end
 
   class FinishOverDoseFeatEvent < EventRule
     dsc        "オーバードウズの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 50
     func       :finish_over_dose_feat
     goal       ["self", :use_end?]
   end
@@ -10947,49 +10882,49 @@ module Unlight
 
   class CheckAddRazorsEdgeFeatEvent < EventRule
     dsc        "レイザーズエッジが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_razors_edge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRazorsEdgeFeatEvent < EventRule
     dsc        "レイザーズエッジが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_razors_edge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRazorsEdgeFeatEvent < EventRule
     dsc        "レイザーズエッジが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_razors_edge_feat
     goal       ["self", :use_end?]
   end
 
   class UseOwnerRazorsEdgeFeatEvent < EventRule
     dsc        "レイザーズエッジを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>10
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 10
     func       :use_razors_edge_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoeRazorsEdgeFeatEvent < EventRule
     dsc        "レイザーズエッジを使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:dp_calc_resolve, :priority=>30
+    type       type: :after, obj: "foe", hook: :dp_calc_resolve, priority: 30
     func       :use_razors_edge_feat
     goal       ["self", :use_end?]
   end
 
   class UseRazorsEdgeFeatDiceAttrEvent < EventRule
     dsc        "レイザーズエッジを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event, :priority=>60
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event, priority: 60
     func       :use_razors_edge_feat_dice_attr
     goal       ["self", :use_end?]
   end
 
   class FinishRazorsEdgeFeatEvent < EventRule
     dsc        "レイザーズエッジの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_razors_edge_feat
     goal       ["self", :use_end?]
   end
@@ -10998,14 +10933,14 @@ module Unlight
 # レイザーズエッジ
   class UseFoeExRazorsEdgeFeatEvent < EventRule
     dsc        "レイザーズエッジを使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:dp_calc_resolve, :priority=>70
+    type       type: :after, obj: "foe", hook: :dp_calc_resolve, priority: 70
     func       :use_razors_edge_feat
     goal       ["self", :use_end?]
   end
 
   class UseExRazorsEdgeFeatDiceAttrEvent < EventRule
     dsc        "レイザーズエッジを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event, :priority=>80
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event, priority: 80
     func       :use_razors_edge_feat_dice_attr
     goal       ["self", :use_end?]
   end
@@ -11013,38 +10948,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # ヘルズベル
 
-
   class CheckAddHellsBellFeatEvent < EventRule
     dsc        "ヘルズベルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hells_bell_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHellsBellFeatEvent < EventRule
     dsc        "ヘルズベルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hells_bell_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHellsBellFeatEvent < EventRule
     dsc        "ヘルズベルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hells_bell_feat
     goal       ["self", :use_end?]
   end
 
   class UseHellsBellFeatEvent < EventRule
     dsc        "ヘルズベルを使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hells_bell_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHellsBellFeatEvent < EventRule
     dsc        "ヘルズベルの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hells_bell_feat
     goal       ["self", :use_end?]
   end
@@ -11054,28 +10988,28 @@ module Unlight
 
   class CheckAddDrainSeedFeatEvent < EventRule
     dsc        "ドレインシードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_drain_seed_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDrainSeedFeatEvent < EventRule
     dsc        "ドレインシードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_drain_seed_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDrainSeedFeatEvent < EventRule
     dsc        "ドレインシードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_drain_seed_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDrainSeedFeatEvent < EventRule
     dsc        "ドレインシードを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_drain_seed_feat
     goal       ["self", :use_end?]
   end
@@ -11083,38 +11017,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 攻撃吸収
 
-
   class CheckAddAtkDrainFeatEvent < EventRule
     dsc        "攻撃吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_atk_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAtkDrainFeatEvent < EventRule
     dsc        "攻撃吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_atk_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAtkDrainFeatEvent < EventRule
     dsc        "攻撃吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_atk_drain_feat
     goal       ["self", :use_end?]
   end
 
   class UseAtkDrainFeatEvent < EventRule
     dsc        "攻撃吸収を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_atk_drain_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAtkDrainFeatEvent < EventRule
     dsc        "攻撃吸収の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_atk_drain_feat
     goal       ["self", :use_end?]
   end
@@ -11122,38 +11055,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 防御吸収
 
-
   class CheckAddDefDrainFeatEvent < EventRule
     dsc        "防御吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_def_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDefDrainFeatEvent < EventRule
     dsc        "防御吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_def_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDefDrainFeatEvent < EventRule
     dsc        "防御吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_def_drain_feat
     goal       ["self", :use_end?]
   end
 
   class UseDefDrainFeatEvent < EventRule
     dsc        "防御吸収を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_def_drain_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDefDrainFeatEvent < EventRule
     dsc        "防御吸収の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_def_drain_feat
     goal       ["self", :use_end?]
   end
@@ -11163,28 +11095,28 @@ module Unlight
 
   class CheckAddMovDrainFeatEvent < EventRule
     dsc        "混沌の翼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_mov_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMovDrainFeatEvent < EventRule
     dsc        "混沌の翼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_mov_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMovDrainFeatEvent < EventRule
     dsc        "混沌の翼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_mov_drain_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMovDrainFeatEvent < EventRule
     dsc        "混沌の翼を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_mov_drain_feat
     goal       ["self", :use_end?]
   end
@@ -11194,42 +11126,42 @@ module Unlight
 
   class CheckAddPoisonSkinFeatEvent < EventRule
     dsc        "毒竜燐が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_poison_skin_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePoisonSkinFeatEvent < EventRule
     dsc        "毒竜燐が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_poison_skin_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePoisonSkinFeatEvent < EventRule
     dsc        "毒竜燐が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_poison_skin_feat
     goal       ["self", :use_end?]
   end
 
   class UsePoisonSkinFeatEvent < EventRule
     dsc        "毒竜燐を使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_poison_skin_feat
     goal       ["self", :use_end?]
   end
 
   class UsePoisonSkinFeatDamageEvent < EventRule
     dsc        "毒竜燐使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_poison_skin_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishPoisonSkinFeatEvent < EventRule
     dsc        "毒竜燐の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_poison_skin_feat
     goal       ["self", :use_end?]
   end
@@ -11239,35 +11171,35 @@ module Unlight
 
   class CheckAddRoarFeatEvent < EventRule
     dsc        "咆哮が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_roar_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRoarFeatEvent < EventRule
     dsc        "咆哮が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_roar_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRoarFeatEvent < EventRule
     dsc        "咆哮が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_roar_feat
     goal       ["self", :use_end?]
   end
 
   class UseRoarFeatEvent < EventRule
     dsc        "咆哮をを使用 攻撃力が+2、攻撃終了時に近距離になる"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_roar_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRoarFeatEvent < EventRule
     dsc        "咆哮の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_roar_feat
     goal       ["self", :use_end?]
   end
@@ -11275,38 +11207,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 火炎のブレス
 
-
   class CheckAddFireBreathFeatEvent < EventRule
     dsc        "火炎のブレスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_fire_breath_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFireBreathFeatEvent < EventRule
     dsc        "火炎のブレスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_fire_breath_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFireBreathFeatEvent < EventRule
     dsc        "火炎のブレスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_fire_breath_feat
     goal       ["self", :use_end?]
   end
 
   class UseFireBreathFeatEvent < EventRule
     dsc        "火炎のブレスを使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_fire_breath_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFireBreathFeatEvent < EventRule
     dsc        "火炎のブレスの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_fire_breath_feat
     goal       ["self", :use_end?]
   end
@@ -11316,35 +11247,35 @@ module Unlight
 
   class CheckAddWhirlWindFeatEvent < EventRule
     dsc        "ワールウインドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_whirl_wind_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWhirlWindFeatEvent < EventRule
     dsc        "ワールウインドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_whirl_wind_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWhirlWindFeatEvent < EventRule
     dsc        "ワールウインドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_whirl_wind_feat
     goal       ["self", :use_end?]
   end
 
   class UseWhirlWindFeatEvent < EventRule
     dsc        "ワールウインドをを使用 攻撃力が+2、攻撃終了時に近距離になる"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_whirl_wind_feat
     goal       ["self", :use_end?]
   end
 
   class FinishWhirlWindFeatEvent < EventRule
     dsc        "ワールウインドの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_whirl_wind_feat
     goal       ["self", :use_end?]
   end
@@ -11354,77 +11285,77 @@ module Unlight
 
   class CheckAddActiveArmorFeatEvent < EventRule
     dsc        "アクティブアーマが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_active_armor_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveActiveArmorFeatEvent < EventRule
     dsc        "アクティブアーマが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_active_armor_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateActiveArmorFeatEvent < EventRule
     dsc        "アクティブアーマが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_active_armor_feat
     goal       ["self", :use_end?]
   end
 
   class UseActiveArmorFeatEvent < EventRule
     dsc        "アクティブアーマを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_active_armor_feat
     goal       ["self", :use_end?]
   end
 
   class UseActiveArmorFeatDamageEvent < EventRule
     dsc        "アクティブアーマを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :use_active_armor_feat_damage
     goal       ["self", :use_end?]
   end
 
   class CheckSealActiveArmorFeatMoveAfterEvent < EventRule
     dsc        "封印状態をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 50
     func       :check_seal_active_armor_feat
     goal       ["self", :use_end?]
   end
 
   class CheckSealActiveArmorFeatDetChangeAfterEvent < EventRule
     dsc        "封印状態をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase, priority: 50
     func       :check_seal_active_armor_feat
     goal       ["self", :use_end?]
   end
 
   class CheckSealActiveArmorFeatDamageAfterEvent < EventRule
     dsc        "封印状態をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 50
     func       :check_seal_active_armor_feat
     goal       ["self", :use_end?]
   end
 
   class CheckUnsealActiveArmorFeatDamageAfterEvent < EventRule
     dsc        "封印状態をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>51
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 51
     func       :check_unseal_active_armor_feat
     goal       ["self", :use_end?]
   end
 
   class CheckUnsealActiveArmorFeatStartTurnEvent < EventRule
     dsc        "封印状態をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :check_unseal_active_armor_feat
     goal       ["self", :use_end?]
   end
 
   class CheckSealActiveArmorFeatCharaChangeEvent < EventRule
     dsc        "封印状態をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :set_active_armor_feat_sealing_state
     goal       ["self", :use_end?]
   end
@@ -11434,42 +11365,42 @@ module Unlight
 
   class CheckAddScolorAttackFeatEvent < EventRule
     dsc        "マシンガンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_scolor_attack_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveScolorAttackFeatEvent < EventRule
     dsc        "マシンガンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_scolor_attack_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateScolorAttackFeatEvent < EventRule
     dsc        "マシンガンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_scolor_attack_feat
     goal       ["self", :use_end?]
   end
 
   class UseScolorAttackFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_scolor_attack_feat
     goal       ["self", :use_end?]
   end
 
   class FinishScolorAttackFeatEvent < EventRule
     dsc        "マシンガンの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_scolor_attack_feat
     goal       ["self", :use_end?]
   end
 
   class UseScolorAttackFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_scolor_attack_feat_damage
     goal       ["self", :use_end?]
   end
@@ -11479,42 +11410,42 @@ module Unlight
 
   class CheckAddHeatSeekerFeatEvent < EventRule
     dsc        "ヒートシーカーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_heat_seeker_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHeatSeekerFeatEvent < EventRule
     dsc        "ヒートシーカーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_heat_seeker_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHeatSeekerFeatEvent < EventRule
     dsc        "ヒートシーカーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_heat_seeker_feat
     goal       ["self", :use_end?]
   end
 
   class UseHeatSeekerFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_heat_seeker_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHeatSeekerFeatEvent < EventRule
     dsc        "ヒートシーカーの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 1
     func       :finish_heat_seeker_feat
     goal       ["self", :use_end?]
   end
 
   class UseHeatSeekerFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_heat_seeker_feat_damage
     goal       ["self", :use_end?]
   end
@@ -11524,28 +11455,28 @@ module Unlight
 
   class CheckAddPurgeFeatEvent < EventRule
     dsc        "パージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_purge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePurgeFeatEvent < EventRule
     dsc        "パージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_purge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePurgeFeatEvent < EventRule
     dsc        "パージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_purge_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPurgeFeatEvent < EventRule
     dsc        "パージを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_purge_feat
     goal       ["self", :use_end?]
   end
@@ -11555,81 +11486,80 @@ module Unlight
 
   class CheckAddHighHandFeatEvent < EventRule
     dsc        "ハイハンドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_high_hand_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHighHandFeatEvent < EventRule
     dsc        "ハイハンドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_high_hand_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHighHandFeatEvent < EventRule
     dsc        "ハイハンドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_high_hand_feat
     goal       ["self", :use_end?]
   end
 
   class UseHighHandFeatEvent < EventRule
     dsc        "ハイハンドを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_high_hand_feat
     goal       ["self", :use_end?]
   end
 
   class UseHighHandFeatDamageEvent < EventRule
     dsc        "ハイハンドを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :use_high_hand_feat_damage
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # ジャックポット
 
   class CheckAddJackPotFeatEvent < EventRule
     dsc        "ジャックポットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_jack_pot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveJackPotFeatEvent < EventRule
     dsc        "ジャックポットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_jack_pot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateJackPotFeatEvent < EventRule
     dsc        "ジャックポットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_jack_pot_feat
     goal       ["self", :use_end?]
   end
 
   class UseJackPotFeatEvent < EventRule
     dsc        "ジャックポットを使用 防御＋"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_jack_pot_feat
     goal       ["self", :use_end?]
   end
 
   class UseAfterJackPotFeatEvent < EventRule
     dsc        "ジャックポットを使用 墓地からカードを拾う"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event
     func       :use_after_jack_pot_feat
     goal       ["self", :use_end?]
   end
 
   class FinishJackPotFeatEvent < EventRule
     dsc        "ジャックポットの使用が終了"
-    type       :type=>:after, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :after, obj: "foe", hook: :battle_phase_init_event
     func       :finish_jack_pot_feat
     goal       ["self", :use_end?]
   end
@@ -11639,42 +11569,42 @@ module Unlight
 
   class CheckAddLowBallFeatEvent < EventRule
     dsc        "ローボールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_low_ball_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLowBallFeatEvent < EventRule
     dsc        "ローボールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_low_ball_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLowBallFeatEvent < EventRule
     dsc        "ローボールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_low_ball_feat
     goal       ["self", :use_end?]
   end
 
   class UseLowBallFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_low_ball_feat
     goal       ["self", :use_end?]
   end
 
   class FinishLowBallFeatEvent < EventRule
     dsc        "ローボールの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_low_ball_feat
     goal       ["self", :use_end?]
   end
 
   class UseLowBallFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_low_ball_feat_damage
     goal       ["self", :use_end?]
   end
@@ -11684,74 +11614,73 @@ module Unlight
 
   class CheckAddGambleFeatEvent < EventRule
     dsc        "ギャンブルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_gamble_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGambleFeatEvent < EventRule
     dsc        "ギャンブルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_gamble_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGambleFeatEvent < EventRule
     dsc        "ギャンブルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_gamble_feat
     goal       ["self", :use_end?]
   end
 
   class UseGambleFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_gamble_feat
     goal       ["self", :use_end?]
   end
 
   class FinishGambleFeatEvent < EventRule
     dsc        "ギャンブルの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_gamble_feat
     goal       ["self", :use_end?]
   end
 
   class UseGambleFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>99
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 99
     func       :use_gamble_feat_damage
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # バードケージ
 
   class CheckAddBirdCageFeatEvent < EventRule
     dsc        "バードケージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_bird_cage_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBirdCageFeatEvent < EventRule
     dsc        "バードケージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_bird_cage_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBirdCageFeatEvent < EventRule
     dsc        "バードケージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_bird_cage_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBirdCageFeatEvent < EventRule
     dsc        "バードケージを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_bird_cage_feat
     goal       ["self", :use_end?]
   end
@@ -11761,36 +11690,35 @@ module Unlight
 
   class CheckAddHangingFeatEvent < EventRule
     dsc        "ハンギングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hanging_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHangingFeatEvent < EventRule
     dsc        "ハンギングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hanging_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHangingFeatEvent < EventRule
     dsc        "ハンギングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hanging_feat
     goal       ["self", :use_end?]
   end
 
   class UseHangingFeatEvent < EventRule
     dsc        "ハンギングを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hanging_feat
     goal       ["self", :use_end?]
   end
 
-
   class FinishHangingFeatEvent < EventRule
     dsc        "ハンギングの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>25
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 25
     func       :finish_hanging_feat
     goal       ["self", :use_end?]
   end
@@ -11800,42 +11728,42 @@ module Unlight
 
   class CheckAddBlastOffFeatEvent < EventRule
     dsc        "ブラストオフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_blast_off_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlastOffFeatEvent < EventRule
     dsc        "ブラストオフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_blast_off_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlastOffFeatEvent < EventRule
     dsc        "ブラストオフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_blast_off_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlastOffFeatEvent < EventRule
     dsc        "ブラストオフをを使用 攻撃力が+2、攻撃終了時に近距離になる"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_blast_off_feat
     goal       ["self", :use_end?]
   end
 
   class ExBlastOffFeatEvent < EventRule
     dsc        "ブラストオフの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :ex_blast_off_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBlastOffFeatEvent < EventRule
     dsc        "ブラストオフの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>20
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 20
     func       :finish_blast_off_feat
     goal       ["self", :use_end?]
   end
@@ -11845,35 +11773,35 @@ module Unlight
 
   class CheckAddPuppetMasterFeatEvent < EventRule
     dsc        "パペットマスター可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_puppet_master_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePuppetMasterFeatEvent < EventRule
     dsc        "パペットマスターが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_puppet_master_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePuppetMasterFeatEvent < EventRule
     dsc        "パペットマスターが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_puppet_master_feat
     goal       ["self", :use_end?]
   end
 
   class UsePuppetMasterFeatEvent < EventRule
     dsc        "パペットマスターを使用 墓地からカードを拾う"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event
     func       :use_puppet_master_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPuppetMasterFeatEvent < EventRule
     dsc        "パペットマスターの使用が終了"
-    type       :type=>:after, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :after, obj: "foe", hook: :battle_phase_init_event
     func       :finish_puppet_master_feat
     goal       ["self", :use_end?]
   end
@@ -11883,35 +11811,35 @@ module Unlight
 
   class CheckAddCtlFeatEvent < EventRule
     dsc        "C.T.Lが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_ctl_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCtlFeatEvent < EventRule
     dsc        "C.T.Lが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_ctl_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCtlFeatEvent < EventRule
     dsc        "C.T.Lが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_ctl_feat
     goal       ["self", :use_end?]
   end
 
   class UseCtlFeatEvent < EventRule
     dsc        "C.T.Lを使用 攻撃力が+6"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_ctl_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCtlFeatEvent < EventRule
     dsc        "C.T.Lの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_ctl_feat
     goal       ["self", :use_end?]
   end
@@ -11921,35 +11849,35 @@ module Unlight
 
   class CheckAddBpaFeatEvent < EventRule
     dsc        "B.P.Aが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_bpa_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBpaFeatEvent < EventRule
     dsc        "B.P.Aが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_bpa_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBpaFeatEvent < EventRule
     dsc        "B.P.Aが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_bpa_feat
     goal       ["self", :use_end?]
   end
 
   class UseBpaFeatEvent < EventRule
     dsc        "B.P.Aを使用 攻撃力が+6"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_bpa_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBpaFeatEvent < EventRule
     dsc        "B.P.Aの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_bpa_feat
     goal       ["self", :use_end?]
   end
@@ -11959,42 +11887,42 @@ module Unlight
 
   class CheckAddLarFeatEvent < EventRule
     dsc        "L.A.Rが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_lar_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLarFeatEvent < EventRule
     dsc        "L.A.Rが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_lar_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLarFeatEvent < EventRule
     dsc        "L.A.Rが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_lar_feat
     goal       ["self", :use_end?]
   end
 
   class UseLarFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_lar_feat
     goal       ["self", :use_end?]
   end
 
   class FinishLarFeatEvent < EventRule
     dsc        "L.A.Rの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_lar_feat
     goal       ["self", :use_end?]
   end
 
   class UseLarFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_lar_feat_damage
     goal       ["self", :use_end?]
   end
@@ -12004,28 +11932,28 @@ module Unlight
 
   class CheckAddSssFeatEvent < EventRule
     dsc        "S.S.Sが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_sss_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSssFeatEvent < EventRule
     dsc        "S.S.Sが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_sss_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSssFeatEvent < EventRule
     dsc        "S.S.Sが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_sss_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSssFeatEvent < EventRule
     dsc        "S.S.Sを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_sss_feat
     goal       ["self", :use_end?]
   end
@@ -12035,35 +11963,35 @@ module Unlight
 
   class CheckAddCounterRushFeatEvent < EventRule
     dsc        "カウンターラッシュが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_counter_rush_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCounterRushFeatEvent < EventRule
     dsc        "カウンターラッシュが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_counter_rush_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCounterRushFeatEvent < EventRule
     dsc        "カウンターラッシュが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_counter_rush_feat
     goal       ["self", :use_end?]
   end
 
   class UseCounterRushFeatEvent < EventRule
     dsc        "カウンターラッシュを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_counter_rush_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCounterRushFeatEvent < EventRule
     dsc        "カウンターラッシュの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_counter_rush_feat
     goal       ["self", :use_end?]
   end
@@ -12073,35 +12001,35 @@ module Unlight
 
   class CheckAddDisasterFlameFeatEvent < EventRule
     dsc        "劫火が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_disaster_flame_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDisasterFlameFeatEvent < EventRule
     dsc        "劫火が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_disaster_flame_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDisasterFlameFeatEvent < EventRule
     dsc        "劫火が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_disaster_flame_feat
     goal       ["self", :use_end?]
   end
 
   class UseDisasterFlameFeatEvent < EventRule
     dsc        "劫火を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_disaster_flame_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDisasterFlameFeatEvent < EventRule
     dsc        "劫火の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_disaster_flame_feat
     goal       ["self", :use_end?]
   end
@@ -12111,49 +12039,49 @@ module Unlight
 
   class CheckAddHellFireFeatEvent < EventRule
     dsc        "煉獄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hell_fire_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHellFireFeatEvent < EventRule
     dsc        "煉獄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hell_fire_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHellFireFeatEvent < EventRule
     dsc        "煉獄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hell_fire_feat
     goal       ["self", :use_end?]
   end
 
   class UseHellFireFeatEvent < EventRule
     dsc        "煉獄を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hell_fire_feat
     goal       ["self", :use_end?]
   end
 
   class UseHellFireFeatDamageEvent < EventRule
     dsc        "煉獄を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_hell_fire_feat_damage
     goal       ["self", :use_end?]
   end
 
   class UseHellFireFeatConstDamageEvent < EventRule
     dsc        "煉獄を使用時に手札をランダムに失わせる"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 10
     func       :use_hell_fire_feat_const_damage
     goal       ["self", :use_end?]
   end
 
   class FinishHellFireFeatEvent < EventRule
     dsc        "煉獄の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hell_fire_feat
     goal       ["self", :use_end?]
   end
@@ -12163,42 +12091,42 @@ module Unlight
 
   class CheckAddBlindnessFeatEvent < EventRule
     dsc        "眩彩が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_blindness_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlindnessFeatEvent < EventRule
     dsc        "眩彩が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_blindness_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlindnessFeatEvent < EventRule
     dsc        "眩彩が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_blindness_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlindnessFeat1Event < EventRule
     dsc        "眩彩を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_blindness_feat1
     goal       ["self", :use_end?]
   end
 
   class UseBlindnessFeat2Event < EventRule
     dsc        "眩彩を使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:dice_attribute_regist_event, :priority=>90
+    type       type: :after, obj: "foe", hook: :dice_attribute_regist_event, priority: 90
     func       :use_blindness_feat2
     goal       ["self", :use_end?]
   end
 
   class FinishBlindnessFeatEvent < EventRule
     dsc        "眩彩の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_blindness_feat
     goal       ["self", :use_end?]
   end
@@ -12208,42 +12136,42 @@ module Unlight
 
   class CheckAddFireDisappearFeatEvent < EventRule
     dsc        "焼滅が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_fire_disappear_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFireDisappearFeatEvent < EventRule
     dsc        "焼滅が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_fire_disappear_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFireDisappearFeatEvent < EventRule
     dsc        "焼滅が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_fire_disappear_feat
     goal       ["self", :use_end?]
   end
 
   class UseFireDisappearFeatEvent < EventRule
     dsc        "焼滅を使用 防御＋"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_fire_disappear_feat
     goal       ["self", :use_end?]
   end
 
   class UseAfterFireDisappearFeatEvent < EventRule
     dsc        "焼滅を使用 墓地からカードを拾う"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event
     func       :use_after_fire_disappear_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFireDisappearFeatEvent < EventRule
     dsc        "焼滅の使用が終了"
-    type       :type=>:after, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :after, obj: "foe", hook: :battle_phase_init_event
     func       :finish_fire_disappear_feat
     goal       ["self", :use_end?]
   end
@@ -12253,35 +12181,35 @@ module Unlight
 
   class CheckAddDarkHoleFeatEvent < EventRule
     dsc        "眩彩が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_dark_hole_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDarkHoleFeatEvent < EventRule
     dsc        "眩彩が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_dark_hole_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDarkHoleFeatEvent < EventRule
     dsc        "眩彩が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_dark_hole_feat
     goal       ["self", :use_end?]
   end
 
   class UseDarkHoleFeatEvent < EventRule
     dsc        "眩彩を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_dark_hole_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDarkHoleFeatEvent < EventRule
     dsc        "眩彩の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_dark_hole_feat
     goal       ["self", :use_end?]
   end
@@ -12291,35 +12219,35 @@ module Unlight
 
   class CheckAddTannhauserGateFeatEvent < EventRule
     dsc        "タンホイザーゲートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_tannhauser_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTannhauserGateFeatEvent < EventRule
     dsc        "タンホイザーゲートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_tannhauser_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTannhauserGateFeatEvent < EventRule
     dsc        "タンホイザーゲートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_tannhauser_gate_feat
     goal       ["self", :use_end?]
   end
 
   class UseTannhauserGateFeatEvent < EventRule
     dsc        "タンホイザーゲートを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :use_tannhauser_gate_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTannhauserGateFeatEvent < EventRule
     dsc        "タンホイザーゲートの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_tannhauser_gate_feat
     goal       ["self", :use_end?]
   end
@@ -12329,42 +12257,42 @@ module Unlight
 
   class CheckAddSchwarBlitzFeatEvent < EventRule
     dsc        "シュバルトブリッツが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_schwar_blitz_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSchwarBlitzFeatEvent < EventRule
     dsc        "シュバルトブリッツが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_schwar_blitz_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSchwarBlitzFeatEvent < EventRule
     dsc        "シュバルトブリッツが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_schwar_blitz_feat
     goal       ["self", :use_end?]
   end
 
   class UseSchwarBlitzFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_schwar_blitz_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSchwarBlitzFeatEvent < EventRule
     dsc        "シュバルトブリッツの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_schwar_blitz_feat
     goal       ["self", :use_end?]
   end
 
   class UseSchwarBlitzFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_schwar_blitz_feat_damage
     goal       ["self", :use_end?]
   end
@@ -12374,42 +12302,42 @@ module Unlight
 
   class CheckAddHiRounderFeatEvent < EventRule
     dsc        "ハイランダーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hi_rounder_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHiRounderFeatEvent < EventRule
     dsc        "ハイランダーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hi_rounder_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHiRounderFeatEvent < EventRule
     dsc        "ハイランダーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hi_rounder_feat
     goal       ["self", :use_end?]
   end
 
   class UseHiRounderFeatEvent < EventRule
     dsc        "ハイランダーを使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hi_rounder_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHiRounderFeatEvent < EventRule
     dsc        "ハイランダーの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hi_rounder_feat
     goal       ["self", :use_end?]
   end
 
   class UseHiRounderFeatConstDamageEvent < EventRule
     dsc        "ハイランダーの直接ダメージ部分"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 10
     func       :use_hi_rounder_feat_const_damage
     goal       ["self", :use_end?]
   end
@@ -12419,42 +12347,42 @@ module Unlight
 
   class CheckAddBloodRettingFeatEvent < EventRule
     dsc        "ブラッドレッティングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_blood_retting_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBloodRettingFeatEvent < EventRule
     dsc        "ブラッドレッティングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_blood_retting_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBloodRettingFeatEvent < EventRule
     dsc        "ブラッドレッティングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_blood_retting_feat
     goal       ["self", :use_end?]
   end
 
   class UseBloodRettingFeatEvent < EventRule
     dsc        "ブラッドレッティングを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_blood_retting_feat
     goal       ["self", :use_end?]
   end
 
   class UseBloodRettingFeatDamageEvent < EventRule
     dsc        "ブラッドレッティング使用時にダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_blood_retting_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishBloodRettingFeatEvent < EventRule
     dsc        "ブラッドレッティングの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_blood_retting_feat
     goal       ["self", :use_end?]
   end
@@ -12464,28 +12392,28 @@ module Unlight
 
   class CheckAddAcupunctureFeatEvent < EventRule
     dsc        "アキュパンクチャーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_acupuncture_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAcupunctureFeatEvent < EventRule
     dsc        "アキュパンクチャーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_acupuncture_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAcupunctureFeatEvent < EventRule
     dsc        "アキュパンクチャーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_acupuncture_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAcupunctureFeatEvent < EventRule
     dsc        "アキュパンクチャーを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>8
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 8
     func       :finish_acupuncture_feat
     goal       ["self", :use_end?]
   end
@@ -12495,88 +12423,87 @@ module Unlight
 
   class CheckAddDissectionFeatEvent < EventRule
     dsc        "ディセクションが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_dissection_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDissectionFeatEvent < EventRule
     dsc        "ディセクションが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_dissection_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDissectionFeatEvent < EventRule
     dsc        "ディセクションが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_dissection_feat
     goal       ["self", :use_end?]
   end
 
   class UseDissectionFeatEvent < EventRule
     dsc        "ディセクションを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_dissection_feat
     goal       ["self", :use_end?]
   end
 
   class UseDissectionFeatDamageEvent < EventRule
     dsc        "ディセクション発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>120
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 120
     func       :use_dissection_feat_damage
     goal       ["self", :use_end?]
   end
 
   class UseDissectionFeatGuardEvent < EventRule
     dsc        "ディセクションの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_dissection_feat_guard
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # ユーサネイジア
 
   class CheckAddEuthanasiaFeatEvent < EventRule
     dsc        "ユーサネイジアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_euthanasia_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveEuthanasiaFeatEvent < EventRule
     dsc        "ユーサネイジアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_euthanasia_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateEuthanasiaFeatEvent < EventRule
     dsc        "ユーサネイジアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_euthanasia_feat
     goal       ["self", :use_end?]
   end
 
   class UseEuthanasiaFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_euthanasia_feat
     goal       ["self", :use_end?]
   end
 
   class FinishEuthanasiaFeatEvent < EventRule
     dsc        "ユーサネイジアの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 1
     func       :finish_euthanasia_feat
     goal       ["self", :use_end?]
   end
 
   class UseEuthanasiaFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_euthanasia_feat_damage
     goal       ["self", :use_end?]
   end
@@ -12586,28 +12513,28 @@ module Unlight
 
   class CheckAddAngerNailFeatEvent < EventRule
     dsc        "憤怒の爪が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_anger_nail_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAngerNailFeatEvent < EventRule
     dsc        "憤怒の爪が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_anger_nail_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAngerNailFeatEvent < EventRule
     dsc        "憤怒の爪が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_anger_nail_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAngerNailFeatEvent < EventRule
     dsc        "憤怒の爪を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_anger_nail_feat
     goal       ["self", :use_end?]
   end
@@ -12617,42 +12544,42 @@ module Unlight
 
   class CheckAddCalmBackFeatEvent < EventRule
     dsc        "静謐な背中が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_calm_back_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCalmBackFeatEvent < EventRule
     dsc        "静謐な背中が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_calm_back_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCalmBackFeatEvent < EventRule
     dsc        "静謐な背中が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_calm_back_feat
     goal       ["self", :use_end?]
   end
 
   class UseCalmBackFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_calm_back_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCalmBackFeatEvent < EventRule
     dsc        "静謐な背中の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_calm_back_feat
     goal       ["self", :use_end?]
   end
 
   class UseCalmBackFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_calm_back_feat_damage
     goal       ["self", :use_end?]
   end
@@ -12662,35 +12589,35 @@ module Unlight
 
   class CheckAddBlueEyesFeatEvent < EventRule
     dsc        "慈悲の青眼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_blue_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlueEyesFeatEvent < EventRule
     dsc        "慈悲の青眼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_blue_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlueEyesFeatEvent < EventRule
     dsc        "慈悲の青眼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_blue_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlueEyesFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_blue_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBlueEyesFeatEvent < EventRule
     dsc        "慈悲の青眼の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_blue_eyes_feat
     goal       ["self", :use_end?]
   end
@@ -12700,35 +12627,35 @@ module Unlight
 
   class CheckAddWolfFangFeatEvent < EventRule
     dsc        "戦慄の狼牙が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_wolf_fang_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWolfFangFeatEvent < EventRule
     dsc        "戦慄の狼牙が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_wolf_fang_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWolfFangFeatEvent < EventRule
     dsc        "戦慄の狼牙が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_wolf_fang_feat
     goal       ["self", :use_end?]
   end
 
   class UseWolfFangFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_wolf_fang_feat
     goal       ["self", :use_end?]
   end
 
   class FinishWolfFangFeatEvent < EventRule
     dsc        "戦慄の狼牙の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_wolf_fang_feat
     goal       ["self", :use_end?]
   end
@@ -12738,42 +12665,42 @@ module Unlight
 
   class CheckAddHagakureFeatEvent < EventRule
     dsc        "葉隠れが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_hagakure_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHagakureFeatEvent < EventRule
     dsc        "葉隠れが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_hagakure_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHagakureFeatEvent < EventRule
     dsc        "葉隠れが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_hagakure_feat
     goal       ["self", :use_end?]
   end
 
   class UseHagakureFeatEvent < EventRule
     dsc        "葉隠れを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_hagakure_feat
     goal       ["self", :use_end?]
   end
 
   class UseHagakureFeatDamageEvent < EventRule
     dsc        "葉隠れ使用時にダメージとして相手に与える"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 50
     func       :use_hagakure_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishHagakureFeatEvent < EventRule
     dsc        "葉隠れの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hagakure_feat
     goal       ["self", :use_end?]
   end
@@ -12783,63 +12710,63 @@ module Unlight
 
   class CheckAddReppuFeatEvent < EventRule
     dsc        "烈風が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_reppu_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveReppuFeatEvent < EventRule
     dsc        "烈風が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_reppu_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateReppuFeatEvent < EventRule
     dsc        "烈風が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_reppu_feat
     goal       ["self", :use_end?]
   end
 
   class UseReppuFeatEvent < EventRule
     dsc        "烈風を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_reppu_feat
     goal       ["self", :use_end?]
   end
 
   class FinishReppuFeatEvent < EventRule
     dsc        "烈風を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_reppu_feat
     goal       ["self", :use_end?]
   end
 
   class FinishEffectReppuFeatEvent < EventRule
     dsc        "烈風を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_effect_reppu_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFoeChangeReppuFeatEvent < EventRule
     dsc        "烈風を使用"
-    type       :type=>:before, :obj=>"foe", :hook=>:chara_change_action
+    type       type: :before, obj: "foe", hook: :chara_change_action
     func       :finish_change_reppu_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDeadChangeReppuFeatEvent < EventRule
     dsc        "烈風を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :dead_chara_change_phase
     func       :finish_change_reppu_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTurnReppuFeatEvent < EventRule
     dsc        "烈風を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_turn_reppu_feat
     goal       ["self", :use_end?]
   end
@@ -12849,42 +12776,42 @@ module Unlight
 
   class CheckAddEnpiFeatEvent < EventRule
     dsc        "燕飛が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_enpi_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveEnpiFeatEvent < EventRule
     dsc        "燕飛が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_enpi_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateEnpiFeatEvent < EventRule
     dsc        "燕飛が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_enpi_feat
     goal       ["self", :use_end?]
   end
 
   class UseEnpiFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_enpi_feat
     goal       ["self", :use_end?]
   end
 
   class FinishEnpiFeatEvent < EventRule
     dsc        "燕飛の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_enpi_feat
     goal       ["self", :use_end?]
   end
 
   class UseEnpiFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>20
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 20
     func       :use_enpi_feat_damage
     goal       ["self", :use_end?]
   end
@@ -12894,35 +12821,35 @@ module Unlight
 
   class CheckAddMikazukiFeatEvent < EventRule
     dsc        "三日月が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_mikazuki_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMikazukiFeatEvent < EventRule
     dsc        "三日月が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_mikazuki_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMikazukiFeatEvent < EventRule
     dsc        "三日月が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_mikazuki_feat
     goal       ["self", :use_end?]
   end
 
   class UseMikazukiFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_mikazuki_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMikazukiFeatEvent < EventRule
     dsc        "三日月の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_mikazuki_feat
     goal       ["self", :use_end?]
   end
@@ -12932,28 +12859,28 @@ module Unlight
 
   class CheckAddCasablancaFeatEvent < EventRule
     dsc        "カサブランカの風が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_casablanca_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCasablancaFeatEvent < EventRule
     dsc        "カサブランカの風が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_casablanca_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCasablancaFeatEvent < EventRule
     dsc        "カサブランカの風が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_casablanca_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCasablancaFeatEvent < EventRule
     dsc        "カサブランカの風を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_casablanca_feat
     goal       ["self", :use_end?]
   end
@@ -12963,42 +12890,42 @@ module Unlight
 
   class CheckAddRhodesiaFeatEvent < EventRule
     dsc        "ローデシアの海が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_rhodesia_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRhodesiaFeatEvent < EventRule
     dsc        "ローデシアの海が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_rhodesia_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRhodesiaFeatEvent < EventRule
     dsc        "ローデシアの海が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_rhodesia_feat
     goal       ["self", :use_end?]
   end
 
   class UseRhodesiaFeatEvent < EventRule
     dsc        "ローデシアの海を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_rhodesia_feat
     goal       ["self", :use_end?]
   end
 
   class UseRhodesiaFeatDamageEvent < EventRule
     dsc        "ローデシアの海使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 70
     func       :use_rhodesia_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishRhodesiaFeatEvent < EventRule
     dsc        "ローデシアの海の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_rhodesia_feat
     goal       ["self", :use_end?]
   end
@@ -13006,38 +12933,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # マドリプールの雑踏
 
-
   class CheckAddMadripoolFeatEvent < EventRule
     dsc        "マドリプールの雑踏が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_madripool_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMadripoolFeatEvent < EventRule
     dsc        "マドリプールの雑踏が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_madripool_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMadripoolFeatEvent < EventRule
     dsc        "マドリプールの雑踏が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_madripool_feat
     goal       ["self", :use_end?]
   end
 
   class UseMadripoolFeatEvent < EventRule
     dsc        "マドリプールの雑踏を使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_madripool_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMadripoolFeatEvent < EventRule
     dsc        "マドリプールの雑踏の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_madripool_feat
     goal       ["self", :use_end?]
   end
@@ -13045,38 +12971,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # エイジャの曙光
 
-
   class CheckAddAsiaFeatEvent < EventRule
     dsc        "エイジャの曙光が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_asia_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAsiaFeatEvent < EventRule
     dsc        "エイジャの曙光が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_asia_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAsiaFeatEvent < EventRule
     dsc        "エイジャの曙光が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_asia_feat
     goal       ["self", :use_end?]
   end
 
   class UseAsiaFeatEvent < EventRule
     dsc        "エイジャの曙光を使用 相手にダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_asia_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAsiaFeatEvent < EventRule
     dsc        "エイジャの曙光の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_asia_feat
     goal       ["self", :use_end?]
   end
@@ -13086,42 +13011,42 @@ module Unlight
 
   class CheckAddDemonicFeatEvent < EventRule
     dsc        "デモニックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_demonic_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDemonicFeatEvent < EventRule
     dsc        "デモニックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_demonic_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDemonicFeatEvent < EventRule
     dsc        "デモニックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_demonic_feat
     goal       ["self", :use_end?]
   end
 
   class UseDemonicFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_demonic_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDemonicFeatEvent < EventRule
     dsc        "デモニックの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_demonic_feat
     goal       ["self", :use_end?]
   end
 
   class UseDemonicFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_demonic_feat_damage
     goal       ["self", :use_end?]
   end
@@ -13129,38 +13054,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 残像剣
 
-
   class CheckAddShadowSwordFeatEvent < EventRule
     dsc        "残像剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_shadow_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveShadowSwordFeatEvent < EventRule
     dsc        "残像剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_shadow_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateShadowSwordFeatEvent < EventRule
     dsc        "残像剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_shadow_sword_feat
     goal       ["self", :use_end?]
   end
 
   class UseShadowSwordFeatEvent < EventRule
     dsc        "残像剣を使用 相手にダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_shadow_sword_feat
     goal       ["self", :use_end?]
   end
 
   class FinishShadowSwordFeatEvent < EventRule
     dsc        "残像剣の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_shadow_sword_feat
     goal       ["self", :use_end?]
   end
@@ -13170,42 +13094,42 @@ module Unlight
 
   class CheckAddPerfectDeadFeatEvent < EventRule
     dsc        "パーフェクトデッドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_perfect_dead_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePerfectDeadFeatEvent < EventRule
     dsc        "パーフェクトデッドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_perfect_dead_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePerfectDeadFeatEvent < EventRule
     dsc        "パーフェクトデッドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_perfect_dead_feat
     goal       ["self", :use_end?]
   end
 
   class UsePerfectDeadFeatEvent < EventRule
     dsc        "パーフェクトデッドを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_perfect_dead_feat
     goal       ["self", :use_end?]
   end
 
   class UsePerfectDeadFeatDamageEvent < EventRule
     dsc        "パーフェクトデッド使用時にダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_perfect_dead_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishPerfectDeadFeatEvent < EventRule
     dsc        "パーフェクトデッドの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_perfect_dead_feat
     goal       ["self", :use_end?]
   end
@@ -13215,42 +13139,42 @@ module Unlight
 
   class CheckAddDestructGearFeatEvent < EventRule
     dsc        "破壊の歯車が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_destruct_gear_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDestructGearFeatEvent < EventRule
     dsc        "破壊の歯車が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_destruct_gear_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDestructGearFeatEvent < EventRule
     dsc        "破壊の歯車が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_destruct_gear_feat
     goal       ["self", :use_end?]
   end
 
   class UseDestructGearFeatEvent < EventRule
     dsc        "破壊の歯車を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_destruct_gear_feat
     goal       ["self", :use_end?]
   end
 
   class UseDestructGearFeatDamageEvent < EventRule
     dsc        "破壊の歯車を使用時に手札をランダムに失わせる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_destruct_gear_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishDestructGearFeatEvent < EventRule
     dsc        "破壊の歯車の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_destruct_gear_feat
     goal       ["self", :use_end?]
   end
@@ -13260,42 +13184,42 @@ module Unlight
 
   class CheckAddPowerShiftFeatEvent < EventRule
     dsc        "パワーシフトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_power_shift_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePowerShiftFeatEvent < EventRule
     dsc        "パワーシフトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_power_shift_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePowerShiftFeatEvent < EventRule
     dsc        "パワーシフトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_power_shift_feat
     goal       ["self", :use_end?]
   end
 
   class UsePowerShiftFeatEvent < EventRule
     dsc        "パワーシフトを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_power_shift_feat
     goal       ["self", :use_end?]
   end
 
   class UsePowerShiftFeatDamageEvent < EventRule
     dsc        "パワーシフト使用時にダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>110
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 110
     func       :use_power_shift_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishPowerShiftFeatEvent < EventRule
     dsc        "パワーシフトの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_power_shift_feat
     goal       ["self", :use_end?]
   end
@@ -13305,42 +13229,42 @@ module Unlight
 
   class CheckAddKillShotFeatEvent < EventRule
     dsc        "キルショットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_kill_shot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKillShotFeatEvent < EventRule
     dsc        "キルショットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_kill_shot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKillShotFeatEvent < EventRule
     dsc        "キルショットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_kill_shot_feat
     goal       ["self", :use_end?]
   end
 
   class UseKillShotFeatEvent < EventRule
     dsc        "キルショットを使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_kill_shot_feat
     goal       ["self", :use_end?]
   end
 
   class UseKillShotFeatDamageEvent < EventRule
     dsc        "キルショットを使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_kill_shot_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishKillShotFeatEvent < EventRule
     dsc        "キルショットの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_kill_shot_feat
     goal       ["self", :use_end?]
   end
@@ -13350,74 +13274,73 @@ module Unlight
 
   class CheckAddDefrectFeatEvent < EventRule
     dsc        "ディフレクトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_defrect_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDefrectFeatEvent < EventRule
     dsc        "ディフレクトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_defrect_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDefrectFeatEvent < EventRule
     dsc        "ディフレクトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_defrect_feat
     goal       ["self", :use_end?]
   end
 
   class UseDefrectFeatEvent < EventRule
     dsc        "ディフレクトを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_defrect_feat
     goal       ["self", :use_end?]
   end
 
   class UseDefrectFeatDamageEvent < EventRule
     dsc        "ディフレクト使用時にダメージとして相手に与える"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 50
     func       :use_defrect_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishDefrectFeatEvent < EventRule
     dsc        "ディフレクトの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_defrect_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 炎の供物
 
   class CheckAddFlameOfferingFeatEvent < EventRule
     dsc        "炎の供物が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_flame_offering_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFlameOfferingFeatEvent < EventRule
     dsc        "炎の供物が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_flame_offering_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFlameOfferingFeatEvent < EventRule
     dsc        "炎の供物が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_flame_offering_feat
     goal       ["self", :use_end?]
   end
 
   class UseFlameOfferingFeatEvent < EventRule
     dsc        "炎の供物の使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>0
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 0
     func       :use_flame_offering_feat
     goal       ["self", :use_end?]
   end
@@ -13427,42 +13350,42 @@ module Unlight
 
   class CheckAddDrainHandFeatEvent < EventRule
     dsc        "吸収の手が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_drain_hand_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDrainHandFeatEvent < EventRule
     dsc        "吸収の手が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_drain_hand_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDrainHandFeatEvent < EventRule
     dsc        "吸収の手が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_drain_hand_feat
     goal       ["self", :use_end?]
   end
 
   class UseDrainHandFeatEvent < EventRule
     dsc        "吸収の手を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_drain_hand_feat
     goal       ["self", :use_end?]
   end
 
   class UseDrainHandFeatDamageEvent < EventRule
     dsc        "吸収の手を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_drain_hand_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishDrainHandFeatEvent < EventRule
     dsc        "吸収の手の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_drain_hand_feat
     goal       ["self", :use_end?]
   end
@@ -13472,28 +13395,28 @@ module Unlight
 
   class CheckAddFirePrizonFeatEvent < EventRule
     dsc        "焔の監獄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_fire_prizon_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFirePrizonFeatEvent < EventRule
     dsc        "焔の監獄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_fire_prizon_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFirePrizonFeatEvent < EventRule
     dsc        "焔の監獄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_fire_prizon_feat
     goal       ["self", :use_end?]
   end
 
   class UseFirePrizonFeatEvent < EventRule
     dsc        "焔の監獄の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>20
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 20
     func       :use_fire_prizon_feat
     goal       ["self", :use_end?]
   end
@@ -13503,28 +13426,28 @@ module Unlight
 
   class CheckAddTimeStopFeatEvent < EventRule
     dsc        "時間停止が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_time_stop_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTimeStopFeatEvent < EventRule
     dsc        "時間停止が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_time_stop_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTimeStopFeatEvent < EventRule
     dsc        "時間停止が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_time_stop_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTimeStopFeatEvent < EventRule
     dsc        "時間停止を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_time_stop_feat
     goal       ["self", :use_end?]
   end
@@ -13534,88 +13457,87 @@ module Unlight
 
   class CheckAddDeadGuardFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_dead_guard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDeadGuardFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_dead_guard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDeadGuardFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_dead_guard_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeadGuardFeatEvent < EventRule
     dsc        "必殺技を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_dead_guard_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeadGuardFeatDamageEvent < EventRule
     dsc        "必殺技が使用される"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>90
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 90
     func       :use_dead_guard_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishDeadGuardFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_dead_guard_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 奇数即死
 
   class CheckAddDeadBlueFeatEvent < EventRule
     dsc        "奇数即死が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_dead_blue_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDeadBlueFeatEvent < EventRule
     dsc        "奇数即死が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_dead_blue_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDeadBlueFeatEvent < EventRule
     dsc        "奇数即死が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_dead_blue_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeadBlueFeatEvent < EventRule
     dsc        "奇数即死を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_dead_blue_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeadBlueFeatDamageEvent < EventRule
     dsc        "奇数即死使用時にダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_dead_blue_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishDeadBlueFeatEvent < EventRule
     dsc        "奇数即死の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_dead_blue_feat
     goal       ["self", :use_end?]
   end
@@ -13625,42 +13547,42 @@ module Unlight
 
   class CheckAddEvilGuardFeatEvent < EventRule
     dsc        "善悪の彼岸が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_evil_guard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveEvilGuardFeatEvent < EventRule
     dsc        "善悪の彼岸が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_evil_guard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateEvilGuardFeatEvent < EventRule
     dsc        "善悪の彼岸が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_evil_guard_feat
     goal       ["self", :use_end?]
   end
 
   class UseEvilGuardFeatEvent < EventRule
     dsc        "善悪の彼岸を使用 防御力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_evil_guard_feat
     goal       ["self", :use_end?]
   end
 
   class UseEvilGuardFeatDamageEvent < EventRule
     dsc        "善悪の彼岸使用時に上回った防御点をダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_evil_guard_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishEvilGuardFeatEvent < EventRule
     dsc        "善悪の彼岸の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_evil_guard_feat
     goal       ["self", :use_end?]
   end
@@ -13670,42 +13592,42 @@ module Unlight
 
   class CheckAddAbyssEyesFeatEvent < EventRule
     dsc        "道連れが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_abyss_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAbyssEyesFeatEvent < EventRule
     dsc        "道連れが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_abyss_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAbyssEyesFeatEvent < EventRule
     dsc        "道連れが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_abyss_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseAbyssEyesFeatEvent < EventRule
     dsc        "道連れを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_abyss_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseAbyssEyesFeatDamageEvent < EventRule
     dsc        "道連れ発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>120
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 120
     func       :use_abyss_eyes_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishAbyssEyesFeatEvent < EventRule
     dsc        "道連れの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_abyss_eyes_feat
     goal       ["self", :use_end?]
   end
@@ -13715,35 +13637,35 @@ module Unlight
 
   class CheckAddDeadRedFeatEvent < EventRule
     dsc        "偶数即死が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_dead_red_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDeadRedFeatEvent < EventRule
     dsc        "偶数即死が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_dead_red_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDeadRedFeatEvent < EventRule
     dsc        "偶数即死が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_dead_red_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeadRedFeatEvent < EventRule
     dsc        "偶数即死を使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_dead_red_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDeadRedFeatEvent < EventRule
     dsc        "偶数即死の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_dead_red_feat
     goal       ["self", :use_end?]
   end
@@ -13753,88 +13675,87 @@ module Unlight
 
   class CheckAddNightGhostFeatEvent < EventRule
     dsc        "幽冥の夜が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_night_ghost_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveNightGhostFeatEvent < EventRule
     dsc        "幽冥の夜が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_night_ghost_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateNightGhostFeatEvent < EventRule
     dsc        "幽冥の夜が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_night_ghost_feat
     goal       ["self", :use_end?]
   end
 
   class UseNightGhostFeatEvent < EventRule
     dsc        "幽冥の夜を使用 攻撃力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_night_ghost_feat
     goal       ["self", :use_end?]
   end
 
   class UseNightGhostFeatDamageEvent < EventRule
     dsc        "幽冥の夜を使用時にパーティにダメージ"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_night_ghost_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishNightGhostFeatEvent < EventRule
     dsc        "幽冥の夜の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_night_ghost_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 人形の軍勢
 
   class CheckAddAvatarWarFeatEvent < EventRule
     dsc        "人形の軍勢が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_avatar_war_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAvatarWarFeatEvent < EventRule
     dsc        "人形の軍勢が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_avatar_war_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAvatarWarFeatEvent < EventRule
     dsc        "人形の軍勢が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_avatar_war_feat
     goal       ["self", :use_end?]
   end
 
   class UseAvatarWarFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_avatar_war_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAvatarWarFeatEvent < EventRule
     dsc        "人形の軍勢の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_avatar_war_feat
     goal       ["self", :use_end?]
   end
 
   class UseAvatarWarFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_avatar_war_feat_damage
     goal       ["self", :use_end?]
   end
@@ -13844,44 +13765,42 @@ module Unlight
 
   class CheckAddConfusePoolFeatEvent < EventRule
     dsc        "混沌の渦が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_confuse_pool_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveConfusePoolFeatEvent < EventRule
     dsc        "混沌の渦が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_confuse_pool_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateConfusePoolFeatEvent < EventRule
     dsc        "混沌の渦が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_confuse_pool_feat
     goal       ["self", :use_end?]
   end
 
   class UseConfusePoolFeatEvent < EventRule
     dsc        "混沌の渦を使用 相手の手札を1枚破棄"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_confuse_pool_feat
     goal       ["self", :use_end?]
   end
 
-
   class UseConfusePoolFeatDamageEvent < EventRule
     dsc        "混沌の渦を使用 相手の手札を1枚破棄"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_confuse_pool_feat_damage
     goal       ["self", :use_end?]
   end
 
-
   class FinishConfusePoolFeatEvent < EventRule
     dsc        "混沌の渦の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_confuse_pool_feat
     goal       ["self", :use_end?]
   end
@@ -13891,35 +13810,35 @@ module Unlight
 
   class CheckAddProminenceFeatEvent < EventRule
     dsc        "プロミネンスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_prominence_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveProminenceFeatEvent < EventRule
     dsc        "プロミネンスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_prominence_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateProminenceFeatEvent < EventRule
     dsc        "プロミネンスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_prominence_feat
     goal       ["self", :use_end?]
   end
 
   class UseProminenceFeatEvent < EventRule
     dsc        "プロミネンスの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_prominence_feat
     goal       ["self", :use_end?]
   end
 
   class FinishProminenceFeatEvent < EventRule
     dsc        "プロミネンスを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_prominence_feat
     goal       ["self", :use_end?]
   end
@@ -13929,42 +13848,42 @@ module Unlight
 
   class CheckAddBattleAxeFeatEvent < EventRule
     dsc        "バトルアックスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_battle_axe_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBattleAxeFeatEvent < EventRule
     dsc        "バトルアックスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_battle_axe_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBattleAxeFeatEvent < EventRule
     dsc        "バトルアックスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_battle_axe_feat
     goal       ["self", :use_end?]
   end
 
   class UseBattleAxeFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_battle_axe_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBattleAxeFeatEvent < EventRule
     dsc        "バトルアックスの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_battle_axe_feat
     goal       ["self", :use_end?]
   end
 
   class UseBattleAxeFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_battle_axe_feat_damage
     goal       ["self", :use_end?]
   end
@@ -13972,38 +13891,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # MOAB
 
-
   class CheckAddMoabFeatEvent < EventRule
     dsc        "MOABが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_moab_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMoabFeatEvent < EventRule
     dsc        "MOABが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_moab_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMoabFeatEvent < EventRule
     dsc        "MOABが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_moab_feat
     goal       ["self", :use_end?]
   end
 
   class UseMoabFeatEvent < EventRule
     dsc        "MOABを使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_moab_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMoabFeatEvent < EventRule
     dsc        "MOABの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_moab_feat
     goal       ["self", :use_end?]
   end
@@ -14013,28 +13931,28 @@ module Unlight
 
   class CheckAddOverHeatFeatEvent < EventRule
     dsc        "オーバーヒートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_over_heat_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveOverHeatFeatEvent < EventRule
     dsc        "オーバーヒートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_over_heat_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateOverHeatFeatEvent < EventRule
     dsc        "オーバーヒートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_over_heat_feat
     goal       ["self", :use_end?]
   end
 
   class FinishOverHeatFeatEvent < EventRule
     dsc        "オーバーヒートを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 1
     func       :finish_over_heat_feat
     goal       ["self", :use_end?]
   end
@@ -14044,42 +13962,42 @@ module Unlight
 
   class CheckAddBlueRoseFeatEvent < EventRule
     dsc        "蒼き薔薇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_blue_rose_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlueRoseFeatEvent < EventRule
     dsc        "蒼き薔薇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_blue_rose_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlueRoseFeatEvent < EventRule
     dsc        "蒼き薔薇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_blue_rose_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlueRoseFeatEvent < EventRule
     dsc        "蒼き薔薇を使用 防御力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_blue_rose_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlueRoseFeatDamageEvent < EventRule
     dsc        "蒼き薔薇使用時に上回った防御点をダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_blue_rose_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishBlueRoseFeatEvent < EventRule
     dsc        "蒼き薔薇の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_blue_rose_feat
     goal       ["self", :use_end?]
   end
@@ -14089,28 +14007,28 @@ module Unlight
 
   class CheckAddWhiteCrowFeatEvent < EventRule
     dsc        "白鴉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_white_crow_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWhiteCrowFeatEvent < EventRule
     dsc        "白鴉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_white_crow_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWhiteCrowFeatEvent < EventRule
     dsc        "白鴉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_white_crow_feat
     goal       ["self", :use_end?]
   end
 
   class FinishWhiteCrowFeatEvent < EventRule
     dsc        "白鴉を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_white_crow_feat
     goal       ["self", :use_end?]
   end
@@ -14120,49 +14038,49 @@ module Unlight
 
   class CheckAddRedMoonFeatEvent < EventRule
     dsc        "深紅の月が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_red_moon_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRedMoonFeatEvent < EventRule
     dsc        "深紅の月が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_red_moon_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRedMoonFeatEvent < EventRule
     dsc        "深紅の月が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_red_moon_feat
     goal       ["self", :use_end?]
   end
 
   class UseRedMoonFeatEvent < EventRule
     dsc        "深紅の月を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_red_moon_feat
     goal       ["self", :use_end?]
   end
 
   class UseRedMoonFeatDiceAttrEvent < EventRule
     dsc        "深紅の月を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event, :priority=>30
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event, priority: 30
     func       :use_red_moon_feat_dice_attr
     goal       ["self", :use_end?]
   end
 
   class UseRedMoonFeatDamageEvent < EventRule
     dsc        "深紅の月を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_red_moon_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishRedMoonFeatEvent < EventRule
     dsc        "深紅の月の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_red_moon_feat
     goal       ["self", :use_end?]
   end
@@ -14172,46 +14090,45 @@ module Unlight
 
   class UseExRedMoonFeatDiceAttrEvent < EventRule
     dsc        "深紅の月を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event, :priority=>80
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event, priority: 80
     func       :use_red_moon_feat_dice_attr
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 黒い太陽
 
   class CheckAddBlackSunFeatEvent < EventRule
     dsc        "黒い太陽が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_black_sun_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlackSunFeatEvent < EventRule
     dsc        "黒い太陽が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_black_sun_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlackSunFeatEvent < EventRule
     dsc        "黒い太陽が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_black_sun_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlackSunFeatEvent < EventRule
     dsc        "黒い太陽を使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_black_sun_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBlackSunFeatEvent < EventRule
     dsc        "黒い太陽の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_black_sun_feat
     goal       ["self", :use_end?]
   end
@@ -14221,49 +14138,49 @@ module Unlight
 
   class CheckAddGirasoleFeatEvent < EventRule
     dsc        "ジラソーレが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_girasole_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGirasoleFeatEvent < EventRule
     dsc        "ジラソーレが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_girasole_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGirasoleFeatEvent < EventRule
     dsc        "ジラソーレが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_girasole_feat
     goal       ["self", :use_end?]
   end
 
   class UseGirasoleFeatEvent < EventRule
     dsc        "ジラソーレを使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_girasole_feat
     goal       ["self", :use_end?]
   end
 
   class UseGirasoleFeatDamageEvent < EventRule
     dsc        "ジラソーレを使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_girasole_feat_damage
     goal       ["self", :use_end?]
   end
 
   class UseGirasoleFeatConstDamageEvent < EventRule
     dsc        "ジラソーレを使用時に手札をランダムに失わせる"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 10
     func       :use_girasole_feat_const_damage
     goal       ["self", :use_end?]
   end
 
   class FinishGirasoleFeatEvent < EventRule
     dsc        "ジラソーレの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_girasole_feat
     goal       ["self", :use_end?]
   end
@@ -14273,28 +14190,28 @@ module Unlight
 
   class CheckAddViolettaFeatEvent < EventRule
     dsc        "ビオレッタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_violetta_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveViolettaFeatEvent < EventRule
     dsc        "ビオレッタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_violetta_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateViolettaFeatEvent < EventRule
     dsc        "ビオレッタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_violetta_feat
     goal       ["self", :use_end?]
   end
 
   class FinishViolettaFeatEvent < EventRule
     dsc        "ビオレッタを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_violetta_feat
     goal       ["self", :use_end?]
   end
@@ -14304,82 +14221,80 @@ module Unlight
 
   class CheckAddDigitaleFeatEvent < EventRule
     dsc        "ディジタリスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_digitale_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDigitaleFeatEvent < EventRule
     dsc        "ディジタリスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_digitale_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDigitaleFeatEvent < EventRule
     dsc        "ディジタリスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_digitale_feat
     goal       ["self", :use_end?]
   end
 
   class UseDigitaleFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_digitale_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDigitaleFeatEvent < EventRule
     dsc        "ディジタリスの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_digitale_feat
     goal       ["self", :use_end?]
   end
 
   class UseDigitaleFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 1
     func       :use_digitale_feat_damage
     goal       ["self", :use_end?]
   end
 
-
 #---------------------------------------------------------------------------------------------
 # ロスマリーノ
 
-
   class CheckAddRosmarinoFeatEvent < EventRule
     dsc        "ロスマリーノが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_rosmarino_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRosmarinoFeatEvent < EventRule
     dsc        "ロスマリーノが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_rosmarino_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRosmarinoFeatEvent < EventRule
     dsc        "ロスマリーノが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_rosmarino_feat
     goal       ["self", :use_end?]
   end
 
   class UseRosmarinoFeatEvent < EventRule
     dsc        "ロスマリーノを使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_rosmarino_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRosmarinoFeatEvent < EventRule
     dsc        "ロスマリーノの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_rosmarino_feat
     goal       ["self", :use_end?]
   end
@@ -14389,28 +14304,28 @@ module Unlight
 
   class CheckAddHachiyouFeatEvent < EventRule
     dsc        "八葉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_hachiyou_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHachiyouFeatEvent < EventRule
     dsc        "八葉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_hachiyou_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHachiyouFeatEvent < EventRule
     dsc        "八葉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_hachiyou_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHachiyouFeatEvent < EventRule
     dsc        "八葉を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_hachiyou_feat
     goal       ["self", :use_end?]
   end
@@ -14418,38 +14333,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 鉄石の構え
 
-
   class CheckAddStoneCareFeatEvent < EventRule
     dsc        "鉄石の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_stone_care_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveStoneCareFeatEvent < EventRule
     dsc        "鉄石の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_stone_care_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateStoneCareFeatEvent < EventRule
     dsc        "鉄石の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_stone_care_feat
     goal       ["self", :use_end?]
   end
 
   class UseStoneCareFeatEvent < EventRule
     dsc        "鉄石の構えを使用 自分を特殊/2回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_stone_care_feat
     goal       ["self", :use_end?]
   end
 
   class FinishStoneCareFeatEvent < EventRule
     dsc        "鉄石の構えの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_stone_care_feat
     goal       ["self", :use_end?]
   end
@@ -14459,120 +14373,118 @@ module Unlight
 
   class CheckAddDustSwordFeatEvent < EventRule
     dsc        "絶塵剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_dust_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDustSwordFeatEvent < EventRule
     dsc        "絶塵剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_dust_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDustSwordFeatEvent < EventRule
     dsc        "絶塵剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_dust_sword_feat
     goal       ["self", :use_end?]
   end
 
   class UseDustSwordFeatEvent < EventRule
     dsc        "絶塵剣を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_dust_sword_feat
     goal       ["self", :use_end?]
   end
 
   class UseDustSwordFeatDamageEvent < EventRule
     dsc        "絶塵剣を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_dust_sword_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishDustSwordFeatEvent < EventRule
     dsc        "絶塵剣の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_dust_sword_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 夢幻
 
   class CheckAddIllusionFeatEvent < EventRule
     dsc        "夢幻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_illusion_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveIllusionFeatEvent < EventRule
     dsc        "夢幻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_illusion_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateIllusionFeatEvent < EventRule
     dsc        "夢幻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_illusion_feat
     goal       ["self", :use_end?]
   end
 
   class UseIllusionFeatEvent < EventRule
     dsc        "夢幻を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_illusion_feat
     goal       ["self", :use_end?]
   end
 
   class UseIllusionFeatDamageEvent < EventRule
     dsc        "夢幻を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_illusion_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishIllusionFeatEvent < EventRule
     dsc        "夢幻の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_illusion_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 絶望の叫び
 
   class CheckAddDespairShoutFeatEvent < EventRule
     dsc        "絶望の叫びが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_despair_shout_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDespairShoutFeatEvent < EventRule
     dsc        "絶望の叫びが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_despair_shout_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDespairShoutFeatEvent < EventRule
     dsc        "絶望の叫びが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_despair_shout_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDespairShoutFeatEvent < EventRule
     dsc        "絶望の叫びを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_despair_shout_feat
     goal       ["self", :use_end?]
   end
@@ -14582,35 +14494,35 @@ module Unlight
 
   class CheckAddDarknessSongFeatEvent < EventRule
     dsc        "暗黒神の歌が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_darkness_song_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDarknessSongFeatEvent < EventRule
     dsc        "暗黒神の歌が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_darkness_song_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDarknessSongFeatEvent < EventRule
     dsc        "暗黒神の歌が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_darkness_song_feat
     goal       ["self", :use_end?]
   end
 
   class UseDarknessSongFeatEvent < EventRule
     dsc        "暗黒神の歌を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 1
     func       :use_darkness_song_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDarknessSongFeatEvent < EventRule
     dsc        "暗黒神の歌の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_darkness_song_feat
     goal       ["self", :use_end?]
   end
@@ -14620,28 +14532,28 @@ module Unlight
 
   class CheckAddGuardSpiritFeatEvent < EventRule
     dsc        "守護霊の魂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_guard_spirit_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGuardSpiritFeatEvent < EventRule
     dsc        "守護霊の魂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_guard_spirit_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGuardSpiritFeatEvent < EventRule
     dsc        "守護霊の魂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_guard_spirit_feat
     goal       ["self", :use_end?]
   end
 
   class FinishGuardSpiritFeatEvent < EventRule
     dsc        "守護霊の魂を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_guard_spirit_feat
     goal       ["self", :use_end?]
   end
@@ -14651,42 +14563,42 @@ module Unlight
 
   class CheckAddSlaughterOrganFeatEvent < EventRule
     dsc        "殺戮器官が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_slaughter_organ_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSlaughterOrganFeatEvent < EventRule
     dsc        "殺戮器官が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_slaughter_organ_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSlaughterOrganFeatEvent < EventRule
     dsc        "殺戮器官が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_slaughter_organ_feat
     goal       ["self", :use_end?]
   end
 
   class UseSlaughterOrganFeatEvent < EventRule
     dsc        "殺戮器官をを使用 攻撃力が2倍"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 1
     func       :use_slaughter_organ_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSlaughterOrganFeatEvent < EventRule
     dsc        "殺戮器官を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_slaughter_organ_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTurnSlaughterOrganFeatEvent < EventRule
     dsc        "殺戮器官を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_turn_slaughter_organ_feat
     goal       ["self", :use_end?]
   end
@@ -14696,42 +14608,42 @@ module Unlight
 
   class CheckAddFoolsHandFeatEvent < EventRule
     dsc        "愚者の手が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_fools_hand_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFoolsHandFeatEvent < EventRule
     dsc        "愚者の手が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_fools_hand_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFoolsHandFeatEvent < EventRule
     dsc        "愚者の手が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_fools_hand_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoolsHandFeatEvent < EventRule
     dsc        "愚者の手を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_fools_hand_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoolsHandFeatDamageEvent < EventRule
     dsc        "愚者の手を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_fools_hand_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishFoolsHandFeatEvent < EventRule
     dsc        "愚者の手の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_fools_hand_feat
     goal       ["self", :use_end?]
   end
@@ -14739,38 +14651,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 時の種子
 
-
   class CheckAddTimeSeedFeatEvent < EventRule
     dsc        "時の種子が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_time_seed_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTimeSeedFeatEvent < EventRule
     dsc        "時の種子が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_time_seed_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTimeSeedFeatEvent < EventRule
     dsc        "時の種子が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_time_seed_feat
     goal       ["self", :use_end?]
   end
 
   class UseTimeSeedFeatEvent < EventRule
     dsc        "時の種子を使用 自分を特殊/2回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_time_seed_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTimeSeedFeatEvent < EventRule
     dsc        "時の種子の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_time_seed_feat
     goal       ["self", :use_end?]
   end
@@ -14780,42 +14691,42 @@ module Unlight
 
   class CheckAddIrongateOfFateFeatEvent < EventRule
     dsc        "運命の鉄門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_irongate_of_fate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveIrongateOfFateFeatEvent < EventRule
     dsc        "運命の鉄門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_irongate_of_fate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateIrongateOfFateFeatEvent < EventRule
     dsc        "運命の鉄門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_irongate_of_fate_feat
     goal       ["self", :use_end?]
   end
 
   class UseIrongateOfFateFeatEvent < EventRule
     dsc        "運命の鉄門を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_irongate_of_fate_feat
     goal       ["self", :use_end?]
   end
 
   class UseIrongateOfFateFeatDamageEvent < EventRule
     dsc        "運命の鉄門を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_irongate_of_fate_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishIrongateOfFateFeatEvent < EventRule
     dsc        "運命の鉄門の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_irongate_of_fate_feat
     goal       ["self", :use_end?]
   end
@@ -14825,56 +14736,56 @@ module Unlight
 
   class CheckAddGathererFeatEvent < EventRule
     dsc        "ザ・ギャザラーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_gatherer_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGathererFeatEvent < EventRule
     dsc        "ザ・ギャザラーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_gatherer_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGathererFeatEvent < EventRule
     dsc        "ザ・ギャザラーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_gatherer_feat
     goal       ["self", :use_end?]
   end
 
   class UseGathererFeatEvent < EventRule
     dsc        "ザ・ギャザラーの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_gatherer_feat
     goal       ["self", :use_end?]
   end
 
   class UseNextGathererFeatEvent < EventRule
     dsc        "ザ・ギャザラーの回収予約"
-    type       :type=>:before, :obj=>"owner", :hook=>:move_phase_init_event
+    type       type: :before, obj: "owner", hook: :move_phase_init_event
     func       :use_next_gatherer_feat
     goal       ["self", :use_end?]
   end
 
   class FinishGathererFeatEvent < EventRule
     dsc        "ザ・ギャザラーの使用が終了"
-    type       :type=>:before, :obj=>"owner", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "owner", hook: :battle_phase_init_event
     func       :finish_gatherer_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCharaChangeGathererFeatEvent < EventRule
     dsc        "ザ・ギャザラーの使用が終了(キャラチェンジ時)"
-    type       :type=>:before, :obj=>"owner", :hook=>:chara_change_action
+    type       type: :before, obj: "owner", hook: :chara_change_action
     func       :finish_gatherer_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFoeCharaChangeGathererFeatEvent < EventRule
     dsc        "ザ・ギャザラーの使用が終了(キャラチェンジ時)"
-    type       :type=>:before, :obj=>"foe", :hook=>:chara_change_action
+    type       type: :before, obj: "foe", hook: :chara_change_action
     func       :finish_gatherer_feat
     goal       ["self", :use_end?]
   end
@@ -14884,42 +14795,42 @@ module Unlight
 
   class CheckAddJudgeFeatEvent < EventRule
     dsc        "ザ・ジャッジが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_judge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveJudgeFeatEvent < EventRule
     dsc        "ザ・ジャッジが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_judge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateJudgeFeatEvent < EventRule
     dsc        "ザ・ジャッジが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_judge_feat
     goal       ["self", :use_end?]
   end
 
   class UseJudgeFeatEvent < EventRule
     dsc        "ザ・ジャッジを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_judge_feat
     goal       ["self", :use_end?]
   end
 
   class UseJudgeFeatDamageEvent < EventRule
     dsc        "ザ・ジャッジ使用時にダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_judge_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishJudgeFeatEvent < EventRule
     dsc        "ザ・ジャッジの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:battle_result_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :battle_result_phase, priority: 10
     func       :finish_judge_feat
     goal       ["self", :use_end?]
   end
@@ -14929,42 +14840,42 @@ module Unlight
 
   class CheckAddDreamFeatEvent < EventRule
     dsc        "ザ・ドリームが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_dream_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDreamFeatEvent < EventRule
     dsc        "ザ・ドリームが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_dream_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDreamFeatEvent < EventRule
     dsc        "ザ・ドリームが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_dream_feat
     goal       ["self", :use_end?]
   end
 
   class UseDreamFeatEvent < EventRule
     dsc        "ザ・ドリームを使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_dream_feat
     goal       ["self", :use_end?]
   end
 
   class UseDreamFeatDamageEvent < EventRule
     dsc        "ザ・ドリームを使用時に手札をランダムに失わせる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 0
     func       :use_dream_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishDreamFeatEvent < EventRule
     dsc        "ザ・ドリームの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_dream_feat
     goal       ["self", :use_end?]
   end
@@ -14974,28 +14885,28 @@ module Unlight
 
   class CheckAddOneAboveAllFeatEvent < EventRule
     dsc        "ジ・ワン・アボヴ・オールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_one_above_all_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveOneAboveAllFeatEvent < EventRule
     dsc        "ジ・ワン・アボヴ・オールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_one_above_all_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateOneAboveAllFeatEvent < EventRule
     dsc        "ジ・ワン・アボヴ・オールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_one_above_all_feat
     goal       ["self", :use_end?]
   end
 
   class UseOneAboveAllFeatEvent < EventRule
     dsc        "ジ・ワン・アボヴ・オールの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 1
     func       :use_one_above_all_feat
     goal       ["self", :use_end?]
   end
@@ -15005,109 +14916,108 @@ module Unlight
 
   class CheckAddAntisepticFeatEvent < EventRule
     dsc        "アンチセプティック・Fが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_antiseptic_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAntisepticFeatEvent < EventRule
     dsc        "アンチセプティック・Fが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_antiseptic_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAntisepticFeatEvent < EventRule
     dsc        "アンチセプティック・Fが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_antiseptic_feat
     goal       ["self", :use_end?]
   end
 
   class UseAntisepticFeatEvent < EventRule
     dsc        "アンチセプティック・Fを使用"
-    type       :type=>:before, :obj=>"owner", :hook=>:move_phase_init_event
+    type       type: :before, obj: "owner", hook: :move_phase_init_event
     func       :use_antiseptic_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAntisepticFeatEvent < EventRule
     dsc        "アンチセプティック・Fを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_antiseptic_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTurnAntisepticFeatEvent < EventRule
     dsc        "アンチセプティックFが終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :finish_turn_phase, priority: 50
     func       :finish_turn_antiseptic_feat
     goal       ["self", :use_end?]
   end
 
   class CheckAntisepticStateChangeEvent < EventRule
     dsc        "アンチセプティックF状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_antiseptic_state_change
     goal       ["self", :use_end?]
   end
 
   class CheckAntisepticStateDeadChangeEvent < EventRule
     dsc        "アンチセプティックF状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_antiseptic_state_change
     goal       ["self", :use_end?]
   end
 
   class FinishAntisepticStateEvent < EventRule
     dsc        "アンチセプティックF状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :finish_antiseptic_state
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # シルバーマシン
 
   class CheckAddSilverMachineFeatEvent < EventRule
     dsc        "シルバーマシンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_silver_machine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSilverMachineFeatEvent < EventRule
     dsc        "シルバーマシンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_silver_machine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSilverMachineFeatEvent < EventRule
     dsc        "シルバーマシンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_silver_machine_feat
     goal       ["self", :use_end?]
   end
 
   class UseSilverMachineFeatEvent < EventRule
     dsc        "シルバーマシンを使用 攻撃力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_silver_machine_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSilverMachineFeatEvent < EventRule
     dsc        "シルバーマシンの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_silver_machine_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTurnSilverMachineFeatEvent < EventRule
     dsc        "シルバーマシンの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_turn_silver_machine_feat
     goal       ["self", :use_end?]
   end
@@ -15117,70 +15027,70 @@ module Unlight
 
   class CheckAddAtomHeartFeatEvent < EventRule
     dsc        "アトムハートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_atom_heart_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAtomHeartFeatEvent < EventRule
     dsc        "アトムハートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_atom_heart_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAtomHeartFeatEvent < EventRule
     dsc        "アトムハートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_atom_heart_feat
     goal       ["self", :use_end?]
   end
 
   class UseAtomHeartFeatEvent < EventRule
     dsc        "アトムハートを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_atom_heart_feat
     goal       ["self", :use_end?]
   end
 
   class UseNextAtomHeartFeatEvent < EventRule
     dsc        "アトムハートのエフェクト"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :use_next_atom_heart_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAtomHeartFeatEvent < EventRule
     dsc        "アトムハートの使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_atom_heart_feat
     goal       ["self", :use_end?]
   end
 
   class FinishResultAtomHeartFeatEvent < EventRule
     dsc        "アトムハートの使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:battle_result_phase
+    type       type: :before, obj: "duel", hook: :battle_result_phase
     func       :finish_atom_heart_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCalcAtomHeartFeatEvent < EventRule
     dsc        "アトムハートを使用"
-    type       :type=>:before, :obj=>"foe", :hook=>:dp_calc_resolve
+    type       type: :before, obj: "foe", hook: :dp_calc_resolve
     func       :finish_atom_heart_feat
     goal       ["self", :use_end?]
   end
 
   class DisableAtomHeartFeatEvent < EventRule
     dsc        "アトムハートを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :before, obj: "duel", hook: :change_initiative_phase
     func       :disable_atom_heart_feat
     goal       ["self", :use_end?]
   end
 
   class DisableNextAtomHeartFeatEvent < EventRule
     dsc        "アトムハートを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :disable_atom_heart_feat
     goal       ["self", :use_end?]
   end
@@ -15190,42 +15100,42 @@ module Unlight
 
   class CheckAddElectricSurgeryFeatEvent < EventRule
     dsc        "エレクトロサージェリーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_electric_surgery_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveElectricSurgeryFeatEvent < EventRule
     dsc        "エレクトロサージェリーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_electric_surgery_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateElectricSurgeryFeatEvent < EventRule
     dsc        "エレクトロサージェリーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_electric_surgery_feat
     goal       ["self", :use_end?]
   end
 
   class UseElectricSurgeryFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_electric_surgery_feat
     goal       ["self", :use_end?]
   end
 
   class FinishElectricSurgeryFeatEvent < EventRule
     dsc        "エレクトロサージェリーの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_electric_surgery_feat
     goal       ["self", :use_end?]
   end
 
   class UseElectricSurgeryFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_electric_surgery_feat_damage
     goal       ["self", :use_end?]
   end
@@ -15235,49 +15145,49 @@ module Unlight
 
   class CheckAddAcidEaterFeatEvent < EventRule
     dsc        "アシッドイーターが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_acid_eater_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAcidEaterFeatEvent < EventRule
     dsc        "アシッドイーターが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_acid_eater_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAcidEaterFeatEvent < EventRule
     dsc        "アシッドイーターが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_acid_eater_feat
     goal       ["self", :use_end?]
   end
 
   class FinishUsedDetermineAcidEaterFeatEvent < EventRule
     dsc        "アシッドイーターを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :before, obj: "duel", hook: :determine_move_phase
     func       :finish_used_acid_eater_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDetermineAcidEaterFeatEvent < EventRule
     dsc        "アシッドイーターを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>5
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 5
     func       :finish_acid_eater_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCalcAcidEaterFeatEvent < EventRule
     dsc        "アシッドイーターを使用"
-    type       :type=>:before, :obj=>"foe", :hook=>:mp_calc_resolve, :priority=>10
+    type       type: :before, obj: "foe", hook: :mp_calc_resolve, priority: 10
     func       :finish_acid_eater_feat
     goal       ["self", :use_end?]
   end
 
   class FinishNextAcidEaterFeatEvent < EventRule
     dsc        "アシッドイーターを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_next_acid_eater_feat
     goal       ["self", :use_end?]
   end
@@ -15287,102 +15197,101 @@ module Unlight
 
   class CheckAddDeadLockFeatEvent < EventRule
     dsc        "デッドロックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_dead_lock_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDeadLockFeatEvent < EventRule
     dsc        "デッドロックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_dead_lock_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDeadLockFeatEvent < EventRule
     dsc        "デッドロックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_dead_lock_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeadLockFeatEvent < EventRule
     dsc        "デッドロックを使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_dead_lock_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeadLockFeatDamageEvent < EventRule
     dsc        "デッドロック使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_dead_lock_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishDeadLockFeatEvent < EventRule
     dsc        "デッドロックの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_dead_lock_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # ベガーズバンケット
 
   class CheckAddBeggarsBanquetFeatEvent < EventRule
     dsc        "ベガーズバンケットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_beggars_banquet_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBeggarsBanquetFeatEvent < EventRule
     dsc        "ベガーズバンケットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_beggars_banquet_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBeggarsBanquetFeatEvent < EventRule
     dsc        "ベガーズバンケットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_beggars_banquet_feat
     goal       ["self", :use_end?]
   end
 
   class UseBeggarsBanquetFeatEvent < EventRule
     dsc        "ベガーズバンケットの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_beggars_banquet_feat
     goal       ["self", :use_end?]
   end
 
   class ExBeggarsBanquetTmpFeatEvent < EventRule
     dsc        "ベガーズバンケットの拡張 カードキープ"
-    type       :type=>:before, :obj=>"owner", :hook=>:move_phase_init_event
+    type       type: :before, obj: "owner", hook: :move_phase_init_event
     func       :ex_beggars_banquet_tmp_feat
     goal       ["self", :use_end?]
   end
 
   class FinishExBeggarsBanquetFeatEvent < EventRule
     dsc        "ベガーズバンケットの使用が終了"
-    type       :type=>:before, :obj=>"owner", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "owner", hook: :battle_phase_init_event
     func       :finish_ex_beggars_banquet_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCharaChangeExBeggarsBanquetFeatEvent < EventRule
     dsc        "ベガーズバンケットの使用が終了(キャラチェンジ時)"
-    type       :type=>:before, :obj=>"owner", :hook=>:chara_change_action
+    type       type: :before, obj: "owner", hook: :chara_change_action
     func       :finish_ex_beggars_banquet_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFoeCharaChangeExBeggarsBanquetFeatEvent < EventRule
     dsc        "ベガーズバンケットの使用が終了(キャラチェンジ時)"
-    type       :type=>:before, :obj=>"foe", :hook=>:chara_change_action
+    type       type: :before, obj: "foe", hook: :chara_change_action
     func       :finish_ex_beggars_banquet_feat
     goal       ["self", :use_end?]
   end
@@ -15392,35 +15301,35 @@ module Unlight
 
   class CheckAddSwanSongFeatEvent < EventRule
     dsc        "スワンソングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_swan_song_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSwanSongFeatEvent < EventRule
     dsc        "スワンソングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_swan_song_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSwanSongFeatEvent < EventRule
     dsc        "スワンソングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_swan_song_feat
     goal       ["self", :use_end?]
   end
 
   class UseSwanSongFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_swan_song_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSwanSongFeatEvent < EventRule
     dsc        "スワンソングの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :finish_swan_song_feat
     goal       ["self", :use_end?]
   end
@@ -15430,28 +15339,28 @@ module Unlight
 
   class CheckAddIdleGraveFeatEvent < EventRule
     dsc        "懶惰の墓標が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_idle_grave_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveIdleGraveFeatEvent < EventRule
     dsc        "懶惰の墓標が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_idle_grave_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateIdleGraveFeatEvent < EventRule
     dsc        "懶惰の墓標が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_idle_grave_feat
     goal       ["self", :use_end?]
   end
 
   class UseIdleGraveFeatEvent < EventRule
     dsc        "懶惰の墓標の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 0
     func       :use_idle_grave_feat
     goal       ["self", :use_end?]
   end
@@ -15461,42 +15370,42 @@ module Unlight
 
   class CheckAddSorrowSongFeatEvent < EventRule
     dsc        "慟哭の歌が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_sorrow_song_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSorrowSongFeatEvent < EventRule
     dsc        "慟哭の歌が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_sorrow_song_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSorrowSongFeatEvent < EventRule
     dsc        "慟哭の歌が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_sorrow_song_feat
     goal       ["self", :use_end?]
   end
 
   class UseSorrowSongFeatEvent < EventRule
     dsc        "慟哭の歌の使用が終了"
-    type       :type=>:after, :obj=>"foe", :hook=>:dice_attribute_regist_event, :priority=>90
+    type       type: :after, obj: "foe", hook: :dice_attribute_regist_event, priority: 90
     func       :use_sorrow_song_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSorrowSongFeatEvent < EventRule
     dsc        "慟哭の歌の使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:battle_result_phase
+    type       type: :before, obj: "duel", hook: :battle_result_phase
     func       :finish_sorrow_song_feat
     goal       ["self", :use_end?]
   end
 
   class FinishExSorrowSongFeatEvent < EventRule
     dsc        "慟哭の歌の使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :finish_ex_sorrow_song_feat
     goal       ["self", :use_end?]
   end
@@ -15506,42 +15415,42 @@ module Unlight
 
   class CheckAddRedWheelFeatEvent < EventRule
     dsc        "紅蓮の車輪が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_red_wheel_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRedWheelFeatEvent < EventRule
     dsc        "紅蓮の車輪が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_red_wheel_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRedWheelFeatEvent < EventRule
     dsc        "紅蓮の車輪が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_red_wheel_feat
     goal       ["self", :use_end?]
   end
 
   class UseRedWheelFeatEvent < EventRule
     dsc        "紅蓮の車輪を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_red_wheel_feat
     goal       ["self", :use_end?]
   end
 
   class UseRedWheelFeatDamageEvent < EventRule
     dsc        "紅蓮の車輪を使用時に手札をランダムに失わせる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 0
     func       :use_red_wheel_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishRedWheelFeatEvent < EventRule
     dsc        "紅蓮の車輪の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_red_wheel_feat
     goal       ["self", :use_end?]
   end
@@ -15551,28 +15460,28 @@ module Unlight
 
   class CheckAddRedPomegranateFeatEvent < EventRule
     dsc        "赤い石榴が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_red_pomegranate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRedPomegranateFeatEvent < EventRule
     dsc        "赤い石榴が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_red_pomegranate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRedPomegranateFeatEvent < EventRule
     dsc        "赤い石榴が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_red_pomegranate_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRedPomegranateFeatEvent < EventRule
     dsc        "赤い石榴を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_move_phase
+    type       type: :before, obj: "duel", hook: :finish_move_phase
     func       :finish_red_pomegranate_feat
     goal       ["self", :use_end?]
   end
@@ -15582,28 +15491,28 @@ module Unlight
 
   class CheckAddClockWorksFeatEvent < EventRule
     dsc        "クロックワークスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_clock_works_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveClockWorksFeatEvent < EventRule
     dsc        "クロックワークスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_clock_works_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateClockWorksFeatEvent < EventRule
     dsc        "クロックワークスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_clock_works_feat
     goal       ["self", :use_end?]
   end
 
   class FinishClockWorksFeatEvent < EventRule
     dsc        "クロックワークスを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_clock_works_feat
     goal       ["self", :use_end?]
   end
@@ -15613,82 +15522,80 @@ module Unlight
 
   class CheckAddTimeHuntFeatEvent < EventRule
     dsc        "タイムハントが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_time_hunt_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTimeHuntFeatEvent < EventRule
     dsc        "タイムハントが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_time_hunt_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTimeHuntFeatEvent < EventRule
     dsc        "タイムハントが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_time_hunt_feat
     goal       ["self", :use_end?]
   end
 
   class UseExTimeHuntFeatEvent < EventRule
     dsc        "タイムハントを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_ex_time_hunt_feat
     goal       ["self", :use_end?]
   end
 
   class UseTimeHuntFeatEvent < EventRule
     dsc        "タイムハントを使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:dice_attribute_regist_event, :priority=>90
+    type       type: :after, obj: "foe", hook: :dice_attribute_regist_event, priority: 90
     func       :use_time_hunt_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTimeHuntFeatEvent < EventRule
     dsc        "タイムハントの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_time_hunt_feat
     goal       ["self", :use_end?]
   end
 
-
 #---------------------------------------------------------------------------------------------
 # タイムボム
 
-
   class CheckAddTimeBombFeatEvent < EventRule
     dsc        "タイムボムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_time_bomb_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTimeBombFeatEvent < EventRule
     dsc        "タイムボムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_time_bomb_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTimeBombFeatEvent < EventRule
     dsc        "タイムボムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_time_bomb_feat
     goal       ["self", :use_end?]
   end
 
   class UseTimeBombFeatEvent < EventRule
     dsc        "タイムボムを使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_time_bomb_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTimeBombFeatEvent < EventRule
     dsc        "タイムボムの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_time_bomb_feat
     goal       ["self", :use_end?]
   end
@@ -15698,28 +15605,28 @@ module Unlight
 
   class CheckAddInTheEveningFeatEvent < EventRule
     dsc        "インジイブニングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_in_the_evening_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveInTheEveningFeatEvent < EventRule
     dsc        "インジイブニングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_in_the_evening_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateInTheEveningFeatEvent < EventRule
     dsc        "インジイブニングが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_in_the_evening_feat
     goal       ["self", :use_end?]
   end
 
   class FinishInTheEveningFeatEvent < EventRule
     dsc        "インジイブニングの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 0
     func       :finish_in_the_evening_feat
     goal       ["self", :use_end?]
   end
@@ -15729,88 +15636,87 @@ module Unlight
 
   class CheckAddFinalWaltzFeatEvent < EventRule
     dsc        "終局のワルツが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_final_waltz_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFinalWaltzFeatEvent < EventRule
     dsc        "終局のワルツが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_final_waltz_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFinalWaltzFeatEvent < EventRule
     dsc        "終局のワルツが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_final_waltz_feat
     goal       ["self", :use_end?]
   end
 
   class UseFinalWaltzFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_final_waltz_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFinalWaltzFeatEvent < EventRule
     dsc        "終局のワルツの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_final_waltz_feat
     goal       ["self", :use_end?]
   end
 
   class UseFinalWaltzFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_final_waltz_feat_damage
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 自棄のソナタ
 
   class CheckAddDesperateSonataFeatEvent < EventRule
     dsc        "自棄のソナタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_desperate_sonata_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDesperateSonataFeatEvent < EventRule
     dsc        "自棄のソナタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_desperate_sonata_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDesperateSonataFeatEvent < EventRule
     dsc        "自棄のソナタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_desperate_sonata_feat
     goal       ["self", :use_end?]
   end
 
   class UseDesperateSonataFeatEvent < EventRule
     dsc        "自棄のソナタを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_desperate_sonata_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDesperateSonataFeatEvent < EventRule
     dsc        "自棄のソナタを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>50
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 50
     func       :finish_desperate_sonata_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTurnDesperateSonataFeatEvent < EventRule
     dsc        "自棄のソナタを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_turn_desperate_sonata_feat
     goal       ["self", :use_end?]
   end
@@ -15818,38 +15724,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 剣闘士のマーチ
 
-
   class CheckAddGladiatorMarchFeatEvent < EventRule
     dsc        "剣闘士のマーチが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_gladiator_march_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGladiatorMarchFeatEvent < EventRule
     dsc        "剣闘士のマーチが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_gladiator_march_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGladiatorMarchFeatEvent < EventRule
     dsc        "剣闘士のマーチが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_gladiator_march_feat
     goal       ["self", :use_end?]
   end
 
   class UseGladiatorMarchFeatEvent < EventRule
     dsc        "剣闘士のマーチを使用 自分を特殊/2回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_gladiator_march_feat
     goal       ["self", :use_end?]
   end
 
   class FinishGladiatorMarchFeatEvent < EventRule
     dsc        "剣闘士のマーチの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_gladiator_march_feat
     goal       ["self", :use_end?]
   end
@@ -15859,35 +15764,35 @@ module Unlight
 
   class CheckAddRequiemOfRevengeFeatEvent < EventRule
     dsc        "恩讐のレクイエムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_requiem_of_revenge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRequiemOfRevengeFeatEvent < EventRule
     dsc        "恩讐のレクイエムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_requiem_of_revenge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRequiemOfRevengeFeatEvent < EventRule
     dsc        "恩讐のレクイエムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_requiem_of_revenge_feat
     goal       ["self", :use_end?]
   end
 
   class UseRequiemOfRevengeFeatEvent < EventRule
     dsc        "恩讐のレクイエムを使用 相手にダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_requiem_of_revenge_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRequiemOfRevengeFeatEvent < EventRule
     dsc        "恩讐のレクイエムの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_requiem_of_revenge_feat
     goal       ["self", :use_end?]
   end
@@ -15897,56 +15802,56 @@ module Unlight
 
   class CheckAddDeliciousMilkFeatEvent < EventRule
     dsc        "おいしいミルクが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_delicious_milk_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDeliciousMilkFeatEvent < EventRule
     dsc        "おいしいミルクが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_delicious_milk_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDeliciousMilkFeatEvent < EventRule
     dsc        "おいしいミルクが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_delicious_milk_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeliciousMilkFeatEvent < EventRule
     dsc        "おいしいミルクをを使用 攻撃力が2倍"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 1
     func       :use_delicious_milk_feat
     goal       ["self", :use_end?]
   end
 
   class UseExDeliciousMilkFeatEvent < EventRule
     dsc        "おいしいミルクをを使用 攻撃力が2倍"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 1
     func       :use_ex_delicious_milk_feat
     goal       ["self", :use_end?]
   end
 
   class FinishChangeDeliciousMilkFeatEvent < EventRule
     dsc        "おいしいミルクを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :before, obj: "duel", hook: :determine_move_phase
     func       :finish_change_delicious_milk_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDeliciousMilkFeatEvent < EventRule
     dsc        "おいしいミルクを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_delicious_milk_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTurnDeliciousMilkFeatEvent < EventRule
     dsc        "おいしいミルクを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_turn_delicious_milk_feat
     goal       ["self", :use_end?]
   end
@@ -15954,38 +15859,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # やさしいお注射
 
-
   class CheckAddEasyInjectionFeatEvent < EventRule
     dsc        "やさしいお注射が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_easy_injection_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveEasyInjectionFeatEvent < EventRule
     dsc        "やさしいお注射が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_easy_injection_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateEasyInjectionFeatEvent < EventRule
     dsc        "やさしいお注射が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_easy_injection_feat
     goal       ["self", :use_end?]
   end
 
   class UseEasyInjectionFeatEvent < EventRule
     dsc        "やさしいお注射を使用 自分を特殊/2回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_easy_injection_feat
     goal       ["self", :use_end?]
   end
 
   class FinishEasyInjectionFeatEvent < EventRule
     dsc        "やさしいお注射の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_easy_injection_feat
     goal       ["self", :use_end?]
   end
@@ -15995,35 +15899,35 @@ module Unlight
 
   class CheckAddBloodCollectingFeatEvent < EventRule
     dsc        "たのしい採血が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_blood_collecting_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBloodCollectingFeatEvent < EventRule
     dsc        "たのしい採血が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_blood_collecting_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBloodCollectingFeatEvent < EventRule
     dsc        "たのしい採血が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_blood_collecting_feat
     goal       ["self", :use_end?]
   end
 
   class UseBloodCollectingFeatEvent < EventRule
     dsc        "たのしい採血を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_blood_collecting_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBloodCollectingFeatEvent < EventRule
     dsc        "たのしい採血の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_blood_collecting_feat
     goal       ["self", :use_end?]
   end
@@ -16031,38 +15935,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 秘密のお薬
 
-
   class CheckAddSecretMedicineFeatEvent < EventRule
     dsc        "秘密のお薬が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_secret_medicine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSecretMedicineFeatEvent < EventRule
     dsc        "秘密のお薬が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_secret_medicine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSecretMedicineFeatEvent < EventRule
     dsc        "秘密のお薬が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_secret_medicine_feat
     goal       ["self", :use_end?]
   end
 
   class UseSecretMedicineFeatEvent < EventRule
     dsc        "秘密のお薬を使用 自分を特殊/2回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_secret_medicine_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSecretMedicineFeatEvent < EventRule
     dsc        "秘密のお薬の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>99
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 99
     func       :finish_secret_medicine_feat
     goal       ["self", :use_end?]
   end
@@ -16072,35 +15975,35 @@ module Unlight
 
   class CheckAddIceGateFeatEvent < EventRule
     dsc        "氷の門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_ice_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveIceGateFeatEvent < EventRule
     dsc        "氷の門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_ice_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateIceGateFeatEvent < EventRule
     dsc        "氷の門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_ice_gate_feat
     goal       ["self", :use_end?]
   end
 
   class UseIceGateFeatEvent < EventRule
     dsc        "氷の門を使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_ice_gate_feat
     goal       ["self", :use_end?]
   end
 
   class FinishIceGateFeatEvent < EventRule
     dsc        "氷の門の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_ice_gate_feat
     goal       ["self", :use_end?]
   end
@@ -16110,35 +16013,35 @@ module Unlight
 
   class CheckAddFireGateFeatEvent < EventRule
     dsc        "炎の門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_fire_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFireGateFeatEvent < EventRule
     dsc        "炎の門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_fire_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFireGateFeatEvent < EventRule
     dsc        "炎の門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_fire_gate_feat
     goal       ["self", :use_end?]
   end
 
   class UseFireGateFeatEvent < EventRule
     dsc        "炎の門を使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_fire_gate_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFireGateFeatEvent < EventRule
     dsc        "炎の門の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_fire_gate_feat
     goal       ["self", :use_end?]
   end
@@ -16146,38 +16049,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 崩れる門
 
-
   class CheckAddBreakGateFeatEvent < EventRule
     dsc        "崩れる門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_break_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBreakGateFeatEvent < EventRule
     dsc        "崩れる門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_break_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBreakGateFeatEvent < EventRule
     dsc        "崩れる門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_break_gate_feat
     goal       ["self", :use_end?]
   end
 
   class UseBreakGateFeatEvent < EventRule
     dsc        "崩れる門を使用 自分にダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_break_gate_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBreakGateFeatEvent < EventRule
     dsc        "崩れる門の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_break_gate_feat
     goal       ["self", :use_end?]
   end
@@ -16187,42 +16089,42 @@ module Unlight
 
   class CheckAddShoutOfGateFeatEvent < EventRule
     dsc        "叫ぶ門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_shout_of_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveShoutOfGateFeatEvent < EventRule
     dsc        "叫ぶ門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_shout_of_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateShoutOfGateFeatEvent < EventRule
     dsc        "叫ぶ門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_shout_of_gate_feat
     goal       ["self", :use_end?]
   end
 
   class UseShoutOfGateFeatEvent < EventRule
     dsc        "叫ぶ門を使用 防御力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_shout_of_gate_feat
     goal       ["self", :use_end?]
   end
 
   class UseShoutOfGateFeatDamageEvent < EventRule
     dsc        "叫ぶ門使用時に上回った防御点をダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_shout_of_gate_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishShoutOfGateFeatEvent < EventRule
     dsc        "叫ぶ門の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_shout_of_gate_feat
     goal       ["self", :use_end?]
   end
@@ -16232,74 +16134,73 @@ module Unlight
 
   class CheckAddFerreousAngerFeatEvent < EventRule
     dsc        "フュリアスアンガーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_ferreous_anger_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFerreousAngerFeatEvent < EventRule
     dsc        "フュリアスアンガーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_ferreous_anger_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFerreousAngerFeatEvent < EventRule
     dsc        "フュリアスアンガーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_ferreous_anger_feat
     goal       ["self", :use_end?]
   end
 
   class UseFerreousAngerFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_ferreous_anger_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFerreousAngerFeatEvent < EventRule
     dsc        "フュリアスアンガーの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_ferreous_anger_feat
     goal       ["self", :use_end?]
   end
 
   class UseFerreousAngerFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 1
     func       :use_ferreous_anger_feat_damage
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # ネームオブチャリティ
 
   class CheckAddNameOfCharityFeatEvent < EventRule
     dsc        "ネームオブチャリティが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_name_of_charity_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveNameOfCharityFeatEvent < EventRule
     dsc        "ネームオブチャリティが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_name_of_charity_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateNameOfCharityFeatEvent < EventRule
     dsc        "ネームオブチャリティが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_name_of_charity_feat
     goal       ["self", :use_end?]
   end
 
   class UseNameOfCharityFeatEvent < EventRule
     dsc        "ネームオブチャリティの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 0
     func       :use_name_of_charity_feat
     goal       ["self", :use_end?]
   end
@@ -16307,38 +16208,37 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # グッドウィル
 
-
   class CheckAddGoodWillFeatEvent < EventRule
     dsc        "グッドウィルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_good_will_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGoodWillFeatEvent < EventRule
     dsc        "グッドウィルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_good_will_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGoodWillFeatEvent < EventRule
     dsc        "グッドウィルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_good_will_feat
     goal       ["self", :use_end?]
   end
 
   class UseGoodWillFeatEvent < EventRule
     dsc        "グッドウィルを使用 自分を特殊/2回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_good_will_feat
     goal       ["self", :use_end?]
   end
 
   class FinishGoodWillFeatEvent < EventRule
     dsc        "グッドウィルの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_good_will_feat
     goal       ["self", :use_end?]
   end
@@ -16348,49 +16248,49 @@ module Unlight
 
   class CheckAddGreatVengeanceFeatEvent < EventRule
     dsc        "グレードベンジェンスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_great_vengeance_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGreatVengeanceFeatEvent < EventRule
     dsc        "グレードベンジェンスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_great_vengeance_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGreatVengeanceFeatEvent < EventRule
     dsc        "グレードベンジェンスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_great_vengeance_feat
     goal       ["self", :use_end?]
   end
 
   class UseGreatVengeanceFeatEvent < EventRule
     dsc        "グレードベンジェンスを使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_great_vengeance_feat
     goal       ["self", :use_end?]
   end
 
   class UseGreatVengeanceFeatDamageEvent < EventRule
     dsc        "グレードベンジェンスを使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_great_vengeance_feat_damage
     goal       ["self", :use_end?]
   end
 
   class UseGreatVengeanceFeatConstDamageEvent < EventRule
     dsc        "グレードベンジェンスを使用時に手札をランダムに失わせる"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 10
     func       :use_great_vengeance_feat_const_damage
     goal       ["self", :use_end?]
   end
 
   class FinishGreatVengeanceFeatEvent < EventRule
     dsc        "グレードベンジェンスの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_great_vengeance_feat
     goal       ["self", :use_end?]
   end
@@ -16400,155 +16300,153 @@ module Unlight
 
   class CheckAddInnocentSoulFeatEvent < EventRule
     dsc        "無辜の魂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_innocent_soul_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveInnocentSoulFeatEvent < EventRule
     dsc        "無辜の魂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_innocent_soul_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateInnocentSoulFeatEvent < EventRule
     dsc        "無辜の魂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_innocent_soul_feat
     goal       ["self", :use_end?]
   end
 
   class FinishInnocentSoulFeatEvent < EventRule
     dsc        "無辜の魂を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>9
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 9
     func       :finish_innocent_soul_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 無謬の行い(光彩陸離)
 
   class CheckAddInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_infallible_deed_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_infallible_deed_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_infallible_deed_feat
     goal       ["self", :use_end?]
   end
 
   class UseInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_infallible_deed_feat
     goal       ["self", :use_end?]
   end
 
   class FinishInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_evaluation_event
+    type       type: :after, obj: "owner", hook: :mp_evaluation_event
     func       :finish_infallible_deed_feat
     goal       ["self", :use_end?]
   end
 
   class FinishEffectInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_effect_infallible_deed_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCharaChangeInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :finish_chara_change_infallible_deed_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFoeChangeInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いを使用"
-    type       :type=>:before, :obj=>"foe", :hook=>:chara_change_action
+    type       type: :before, obj: "foe", hook: :chara_change_action
     func       :finish_change_infallible_deed_feat
     goal       ["self", :use_end?]
   end
 
   class FinishOwnerChangeInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いを使用"
-    type       :type=>:before, :obj=>"owner", :hook=>:chara_change_action
+    type       type: :before, obj: "owner", hook: :chara_change_action
     func       :finish_change_infallible_deed_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDeadChangeInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :dead_chara_change_phase
     func       :finish_change_infallible_deed_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTurnInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_turn_infallible_deed_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 無為の運命(転生輪廻)
 
   class CheckAddIdleFateFeatEvent < EventRule
     dsc        "無為の運命が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_idle_fate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveIdleFateFeatEvent < EventRule
     dsc        "無為の運命が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_idle_fate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateIdleFateFeatEvent < EventRule
     dsc        "無為の運命が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_idle_fate_feat
     goal       ["self", :use_end?]
   end
 
   class UseIdleFateFeatEvent < EventRule
     dsc        "無為の運命を使用 攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_idle_fate_feat
     goal       ["self", :use_end?]
   end
 
   class UseIdleFateFeatDamageEvent < EventRule
     dsc        "無為の運命を使用時、相手を倒した場合手札枚数の最大値を１減らす"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>99
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 99
     func       :use_idle_fate_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishIdleFateFeatEvent < EventRule
     dsc        "無為の運命の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_idle_fate_feat
     goal       ["self", :use_end?]
   end
@@ -16558,42 +16456,42 @@ module Unlight
 
   class CheckAddRegrettableJudgmentFeatEvent < EventRule
     dsc        "無念の裁きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_regrettable_judgment_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRegrettableJudgmentFeatEvent < EventRule
     dsc        "無念の裁きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_regrettable_judgment_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRegrettableJudgmentFeatEvent < EventRule
     dsc        "無念の裁きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_regrettable_judgment_feat
     goal       ["self", :use_end?]
   end
 
   class UseRegrettableJudgmentFeatEvent < EventRule
     dsc        "無念の裁きを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_regrettable_judgment_feat
     goal       ["self", :use_end?]
   end
 
   class UseRegrettableJudgmentFeatDamageEvent < EventRule
     dsc        "無念の裁き発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>120
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 120
     func       :use_regrettable_judgment_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishRegrettableJudgmentFeatEvent < EventRule
     dsc        "無念の裁きの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_regrettable_judgment_feat
     goal       ["self", :use_end?]
   end
@@ -16603,95 +16501,94 @@ module Unlight
 
   class CheckAddSinWriggleFeatEvent < EventRule
     dsc        "罪業の蠢きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_sin_wriggle_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSinWriggleFeatEvent < EventRule
     dsc        "罪業の蠢きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_sin_wriggle_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSinWriggleFeatEvent < EventRule
     dsc        "罪業の蠢きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_sin_wriggle_feat
     goal       ["self", :use_end?]
   end
 
   class UseSinWriggleFeatEvent < EventRule
     dsc        "罪業の蠢きを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_sin_wriggle_feat
     goal       ["self", :use_end?]
   end
 
   class UseSinWriggleFeatDamageEvent < EventRule
     dsc        "罪業の蠢き使用時にダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_sin_wriggle_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishSinWriggleFeatEvent < EventRule
     dsc        "2つの身体の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_sin_wriggle_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 懶惰の呻き
 
   class CheckAddIdleGroanFeatEvent < EventRule
     dsc        "懶惰の呻きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_idle_groan_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveIdleGroanFeatEvent < EventRule
     dsc        "懶惰の呻きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_idle_groan_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateIdleGroanFeatEvent < EventRule
     dsc        "懶惰の呻きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_idle_groan_feat
     goal       ["self", :use_end?]
   end
 
   class UseIdleGroanFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_idle_groan_feat
     goal       ["self", :use_end?]
   end
 
   class FinishIdleGroanFeatEvent < EventRule
     dsc        "懶惰の呻きの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_idle_groan_feat
     goal       ["self", :use_end?]
   end
 
   class UseIdleGroanFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_idle_groan_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishTurnIdleGroanFeatEvent < EventRule
     dsc        "無謬の行いを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_turn_idle_groan_feat
     goal       ["self", :use_end?]
   end
@@ -16701,68 +16598,66 @@ module Unlight
 
   class CheckAddContaminationSorrowFeatEvent < EventRule
     dsc        "汚濁の囁きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_contamination_sorrow_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveContaminationSorrowFeatEvent < EventRule
     dsc        "汚濁の囁きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_contamination_sorrow_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateContaminationSorrowFeatEvent < EventRule
     dsc        "汚濁の囁きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_contamination_sorrow_feat
     goal       ["self", :use_end?]
   end
 
   class FinishContaminationSorrowFeatEvent < EventRule
     dsc        "汚濁の囁きを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_move_phase
+    type       type: :before, obj: "duel", hook: :finish_move_phase
     func       :finish_contamination_sorrow_feat
     goal       ["self", :use_end?]
   end
 
-
 #---------------------------------------------------------------------------------------------
 # 蹉跌の犇めき
 
-
   class CheckAddFailureGroanFeatEvent < EventRule
     dsc        "蹉跌の犇めきが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_failure_groan_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFailureGroanFeatEvent < EventRule
     dsc        "蹉跌の犇めきが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_failure_groan_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFailureGroanFeatEvent < EventRule
     dsc        "蹉跌の犇めきが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_failure_groan_feat
     goal       ["self", :use_end?]
   end
 
   class UseFailureGroanFeatEvent < EventRule
     dsc        "蹉跌の犇めきを使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_failure_groan_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFailureGroanFeatEvent < EventRule
     dsc        "蹉跌の犇めきの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_failure_groan_feat
     goal       ["self", :use_end?]
   end
@@ -16770,84 +16665,82 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 大聖堂
 
-
   class CheckAddCathedralFeatEvent < EventRule
     dsc        "大聖堂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_cathedral_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCathedralFeatEvent < EventRule
     dsc        "大聖堂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_cathedral_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCathedralFeatEvent < EventRule
     dsc        "大聖堂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_cathedral_feat
     goal       ["self", :use_end?]
   end
 
   class UseCathedralFeatEvent < EventRule
     dsc        "大聖堂を使用 自分を特殊/2回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_cathedral_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCathedralFeatEvent < EventRule
     dsc        "大聖堂の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 10
     func       :finish_cathedral_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 冬の夢
 
   class CheckAddWinterDreamFeatEvent < EventRule
     dsc        "冬の夢が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_winter_dream_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWinterDreamFeatEvent < EventRule
     dsc        "冬の夢が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_winter_dream_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWinterDreamFeatEvent < EventRule
     dsc        "冬の夢が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_winter_dream_feat
     goal       ["self", :use_end?]
   end
 
   class UseWinterDreamFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_winter_dream_feat
     goal       ["self", :use_end?]
   end
 
   class FinishWinterDreamFeatEvent < EventRule
     dsc        "冬の夢の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_winter_dream_feat
     goal       ["self", :use_end?]
   end
 
   class UseWinterDreamFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_winter_dream_feat_damage
     goal       ["self", :use_end?]
   end
@@ -16857,28 +16750,28 @@ module Unlight
 
   class CheckAddTenderNightFeatEvent < EventRule
     dsc        "夜はやさしが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_tender_night_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTenderNightFeatEvent < EventRule
     dsc        "夜はやさしが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_tender_night_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTenderNightFeatEvent < EventRule
     dsc        "夜はやさしが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_tender_night_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTenderNightFeatEvent < EventRule
     dsc        "夜はやさしを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_tender_night_feat
     goal       ["self", :use_end?]
   end
@@ -16888,28 +16781,28 @@ module Unlight
 
   class CheckAddFortunateReasonFeatEvent < EventRule
     dsc        "しあわせの理由が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_fortunate_reason_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFortunateReasonFeatEvent < EventRule
     dsc        "しあわせの理由が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_fortunate_reason_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFortunateReasonFeatEvent < EventRule
     dsc        "しあわせの理由が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_fortunate_reason_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFortunateReasonFeatEvent < EventRule
     dsc        "しあわせの理由を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_fortunate_reason_feat
     goal       ["self", :use_end?]
   end
@@ -16919,35 +16812,35 @@ module Unlight
 
   class CheckAddRudNumFeatEvent < EventRule
     dsc        "RudNumが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_rud_num_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRudNumFeatEvent < EventRule
     dsc        "RudNumが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_rud_num_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRudNumFeatEvent < EventRule
     dsc        "RudNumが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_rud_num_feat
     goal       ["self", :use_end?]
   end
 
   class UseRudNumFeatEvent < EventRule
     dsc        "RudNumをを使用 攻撃力が+2、攻撃終了時に近距離になる"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_rud_num_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRudNumFeatEvent < EventRule
     dsc        "RudNumの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_rud_num_feat
     goal       ["self", :use_end?]
   end
@@ -16957,42 +16850,42 @@ module Unlight
 
   class CheckAddVonNumFeatEvent < EventRule
     dsc        "von541が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_von_num_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveVonNumFeatEvent < EventRule
     dsc        "von541が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_von_num_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateVonNumFeatEvent < EventRule
     dsc        "von541が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_von_num_feat
     goal       ["self", :use_end?]
   end
 
   class UseVonNumFeatEvent < EventRule
     dsc        "von541を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_von_num_feat
     goal       ["self", :use_end?]
   end
 
   class UseVonNumFeatDamageEvent < EventRule
     dsc        "von541使用時にダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_von_num_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishVonNumFeatEvent < EventRule
     dsc        "von541の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_von_num_feat
     goal       ["self", :use_end?]
   end
@@ -17002,75 +16895,73 @@ module Unlight
 
   class CheckAddChrNumFeatEvent < EventRule
     dsc        "ChrNumが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_chr_num_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveChrNumFeatEvent < EventRule
     dsc        "ChrNumが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_chr_num_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateChrNumFeatEvent < EventRule
     dsc        "ChrNumが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_chr_num_feat
     goal       ["self", :use_end?]
   end
 
   class UseChrNumFeatEvent < EventRule
     dsc        "ChrNumをを使用 攻撃力が+2、攻撃終了時に近距離になる"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_chr_num_feat
     goal       ["self", :use_end?]
   end
 
   class FinishChrNumFeatEvent < EventRule
     dsc        "ChrNumの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_chr_num_feat
     goal       ["self", :use_end?]
   end
 
-
 #---------------------------------------------------------------------------------------------
 # WilNum
 
-
   class CheckAddWilNumFeatEvent < EventRule
     dsc        "WilNumが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action, :priority=>1
+    type       type: :after, obj: "owner", hook: :attack_card_add_action, priority: 1
     func       :check_wil_num_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWilNumFeatEvent < EventRule
     dsc        "WilNumが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action, :priority=>1
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action, priority: 1
     func       :check_wil_num_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWilNumFeatEvent < EventRule
     dsc        "WilNumが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action, :priority=>1
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action, priority: 1
     func       :check_wil_num_feat
     goal       ["self", :use_end?]
   end
 
   class UseWilNumFeatEvent < EventRule
     dsc        "WilNumを使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 1
     func       :use_wil_num_feat
     goal       ["self", :use_end?]
   end
 
   class FinishWilNumFeatEvent < EventRule
     dsc        "WilNumの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :finish_wil_num_feat
     goal       ["self", :use_end?]
   end
@@ -17080,42 +16971,42 @@ module Unlight
 
   class CheckAddKutunesirkaFeatEvent < EventRule
     dsc        "クトネシリカが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_kutunesirka_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKutunesirkaFeatEvent < EventRule
     dsc        "クトネシリカが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_kutunesirka_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKutunesirkaFeatEvent < EventRule
     dsc        "クトネシリカが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_kutunesirka_feat
     goal       ["self", :use_end?]
   end
 
   class UseKutunesirkaFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_kutunesirka_feat
     goal       ["self", :use_end?]
   end
 
   class FinishKutunesirkaFeatEvent < EventRule
     dsc        "クトネシリカの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase
+    type       type: :after, obj: "duel", hook: :battle_result_phase
     func       :finish_kutunesirka_feat
     goal       ["self", :use_end?]
   end
 
   class UseKutunesirkaFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_kutunesirka_feat_damage
     goal       ["self", :use_end?]
   end
@@ -17125,35 +17016,35 @@ module Unlight
 
   class CheckAddFeetOfHermesFeatEvent < EventRule
     dsc        "ヘルメスの靴が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_feet_of_hermes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFeetOfHermesFeatEvent < EventRule
     dsc        "ヘルメスの靴が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_feet_of_hermes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFeetOfHermesFeatEvent < EventRule
     dsc        "ヘルメスの靴が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_feet_of_hermes_feat
     goal       ["self", :use_end?]
   end
 
   class UseFeetOfHermesFeatEvent < EventRule
     dsc        "ヘルメスの靴を使用 DEF+5 近距離に移動"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_feet_of_hermes_feat
     goal       ["self", :use_end?]
   end
 
   class UseFeetOfHermesFeatDamageEvent < EventRule
     dsc        "ヘルメスの靴を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 10
     func       :use_feet_of_hermes_feat_damage
     goal       ["self", :use_end?]
   end
@@ -17163,42 +17054,42 @@ module Unlight
 
   class CheckAddAegisWingFeatEvent < EventRule
     dsc        "イージスの翼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action, :priority=>1
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action, priority: 1
     func       :check_aegis_wing_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAegisWingFeatEvent < EventRule
     dsc        "イージスの翼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action, :priority=>1
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action, priority: 1
     func       :check_aegis_wing_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAegisWingFeatEvent < EventRule
     dsc        "イージスの翼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action, :priority=>1
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action, priority: 1
     func       :check_aegis_wing_feat
     goal       ["self", :use_end?]
   end
 
   class UseAegisWingFeatEvent < EventRule
     dsc        "イージスの翼を使用 DEF+5 遠距離に移動"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 1
     func       :use_aegis_wing_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAegisWingFeatEvent < EventRule
     dsc        "イージスの翼の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :finish_aegis_wing_feat
     goal       ["self", :use_end?]
   end
 
   class UseAegisWingFeatDamageEvent < EventRule
     dsc        "イージスの翼で防御成功した場合HP+1"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>1
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 1
     func       :use_aegis_wing_feat_damage
     goal       ["self", :use_end?]
   end
@@ -17208,35 +17099,35 @@ module Unlight
 
   class CheckAddClaiomhSolaisFeatEvent < EventRule
     dsc        "クラウ・ソラスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_claiomh_solais_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveClaiomhSolaisFeatEvent < EventRule
     dsc        "クラウ・ソラスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_claiomh_solais_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateClaiomhSolaisFeatEvent < EventRule
     dsc        "クラウ・ソラスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_claiomh_solais_feat
     goal       ["self", :use_end?]
   end
 
   class UseClaiomhSolaisFeatEvent < EventRule
     dsc        "クラウ・ソラスを使用 攻撃力が+8、場に出した剣カードの枚数ｘ３を攻撃力に加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_claiomh_solais_feat
     goal       ["self", :use_end?]
   end
 
   class FinishClaiomhSolaisFeatEvent < EventRule
     dsc        "クラウ・ソラスの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_claiomh_solais_feat
     goal       ["self", :use_end?]
   end
@@ -17246,42 +17137,42 @@ module Unlight
 
   class CheckAddMutationFeatEvent < EventRule
     dsc        "細胞変異が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_mutation_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMutationFeatEvent < EventRule
     dsc        "細胞変異が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_mutation_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMutationFeatEvent < EventRule
     dsc        "細胞変異が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_mutation_feat
     goal       ["self", :use_end?]
   end
 
   class UseMutationFeatEvent < EventRule
     dsc        "細胞変異を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_mutation_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMutationFeatEvent < EventRule
     dsc        "細胞変異を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>11
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 11
     func       :finish_mutation_feat
     goal       ["self", :use_end?]
   end
 
   class FinishEffectMutationFeatEvent < EventRule
     dsc        "細胞変異を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_effect_mutation_feat
     goal       ["self", :use_end?]
   end
@@ -17291,35 +17182,35 @@ module Unlight
 
   class CheckAddRampancyFeatEvent < EventRule
     dsc        "指嗾する仔"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_rampancy_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRampancyFeatEvent < EventRule
     dsc        "指嗾する仔"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_rampancy_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRampancyFeatEvent < EventRule
     dsc        "指嗾する仔"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_rampancy_feat
     goal       ["self", :use_end?]
   end
 
   class UseRampancyFeatDamageEvent < EventRule
     dsc        "指嗾する仔"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :use_rampancy_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishRampancyFeatEvent < EventRule
     dsc        "指嗾する仔使用時にダメージとして相手に与える"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>30
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 30
     func       :finish_rampancy_feat
     goal       ["self", :use_end?]
   end
@@ -17329,42 +17220,42 @@ module Unlight
 
   class CheckAddSacrificeOfSoulFeatEvent < EventRule
     dsc        "魂魄の贄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_sacrifice_of_soul_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSacrificeOfSoulFeatEvent < EventRule
     dsc        "魂魄の贄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_sacrifice_of_soul_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSacrificeOfSoulFeatEvent < EventRule
     dsc        "魂魄の贄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_sacrifice_of_soul_feat
     goal       ["self", :use_end?]
   end
 
   class UseSacrificeOfSoulFeatEvent < EventRule
     dsc        "魂魄の贄を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_sacrifice_of_soul_feat
     goal       ["self", :use_end?]
   end
 
   class UseSacrificeOfSoulFeatHealEvent < EventRule
     dsc        "魂魄の贄ダメージイベント"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :use_sacrifice_of_soul_feat_heal
     goal       ["self", :use_end?]
   end
 
   class UseSacrificeOfSoulFeatDamageEvent < EventRule
     dsc        "魂魄の贄ダメージイベント"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>35
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 35
     func       :use_sacrifice_of_soul_feat_damage
     goal       ["self", :use_end?]
   end
@@ -17374,28 +17265,28 @@ module Unlight
 
   class CheckAddSilverBulletFeatEvent < EventRule
     dsc        "銀の弾丸が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_silver_bullet_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSilverBulletFeatEvent < EventRule
     dsc        "銀の弾丸が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_silver_bullet_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSilverBulletFeatEvent < EventRule
     dsc        "銀の弾丸が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_silver_bullet_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSilverBulletFeatEvent < EventRule
     dsc        "銀の弾丸の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_silver_bullet_feat
     goal       ["self", :use_end?]
   end
@@ -17405,49 +17296,49 @@ module Unlight
 
   class CheckAddPumpkinDropFeatEvent < EventRule
     dsc        "かぼちゃ落としが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_pumpkin_drop_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePumpkinDropFeatEvent < EventRule
     dsc        "かぼちゃ落としが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_pumpkin_drop_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePumpkinDropFeatEvent < EventRule
     dsc        "かぼちゃ落としが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_pumpkin_drop_feat
     goal       ["self", :use_end?]
   end
 
   class UsePumpkinDropFeatEvent < EventRule
     dsc        "かぼちゃ落としを使用 攻撃力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_pumpkin_drop_feat
     goal       ["self", :use_end?]
   end
 
   class UsePumpkinDropFeatDamageEvent < EventRule
     dsc        "かぼちゃ落としを使用時 追加ダメージ"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_pumpkin_drop_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishPumpkinDropFeatEvent < EventRule
     dsc        "かぼちゃ落としの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_pumpkin_drop_feat
     goal       ["self", :use_end?]
   end
 
   class UsePumpkinDropFeatConstDamageEvent < EventRule
     dsc        "かぼちゃ落としを使用時 追加ダメージ"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 10
     func       :use_pumpkin_drop_feat_const_damage
     goal       ["self", :use_end?]
   end
@@ -17457,42 +17348,42 @@ module Unlight
 
   class CheckAddWanderingFeatherFeatEvent < EventRule
     dsc        "彷徨う羽が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_wandering_feather_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWanderingFeatherFeatEvent < EventRule
     dsc        "彷徨う羽が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_wandering_feather_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWanderingFeatherFeatEvent < EventRule
     dsc        "彷徨う羽が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_wandering_feather_feat
     goal       ["self", :use_end?]
   end
 
   class UseWanderingFeatherFeatEvent < EventRule
     dsc        "彷徨う羽を使用 攻撃力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_wandering_feather_feat
     goal       ["self", :use_end?]
   end
 
   class FinishWanderingFeatherFeatEvent < EventRule
     dsc        "彷徨う羽の使用が終了 攻撃失敗時にデバフ"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :finish_wandering_feather_feat
     goal       ["self", :use_end?]
   end
 
   class CutinWanderingFeatherFeatEvent < EventRule
     dsc        "彷徨う羽の使用が終了 攻撃失敗時にデバフ"
-    type       :type=>:before, :obj=>"owner", :hook=>:dice_attribute_regist_event
+    type       type: :before, obj: "owner", hook: :dice_attribute_regist_event
     func       :cutin_wandering_feather_feat
     goal       ["self", :use_end?]
   end
@@ -17502,35 +17393,35 @@ module Unlight
 
   class CheckAddSheepSongFeatEvent < EventRule
     dsc        "ひつじ数え歌が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_sheep_song_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSheepSongFeatEvent < EventRule
     dsc        "ひつじ数え歌が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_sheep_song_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSheepSongFeatEvent < EventRule
     dsc        "ひつじ数え歌が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_sheep_song_feat
     goal       ["self", :use_end?]
   end
 
   class UseSheepSongFeatEvent < EventRule
     dsc        "ひつじ数え歌を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_sheep_song_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSheepSongFeatEvent < EventRule
     dsc        "ひつじ数え歌の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 10
     func       :finish_sheep_song_feat
     goal       ["self", :use_end?]
   end
@@ -17540,28 +17431,28 @@ module Unlight
 
   class CheckAddDreamOfOvueryaFeatEvent < EventRule
     dsc        "オヴェリャの夢が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_dream_of_ovuerya_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDreamOfOvueryaFeatEvent < EventRule
     dsc        "オヴェリャの夢が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_dream_of_ovuerya_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDreamOfOvueryaFeatEvent < EventRule
     dsc        "オヴェリャの夢が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_dream_of_ovuerya_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDreamOfOvueryaFeatEvent < EventRule
     dsc        "オヴェリャの夢を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_dream_of_ovuerya_feat
     goal       ["self", :use_end?]
   end
@@ -17571,42 +17462,42 @@ module Unlight
 
   class CheckAddMarysSheepFeatEvent < EventRule
     dsc        "メリーズシープが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_marys_sheep_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMarysSheepFeatEvent < EventRule
     dsc        "メリーズシープが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_marys_sheep_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMarysSheepFeatEvent < EventRule
     dsc        "メリーズシープが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_marys_sheep_feat
     goal       ["self", :use_end?]
   end
 
   class UseMarysSheepFeatEvent < EventRule
     dsc        "メリーズシープを使用 攻撃力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_marys_sheep_feat
     goal       ["self", :use_end?]
   end
 
   class UseMarysSheepFeatDamageEvent < EventRule
     dsc        "メリーズシープを使用時 追加ダメージ"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 0
     func       :use_marys_sheep_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishMarysSheepFeatEvent < EventRule
     dsc        "メリーズシープの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_marys_sheep_feat
     goal       ["self", :use_end?]
   end
@@ -17616,42 +17507,42 @@ module Unlight
 
   class CheckAddEvilEyeFeatEvent < EventRule
     dsc        "光り輝く邪眼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_evil_eye_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveEvilEyeFeatEvent < EventRule
     dsc        "光り輝く邪眼壊が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_evil_eye_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateEvilEyeFeatEvent < EventRule
     dsc        "光り輝く邪眼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_evil_eye_feat
     goal       ["self", :use_end?]
   end
 
   class UseEvilEyeFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_evil_eye_feat
     goal       ["self", :use_end?]
   end
 
   class FinishEvilEyeFeatEvent < EventRule
     dsc        "光り輝く邪眼の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 0
     func       :finish_evil_eye_feat
     goal       ["self", :use_end?]
   end
 
   class UseEvilEyeFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>0
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 0
     func       :use_evil_eye_feat_damage
     goal       ["self", :use_end?]
   end
@@ -17661,28 +17552,28 @@ module Unlight
 
   class CheckAddBlackArtsFeatEvent < EventRule
     dsc        "超越者の邪法を使用が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_black_arts_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlackArtsFeatEvent < EventRule
     dsc        "超越者の邪法を使用が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_black_arts_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlackArtsFeatEvent < EventRule
     dsc        "超越者の邪法を使用が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_black_arts_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBlackArtsFeatEvent < EventRule
     dsc        "超越者の邪法を使用を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>8
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 8
     func       :finish_black_arts_feat
     goal       ["self", :use_end?]
   end
@@ -17692,42 +17583,42 @@ module Unlight
 
   class CheckAddBlasphemyCurseFeatEvent < EventRule
     dsc        "冒涜する呪詛が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_blasphemy_curse_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlasphemyCurseFeatEvent < EventRule
     dsc        "冒涜する呪詛壊が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_blasphemy_curse_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlasphemyCurseFeatEvent < EventRule
     dsc        "冒涜する呪詛が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_blasphemy_curse_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlasphemyCurseFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_blasphemy_curse_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBlasphemyCurseFeatEvent < EventRule
     dsc        "冒涜する呪詛の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>2
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 2
     func       :finish_blasphemy_curse_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlasphemyCurseFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>2
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 2
     func       :use_blasphemy_curse_feat_damage
     goal       ["self", :use_end?]
   end
@@ -17737,42 +17628,42 @@ module Unlight
 
   class CheckAddEndOfEndFeatEvent < EventRule
     dsc        "終焉の果てが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_end_of_end_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveEndOfEndFeatEvent < EventRule
     dsc        "終焉の果て壊が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_end_of_end_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateEndOfEndFeatEvent < EventRule
     dsc        "終焉の果てが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_end_of_end_feat
     goal       ["self", :use_end?]
   end
 
   class UseEndOfEndFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_end_of_end_feat
     goal       ["self", :use_end?]
   end
 
   class FinishEndOfEndFeatEvent < EventRule
     dsc        "終焉の果ての使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :finish_end_of_end_feat
     goal       ["self", :use_end?]
   end
 
   class UseEndOfEndFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>1
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 1
     func       :use_end_of_end_feat_damage
     goal       ["self", :use_end?]
   end
@@ -17782,42 +17673,42 @@ module Unlight
 
   class CheckAddThronesGateFeatEvent < EventRule
     dsc        "玉座の凱旋門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_thrones_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveThronesGateFeatEvent < EventRule
     dsc        "玉座の凱旋門壊が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_thrones_gate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateThronesGateFeatEvent < EventRule
     dsc        "玉座の凱旋門が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_thrones_gate_feat
     goal       ["self", :use_end?]
   end
 
   class UseThronesGateFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_thrones_gate_feat
     goal       ["self", :use_end?]
   end
 
   class FinishThronesGateFeatEvent < EventRule
     dsc        "玉座の凱旋門の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :finish_thrones_gate_feat
     goal       ["self", :use_end?]
   end
 
   class UseThronesGateFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>1
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 1
     func       :use_thrones_gate_feat_damage
     goal       ["self", :use_end?]
   end
@@ -17827,42 +17718,42 @@ module Unlight
 
   class CheckAddGhostResentmentFeatEvent < EventRule
     dsc        "幽愁暗恨が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_ghost_resentment_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGhostResentmentFeatEvent < EventRule
     dsc        "幽愁暗恨壊が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_ghost_resentment_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGhostResentmentFeatEvent < EventRule
     dsc        "幽愁暗恨が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_ghost_resentment_feat
     goal       ["self", :use_end?]
   end
 
   class UseGhostResentmentFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_ghost_resentment_feat
     goal       ["self", :use_end?]
   end
 
   class FinishGhostResentmentFeatEvent < EventRule
     dsc        "幽愁暗恨の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :finish_ghost_resentment_feat
     goal       ["self", :use_end?]
   end
 
   class UseGhostResentmentFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_ghost_resentment_feat_damage
     goal       ["self", :use_end?]
   end
@@ -17872,42 +17763,42 @@ module Unlight
 
   class CheckAddSwordAvoidFeatEvent < EventRule
     dsc        "受け流しが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_sword_avoid_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSwordAvoidFeatEvent < EventRule
     dsc        "受け流しが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_sword_avoid_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSwordAvoidFeatEvent < EventRule
     dsc        "受け流しが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_sword_avoid_feat
     goal       ["self", :use_end?]
   end
 
   class UseSwordAvoidFeatEvent < EventRule
     dsc        "受け流しを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_sword_avoid_feat
     goal       ["self", :use_end?]
   end
 
   class UseSwordAvoidFeatDamageEvent < EventRule
     dsc        "受け流し使用時にダメージとして相手に与える"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 70
     func       :use_sword_avoid_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishSwordAvoidFeatEvent < EventRule
     dsc        "受け流しの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_sword_avoid_feat
     goal       ["self", :use_end?]
   end
@@ -17917,42 +17808,42 @@ module Unlight
 
   class CheckAddCurseSwordFeatEvent < EventRule
     dsc        "Ex呪剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_curse_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCurseSwordFeatEvent < EventRule
     dsc        "Ex呪剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_curse_sword_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCurseSwordFeatEvent < EventRule
     dsc        "Ex呪剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_curse_sword_feat
     goal       ["self", :use_end?]
   end
 
   class UseCurseSwordFeatEvent < EventRule
     dsc        "Ex呪剣を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_curse_sword_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCurseSwordFeatEvent < EventRule
     dsc        "Ex呪剣の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_curse_sword_feat
     goal       ["self", :use_end?]
   end
 
   class UseCurseSwordFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_curse_sword_feat_damage
     goal       ["self", :use_end?]
   end
@@ -17962,35 +17853,35 @@ module Unlight
 
   class CheckAddRapidSwordR2FeatEvent < EventRule
     dsc        "神速の剣(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_rapid_sword_r2_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRapidSwordR2FeatEvent < EventRule
     dsc        "神速の剣(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_rapid_sword_r2_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRapidSwordR2FeatEvent < EventRule
     dsc        "神速の剣(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_rapid_sword_r2_feat
     goal       ["self", :use_end?]
   end
 
   class UseRapidSwordR2FeatEvent < EventRule
     dsc        "神速の剣(復活)を使用 剣を攻撃力に加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_rapid_sword_r2_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRapidSwordR2FeatEvent < EventRule
     dsc        "神速の剣(復活)の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_rapid_sword_r2_feat
     goal       ["self", :use_end?]
   end
@@ -18000,42 +17891,42 @@ module Unlight
 
   class CheckAddVolitionDeflectFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_volition_deflect_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveVolitionDeflectFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_volition_deflect_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateVolitionDeflectFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_volition_deflect_feat
     goal       ["self", :use_end?]
   end
 
   class UseVolitionDeflectFeatEvent < EventRule
     dsc        "必殺技を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :use_volition_deflect_feat
     goal       ["self", :use_end?]
   end
 
   class FinishVolitionDeflectFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 100
     func       :finish_volition_deflect_feat
     goal       ["self", :use_end?]
   end
 
   class FinishVolitionDeflectFeatDeadCharaChangeEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_volition_deflect_feat
     goal       ["self", :use_end?]
   end
@@ -18045,35 +17936,35 @@ module Unlight
 
   class CheckAddAngerRFeatEvent < EventRule
     dsc        "怒りの一撃(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_anger_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAngerRFeatEvent < EventRule
     dsc        "怒りの一撃(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_anger_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAngerRFeatEvent < EventRule
     dsc        "怒りの一撃(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_anger_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseAngerRFeatEvent < EventRule
     dsc        "怒りの一撃(復活)を使用 攻撃力にダメージを加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_anger_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAngerRFeatEvent < EventRule
     dsc        "怒りの一撃(復活)の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_anger_r_feat
     goal       ["self", :use_end?]
   end
@@ -18083,42 +17974,42 @@ module Unlight
 
   class CheckAddShadowShotRFeatEvent < EventRule
     dsc        "影撃ちが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_shadow_shot_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveShadowShotRFeatEvent < EventRule
     dsc        "影撃ちが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_shadow_shot_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateShadowShotRFeatEvent < EventRule
     dsc        "影撃ちが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_shadow_shot_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseShadowShotRFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_shadow_shot_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishShadowShotRFeatEvent < EventRule
     dsc        "影撃ちの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_shadow_shot_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseShadowShotRFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_shadow_shot_r_feat_damage
     goal       ["self", :use_end?]
   end
@@ -18128,35 +18019,35 @@ module Unlight
 
   class CheckAddBurningTailFeatEvent < EventRule
     dsc        "嚇灼の尾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_burning_tail_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBurningTailFeatEvent < EventRule
     dsc        "嚇灼の尾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_burning_tail_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBurningTailFeatEvent < EventRule
     dsc        "嚇灼の尾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_burning_tail_feat
     goal       ["self", :use_end?]
   end
 
   class UseBurningTailFeatEvent < EventRule
     dsc        "嚇灼の尾を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_burning_tail_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBurningTailFeatEvent < EventRule
     dsc        "嚇灼の尾を使用 相手のカードを回転させる"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_burning_tail_feat
     goal       ["self", :use_end?]
   end
@@ -18166,28 +18057,28 @@ module Unlight
 
   class CheckAddQuakeWalkFeatEvent < EventRule
     dsc        "震歩を使用が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_quake_walk_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveQuakeWalkFeatEvent < EventRule
     dsc        "震歩を使用が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_quake_walk_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateQuakeWalkFeatEvent < EventRule
     dsc        "震歩を使用が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_quake_walk_feat
     goal       ["self", :use_end?]
   end
 
   class FinishQuakeWalkFeatEvent < EventRule
     dsc        "震歩を使用を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>0
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 0
     func       :finish_quake_walk_feat
     goal       ["self", :use_end?]
   end
@@ -18197,49 +18088,49 @@ module Unlight
 
   class CheckAddDrainageFeatEvent < EventRule
     dsc        "ドレナージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_drainage_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDrainageFeatEvent < EventRule
     dsc        "ドレナージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_drainage_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDrainageFeatEvent < EventRule
     dsc        "ドレナージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_drainage_feat
     goal       ["self", :use_end?]
   end
 
   class UseDrainageFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_drainage_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDrainageFeatEvent < EventRule
     dsc        "ドレナージの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_drainage_feat
     goal       ["self", :use_end?]
   end
 
   class UseDrainageFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 1
     func       :use_drainage_feat_damage
     goal       ["self", :use_end?]
   end
 
   class UseDrainageFeatConstDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>0
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 0
     func       :use_drainage_feat_const_damage
     goal       ["self", :use_end?]
   end
@@ -18249,42 +18140,42 @@ module Unlight
 
   class CheckAddSmileFeatEvent < EventRule
     dsc        "やさしい微笑みが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_smile_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSmileFeatEvent < EventRule
     dsc        "やさしい微笑みが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_smile_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSmileFeatEvent < EventRule
     dsc        "やさしい微笑みが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_smile_feat
     goal       ["self", :use_end?]
   end
 
   class UseSmileFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_smile_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSmileFeatEvent < EventRule
     dsc        "やさしい微笑みの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 1
     func       :finish_smile_feat
     goal       ["self", :use_end?]
   end
 
   class UseSmileFeatDamageEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_smile_feat_damage
     goal       ["self", :use_end?]
   end
@@ -18294,42 +18185,42 @@ module Unlight
 
   class CheckAddBlutkontaminaFeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_blutkontamina_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlutkontaminaFeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_blutkontamina_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlutkontaminaFeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_blutkontamina_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlutkontaminaFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_blutkontamina_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBlutkontaminaFeatEvent < EventRule
     dsc        "自壊攻撃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_blutkontamina_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlutkontaminaFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_blutkontamina_feat_damage
     goal       ["self", :use_end?]
   end
@@ -18339,35 +18230,35 @@ module Unlight
 
   class CheckAddColdEyesFeatEvent < EventRule
     dsc        "つめたい視線が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_cold_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveColdEyesFeatEvent < EventRule
     dsc        "つめたい視線が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_cold_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateColdEyesFeatEvent < EventRule
     dsc        "つめたい視線が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_cold_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseColdEyesFeatDamageEvent < EventRule
     dsc        "つめたい視線を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_cold_eyes_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishColdEyesFeatEvent < EventRule
     dsc        "つめたい視線の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_cold_eyes_feat
     goal       ["self", :use_end?]
   end
@@ -18377,42 +18268,42 @@ module Unlight
 
   class CheckAddFeat1FeatEvent < EventRule
     dsc        "Feat1が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_feat1_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFeat1FeatEvent < EventRule
     dsc        "Feat1が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_feat1_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFeat1FeatEvent < EventRule
     dsc        "Feat1が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_feat1_feat
     goal       ["self", :use_end?]
   end
 
   class UseFeat1FeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_feat1_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFeat1FeatEvent < EventRule
     dsc        "Feat1の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_feat1_feat
     goal       ["self", :use_end?]
   end
 
   class UseFeat1FeatDamageEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_feat1_feat_damage
     goal       ["self", :use_end?]
   end
@@ -18422,42 +18313,42 @@ module Unlight
 
   class CheckAddFeat2FeatEvent < EventRule
     dsc        "feat2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_feat2_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFeat2FeatEvent < EventRule
     dsc        "feat2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_feat2_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFeat2FeatEvent < EventRule
     dsc        "feat2が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_feat2_feat
     goal       ["self", :use_end?]
   end
 
   class UseFeat2FeatEvent < EventRule
     dsc        "feat2を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_feat2_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFeat2FeatEvent < EventRule
     dsc        "feat2の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>99
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 99
     func       :finish_feat2_feat
     goal       ["self", :use_end?]
   end
 
   class UseFeat2FeatDamageEvent < EventRule
     dsc        "feat2の防御成功時"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_feat2_feat_damage
     goal       ["self", :use_end?]
   end
@@ -18467,35 +18358,35 @@ module Unlight
 
   class CheckAddFeat3FeatEvent < EventRule
     dsc        "Feat3が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_feat3_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFeat3FeatEvent < EventRule
     dsc        "Feat3が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_feat3_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFeat3FeatEvent < EventRule
     dsc        "Feat3が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_feat3_feat
     goal       ["self", :use_end?]
   end
 
   class UseFeat3FeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_feat3_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFeat3FeatEvent < EventRule
     dsc        "Feat3の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_feat3_feat
     goal       ["self", :use_end?]
   end
@@ -18505,63 +18396,63 @@ module Unlight
 
   class CheckAddFeat4FeatEvent < EventRule
     dsc        "Feat4が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_feat4_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFeat4FeatEvent < EventRule
     dsc        "Feat4が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_feat4_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFeat4FeatEvent < EventRule
     dsc        "Feat4が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_feat4_feat
     goal       ["self", :use_end?]
   end
 
   class CheckBpFeat4AttackFeatEvent < EventRule
     dsc        "Feat4が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>30
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 30
     func       :check_bp_feat4_feat
     goal       ["self", :use_end?]
   end
 
   class CheckBpFeat4DefenceFeatEvent < EventRule
     dsc        "Feat4が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>30
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 30
     func       :check_bp_feat4_feat
     goal       ["self", :use_end?]
   end
 
   class UseFeat4FeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>30
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 30
     func       :use_feat4_feat
     goal       ["self", :use_end?]
   end
 
   class FinishChangeFeat4FeatEvent < EventRule
     dsc        "feat4を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :finish_change_feat4_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFeat4FeatEvent < EventRule
     dsc        "Feat4の使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_feat4_feat
     goal       ["self", :use_end?]
   end
 
   class StartFeat4FeatEvent < EventRule
     dsc        "Feat4の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :after, obj: "duel", hook: :start_turn_phase
     func       :start_feat4_feat
     goal       ["self", :use_end?]
   end
@@ -18571,72 +18462,70 @@ module Unlight
 
   class CheckAddWeaselFeatEvent < EventRule
     dsc        "見えざる白群の鼬が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_weasel_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWeaselFeatEvent < EventRule
     dsc        "見えざる白群の鼬が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_weasel_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWeaselFeatEvent < EventRule
     dsc        "見えざる白群の鼬が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_weasel_feat
     goal       ["self", :use_end?]
   end
 
   class CheckTableWeaselFeatMoveEvent < EventRule
     dsc        "見えざる白群の鼬が可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :before, obj: "duel", hook: :determine_move_phase
     func       :check_table_weasel_feat_move
     goal       ["self", :use_end?]
   end
 
   class CheckTableWeaselFeatBattleEvent < EventRule
     dsc        "見えざる白群の鼬が可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :check_table_weasel_feat_battle
     goal       ["self", :use_end?]
   end
 
   class UseWeaselFeatDealEvent < EventRule
     dsc        "見えざる白群の鼬を使用 相手の手札を1枚破棄"
-    type       :type=>:before, :obj=>"duel", :hook=>:refill_event_card_phase
+    type       type: :before, obj: "duel", hook: :refill_event_card_phase
     func       :use_weasel_feat_deal
     goal       ["self", :use_end?]
   end
 
   class UseWeaselFeatEvent < EventRule
     dsc        "見えざる白群の鼬を使用 相手の手札を1枚破棄"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_weasel_feat
     goal       ["self", :use_end?]
   end
 
-
   class UseWeaselFeatDamageEvent < EventRule
     dsc        "見えざる白群の鼬を使用 相手の手札を1枚破棄"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_weasel_feat_damage
     goal       ["self", :use_end?]
   end
 
-
   class FinishWeaselFeatEvent < EventRule
     dsc        "見えざる白群の鼬の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_weasel_feat
     goal       ["self", :use_end?]
   end
 
   class CheckEndingWeaselFeatEvent < EventRule
     dsc        "見えざる白群の鼬が可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :check_ending_weasel_feat
     goal       ["self", :use_end?]
   end
@@ -18646,42 +18535,42 @@ module Unlight
 
   class CheckAddDarkProfoundFeatEvent < EventRule
     dsc        "DarkProfoundが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_dark_profound_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDarkProfoundFeatEvent < EventRule
     dsc        "DarkProfoundが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_dark_profound_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDarkProfoundFeatEvent < EventRule
     dsc        "DarkProfoundが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_dark_profound_feat
     goal       ["self", :use_end?]
   end
 
   class UseDarkProfoundFeatEvent < EventRule
     dsc        "DarkProfoundをを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_dark_profound_feat
     goal       ["self", :use_end?]
   end
 
   class UseDarkProfoundFeatBornusEvent < EventRule
     dsc        "暗黒の渦を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>20
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 20
     func       :use_dark_profound_feat_bornus
     goal       ["self", :use_end?]
   end
 
   class FinishDarkProfoundFeatEvent < EventRule
     dsc        "DarkProfoundの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>30
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 30
     func       :finish_dark_profound_feat
     goal       ["self", :use_end?]
   end
@@ -18691,56 +18580,56 @@ module Unlight
 
   class CheckAddKarmicDorFeatEvent < EventRule
     dsc        "因果の扉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_karmic_dor_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKarmicDorFeatEvent < EventRule
     dsc        "因果の扉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_karmic_dor_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKarmicDorFeatEvent < EventRule
     dsc        "因果の扉が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_karmic_dor_feat
     goal       ["self", :use_end?]
   end
 
   class CheckPointKarmicDorFeatEvent < EventRule
     dsc        "因果の扉が可能か 特殊ポイントを調べる"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :check_point_karmic_dor_feat
     goal       ["self", :use_end?]
   end
 
   class UseKarmicDorFeatEvent < EventRule
     dsc        "因果の扉を使用 カード回転"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :use_karmic_dor_feat
     goal       ["self", :use_end?]
   end
 
   class FinishKarmicDorFeatEvent < EventRule
     dsc        "因果の扉を使用 墓地からカードを拾う"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event
     func       :finish_karmic_dor_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCharaChangeKarmicDorFeatEvent < EventRule
     dsc        "因果の扉の使用が終了(キャラチェンジ時)"
-    type       :type=>:before, :obj=>"owner", :hook=>:chara_change_action
+    type       type: :before, obj: "owner", hook: :chara_change_action
     func       :finish_karmic_dor_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFoeCharaChangeKarmicDorFeatEvent < EventRule
     dsc        "因果の扉の使用が終了(キャラチェンジ時)"
-    type       :type=>:before, :obj=>"foe", :hook=>:chara_change_action
+    type       type: :before, obj: "foe", hook: :chara_change_action
     func       :finish_karmic_dor_feat
     goal       ["self", :use_end?]
   end
@@ -18750,35 +18639,35 @@ module Unlight
 
   class CheckAddBataflyMovFeatEvent < EventRule
     dsc        "batafly_movが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_batafly_mov_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBataflyMovFeatEvent < EventRule
     dsc        "batafly_movが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_batafly_mov_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBataflyMovFeatEvent < EventRule
     dsc        "batafly_movが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_batafly_mov_feat
     goal       ["self", :use_end?]
   end
 
   class DetermineDistanceBataflyMovFeatEvent < EventRule
     dsc        "batafly_movを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>99
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 99
     func       :determine_distance_batafly_mov_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBataflyMovFeatEvent < EventRule
     dsc        "batafly_movを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_move_phase, :priority=>99
+    type       type: :after, obj: "duel", hook: :finish_move_phase, priority: 99
     func       :finish_batafly_mov_feat
     goal       ["self", :use_end?]
   end
@@ -18788,35 +18677,35 @@ module Unlight
 
   class CheckAddBataflyAtkFeatEvent < EventRule
     dsc        "batafly_atkが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_batafly_atk_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBataflyAtkFeatEvent < EventRule
     dsc        "batafly_atkが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_batafly_atk_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBataflyAtkFeatEvent < EventRule
     dsc        "batafly_atkが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_batafly_atk_feat
     goal       ["self", :use_end?]
   end
 
   class UseBataflyAtkFeatEvent < EventRule
     dsc        "batafly_atkを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_batafly_atk_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBataflyAtkFeatEvent < EventRule
     dsc        "batafly_atkの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_batafly_atk_feat
     goal       ["self", :use_end?]
   end
@@ -18826,35 +18715,35 @@ module Unlight
 
   class CheckAddBataflyDefFeatEvent < EventRule
     dsc        "batafly_defが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_batafly_def_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBataflyDefFeatEvent < EventRule
     dsc        "batafly_defが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_batafly_def_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBataflyDefFeatEvent < EventRule
     dsc        "batafly_defが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_batafly_def_feat
     goal       ["self", :use_end?]
   end
 
   class UseBataflyDefFeatEvent < EventRule
     dsc        "batafly_defを使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_batafly_def_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBataflyDefFeatEvent < EventRule
     dsc        "batafly_defの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_batafly_def_feat
     goal       ["self", :use_end?]
   end
@@ -18864,35 +18753,35 @@ module Unlight
 
   class CheckAddBataflySldFeatEvent < EventRule
     dsc        "batafly_sldが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_batafly_sld_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBataflySldFeatEvent < EventRule
     dsc        "batafly_sldが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_batafly_sld_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBataflySldFeatEvent < EventRule
     dsc        "batafly_sldが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_batafly_sld_feat
     goal       ["self", :use_end?]
   end
 
   class UseBataflySldFeatEvent < EventRule
     dsc        "batafly_sldを使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_batafly_sld_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBataflySldFeatEvent < EventRule
     dsc        "batafly_sldの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_batafly_sld_feat
     goal       ["self", :use_end?]
   end
@@ -18902,74 +18791,73 @@ module Unlight
 
   class CheckAddGraceCocktailFeatEvent < EventRule
     dsc        "グレースカクテルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_grace_cocktail_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGraceCocktailFeatEvent < EventRule
     dsc        "グレースカクテルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_grace_cocktail_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGraceCocktailFeatEvent < EventRule
     dsc        "グレースカクテルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_grace_cocktail_feat
     goal       ["self", :use_end?]
   end
 
   class UseGraceCocktailFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_grace_cocktail_feat
     goal       ["self", :use_end?]
   end
 
   class FinishGraceCocktailFeatEvent < EventRule
     dsc        "グレースカクテルの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_grace_cocktail_feat
     goal       ["self", :use_end?]
   end
 
   class UseGraceCocktailFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_grace_cocktail_feat_damage
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # ランドマイン(復活)
 
   class CheckAddLandMineRFeatEvent < EventRule
     dsc        "ランドマイン(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_land_mine_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLandMineRFeatEvent < EventRule
     dsc        "ランドマイン(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_land_mine_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLandMineRFeatEvent < EventRule
     dsc        "ランドマイン(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_land_mine_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseLandMineRFeatEvent < EventRule
     dsc        "ランドマイン(復活)の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_land_mine_r_feat
     goal       ["self", :use_end?]
   end
@@ -18979,35 +18867,35 @@ module Unlight
 
   class CheckAddNapalmDeathFeatEvent < EventRule
     dsc        "ナパーム・デスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_napalm_death_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveNapalmDeathFeatEvent < EventRule
     dsc        "ナパーム・デスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_napalm_death_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateNapalmDeathFeatEvent < EventRule
     dsc        "ナパーム・デスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_napalm_death_feat
     goal       ["self", :use_end?]
   end
 
   class UseNapalmDeathFeatEvent < EventRule
     dsc        "ナパーム・デスを使用 攻撃力が+6"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_napalm_death_feat
     goal       ["self", :use_end?]
   end
 
   class FinishNapalmDeathFeatEvent < EventRule
     dsc        "ナパーム・デスの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :finish_napalm_death_feat
     goal       ["self", :use_end?]
   end
@@ -19017,35 +18905,35 @@ module Unlight
 
   class CheckAddSuicidalFailureFeatEvent < EventRule
     dsc        "スーサイダルフェイルアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_suicidal_failure_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSuicidalFailureFeatEvent < EventRule
     dsc        "スーサイダルフェイルアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_suicidal_failure_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSuicidalFailureFeatEvent < EventRule
     dsc        "スーサイダルフェイルアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_suicidal_failure_feat
     goal       ["self", :use_end?]
   end
 
   class UseSuicidalFailureFeatEvent < EventRule
     dsc        "スーサイダルフェイルアを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_suicidal_failure_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSuicidalFailureFeatEvent < EventRule
     dsc        "スーサイダルフェイルアの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_suicidal_failure_feat
     goal       ["self", :use_end?]
   end
@@ -19055,28 +18943,28 @@ module Unlight
 
   class CheckAddBigBraggRFeatEvent < EventRule
     dsc        "ビッグブラッグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_big_bragg_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBigBraggRFeatEvent < EventRule
     dsc        "ビッグブラッグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_big_bragg_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBigBraggRFeatEvent < EventRule
     dsc        "ビッグブラッグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_big_bragg_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBigBraggRFeatEvent < EventRule
     dsc        "ビッグブラッグを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_big_bragg_r_feat
     goal       ["self", :use_end?]
   end
@@ -19086,35 +18974,35 @@ module Unlight
 
   class CheckAddLetsKnifeRFeatEvent < EventRule
     dsc        "レッツナイフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_lets_knife_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLetsKnifeRFeatEvent < EventRule
     dsc        "レッツナイフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_lets_knife_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLetsKnifeRFeatEvent < EventRule
     dsc        "レッツナイフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_lets_knife_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseLetsKnifeRFeatEvent < EventRule
     dsc        "レッツナイフを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_lets_knife_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishLetsKnifeRFeatEvent < EventRule
     dsc        "レッツナイフの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_lets_knife_r_feat
     goal       ["self", :use_end?]
   end
@@ -19124,28 +19012,28 @@ module Unlight
 
   class CheckAddPreyFeatEvent < EventRule
     dsc        "捕食が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_prey_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePreyFeatEvent < EventRule
     dsc        "捕食が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_prey_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePreyFeatEvent < EventRule
     dsc        "捕食が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_prey_feat
     goal       ["self", :use_end?]
   end
 
   class UsePreyFeatEvent < EventRule
     dsc        "捕食の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_prey_feat
     goal       ["self", :use_end?]
   end
@@ -19155,49 +19043,49 @@ module Unlight
 
   class CheckAddRuminationFeatEvent < EventRule
     dsc        "反芻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_rumination_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRuminationFeatEvent < EventRule
     dsc        "反芻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_rumination_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRuminationFeatEvent < EventRule
     dsc        "反芻が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_rumination_feat
     goal       ["self", :use_end?]
   end
 
   class UseRuminationFeatEvent < EventRule
     dsc        "反芻の使用が終了"
-    type       :type=>:before, :obj=>"owner", :hook=>:move_phase_init_event
+    type       type: :before, obj: "owner", hook: :move_phase_init_event
     func       :use_rumination_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRuminationFeatEvent < EventRule
     dsc        "反芻の使用が終了"
-    type       :type=>:before, :obj=>"owner", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "owner", hook: :battle_phase_init_event
     func       :finish_rumination_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRuminationFeatFoeCharaChangeEvent < EventRule
     dsc        "反芻の使用が終了"
-    type       :type=>:before, :obj=>"foe", :hook=>:chara_change_action
+    type       type: :before, obj: "foe", hook: :chara_change_action
     func       :finish_rumination_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRuminationFeatOwnerCharaChangeEvent < EventRule
     dsc        "反芻の使用が終了"
-    type       :type=>:before, :obj=>"owner", :hook=>:chara_change_action
+    type       type: :before, obj: "owner", hook: :chara_change_action
     func       :finish_rumination_feat
     goal       ["self", :use_end?]
   end
@@ -19207,42 +19095,42 @@ module Unlight
 
   class CheckAddPilumFeatEvent < EventRule
     dsc        "ピルムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_pilum_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePilumFeatEvent < EventRule
     dsc        "ピルムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_pilum_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePilumFeatEvent < EventRule
     dsc        "ピルムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_pilum_feat
     goal       ["self", :use_end?]
   end
 
   class UsePilumFeatEvent < EventRule
     dsc        "ピルムを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_pilum_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPilumFeatEvent < EventRule
     dsc        "ピルムの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_pilum_feat
     goal       ["self", :use_end?]
   end
 
   class UsePilumFeatDamageEvent < EventRule
     dsc        "ピルムを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_pilum_feat_damage
     goal       ["self", :use_end?]
   end
@@ -19252,42 +19140,42 @@ module Unlight
 
   class CheckAddRoadOfUndergroundFeatEvent < EventRule
     dsc        "地中の路が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_road_of_underground_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRoadOfUndergroundFeatEvent < EventRule
     dsc        "地中の路が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_road_of_underground_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRoadOfUndergroundFeatEvent < EventRule
     dsc        "地中の路が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_road_of_underground_feat
     goal       ["self", :use_end?]
   end
 
   class UseRoadOfUndergroundFeatEvent < EventRule
     dsc        "地中の路を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>8
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 8
     func       :use_road_of_underground_feat
     goal       ["self", :use_end?]
   end
 
   class UseRoadOfUndergroundFeatFinishMoveEvent < EventRule
     dsc        "地中の路を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_move_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :finish_move_phase, priority: 50
     func       :use_road_of_underground_feat_finish_move
     goal       ["self", :use_end?]
   end
 
   class FinishRoadOfUndergroundFeatEvent < EventRule
     dsc        "地中の路の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_road_of_underground_feat
     goal       ["self", :use_end?]
   end
@@ -19297,35 +19185,35 @@ module Unlight
 
   class CheckAddFoxShadowFeatEvent < EventRule
     dsc        "狐分身が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_fox_shadow_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFoxShadowFeatEvent < EventRule
     dsc        "狐分身が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_fox_shadow_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFoxShadowFeatEvent < EventRule
     dsc        "狐分身が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_fox_shadow_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoxShadowFeatEvent < EventRule
     dsc        "狐分身を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_fox_shadow_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFoxShadowFeatEvent < EventRule
     dsc        "狐分身の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase
+    type       type: :after, obj: "duel", hook: :battle_result_phase
     func       :finish_fox_shadow_feat
     goal       ["self", :use_end?]
   end
@@ -19335,42 +19223,42 @@ module Unlight
 
   class CheckAddFoxShootFeatEvent < EventRule
     dsc        "狐シュートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_fox_shoot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFoxShootFeatEvent < EventRule
     dsc        "狐シュートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_fox_shoot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFoxShootFeatEvent < EventRule
     dsc        "狐シュートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_fox_shoot_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoxShootFeatEvent < EventRule
     dsc        "狐シュートを使用 攻撃力が+3、場に出した剣カードの枚数ｘ３を攻撃力に加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_fox_shoot_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFoxShootFeatEvent < EventRule
     dsc        "狐シュートの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_fox_shoot_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoxShootFeatDamageEvent < EventRule
     dsc        "狐シュートの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_fox_shoot_feat_damage
     goal       ["self", :use_end?]
   end
@@ -19380,56 +19268,56 @@ module Unlight
 
   class CheckAddFoxZoneFeatEvent < EventRule
     dsc        "狐空間が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_fox_zone_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFoxZoneFeatEvent < EventRule
     dsc        "狐空間が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_fox_zone_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFoxZoneFeatEvent < EventRule
     dsc        "狐空間が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_fox_zone_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoxZoneFeatEvent < EventRule
     dsc        "狐空間を使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:mp_calc_resolve, :priority=>200
+    type       type: :after, obj: "foe", hook: :mp_calc_resolve, priority: 200
     func       :use_fox_zone_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoxZoneFeatAttackDealDetCharaChangeEvent < EventRule
     dsc        "狐空間を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :use_fox_zone_feat_attack_deal
     goal       ["self", :use_end?]
   end
 
   class UseFoxZoneFeatAttackDealChangeInitiativeEvent < EventRule
     dsc        "狐空間を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :use_fox_zone_feat_attack_deal
     goal       ["self", :use_end?]
   end
 
   class UseFoxZoneFeatDefenseDealEvent < EventRule
     dsc        "狐空間を使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:attack_done_action
+    type       type: :after, obj: "foe", hook: :attack_done_action
     func       :use_fox_zone_feat_defense_deal
     goal       ["self", :use_end?]
   end
 
   class FinishFoxZoneFeatEvent < EventRule
     dsc        "狐空間を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_fox_zone_feat
     goal       ["self", :use_end?]
   end
@@ -19439,35 +19327,35 @@ module Unlight
 
   class CheckAddArrowRainFeatEvent < EventRule
     dsc        "墜下する流星が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_arrow_rain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveArrowRainFeatEvent < EventRule
     dsc        "墜下する流星が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_arrow_rain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateArrowRainFeatEvent < EventRule
     dsc        "墜下する流星が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_arrow_rain_feat
     goal       ["self", :use_end?]
   end
 
   class UseArrowRainFeatEvent < EventRule
     dsc        "墜下する流星を使用 攻撃力が+6"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_arrow_rain_feat
     goal       ["self", :use_end?]
   end
 
   class FinishArrowRainFeatEvent < EventRule
     dsc        "墜下する流星の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_arrow_rain_feat
     goal       ["self", :use_end?]
   end
@@ -19477,42 +19365,42 @@ module Unlight
 
   class CheckAddAtemwendeFeatEvent < EventRule
     dsc        "光輝強迫が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_atemwende_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAtemwendeFeatEvent < EventRule
     dsc        "光輝強迫が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_atemwende_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAtemwendeFeatEvent < EventRule
     dsc        "光輝強迫が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_atemwende_feat
     goal       ["self", :use_end?]
   end
 
   class UseAtemwendeFeatEvent < EventRule
     dsc        "光輝強迫をを使用 攻撃力が2倍"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_atemwende_feat
     goal       ["self", :use_end?]
   end
 
   class FinishChangeAtemwendeFeatEvent < EventRule
     dsc        "光輝強迫を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :before, obj: "duel", hook: :determine_move_phase
     func       :finish_change_atemwende_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTurnAtemwendeFeatEvent < EventRule
     dsc        "光輝強迫を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_turn_atemwende_feat
     goal       ["self", :use_end?]
   end
@@ -19522,35 +19410,35 @@ module Unlight
 
   class CheckAddFadensonnenFeatEvent < EventRule
     dsc        "雪の重唱が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_fadensonnen_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFadensonnenFeatEvent < EventRule
     dsc        "雪の重唱が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_fadensonnen_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFadensonnenFeatEvent < EventRule
     dsc        "雪の重唱が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_fadensonnen_feat
     goal       ["self", :use_end?]
   end
 
   class UseFadensonnenFeatEvent < EventRule
     dsc        "雪の重唱を使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_fadensonnen_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFadensonnenFeatEvent < EventRule
     dsc        "雪の重唱の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_fadensonnen_feat
     goal       ["self", :use_end?]
   end
@@ -19558,45 +19446,44 @@ module Unlight
 #---------------------------------------------------------------------------------------------
 # 紡がれる陽
 
-
   class CheckAddLichtzwangFeatEvent < EventRule
     dsc        "紡がれる陽が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_lichtzwang_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLichtzwangFeatEvent < EventRule
     dsc        "紡がれる陽が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_lichtzwang_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLichtzwangFeatEvent < EventRule
     dsc        "紡がれる陽が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_lichtzwang_feat
     goal       ["self", :use_end?]
   end
 
   class UseLichtzwangFeatEvent < EventRule
     dsc        "紡がれる陽を使用 ATK補正"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_lichtzwang_feat
     goal       ["self", :use_end?]
   end
 
   class FinishLichtzwangFeatEvent < EventRule
     dsc        "紡がれる陽の使用 ランダムに固定ダメージ"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_lichtzwang_feat
     goal       ["self", :use_end?]
   end
 
   class UseLichtzwangFeatDamageEvent < EventRule
     dsc        "紡がれる陽を終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :use_lichtzwang_feat_damage
     goal       ["self", :use_end?]
   end
@@ -19606,42 +19493,42 @@ module Unlight
 
   class CheckAddSchneepartFeatEvent < EventRule
     dsc        "溜息の転換が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_schneepart_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSchneepartFeatEvent < EventRule
     dsc        "溜息の転換が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_schneepart_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSchneepartFeatEvent < EventRule
     dsc        "溜息の転換が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_schneepart_feat
     goal       ["self", :use_end?]
   end
 
   class UseSchneepartFeatEvent < EventRule
     dsc        "溜息の転換を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_schneepart_feat
     goal       ["self", :use_end?]
   end
 
   class UseSchneepartFeatDamageEvent < EventRule
     dsc        "溜息の転換を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_schneepart_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishSchneepartFeatEvent < EventRule
     dsc        "溜息の転換の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_schneepart_feat
     goal       ["self", :use_end?]
   end
@@ -19651,28 +19538,28 @@ module Unlight
 
   class CheckAddHighgateFeatEvent < EventRule
     dsc        "ハイゲートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_highgate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHighgateFeatEvent < EventRule
     dsc        "ハイゲートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_highgate_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHighgateFeatEvent < EventRule
     dsc        "ハイゲートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_highgate_feat
     goal       ["self", :use_end?]
   end
 
   class UseHighgateFeatEvent < EventRule
     dsc        "ハイゲートをを使用 攻撃力が2倍"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_highgate_feat
     goal       ["self", :use_end?]
   end
@@ -19682,35 +19569,35 @@ module Unlight
 
   class CheckAddDorfloftFeatEvent < EventRule
     dsc        "ドルフルフトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_dorfloft_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDorfloftFeatEvent < EventRule
     dsc        "ドルフルフトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_dorfloft_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDorfloftFeatEvent < EventRule
     dsc        "ドルフルフトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_dorfloft_feat
     goal       ["self", :use_end?]
   end
 
   class UseDorfloftFeatEvent < EventRule
     dsc        "ドルフルフトを使用 DEF+5 近距離に移動"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_dorfloft_feat
     goal       ["self", :use_end?]
   end
 
   class UseDorfloftFeatDamageEvent < EventRule
     dsc        "ドルフルフトを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 10
     func       :use_dorfloft_feat_damage
     goal       ["self", :use_end?]
   end
@@ -19720,42 +19607,42 @@ module Unlight
 
   class CheckAddLuminesFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_lumines_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLuminesFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_lumines_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLuminesFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_lumines_feat
     goal       ["self", :use_end?]
   end
 
   class UseLuminesFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_lumines_feat
     goal       ["self", :use_end?]
   end
 
   class FinishLuminesFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_lumines_feat
     goal       ["self", :use_end?]
   end
 
   class UseLuminesFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_lumines_feat_damage
     goal       ["self", :use_end?]
   end
@@ -19764,28 +19651,28 @@ module Unlight
 
   class CheckAddSuperHeroineFeatEvent < EventRule
     dsc        "スーパーヒロインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_super_heroine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSuperHeroineFeatEvent < EventRule
     dsc        "スーパーヒロインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_super_heroine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSuperHeroineFeatEvent < EventRule
     dsc        "スーパーヒロインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_super_heroine_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSuperHeroineFeatEvent < EventRule
     dsc        "スーパーヒロインを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_super_heroine_feat
     goal       ["self", :use_end?]
   end
@@ -19795,42 +19682,42 @@ module Unlight
 
   class CheckAddStampedeFeatEvent < EventRule
     dsc        "スタンピードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_stampede_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveStampedeFeatEvent < EventRule
     dsc        "スタンピードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_stampede_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateStampedeFeatEvent < EventRule
     dsc        "スタンピードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_stampede_feat
     goal       ["self", :use_end?]
   end
 
   class UseStampedeFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_stampede_feat
     goal       ["self", :use_end?]
   end
 
   class FinishStampedeFeatEvent < EventRule
     dsc        "スタンピードの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_stampede_feat
     goal       ["self", :use_end?]
   end
 
   class UseStampedeFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_stampede_feat_damage
     goal       ["self", :use_end?]
   end
@@ -19840,42 +19727,42 @@ module Unlight
 
   class CheckAddDeathControl2FeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_death_control2_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDeathControl2FeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_death_control2_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDeathControl2FeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_death_control2_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeathControl2FeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_death_control2_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDeathControl2FeatEvent < EventRule
     dsc        "自壊攻撃の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_death_control2_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeathControl2FeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>81
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 81
     func       :use_death_control2_feat_damage
     goal       ["self", :use_end?]
   end
@@ -19885,49 +19772,49 @@ module Unlight
 
   class CheckAddKengiFeatEvent < EventRule
     dsc        "俺様の剣技に見惚れろが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_kengi_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKengiFeatEvent < EventRule
     dsc        "俺様の剣技に見惚れろが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_kengi_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKengiFeatEvent < EventRule
     dsc        "俺様の剣技に見惚れろが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_kengi_feat
     goal       ["self", :use_end?]
   end
 
   class UseKengiFeatEvent < EventRule
     dsc        "俺様の剣技に見惚れろを使用 ATK補正"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_kengi_feat
     goal       ["self", :use_end?]
   end
 
   class UseKengiFeatRollChancelEvent < EventRule
     dsc        "通常のダイスロールの再生を抑制する"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :use_kengi_feat_roll_chancel
     goal       ["self", :use_end?]
   end
 
   class UseKengiFeatBattleResultEvent < EventRule
     dsc        "俺様の剣技に見惚れろの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>5
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 5
     func       :use_kengi_feat_battle_result
     goal       ["self", :use_end?]
   end
 
   class FinishKengiFeatEvent < EventRule
     dsc        "俺様の剣技に見惚れろの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :finish_kengi_feat
     goal       ["self", :use_end?]
   end
@@ -19937,28 +19824,28 @@ module Unlight
 
   class CheckAddDokowoFeatEvent < EventRule
     dsc        "何処をみてやがるが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_dokowo_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDokowoFeatEvent < EventRule
     dsc        "何処をみてやがるが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_dokowo_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDokowoFeatEvent < EventRule
     dsc        "何処をみてやがるが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_dokowo_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDokowoFeatEvent < EventRule
     dsc        "何処をみてやがるを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>8
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 8
     func       :finish_dokowo_feat
     goal       ["self", :use_end?]
   end
@@ -19968,28 +19855,28 @@ module Unlight
 
   class CheckAddMikittaFeatEvent < EventRule
     dsc        "お前の技は見切ったが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_mikitta_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMikittaFeatEvent < EventRule
     dsc        "お前の技は見切ったが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_mikitta_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMikittaFeatEvent < EventRule
     dsc        "お前の技は見切ったが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_mikitta_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMikittaFeatEvent < EventRule
     dsc        "お前の技は見切ったの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 70
     func       :finish_mikitta_feat
     goal       ["self", :use_end?]
   end
@@ -19999,49 +19886,49 @@ module Unlight
 
   class CheckAddHontouFeatEvent < EventRule
     dsc        "これが俺様の本当の力だが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hontou_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHontouFeatEvent < EventRule
     dsc        "これが俺様の本当の力だが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hontou_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHontouFeatEvent < EventRule
     dsc        "これが俺様の本当の力だが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hontou_feat
     goal       ["self", :use_end?]
   end
 
   class UseHontouFeatEvent < EventRule
     dsc        "これが俺様の本当の力だを使用 ATK補正"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hontou_feat
     goal       ["self", :use_end?]
   end
 
   class UseHontouFeatRollChancelEvent < EventRule
     dsc        "通常のダイスロールの再生を抑制する"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :use_hontou_feat_roll_chancel
     goal       ["self", :use_end?]
   end
 
   class UseHontouFeatBattleResultEvent < EventRule
     dsc        "これが俺様の本当の力だの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>6
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 6
     func       :use_hontou_feat_battle_result
     goal       ["self", :use_end?]
   end
 
   class FinishHontouFeatEvent < EventRule
     dsc        "これが俺様の本当の力だの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :finish_hontou_feat
     goal       ["self", :use_end?]
   end
@@ -20051,28 +19938,28 @@ module Unlight
 
   class CheckAddInvitedFeatEvent < EventRule
     dsc        "招かれしものどもが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_invited_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveInvitedFeatEvent < EventRule
     dsc        "招かれしものどもが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_invited_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateInvitedFeatEvent < EventRule
     dsc        "招かれしものどもが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_invited_feat
     goal       ["self", :use_end?]
   end
 
   class FinishInvitedFeatEvent < EventRule
     dsc        "招かれしものどもを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_invited_feat
     goal       ["self", :use_end?]
   end
@@ -20082,28 +19969,28 @@ module Unlight
 
   class CheckAddThroughHandFeatEvent < EventRule
     dsc        "透き通る手が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_through_hand_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveThroughHandFeatEvent < EventRule
     dsc        "透き通る手が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_through_hand_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateThroughHandFeatEvent < EventRule
     dsc        "透き通る手が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_through_hand_feat
     goal       ["self", :use_end?]
   end
 
   class UseThroughHandFeatEvent < EventRule
     dsc        "透き通る手の使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_move_phase
+    type       type: :before, obj: "duel", hook: :finish_move_phase
     func       :use_through_hand_feat
     goal       ["self", :use_end?]
   end
@@ -20113,28 +20000,28 @@ module Unlight
 
   class CheckAddProfBreathFeatEvent < EventRule
     dsc        "深遠なる息が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_prof_breath_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveProfBreathFeatEvent < EventRule
     dsc        "深遠なる息が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_prof_breath_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateProfBreathFeatEvent < EventRule
     dsc        "深遠なる息が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_prof_breath_feat
     goal       ["self", :use_end?]
   end
 
   class FinishProfBreathFeatEvent < EventRule
     dsc        "深遠なる息を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>15
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 15
     func       :finish_prof_breath_feat
     goal       ["self", :use_end?]
   end
@@ -20144,35 +20031,35 @@ module Unlight
 
   class CheckAddSevenWishFeatEvent < EventRule
     dsc        "7つの願いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_seven_wish_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSevenWishFeatEvent < EventRule
     dsc        "7つの願いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_seven_wish_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSevenWishFeatEvent < EventRule
     dsc        "7つの願いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_seven_wish_feat
     goal       ["self", :use_end?]
   end
 
   class UseSevenWishFeatEvent < EventRule
     dsc        "7つの願い発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :use_seven_wish_feat
     goal       ["self", :use_end?]
   end
 
   class UseSevenWishFeatDamageEvent < EventRule
     dsc        "7つの願い発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 50
     func       :use_seven_wish_feat_damage
     goal       ["self", :use_end?]
   end
@@ -20182,49 +20069,49 @@ module Unlight
 
   class CheckAddThirteenEyesRFeatEvent < EventRule
     dsc        "13の眼(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_thirteen_eyes_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveThirteenEyesRFeatEvent < EventRule
     dsc        "13の眼(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_thirteen_eyes_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateThirteenEyesRFeatEvent < EventRule
     dsc        "13の眼(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_thirteen_eyes_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseOwnerThirteenEyesRFeatEvent < EventRule
     dsc        "13の眼(復活)を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>50
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 50
     func       :use_thirteen_eyes_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoeThirteenEyesRFeatEvent < EventRule
     dsc        "13の眼(復活)を使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:dp_calc_resolve, :priority=>70
+    type       type: :after, obj: "foe", hook: :dp_calc_resolve, priority: 70
     func       :use_thirteen_eyes_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishThirteenEyesRFeatEvent < EventRule
     dsc        "13の眼(復活)の使用が終了"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event, :priority=>80
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event, priority: 80
     func       :finish_thirteen_eyes_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseThirteenEyesRFeatDamageEvent < EventRule
     dsc        "13の眼(復活)を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>60
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 60
     func       :use_thirteen_eyes_r_feat_damage
     goal       ["self", :use_end?]
   end
@@ -20234,42 +20121,42 @@ module Unlight
 
   class CheckAddThornCareRFeatEvent < EventRule
     dsc        "茨の構え(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_thorn_care_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveThornCareRFeatEvent < EventRule
     dsc        "茨の構え(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_thorn_care_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateThornCareRFeatEvent < EventRule
     dsc        "茨の構え(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_thorn_care_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseThornCareRFeatEvent < EventRule
     dsc        "茨の構え(復活)を使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_thorn_care_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseThornCareRFeatDamageEvent < EventRule
     dsc        "茨の構え(復活)使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_thorn_care_r_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishThornCareRFeatEvent < EventRule
     dsc        "茨の構え(復活)の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_thorn_care_r_feat
     goal       ["self", :use_end?]
   end
@@ -20279,42 +20166,42 @@ module Unlight
 
   class CheckAddLiberatingSwordRFeatEvent < EventRule
     dsc        "解放剣(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_liberating_sword_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLiberatingSwordRFeatEvent < EventRule
     dsc        "解放剣(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_liberating_sword_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLiberatingSwordRFeatEvent < EventRule
     dsc        "解放剣(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_liberating_sword_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseLiberatingSwordRFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_liberating_sword_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishLiberatingSwordRFeatEvent < EventRule
     dsc        "解放剣(復活)の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_liberating_sword_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseLiberatingSwordRFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 1
     func       :use_liberating_sword_r_feat_damage
     goal       ["self", :use_end?]
   end
@@ -20324,42 +20211,42 @@ module Unlight
 
   class CheckAddCurseSwordRFeatEvent < EventRule
     dsc        "呪剣(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_curse_sword_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCurseSwordRFeatEvent < EventRule
     dsc        "呪剣(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_curse_sword_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCurseSwordRFeatEvent < EventRule
     dsc        "呪剣(復活)が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_curse_sword_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseCurseSwordRFeatEvent < EventRule
     dsc        "呪剣(復活)を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_curse_sword_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCurseSwordRFeatEvent < EventRule
     dsc        "呪剣(復活)の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_curse_sword_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseCurseSwordRFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_curse_sword_r_feat_damage
     goal       ["self", :use_end?]
   end
@@ -20369,35 +20256,35 @@ module Unlight
 
   class CheckAddFlameRingFeatEvent < EventRule
     dsc        "火の輪くぐりが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_flame_ring_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFlameRingFeatEvent < EventRule
     dsc        "火の輪くぐりが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_flame_ring_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFlameRingFeatEvent < EventRule
     dsc        "火の輪くぐりが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_flame_ring_feat
     goal       ["self", :use_end?]
   end
 
   class UseFlameRingFeatEvent < EventRule
     dsc        "火の輪くぐりを使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_flame_ring_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFlameRingFeatEvent < EventRule
     dsc        "火の輪くぐりの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_flame_ring_feat
     goal       ["self", :use_end?]
   end
@@ -20407,42 +20294,42 @@ module Unlight
 
   class CheckAddPianoFeatEvent < EventRule
     dsc        "ピアノが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_piano_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePianoFeatEvent < EventRule
     dsc        "ピアノが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_piano_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePianoFeatEvent < EventRule
     dsc        "ピアノが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_piano_feat
     goal       ["self", :use_end?]
   end
 
   class UsePianoFeatEvent < EventRule
     dsc        "ピアノを使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_piano_feat
     goal       ["self", :use_end?]
   end
 
   class UsePianoFeatDamageEvent < EventRule
     dsc        "ピアノ使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_done_action, :priority=>5
+    type       type: :after, obj: "owner", hook: :deffence_done_action, priority: 5
     func       :use_piano_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishPianoFeatEvent < EventRule
     dsc        "ピアノの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_piano_feat
     goal       ["self", :use_end?]
   end
@@ -20452,28 +20339,28 @@ module Unlight
 
   class CheckAddOnaBallFeatEvent < EventRule
     dsc        "玉乗りが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_ona_ball_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveOnaBallFeatEvent < EventRule
     dsc        "玉乗りが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_ona_ball_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateOnaBallFeatEvent < EventRule
     dsc        "玉乗りが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_ona_ball_feat
     goal       ["self", :use_end?]
   end
 
   class FinishNextOnaBallFeatEvent < EventRule
     dsc        "玉乗りを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_next_ona_ball_feat
     goal       ["self", :use_end?]
   end
@@ -20483,35 +20370,35 @@ module Unlight
 
   class CheckAddViolentFeatEvent < EventRule
     dsc        "暴れるが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_violent_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveViolentFeatEvent < EventRule
     dsc        "暴れるが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_violent_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateViolentFeatEvent < EventRule
     dsc        "暴れるが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_violent_feat
     goal       ["self", :use_end?]
   end
 
   class FinishViolentFeatEvent < EventRule
     dsc        "暴れるの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_violent_feat
     goal       ["self", :use_end?]
   end
 
   class FinishViolentFeatChangeEvent < EventRule
     dsc        "暴れるを使用 相手に特殊/2のダメージ"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_violent_feat_change
     goal       ["self", :use_end?]
   end
@@ -20521,42 +20408,42 @@ module Unlight
 
   class CheckAddLifetimeSoundFeatEvent < EventRule
     dsc        "ライフタイムサウンドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_lifetime_sound_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveLifetimeSoundFeatEvent < EventRule
     dsc        "ライフタイムサウンドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_lifetime_sound_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateLifetimeSoundFeatEvent < EventRule
     dsc        "ライフタイムサウンドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_lifetime_sound_feat
     goal       ["self", :use_end?]
   end
 
   class UseLifetimeSoundFeatEvent < EventRule
     dsc        "ライフタイムサウンドを使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_lifetime_sound_feat
     goal       ["self", :use_end?]
   end
 
   class FinishLifetimeSoundFeatEvent < EventRule
     dsc        "ライフタイムサウンドの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase,:priority=>5
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 5
     func       :finish_lifetime_sound_feat
     goal       ["self", :use_end?]
   end
 
   class FinishLifetimeSoundFeatDamageEvent < EventRule
     dsc        "ライフタイムサウンドの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :finish_lifetime_sound_feat_damage
     goal       ["self", :use_end?]
   end
@@ -20566,42 +20453,42 @@ module Unlight
 
   class CheckAddBalanceLifeFeatEvent < EventRule
     dsc        "バランスライフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_balance_life_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBalanceLifeFeatEvent < EventRule
     dsc        "バランスライフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_balance_life_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBalanceLifeFeatEvent < EventRule
     dsc        "バランスライフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_balance_life_feat
     goal       ["self", :use_end?]
   end
 
   class UseBalanceLifeFeatEvent < EventRule
     dsc        "バランスライフを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_balance_life_feat
     goal       ["self", :use_end?]
   end
 
   class UseBalanceLifeFeatDamageEvent < EventRule
     dsc        "バランスライフ ダメージ制御"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 50
     func       :use_balance_life_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishBalanceLifeFeatEvent < EventRule
     dsc        "バランスライフの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_balance_life_feat
     goal       ["self", :use_end?]
   end
@@ -20611,35 +20498,35 @@ module Unlight
 
   class CheckAddComaWhiteFeatEvent < EventRule
     dsc        "コマホワイトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_coma_white_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveComaWhiteFeatEvent < EventRule
     dsc        "コマホワイトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_coma_white_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateComaWhiteFeatEvent < EventRule
     dsc        "コマホワイトが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_coma_white_feat
     goal       ["self", :use_end?]
   end
 
   class UseComaWhiteFeatEvent < EventRule
     dsc        "コマホワイトを使用 攻撃力にダメージを加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_coma_white_feat
     goal       ["self", :use_end?]
   end
 
   class FinishComaWhiteFeatEvent < EventRule
     dsc        "コマホワイトの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 50
     func       :finish_coma_white_feat
     goal       ["self", :use_end?]
   end
@@ -20649,28 +20536,28 @@ module Unlight
 
   class CheckAddGoesToDarkFeatEvent < EventRule
     dsc        "ゴーズトゥダークが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_goes_to_dark_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGoesToDarkFeatEvent < EventRule
     dsc        "ゴーズトゥダークが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_goes_to_dark_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGoesToDarkFeatEvent < EventRule
     dsc        "ゴーズトゥダークが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_goes_to_dark_feat
     goal       ["self", :use_end?]
   end
 
   class FinishGoesToDarkFeatEvent < EventRule
     dsc        "ゴーズトゥダークを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_goes_to_dark_feat
     goal       ["self", :use_end?]
   end
@@ -20680,62 +20567,62 @@ module Unlight
 
   class CheckAddRakshasaStanceFeatEvent < EventRule
     dsc        "羅刹の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_rakshasa_stance_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRakshasaStanceFeatEvent < EventRule
     dsc        "羅刹の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_rakshasa_stance_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRakshasaStanceFeatEvent < EventRule
     dsc        "羅刹の構えが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_rakshasa_stance_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRakshasaStanceStateChangeEvent < EventRule
     dsc        "羅刹の構え状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_rakshasa_stance_state_change
     goal       ["self", :use_end?]
   end
 
   class UseRakshasaStanceFeatEvent < EventRule
     dsc        "羅刹の構えを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_rakshasa_stance_feat
     goal       ["self", :use_end?]
   end
 
   class UseRakshasaStanceFeatResultEvent < EventRule
     dsc        "羅刹の構え状態 ダメージ倍化"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 70
     func       :use_rakshasa_stance_feat_result
   end
 
   class OnRakshasaStanceFeatEvent < EventRule
     dsc        "羅刹の構え状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:change_initiative_phase
+    type       type: :after, obj: "duel", hook: :change_initiative_phase
     func       :on_rakshasa_stance_feat
     goal       ["self", :use_end?]
   end
 
   class OffRakshasaStanceFeatEvent < EventRule
     dsc        "羅刹の構え状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :off_rakshasa_stance_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRakshasaStanceFeatEvent < EventRule
     dsc        "羅刹の構え状態が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_rakshasa_stance_feat
     goal       ["self", :use_end?]
   end
@@ -20745,133 +20632,133 @@ module Unlight
 
   class CheckAddKirigakureFeatEvent < EventRule
     dsc        "霧隠れが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_kirigakure_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKirigakureFeatEvent < EventRule
     dsc        "霧隠れが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_kirigakure_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKirigakureFeatEvent < EventRule
     dsc        "霧隠れが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_kirigakure_feat
     goal       ["self", :use_end?]
   end
 
   class CheckAddKirigakureFeatFoeAttackEvent < EventRule
     dsc        "霧隠れが可能か"
-    type       :type=>:after, :obj=>"foe", :hook=>:attack_card_add_action, :priority=>500
+    type       type: :after, obj: "foe", hook: :attack_card_add_action, priority: 500
     func       :check_kirigakure_feat_foe
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKirigakureFeatFoeAttackEvent < EventRule
     dsc        "霧隠れが可能か"
-    type       :type=>:after, :obj=>"foe", :hook=>:attack_card_remove_action, :priority=>500
+    type       type: :after, obj: "foe", hook: :attack_card_remove_action, priority: 500
     func       :check_kirigakure_feat_foe
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKirigakureFeatFoeAttackEvent < EventRule
     dsc        "霧隠れが可能か"
-    type       :type=>:after, :obj=>"foe", :hook=>:attack_card_rotate_action, :priority=>500
+    type       type: :after, obj: "foe", hook: :attack_card_rotate_action, priority: 500
     func       :check_kirigakure_feat_foe
     goal       ["self", :use_end?]
   end
 
   class CheckAddKirigakureFeatFoeDefenseEvent < EventRule
     dsc        "霧隠れが可能か"
-    type       :type=>:after, :obj=>"foe", :hook=>:deffence_card_add_action, :priority=>500
+    type       type: :after, obj: "foe", hook: :deffence_card_add_action, priority: 500
     func       :check_kirigakure_feat_foe
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKirigakureFeatFoeDefenseEvent < EventRule
     dsc        "霧隠れが可能か"
-    type       :type=>:after, :obj=>"foe", :hook=>:deffence_card_remove_action, :priority=>500
+    type       type: :after, obj: "foe", hook: :deffence_card_remove_action, priority: 500
     func       :check_kirigakure_feat_foe
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKirigakureFeatFoeDefenseEvent < EventRule
     dsc        "霧隠れが可能か"
-    type       :type=>:after, :obj=>"foe", :hook=>:deffence_card_rotate_action, :priority=>500
+    type       type: :after, obj: "foe", hook: :deffence_card_rotate_action, priority: 500
     func       :check_kirigakure_feat_foe
     goal       ["self", :use_end?]
   end
 
   class UseKirigakureFeatCalcEvent < EventRule
     dsc        "霧隠れを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_kirigakure_feat_calc
     goal       ["self", :use_end?]
   end
 
   class UseKirigakureFeatPhaseInitEvent < EventRule
     dsc        "霧隠れを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:battle_phase_init_event
+    type       type: :after, obj: "owner", hook: :battle_phase_init_event
     func       :use_kirigakure_feat_phase_init
     goal       ["self", :use_end?]
   end
 
   class UseKirigakureFeatDefenseDoneOwnerEvent < EventRule
     dsc        "霧隠れを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_done_action
+    type       type: :after, obj: "owner", hook: :deffence_done_action
     func       :use_kirigakure_feat_defense_done
     goal       ["self", :use_end?]
   end
 
   class UseKirigakureFeatDefenseDoneOwnerEvent < EventRule
     dsc        "霧隠れを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_done_action
+    type       type: :after, obj: "owner", hook: :deffence_done_action
     func       :use_kirigakure_feat_defense_done
     goal       ["self", :use_end?]
   end
 
   class UseKirigakureFeatDefenseDoneFoeEvent < EventRule
     dsc        "霧隠れを使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:deffence_done_action
+    type       type: :after, obj: "foe", hook: :deffence_done_action
     func       :use_kirigakure_feat_defense_done
     goal       ["self", :use_end?]
   end
 
   class UseKirigakureFeatEvent < EventRule
     dsc        "霧隠れを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>7
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 7
     func       :use_kirigakure_feat
     goal       ["self", :use_end?]
   end
 
   class UseKirigakureFeatDetChangeEvent < EventRule
     dsc        "霧隠れを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :use_kirigakure_feat_det_change
     goal       ["self", :use_end?]
   end
 
   class FinishKirigakureFeatOwnerDamagedEvent < EventRule
     dsc        "受けるダメージが+のとき、霧隠れを終了"
-    type       :type=>:after, :obj=>"owner", :hook=>:determine_damage_event
+    type       type: :after, obj: "owner", hook: :determine_damage_event
     func       :finish_kirigakure_feat_owner_damaged
     goal       ["self", :use_end?]
   end
 
   class FinishKirigakureFeatDoDamageEvent < EventRule
     dsc        "受けるダメージが+のとき、霧隠れを終了"
-    type       :type=>:after, :obj=>"foe", :hook=>:determine_damage_event
+    type       type: :after, obj: "foe", hook: :determine_damage_event
     func       :finish_kirigakure_feat_do_damage
     goal       ["self", :use_end?]
   end
 
   class FinishKirigakureFeatFinishTurnEvent < EventRule
     dsc        "霧隠れを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_kirigakure_feat_finish_turn
     goal       ["self", :use_end?]
   end
@@ -20881,35 +20768,35 @@ module Unlight
 
   class CheckAddMikagamiFeatEvent < EventRule
     dsc        "水鏡が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_mikagami_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMikagamiFeatEvent < EventRule
     dsc        "水鏡が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_mikagami_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMikagamiFeatEvent < EventRule
     dsc        "水鏡が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_mikagami_feat
     goal       ["self", :use_end?]
   end
 
   class UseMikagamiFeatEvent < EventRule
     dsc        "水鏡を使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_mikagami_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMikagamiFeatEvent < EventRule
     dsc        "水鏡の使用が終了 防御成功時カウンター"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :finish_mikagami_feat
     goal       ["self", :use_end?]
   end
@@ -20919,49 +20806,49 @@ module Unlight
 
   class CheckAddMutualLoveFeatEvent < EventRule
     dsc        "落花流水が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_mutual_love_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMutualLoveFeatEvent < EventRule
     dsc        "落花流水が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_mutual_love_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMutualLoveFeatEvent < EventRule
     dsc        "落花流水が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_mutual_love_feat
     goal       ["self", :use_end?]
   end
 
   class UseMutualLoveFeatEvent < EventRule
     dsc        "落花流水を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_mutual_love_feat
     goal       ["self", :use_end?]
   end
 
   class UseMutualLoveFeatDamageEvent < EventRule
     dsc        "落花流水を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_mutual_love_feat_damage
     goal       ["self", :use_end?]
   end
 
   class UseMutualLoveFeatConstDamageEvent < EventRule
     dsc        "落花流水を使用時に手札をランダムに失わせる"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 10
     func       :use_mutual_love_feat_const_damage
     goal       ["self", :use_end?]
   end
 
   class FinishMutualLoveFeatEvent < EventRule
     dsc        "落花流水の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_mutual_love_feat
     goal       ["self", :use_end?]
   end
@@ -20971,42 +20858,42 @@ module Unlight
 
   class CheckAddMereShadowFeatEvent < EventRule
     dsc        "鏡花水月が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_mere_shadow_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMereShadowFeatEvent < EventRule
     dsc        "鏡花水月が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_mere_shadow_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMereShadowFeatEvent < EventRule
     dsc        "鏡花水月が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_mere_shadow_feat
     goal       ["self", :use_end?]
   end
 
   class UseMereShadowFeatEvent < EventRule
     dsc        "鏡花水月を使用 攻撃力が+4"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_mere_shadow_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMereShadowFeatEvent < EventRule
     dsc        "鏡花水月の使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>5
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 5
     func       :finish_mere_shadow_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMereShadowFeatDiceAttrEvent < EventRule
     dsc        "数値書き換え"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event, :priority=>70
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event, priority: 70
     func       :finish_mere_shadow_feat_dice_attr
     goal       ["self", :use_end?]
   end
@@ -21016,28 +20903,28 @@ module Unlight
 
   class CheckAddScapulimancyFeatEvent < EventRule
     dsc        "亀占いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_scapulimancy_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveScapulimancyFeatEvent < EventRule
     dsc        "亀占いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_scapulimancy_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateScapulimancyFeatEvent < EventRule
     dsc        "亀占いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_scapulimancy_feat
     goal       ["self", :use_end?]
   end
 
   class FinishScapulimancyFeatEvent < EventRule
     dsc        "亀占いを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_scapulimancy_feat
     goal       ["self", :use_end?]
   end
@@ -21047,35 +20934,35 @@ module Unlight
 
   class CheckAddSoilGuardFeatEvent < EventRule
     dsc        "土盾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_soil_guard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSoilGuardFeatEvent < EventRule
     dsc        "土盾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_soil_guard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSoilGuardFeatEvent < EventRule
     dsc        "土盾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_soil_guard_feat
     goal       ["self", :use_end?]
   end
 
   class UseSoilGuardFeatEvent < EventRule
     dsc        "土盾を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_soil_guard_feat
     goal       ["self", :use_end?]
   end
 
   class UseSoilGuardFeatDamageEvent < EventRule
     dsc        "土盾を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :use_soil_guard_feat_damage
     goal       ["self", :use_end?]
   end
@@ -21085,35 +20972,35 @@ module Unlight
 
   class CheckAddCarapaceSpinFeatEvent < EventRule
     dsc        "甲羅スピンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_carapace_spin_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCarapaceSpinFeatEvent < EventRule
     dsc        "甲羅スピンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_carapace_spin_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCarapaceSpinFeatEvent < EventRule
     dsc        "甲羅スピンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_carapace_spin_feat
     goal       ["self", :use_end?]
   end
 
   class UseCarapaceSpinFeatEvent < EventRule
     dsc        "甲羅スピンを使用 相手にダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_carapace_spin_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCarapaceSpinFeatEvent < EventRule
     dsc        "甲羅スピンの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_carapace_spin_feat
     goal       ["self", :use_end?]
   end
@@ -21123,35 +21010,35 @@ module Unlight
 
   class CheckAddVendettaFeatEvent < EventRule
     dsc        "ヴェンデッタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_vendetta_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveVendettaFeatEvent < EventRule
     dsc        "ヴェンデッタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_vendetta_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateVendettaFeatEvent < EventRule
     dsc        "ヴェンデッタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_vendetta_feat
     goal       ["self", :use_end?]
   end
 
   class UseVendettaFeatEvent < EventRule
     dsc        "ヴェンデッタを使用 攻撃力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_vendetta_feat
     goal       ["self", :use_end?]
   end
 
   class FinishVendettaFeatEvent < EventRule
     dsc        "ヴェンデッタの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_vendetta_feat
     goal       ["self", :use_end?]
   end
@@ -21161,35 +21048,35 @@ module Unlight
 
   class CheckAddAvengersFeatEvent < EventRule
     dsc        "アヴェンジャーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_avengers_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAvengersFeatEvent < EventRule
     dsc        "アヴェンジャーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_avengers_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAvengersFeatEvent < EventRule
     dsc        "アヴェンジャーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_avengers_feat
     goal       ["self", :use_end?]
   end
 
   class UseAvengersFeatEvent < EventRule
     dsc        "アヴェンジャーを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_avengers_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAvengersFeatEvent < EventRule
     dsc        "アヴェンジャーの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:battle_result_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :battle_result_phase, priority: 10
     func       :finish_avengers_feat
     goal       ["self", :use_end?]
   end
@@ -21199,28 +21086,28 @@ module Unlight
 
   class CheckAddSharpenEdgeFeatEvent < EventRule
     dsc        "シャープンエッジが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_sharpen_edge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSharpenEdgeFeatEvent < EventRule
     dsc        "シャープンエッジが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_sharpen_edge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSharpenEdgeFeatEvent < EventRule
     dsc        "シャープンエッジが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_sharpen_edge_feat
     goal       ["self", :use_end?]
   end
 
   class UseSharpenEdgeFeatEvent < EventRule
     dsc        "シャープンエッジを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>8
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 8
     func       :use_sharpen_edge_feat
     goal       ["self", :use_end?]
   end
@@ -21229,27 +21116,27 @@ module Unlight
 
   class CheckSharpenEdgeStateChangeEvent < EventRule
     dsc        "シャープンエッジ状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_sharpen_edge_state_change
     goal       ["self", :use_end?]
   end
 
   class CheckSharpenEdgeStateDeadChangeEvent < EventRule
     dsc        "シャープンエッジ状態が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_sharpen_edge_state_change
     goal       ["self", :use_end?]
   end
 
   class UseSharpenEdgeStateDamageEvent < EventRule
     dsc        "シャープンエッジ状態 ダイス用の回避動作"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>60
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 60
     func       :use_sharpen_edge_state_damage
   end
 
   class FinishSharpenEdgeStateEvent < EventRule
     dsc        "シャープンエッジ状態 ターンおわり終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :finish_turn_phase, priority: 10
     func       :finish_sharpen_edge_state
   end
 
@@ -21258,35 +21145,35 @@ module Unlight
 
   class CheckAddHacknineFeatEvent < EventRule
     dsc        "ハックナインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hacknine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHacknineFeatEvent < EventRule
     dsc        "ハックナインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hacknine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHacknineFeatEvent < EventRule
     dsc        "ハックナインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hacknine_feat
     goal       ["self", :use_end?]
   end
 
   class UseHacknineFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hacknine_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHacknineFeatEvent < EventRule
     dsc        "ハックナインの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :finish_hacknine_feat
     goal       ["self", :use_end?]
   end
@@ -21296,28 +21183,28 @@ module Unlight
 
   class CheckAddBlackMageiaFeatEvent < EventRule
     dsc        "ブラックマゲイアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_black_mageia_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlackMageiaFeatEvent < EventRule
     dsc        "ブラックマゲイアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_black_mageia_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlackMageiaFeatEvent < EventRule
     dsc        "ブラックマゲイアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_black_mageia_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBlackMageiaFeatEvent < EventRule
     dsc        "ブラックマゲイアの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_black_mageia_feat
     goal       ["self", :use_end?]
   end
@@ -21327,35 +21214,35 @@ module Unlight
 
   class CheckAddCorpsDrainFeatEvent < EventRule
     dsc        "コープスドレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_corps_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCorpsDrainFeatEvent < EventRule
     dsc        "コープスドレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_corps_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCorpsDrainFeatEvent < EventRule
     dsc        "コープスドレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_corps_drain_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCorpsDrainFeatEvent < EventRule
     dsc        "コープスドレインの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_corps_drain_feat
     goal       ["self", :use_end?]
   end
 
   class UseCorpsDrainFeatDamageEvent < EventRule
     dsc        "コープスドレイン使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>0
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 0
     func       :use_corps_drain_feat_damage
     goal       ["self", :use_end?]
   end
@@ -21364,28 +21251,28 @@ module Unlight
 # インヴァート
   class CheckAddInvertFeatEvent < EventRule
     dsc        "インヴァートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_invert_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveInvertFeatEvent < EventRule
     dsc        "インヴァートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_invert_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateInvertFeatEvent < EventRule
     dsc        "インヴァートが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_invert_feat
     goal       ["self", :use_end?]
   end
 
   class FinishInvertFeatEvent < EventRule
     dsc        "インヴァートの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_invert_feat
     goal       ["self", :use_end?]
   end
@@ -21395,70 +21282,70 @@ module Unlight
 
   class CheckAddNightHawkFeatEvent < EventRule
     dsc        "追跡する夜鷹を使用が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_night_hawk_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveNightHawkFeatEvent < EventRule
     dsc        "追跡する夜鷹を使用が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_night_hawk_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateNightHawkFeatEvent < EventRule
     dsc        "追跡する夜鷹を使用が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_night_hawk_feat
     goal       ["self", :use_end?]
   end
 
   class UseNightHawkFeatEvent < EventRule
     dsc        "追跡する夜鷹を使用を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_night_hawk_feat
     goal       ["self", :use_end?]
   end
 
   class UseNightHawkFeatDetMpBefore1Event < EventRule
     dsc        "追跡する夜鷹を使用を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:set_initiative_event, :priority=>8
+    type       type: :after, obj: "owner", hook: :set_initiative_event, priority: 8
     func       :use_night_hawk_feat_det_mp_before1
     goal       ["self", :use_end?]
   end
 
   class UseNightHawkFeatDetMpBefore2Event < EventRule
     dsc        "追跡する夜鷹を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:set_initiative_event, :priority=>10
+    type       type: :after, obj: "owner", hook: :set_initiative_event, priority: 10
     func       :use_night_hawk_feat_det_mp_before2
     goal       ["self", :use_end?]
   end
 
   class UseNightHawkFeatFoeChangeEvent < EventRule
     dsc        "追跡する夜鷹を使用"
-    type       :type=>:before, :obj=>"foe", :hook=>:chara_change_action
+    type       type: :before, obj: "foe", hook: :chara_change_action
     func       :use_night_hawk_feat_change
     goal       ["self", :use_end?]
   end
 
   class UseNightHawkFeatOwnerChangeEvent < EventRule
     dsc        "追跡する夜鷹を使用"
-    type       :type=>:before, :obj=>"owner", :hook=>:chara_change_action
+    type       type: :before, obj: "owner", hook: :chara_change_action
     func       :use_night_hawk_feat_change
     goal       ["self", :use_end?]
   end
 
   class UseNightHawkFeatDeadChangeEvent < EventRule
     dsc        "追跡する夜鷹を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :dead_chara_change_phase
     func       :use_night_hawk_feat_change
     goal       ["self", :use_end?]
   end
 
   class FinishNightHawkFeatChangeEvent < EventRule
     dsc        "無謬の行いを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :finish_night_hawk_feat_change
     goal       ["self", :use_end?]
   end
@@ -21468,35 +21355,35 @@ module Unlight
 
   class CheckAddPhantomBarrettFeatEvent < EventRule
     dsc        "幽幻の剛弾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_phantom_barrett_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePhantomBarrettFeatEvent < EventRule
     dsc        "幽幻の剛弾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_phantom_barrett_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePhantomBarrettFeatEvent < EventRule
     dsc        "幽幻の剛弾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_phantom_barrett_feat
     goal       ["self", :use_end?]
   end
 
   class UsePhantomBarrettFeatEvent < EventRule
     dsc        "幽幻の剛弾を使用 攻撃力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_phantom_barrett_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPhantomBarrettFeatEvent < EventRule
     dsc        "幽幻の剛弾の使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :finish_phantom_barrett_feat
     goal       ["self", :use_end?]
   end
@@ -21506,35 +21393,35 @@ module Unlight
 
   class CheckAddOneActFeatEvent < EventRule
     dsc        "惑わしの一幕が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_one_act_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveOneActFeatEvent < EventRule
     dsc        "惑わしの一幕が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_one_act_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateOneActFeatEvent < EventRule
     dsc        "惑わしの一幕が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_one_act_feat
     goal       ["self", :use_end?]
   end
 
   class UseOneActFeatEvent < EventRule
     dsc        "惑わしの一幕を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_one_act_feat
     goal       ["self", :use_end?]
   end
 
   class FinishOneActFeatEvent < EventRule
     dsc        "惑わしの一幕を使用 相手のカードを変換"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_one_act_feat
     goal       ["self", :use_end?]
   end
@@ -21544,35 +21431,35 @@ module Unlight
 
   class CheckAddFinalBarrettFeatEvent < EventRule
     dsc        "終極の烈弾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_final_barrett_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFinalBarrettFeatEvent < EventRule
     dsc        "終極の烈弾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_final_barrett_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFinalBarrettFeatEvent < EventRule
     dsc        "終極の烈弾が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_final_barrett_feat
     goal       ["self", :use_end?]
   end
 
   class UseFinalBarrettFeatEvent < EventRule
     dsc        "終極の烈弾を使用 相手にダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_final_barrett_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFinalBarrettFeatEvent < EventRule
     dsc        "終極の烈弾の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_final_barrett_feat
     goal       ["self", :use_end?]
   end
@@ -21582,56 +21469,56 @@ module Unlight
 
   class CheckAddGrimmdeadFeatEvent < EventRule
     dsc        "グリムデッドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_grimmdead_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGrimmdeadFeatEvent < EventRule
     dsc        "グリムデッドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_grimmdead_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGrimmdeadFeatEvent < EventRule
     dsc        "グリムデッドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_grimmdead_feat
     goal       ["self", :use_end?]
   end
 
   class UseGrimmdeadFeatCalcEvent < EventRule
     dsc        "グリムデッドの使用が終了"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_grimmdead_feat_calc
     goal       ["self", :use_end?]
   end
 
   class UseGrimmdeadFeatEvent < EventRule
     dsc        "グリムデッドの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_grimmdead_feat
     goal       ["self", :use_end?]
   end
 
   class UseGrimmdeadFeatMoveBeforeEvent < EventRule
     dsc        "グリムデッドの距離保存"
-    type       :type=>:before, :obj=>"owner", :hook=>:move_action , :priority=>1
+    type       type: :before, obj: "owner", hook: :move_action, priority: 1
     func       :use_grimmdead_feat_move_before
     goal       ["self", :use_end?]
   end
 
   class UseGrimmdeadFeatMoveAfterEvent < EventRule
     dsc        "グリムデッドのダメージ付与"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_action, :priority=>1
+    type       type: :after, obj: "owner", hook: :move_action, priority: 1
     func       :use_grimmdead_feat_move_after
     goal       ["self", :use_end?]
   end
 
   class FinishGrimmdeadFeatEvent < EventRule
     dsc        "グリムデッド終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_move_phase
+    type       type: :after, obj: "duel", hook: :finish_move_phase
     func       :finish_grimmdead_feat
     goal       ["self", :use_end?]
   end
@@ -21641,42 +21528,42 @@ module Unlight
 
   class CheckAddWunderkammerFeatEvent < EventRule
     dsc        "ヴンダーカンマーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_wunderkammer_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWunderkammerFeatEvent < EventRule
     dsc        "ヴンダーカンマーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_wunderkammer_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWunderkammerFeatEvent < EventRule
     dsc        "ヴンダーカンマーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_wunderkammer_feat
     goal       ["self", :use_end?]
   end
 
   class FinishWunderkammerFeatEvent < EventRule
     dsc        "ヴンダーカンマーの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_wunderkammer_feat
     goal       ["self", :use_end?]
   end
 
   class UseWunderkammerFeatEvent < EventRule
     dsc        "ヴンダーカンマーを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_wunderkammer_feat
     goal       ["self", :use_end?]
   end
 
   class UseWunderkammerFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_wunderkammer_feat_damage
     goal       ["self", :use_end?]
   end
@@ -21686,42 +21573,42 @@ module Unlight
 
   class CheckAddConstraintFeatEvent < EventRule
     dsc        "コンストレイントが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_constraint_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveConstraintFeatEvent < EventRule
     dsc        "コンストレイントが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_constraint_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateConstraintFeatEvent < EventRule
     dsc        "コンストレイントが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_constraint_feat
     goal       ["self", :use_end?]
   end
 
   class UseConstraintFeatEvent < EventRule
     dsc        "コンストレイントを使用 防御力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_constraint_feat
     goal       ["self", :use_end?]
   end
 
   class UseConstraintFeatDamageEvent < EventRule
     dsc        "コンストレイント使用時に上回った防御点をダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_constraint_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishConstraintFeatEvent < EventRule
     dsc        "コンストレイントの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_constraint_feat
     goal       ["self", :use_end?]
   end
@@ -21731,42 +21618,42 @@ module Unlight
 
   class CheckAddRenovateAtrandomFeatEvent < EventRule
     dsc        "リノベートアトランダムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_renovate_atrandom_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRenovateAtrandomFeatEvent < EventRule
     dsc        "リノベートアトランダムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_renovate_atrandom_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRenovateAtrandomFeatEvent < EventRule
     dsc        "リノベートアトランダムが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_renovate_atrandom_feat
     goal       ["self", :use_end?]
   end
 
   class UseRenovateAtrandomFeatEvent < EventRule
     dsc        "リノベートアトランダムを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_renovate_atrandom_feat
     goal       ["self", :use_end?]
   end
 
   class UseRenovateAtrandomFeatDamageEvent < EventRule
     dsc        "リノベートアトランダムを使用時に手札をランダムに失わせる"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :use_renovate_atrandom_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishRenovateAtrandomFeatEvent < EventRule
     dsc        "リノベートアトランダムの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_renovate_atrandom_feat
     goal       ["self", :use_end?]
   end
@@ -21776,35 +21663,35 @@ module Unlight
 
   class CheckAddBackbeardFeatEvent < EventRule
     dsc        "催眠術が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_backbeard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBackbeardFeatEvent < EventRule
     dsc        "催眠術が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_backbeard_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBackbeardFeatEvent < EventRule
     dsc        "催眠術が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_backbeard_feat
     goal       ["self", :use_end?]
   end
 
   class UseBackbeardFeatDamageEvent < EventRule
     dsc        "催眠術使用時にダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>110
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 110
     func       :use_backbeard_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishBackbeardFeatEvent < EventRule
     dsc        "催眠術の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_backbeard_feat
     goal       ["self", :use_end?]
   end
@@ -21814,42 +21701,42 @@ module Unlight
 
   class CheckAddShadowStitchFeatEvent < EventRule
     dsc        "影縫いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_shadow_stitch_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveShadowStitchFeatEvent < EventRule
     dsc        "影縫いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_shadow_stitch_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateShadowStitchFeatEvent < EventRule
     dsc        "影縫いが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_shadow_stitch_feat
     goal       ["self", :use_end?]
   end
 
   class UseShadowStitchFeatEvent < EventRule
     dsc        "攻撃力を減算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>10
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 10
     func       :use_shadow_stitch_feat
     goal       ["self", :use_end?]
   end
 
   class FinishShadowStitchFeatEvent < EventRule
     dsc        "影縫いの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_shadow_stitch_feat
     goal       ["self", :use_end?]
   end
 
   class UseShadowStitchFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_shadow_stitch_feat_damage
     goal       ["self", :use_end?]
   end
@@ -21859,28 +21746,28 @@ module Unlight
 
   class CheckAddMextliFeatEvent < EventRule
     dsc        "ミキストリが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_mextli_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMextliFeatEvent < EventRule
     dsc        "ミキストリが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_mextli_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMextliFeatEvent < EventRule
     dsc        "ミキストリが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_mextli_feat
     goal       ["self", :use_end?]
   end
 
   class UseMextliFeatEvent < EventRule
     dsc        "ミキストリを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>8
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 8
     func       :use_mextli_feat
     goal       ["self", :use_end?]
   end
@@ -21889,21 +21776,21 @@ module Unlight
 
   class CheckDamageInsuranceChangeEvent < EventRule
     dsc        "ダメージ追加状態チェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_damage_insurance_change
     goal       ["self", :use_end?]
   end
 
   class CheckDamageInsuranceDeadChangeEvent < EventRule
     dsc        "ダメージ追加状態チェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_damage_insurance_change
     goal       ["self", :use_end?]
   end
 
   class UseDamageInsuranceDamageEvent < EventRule
     dsc        "ダメージ追加 攻撃失敗時の動作"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_damage_insurance_damage
   end
 
@@ -21912,49 +21799,49 @@ module Unlight
 
   class CheckAddRivetAndSurgeFeatEvent < EventRule
     dsc        "リベットアンドサージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_rivet_and_surge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRivetAndSurgeFeatEvent < EventRule
     dsc        "リベットアンドサージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_rivet_and_surge_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRivetAndSurgeFeatEvent < EventRule
     dsc        "リベットアンドサージが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_rivet_and_surge_feat
     goal       ["self", :use_end?]
   end
 
   class UseRivetAndSurgeFeatAttackEvent < EventRule
     dsc        "リベットアンドサージをを使用 攻撃力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_rivet_and_surge_feat
     goal       ["self", :use_end?]
   end
 
   class UseRivetAndSurgeFeatDefenseEvent < EventRule
     dsc        "リベットアンドサージをを使用 攻撃力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_rivet_and_surge_feat
     goal       ["self", :use_end?]
   end
 
   class CutinRivetAndSurgeFeatEvent < EventRule
     dsc        "リベットアンドサージをを使用 攻撃力が+3"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :cutin_rivet_and_surge_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRivetAndSurgeFeatEvent < EventRule
     dsc        "リベットアンドサージの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_rivet_and_surge_feat
     goal       ["self", :use_end?]
   end
@@ -21964,35 +21851,35 @@ module Unlight
 
   class CheckAddPhantomasFeatEvent < EventRule
     dsc        "ファントマが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action, :priority=>1
+    type       type: :after, obj: "owner", hook: :attack_card_add_action, priority: 1
     func       :check_phantomas_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePhantomasFeatEvent < EventRule
     dsc        "ファントマが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action, :priority=>1
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action, priority: 1
     func       :check_phantomas_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePhantomasFeatEvent < EventRule
     dsc        "ファントマが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action, :priority=>1
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action, priority: 1
     func       :check_phantomas_feat
     goal       ["self", :use_end?]
   end
 
   class UsePhantomasFeatEvent < EventRule
     dsc        "ファントマを使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 1
     func       :use_phantomas_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPhantomasFeatEvent < EventRule
     dsc        "ファントマの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :finish_phantomas_feat
     goal       ["self", :use_end?]
   end
@@ -22002,28 +21889,28 @@ module Unlight
 
   class CheckAddDangerDrugFeatEvent < EventRule
     dsc        "危険ドラッグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_danger_drug_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDangerDrugFeatEvent < EventRule
     dsc        "危険ドラッグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_danger_drug_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDangerDrugFeatEvent < EventRule
     dsc        "危険ドラッグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_danger_drug_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDangerDrugFeatEvent < EventRule
     dsc        "危険ドラッグを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>9
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 9
     func       :finish_danger_drug_feat
     goal       ["self", :use_end?]
   end
@@ -22033,35 +21920,35 @@ module Unlight
 
   class CheckAddThreeThunderFeatEvent < EventRule
     dsc        "HP3サンダーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_three_thunder_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveThreeThunderFeatEvent < EventRule
     dsc        "HP3サンダーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_three_thunder_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateThreeThunderFeatEvent < EventRule
     dsc        "HP3サンダーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_three_thunder_feat
     goal       ["self", :use_end?]
   end
 
   class UseThreeThunderFeatEvent < EventRule
     dsc        "HP3サンダーの使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :use_three_thunder_feat
     goal       ["self", :use_end?]
   end
 
   class FinishThreeThunderFeatEvent < EventRule
     dsc        "HP3サンダーの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_three_thunder_feat
     goal       ["self", :use_end?]
   end
@@ -22071,35 +21958,35 @@ module Unlight
 
   class CheckAddPrimeHealFeatEvent < EventRule
     dsc        "素数ヒールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_prime_heal_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePrimeHealFeatEvent < EventRule
     dsc        "素数ヒールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_prime_heal_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePrimeHealFeatEvent < EventRule
     dsc        "素数ヒールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_prime_heal_feat
     goal       ["self", :use_end?]
   end
 
   class UsePrimeHealFeatEvent < EventRule
     dsc        "素数ヒールの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :use_prime_heal_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPrimeHealFeatEvent < EventRule
     dsc        "素数ヒールの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_prime_heal_feat
     goal       ["self", :use_end?]
   end
@@ -22109,35 +21996,35 @@ module Unlight
 
   class CheckAddFourCometFeatEvent < EventRule
     dsc        "HP4コメットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_four_comet_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFourCometFeatEvent < EventRule
     dsc        "HP4コメットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_four_comet_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFourCometFeatEvent < EventRule
     dsc        "HP4コメットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_four_comet_feat
     goal       ["self", :use_end?]
   end
 
   class UseFourCometFeatEvent < EventRule
     dsc        "HP4コメットの使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :use_four_comet_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFourCometFeatEvent < EventRule
     dsc        "HP4コメットの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_four_comet_feat
     goal       ["self", :use_end?]
   end
@@ -22147,42 +22034,42 @@ module Unlight
 
   class CheckAddClubJuggFeatEvent < EventRule
     dsc        "クラブジャグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_club_jugg_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveClubJuggFeatEvent < EventRule
     dsc        "クラブジャグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_club_jugg_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateClubJuggFeatEvent < EventRule
     dsc        "クラブジャグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_club_jugg_feat
     goal       ["self", :use_end?]
   end
 
   class UseClubJuggFeatEvent < EventRule
     dsc        "クラブジャグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_club_jugg_feat
     goal       ["self", :use_end?]
   end
 
   class UseClubJuggFeatDealEvent < EventRule
     dsc        "クラブジャグを使用 カードを墓地から拾う"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event
     func       :use_club_jugg_feat_deal
     goal       ["self", :use_end?]
   end
 
   class FinishClubJuggFeatEvent < EventRule
     dsc        "クラブジャグが可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_club_jugg_feat
     goal       ["self", :use_end?]
   end
@@ -22192,42 +22079,42 @@ module Unlight
 
   class CheckAddKnifeJuggFeatEvent < EventRule
     dsc        "ナイフジャグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_knife_jugg_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKnifeJuggFeatEvent < EventRule
     dsc        "ナイフジャグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_knife_jugg_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKnifeJuggFeatEvent < EventRule
     dsc        "ナイフジャグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_knife_jugg_feat
     goal       ["self", :use_end?]
   end
 
   class UseKnifeJuggFeatEvent < EventRule
     dsc        "ナイフジャグが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_knife_jugg_feat
     goal       ["self", :use_end?]
   end
 
   class UseKnifeJuggFeatDealEvent < EventRule
     dsc        "ナイフジャグを使用 カードを墓地から拾う"
-    type       :type=>:before, :obj=>"owner", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "owner", hook: :battle_phase_init_event
     func       :use_knife_jugg_feat_deal
     goal       ["self", :use_end?]
   end
 
   class FinishKnifeJuggFeatEvent < EventRule
     dsc        "ナイフジャグが可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_knife_jugg_feat
     goal       ["self", :use_end?]
   end
@@ -22237,35 +22124,35 @@ module Unlight
 
   class CheckAddBlowingFireFeatEvent < EventRule
     dsc        "火吹きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_blowing_fire_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlowingFireFeatEvent < EventRule
     dsc        "火吹きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_blowing_fire_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlowingFireFeatEvent < EventRule
     dsc        "火吹きが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_blowing_fire_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlowingFireFeatEvent < EventRule
     dsc        "火吹きを使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_blowing_fire_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBlowingFireFeatEvent < EventRule
     dsc        "火吹きの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_blowing_fire_feat
     goal       ["self", :use_end?]
   end
@@ -22275,35 +22162,35 @@ module Unlight
 
   class CheckAddBalanceBallFeatEvent < EventRule
     dsc        "バランスボールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_balance_ball_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBalanceBallFeatEvent < EventRule
     dsc        "バランスボールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_balance_ball_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBalanceBallFeatEvent < EventRule
     dsc        "バランスボールが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_balance_ball_feat
     goal       ["self", :use_end?]
   end
 
   class UseBalanceBallFeatEvent < EventRule
     dsc        "バランスボールを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>50
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 50
     func       :use_balance_ball_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBalanceBallFeatEvent < EventRule
     dsc        "バランスボールを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_balance_ball_feat
     goal       ["self", :use_end?]
   end
@@ -22313,63 +22200,63 @@ module Unlight
 
   class CheckAddBadMilkFeatEvent < EventRule
     dsc        "劣化ミルクが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_bad_milk_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBadMilkFeatEvent < EventRule
     dsc        "劣化ミルクが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_bad_milk_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBadMilkFeatEvent < EventRule
     dsc        "劣化ミルクが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_bad_milk_feat
     goal       ["self", :use_end?]
   end
 
   class UseBadMilkFeatEvent < EventRule
     dsc        "劣化ミルクをを使用 攻撃力が2倍"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 1
     func       :use_bad_milk_feat
     goal       ["self", :use_end?]
   end
 
   class UseBadMilkFeatRecalcEvent < EventRule
     dsc        "劣化ミルクをを使用 攻撃力が2倍"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event, :priority=>81
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event, priority: 81
     func       :use_bad_milk_feat_recalc
     goal       ["self", :use_end?]
   end
 
   class UseExBadMilkFeatEvent < EventRule
     dsc        "劣化ミルクをを使用 攻撃力が2倍"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 1
     func       :use_ex_bad_milk_feat
     goal       ["self", :use_end?]
   end
 
   class FinishChangeBadMilkFeatEvent < EventRule
     dsc        "劣化ミルクを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :before, obj: "duel", hook: :determine_move_phase
     func       :finish_change_bad_milk_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBadMilkFeatEvent < EventRule
     dsc        "劣化ミルクを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_bad_milk_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTurnBadMilkFeatEvent < EventRule
     dsc        "劣化ミルクを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_turn_bad_milk_feat
     goal       ["self", :use_end?]
   end
@@ -22379,42 +22266,42 @@ module Unlight
 
   class CheckAddMiraHpFeatEvent < EventRule
     dsc        "ミラHPが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_mira_hp_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMiraHpFeatEvent < EventRule
     dsc        "ミラHPが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_mira_hp_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMiraHpFeatEvent < EventRule
     dsc        "ミラHPが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_mira_hp_feat
     goal       ["self", :use_end?]
   end
 
   class UseMiraHpFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_mira_hp_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMiraHpFeatEvent < EventRule
     dsc        "ミラHPの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_mira_hp_feat
     goal       ["self", :use_end?]
   end
 
   class UseMiraHpFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event, :priority=>50
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event, priority: 50
     func       :use_mira_hp_feat_damage
     goal       ["self", :use_end?]
   end
@@ -22424,56 +22311,56 @@ module Unlight
 
   class CheckAddSkillDrainFeatEvent < EventRule
     dsc        "スキルドレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_skill_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSkillDrainFeatEvent < EventRule
     dsc        "スキルドレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_skill_drain_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSkillDrainFeatEvent < EventRule
     dsc        "スキルドレインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_skill_drain_feat
     goal       ["self", :use_end?]
   end
 
   class UseSkillDrainFeatEvent < EventRule
     dsc        "スキルドレインを使用 攻撃力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_skill_drain_feat
     goal       ["self", :use_end?]
   end
 
   class UseSkillDrainFeatDamageEvent < EventRule
     dsc        "スキルドレインを使用 攻撃力が+2"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_skill_drain_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishSkillDrainFeatEvent < EventRule
     dsc        "スキルドレインの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_skill_drain_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSkillDrainFeatFinishEvent < EventRule
     dsc        "スキルドレインの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase, :priority=>70
+    type       type: :after, obj: "duel", hook: :finish_turn_phase, priority: 70
     func       :finish_skill_drain_feat_finish
     goal       ["self", :use_end?]
   end
 
   class FinishOverrideSkillStateEvent < EventRule
     dsc        "スキル状態更新"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase, :priority=>80
+    type       type: :after, obj: "duel", hook: :finish_turn_phase, priority: 80
     func       :finish_override_skill_state
   end
 
@@ -22482,35 +22369,35 @@ module Unlight
 
   class CheckAddCoffinFeatEvent < EventRule
     dsc        "コフィンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_coffin_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCoffinFeatEvent < EventRule
     dsc        "コフィンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_coffin_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCoffinFeatEvent < EventRule
     dsc        "コフィンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_coffin_feat
     goal       ["self", :use_end?]
   end
 
   class UseCoffinFeatEvent < EventRule
     dsc        "コフィンを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_coffin_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCoffinFeatEvent < EventRule
     dsc        "コフィンの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_coffin_feat
     goal       ["self", :use_end?]
   end
@@ -22520,42 +22407,42 @@ module Unlight
 
   class CheckAddDarkEyesFeatEvent < EventRule
     dsc        "玄青眼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_dark_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDarkEyesFeatEvent < EventRule
     dsc        "玄青眼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_dark_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDarkEyesFeatEvent < EventRule
     dsc        "玄青眼が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_dark_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseDarkEyesFeatEvent < EventRule
     dsc        "玄青眼を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_dark_eyes_feat
     goal       ["self", :use_end?]
   end
 
   class UseDarkEyesFeatMoveEvent < EventRule
     dsc        "玄青眼を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 10
     func       :use_dark_eyes_feat_move
     goal       ["self", :use_end?]
   end
 
   class UseDarkEyesFeatDamageEvent < EventRule
     dsc        "玄青眼を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_dark_eyes_feat_damage
     goal       ["self", :use_end?]
   end
@@ -22565,35 +22452,35 @@ module Unlight
 
   class CheckAddCrowsClawFeatEvent < EventRule
     dsc        "烏爪一転が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_crows_claw_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCrowsClawFeatEvent < EventRule
     dsc        "烏爪一転が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_crows_claw_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCrowsClawFeatEvent < EventRule
     dsc        "烏爪一転が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_crows_claw_feat
     goal       ["self", :use_end?]
   end
 
   class UseCrowsClawFeatEvent < EventRule
     dsc        "烏爪一転を使用 攻撃力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>20
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 20
     func       :use_crows_claw_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCrowsClawFeatEvent < EventRule
     dsc        "烏爪一転の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_crows_claw_feat
     goal       ["self", :use_end?]
   end
@@ -22603,42 +22490,42 @@ module Unlight
 
   class CheckAddMoleFeatEvent < EventRule
     dsc        "土竜縛符が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_mole_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMoleFeatEvent < EventRule
     dsc        "土竜縛符が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_mole_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMoleFeatEvent < EventRule
     dsc        "土竜縛符が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_mole_feat
     goal       ["self", :use_end?]
   end
 
   class UseMoleFeatEvent < EventRule
     dsc        "土竜縛符を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_mole_feat
     goal       ["self", :use_end?]
   end
 
   class UseMoleFeatDamageEvent < EventRule
     dsc        "土竜縛符使用時にダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priorit=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priorit: 100
     func       :use_mole_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishMoleFeatEvent < EventRule
     dsc        "土竜縛符の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_mole_feat
     goal       ["self", :use_end?]
   end
@@ -22648,49 +22535,49 @@ module Unlight
 
   class CheckAddSunsetFeatEvent < EventRule
     dsc        "五彩晩霞が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_sunset_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSunsetFeatEvent < EventRule
     dsc        "五彩晩霞が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_sunset_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSunsetFeatEvent < EventRule
     dsc        "五彩晩霞が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_sunset_feat
     goal       ["self", :use_end?]
   end
 
   class UseSunsetFeatEvent < EventRule
     dsc        "五彩晩霞を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_sunset_feat
     goal       ["self", :use_end?]
   end
 
   class UseSunsetFeatResultEvent < EventRule
     dsc        "五彩晩霞を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_sunset_feat_result
     goal       ["self", :use_end?]
   end
 
   class UseSunsetFeatDamageCheckEvent < EventRule
     dsc        "五彩晩霞を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_sunset_feat_damage_check
     goal       ["self", :use_end?]
   end
 
   class UseSunsetFeatConstDamageEvent < EventRule
     dsc        "五彩晩霞の直接ダメージ部分"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>10
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 10
     func       :use_sunset_feat_const_damage
     goal       ["self", :use_end?]
   end
@@ -22700,49 +22587,49 @@ module Unlight
 
   class CheckAddVineFeatEvent < EventRule
     dsc        "蔓縛りが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_vine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveVineFeatEvent < EventRule
     dsc        "蔓縛りが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_vine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateVineFeatEvent < EventRule
     dsc        "蔓縛りが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_vine_feat
     goal       ["self", :use_end?]
   end
 
   class UseVineFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_vine_feat
     goal       ["self", :use_end?]
   end
 
   class FinishVineFeatEvent < EventRule
     dsc        "蔓縛りの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_vine_feat
     goal       ["self", :use_end?]
   end
 
   class UseVineFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_vine_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishVineFeatTurnEvent < EventRule
     dsc        "蔓縛りの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_vine_feat_turn
     goal       ["self", :use_end?]
   end
@@ -22752,42 +22639,42 @@ module Unlight
 
   class CheckAddGrapeVineFeatEvent < EventRule
     dsc        "吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_grape_vine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGrapeVineFeatEvent < EventRule
     dsc        "吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_grape_vine_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGrapeVineFeatEvent < EventRule
     dsc        "吸収が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_grape_vine_feat
     goal       ["self", :use_end?]
   end
 
   class UseGrapeVineFeatEvent < EventRule
     dsc        "吸収を使用 防御力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_grape_vine_feat
     goal       ["self", :use_end?]
   end
 
   class UseGrapeVineFeatDamageEvent < EventRule
     dsc        "吸収使用時に上回った防御点をダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_grape_vine_feat_damage
     goal       ["self", :use_end?]
   end
 
   class UseGrapeVineFeatFoeEvent < EventRule
     dsc        "吸収の使用が終了"
-    type       :type=>:after, :obj=>"foe", :hook=>:dice_attribute_regist_event, :priority=>40
+    type       type: :after, obj: "foe", hook: :dice_attribute_regist_event, priority: 40
     func       :use_grape_vine_feat_foe
     goal       ["self", :use_end?]
   end
@@ -22797,42 +22684,42 @@ module Unlight
 
   class CheckAddThunderStruckFeatEvent < EventRule
     dsc        "サンダーストラックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_thunder_struck_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveThunderStruckFeatEvent < EventRule
     dsc        "サンダーストラックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_thunder_struck_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateThunderStruckFeatEvent < EventRule
     dsc        "サンダーストラックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_thunder_struck_feat
     goal       ["self", :use_end?]
   end
 
   class UseThunderStruckFeatEvent < EventRule
     dsc        "サンダーストラックを使用 攻撃力にダメージを加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_thunder_struck_feat
     goal       ["self", :use_end?]
   end
 
   class FinishThunderStruckFeatEvent < EventRule
     dsc        "サンダーストラックの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>5
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 5
     func       :finish_thunder_struck_feat
     goal       ["self", :use_end?]
   end
 
   class FinishThunderStruckFeatEndEvent < EventRule
     dsc        "サンダーストラックの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase
+    type       type: :after, obj: "duel", hook: :damage_phase
     func       :finish_thunder_struck_feat_end
     goal       ["self", :use_end?]
   end
@@ -22842,35 +22729,35 @@ module Unlight
 
   class CheckAddWeaveWorldFeatEvent < EventRule
     dsc        "深淵が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_weave_world_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWeaveWorldFeatEvent < EventRule
     dsc        "深淵が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_weave_world_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWeaveWorldFeatEvent < EventRule
     dsc        "深淵が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_weave_world_feat
     goal       ["self", :use_end?]
   end
 
   class UseWeaveWorldFeatEvent < EventRule
     dsc        "深淵を使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_weave_world_feat
     goal       ["self", :use_end?]
   end
 
   class FinishWeaveWorldFeatEvent < EventRule
     dsc        "深淵の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_weave_world_feat
     goal       ["self", :use_end?]
   end
@@ -22880,63 +22767,63 @@ module Unlight
 
   class CheckAddCollectionFeatEvent < EventRule
     dsc        "コレクションが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_collection_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCollectionFeatEvent < EventRule
     dsc        "コレクションが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_collection_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCollectionFeatEvent < EventRule
     dsc        "コレクションが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_collection_feat
     goal       ["self", :use_end?]
   end
 
   class CheckTableCollectionFeatMoveEvent < EventRule
     dsc        "コレクションが可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :before, obj: "duel", hook: :determine_move_phase
     func       :check_table_collection_feat_move
     goal       ["self", :use_end?]
   end
 
   class CheckTableCollectionFeatBattleEvent < EventRule
     dsc        "コレクションが可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase
     func       :check_table_collection_feat_battle
     goal       ["self", :use_end?]
   end
 
   class UseCollectionFeatDealEvent < EventRule
     dsc        "コレクションを使用 相手の手札を1枚破棄"
-    type       :type=>:before, :obj=>"duel", :hook=>:refill_event_card_phase
+    type       type: :before, obj: "duel", hook: :refill_event_card_phase
     func       :use_collection_feat_deal
     goal       ["self", :use_end?]
   end
 
   class UseCollectionFeatEvent < EventRule
     dsc        "コレクションを使用 相手の手札を1枚破棄"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_collection_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCollectionFeatEvent < EventRule
     dsc        "コレクションの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_collection_feat
     goal       ["self", :use_end?]
   end
 
   class CheckEndingCollectionFeatEvent < EventRule
     dsc        "コレクションが可能か"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :check_ending_collection_feat
     goal       ["self", :use_end?]
   end
@@ -22946,35 +22833,35 @@ module Unlight
 
   class CheckAddRestrictionFeatEvent < EventRule
     dsc        "リストリクションが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_restriction_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRestrictionFeatEvent < EventRule
     dsc        "リストリクションが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_restriction_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRestrictionFeatEvent < EventRule
     dsc        "リストリクションが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_restriction_feat
     goal       ["self", :use_end?]
   end
 
   class UseRestrictionFeatEvent < EventRule
     dsc        "リストリクションを使用 相手の手札を1枚破棄"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_restriction_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRestrictionFeatEvent < EventRule
     dsc        "リストリクションの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :finish_restriction_feat
     goal       ["self", :use_end?]
   end
@@ -22984,35 +22871,35 @@ module Unlight
 
   class CheckAddDabsFeatEvent < EventRule
     dsc        "DABSが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_dabs_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDabsFeatEvent < EventRule
     dsc        "DABSが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_dabs_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDabsFeatEvent < EventRule
     dsc        "DABSが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_dabs_feat
     goal       ["self", :use_end?]
   end
 
   class UseDabsFeatEvent < EventRule
     dsc        "DABSを使用 相手の手札を1枚破棄"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_dabs_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDabsFeatEvent < EventRule
     dsc        "DABSの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :finish_dabs_feat
     goal       ["self", :use_end?]
   end
@@ -23022,35 +22909,35 @@ module Unlight
 
   class CheckAddVibrationFeatEvent < EventRule
     dsc        "VIBRATIONが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_vibration_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveVibrationFeatEvent < EventRule
     dsc        "VIBRATIONが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_vibration_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateVibrationFeatEvent < EventRule
     dsc        "VIBRATIONが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_vibration_feat
     goal       ["self", :use_end?]
   end
 
   class UseVibrationFeatEvent < EventRule
     dsc        "VIBRATIONを使用 相手の手札を1枚破棄"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_vibration_feat
     goal       ["self", :use_end?]
   end
 
   class FinishVibrationFeatEvent < EventRule
     dsc        "VIBRATIONの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_vibration_feat
     goal       ["self", :use_end?]
   end
@@ -23060,42 +22947,42 @@ module Unlight
 
   class CheckAddTotFeatEvent < EventRule
     dsc        "ToTが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_tot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTotFeatEvent < EventRule
     dsc        "ToTが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_tot_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTotFeatEvent < EventRule
     dsc        "ToTが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_tot_feat
     goal       ["self", :use_end?]
   end
 
   class UseTotFeatEvent < EventRule
     dsc        "ToTを使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_tot_feat
     goal       ["self", :use_end?]
   end
 
   class UseTotFeatDamageEvent < EventRule
     dsc        "ToTを使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_tot_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishTotFeatEvent < EventRule
     dsc        "ToTの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_tot_feat
     goal       ["self", :use_end?]
   end
@@ -23105,28 +22992,28 @@ module Unlight
 
   class CheckAddDuckAppleFeatEvent < EventRule
     dsc        "ダックアップルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_duck_apple_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDuckAppleFeatEvent < EventRule
     dsc        "ダックアップルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_duck_apple_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDuckAppleFeatEvent < EventRule
     dsc        "ダックアップルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_duck_apple_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDuckAppleFeatEvent < EventRule
     dsc        "ダックアップルを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_duck_apple_feat
     goal       ["self", :use_end?]
   end
@@ -23136,42 +23023,42 @@ module Unlight
 
   class CheckAddRampageFeatEvent < EventRule
     dsc        "ランページが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_rampage_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRampageFeatEvent < EventRule
     dsc        "ランページが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_rampage_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRampageFeatEvent < EventRule
     dsc        "ランページが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_rampage_feat
     goal       ["self", :use_end?]
   end
 
   class UseRampageFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_rampage_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRampageFeatEvent < EventRule
     dsc        "ランページの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_rampage_feat
     goal       ["self", :use_end?]
   end
 
   class UseRampageFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_rampage_feat_damage
     goal       ["self", :use_end?]
   end
@@ -23181,42 +23068,42 @@ module Unlight
 
   class CheckAddScratchFireFeatEvent < EventRule
     dsc        "ランページが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_scratch_fire_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveScratchFireFeatEvent < EventRule
     dsc        "ランページが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_scratch_fire_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateScratchFireFeatEvent < EventRule
     dsc        "ランページが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_scratch_fire_feat
     goal       ["self", :use_end?]
   end
 
   class UseScratchFireFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_scratch_fire_feat
     goal       ["self", :use_end?]
   end
 
   class FinishScratchFireFeatEvent < EventRule
     dsc        "ランページの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_scratch_fire_feat
     goal       ["self", :use_end?]
   end
 
   class UseScratchFireFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_scratch_fire_feat_damage
     goal       ["self", :use_end?]
   end
@@ -23226,35 +23113,35 @@ module Unlight
 
   class CheckAddBlueRuinFeatEvent < EventRule
     dsc        "ブルールーインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_blue_ruin_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBlueRuinFeatEvent < EventRule
     dsc        "ブルールーインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_blue_ruin_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBlueRuinFeatEvent < EventRule
     dsc        "ブルールーインが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_blue_ruin_feat
     goal       ["self", :use_end?]
   end
 
   class UseBlueRuinFeatEvent < EventRule
     dsc        "ブルールーインを使用 攻撃力が+6"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_blue_ruin_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBlueRuinFeatEvent < EventRule
     dsc        "ブルールーインの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_blue_ruin_feat
     goal       ["self", :use_end?]
   end
@@ -23264,42 +23151,42 @@ module Unlight
 
   class CheckAddThirdStepFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_third_step_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveThirdStepFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_third_step_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateThirdStepFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_third_step_feat
     goal       ["self", :use_end?]
   end
 
   class UseThirdStepFeatEvent < EventRule
     dsc        "必殺技を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_third_step_feat
     goal       ["self", :use_end?]
   end
 
   class UseThirdStepFeatDamageEvent < EventRule
     dsc        "必殺技が使用される"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 50
     func       :use_third_step_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishThirdStepFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_third_step_feat
     goal       ["self", :use_end?]
   end
@@ -23309,35 +23196,35 @@ module Unlight
 
   class CheckAddMetalShieldFeatEvent < EventRule
     dsc        "メタルシールドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_metal_shield_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMetalShieldFeatEvent < EventRule
     dsc        "メタルシールドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_metal_shield_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMetalShieldFeatEvent < EventRule
     dsc        "メタルシールドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_metal_shield_feat
     goal       ["self", :use_end?]
   end
 
   class UseMetalShieldFeatEvent < EventRule
     dsc        "メタルシールドを使用 防御力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_metal_shield_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMetalShieldFeatEvent < EventRule
     dsc        "メタルシールドの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_metal_shield_feat
     goal       ["self", :use_end?]
   end
@@ -23347,42 +23234,42 @@ module Unlight
 
   class CheckAddMagneticFieldFeatEvent < EventRule
     dsc        "メタルシールドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_magnetic_field_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMagneticFieldFeatEvent < EventRule
     dsc        "メタルシールドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_magnetic_field_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMagneticFieldFeatEvent < EventRule
     dsc        "メタルシールドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_magnetic_field_feat
     goal       ["self", :use_end?]
   end
 
   class UseMagneticFieldFeatEvent < EventRule
     dsc        "メタルシールドを使用 防御力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_magnetic_field_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMagneticFieldFeatEvent < EventRule
     dsc        "メタルシールドの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>4
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 4
     func       :finish_magnetic_field_feat
     goal       ["self", :use_end?]
   end
 
   class FinalMagneticFieldFeatEvent < EventRule
     dsc        "メタルシールドの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :final_magnetic_field_feat
     goal       ["self", :use_end?]
   end
@@ -23392,42 +23279,42 @@ module Unlight
 
   class CheckAddAfterglowFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_afterglow_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAfterglowFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_afterglow_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAfterglowFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_afterglow_feat
     goal       ["self", :use_end?]
   end
 
   class UseAfterglowFeatEvent < EventRule
     dsc        "必殺技を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_afterglow_feat
     goal       ["self", :use_end?]
   end
 
   class UseAfterglowFeatDamageEvent < EventRule
     dsc        "必殺技が使用される"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>90
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 90
     func       :use_afterglow_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishAfterglowFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_afterglow_feat
     goal       ["self", :use_end?]
   end
@@ -23437,42 +23324,42 @@ module Unlight
 
   class CheckAddKeeperFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_keeper_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKeeperFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_keeper_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKeeperFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_keeper_feat
     goal       ["self", :use_end?]
   end
 
   class UseKeeperFeatEvent < EventRule
     dsc        "必殺技を使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:dice_attribute_regist_event
+    type       type: :after, obj: "foe", hook: :dice_attribute_regist_event
     func       :use_keeper_feat
     goal       ["self", :use_end?]
   end
 
   class FinishKeeperFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :after, obj: "duel", hook: :damage_phase, priority: 100
     func       :finish_keeper_feat
     goal       ["self", :use_end?]
   end
 
   class FinishKeeperFeatDeadCharaChangeEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_keeper_feat
     goal       ["self", :use_end?]
   end
@@ -23482,35 +23369,35 @@ module Unlight
 
   class CheckAddHealingSchockFeatEvent < EventRule
     dsc        "ヒーリングショックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_healing_schock_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHealingSchockFeatEvent < EventRule
     dsc        "ヒーリングショックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_healing_schock_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHealingSchockFeatEvent < EventRule
     dsc        "ヒーリングショックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_healing_schock_feat
     goal       ["self", :use_end?]
   end
 
   class UseHealingSchockFeatEvent < EventRule
     dsc        "ヒーリングショックを使用 自分を特殊/2回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_healing_schock_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHealingSchockFeatEvent < EventRule
     dsc        "ヒーリングショックの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>99
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 99
     func       :finish_healing_schock_feat
     goal       ["self", :use_end?]
   end
@@ -23520,28 +23407,28 @@ module Unlight
 
   class CheckAddClaymoreFeatEvent < EventRule
     dsc        "クレイモアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_claymore_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveClaymoreFeatEvent < EventRule
     dsc        "クレイモアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_claymore_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateClaymoreFeatEvent < EventRule
     dsc        "クレイモアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_claymore_feat
     goal       ["self", :use_end?]
   end
 
   class FinishClaymoreFeatEvent < EventRule
     dsc        "クレイモアの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>8
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 8
     func       :finish_claymore_feat
     goal       ["self", :use_end?]
   end
@@ -23551,42 +23438,42 @@ module Unlight
 
   class CheckAddTrapChaseFeatEvent < EventRule
     dsc        "トラップチェイスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_trap_chase_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTrapChaseFeatEvent < EventRule
     dsc        "トラップチェイスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_trap_chase_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTrapChaseFeatEvent < EventRule
     dsc        "トラップチェイスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_trap_chase_feat
     goal       ["self", :use_end?]
   end
 
   class UseTrapChaseFeatEvent < EventRule
     dsc        "トラップチェイスを使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_trap_chase_feat
     goal       ["self", :use_end?]
   end
 
   class UseTrapChaseFeatDamageEvent < EventRule
     dsc        "トラップチェイスを使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_trap_chase_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishTrapChaseFeatEvent < EventRule
     dsc        "トラップチェイスの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_trap_chase_feat
     goal       ["self", :use_end?]
   end
@@ -23596,42 +23483,42 @@ module Unlight
 
   class CheckAddPanicFeatEvent < EventRule
     dsc        "パニックグレネードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_panic_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemovePanicFeatEvent < EventRule
     dsc        "パニックグレネードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_panic_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotatePanicFeatEvent < EventRule
     dsc        "パニックグレネードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_panic_feat
     goal       ["self", :use_end?]
   end
 
   class UsePanicFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_panic_feat
     goal       ["self", :use_end?]
   end
 
   class FinishPanicFeatEvent < EventRule
     dsc        "パニックグレネードの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_panic_feat
     goal       ["self", :use_end?]
   end
 
   class UsePanicFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_panic_feat_damage
     goal       ["self", :use_end?]
   end
@@ -23641,35 +23528,35 @@ module Unlight
 
   class CheckAddBulletCounterFeatEvent < EventRule
     dsc        "バレットカウンターが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_bullet_counter_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBulletCounterFeatEvent < EventRule
     dsc        "バレットカウンターが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_bullet_counter_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBulletCounterFeatEvent < EventRule
     dsc        "バレットカウンターが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_bullet_counter_feat
     goal       ["self", :use_end?]
   end
 
   class UseBulletCounterFeatEvent < EventRule
     dsc        "バレットカウンターを使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_bullet_counter_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBulletCounterFeatEvent < EventRule
     dsc        "バレットカウンターの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :finish_bullet_counter_feat
     goal       ["self", :use_end?]
   end
@@ -23679,35 +23566,35 @@ module Unlight
 
   class CheckAddBeanStormFeatEvent < EventRule
     dsc        "大菽嵐が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_bean_storm_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBeanStormFeatEvent < EventRule
     dsc        "大菽嵐が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_bean_storm_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBeanStormFeatEvent < EventRule
     dsc        "大菽嵐が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_bean_storm_feat
     goal       ["self", :use_end?]
   end
 
   class UseBeanStormFeatEvent < EventRule
     dsc        "大菽嵐を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_bean_storm_feat
     goal       ["self", :use_end?]
   end
 
   class FinishBeanStormFeatEvent < EventRule
     dsc        "大菽嵐の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_bean_storm_feat
     goal       ["self", :use_end?]
   end
@@ -23717,28 +23604,28 @@ module Unlight
 
   class CheckAddJokerFeatEvent < EventRule
     dsc        "ジョーカーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_joker_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveJokerFeatEvent < EventRule
     dsc        "ジョーカーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_joker_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateJokerFeatEvent < EventRule
     dsc        "ジョーカーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_joker_feat
     goal       ["self", :use_end?]
   end
 
   class FinishJokerFeatEvent < EventRule
     dsc        "ジョーカーの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>9
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 9
     func       :finish_joker_feat
     goal       ["self", :use_end?]
   end
@@ -23748,35 +23635,35 @@ module Unlight
 
   class CheckAddFamiliarFeatEvent < EventRule
     dsc        "ファミリアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_familiar_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFamiliarFeatEvent < EventRule
     dsc        "ファミリアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_familiar_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFamiliarFeatEvent < EventRule
     dsc        "ファミリアが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_familiar_feat
     goal       ["self", :use_end?]
   end
 
   class UseFamiliarFeatEvent < EventRule
     dsc        "ファミリアを使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_familiar_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFamiliarFeatEvent < EventRule
     dsc        "ファミリアの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :finish_familiar_feat
     goal       ["self", :use_end?]
   end
@@ -23786,43 +23673,42 @@ module Unlight
 
   class CheckAddCrownCrownFeatEvent < EventRule
     dsc        "クラウンクラウンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_crown_crown_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCrownCrownFeatEvent < EventRule
     dsc        "クラウンクラウンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_crown_crown_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCrownCrownFeatEvent < EventRule
     dsc        "クラウンクラウンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_crown_crown_feat
     goal       ["self", :use_end?]
   end
 
   class UseCrownCrownFeatEvent < EventRule
     dsc        "クラウンクラウンを使用 攻撃力が+6"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_crown_crown_feat
     goal       ["self", :use_end?]
   end
 
   class UseCrownCrownFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>42
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 42
     func       :use_crown_crown_feat_damage
     goal       ["self", :use_end?]
   end
 
-
   class FinishCrownCrownFeatEvent < EventRule
     dsc        "クラウンクラウンの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_crown_crown_feat
     goal       ["self", :use_end?]
   end
@@ -23832,42 +23718,42 @@ module Unlight
 
   class CheckAddRiddleBoxFeatEvent < EventRule
     dsc        "リドルボックスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_riddle_box_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRiddleBoxFeatEvent < EventRule
     dsc        "リドルボックスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_riddle_box_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRiddleBoxFeatEvent < EventRule
     dsc        "リドルボックスが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_riddle_box_feat
     goal       ["self", :use_end?]
   end
 
   class UseRiddleBoxFeatEvent < EventRule
     dsc        "リドルボックスを使用 攻撃力が+6"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_riddle_box_feat
     goal       ["self", :use_end?]
   end
 
   class UseRiddleBoxFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>43
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 43
     func       :use_riddle_box_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishRiddleBoxFeatEvent < EventRule
     dsc        "リドルボックスの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_riddle_box_feat
     goal       ["self", :use_end?]
   end
@@ -23877,28 +23763,28 @@ module Unlight
 
   class CheckAddFlutterSwordDanceFeatEvent < EventRule
     dsc        "翻る剣舞が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_flutter_sword_dance_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFlutterSwordDanceFeatEvent < EventRule
     dsc        "翻る剣舞が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_flutter_sword_dance_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFlutterSwordDanceFeatEvent < EventRule
     dsc        "翻る剣舞が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_flutter_sword_dance_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFlutterSwordDanceFeatEvent < EventRule
     dsc        "翻る剣舞を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:alter_mp_event
+    type       type: :after, obj: "owner", hook: :alter_mp_event
     func       :finish_flutter_sword_dance_feat
     goal       ["self", :use_end?]
   end
@@ -23908,35 +23794,35 @@ module Unlight
 
   class CheckAddRitualOfBraveryFeatEvent < EventRule
     dsc        "勇猛の儀が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_ritual_of_bravery_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveRitualOfBraveryFeatEvent < EventRule
     dsc        "勇猛の儀が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_ritual_of_bravery_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateRitualOfBraveryFeatEvent < EventRule
     dsc        "勇猛の儀が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_ritual_of_bravery_feat
     goal       ["self", :use_end?]
   end
 
   class UseRitualOfBraveryFeatEvent < EventRule
     dsc        "勇猛の儀を使用 攻撃力が+6"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_ritual_of_bravery_feat
     goal       ["self", :use_end?]
   end
 
   class FinishRitualOfBraveryFeatEvent < EventRule
     dsc        "勇猛の儀の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_ritual_of_bravery_feat
     goal       ["self", :use_end?]
   end
@@ -23946,42 +23832,42 @@ module Unlight
 
   class CheckAddHuntingCheetahFeatEvent < EventRule
     dsc        "狩猟豹の剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_hunting_cheetah_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHuntingCheetahFeatEvent < EventRule
     dsc        "狩猟豹の剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_hunting_cheetah_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHuntingCheetahFeatEvent < EventRule
     dsc        "狩猟豹の剣が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_hunting_cheetah_feat
     goal       ["self", :use_end?]
   end
 
   class UseHuntingCheetahFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_hunting_cheetah_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHuntingCheetahFeatEvent < EventRule
     dsc        "狩猟豹の剣の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_hunting_cheetah_feat
     goal       ["self", :use_end?]
   end
 
   class UseHuntingCheetahFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>20
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 20
     func       :use_hunting_cheetah_feat_damage
     goal       ["self", :use_end?]
   end
@@ -23991,42 +23877,42 @@ module Unlight
 
   class CheckAddProbeFeatEvent < EventRule
     dsc        "探りの一手可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_probe_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveProbeFeatEvent < EventRule
     dsc        "探りの一手が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_probe_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateProbeFeatEvent < EventRule
     dsc        "探りの一手が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_probe_feat
     goal       ["self", :use_end?]
   end
 
   class UseProbeFeatEvent < EventRule
     dsc        "探りの一手を使用 墓地からカードを拾う"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event
     func       :use_probe_feat
     goal       ["self", :use_end?]
   end
 
   class UseProbeFeatPowEvent < EventRule
     dsc        "探りの一手を使用 防御力＋"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_probe_feat_pow
     goal       ["self", :use_end?]
   end
 
   class FinishProbeFeatEvent < EventRule
     dsc        "探りの一手の使用が終了"
-    type       :type=>:after, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :after, obj: "foe", hook: :battle_phase_init_event
     func       :finish_probe_feat
     goal       ["self", :use_end?]
   end
@@ -24036,42 +23922,42 @@ module Unlight
 
   class CheckAddTailoringFeatEvent < EventRule
     dsc        "仕立が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_tailoring_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTailoringFeatEvent < EventRule
     dsc        "仕立が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_tailoring_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTailoringFeatEvent < EventRule
     dsc        "仕立が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_tailoring_feat
     goal       ["self", :use_end?]
   end
 
   class UseTailoringFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_tailoring_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTailoringFeatEvent < EventRule
     dsc        "仕立の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_tailoring_feat
     goal       ["self", :use_end?]
   end
 
   class UseTailoringFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_tailoring_feat_damage
     goal       ["self", :use_end?]
   end
@@ -24081,35 +23967,35 @@ module Unlight
 
   class CheckAddCutFeatEvent < EventRule
     dsc        "裁断が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_cut_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCutFeatEvent < EventRule
     dsc        "裁断が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_cut_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCutFeatEvent < EventRule
     dsc        "裁断が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_cut_feat
     goal       ["self", :use_end?]
   end
 
   class UseCutFeatEvent < EventRule
     dsc        "裁断を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_cut_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCutFeatEvent < EventRule
     dsc        "裁断の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_cut_feat
     goal       ["self", :use_end?]
   end
@@ -24119,35 +24005,35 @@ module Unlight
 
   class CheckAddSewingFeatEvent < EventRule
     dsc        "縫製が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_sewing_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSewingFeatEvent < EventRule
     dsc        "縫製が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_sewing_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSewingFeatEvent < EventRule
     dsc        "縫製が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_sewing_feat
     goal       ["self", :use_end?]
   end
 
   class UseSewingFeatEvent < EventRule
     dsc        "縫製を使用 自分を特殊/2回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_sewing_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSewingFeatEvent < EventRule
     dsc        "縫製の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_sewing_feat
     goal       ["self", :use_end?]
   end
@@ -24157,35 +24043,35 @@ module Unlight
 
   class CheckAddCancellationFeatEvent < EventRule
     dsc        "破棄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_cancellation_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCancellationFeatEvent < EventRule
     dsc        "破棄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_cancellation_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCancellationFeatEvent < EventRule
     dsc        "破棄が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_cancellation_feat
     goal       ["self", :use_end?]
   end
 
   class UseCancellationFeatEvent < EventRule
     dsc        "破棄を使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_cancellation_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCancellationFeatEvent < EventRule
     dsc        "破棄の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_cancellation_feat
     goal       ["self", :use_end?]
   end
@@ -24195,81 +24081,80 @@ module Unlight
 
   class CheckAddSeihoFeatEvent < EventRule
     dsc        "整法が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_seiho_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSeihoFeatEvent < EventRule
     dsc        "整法が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_seiho_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSeihoFeatEvent < EventRule
     dsc        "整法が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_seiho_feat
     goal       ["self", :use_end?]
   end
 
   class UseSeihoFeatEvent < EventRule
     dsc        "整法を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_seiho_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSeihoFeatEvent < EventRule
     dsc        "整法の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 50
     func       :finish_seiho_feat
     goal       ["self", :use_end?]
   end
-
 
 #---------------------------------------------------------------------------------------------
 # 独鈷
 
   class CheckAddDokkoFeatEvent < EventRule
     dsc        "独鈷が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_dokko_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDokkoFeatEvent < EventRule
     dsc        "独鈷が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_dokko_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDokkoFeatEvent < EventRule
     dsc        "独鈷が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_dokko_feat
     goal       ["self", :use_end?]
   end
 
   class UseDokkoFeatEvent < EventRule
     dsc        "独鈷を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_dokko_feat
     goal       ["self", :use_end?]
   end
 
   class UseDokkoFeatDamageEvent < EventRule
     dsc        "独鈷を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_dokko_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishDokkoFeatEvent < EventRule
     dsc        "独鈷の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_dokko_feat
     goal       ["self", :use_end?]
   end
@@ -24279,42 +24164,42 @@ module Unlight
 
   class CheckAddNyoiFeatEvent < EventRule
     dsc        "如意が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_nyoi_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveNyoiFeatEvent < EventRule
     dsc        "如意が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_nyoi_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateNyoiFeatEvent < EventRule
     dsc        "如意が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_nyoi_feat
     goal       ["self", :use_end?]
   end
 
   class UseNyoiFeatEvent < EventRule
     dsc        "如意を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_nyoi_feat
     goal       ["self", :use_end?]
   end
 
   class UseNyoiFeatDamageEvent < EventRule
     dsc        "如意を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_nyoi_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishNyoiFeatEvent < EventRule
     dsc        "如意の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_nyoi_feat
     goal       ["self", :use_end?]
   end
@@ -24324,42 +24209,42 @@ module Unlight
 
   class CheckAddKongoFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_kongo_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveKongoFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_kongo_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateKongoFeatEvent < EventRule
     dsc        "必殺技が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_kongo_feat
     goal       ["self", :use_end?]
   end
 
   class UseKongoFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_kongo_feat
     goal       ["self", :use_end?]
   end
 
   class FinishKongoFeatEvent < EventRule
     dsc        "必殺技の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_kongo_feat
     goal       ["self", :use_end?]
   end
 
   class UseKongoFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>80
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 80
     func       :use_kongo_feat_damage
     goal       ["self", :use_end?]
   end
@@ -24369,28 +24254,28 @@ module Unlight
 
   class CheckAddCarpQuakeFeatEvent < EventRule
     dsc        "鯉震が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_carp_quake_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCarpQuakeFeatEvent < EventRule
     dsc        "鯉震が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_carp_quake_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCarpQuakeFeatEvent < EventRule
     dsc        "鯉震が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_carp_quake_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCarpQuakeFeatEvent < EventRule
     dsc        "鯉震を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_carp_quake_feat
     goal       ["self", :use_end?]
   end
@@ -24400,42 +24285,42 @@ module Unlight
 
   class CheckAddCarpLightningFeatEvent < EventRule
     dsc        "如意が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_carp_lightning_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCarpLightningFeatEvent < EventRule
     dsc        "如意が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_carp_lightning_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCarpLightningFeatEvent < EventRule
     dsc        "如意が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_carp_lightning_feat
     goal       ["self", :use_end?]
   end
 
   class UseCarpLightningFeatEvent < EventRule
     dsc        "如意を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_carp_lightning_feat
     goal       ["self", :use_end?]
   end
 
   class UseCarpLightningFeatDamageEvent < EventRule
     dsc        "如意を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_carp_lightning_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishCarpLightningFeatEvent < EventRule
     dsc        "如意の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_carp_lightning_feat
     goal       ["self", :use_end?]
   end
@@ -24445,28 +24330,28 @@ module Unlight
 
   class CheckAddFieldLockFeatEvent < EventRule
     dsc        "フィールドロックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_field_lock_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFieldLockFeatEvent < EventRule
     dsc        "フィールドロックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_field_lock_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFieldLockFeatEvent < EventRule
     dsc        "フィールドロックが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_field_lock_feat
     goal       ["self", :use_end?]
   end
 
   class UseFieldLockFeatEvent < EventRule
     dsc        "フィールドロックの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>7
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 7
     func       :use_field_lock_feat
     goal       ["self", :use_end?]
   end
@@ -24476,42 +24361,42 @@ module Unlight
 
   class CheckAddArrestFeatEvent < EventRule
     dsc        "捕縛が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_arrest_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveArrestFeatEvent < EventRule
     dsc        "捕縛が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_arrest_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateArrestFeatEvent < EventRule
     dsc        "捕縛が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_arrest_feat
     goal       ["self", :use_end?]
   end
 
   class UseArrestFeatEvent < EventRule
     dsc        "捕縛を使用 防御力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_arrest_feat
     goal       ["self", :use_end?]
   end
 
   class UseArrestFeatDamageEvent < EventRule
     dsc        "捕縛使用時に上回った防御点をダメージとして相手に与える"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase
+    type       type: :before, obj: "duel", hook: :damage_phase
     func       :use_arrest_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishArrestFeatEvent < EventRule
     dsc        "捕縛の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_arrest_feat
     goal       ["self", :use_end?]
   end
@@ -24521,35 +24406,35 @@ module Unlight
 
   class CheckAddQuickDrawFeatEvent < EventRule
     dsc        "クイックドローが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_quick_draw_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveQuickDrawFeatEvent < EventRule
     dsc        "クイックドローが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_quick_draw_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateQuickDrawFeatEvent < EventRule
     dsc        "クイックドローが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_quick_draw_feat
     goal       ["self", :use_end?]
   end
 
   class UseQuickDrawFeatEvent < EventRule
     dsc        "クイックドローを使用 攻撃力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_quick_draw_feat
     goal       ["self", :use_end?]
   end
 
   class FinishQuickDrawFeatEvent < EventRule
     dsc        "クイックドローの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_quick_draw_feat
     goal       ["self", :use_end?]
   end
@@ -24559,49 +24444,49 @@ module Unlight
 
   class CheckAddGazeFeatEvent < EventRule
     dsc        "ゲイズが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_gaze_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveGazeFeatEvent < EventRule
     dsc        "ゲイズが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_gaze_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateGazeFeatEvent < EventRule
     dsc        "ゲイズが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_gaze_feat
     goal       ["self", :use_end?]
   end
 
   class UseGazeFeatEvent < EventRule
     dsc        "ゲイズを使用 墓地からカードを拾う"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_gaze_feat
     goal       ["self", :use_end?]
   end
 
   class FinishGazeFeatEvent < EventRule
     dsc        "ゲイズを使用 墓地からカードを拾う"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event
     func       :finish_gaze_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCharaChangeGazeFeatEvent < EventRule
     dsc        "ゲイズの使用が終了(キャラチェンジ時)"
-    type       :type=>:before, :obj=>"owner", :hook=>:chara_change_action
+    type       type: :before, obj: "owner", hook: :chara_change_action
     func       :finish_gaze_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFoeCharaChangeGazeFeatEvent < EventRule
     dsc        "ゲイズの使用が終了(キャラチェンジ時)"
-    type       :type=>:before, :obj=>"foe", :hook=>:chara_change_action
+    type       type: :before, obj: "foe", hook: :chara_change_action
     func       :finish_gaze_feat
     goal       ["self", :use_end?]
   end
@@ -24611,42 +24496,42 @@ module Unlight
 
   class CheckAddMonitoringFeatEvent < EventRule
     dsc        "監視が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_monitoring_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMonitoringFeatEvent < EventRule
     dsc        "監視が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_monitoring_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMonitoringFeatEvent < EventRule
     dsc        "監視が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_monitoring_feat
     goal       ["self", :use_end?]
   end
 
   class UseMonitoringFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_monitoring_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMonitoringFeatEvent < EventRule
     dsc        "監視の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_monitoring_feat
     goal       ["self", :use_end?]
   end
 
   class UseMonitoringFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :use_monitoring_feat_damage
     goal       ["self", :use_end?]
   end
@@ -24656,35 +24541,35 @@ module Unlight
 
   class CheckAddTimeLagDrawFeatEvent < EventRule
     dsc        "時差ドローが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_time_lag_draw_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTimeLagDrawFeatEvent < EventRule
     dsc        "時差ドローが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_time_lag_draw_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTimeLagDrawFeatEvent < EventRule
     dsc        "時差ドローが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_time_lag_draw_feat
     goal       ["self", :use_end?]
   end
 
   class UseTimeLagDrawFeatEvent < EventRule
     dsc        "時差ドローを使用 防御力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_time_lag_draw_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTimeLagDrawFeatEvent < EventRule
     dsc        "時差ドローの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_time_lag_draw_feat
     goal       ["self", :use_end?]
   end
@@ -24694,35 +24579,35 @@ module Unlight
 
   class CheckAddTimeLagBuffFeatEvent < EventRule
     dsc        "時差バフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_time_lag_buff_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveTimeLagBuffFeatEvent < EventRule
     dsc        "時差バフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_time_lag_buff_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateTimeLagBuffFeatEvent < EventRule
     dsc        "時差バフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_time_lag_buff_feat
     goal       ["self", :use_end?]
   end
 
   class UseTimeLagBuffFeatEvent < EventRule
     dsc        "時差バフを使用 防御力が+3"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_time_lag_buff_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTimeLagBuffFeatEvent < EventRule
     dsc        "時差バフの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_time_lag_buff_feat
     goal       ["self", :use_end?]
   end
@@ -24732,35 +24617,35 @@ module Unlight
 
   class CheckAddDamageTransferFeatEvent < EventRule
     dsc        "移転が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_damage_transfer_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDamageTransferFeatEvent < EventRule
     dsc        "移転が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_damage_transfer_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDamageTransferFeatEvent < EventRule
     dsc        "移転が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_damage_transfer_feat
     goal       ["self", :use_end?]
   end
 
   class UseDamageTransferFeatEvent < EventRule
     dsc        "移転を使用 自分を特殊/2回復"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_damage_transfer_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDamageTransferFeatEvent < EventRule
     dsc        "移転の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_damage_transfer_feat
     goal       ["self", :use_end?]
   end
@@ -24770,35 +24655,35 @@ module Unlight
 
   class CheckAddCigaretteFeatEvent < EventRule
     dsc        "シガレットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_cigarette_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCigaretteFeatEvent < EventRule
     dsc        "シガレットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_cigarette_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCigaretteFeatEvent < EventRule
     dsc        "シガレットが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_cigarette_feat
     goal       ["self", :use_end?]
   end
 
   class UseCigaretteFeatEvent < EventRule
     dsc        "シガレットを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_cigarette_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCigaretteFeatEvent < EventRule
     dsc        "シガレットの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>50
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 50
     func       :finish_cigarette_feat
     goal       ["self", :use_end?]
   end
@@ -24808,35 +24693,35 @@ module Unlight
 
   class CheckAddThreeCardFeatEvent < EventRule
     dsc        "スリーカードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_three_card_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveThreeCardFeatEvent < EventRule
     dsc        "スリーカードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_three_card_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateThreeCardFeatEvent < EventRule
     dsc        "スリーカードが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_three_card_feat
     goal       ["self", :use_end?]
   end
 
   class UseThreeCardFeatEvent < EventRule
     dsc        "スリーカードを使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_three_card_feat
     goal       ["self", :use_end?]
   end
 
   class FinishThreeCardFeatEvent < EventRule
     dsc        "スリーカードの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_three_card_feat
     goal       ["self", :use_end?]
   end
@@ -24846,28 +24731,28 @@ module Unlight
 
   class CheckAddCardSearchFeatEvent < EventRule
     dsc        "カードサーチが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_card_search_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveCardSearchFeatEvent < EventRule
     dsc        "カードサーチが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_card_search_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateCardSearchFeatEvent < EventRule
     dsc        "カードサーチが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_card_search_feat
     goal       ["self", :use_end?]
   end
 
   class FinishCardSearchFeatEvent < EventRule
     dsc        "カードサーチを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>10
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 10
     func       :finish_card_search_feat
     goal       ["self", :use_end?]
   end
@@ -24877,42 +24762,42 @@ module Unlight
 
   class CheckAddAllInOneFeatEvent < EventRule
     dsc        "オールインワンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_all_in_one_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAllInOneFeatEvent < EventRule
     dsc        "オールインワンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_all_in_one_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAllInOneFeatEvent < EventRule
     dsc        "オールインワンが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_all_in_one_feat
     goal       ["self", :use_end?]
   end
 
   class UseAllInOneFeatPowerEvent < EventRule
     dsc        "オールインワンを使用 自分のカードを回転させる"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_all_in_one_feat_power
     goal       ["self", :use_end?]
   end
 
   class UseAllInOneFeatEvent < EventRule
     dsc        "オールインワンを使用 自分のカードを回転させる"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :use_all_in_one_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAllInOneFeatEvent < EventRule
     dsc        "オールインワンの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :finish_all_in_one_feat
     goal       ["self", :use_end?]
   end
@@ -24922,37 +24807,37 @@ module Unlight
 
   class CheckEv201609PassiveEvent < EventRule
     dsc        "2016,6イベントをチェック"
-    type       :type=>:before, :obj=>"duel", :hook=>:start_turn_phase
+    type       type: :before, obj: "duel", hook: :start_turn_phase
     func       :check_ev201609_passive
   end
 
   class CheckEv201609ChangePassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_chara_change_phase
     func       :check_ev201609_passive
   end
 
   class CheckEv201609DeadChangePassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :after, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :check_ev201609_passive
   end
 
   class UseEv201609PassiveEvent < EventRule
     dsc        "2016,6イベントを発動"
-    type       :type=>:after, :obj=>"foe", :hook=>:bp_calc_resolve, :priority=>15
+    type       type: :after, obj: "foe", hook: :bp_calc_resolve, priority: 15
     func       :use_ev201609_passive
   end
 
   class FinishEv201609PassiveEvent < EventRule
     dsc        "2016,6イベントを発動"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :after, obj: "duel", hook: :finish_turn_phase
     func       :finish_ev201609_passive
   end
 
   class FinishEv201609PassiveDeadCharaChangeEvent < EventRule
     dsc        "2016,6イベントを発動"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_dead_chara_change_phase
+    type       type: :before, obj: "duel", hook: :determine_dead_chara_change_phase
     func       :finish_ev201609_passive
   end
 
@@ -24961,42 +24846,42 @@ module Unlight
 
   class CheckAddFireBirdFeatEvent < EventRule
     dsc        "焼鳥が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_fire_bird_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFireBirdFeatEvent < EventRule
     dsc        "焼鳥が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_fire_bird_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFireBirdFeatEvent < EventRule
     dsc        "焼鳥が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_fire_bird_feat
     goal       ["self", :use_end?]
   end
 
   class UseFireBirdFeatEvent < EventRule
     dsc        "焼鳥を使用 防御＋"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_fire_bird_feat
     goal       ["self", :use_end?]
   end
 
   class UseAfterFireBirdFeatEvent < EventRule
     dsc        "焼鳥を使用 墓地からカードを拾う"
-    type       :type=>:before, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :before, obj: "foe", hook: :battle_phase_init_event
     func       :use_after_fire_bird_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFireBirdFeatEvent < EventRule
     dsc        "焼鳥の使用が終了"
-    type       :type=>:after, :obj=>"foe", :hook=>:battle_phase_init_event
+    type       type: :after, obj: "foe", hook: :battle_phase_init_event
     func       :finish_fire_bird_feat
     goal       ["self", :use_end?]
   end
@@ -25006,49 +24891,49 @@ module Unlight
 
   class CheckAddBramblesFeatEvent < EventRule
     dsc        "苔蔦が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_brambles_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveBramblesFeatEvent < EventRule
     dsc        "苔蔦が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_brambles_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateBramblesFeatEvent < EventRule
     dsc        "苔蔦が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_brambles_feat
     goal       ["self", :use_end?]
   end
 
   class UseBramblesFeatEvent < EventRule
     dsc        "苔蔦の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :use_brambles_feat
     goal       ["self", :use_end?]
   end
 
   class UseBramblesFeatMoveBeforeEvent < EventRule
     dsc        "苔蔦の距離保存"
-    type       :type=>:before, :obj=>"owner", :hook=>:move_action , :priority=>1
+    type       type: :before, obj: "owner", hook: :move_action, priority: 1
     func       :use_brambles_feat_move_before
     goal       ["self", :use_end?]
   end
 
   class UseBramblesFeatMoveAfterEvent < EventRule
     dsc        "苔蔦のダメージ付与"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_action, :priority=>1
+    type       type: :after, obj: "owner", hook: :move_action, priority: 1
     func       :use_brambles_feat_move_after
     goal       ["self", :use_end?]
   end
 
   class FinishBramblesFeatEvent < EventRule
     dsc        "苔蔦終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:finish_move_phase
+    type       type: :after, obj: "duel", hook: :finish_move_phase
     func       :finish_brambles_feat
     goal       ["self", :use_end?]
   end
@@ -25058,49 +24943,49 @@ module Unlight
 
   class CheckAddFrankenTackleFeatEvent < EventRule
     dsc        "フランケンタックルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_franken_tackle_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFrankenTackleFeatEvent < EventRule
     dsc        "フランケンタックルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_franken_tackle_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFrankenTackleFeatEvent < EventRule
     dsc        "フランケンタックルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_franken_tackle_feat
     goal       ["self", :use_end?]
   end
 
   class UseOwnerFrankenTackleFeatEvent < EventRule
     dsc        "フランケンタックルを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>10
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 10
     func       :use_franken_tackle_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoeFrankenTackleFeatEvent < EventRule
     dsc        "フランケンタックルを使用"
-    type       :type=>:after, :obj=>"foe", :hook=>:dp_calc_resolve, :priority=>30
+    type       type: :after, obj: "foe", hook: :dp_calc_resolve, priority: 30
     func       :use_franken_tackle_feat
     goal       ["self", :use_end?]
   end
 
   class UseFrankenTackleFeatDiceAttrEvent < EventRule
     dsc        "フランケンタックルを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event, :priority=>60
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event, priority: 60
     func       :use_franken_tackle_feat_dice_attr
     goal       ["self", :use_end?]
   end
 
   class FinishFrankenTackleFeatEvent < EventRule
     dsc        "フランケンタックルの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_franken_tackle_feat
     goal       ["self", :use_end?]
   end
@@ -25110,42 +24995,42 @@ module Unlight
 
   class CheckAddFrankenChargingFeatEvent < EventRule
     dsc        "フランケン充電が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_franken_charging_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFrankenChargingFeatEvent < EventRule
     dsc        "フランケン充電が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_franken_charging_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFrankenChargingFeatEvent < EventRule
     dsc        "フランケン充電が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_franken_charging_feat
     goal       ["self", :use_end?]
   end
 
   class UseFrankenChargingFeatEvent < EventRule
     dsc        "フランケン充電を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_franken_charging_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFrankenChargingFeatEvent < EventRule
     dsc        "フランケン充電の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_franken_charging_feat
     goal       ["self", :use_end?]
   end
 
   class UseFrankenChargingFeatDamageEvent < EventRule
     dsc        "フランケン充電を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>20
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 20
     func       :use_franken_charging_feat_damage
     goal       ["self", :use_end?]
   end
@@ -25155,56 +25040,56 @@ module Unlight
 
   class CheckAddMovingOneRFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_moving_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMovingOneRFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_moving_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMovingOneRFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_moving_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseMovingOneRFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_moving_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseMovingOneRFeatAttackEvent < EventRule
     dsc        "攻撃時"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve, priority: 1
     func       :use_moving_one_r_feat_attack
     goal       ["self", :use_end?]
   end
 
   class UseMovingOneRFeatDefenseEvent < EventRule
     dsc        "防御時"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve, :priority=>1
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve, priority: 1
     func       :use_moving_one_r_feat_defense
     goal       ["self", :use_end?]
   end
 
   class FinishMovingOneRFeatEvent < EventRule
     dsc        "移動上昇を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_moving_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishTurnMovingOneRFeatEvent < EventRule
     dsc        "移動上昇を使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:finish_turn_phase
+    type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_turn_moving_one_r_feat
     goal       ["self", :use_end?]
   end
@@ -25214,35 +25099,35 @@ module Unlight
 
   class CheckAddArrogantOneRFeatEvent < EventRule
     dsc        "驕りたかぶるものRが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_add_action
+    type       type: :after, obj: "owner", hook: :deffence_card_add_action
     func       :check_arrogant_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveArrogantOneRFeatEvent < EventRule
     dsc        "驕りたかぶるものRが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_remove_action
+    type       type: :after, obj: "owner", hook: :deffence_card_remove_action
     func       :check_arrogant_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateArrogantOneRFeatEvent < EventRule
     dsc        "驕りたかぶるものRが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:deffence_card_rotate_action
+    type       type: :after, obj: "owner", hook: :deffence_card_rotate_action
     func       :check_arrogant_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseArrogantOneRFeatEvent < EventRule
     dsc        "驕りたかぶるものRを使用 防御力が+"
-    type       :type=>:after, :obj=>"owner", :hook=>:dp_calc_resolve
+    type       type: :after, obj: "owner", hook: :dp_calc_resolve
     func       :use_arrogant_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishArrogantOneRFeatEvent < EventRule
     dsc        "驕りたかぶるものRの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_arrogant_one_r_feat
     goal       ["self", :use_end?]
   end
@@ -25252,35 +25137,35 @@ module Unlight
 
   class CheckAddEatingOneRFeatEvent < EventRule
     dsc        "貪り食うものRが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_eating_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveEatingOneRFeatEvent < EventRule
     dsc        "貪り食うものRが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_eating_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateEatingOneRFeatEvent < EventRule
     dsc        "貪り食うものRが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_eating_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseEatingOneRFeatEvent < EventRule
     dsc        "貪り食うものRをを使用 攻撃力が+2、攻撃終了時に近距離になる"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_eating_one_r_feat
     goal       ["self", :use_end?]
   end
 
   class FinishEatingOneRFeatEvent < EventRule
     dsc        "貪り食うものRの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_eating_one_r_feat
     goal       ["self", :use_end?]
   end
@@ -25289,35 +25174,35 @@ module Unlight
 # ハーフデッド
   class CheckAddHarfDeadFeatEvent < EventRule
     dsc        "ハーフデッドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_harf_dead_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHarfDeadFeatEvent < EventRule
     dsc        "ハーフデッドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_harf_dead_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHarfDeadFeatEvent < EventRule
     dsc        "ハーフデッドが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_harf_dead_feat
     goal       ["self", :use_end?]
   end
 
   class UseHarfDeadFeatEvent < EventRule
     dsc        "ハーフデッドを使用"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase, :priority=>8
+    type       type: :before, obj: "duel", hook: :determine_move_phase, priority: 8
     func       :use_harf_dead_feat
     goal       ["self", :use_end?]
   end
 
   class FinishHarfDeadFeatEvent < EventRule
     dsc        "ハーフデッドを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase, :priority=>8
+    type       type: :after, obj: "duel", hook: :determine_move_phase, priority: 8
     func       :finish_harf_dead_feat
     goal       ["self", :use_end?]
   end
@@ -25327,28 +25212,28 @@ module Unlight
 
   class CheckAddMachineCellFeatEvent < EventRule
     dsc        "マシンセルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_machine_cell_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveMachineCellFeatEvent < EventRule
     dsc        "マシンセルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_machine_cell_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateMachineCellFeatEvent < EventRule
     dsc        "マシンセルが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_machine_cell_feat
     goal       ["self", :use_end?]
   end
 
   class FinishMachineCellFeatEvent < EventRule
     dsc        "マシンセルを使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_machine_cell_feat
     goal       ["self", :use_end?]
   end
@@ -25358,35 +25243,35 @@ module Unlight
 
   class CheckAddHeatSeekerRFeatEvent < EventRule
     dsc        "ヒートシーカーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_heat_seeker_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveHeatSeekerRFeatEvent < EventRule
     dsc        "ヒートシーカーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_heat_seeker_r_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateHeatSeekerRFeatEvent < EventRule
     dsc        "ヒートシーカーが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_heat_seeker_r_feat
     goal       ["self", :use_end?]
   end
 
   class UseHeatSeekerRFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>5
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 5
     func       :use_heat_seeker_r_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishHeatSeekerRFeatDamageEvent < EventRule
     dsc        "追加効果が有効になる"
-    type       :type=>:before, :obj=>"owner", :hook=>:dice_attribute_regist_event
+    type       type: :before, obj: "owner", hook: :dice_attribute_regist_event
     func       :finish_heat_seeker_r_feat_damage
     goal       ["self", :use_end?]
   end
@@ -25396,42 +25281,42 @@ module Unlight
 
   class CheckAddDirectionalBeamFeatEvent < EventRule
     dsc        "指向性エネルギー兵器が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_directional_beam_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDirectionalBeamFeatEvent < EventRule
     dsc        "指向性エネルギー兵器が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_directional_beam_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDirectionalBeamFeatEvent < EventRule
     dsc        "指向性エネルギー兵器が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_directional_beam_feat
     goal       ["self", :use_end?]
   end
 
   class UseDirectionalBeamFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_directional_beam_feat
     goal       ["self", :use_end?]
   end
 
   class FinishDirectionalBeamFeatEvent < EventRule
     dsc        "指向性エネルギー兵器の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_directional_beam_feat
     goal       ["self", :use_end?]
   end
 
   class UseDirectionalBeamFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_directional_beam_feat_damage
     goal       ["self", :use_end?]
   end
@@ -25441,36 +25326,35 @@ module Unlight
 
   class CheckAddDeltaFeatEvent < EventRule
     dsc        "デルタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_delta_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveDeltaFeatEvent < EventRule
     dsc        "デルタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_delta_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateDeltaFeatEvent < EventRule
     dsc        "デルタが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_delta_feat
     goal       ["self", :use_end?]
   end
 
   class UseDeltaFeatEvent < EventRule
     dsc        "デルタを使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_delta_feat
     goal       ["self", :use_end?]
   end
 
-
   class FinishDeltaFeatEvent < EventRule
     dsc        "デルタの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>25
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 25
     func       :finish_delta_feat
     goal       ["self", :use_end?]
   end
@@ -25480,49 +25364,49 @@ module Unlight
 
   class CheckAddSigmaFeatEvent < EventRule
     dsc        "ブラストオフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_sigma_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveSigmaFeatEvent < EventRule
     dsc        "ブラストオフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_sigma_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateSigmaFeatEvent < EventRule
     dsc        "ブラストオフが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_sigma_feat
     goal       ["self", :use_end?]
   end
 
   class UseSigmaFeatEvent < EventRule
     dsc        "ブラストオフをを使用 攻撃力が+2、攻撃終了時に近距離になる"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_sigma_feat
     goal       ["self", :use_end?]
   end
 
   class ExSigma0FeatEvent < EventRule
     dsc        "ブラストオフの使用が終了"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>5
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 5
     func       :ex_sigma0_feat
     goal       ["self", :use_end?]
   end
 
   class ExSigmaFeatEvent < EventRule
     dsc        "ブラストオフの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :ex_sigma_feat
     goal       ["self", :use_end?]
   end
 
   class FinishSigmaFeatEvent < EventRule
     dsc        "ブラストオフの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>20
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 20
     func       :finish_sigma_feat
     goal       ["self", :use_end?]
   end
@@ -25532,35 +25416,35 @@ module Unlight
 
   class CheckAddStampFeatEvent < EventRule
     dsc        "スタンプが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_stamp_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveStampFeatEvent < EventRule
     dsc        "スタンプが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_stamp_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateStampFeatEvent < EventRule
     dsc        "スタンプが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_stamp_feat
     goal       ["self", :use_end?]
   end
 
   class UseStampFeatEvent < EventRule
     dsc        "スタンプを使用 攻撃力が+2"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_stamp_feat
     goal       ["self", :use_end?]
   end
 
   class FinishStampFeatEvent < EventRule
     dsc        "スタンプの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_stamp_feat
     goal       ["self", :use_end?]
   end
@@ -25570,35 +25454,35 @@ module Unlight
 
   class CheckAddAccelerationFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_add_action
+    type       type: :after, obj: "owner", hook: :move_card_add_action
     func       :check_acceleration_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAccelerationFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_remove_action
+    type       type: :after, obj: "owner", hook: :move_card_remove_action
     func       :check_acceleration_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAccelerationFeatEvent < EventRule
     dsc        "移動上昇が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:move_card_rotate_action
+    type       type: :after, obj: "owner", hook: :move_card_rotate_action
     func       :check_acceleration_feat
     goal       ["self", :use_end?]
   end
 
   class UseAccelerationFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:after, :obj=>"owner", :hook=>:mp_calc_resolve
+    type       type: :after, obj: "owner", hook: :mp_calc_resolve
     func       :use_acceleration_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAccelerationFeatEvent < EventRule
     dsc        "移動上昇を使用"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_move_phase
+    type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_acceleration_feat
     goal       ["self", :use_end?]
   end
@@ -25608,35 +25492,35 @@ module Unlight
 
   class CheckAddFoabFeatEvent < EventRule
     dsc        "FOABが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_foab_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveFoabFeatEvent < EventRule
     dsc        "FOABが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_foab_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateFoabFeatEvent < EventRule
     dsc        "FOABが可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_foab_feat
     goal       ["self", :use_end?]
   end
 
   class UseFoabFeatEvent < EventRule
     dsc        "FOABを使用 相手に特殊/2のダメージ"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_foab_feat
     goal       ["self", :use_end?]
   end
 
   class FinishFoabFeatEvent < EventRule
     dsc        "FOABの使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>1
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase, priority: 1
     func       :finish_foab_feat
     goal       ["self", :use_end?]
   end
@@ -25646,49 +25530,49 @@ module Unlight
 
   class CheckAddWhiteMoonFeatEvent < EventRule
     dsc        "白き玉桂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_white_moon_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveWhiteMoonFeatEvent < EventRule
     dsc        "白き玉桂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_white_moon_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateWhiteMoonFeatEvent < EventRule
     dsc        "白き玉桂が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_white_moon_feat
     goal       ["self", :use_end?]
   end
 
   class UseWhiteMoonFeatEvent < EventRule
     dsc        "白き玉桂を使用 攻撃力が+3 ダメージの分だけ、相手は手札をランダムに失う"
-    type       :type=>:after, :obj=>"owner", :hook=>:bp_calc_resolve
+    type       type: :after, obj: "owner", hook: :bp_calc_resolve
     func       :use_white_moon_feat
     goal       ["self", :use_end?]
   end
 
   class UseWhiteMoonFeatDiceAttrEvent < EventRule
     dsc        "白き玉桂を使用"
-    type       :type=>:after, :obj=>"owner", :hook=>:dice_attribute_regist_event, :priority=>80
+    type       type: :after, obj: "owner", hook: :dice_attribute_regist_event, priority: 80
     func       :use_white_moon_feat_dice_attr
     goal       ["self", :use_end?]
   end
 
   class UseWhiteMoonFeatDamageEvent < EventRule
     dsc        "白き玉桂を使用時に手札をランダムに失わせる"
-    type       :type=>:before, :obj=>"duel", :hook=>:damage_phase, :priority=>100
+    type       type: :before, obj: "duel", hook: :damage_phase, priority: 100
     func       :use_white_moon_feat_damage
     goal       ["self", :use_end?]
   end
 
   class FinishWhiteMoonFeatEvent < EventRule
     dsc        "白き玉桂の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_white_moon_feat
     goal       ["self", :use_end?]
   end
@@ -25698,42 +25582,42 @@ module Unlight
 
   class CheckAddAngerBackFeatEvent < EventRule
     dsc        "静謐な背中が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_add_action
+    type       type: :after, obj: "owner", hook: :attack_card_add_action
     func       :check_anger_back_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRemoveAngerBackFeatEvent < EventRule
     dsc        "静謐な背中が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_remove_action
+    type       type: :after, obj: "owner", hook: :attack_card_remove_action
     func       :check_anger_back_feat
     goal       ["self", :use_end?]
   end
 
   class CheckRotateAngerBackFeatEvent < EventRule
     dsc        "静謐な背中が可能か"
-    type       :type=>:after, :obj=>"owner", :hook=>:attack_card_rotate_action
+    type       type: :after, obj: "owner", hook: :attack_card_rotate_action
     func       :check_anger_back_feat
     goal       ["self", :use_end?]
   end
 
   class UseAngerBackFeatEvent < EventRule
     dsc        "攻撃力を加算"
-    type       :type=>:before, :obj=>"duel", :hook=>:determine_battle_point_phase, :priority=>5
+    type       type: :before, obj: "duel", hook: :determine_battle_point_phase, priority: 5
     func       :use_anger_back_feat
     goal       ["self", :use_end?]
   end
 
   class FinishAngerBackFeatEvent < EventRule
     dsc        "静謐な背中の使用が終了"
-    type       :type=>:after, :obj=>"duel", :hook=>:determine_battle_point_phase
+    type       type: :after, obj: "duel", hook: :determine_battle_point_phase
     func       :finish_anger_back_feat
     goal       ["self", :use_end?]
   end
 
   class UseAngerBackFeatDamageEvent < EventRule
     dsc        "ダメージ時に追加効果が有効になる"
-    type       :type=>:after, :obj=>"duel", :hook=>:battle_result_phase, :priority=>40
+    type       type: :after, obj: "duel", hook: :battle_result_phase, priority: 40
     func       :use_anger_back_feat_damage
     goal       ["self", :use_end?]
   end
@@ -25818,7 +25702,4 @@ module Unlight
     func       :update_feat_condition
     event      :finish
   end
-
-
-
 end

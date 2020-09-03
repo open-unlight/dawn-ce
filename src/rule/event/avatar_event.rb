@@ -38,7 +38,6 @@
   # act:
   #   追加実行されるイベント
 module Unlight
-
   # ===========================
   # イベント定義
   # ===========================
@@ -103,7 +102,6 @@ module Unlight
     event     :finish
   end
 
-
   class ItemGetEvent < EventRule
     dsc       "アイテムを取得"
     func      :item_get
@@ -123,86 +121,86 @@ module Unlight
   end
 
   class PartGetEvent < EventRule
-    dsc      "パーツを取得"
+    dsc "パーツを取得"
     func      :part_get
     event     :finish
   end
 
   class SlotCardGetEvent < EventRule
-    dsc      "スロットカードをを取得"
+    dsc "スロットカードをを取得"
     func      :slot_card_get
     event     :finish
   end
 
   class CharaCardGetEvent < EventRule
-    dsc      "キャラカードをを取得"
+    dsc "キャラカードをを取得"
     func      :chara_card_get
     event     :finish
   end
 
   class QuestGetEvent < EventRule
-    dsc      "クエストを取得"
+    dsc "クエストを取得"
     func      :quest_get
     event     :finish
   end
 
   class QuestStateUpdateEvent < EventRule
-    dsc      "クエストの状態をUPDATE"
+    dsc "クエストの状態をUPDATE"
     func      :quest_state_update
     event     :finish
   end
 
   class QuestDeletedEvent < EventRule
-    dsc      "クエストを消去"
+    dsc "クエストを消去"
     func      :quest_deleted
     event     :finish
   end
 
   class QuestProgressUpdateEvent < EventRule
-    dsc      "クエスト進行状態をUPDATE"
+    dsc "クエスト進行状態をUPDATE"
     func      :quest_progress_update
     event     :finish
   end
 
   class QuestDeckStateUpdateEvent < EventRule
-    dsc      "クエストデッキの状態をUPDATE"
+    dsc "クエストデッキの状態をUPDATE"
     func      :quest_deck_state_update
     event     :finish
   end
 
   class QuestFlagUpdateEvent < EventRule
-    dsc      "クエスト進行度をUPDATE"
+    dsc "クエスト進行度をUPDATE"
     func      :quest_flag_update
     event     :finish
   end
 
   # By_K2
   class FloorCountUpdateEvent < EventRule
-    dsc      "FloorCountUPDATE"
+    dsc "FloorCountUPDATE"
     func      :floor_count_update
     event     :finish
   end
 
   class QuestClearNumUpdateEvent < EventRule
-    dsc      "クエスト達成度をUPDATE"
+    dsc "クエスト達成度をUPDATE"
     func      :quest_clear_num_update
     event     :finish
   end
 
   class QuestFindAtUpdateEvent < EventRule
-    dsc      "クエスト探索時間をUPDATE"
+    dsc "クエスト探索時間をUPDATE"
     func      :quest_find_at_update
     event     :finish
   end
 
   class EventQuestFlagUpdateEvent < EventRule
-    dsc      "イベントクエスト進行度をUPDATE"
+    dsc "イベントクエスト進行度をUPDATE"
     func      :event_quest_flag_update
     event     :finish
   end
 
   class EventQuestClearNumUpdateEvent < EventRule
-    dsc      "イベントクエスト達成度をUPDATE"
+    dsc "イベントクエスト達成度をUPDATE"
     func      :event_quest_clear_num_update
     event     :finish
   end
@@ -340,10 +338,8 @@ module Unlight
   end
 
   class UpdateCombineWeaponDataEvent < EventRule
-    dsc      "合成武器情報を更新"
+    dsc "合成武器情報を更新"
     func      :update_combine_weapon_data
     event     :finish
   end
-
 end
-

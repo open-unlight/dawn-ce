@@ -4,9 +4,7 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   module DataController
-
       # ======================================
       # 受信コマンド
       # =====================================
@@ -26,7 +24,7 @@ module Unlight
         a = CACHE.get("oa#{id}")
         unless a
           a = Avatar[id].get_other_avatar_info_set
-          CACHE.set("oa#{id}",a, 300)
+          CACHE.set("oa#{id}", a, 300)
         end
         if a
           sc_other_avatar_info(*a)
@@ -35,20 +33,20 @@ module Unlight
       end
 
       # ストーリー情報を送る
-      def cs_request_story_info(rnd0,id,rnd1)
+      def cs_request_story_info(rnd0, id, rnd1)
         SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_request_story_info] #{id}");
         story = CharaCardStory[id];
-        sc_story_info(id, story.book_type||0,  story.title||"", story.content||"",story.image||"", story.age_no||"", story.version||0) if story
+        sc_story_info(id, story.book_type || 0, story.title || "", story.content || "", story.image || "", story.age_no || "", story.version || 0) if story
       end
 
       # フレンド情報のリクエスト
       def cs_request_friends_info
       end
 
-      def cs_request_friend_list(type,offset,count)
+      def cs_request_friend_list(type, offset, count)
         SERVER_LOG.info("<UID:#{@uid}>DataServer: [#{__method__}] type:#{type} offset:#{offset} count:#{count}")
         if @player
-          ret = @player.get_friend_list_offset_str(type,offset,count)
+          ret = @player.get_friend_list_offset_str(type, offset, count)
           sc_friend_list(*ret)
         end
       end
@@ -72,7 +70,7 @@ module Unlight
       # 自分を招待してくれたひとを更新
       def cs_update_invited_users(users)
         SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_update_invited_users] #{users}")
-        u =users.split(",")
+        u = users.split(",")
         if @player
           @player.update_invited_users(u)
         end
@@ -81,7 +79,7 @@ module Unlight
       # 自分を招待してくれたひとを更新
       def cs_update_comeback_send_users(users)
         SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_update_comeback_send_users] #{users}")
-        u =users.split(",")
+        u = users.split(",")
         if @player
           @player.update_comebacked_users(u)
         end
@@ -89,9 +87,9 @@ module Unlight
 
       # そのUIDをもった人はゲームを始めているか？
       def cs_check_exist_player(uid)
-        ret = Player.filter({:name=>uid}).all
-        if ret.size >0 && ret[0] && ret[0].avatars.size > 0
-          sc_exist_player_info(uid,ret[0].id, ret[0].current_avatar.id)
+        ret = Player.filter({ name: uid }).all
+        if ret.size > 0 && ret[0] && ret[0].avatars.size > 0
+          sc_exist_player_info(uid, ret[0].id, ret[0].current_avatar.id)
         end
       end
 
@@ -100,32 +98,33 @@ module Unlight
         sc_update_rank(kind, d[:rank], d[:point]) if d
       end
 
-      def cs_request_ranking_list(kind,offset,count,server_type)
+      def cs_request_ranking_list(kind, offset, count, server_type)
         SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_request_ranking_list],#{kind},#{offset},#{server_type},#{count}")
         case kind
         when RANK_TYPE_TD
-          ret = Unlight::TotalDuelRanking.get_ranking_str(server_type, offset, offset+count-1);
-          sc_update_total_duel_ranking_list(offset, ret) if ret&&ret.size >1
+          ret = Unlight::TotalDuelRanking.get_ranking_str(server_type, offset, offset + count - 1);
+          sc_update_total_duel_ranking_list(offset, ret) if ret && ret.size > 1
         when RANK_TYPE_TQ
-          ret = Unlight::TotalQuestRanking.get_ranking_str(server_type, offset, offset+count-1);
-          sc_update_total_quest_ranking_list(offset, ret) if ret&&ret.size >1
+          ret = Unlight::TotalQuestRanking.get_ranking_str(server_type, offset, offset + count - 1);
+          sc_update_total_quest_ranking_list(offset, ret) if ret && ret.size > 1
         when RANK_TYPE_WD
-          ret = Unlight::WeeklyDuelRanking.get_ranking_str(server_type, offset, offset+count-1);
-          sc_update_weekly_duel_ranking_list(offset, ret) if ret&&ret.size >1
+          ret = Unlight::WeeklyDuelRanking.get_ranking_str(server_type, offset, offset + count - 1);
+          sc_update_weekly_duel_ranking_list(offset, ret) if ret && ret.size > 1
         when RANK_TYPE_WQ
-          ret = Unlight::WeeklyQuestRanking.get_ranking_str(server_type, offset, offset+count-1);
-          sc_update_weekly_quest_ranking_list(offset, ret) if ret&&ret.size >1
+          ret = Unlight::WeeklyQuestRanking.get_ranking_str(server_type, offset, offset + count - 1);
+          sc_update_weekly_quest_ranking_list(offset, ret) if ret && ret.size > 1
         when RANK_TYPE_TE
-          ret = Unlight::TotalEventRanking.get_ranking_str(server_type, offset, offset+count-1);
-          sc_update_total_event_ranking_list(offset, ret) if ret&&ret.size >1
+          ret = Unlight::TotalEventRanking.get_ranking_str(server_type, offset, offset + count - 1);
+          sc_update_total_event_ranking_list(offset, ret) if ret && ret.size > 1
         when RANK_TYPE_TV
           now = Time.now.utc
           if now < CHARA_VOTE_RANKING_HIDE_TIME
-            ret = Unlight::TotalCharaVoteRanking.get_ranking_str(server_type, offset, offset+count-1, false);
-            sc_update_total_chara_vote_ranking_list(offset, ret) if ret&&ret.size >1
+            ret = Unlight::TotalCharaVoteRanking.get_ranking_str(server_type, offset, offset + count - 1, false);
+            sc_update_total_chara_vote_ranking_list(offset, ret) if ret && ret.size > 1
           end
        end
       end
+
       # チャンネルリストを取得する
       def cs_request_channel_list_info
         sc_channel_list_info(*Channel.get_channel_list_info(@avatar.server_type)) if @avatar
@@ -139,7 +138,7 @@ module Unlight
           if ret.instance_of?(ProfoundInventory)
             SERVER_LOG.info("<UID:#{@uid}>DataServer: [#{__method__}] success! inv_id:#{ret.id}");
             # 渦情報を送信
-            @avatar.send_prf_info(ret,false)
+            @avatar.send_prf_info(ret, false)
           else
             SERVER_LOG.info("<UID:#{@uid}>DataServer: [#{__method__}] e:#{ret}");
             # 帰ってきたエラーを出す
@@ -153,7 +152,7 @@ module Unlight
         SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_find_avatar] #{avatar_name}");
         if @player
           st = @player.server_type
-          a = Avatar.filter{ [Sequel.like(:name,"#{avatar_name}%"), player_id > 0, server_type => st] }.all
+          a = Avatar.filter { [Sequel.like(:name, "#{avatar_name}%"), player_id > 0, server_type => st] }.all
           ret = []
           a.each do |a|
             if @player.id != a.player_id
@@ -164,8 +163,6 @@ module Unlight
           sc_result_avatars_list(ret.join(","))
         end
       end
-
-
 
       def regist_avatar_event
         @avatar.init
@@ -191,10 +188,9 @@ module Unlight
       end
 
       # アチーブメントが更新された
-      def update_achievement_info_event_handler(target,ret)
-        sc_update_achievement_info(ret[0],ret[1],ret[2],ret[3],ret[4])
+      def update_achievement_info_event_handler(target, ret)
+        sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
       end
-
 
       # ======================================
       # 送信コマンド
@@ -210,8 +206,8 @@ module Unlight
         sc_data_version_info(0,
                              0,
                              0,
-                             Dialogue.data_version||0,
-                             CharaCardStory.data_version||0,
+                             Dialogue.data_version || 0,
+                             CharaCardStory.data_version || 0,
                              0,
                              0,
                              0,
@@ -222,7 +218,6 @@ module Unlight
                              0,
                              0,
                              0,
-
                              )
         if @player.avatars.size > 0
           @avatar = @player.avatars[0]
@@ -253,5 +248,4 @@ module Unlight
         delete_connection
       end
     end
-
   end

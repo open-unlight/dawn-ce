@@ -5,7 +5,6 @@
 
 module Unlight
   module TotalRanking
-
     def self.included(base) # :nodoc:
       base.extend initialize_ranking
     end
@@ -14,7 +13,7 @@ module Unlight
       @ranking_all = "total_#{data_type}_ranking:all"
       @ranking_all_id = "total_#{data_type}_ranking:all_id"
       @ranking_all_id_before = "total_#{data_type}_ranking:all_id_before"
-      @total_ranking_str_set = { }
+      @total_ranking_str_set = {}
       @ranking_arrow = "total_#{data_type}_ranking:arrow"
       sv_types = []
       case THIS_SERVER
@@ -35,9 +34,9 @@ module Unlight
       ret = nil
       ret = CACHE.get("#{@ranking_all}_#{server_type}")
       unless ret
-        ret = ranking_data.filter(:server_type=>server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all
+        ret = ranking_data.filter(server_type: server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all
         CACHE.set("#{@ranking_all}_#{server_type}", ret, RANK_CACHE_TTL)
-        CACHE.set("#{@ranking_all_id}_#{server_type}", ret.map{ |r| r.avatar_id}, RANK_CACHE_TTL)
+        CACHE.set("#{@ranking_all_id}_#{server_type}", ret.map { |r| r.avatar_id }, RANK_CACHE_TTL)
         create_arrow(server_type)
       end
       ret[st_i..end_i]
@@ -49,13 +48,13 @@ module Unlight
       if before
         arrow_set = []
         a_id_set = CACHE.get("#{@ranking_all_id}_#{server_type}")
-        a_id_set = ranking_data.filter(:server_type=>server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all.map{ |r| r.avatar_id} unless a_id_set
-        a_id_set.each_index {|i|
+        a_id_set = ranking_data.filter(server_type: server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all.map { |r| r.avatar_id } unless a_id_set
+        a_id_set.each_index { |i|
           rid = a_id_set[i]
           old_rank = before.index(rid)
-          if  old_rank == nil
+          if old_rank == nil
             arrow_set << RANK_S_UP
-          elsif  old_rank == i
+          elsif old_rank == i
             arrow_set << RANK_NONE
           elsif old_rank > i
             if ((old_rank - i) >= RANK_SUPER_DIFF)
@@ -64,7 +63,7 @@ module Unlight
               arrow_set << RANK_UP
             end
           elsif old_rank < i
-            if i - old_rank  >= RANK_SUPER_DIFF
+            if i - old_rank >= RANK_SUPER_DIFF
               arrow_set << RANK_S_DOWN
             else
               arrow_set << RANK_DOWN
@@ -93,7 +92,7 @@ module Unlight
     def get_order_ranking_id(server_type)
       ret = CACHE.get("#{@ranking_all_id}_#{server_type}")
       unless ret
-        ret = ranking_data.filter(:server_type=>server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all.map{ |r| r.avatar_id}
+        ret = ranking_data.filter(server_type: server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all.map { |r| r.avatar_id }
         CACHE.set("#{@ranking_all_id}_#{server_type}", ret, RANK_CACHE_TTL)
         create_arrow(server_type)
       end
@@ -103,7 +102,7 @@ module Unlight
     # 指定したアバターのランキングを更新して現在のランクを返す
     def update_ranking(a_id, a_name, a_point, server_type)
       lr = last_ranking(server_type)
-      r = ranking_data.filter(:server_type=>server_type).filter(:avatar_id =>a_id).all.first
+      r = ranking_data.filter(server_type: server_type).filter(avatar_id: a_id).all.first
       if lr < a_point
         # すでに登録済みな
         if r
@@ -112,7 +111,7 @@ module Unlight
           r = ranking_data.new
         else
           # いっぱいならケツと交換
-          r = ranking_data.filter(:server_type=>server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all.last
+          r = ranking_data.filter(server_type: server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all.last
         end
         r.avatar_id = a_id
         r.name = a_name
@@ -120,7 +119,7 @@ module Unlight
         r.server_type = server_type
         r.save
         all_cache_delete(server_type)
-      elsif r                   # すでにあるものがランキング外に落ちるときはポイントをいれるだけ
+      elsif r # すでにあるものがランキング外に落ちるときはポイントをいれるだけ
         r.point = a_point
         r.server_type = server_type
         r.save
@@ -134,14 +133,14 @@ module Unlight
       if ranking_data_count(server_type) < RANKING_COUNT_NUM
         0
       else
-        ranking_data.filter(:server_type=>server_type).min(:point)||0
+        ranking_data.filter(server_type: server_type).min(:point) || 0
       end
     end
 
     # キャッシュを削除（矢印作成のために前のランキングを残す）
     def all_cache_delete(server_type)
       b = CACHE.get("#{@ranking_all_id_before}_#{server_type}")
-      unless b&&b.size>0
+      unless b && b.size > 0
         CACHE.set("#{@ranking_all_id_before}_#{server_type}", CACHE.get("#{@ranking_all_id}_#{server_type}"), RANK_ARROW_TTL)
       end
       CACHE.delete("#{@ranking_all}_#{server_type}")
@@ -164,12 +163,12 @@ module Unlight
         if set
           set.each_index do |i|
             ret << set[i].name
-            ret << arrow_set[i+st_i]
+            ret << arrow_set[i + st_i]
             ret << set[i].point
           end
         end
         ret = ret.join(",")
-        CACHE.set( "total_#{data_type}_ranking:#{st_i}_#{end_i}_#{server_type}_str", ret, RANK_CACHE_TTL)
+        CACHE.set("total_#{data_type}_ranking:#{st_i}_#{end_i}_#{server_type}_str", ret, RANK_CACHE_TTL)
         @total_ranking_str_set["total_#{data_type}_ranking:#{st_i}_#{end_i}_#{server_type}_str"] = true
       end
       ret

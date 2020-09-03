@@ -4,25 +4,24 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # クエストの１場所クラス
   class QuestLand < Sequel::Model
     # プラグインの設定
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # 他クラスのアソシエーション
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, :default => ""
-      integer     :monstar_no, :default => 0
-      integer     :treasure_no, :default => 0
-      integer     :event_no, :default => 0
-      integer     :stage, :default => 0
-      String      :caption, :default => ""
+      String      :name, default: ""
+      integer     :monstar_no, default: 0
+      integer     :treasure_no, default: 0
+      integer     :event_no, default: 0
+      integer     :stage, default: 0
+      String      :caption, default: ""
       datetime    :created_at
       datetime    :updated_at
     end
@@ -41,7 +40,7 @@ module Unlight
       ret = cache_store.get("QuestLandVersion")
       unless ret
         ret = refresh_data_version
-        cache_store.set("QuestLandVersion",ret)
+        cache_store.set("QuestLandVersion", ret)
       end
       ret
     end
@@ -64,7 +63,7 @@ module Unlight
 
     # マップから見えるエネミー番号
     def enemy_chara_card_no
-      if  CPU_CHARA_CARDS[self.monstar_no]
+      if CPU_CHARA_CARDS[self.monstar_no]
         CPU_CHARA_CARDS[self.monstar_no].first
       else
         0000
@@ -74,7 +73,7 @@ module Unlight
     # 宝箱のタイプを返す
     def treasure_genre
       ret = self.treasure_no
-      if ret>0
+      if ret > 0
          t = TreasureData[ret]
         if t
           ret = t.treasure_type
@@ -86,7 +85,7 @@ module Unlight
     # 宝箱のタイプを返す
     def treasure_bonus_level
       ret = self.treasure_no
-      if ret>0
+      if ret > 0
          t = TreasureData[ret]
         if t
           ret = t.value
@@ -108,12 +107,12 @@ module Unlight
    def get_data_csv_str
      ret = ""
      ret << self.id.to_s << ","
-     ret << '"' << (self.name||"") << '",'
-     ret << (self.monstar_no||0).to_s<< ","
-     ret << (self.treasure_genre||0).to_s << ","
-     ret << (self.event_no||0).to_s << ","
-     ret << (self.stage||0).to_s << ","
-     ret << '"' << (self.caption||"")<< '"'
+     ret << '"' << (self.name || "") << '",'
+     ret << (self.monstar_no || 0).to_s << ","
+     ret << (self.treasure_genre || 0).to_s << ","
+     ret << (self.event_no || 0).to_s << ","
+     ret << (self.stage || 0).to_s << ","
+     ret << '"' << (self.caption || "") << '"'
      ret
    end
   end

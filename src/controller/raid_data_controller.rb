@@ -4,9 +4,7 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   module RaidDataController
-
     # ======================================
     # 受信コマンド
     # =====================================
@@ -16,8 +14,8 @@ module Unlight
       # バトル中は使用できなくすべきか
       if @avatar
         e = @avatar.use_item(inv_id)
-        @reward.update if @reward&&(@reward.finished == false)
-        if e >0
+        @reward.update if @reward && (@reward.finished == false)
+        if e > 0
           sc_error_no(e)
         else
           it = ItemInventory[inv_id]
@@ -33,7 +31,7 @@ module Unlight
         @avatar.new_profound_inventory_check # 追加した新規渦の情報をNoticeに追加
         n = @avatar.get_profound_notice
       end
-      sc_add_notice(n) if n!=""&&n!=nil
+      sc_add_notice(n) if n != "" && n != nil
     end
 
     def cs_request_update_inventory(id_list_str)
@@ -52,7 +50,7 @@ module Unlight
       if @avatar
         prf_inv = ProfoundInventory[inv_id]
         if prf_inv
-          err = @avatar.profound_duel_finish(prf_inv,true)
+          err = @avatar.profound_duel_finish(prf_inv, true)
           if err == 0
             @avatar.send_prf_info(prf_inv)
           else
@@ -80,7 +78,7 @@ module Unlight
           vanished = @avatar.is_vanished_profound(inv)
           is_reward = @avatar.check_profound_reward(inv)
           # 報酬配布があった場合、渦情報をクライアントに送る
-          @avatar.send_prf_info(inv, false) if is_reward&&!vanished
+          @avatar.send_prf_info(inv, false) if is_reward && !vanished
         end
       end
     end
@@ -94,11 +92,11 @@ module Unlight
     end
 
     # ボスHPの更新
-    def cs_update_boss_hp(prf_id,now_dmg)
+    def cs_update_boss_hp(prf_id, now_dmg)
       if @avatar
         prf = Profound[prf_id]
         view_start_dmg = (prf) ? prf.param_view_start_damage : 0
-        boss_damage,send_log_data = ProfoundLog::get_now_damage(@avatar.id,prf_id,view_start_dmg,now_dmg)
+        boss_damage, send_log_data = ProfoundLog::get_now_damage(@avatar.id, prf_id, view_start_dmg, now_dmg)
         prev_view_flag = send_log_data.first[:name_view] if send_log_data && send_log_data.size > 0
         send_log_data.each do |data|
           state_update = false
@@ -116,11 +114,11 @@ module Unlight
 
           # 表示状態変更チェック
           state_update = true if prev_view_flag == false && data[:name_view] == true
-          sc_send_boss_damage(prf_id,data[:log].damage,"#{prf_id}:#{msg_type}:#{msg_data.join(",")}",prf.state,state_update)
+          sc_send_boss_damage(prf_id, data[:log].damage, "#{prf_id}:#{msg_type}:#{msg_data.join(",")}", prf.state, state_update)
 
           prev_view_flag = data[:name_view]
         end
-        sc_update_boss_hp(prf_id,boss_damage)
+        sc_update_boss_hp(prf_id, boss_damage)
       end
     end
 
@@ -132,7 +130,7 @@ module Unlight
         if ret.instance_of?(ProfoundInventory)
           SERVER_LOG.info("<UID:#{@uid}>RaidDataServer: [#{__method__}] success! inv_id:#{ret.id}");
           # 渦情報を送信
-          @avatar.send_prf_info(ret,false)
+          @avatar.send_prf_info(ret, false)
         else
           SERVER_LOG.info("<UID:#{@uid}>RaidDataServer: [#{__method__}] e:#{ret}");
           # 帰ってきたエラーを出す
@@ -141,19 +139,18 @@ module Unlight
       end
     end
 
-
     def cs_request_ranking_list(inv_id, offset, count)
       @rank_prf_inv = ProfoundInventory[inv_id] if !@rank_prf_inv || @rank_prf_inv.id != inv_id
       if @rank_prf_inv
         @rank_prf_inv.init_ranking
-        ret = @rank_prf_inv.get_ranking_str(offset,offset+count-1)
-        sc_update_ranking_list(@rank_prf_inv.profound_id, offset, ret) if ret&&ret.size >1
+        ret = @rank_prf_inv.get_ranking_str(offset, offset + count - 1)
+        sc_update_ranking_list(@rank_prf_inv.profound_id, offset, ret) if ret && ret.size > 1
       end
     end
 
     def cs_request_rank_info(inv_id)
       d = @avatar.get_profound_rank(inv_id) if @avatar
-      sc_update_rank(d[:prf_id], d[:ret][:rank], d[:ret][:score]) if d&&d[:prf_id] != 0
+      sc_update_rank(d[:prf_id], d[:ret][:rank], d[:ret][:score]) if d && d[:prf_id] != 0
     end
 
     # レイドHashのコピー許可
@@ -173,15 +170,15 @@ module Unlight
               if prf.copy_type == PRF_COPY_TYPE_FRIENDS
                 owner_ava = Avatar[owner_id]
                 if owner_ava
-                  fl = FriendLink::check_already_exist?(owner_ava.player_id,@avatar.player_id,@avatar.server_type)
-                  permission = true if fl != false && fl.size > 0 &&fl.first.friend_type == FriendLink::TYPE_FRIEND
+                  fl = FriendLink::check_already_exist?(owner_ava.player_id, @avatar.player_id, @avatar.server_type)
+                  permission = true if fl != false && fl.size > 0 && fl.first.friend_type == FriendLink::TYPE_FRIEND
                 end
               end
             end
           end
         end
         if permission
-          sc_get_profound_hash(prf_id,prf.profound_hash,prf.copy_type,prf.set_defeat_reward)
+          sc_get_profound_hash(prf_id, prf.profound_hash, prf.copy_type, prf.set_defeat_reward)
         else
           sc_error_no(ERROR_PRF_CANT_HASH_COPY)
         end
@@ -189,7 +186,7 @@ module Unlight
     end
 
     # レイド設定を変更
-    def cs_change_profound_config(prf_id,type,set_defeat_reward)
+    def cs_change_profound_config(prf_id, type, set_defeat_reward)
       SERVER_LOG.info("<UID:#{@uid}>RaidDataServer: [#{__method__}] prf_id:#{prf_id} type:#{type} set_defeat_reward:#{set_defeat_reward}")
       prf = Profound[prf_id]
       if prf
@@ -201,7 +198,7 @@ module Unlight
     # フレンドも渦に追加する
     def cs_send_profound_friend(prf_id)
       prf = Profound[prf_id]
-      if @avatar&&prf
+      if @avatar && prf
         @avatar.send_profound_friends(prf)
       end
     end
@@ -232,17 +229,17 @@ module Unlight
     end
 
     # 渦情報イベント
-    def send_profound_info_event_handler(target,ret)
+    def send_profound_info_event_handler(target, ret)
       sc_resend_profound_inventory(*ret)
     end
 
     # 渦インベントリー情報を送信
-    def resend_profound_inventory_event_handler(target,ret)
+    def resend_profound_inventory_event_handler(target, ret)
       sc_resend_profound_inventory(*ret)
     end
 
     # 渦インベントリー情報送信完了
-    def resend_profound_inventory_finish_event_handler(target,ret)
+    def resend_profound_inventory_finish_event_handler(target, ret)
       sc_resend_profound_inventory_finish()
     end
 
@@ -250,7 +247,6 @@ module Unlight
     def item_use_event_handler(target, ret)
       sc_use_item(ret)
     end
-
 
     # アチーブメントがクリアされた
     def achievement_clear_event_handler(target, ret)
@@ -268,8 +264,8 @@ module Unlight
     end
 
     # アチーブメントが更新された
-    def update_achievement_info_event_handler(target,ret)
-      sc_update_achievement_info(ret[0],ret[1],ret[2],ret[3],ret[4])
+    def update_achievement_info_event_handler(target, ret)
+      sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 
     def pushout()

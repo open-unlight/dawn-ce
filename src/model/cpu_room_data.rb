@@ -10,7 +10,7 @@ module Unlight
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # 他クラスのアソシエーション
     Sequel::Model.plugin :schema
@@ -18,10 +18,10 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, :default => ""
-      integer     :level, :default => 0
-      integer     :cpu_card_data_no, :default => 0
-      integer     :rule, :default => 0
+      String      :name, default: ""
+      integer     :level, default: 0
+      integer     :cpu_card_data_no, default: 0
+      integer     :rule, default: 0
 
       datetime    :created_at
       datetime    :updated_at
@@ -58,7 +58,7 @@ module Unlight
       ret = cache_store.get("CpuRoomDataVersion")
       unless ret
         ret = refresh_data_version
-        cache_store.set("CpuRoomDataVersion",ret)
+        cache_store.set("CpuRoomDataVersion", ret)
       end
       ret
     end
@@ -74,7 +74,6 @@ module Unlight
       end
     end
 
-
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
       self.updated_at.to_i % MODEL_CACHE_INT
@@ -88,6 +87,5 @@ module Unlight
         101
       end
     end
-
   end
 end

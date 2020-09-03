@@ -4,7 +4,6 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # 渦のインベントリクラス
   class ProfoundInventory < Sequel::Model
     # プラグインの設定
@@ -13,24 +12,24 @@ module Unlight
     plugin :hook_class_methods
 
     # 他クラスのアソシエーション
-    many_to_one :profound, :class =>Unlight::Profound, :key=>:profound_id         # 渦情報を保持
+    many_to_one :profound, class: Unlight::Profound, key: :profound_id # 渦情報を保持
 
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer     :avatar_id,:index=>true                            # アバターID
-      integer     :profound_id,:index=>true                          # 渦のID
-      integer     :deck_idx, :default => 0                           # 使用デッキINDEX
-      integer     :chara_card_dmg_1, :default => 0                   # デッキカード1のダメージ
-      integer     :chara_card_dmg_2, :default => 0                   # デッキカード2のダメージ
-      integer     :chara_card_dmg_3, :default => 0                   # デッキカード3のダメージ
-      integer     :damage_count, :default => 0                       # 与えたダメージ数
-      integer     :score, :default => 0                              # スコア
-      integer     :state, :default => PRF_INV_ST_NEW,:index=>true    # 現在の状態
-      Boolean     :found, :default => false                          # 発見したか
-      Boolean     :defeat, :default => false                         # 撃破したか
-      integer     :reward_state, :default => PRF_INV_REWARD_ST_STILL # 報酬を取得したか
-      integer     :btl_count, :default => 0                          # 戦闘回数
+      integer     :avatar_id, index: true                            # アバターID
+      integer     :profound_id, index: true                          # 渦のID
+      integer     :deck_idx, default: 0                           # 使用デッキINDEX
+      integer     :chara_card_dmg_1, default: 0                   # デッキカード1のダメージ
+      integer     :chara_card_dmg_2, default: 0                   # デッキカード2のダメージ
+      integer     :chara_card_dmg_3, default: 0                   # デッキカード3のダメージ
+      integer     :damage_count, default: 0                       # 与えたダメージ数
+      integer     :score, default: 0                              # スコア
+      integer     :state, default: PRF_INV_ST_NEW, index: true # 現在の状態
+      Boolean     :found, default: false                          # 発見したか
+      Boolean     :defeat, default: false                         # 撃破したか
+      integer     :reward_state, default: PRF_INV_REWARD_ST_STILL # 報酬を取得したか
+      integer     :btl_count, default: 0                          # 戦闘回数
       datetime    :created_at
       datetime    :updated_at
     end
@@ -40,7 +39,7 @@ module Unlight
     end
     # テーブルを変更する
     DB.alter_table :profound_inventories do
-      add_column :score, :integer, :default => 0 unless Unlight::ProfoundInventory.columns.include?(:score)  # 新規追加2013/10/10
+      add_column :score, :integer, default: 0 unless Unlight::ProfoundInventory.columns.include?(:score) # 新規追加2013/10/10
     end
 
     # インサート時の前処理
@@ -53,12 +52,11 @@ module Unlight
        self.updated_at = Time.now.utc
     end
 
-
     # 表示するランキングリストの数
     FIN_VIEW_RANKING_NUM = 100
 
     # インベントリ作成
-    def self::get_new_profound_inventory(avatar_id,prf_id,owner,start_score=PRF_JOIN_ADD_SCORE)
+    def self::get_new_profound_inventory(avatar_id, prf_id, owner, start_score=PRF_JOIN_ADD_SCORE)
       ret = nil
       if owner
         set_state = PRF_INV_ST_INPROGRESS
@@ -80,40 +78,40 @@ module Unlight
     # 参加ユーザーのデータ取得
     def self::get_profound_data_list(prf_id)
       ret = []
-      inv_list = ProfoundInventory.filter([:profound_id=>prf_id]).filter{score > 0}.exclude(:state => PRF_INV_ST_FAILED).exclude(:state => PRF_INV_ST_GIVE_UP).all
+      inv_list = ProfoundInventory.filter([profound_id: prf_id]).filter { score > 0 }.exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).all
       ret = inv_list if inv_list
       ret
     end
 
     # 取得済み判定
-    def self::is_acquired_profound(avatar_id,hash)
-      list = Profound.join(ProfoundInventory.filter(:avatar_id => avatar_id),:profound_id=>:id).filter(:profound_hash=> hash).all
+    def self::is_acquired_profound(avatar_id, hash)
+      list = Profound.join(ProfoundInventory.filter(avatar_id: avatar_id), profound_id: :id).filter(profound_hash: hash).all
       (list && list.size > 0)
     end
 
     # 撃破者のインベントリ取得
-    def self::get_defeat_user_data(prf_id,r=true)
-      inv_list = ProfoundInventory.filter([:profound_id=>prf_id,:defeat=>true]).all
+    def self::get_defeat_user_data(prf_id, r=true)
+      inv_list = ProfoundInventory.filter([profound_id: prf_id, defeat: true]).all
       inv_list.first if inv_list
     end
 
     # 撃破判定
-    def self::is_defeat_boss(prf_id,inv_id,r=true)
-      cnt = ProfoundInventory.filter([:profound_id=>prf_id,:defeat=>true]).count
+    def self::is_defeat_boss(prf_id, inv_id, r=true)
+      cnt = ProfoundInventory.filter([profound_id: prf_id, defeat: true]).count
       (cnt > 0)
     end
 
     # 発見者のインベントリ取得
     def self::get_found_user_data(prf_id)
-      inv_list = ProfoundInventory.filter([:profound_id=>prf_id,:found=>true]).all
+      inv_list = ProfoundInventory.filter([profound_id: prf_id, found: true]).all
       inv_list.first if inv_list
     end
 
     # 参加ユーザーのアバターID一覧取得
     def self::get_profound_avatar_list(prf_id)
       ret = []
-      inv_list = ProfoundInventory.filter([:profound_id=>prf_id]).filter{score > 0}.exclude(:state => PRF_INV_ST_FAILED).exclude(:state => PRF_INV_ST_GIVE_UP).all
-      ret = inv_list.map{ |r| r.avatar_id } if inv_list
+      inv_list = ProfoundInventory.filter([profound_id: prf_id]).filter { score > 0 }.exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).all
+      ret = inv_list.map { |r| r.avatar_id } if inv_list
       ret
     end
 
@@ -124,24 +122,24 @@ module Unlight
       finder = Avatar[prf.found_avatar_id] if prf
       # 発見者のフレンドは省くよう調整
       friends_list = (finder) ? finder.get_friend_avatar_ids : []
-      num = ProfoundInventory.filter([:profound_id=>prf_id]).exclude([[:state,[PRF_INV_ST_FAILED,PRF_INV_ST_GIVE_UP]]]).exclude([[:avatar_id,friends_list]]).all.size
+      num = ProfoundInventory.filter([profound_id: prf_id]).exclude([[:state, [PRF_INV_ST_FAILED, PRF_INV_ST_GIVE_UP]]]).exclude([[:avatar_id, friends_list]]).all.size
       num
     end
 
     # 特定ユーザの報酬などの確認が必要な渦を取得
     def self::get_avatar_check_list(avatar_id)
-      ProfoundInventory.filter([:avatar_id=>avatar_id]).exclude([:reward_state=>PRF_INV_REWARD_ST_ALREADY]).exclude([[:state,[PRF_INV_ST_FAILED,PRF_INV_ST_GIVE_UP]]]).all
+      ProfoundInventory.filter([avatar_id: avatar_id]).exclude([reward_state: PRF_INV_REWARD_ST_ALREADY]).exclude([[:state, [PRF_INV_ST_FAILED, PRF_INV_ST_GIVE_UP]]]).all
     end
 
     # 特定ユーザの実行中の渦を取得
     def self::get_avatar_battle_list(avatar_id)
-      ProfoundInventory.filter([:avatar_id=>avatar_id]).exclude(:state => PRF_INV_ST_SOLVED).exclude(:state => PRF_INV_ST_FAILED).exclude(:state => PRF_INV_ST_GIVE_UP).all
+      ProfoundInventory.filter([avatar_id: avatar_id]).exclude(state: PRF_INV_ST_SOLVED).exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).all
     end
 
     # 特定ユーザの特定渦を取得
-    def self::get_avatar_profound_for_id(avatar_id,prf_id)
+    def self::get_avatar_profound_for_id(avatar_id, prf_id)
       ret = nil
-      list = ProfoundInventory.filter([[:avatar_id,avatar_id],[:profound_id,prf_id]]).all
+      list = ProfoundInventory.filter([[:avatar_id, avatar_id], [:profound_id, prf_id]]).all
       ret = list.first if list.size > 0
       ret
     end
@@ -169,6 +167,7 @@ module Unlight
     # 消滅しているか
     def is_vanished?(lt=0)
       return true unless self.profound
+
       ret = self.profound.is_vanished?(lt)
 
       # 渦は消えてないが、ギブアップなどをしている場合
@@ -238,6 +237,7 @@ module Unlight
         self.save_changes
       end
     end
+
     def reward_ready?
       self.reward_state == PRF_INV_REWARD_ST_READY
     end
@@ -249,23 +249,24 @@ module Unlight
         self.save_changes
       end
     end
+
     def reward_already?
       self.reward_state == PRF_INV_REWARD_ST_ALREADY
     end
 
     def get_chara_cards_damages
-      [self.chara_card_dmg_1,self.chara_card_dmg_2,self.chara_card_dmg_3]
+      [self.chara_card_dmg_1, self.chara_card_dmg_2, self.chara_card_dmg_3]
     end
 
     # デッキID設定
-    def set_deck_idx(deck_idx,r=true)
+    def set_deck_idx(deck_idx, r=true)
       refresh if r
       self.deck_idx = deck_idx
       self.save_changes
     end
 
     # 戦闘回数を更新
-    def update_battle_count(c=1,r=true)
+    def update_battle_count(c=1, r=true)
       refresh if r
       self.btl_count += c
       self.state = PRF_INV_ST_INPROGRESS if self.state == PRF_INV_ST_NEW
@@ -273,11 +274,11 @@ module Unlight
     end
 
     # スコアを追加する
-    def update_score(s,r=true)
+    def update_score(s, r=true)
       refresh if r
       add_score = 0
       if s > 0
-        r = (rand(PRF_SCORE_RAND_BASIS*2) - PRF_SCORE_RAND_BASIS)
+        r = (rand(PRF_SCORE_RAND_BASIS * 2) - PRF_SCORE_RAND_BASIS)
         add_score = s * PRF_SCORE_ADD_BASIS + r
       end
       SERVER_LOG.info("<AID:#{self.avatar_id}>RaidServer: [#{__method__}] add score:#{add_score}")
@@ -287,28 +288,27 @@ module Unlight
       # all_cache_delete
     end
 
-
     # 与えたダメージを更新
-    def update_damage_count(d=0,turn=1,r=true)
+    def update_damage_count(d=0, turn=1, r=true)
       refresh if r
       self.damage_count += d
       self.save_changes
-      score = d>RAID_MAX_DAMAGE_SCORE ? RAID_MAX_DAMAGE_SCORE : d
+      score = d > RAID_MAX_DAMAGE_SCORE ? RAID_MAX_DAMAGE_SCORE : d
       SERVER_LOG.info("<AID:#{self.avatar_id}>RaidServer: [#{__method__}] score:#{score} turn:#{turn}")
-      update_score(score,false)
+      update_score(score, false)
     end
 
     # 撃破記録
-    def update_defeat(d=0,turn=1,r=true)
+    def update_defeat(d=0, turn=1, r=true)
       refresh if r
       self.defeat = true
       self.state = PRF_INV_ST_SOLVED
-      self.update_damage_count(d,turn,false)
+      self.update_damage_count(d, turn, false)
       self.save_changes
     end
 
     # キャラのダメージを保持
-    def update_chara_damage(damage_set,r=true)
+    def update_chara_damage(damage_set, r=true)
       refresh if r
       self.chara_card_dmg_1 = damage_set[0] if damage_set[0]
       self.chara_card_dmg_2 = damage_set[1] if damage_set[1]
@@ -317,14 +317,15 @@ module Unlight
     end
 
     # 終了時ランキング情報を取得
-    def get_finish_ranking_notice_str(defeat_avatar,r=true)
+    def get_finish_ranking_notice_str(defeat_avatar, r=true)
       ranking_str_list = []
       self_rank = ""
 
       count = 0
       prf_rank_list = self.get_treasure_rank(r)
-      prf_rank_list.each do |rank,list|
+      prf_rank_list.each do |rank, list|
         break if count >= FIN_VIEW_RANKING_NUM
+
         list.each do |data|
           inv_id = 0
           ava = nil
@@ -334,7 +335,7 @@ module Unlight
           end
           ava = Avatar[data[:a_id]] unless ava
           if ava
-            prf_inv = ProfoundInventory::get_avatar_profound_for_id(ava.id,self.profound_id)
+            prf_inv = ProfoundInventory::get_avatar_profound_for_id(ava.id, self.profound_id)
             r_data = ava.get_profound_rank_from_inv(prf_inv)
             ranking_str_list << "#{rank}&#{ava.name.force_encoding("UTF-8")}&#{r_data[:ret][:score]}" if count < FIN_VIEW_RANKING_NUM
             self_rank = "#{rank}&#{ava.name.force_encoding("UTF-8")}&#{r_data[:ret][:score]}" if data[:a_id] == self.avatar_id
@@ -344,10 +345,10 @@ module Unlight
       end
       if self_rank == ""
         self_ava = Avatar[self.avatar_id]
-        my_rank = self.get_avatar_treasure_rank(true,self.avatar_id)
+        my_rank = self.get_avatar_treasure_rank(true, self.avatar_id)
         self_rank = "#{my_rank[:rank]}&#{self_ava.name.force_encoding("UTF-8")}&#{my_rank[:damage]}"
       end
-      [ranking_str_list,self_rank]
+      [ranking_str_list, self_rank]
     end
 
     # 戦闘終了処理
@@ -357,7 +358,7 @@ module Unlight
       boss_name = (boss_data) ? boss_data.name : "Boss"
       prf_str = "#{self.profound_id}_#{self.profound.p_data.name.force_encoding("UTF-8")}_#{boss_name.force_encoding("UTF-8")}_#{self.profound.p_data.treasure_level}"
       notice_params = []
-      notice_params << { :type=>NOTICE_TYPE_FIN_PRF_RANKING, :param => [prf_str] }
+      notice_params << { type: NOTICE_TYPE_FIN_PRF_RANKING, param: [prf_str] }
 
       CACHE.set("profound_btl_fin_notice_#{self.profound_id}", notice_params, PRF_RANK_NOTICE_CACHE_TIME)
       notice_params
@@ -377,7 +378,7 @@ module Unlight
     end
 
     # ノーティス情報をセット
-    def set_btl_result_notice(avatar,r = true)
+    def set_btl_result_notice(avatar, r = true)
       refresh if r
       params = CACHE.get("profound_btl_fin_notice_#{self.profound_id}")
       params = boss_battle_finish unless params
@@ -386,20 +387,20 @@ module Unlight
         my_rank_str = "_#{my_rank[:rank]}-#{my_rank[:score]}"
         params.each do |prm|
           prm[:param][0] += my_rank_str
-          avatar.write_notice(prm[:type],prm[:param].join(","))
+          avatar.write_notice(prm[:type], prm[:param].join(","))
         end
         CACHE.set("profound_btl_fin_notice_#{self.profound_id}", params, PRF_RANK_NOTICE_CACHE_TIME)
       end
     end
 
     # 報酬の取得
-    def get_reward(avatar,r=true)
+    def get_reward(avatar, r=true)
       refresh if r
       if self.reward_state == PRF_INV_REWARD_ST_READY
         boss_data = self.profound.p_data.get_boss_data
         boss_name = (boss_data) ? boss_data.name : "Boss"
         find_ava = Avatar[self.profound.found_avatar_id] if self.profound.found_avatar_id != 0
-        finder_name = (find_ava) ?  find_ava.name : ""
+        finder_name = (find_ava) ? find_ava.name : ""
         prf_str = "#{self.profound.p_data.name.force_encoding("UTF-8")}_#{boss_name.force_encoding("UTF-8")}_#{finder_name.force_encoding("UTF-8")}"
         notice_head = [prf_str]
 
@@ -409,7 +410,7 @@ module Unlight
         notice_head << rank_str
 
         # 報酬情報を取得
-        rank_bonus,all_bonus,defeat_bonus,found_bonus = self.profound.get_treasure_list
+        rank_bonus, all_bonus, defeat_bonus, found_bonus = self.profound.get_treasure_list
 
         reward_list = []
 
@@ -426,7 +427,7 @@ module Unlight
         end
 
         # 撃破報酬
-        if self.defeat&&self.profound.set_defeat_reward
+        if self.defeat && self.profound.set_defeat_reward
           defeat_trs_str = avatar.get_profound_tresure(defeat_bonus)
           reward_list << defeat_trs_str.join("+")
         else
@@ -443,10 +444,10 @@ module Unlight
 
         # Noticeの作成
         notice_params = []
-        notice_params << { :type => NOTICE_TYPE_FIN_PRF_WIN,    :params => [self.profound_id,prf_str]    }
-        notice_params << { :type => NOTICE_TYPE_FIN_PRF_REWARD, :params => [self.profound_id,reward_list.join("-")]   } if reward_list.size > 0
+        notice_params << { type: NOTICE_TYPE_FIN_PRF_WIN,    params: [self.profound_id, prf_str] }
+        notice_params << { type: NOTICE_TYPE_FIN_PRF_REWARD, params: [self.profound_id, reward_list.join("-")] } if reward_list.size > 0
         notice_params.each do |n_prm|
-          avatar.write_notice(n_prm[:type], n_prm[:params].join(',') )
+          avatar.write_notice(n_prm[:type], n_prm[:params].join(','))
         end
 
         # 報酬状態を完了に変更
@@ -458,14 +459,14 @@ module Unlight
     # Ranking関連処理
     # =========================================
     # ランキングの文字列キャッシュは個別にならないようクラス変数にする
-    @@prf_ranking_str_set = { }
+    @@prf_ranking_str_set = {}
 
     def rank_cache_get(key)
       CACHE.get(key) if key
     end
 
-    def rank_cache_set(key,data,ttl)
-      CACHE.set(key,data,ttl) if key
+    def rank_cache_set(key, data, ttl)
+      CACHE.set(key, data, ttl) if key
     end
 
     def rank_cache_delete(key)
@@ -475,8 +476,8 @@ module Unlight
     # ランキング関連初期化
     def init_ranking(full_clear=false)
       inited = false
-      @ranking_all           = "prf_#{self.profound_id}_ranking:all"           unless @ranking_all
-      @ranking_all_id        = "prf_#{self.profound_id}_ranking:all_id"        unless @ranking_all_id
+      @ranking_all = "prf_#{self.profound_id}_ranking:all" unless @ranking_all
+      @ranking_all_id = "prf_#{self.profound_id}_ranking:all_id" unless @ranking_all_id
       @ranking_all_id_before = "prf_#{self.profound_id}_ranking:all_id_before" unless @ranking_all_id_before
       @ranking_arrow         = "prf_#{self.profound_id}_ranking:arrow"         unless @ranking_arrow
 
@@ -491,11 +492,12 @@ module Unlight
 
     # 取得Filter
     def get_filter(prf_id)
-      ProfoundInventory.filter([:profound_id=>prf_id]).exclude(:state => PRF_INV_ST_FAILED).exclude(:state => PRF_INV_ST_GIVE_UP).order(Sequel.desc(:damage_count))
+      ProfoundInventory.filter([profound_id: prf_id]).exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).order(Sequel.desc(:damage_count))
     end
+
     # 取得Filter
     def get_score_filter(prf_id)
-      ProfoundInventory.filter([:profound_id=>prf_id]).exclude(:state => PRF_INV_ST_FAILED).exclude(:state => PRF_INV_ST_GIVE_UP).order(Sequel.desc(:score))
+      ProfoundInventory.filter([profound_id: prf_id]).exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).order(Sequel.desc(:score))
     end
 
     # ランキング取得
@@ -504,8 +506,8 @@ module Unlight
       ret = rank_cache_get(@ranking_all) if cache
       unless ret
         ret = get_score_filter(self.profound_id).all
-        rank_cache_set( @ranking_all, ret, PRF_RANKING_CACHE_TTL)
-        rank_cache_set( @ranking_all_id, ret.map{ |r| r.avatar_id}, PRF_RANKING_CACHE_TTL)
+        rank_cache_set(@ranking_all, ret, PRF_RANKING_CACHE_TTL)
+        rank_cache_set(@ranking_all_id, ret.map { |r| r.avatar_id }, PRF_RANKING_CACHE_TTL)
         create_arrow
       end
       if st_i == 0 && end_i == 0
@@ -528,11 +530,11 @@ module Unlight
     end
 
     # AvatarIdのみランキング取得
-    def get_order_ranking_id(end_i=0,st_i=0)
+    def get_order_ranking_id(end_i=0, st_i=0)
       ret = rank_cache_get(@ranking_all_id)
       unless ret
-        ret = get_score_filter(self.profound_id).all.map{ |r| r.avatar_id }
-        rank_cache_set( @ranking_all_id, ret, PRF_RANKING_CACHE_TTL)
+        ret = get_score_filter(self.profound_id).all.map { |r| r.avatar_id }
+        rank_cache_set(@ranking_all_id, ret, PRF_RANKING_CACHE_TTL)
         create_arrow
       end
       if end_i == 0
@@ -549,13 +551,13 @@ module Unlight
       if before
        arrow_set = []
         a_id_set = rank_cache_get(@ranking_all_id)
-        a_id_set = get_score_filter(self.profound_id).all.map{ |r| r.avatar_id } unless a_id_set
-        a_id_set.each_index {|i|
+        a_id_set = get_score_filter(self.profound_id).all.map { |r| r.avatar_id } unless a_id_set
+        a_id_set.each_index { |i|
           rid = a_id_set[i]
           old_rank = before.index(rid)
-          if  old_rank == nil
+          if old_rank == nil
             arrow_set << RANK_S_UP
-          elsif  old_rank == i
+          elsif old_rank == i
             arrow_set << RANK_NONE
           elsif old_rank > i
             if ((old_rank - i) >= RANK_SUPER_DIFF)
@@ -564,7 +566,7 @@ module Unlight
               arrow_set << RANK_UP
             end
           elsif old_rank < i
-            if i - old_rank  >= RANK_SUPER_DIFF
+            if i - old_rank >= RANK_SUPER_DIFF
               arrow_set << RANK_S_DOWN
             else
               arrow_set << RANK_DOWN
@@ -573,9 +575,9 @@ module Unlight
             arrow_set << RANK_NONE
           end
         }
-        rank_cache_set( @ranking_arrow, arrow_set, PRF_RANKING_CACHE_TTL)
+        rank_cache_set(@ranking_arrow, arrow_set, PRF_RANKING_CACHE_TTL)
       else
-        rank_cache_set( @ranking_arrow, [], PRF_RANKING_CACHE_TTL)
+        rank_cache_set(@ranking_arrow, [], PRF_RANKING_CACHE_TTL)
       end
     end
 
@@ -586,8 +588,8 @@ module Unlight
         rank_cache_delete(@ranking_all_id_before)
       else
         b = rank_cache_get(@ranking_all_id_before)
-        unless b&&b.size>0
-          rank_cache_set(@ranking_all_id_before,rank_cache_get(@ranking_all_id), RANK_ARROW_TTL)
+        unless b && b.size > 0
+          rank_cache_set(@ranking_all_id_before, rank_cache_get(@ranking_all_id), RANK_ARROW_TTL)
         end
       end
       rank_cache_delete(@ranking_all)
@@ -595,7 +597,7 @@ module Unlight
       @@prf_ranking_str_set.each do |k, v|
         rank_cache_delete(k)
       end
-      @@prf_ranking_str_set = { }
+      @@prf_ranking_str_set = {}
     end
 
     # ランキングを文字列で返す（キャッシュつき）
@@ -613,12 +615,12 @@ module Unlight
             avatar = Avatar[set[i].avatar_id]
             name = avatar ? avatar.name + " Lv." + avatar.level.to_s : ""
             ret << name
-            ret << arrow_set[i+st_i]
+            ret << arrow_set[i + st_i]
             ret << set[i].score
           end
         end
         ret = ret.join(",")
-        rank_cache_set( "prf_#{self.profound_id}_ranking:#{st_i}_#{end_i}_str", ret, PRF_RANKING_CACHE_TTL)
+        rank_cache_set("prf_#{self.profound_id}_ranking:#{st_i}_#{end_i}_str", ret, PRF_RANKING_CACHE_TTL)
         @@prf_ranking_str_set["prf_#{self.profound_id}_ranking:#{st_i}_#{end_i}_str"] = true
       end
       ret
@@ -632,10 +634,10 @@ module Unlight
     def last_ranking
       all_set = rank_cache_get(@ranking_all)
       all_set = get_dmg_ranking unless all_set
-      if !@max&&all_set.count < RANKING_COUNT_NUM
+      if !@max && all_set.count < RANKING_COUNT_NUM
         0
       else
-        min = all_set.sort{ |a,b| (a[:score] <=> b[:score])}.first[:score]
+        min = all_set.sort { |a, b| (a[:score] <=> b[:score]) }.first[:score]
         min = 0 unless min
         min
       end
@@ -647,9 +649,9 @@ module Unlight
       index = get_order_ranking_id.index(self.avatar_id)
       lr = last_ranking
       if index && index < RANKING_COUNT_NUM
-        ret = {:rank =>index +1, :arrow=>get_arrow_set[index], :score=>self.score}
+        ret = { rank: index + 1, arrow: get_arrow_set[index], score: self.score }
       else
-        ret = {:rank =>0, :arrow=>RANK_NONE, :score=>self.score}
+        ret = { rank: 0, arrow: RANK_NONE, score: self.score }
       end
       ret
     end
@@ -660,15 +662,15 @@ module Unlight
       unless ret
         init_ranking
         all_cache_delete
-        list = get_dmg_ranking(0,0)
-        data_list = { }
+        list = get_dmg_ranking(0, 0)
+        data_list = {}
         list.each do |l|
           data_list[l.score] = [] unless data_list[l.score]
-          data_list[l.score] << { :a_id => l.avatar_id, :score => l.score}
+          data_list[l.score] << { a_id: l.avatar_id, score: l.score }
         end
         rank = 1
-        ret = { }
-        data_list.each do |dmg,data|
+        ret = {}
+        data_list.each do |dmg, data|
           count = 0
           data.each do |d|
             ret[rank] = [] unless ret[rank]
@@ -677,42 +679,40 @@ module Unlight
           end
           rank += count
         end
-        rank_cache_set("profound_get_treasure_rank_#{self.profound_id}",ret,60*60*24)
+        rank_cache_set("profound_get_treasure_rank_#{self.profound_id}", ret, 60 * 60 * 24)
       end
       ret
     end
 
     # 報酬配布用ランキングアバターIDを基準としたものを取得
-    def get_avatar_treasure_rank(cache=true,avatar_id=0)
+    def get_avatar_treasure_rank(cache=true, avatar_id=0)
       ret = rank_cache_get("profound_get_treasure_rank_#{self.profound_id}_avatar_id") if cache
       unless ret
         init_ranking
         all_cache_delete
         list = get_score_filter(self.profound_id).all
-        data_list = { }
+        data_list = {}
         list.each do |l|
           data_list[l.score] = [] unless data_list[l.score]
-          data_list[l.score] << { :a_id => l.avatar_id, :score => l.score}
+          data_list[l.score] << { a_id: l.avatar_id, score: l.score }
         end
         rank = 1
-        ret = { }
-        data_list.each do |dmg,data|
+        ret = {}
+        data_list.each do |dmg, data|
           count = 0
           data.each do |d|
-            ret[d[:a_id]] = { :rank=>rank,:damage=>d[:score]}
+            ret[d[:a_id]] = { rank: rank, damage: d[:score] }
             count += 1
           end
           rank += count
         end
-        rank_cache_set("profound_get_treasure_rank_#{self.profound_id}_avatar_id",ret,60*60*24)
+        rank_cache_set("profound_get_treasure_rank_#{self.profound_id}_avatar_id", ret, 60 * 60 * 24)
       end
-      if avatar_id!=0
+      if avatar_id != 0
         ret[avatar_id]
       else
         ret
       end
     end
-
   end
-
 end

@@ -4,13 +4,11 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
  # デッキクラス
-  class Deck  < BaseEvent
-
+  class Deck < BaseEvent
     attr_reader :deck_cards
 
-    def initialize(c,stage = 0)
+    def initialize(c, stage = 0)
       super
       share_context(c)
       @using_cards = [] # 使用中のカード配列
@@ -21,14 +19,14 @@ module Unlight
     end
 
     def init_cards()
-      @cards = ActionCard.deck_with_context(context,self,@stage) # デッキの保存カード
+      @cards = ActionCard.deck_with_context(context, self, @stage) # デッキの保存カード
     end
     private :init_cards
 
     def deck_init()
       @used_cards.shuffle!
       @deck_cards = @used_cards.clone
-      @used_cards =[]
+      @used_cards = []
       @deck_cards.size
     end
     regist_event DeckInitEvent
@@ -50,16 +48,17 @@ module Unlight
 
     # 墓地からランダムに指定枚数だけ引く。
     # 枚数,タイプを指定可能。ある分だけを返す
-    def draw_grave_cards(num=1, type=0)
+    def draw_grave_cards(num = 1, type = 0)
       ret_cards = []
 
       # デッキの残りが引く数より少ない場合捨て札を再シャッフル
       while ret_cards.size < num
 
         # 指定タイプがなくなり次第抜ける
-        card_list = type == 0 ? @used_cards : @used_cards.select{ |c| c.get_types.include?(type) }
+        card_list = type == 0 ? @used_cards : @used_cards.select { |c| c.get_types.include?(type) }
 
         break if card_list.size == 0
+
         c = card_list.shuffle.last
 
         ret_cards << c if c
@@ -71,7 +70,7 @@ module Unlight
     regist_event DrawCardsEvent
 
     # 数値の小さいカードを優先的に引く, num:枚数, borderline:特定数値以下(0なら指定無し)
-    def draw_low_cards(num, borderline=0)
+    def draw_low_cards(num, borderline = 0)
       ret_cards = []
       # デッキの残りが引く数より少ない場合捨て札を再シャッフル
       while ret_cards.size != num
@@ -81,12 +80,13 @@ module Unlight
 
         c = nil
         if borderline > 0
-          c = @deck_cards.shuffle.select{ |ac| ac.event_no == 0 && ac.u_value <= borderline && ac.b_value <= borderline }.first
+          c = @deck_cards.shuffle.select { |ac| ac.event_no == 0 && ac.u_value <= borderline && ac.b_value <= borderline }.first
         else
-          c = @deck_cards.sort_by{ |ac| [ac.u_value, ac.b_value] }.first
+          c = @deck_cards.sort_by { |ac| [ac.u_value, ac.b_value] }.first
         end
 
         break if c.nil?
+
         ret_cards << c
         use_card(c)
       end
@@ -97,14 +97,14 @@ module Unlight
     # カードを使う(デッキから引く場合)
     def use_card(card)
       c = @deck_cards.delete(card)
-      @using_cards<< c if c
+      @using_cards << c if c
     end
     private :use_card
 
     # カードを使う(墓地から引く場合)
     def use_grave_card(card)
       c = @used_cards.delete(card)
-      @using_cards<< c if c
+      @using_cards << c if c
     end
 
     # 山札にカードがあるか
@@ -125,7 +125,7 @@ module Unlight
 
     # Specにしか使われていない関数注意されたし
     def get_card(id)
-      @cards[id-1]
+      @cards[id - 1]
     end
 
     def size
@@ -134,12 +134,12 @@ module Unlight
 
     # すべてのカードにイベントリスナーを登録する
     def all_cards_add_event_listener(event, listener)
-      @cards.each{ |c| c.send(event,listener)}
+      @cards.each { |c| c.send(event, listener) }
     end
 
     # すべてのカードのイベントリスナーをリムーブする
     def all_cards_remove_all_event_listener()
-      @cards.each{ |c|
+      @cards.each { |c|
         c.remove_all_event_listener
         c.remove_all_hook
         c.finalize_event
@@ -147,20 +147,20 @@ module Unlight
     end
 
     # 墓地にあるカードの枚数を返す カード数値num以上
-    def get_grave_card_count(num=1)
-      ret = @used_cards.select{ |c| c.get_value_max >= num }.size
+    def get_grave_card_count(num = 1)
+      ret = @used_cards.select { |c| c.get_value_max >= num }.size
       ret
     end
 
     def get_joker_card
-      @joker_num ||=0
+      @joker_num ||= 0
       ret = ActionCard::get_joker_card(@joker_num, context, self)
       # Jokerが品切の場合そっと墓場から返す
       if ret
         @cards << ret
-        @joker_num +=1
+        @joker_num += 1
       else
-        ret = @used_cards.find{|c| c.joker?}
+        ret = @used_cards.find { |c| c.joker? }
         # デッキが完全シャッフル後は墓場に存在しない場合あり。append側で入れ替えが必要
         @used_cards.delete(ret) if ret
       end
@@ -172,7 +172,7 @@ module Unlight
       jac = get_joker_card
       # カードを新規または墓場から追加出来ない場合デッキの頭から抜き出す
       unless jac
-        jac = @deck_cards.find{|c| c.joker?}
+        jac = @deck_cards.find { |c| c.joker? }
         @deck_cards.delete(jac) if jac
       end
       if top
@@ -190,6 +190,5 @@ module Unlight
     def used_cards
       @used_cards
     end
-
   end
 end

@@ -14,18 +14,17 @@ module Unlight
   # 引数がある場合にポートを変更する
   opt = OptionParser.new
 
-  opt.on('-p VAL') {|v|
-    SV_PORT = v }
+  opt.on('-p VAL') { |v|
+    SV_PORT = v
+}
 
   opt.parse! ARGV
   $SERVER_NAME = "RAIDCHAT_SV#{SV_PORT}"
   begin
     SV_IP = `wget -q -O - ipcheck.ieserver.net -T=3`
-  rescue =>e
+  rescue => e
     SERVER_LOG.fatal("RaidChatServer:IP 未設定")
   end
-
-
 end
 require 'unlight'
 require 'protocol/raidchatserver'
@@ -45,17 +44,17 @@ module Unlight
     EM::PeriodicTimer.new(60, proc {
                             begin
                               RaidChatServer.check_connection
-                            rescue =>e
+                            rescue => e
                               SERVER_LOG.fatal("ChatServer: [check_connection:] fatal error #{e}:#{e.backtrace}")
                             end
                                    })
 
     if DB_CONNECT_CHECK
       # 7時間に一回でDBとの接続をチェック
-      EM::PeriodicTimer.new(60*60*7, proc {
+      EM::PeriodicTimer.new(60 * 60 * 7, proc {
                               begin
                                 RaidChatServer.check_db_connection
-                              rescue =>e
+                              rescue => e
                                 SERVER_LOG.fatal("RaidChatServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
                               end
                             })

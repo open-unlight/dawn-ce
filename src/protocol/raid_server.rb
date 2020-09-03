@@ -17,7 +17,7 @@ module Protocol
     def self.setup
       super
       # コマンドクラスをつくる
-      @@receive_cmd=Command.new(self,:Raid)
+      @@receive_cmd = Command.new(self, :Raid)
       CharaCardDeck::initialize_CPU_deck
     end
 
@@ -30,7 +30,7 @@ module Protocol
           do_logout
           @player = nil
         end
-      rescue =>e
+      rescue => e
         puts e.message
       end
       SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")
@@ -39,7 +39,5 @@ module Protocol
     def online_list
       @@online_list
     end
-
   end
 end
-

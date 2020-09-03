@@ -4,7 +4,6 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # ゲームロビーのチャンネルクラス
   class Channel < Sequel::Model
     # プラグインの設定
@@ -15,29 +14,29 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, :default => "新規サーバ"
-      integer     :order,:default => 0
-      integer     :rule,:default => 0
-      integer     :max,:default => Unlight::DUEL_CHANNEL_MAX
-      String      :host_name, :default => ""
-      String      :host, :default => ""
-      integer     :port, :default => 0
-      String      :chat_host, :default => ""
-      integer     :chat_port, :default => 0
-      String      :duel_host, :default => ""
-      integer     :duel_port, :default => 0
-      String      :watch_host, :default => ""
-      integer     :watch_port, :default => 0
-      integer     :state,:default =>  Unlight::DSS_DOWN
-      String      :caption, :default =>""
-      integer     :count, :default => 0
-      integer     :penalty_type, :default => 0           # 切断時のペナルティタイプ 0:AI,1:Abort
-      integer     :watch_mode, :default => 0             # 観戦モード 0:OFF,1:ON
-      integer     :cost_limit_min, :default => 0         # コスト制限つきの場合の最小値、maxが0の場合無効
-      integer     :cost_limit_max, :default => 0         # コスト制限つきの場合の最大値、minが0の場合無効
-      integer     :cpu_matching_type, :default => 0      # CPUとマッチする場合、何を基準に相手を決めるか
-      String      :cpu_matching_condition, :default =>"" # マッチ条件
-      integer     :server_type, :default => 0 # tinyint(DB側で変更) 新規追加 2016/11/24
+      String      :name, default: "新規サーバ"
+      integer     :order, default: 0
+      integer     :rule, default: 0
+      integer     :max, default: Unlight::DUEL_CHANNEL_MAX
+      String      :host_name, default: ""
+      String      :host, default: ""
+      integer     :port, default: 0
+      String      :chat_host, default: ""
+      integer     :chat_port, default: 0
+      String      :duel_host, default: ""
+      integer     :duel_port, default: 0
+      String      :watch_host, default: ""
+      integer     :watch_port, default: 0
+      integer     :state, default: Unlight::DSS_DOWN
+      String      :caption, default: ""
+      integer     :count, default: 0
+      integer     :penalty_type, default: 0           # 切断時のペナルティタイプ 0:AI,1:Abort
+      integer     :watch_mode, default: 0             # 観戦モード 0:OFF,1:ON
+      integer     :cost_limit_min, default: 0         # コスト制限つきの場合の最小値、maxが0の場合無効
+      integer     :cost_limit_max, default: 0         # コスト制限つきの場合の最大値、minが0の場合無効
+      integer     :cpu_matching_type, default: 0      # CPUとマッチする場合、何を基準に相手を決めるか
+      String      :cpu_matching_condition, default: "" # マッチ条件
+      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
       datetime    :created_at
       datetime    :updated_at
     end
@@ -47,16 +46,15 @@ module Unlight
       Channel.create_table
     end
 
-
     DB.alter_table :channels do
-      add_column :count, :integer, :default => 0 unless Unlight::Channel.columns.include?(:count)  # 新規追加2011/07/25
-      add_column :penalty_type, :integer, :default => 0 unless Unlight::Channel.columns.include?(:penalty_type)  # 新規追加2012/06/21
-      add_column :cost_limit_min, :integer, :default => 0 unless Unlight::Channel.columns.include?(:cost_limit_min)  # 新規追加2012/06/21
-      add_column :cost_limit_max, :integer, :default => 0 unless Unlight::Channel.columns.include?(:cost_limit_max)  # 新規追加2012/06/21
-      add_column :watch_mode, :integer, :default => 0 unless Unlight::Channel.columns.include?(:watch_mode)  # 新規追加2013/01/04
-      add_column :cpu_matching_type, :integer, :default => 0 unless Unlight::Channel.columns.include?(:cpu_matching_type)  # 新規追加2015/07/13
-      add_column :cpu_matching_condition, String, :default => "" unless Unlight::Channel.columns.include?(:cpu_matching_condition)  # 新規追加2015/07/13
-      add_column :server_type, :integer, :default => 0 unless Unlight::Channel.columns.include?(:server_type)  # 新規追加 2016/11/24
+      add_column :count, :integer, default: 0 unless Unlight::Channel.columns.include?(:count) # 新規追加2011/07/25
+      add_column :penalty_type, :integer, default: 0 unless Unlight::Channel.columns.include?(:penalty_type) # 新規追加2012/06/21
+      add_column :cost_limit_min, :integer, default: 0 unless Unlight::Channel.columns.include?(:cost_limit_min)  # 新規追加2012/06/21
+      add_column :cost_limit_max, :integer, default: 0 unless Unlight::Channel.columns.include?(:cost_limit_max)  # 新規追加2012/06/21
+      add_column :watch_mode, :integer, default: 0 unless Unlight::Channel.columns.include?(:watch_mode) # 新規追加2013/01/04
+      add_column :cpu_matching_type, :integer, default: 0 unless Unlight::Channel.columns.include?(:cpu_matching_type) # 新規追加2015/07/13
+      add_column :cpu_matching_condition, String, default: "" unless Unlight::Channel.columns.include?(:cpu_matching_condition) # 新規追加2015/07/13
+      add_column :server_type, :integer, default: 0 unless Unlight::Channel.columns.include?(:server_type) # 新規追加 2016/11/24
     end
 
     # バリデーションの設定
@@ -64,10 +62,9 @@ module Unlight
      validates do
     end
 
-
     # 現在の部屋リスト
-    @@channel_list = { }
-    Channel.all.each{|a| @@channel_list[a.id] = a }
+    @@channel_list = {}
+    Channel.all.each { |a| @@channel_list[a.id] = a }
 
     # インサート時の前処理
     before_create do
@@ -93,9 +90,10 @@ module Unlight
 
     def Channel::destroy_all_list
       # 現在の部屋リスト
-      @@channel_list ={ }
-      Channel.all.each{|a|
-        @@channel_list[a.id] = a }
+      @@channel_list = {}
+      Channel.all.each { |a|
+        @@channel_list[a.id] = a
+}
     end
 
     def boot(update = true)
@@ -111,7 +109,7 @@ module Unlight
     end
 
     def room_list
-      @room_list||=OrderHash.new
+      @room_list ||= OrderHash.new
     end
 
     def room_list_count
@@ -119,7 +117,7 @@ module Unlight
     end
 
     def player_list
-      @player_list||=[]
+      @player_list ||= []
     end
 
     # クイックマッチのチャンネルか判定
@@ -204,7 +202,7 @@ module Unlight
                ret_cost_limit_max.join(','),
                ret_watch_mode.join(',')
               ]
-        CACHE.set("channel_list_info_#{server_type}",ret, 120)
+        CACHE.set("channel_list_info_#{server_type}", ret, 120)
       end
       ret
     end
@@ -228,14 +226,13 @@ module Unlight
 
     # 混雑率
     def congestion_rate
-      self.count/self.max*100
+      self.count / self.max * 100
     end
-
 
     # 自分の次のチャンネルを返す存在しなければnil
     def next_channel
       ret = nil
-      cs = Channel::filter({:rule => self.rule}).filter(:server_type=>self.server_type).order(:order).all
+      cs = Channel::filter({ rule: self.rule }).filter(server_type: self.server_type).order(:order).all
       i = false
       cs.each do |c|
         if i
@@ -250,11 +247,11 @@ module Unlight
     # 自分の前のチャンネルを返す存在しなければnil
     def before_channel
       ret = nil
-      cs = Channel::filter({:rule => self.rule}).filter(:server_type=>self.server_type).order(:order).all
+      cs = Channel::filter({ rule: self.rule }).filter(server_type: self.server_type).order(:order).all
       i = false
       cs.each_index do |i|
         if cs[i].id == self.id
-          ret = cs[i-1] if cs[i-1]&& i>0
+          ret = cs[i - 1] if cs[i - 1] && i > 0
         end
       end
       ret
@@ -267,8 +264,5 @@ module Unlight
     def cpu_matching_condition?
       self.cpu_matching_condition
     end
-
   end
-
-
 end

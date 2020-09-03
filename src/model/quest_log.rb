@@ -4,30 +4,28 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # ゲームセッションログ
   class QuestLog < Sequel::Model
-
     #ログのタイプ（書き込んだもの）
     TYPE_AVATAR, TYPE_CHARA, TYPE_QUEST, TYPE_DUEL, TYPE_SYSTEM = (0..4).to_a
     # アイコンを決めるクエスト用のID
-    Q_NORMAL,Q_BATTLE, Q_ALART, Q_GOT,  = (0..3).to_a
+    Q_NORMAL, Q_BATTLE, Q_ALART, Q_GOT, = (0..3).to_a
     # アイコンを決めるデュエル用のID
-    D_WIN,D_LOSE   = (0..1).to_a
+    D_WIN, D_LOSE = (0..1).to_a
 
     # 他クラスのアソシエーション
-    many_to_one :avatar         # アバターを持つ
+    many_to_one :avatar # アバターを持つ
 
     # プラグインの設定
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer :avatar_id#, :table => :avatars
+      integer :avatar_id #, :table => :avatars
       int         :type_no
       int         :type_id
       String      :name
@@ -72,11 +70,11 @@ module Unlight
     end
 
     # リミットずつのログをもらう(1ページスタート)
-    def QuestLog::get_page(a_id,page)
+    def QuestLog::get_page(a_id, page)
       ret = []
       ids = []
       content = []
-      QuestLog.filter(:avatar_id =>a_id).limit(QUEST_LOG_LIMIT,page*QUEST_LOG_LIMIT).order(Sequel.desc(:created_at)).all.each do |a|
+      QuestLog.filter(avatar_id: a_id).limit(QUEST_LOG_LIMIT, page * QUEST_LOG_LIMIT).order(Sequel.desc(:created_at)).all.each do |a|
         ids << a.id
       end
       ids.join(",")

@@ -4,9 +4,7 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   module LobbyController
-
       # ======================================
       # 受信コマンド
       # =====================================
@@ -18,7 +16,7 @@ module Unlight
           inv_set = [inv_id_0, inv_id_1, inv_id_2]
           # デッキ内のカードそれぞれを移動
           3.times do |i|
-            if inv_set[i] !=0
+            if inv_set[i] != 0
               erro_no = @avatar.update_chara_card_deck(inv_set[i], index, i)
             end
             break if erro_no != 0
@@ -33,12 +31,11 @@ module Unlight
         end
       end
 
-
       # カード情報を設定
       def cs_update_card_inventory_info(inv_id, index, position)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [cs_update_card_inventory_info] id:#{inv_id} index:#{index} position:#{position} ")
         if @avatar
-          CACHE.set("update_card_inventory_info_#{@avatar.player_id}",true,60*60*1)
+          CACHE.set("update_card_inventory_info_#{@avatar.player_id}", true, 60 * 60 * 1)
           e = @avatar.update_chara_card_deck(inv_id, index, position)
           if e == 0
             SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [cs_update_card_inventory_info] ///// update success ///// e:#{e} ")
@@ -52,16 +49,15 @@ module Unlight
         sc_update_card_inventory_info_finish()
       end
 
-
       # カード情報を設定
-      def cs_update_slot_card_inventory_info(kind, inv_id, index,  deck_position, card_position)
+      def cs_update_slot_card_inventory_info(kind, inv_id, index, deck_position, card_position)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [cs_update_slot_cardinventory_info] kind:#{kind} id:#{inv_id} index:#{index} position:#{deck_position}, cardPsition:#{card_position} ")
         if @avatar
-          CACHE.set("update_slot_card_inventory_info_#{@avatar.player_id}",true,60*60*1)
+          CACHE.set("update_slot_card_inventory_info_#{@avatar.player_id}", true, 60 * 60 * 1)
           ret = @avatar.update_slot_card_deck(inv_id, index, kind, deck_position, card_position)
           unless ret[0] == 0
             SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [cs_update_slot_cardinventory_info] ///// error ///// e:#{ret[0]}")
-            sc_update_slot_card_inventory_failed( kind, ret[0],  ret[1].id, @avatar.get_deck_index(ret[1].chara_card_deck), ret[1].deck_position, ret[1].card_position )
+            sc_update_slot_card_inventory_failed(kind, ret[0], ret[1].id, @avatar.get_deck_index(ret[1].chara_card_deck), ret[1].deck_position, ret[1].card_position)
           end
         end
         # 設定終了を報告
@@ -85,11 +81,11 @@ module Unlight
       # アバターを作成する
       def cs_create_avatar(name, parts, cards, invite_code)
         invite_player = Player[invite_code]
-        invite_player.invite_friend(@player.name,false) if invite_player && @player && invite_player.server_type == @player.server_type
-        if @player&&Avatar.regist(name, @player.id, parts.split(","), cards.split(","), @player.server_type)
+        invite_player.invite_friend(@player.name, false) if invite_player && @player && invite_player.server_type == @player.server_type
+        if @player && Avatar.regist(name, @player.id, parts.split(","), cards.split(","), @player.server_type)
           @player.refresh
           @avatar = @player.avatars[0]
-          @avatar.rookie_present(@player,cards.split(",")) # 初心者キャンペーン
+          @avatar.rookie_present(@player, cards.split(",")) # 初心者キャンペーン
           regist_avatar_event
           sc_create_avatar_success(true)
           sc_avatar_info(*@avatar.get_avatar_info_set) if @avatar
@@ -132,7 +128,7 @@ module Unlight
 
       # カード合成ツリーのリクエスト
       def cs_request_growth_tree_info(id)
-        sc_growth_tree_info(id, CharaCard.up_tree(id).join(","), CharaCard.down_tree(id).join(","),CharaCardRequirement::data_version) if CharaCard[id]
+        sc_growth_tree_info(id, CharaCard.up_tree(id).join(","), CharaCard.down_tree(id).join(","), CharaCardRequirement::data_version) if CharaCard[id]
       end
 
       # 合成可能か調べるのリクエスト
@@ -147,7 +143,7 @@ module Unlight
         if @avatar
           if CharaCard[id]
             ret = @avatar.exchange(id, c_id)
-            sc_exchange_result(ret[0],ret[1],ret[2],ret[3].join(","))
+            sc_exchange_result(ret[0], ret[1], ret[2], ret[3].join(","))
             SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_exchage_result] #{ret[0]} getedCC:#{ret[1]} invID:#{ret[2]} LostCardInvID#{ret[3]}, deckID:#{@avatar.binder.id}")
           end
         end
@@ -158,7 +154,7 @@ module Unlight
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [:#{__method__}] #{inv_id_list_str}");
         if @avatar
           ret = @avatar.combine(inv_id_list_str.split(","))
-          sc_combine_result(ret[0],ret[1],ret[2])
+          sc_combine_result(ret[0], ret[1], ret[2])
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [:#{__method__}] ret:#{ret}");
         end
       end
@@ -172,7 +168,7 @@ module Unlight
       def cs_avatar_use_item(inv_id)
         if @avatar
           e = @avatar.use_item(inv_id)
-          unless e >0
+          unless e > 0
             it = ItemInventory[inv_id]
             SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [avatar_use_item] use_item_id:#{it.avatar_item_id}");
           end
@@ -183,18 +179,18 @@ module Unlight
       def cs_request_shop_info(shop_type)
         list = Shop.get_sale_list(shop_type)
         if list.size > 0
-          sc_shop_info(shop_type,list.join(","))
+          sc_shop_info(shop_type, list.join(","))
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_shop_info] #{list.join(",")}")
         end
       end
 
       # アイテムを購入する
-      def cs_avatar_buy_item(shop,inv_id,amount)
+      def cs_avatar_buy_item(shop, inv_id, amount)
           sc_error_no(ERROR_GEM_DEFICIT) unless @avatar.buy_item(shop, inv_id, amount) if @avatar
       end
 
       # スロットカードを購入する
-      def cs_avatar_buy_slot_card(shop, kind, inv_id,amount)
+      def cs_avatar_buy_slot_card(shop, kind, inv_id, amount)
           sc_error_no(ERROR_GEM_DEFICIT) unless @avatar.buy_slot_card(shop, kind, inv_id, amount) if @avatar
       end
 
@@ -217,7 +213,7 @@ module Unlight
       def cs_request_real_money_item_info
         list = RealMoneyItem.get_sale_list()
         if list[0] > 0
-          sc_real_money_item_info(list[0],list[1].join(","))
+          sc_real_money_item_info(list[0], list[1].join(","))
         end
       end
 
@@ -235,7 +231,7 @@ module Unlight
       def cs_friend_apply(id)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [cs_friend_apply] #{id}")
         ret = ERROR_FRIEND_APPLY
-        if @player&&@avatar
+        if @player && @avatar
           ret = @player.create_friend_link(id)
         end
         if ret == 0
@@ -249,7 +245,7 @@ module Unlight
       def cs_block_apply(id)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [cs_block_apply] #{id}")
         ret = false
-        if @player&&@avatar
+        if @player && @avatar
           ret = @player.create_block_link(id)
         end
         if ret[0] == 0
@@ -292,12 +288,12 @@ module Unlight
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [cs_draw_card] TYPE:#{kind}")
         if @avatar
           ret = @avatar.draw_lot(kind)
-          if ret ==[]
+          if ret == []
             sc_error_no(ERROR_DRAW_LOT)
           else
             SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [draw_lot_result] lot_kind:#{kind} got_item_kind:#{ret[0].article_kind} got_item_id:#{ret[0].article_id} ,blank:RCL_ID:#{ret[1].id},RCL_ID:#{ret[2].id}")
             LotLog.create_log(@uid, kind, ret[0].id)
-            sc_draw_rare_card_success(ret[0].article_kind,ret[0].article_id,ret[0].num,ret[1].article_kind,ret[1].article_id,ret[1].num, ret[2].article_kind,ret[2].article_id,ret[2].num)
+            sc_draw_rare_card_success(ret[0].article_kind, ret[0].article_id, ret[0].num, ret[1].article_kind, ret[1].article_id, ret[1].num, ret[2].article_kind, ret[2].article_id, ret[2].num)
           end
         end
       end
@@ -320,10 +316,10 @@ module Unlight
       def cs_set_avatar_part(id)
         if@avatar
           ret = @avatar.equip_part(id)
-          if ret[0]==0
-            remainTime = ret[3] ? ret[3]:0
-            used = ret[4] ? ret[4]:0
-            sc_equip_change_succ(ret[1], ret[2].join(","),remainTime, used)
+          if ret[0] == 0
+            remainTime = ret[3] ? ret[3] : 0
+            used = ret[4] ? ret[4] : 0
+            sc_equip_change_succ(ret[1], ret[2].join(","), remainTime, used)
           else
             SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_equip_change_succ] error id:#{id}, error_no:#{ret[0]}")
             sc_error_no(ret[0])
@@ -341,7 +337,7 @@ module Unlight
         if @avatar
           part = PartInventory[id]
           # 自分の持ってるパーツならば
-          if part&&part.avatar_id == @avatar.id
+          if part && part.avatar_id == @avatar.id
             cs_set_avatar_part(id) if part.equiped? # パーツが装備されていたら外す
             @avatar.part_drop(part)                 # 捨てる
           end
@@ -353,7 +349,7 @@ module Unlight
         if @avatar
           @avatar.achievement_check
           n = @avatar.get_notice if notice_check
-          sc_add_notice(n) if n!=""&&n!=nil
+          sc_add_notice(n) if n != "" && n != nil
         end
       end
 
@@ -363,8 +359,8 @@ module Unlight
       end
 
       # ロビーニュースをクリア
-      def cs_notice_clear(n,args)
-        @avatar.clear_notice(n,args) if @avatar
+      def cs_notice_clear(n, args)
+        @avatar.clear_notice(n, args) if @avatar
       end
 
       # セール時間情報を要求
@@ -381,18 +377,18 @@ module Unlight
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}]")
         if @avatar
           ret = @avatar.get_achievement_info_set
-          sc_update_achievement_info(ret[0],ret[1],ret[2],ret[3],ret[4])
+          sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
         end
       end
 
       # イベントシリアルを送信
-      def cs_event_serial_code(serial,pass)
-        error_count = CACHE.get( "serial_error:#{@uid}" )
+      def cs_event_serial_code(serial, pass)
+        error_count = CACHE.get("serial_error:#{@uid}")
         if error_count && error_count > 20
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer:serial error_count [#{error_count}]")
           return
         end
-        es = EventSerial::check(serial,pass)
+        es = EventSerial::check(serial, pass)
         if es
           @avatar.real_money_item_to_item(es) if @avatar
           s = "#{es.name}"
@@ -405,20 +401,19 @@ module Unlight
         else
           sc_error_no(ERROR_EVENT_SERIAL_CODE)
           if error_count
-            CACHE.set( "serial_error:#{@uid}",error_count+1, 60*30) # 20回まちがえると30分反応なしになる
+            CACHE.set("serial_error:#{@uid}", error_count + 1, 60 * 30) # 20回まちがえると30分反応なしになる
           else
-            CACHE.set( "serial_error:#{@uid}",1, 60*2) # 1回の間違いは一分で消える
+            CACHE.set("serial_error:#{@uid}", 1, 60 * 2) # 1回の間違いは一分で消える
           end
         end
       end
-
 
       # 新規渦チェック
       def cs_new_profound_inventory_check
         if @avatar
           @avatar.new_profound_inventory_check
           n = @avatar.get_profound_notice
-          sc_add_notice(n) if n!=""&&n!=nil
+          sc_add_notice(n) if n != "" && n != nil
         end
       end
 
@@ -441,7 +436,7 @@ module Unlight
           c = @avatar.start_lobby_chara_script
         end
         unless c.first == :stop
-          self.send(c.first,*c.last)
+          self.send(c.first, *c.last)
         end
       end
 
@@ -451,7 +446,7 @@ module Unlight
         if @avatar
           c = @avatar.run_lobby_chara_script
           unless c.first == :stop
-            self.send(c.first,*c.last)
+            self.send(c.first, *c.last)
           end
         end
       end
@@ -509,18 +504,18 @@ module Unlight
       # Infectionコラボイベントシリアルを送信
       def cs_infection_collabo_serial_code(serial)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}] serial:#{serial}")
-        error_count = CACHE.get( "collabo_serial_error:#{@uid}" )
+        error_count = CACHE.get("collabo_serial_error:#{@uid}")
         if error_count && error_count > 20
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer:collabo serial error_count [#{error_count}]")
           return
         end
         if @avatar
-          ics = InfectionCollaboSerial::check(serial,@avatar.player_id,@avatar.server_type)
+          ics = InfectionCollaboSerial::check(serial, @avatar.player_id, @avatar.server_type)
           if ics
             notice_str = ""
             item_no_set = []
             INFECTION_COLLABO_PRESENTS.each do |item|
-              @avatar.get_treasures(item[:type],item[:id],item[:sct_type],item[:num])
+              @avatar.get_treasures(item[:type], item[:id], item[:sct_type], item[:num])
               item_no_set << "#{item[:type]}_#{item[:id]}_#{item[:num]}"
             end
             sc_infection_collabo_serial_success(InfectionCollaboSerial::present_names)
@@ -529,9 +524,9 @@ module Unlight
             SERVER_LOG.info("<UID:#{@uid}>LobbyServer:collabo serial failed!!!!")
             sc_error_no(ERROR_EVENT_SERIAL_CODE)
             if error_count
-              CACHE.set( "collabo_serial_error:#{@uid}",error_count+1, 60*30) # 20回まちがえると30分反応なしになる
+              CACHE.set("collabo_serial_error:#{@uid}", error_count + 1, 60 * 30) # 20回まちがえると30分反応なしになる
             else
-              CACHE.set( "collabo_serial_error:#{@uid}",1, 60*2) # 1回の間違いは一分で消える
+              CACHE.set("collabo_serial_error:#{@uid}", 1, 60 * 2) # 1回の間違いは一分で消える
             end
           end
         end
@@ -570,14 +565,13 @@ module Unlight
 
           name_list = []
           CLAMPS_CLICK_PRESENT.each do |item|
-
             case item[:type]
             when TG_CHARA_CARD
               cc = CharaCard[item[:id]]
               cc_name = cc.name
               if cc.level > 0
                 cc_name += ":LV#{cc.level}"
-                cc_name += "R" if cc.rarity>5
+                cc_name += "R" if cc.rarity > 5
               end
               cc_name += "×#{item[:num]}" if item[:num] > 1
               name_list.push(cc_name)
@@ -589,7 +583,7 @@ module Unlight
               part_name = AvatarPart[item[:id]].name
               name_list.push(part_name)
             end
-            @avatar.get_treasures(item[:type],item[:id],item[:sct_type],item[:num])
+            @avatar.get_treasures(item[:type], item[:id], item[:sct_type], item[:num])
             @avatar.present_has_received = true
           end
 
@@ -663,13 +657,12 @@ module Unlight
         @avatar.add_finish_listener_change_favorite_chara_id_event(method(:change_favorite_chara_id_event_handler))
 
         @avatar.add_finish_listener_update_combine_weapon_data_event(method(:update_combine_weapon_data_event_handler))
-
       end
 
       # 行動力を使用する
       def use_energy_event_handler(target, ret)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_use_energy] #{ret}")
-        sc_energy_info(ret[0],ret[1])
+        sc_energy_info(ret[0], ret[1])
       end
 
       # フリーデュエル回数をアップデート
@@ -699,7 +692,7 @@ module Unlight
       # 残り時間が更新
       def update_remain_time_event_handler(target, ret)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_remain_time_update] #{ret}")
-        sc_energy_info(ret[0],ret[1])
+        sc_energy_info(ret[0], ret[1])
       end
 
       # 経験値獲得
@@ -735,7 +728,7 @@ module Unlight
       # 勝敗の更新
       def update_result_event_handler(target, ret)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_result] #{ret}")
-        sc_update_result(ret[0],ret[1],ret[2],ret[3])
+        sc_update_result(ret[0], ret[1], ret[2], ret[3])
       end
 
       # アイテムゲット
@@ -755,6 +748,7 @@ module Unlight
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_part_item] invID:#{ret[0]} itemID:#{ret[1]}")
         sc_get_part(ret[0], ret[1])
       end
+
       # コインを使用した
       def coin_use_event_handler(target, ret)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_use_coin] #{ret}")
@@ -789,14 +783,12 @@ module Unlight
       def update_exp_pow_event_handler(target, ret)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_exp_pow] #{ret}")
         sc_update_exp_pow(ret)
-
       end
 
       # GEMの倍率が更新された
       def update_gem_pow_event_handler(target, ret)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_gem_pow] #{ret}")
         sc_update_gem_pow(ret)
-
       end
 
       # クエストゲット時間が更新された
@@ -808,7 +800,7 @@ module Unlight
       # パーツが消滅した
       def vanish_part_event_handler(target, ret)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_vasnish_parts] invID #{ret}")
-        sc_vanish_part(ret[0],ret[1])
+        sc_vanish_part(ret[0], ret[1])
       end
 
       # アチーブメントがクリアされた
@@ -832,7 +824,7 @@ module Unlight
       # セールが開始された
       def start_sale_event_handler(target, ret)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_sale_rest_time] ret: #{ret}")
-        sc_update_sale_rest_time(ret[0],ret[1])
+        sc_update_sale_rest_time(ret[0], ret[1])
       end
 
       # アイテムゲット
@@ -842,8 +834,8 @@ module Unlight
       end
 
       # アチーブメントが更新された
-      def update_achievement_info_event_handler(target,ret)
-        sc_update_achievement_info(ret[0],ret[1],ret[2],ret[3],ret[4])
+      def update_achievement_info_event_handler(target, ret)
+        sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
       end
 
       # アチーブメントを完全削除
@@ -859,11 +851,10 @@ module Unlight
       end
 
       # 合成武器情報を更新する
-      def update_combine_weapon_data_event_handler(target,ret)
+      def update_combine_weapon_data_event_handler(target, ret)
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}]  #{ret}")
         sc_update_combine_weapon_data(*ret)
       end
-
 
       # ======================================
       # 送信コマンド
@@ -925,22 +916,19 @@ module Unlight
         delete_connection
       end
 
-      #
-      #
       def tag_collect_event_set_initial_avatar_item
         now = Time.now.utc
         st = TAG_INIT_CHECK_ST
         ed = TAG_INIT_CHECK_ED
         # 現在の2012/11/22日から2012/12/06の間のみ有功
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [tag_collent_event_set] st#{st}} :ed #{ed},now#{now}")
-        if st < now && ed >now
+        if st < now && ed > now
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [tag_collent_event_set] login_at #{@player.login_at}st#{st}}")
           # 2012/11/22日より前にログインしていたら（一度だけアイテムを配る）
           if @player.login_at < st
             @avatar.get_item(EVENT_REWARD_ITEM[RESULT_3VS3_WIN][@avatar.id.to_s[-1].to_i])
           end
         end
-
       end
 
       # ログイン時にサンタ帽を配布する
@@ -965,7 +953,7 @@ module Unlight
           @avatar.get_item(EVENT_START_ITEM_SEND_ID)
 
           if PLUS_EVENT_LOGIN_BONUS_FLAG
-            if @player.login_at && (@player.login_at.utc + LOGIN_BONUS_OFFSET_TIME).yday != (Time.now.utc + LOGIN_BONUS_OFFSET_TIME).yday || @player.login_at.utc + 60*60*24 < Time.now.utc  # 60*60*9時間ずらす
+            if @player.login_at && (@player.login_at.utc + LOGIN_BONUS_OFFSET_TIME).yday != (Time.now.utc + LOGIN_BONUS_OFFSET_TIME).yday || @player.login_at.utc + 60 * 60 * 24 < Time.now.utc # 60*60*9時間ずらす
             else
               SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}] event login bonus send.")
               # 追加イベントログインボーナスアリで既にログインボーナス取得している場合、

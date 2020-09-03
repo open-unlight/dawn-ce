@@ -10,7 +10,7 @@ module Unlight
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # 他クラスのアソシエーション
     Sequel::Model.plugin :schema
@@ -18,24 +18,24 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, :default => "real_money_item"
-      float     :price, :default => 0
-      integer     :rm_item_type, :default => 0
-      integer     :item_id, :default => 0
-      integer     :num, :default => 0
-      integer     :order, :default => 0
-      integer     :state, :default => 0
-      String      :image_url, :default => ""
-      integer     :tab, :default => 0
-      String      :description, :default => ""
-      integer     :extra_id, :default => 0 #セット販売アイテムRealMoneyItem.ID
-      integer     :view_frame, :default => 0
-      integer     :sale_type, :default => 0 # セールタイプ 0:初心者,1:10%,2:15%,3:20%,4:30%,5:40%,6:Event
-      String      :deck_image_url, :default => ""
-      float     :twd, :default => 0
-      float     :hkd, :default => 0
-      float     :usd, :default => 0
-      float     :eur, :default => 0
+      String      :name, default: "real_money_item"
+      float :price, default: 0
+      integer     :rm_item_type, default: 0
+      integer     :item_id, default: 0
+      integer     :num, default: 0
+      integer     :order, default: 0
+      integer     :state, default: 0
+      String      :image_url, default: ""
+      integer     :tab, default: 0
+      String      :description, default: ""
+      integer     :extra_id, default: 0 #セット販売アイテムRealMoneyItem.ID
+      integer     :view_frame, default: 0
+      integer     :sale_type, default: 0 # セールタイプ 0:初心者,1:10%,2:15%,3:20%,4:30%,5:40%,6:Event
+      String      :deck_image_url, default: ""
+      float     :twd, default: 0
+      float     :hkd, default: 0
+      float     :usd, default: 0
+      float     :eur, default: 0
       datetime    :created_at
       datetime    :updated_at
     end
@@ -51,14 +51,14 @@ module Unlight
     end
 
     DB.alter_table :real_money_items do
-       add_column :extra_id, :integer, :default => 0  unless Unlight::RealMoneyItem.columns.include?(:extra_id) #new 2012/06/06
-       add_column :view_frame, :integer, :default => 0  unless Unlight::RealMoneyItem.columns.include?(:view_frame) #new 2012/06/20
-       add_column :sale_type, :integer, :default => 0  unless Unlight::RealMoneyItem.columns.include?(:sale_type) #new 2012/10/22
-       add_column :deck_image_url, String, :default => ""  unless Unlight::RealMoneyItem.columns.include?(:deck_image_url) #new 2012/11/21
-       add_column :twd, :float, :default => 0  unless Unlight::RealMoneyItem.columns.include?(:twd) #new 2012/06/06
-       add_column :hkd, :float, :default => 0  unless Unlight::RealMoneyItem.columns.include?(:hkd) #new 2012/06/06
-       add_column :usd, :float, :default => 0  unless Unlight::RealMoneyItem.columns.include?(:usd) #new 2012/06/06
-       add_column :eur, :float, :default => 0  unless Unlight::RealMoneyItem.columns.include?(:eur) #new 2012/06/06
+       add_column :extra_id, :integer, default: 0 unless Unlight::RealMoneyItem.columns.include?(:extra_id) #new 2012/06/06
+       add_column :view_frame, :integer, default: 0 unless Unlight::RealMoneyItem.columns.include?(:view_frame) #new 2012/06/20
+       add_column :sale_type, :integer, default: 0  unless Unlight::RealMoneyItem.columns.include?(:sale_type) #new 2012/10/22
+       add_column :deck_image_url, String, default: "" unless Unlight::RealMoneyItem.columns.include?(:deck_image_url) #new 2012/11/21
+       add_column :twd, :float, default: 0  unless Unlight::RealMoneyItem.columns.include?(:twd) #new 2012/06/06
+       add_column :hkd, :float, default: 0  unless Unlight::RealMoneyItem.columns.include?(:hkd) #new 2012/06/06
+       add_column :usd, :float, default: 0  unless Unlight::RealMoneyItem.columns.include?(:usd) #new 2012/06/06
+       add_column :eur, :float, default: 0  unless Unlight::RealMoneyItem.columns.include?(:eur) #new 2012/06/06
     end
     # インサート時の前処理
     before_create do
@@ -112,11 +112,10 @@ module Unlight
           deck_image_urls << s.deck_image_url
         end
         ret << RealMoneyItem.all.size
-        ret  << [ids, names, prices, item_types, item_ids, nums, orders, states, image_urls, tabs, descs, frames, extra_ids, sale_types, deck_image_urls]
-        cache_store.set("real_mone_item_sale_list:",ret)
+        ret << [ids, names, prices, item_types, item_ids, nums, orders, states, image_urls, tabs, descs, frames, extra_ids, sale_types, deck_image_urls]
+        cache_store.set("real_mone_item_sale_list:", ret)
       end
       ret
     end
-
   end
 end

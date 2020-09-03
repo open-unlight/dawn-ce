@@ -4,11 +4,8 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
-
   # ゲームセッションログ
   class AvatarNotice < Sequel::Model
-
     # 他クラスのアソシエーション
     one_to_one :avatar
 
@@ -16,13 +13,13 @@ module Unlight
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer     :avatar_id,:index=>true #, :table => :avatars
-      String      :body, :text=>true, :default => ""
+      integer     :avatar_id, index: true #, :table => :avatars
+      String      :body, text: true, default: ""
       datetime    :created_at
       datetime    :updated_at
       datetime    :send_at
@@ -39,9 +36,8 @@ module Unlight
     end
 
     DB.alter_table :avatar_notices do
-      add_column :send_at, :datetime unless Unlight::AvatarNotice.columns.include?(:send_at)  # 新規追加2012/01
+      add_column :send_at, :datetime unless Unlight::AvatarNotice.columns.include?(:send_at) # 新規追加2012/01
     end
-
 
     # インサート時の前処理
     before_create do
@@ -88,14 +84,14 @@ module Unlight
 
     # スタックしている未送信のメッセージを配列で取得
     def AvatarNotice::get_massage_notice(time)
-      AvatarNotice.filter(Sequel.cast_string(:updated_at) > time ).and(~{:body => ""}).all
+      AvatarNotice.filter(Sequel.cast_string(:updated_at) > time).and(~{ body: "" }).all
     end
 
     # 特定のタイプのノーティスを引き抜く
-    def get_type_message(types=[])
+    def get_type_message(types = [])
       refresh
       ret = []
-      if types&&types.size > 0
+      if types && types.size > 0
         match_str = types.join("|")
         body_arr = self.body.split("|")
         leave_arr = []
@@ -116,10 +112,10 @@ module Unlight
     end
 
     # 指定したノーティス以外を取得
-    def get_other_type_message(types=[])
+    def get_other_type_message(types = [])
       refresh
       ret = []
-      if types&&types.size > 0
+      if types && types.size > 0
         match_str = types.join("|")
         body_arr = self.body.split("|")
         leave_arr = []
@@ -138,7 +134,5 @@ module Unlight
       end
       ret.join("|")
     end
-
   end
-
 end

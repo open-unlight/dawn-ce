@@ -4,20 +4,19 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # デュエルリアルタイム観戦用クラス
 
   class WatchRealDuel
-    attr_reader :pl_deck,:foe_deck,:pl_cards,:foe_cards,:pl_card_idx,:foe_card_idx,:pl_hps,:pl_damege,:foe_hps,:foe_damege,
-    :pl_state,:foe_state,:pl_ac,:foe_ac,:pl_table,:foe_table,:pl_initi,:deck_num,:dist,:turn,:phase,:cmd_cnt,:init_commands
+    attr_reader :pl_deck, :foe_deck, :pl_cards, :foe_cards, :pl_card_idx, :foe_card_idx, :pl_hps, :pl_damege, :foe_hps, :foe_damege,
+                :pl_state, :foe_state, :pl_ac, :foe_ac, :pl_table, :foe_table, :pl_initi, :deck_num, :dist, :turn, :phase, :cmd_cnt, :init_commands
 
-    def initialize(match_uid,rule,stage,pl_deck,foe_deck)
+    def initialize(match_uid, rule, stage, pl_deck, foe_deck)
       @key            = match_uid
       @rule           = rule
       @stage          = stage
       @pl_deck        = pl_deck
       @foe_deck       = foe_deck
-      @override_cards = { }
+      @override_cards = {}
       @pl_cards       = (@rule == RULE_1VS1) ? [@pl_deck.cards[0]]  : @pl_deck.cards
       @foe_cards      = (@rule == RULE_1VS1) ? [@foe_deck.cards[0]] : @foe_deck.cards
       @pl_card_idx    = 0
@@ -34,7 +33,7 @@ module Unlight
       pl_deck_ids = []
       foe_deck_ids = []
       @pl_cards.each_index do |s|
-        if @pl_cards[s]      # 念のためのチェック
+        if @pl_cards[s] # 念のためのチェック
           pl_deck_ids << @pl_cards[s].id
           @pl_hps << @pl_cards[s].hp       # 最大のヒットポイントを格納
           @pl_max_hps << @pl_cards[s].hp   # 最大のヒットポイントを格納
@@ -45,7 +44,7 @@ module Unlight
         end
       end
       @foe_cards.each_index do |s|
-        if @foe_cards[s]      # 念のためのチェック
+        if @foe_cards[s] # 念のためのチェック
           foe_deck_ids << @foe_cards[s].id
           @foe_hps << @foe_cards[s].hp     # 最大のヒットポイントを格納
           @foe_max_hps << @foe_cards[s].hp # 最大のヒットポイントを格納
@@ -63,8 +62,8 @@ module Unlight
 
       # デッキ枚数を取得
       d = STAGE_DECK[@stage]
-      @deck_max   = (d != nil) ? d.size : STAGE_DECK[0].size
-      @deck_num   = @deck_max
+      @deck_max = (d != nil) ? d.size : STAGE_DECK[0].size
+      @deck_num = @deck_max
 
       @dist       = 2
       @pl_initi   = true
@@ -73,14 +72,14 @@ module Unlight
       @phase_args = []
       @log_list   = []
 
-      @cmd_cnt   = 0
+      @cmd_cnt = 0
 
       # コマンド取得
       commands = WatchDuel::get_cache_act_command(@key)
       if commands
         commands.each do |cmd|
           if cmd
-            func = cmd[:func].gsub(/_handler/,"")
+            func = cmd[:func].gsub(/_handler/, "")
             args = cmd[:args]
             self.send(func, args)
             @cmd_cnt += 1
@@ -130,7 +129,7 @@ module Unlight
       @init_commands  = nil
     end
 
-    def get_weapon_bonus(player=true)
+    def get_weapon_bonus(player = true)
       ret = []
       if player
         if @pl_deck.weapon_cards[@pl_card_idx]
@@ -154,8 +153,8 @@ module Unlight
           arrow_def_dice_bonus = 0
           weapon_card.each { |w| arrow_def_dice_bonus = w.arrow_deffence_dice_bonus }
 
-          ret << [sword_ap,sword_dice_bonus,sword_dp,sword_def_dice_bonus,
-                  arrow_ap,arrow_dice_bonus,arrow_dp,arrow_def_dice_bonus]
+          ret << [sword_ap, sword_dice_bonus, sword_dp, sword_def_dice_bonus,
+                  arrow_ap, arrow_dice_bonus, arrow_dp, arrow_def_dice_bonus]
         else
           ret << [0, 0, 0, 0, 0, 0, 0, 0]
         end
@@ -181,8 +180,8 @@ module Unlight
           arrow_def_dice_bonus = 0
           weapon_card.each { |w| arrow_def_dice_bonus = w.arrow_deffence_dice_bonus }
 
-          ret << [sword_ap,sword_dice_bonus,sword_dp,sword_def_dice_bonus,
-                  arrow_ap,arrow_dice_bonus,arrow_dp,arrow_def_dice_bonus]
+          ret << [sword_ap, sword_dice_bonus, sword_dp, sword_def_dice_bonus,
+                  arrow_ap, arrow_dice_bonus, arrow_dp, arrow_def_dice_bonus]
         else
           ret << [0, 0, 0, 0, 0, 0, 0, 0]
         end
@@ -193,37 +192,37 @@ module Unlight
     def make_init_commands
       # ステータスの設定
       states = []
-      @pl_state.each_with_index do |state,i|
+      @pl_state.each_with_index do |state, i|
         state.each do |s|
           if s[:id] != 0 && s[:turn] > 0
-            set_state = [s[:id],s[:value],s[:turn],i]
+            set_state = [s[:id], s[:value], s[:turn], i]
             states.push(set_state.join(","))
           end
         end
       end
       if states.length > 0
-        cmd = { :func => "set_buff_handler", :args => [true,states.join("_")] }
+        cmd = { func: "set_buff_handler", args: [true, states.join("_")] }
         @init_commands.push(cmd)
       end
       states = []
       if @pl_stuffed_toy_num && @pl_stuffed_toy_num > 0
-        cmd = { :func => "pl_entrant_stuffed_toys_set_event_handler", :args => [true,@pl_stuffed_toy_num] }
+        cmd = { func: "pl_entrant_stuffed_toys_set_event_handler", args: [true, @pl_stuffed_toy_num] }
         @init_commands.push(cmd)
       end
-      @foe_state.each_with_index do |state,i|
+      @foe_state.each_with_index do |state, i|
         state.each do |s|
           if s[:id] != 0 && s[:turn] > 0
-            set_state = [s[:id],s[:value],s[:turn],i]
+            set_state = [s[:id], s[:value], s[:turn], i]
             states.push(set_state.join(","))
           end
         end
       end
       if states.length > 0
-        cmd = { :func => "set_buff_handler", :args => [false,states.join("_")] }
+        cmd = { func: "set_buff_handler", args: [false, states.join("_")] }
         @init_commands.push(cmd)
       end
       if @foe_stuffed_toy_num && @foe_stuffed_toy_num > 0
-        cmd = { :func => "foe_entrant_stuffed_toys_set_event_handler", :args => [false,@foe_stuffed_toy_num] }
+        cmd = { func: "foe_entrant_stuffed_toys_set_event_handler", args: [false, @foe_stuffed_toy_num] }
         @init_commands.push(cmd)
       end
 
@@ -231,14 +230,14 @@ module Unlight
       chara_change_args = []
       if @pl_card_idx != 0
         weapon_bonus = get_weapon_bonus(true)
-        chara_change_args << [true,@pl_card_idx,@pl_cards[@pl_card_idx].id,weapon_bonus.join(",")]
+        chara_change_args << [true, @pl_card_idx, @pl_cards[@pl_card_idx].id, weapon_bonus.join(",")]
       end
       if @foe_card_idx != 0
         weapon_bonus = get_weapon_bonus(false)
-        chara_change_args << [false,@foe_card_idx,@foe_cards[@foe_card_idx].id,weapon_bonus.join(",")]
+        chara_change_args << [false, @foe_card_idx, @foe_cards[@foe_card_idx].id, weapon_bonus.join(",")]
       end
       if chara_change_args.size > 0
-        cmd = { :func => "set_chara_card_idx_handler", :args => [[(@pl_card_idx==0),(@foe_card_idx==0)],chara_change_args] }
+        cmd = { func: "set_chara_card_idx_handler", args: [[(@pl_card_idx == 0), (@foe_card_idx == 0)], chara_change_args] }
         @init_commands.push(cmd)
       end
 
@@ -261,40 +260,40 @@ module Unlight
       @pl_table.each { |ac| acs.push(ac[:id]) } if func != nil
       foe_ac_size = @foe_ac.size
       foe_ac_size += @foe_table.size if func != nil
-      cmd = { :func => "duel_refill_card_phase_handler", :args => [acs.join(","),0,foe_ac_size] }
+      cmd = { func: "duel_refill_card_phase_handler", args: [acs.join(","), 0, foe_ac_size] }
       @init_commands.push(cmd)
 
       # 提出ターンの場合、場にカードを出す
       if func != nil
         @pl_table.each do |ac|
-          cmd = { :func => func, :args => [true,0,0] }
+          cmd = { func: func, args: [true, 0, 0] }
           @init_commands.push(cmd)
         end
         @foe_table.each do |ac|
-          cmd = { :func => func, :args => [false,0,0] }
+          cmd = { func: func, args: [false, 0, 0] }
           @init_commands.push(cmd)
         end
       end
 
       # 山札枚数リセット
-      cmd = { :func => "reset_deck_num_handler", :args => [@deck_num] }
+      cmd = { func: "reset_deck_num_handler", args: [@deck_num] }
       @init_commands.push(cmd)
 
       # イニシアチブ、距離の設定
-      cmd = { :func => "set_initi_and_dist_handler", :args => [@initi,@dist] }
+      cmd = { func: "set_initi_and_dist_handler", args: [@initi, @dist] }
       @init_commands.push(cmd)
 
       # ターンの設定
-      cmd = { :func => "duel_start_turn_phase_handler", :args => [@turn] }
+      cmd = { func: "duel_start_turn_phase_handler", args: [@turn] }
       @init_commands.push(cmd)
 
       # フェイズの設定
-      cmd = { :func => "#{@phase}_handler", :args => @phase_args }
+      cmd = { func: "#{@phase}_handler", args: @phase_args }
       @init_commands.push(cmd)
 
       # AC上書き
       @override_cards.each do |id, v|
-        cmd = { :func => "foeEntrant_update_card_value_event_handler", :args => [id, v["u_value"], v["b_value"], false]}
+        cmd = { func: "foeEntrant_update_card_value_event_handler", args: [id, v["u_value"], v["b_value"], false] }
         @init_commands.push(cmd)
       end
 
@@ -303,15 +302,14 @@ module Unlight
         @log_list.each do |l|
           type = l[0]
           prm = (l[1] != nil) ? l[1] : []
-          cmd = { :func => "set_message_str_data_handler", :args => [type,prm] }
+          cmd = { func: "set_message_str_data_handler", args: [type, prm] }
           @init_commands.push(cmd)
         end
       end
-
     end
 
     # 状態異常更新チェック
-    def state_check(fin_turn=true)
+    def state_check(fin_turn = true)
       check_state = []
       if fin_turn
         check_state = [CharaCardEvent::STATE_ATK_UP,
@@ -354,7 +352,7 @@ module Unlight
     end
 
     # デッキ枚数減算
-    def decre_deck_num(pl_num=0,foe_num=0)
+    def decre_deck_num(pl_num = 0, foe_num = 0)
       @deck_num = @deck_max if (pl_num + foe_num) > @deck_num
       @deck_num -= (pl_num + foe_num)
     end
@@ -365,13 +363,13 @@ module Unlight
 
     # スタート時のハンドラ
     def one_to_one_duel_start(args)
-      @log_list << [DUEL_MSGDLG_DUEL_START,nil]
+      @log_list << [DUEL_MSGDLG_DUEL_START, nil]
       debug_puts(__method__)
     end
 
     # スタート時のハンドラ
     def three_to_three_duel_start(args)
-      @log_list << [DUEL_MSGDLG_M_DUEL_START,nil]
+      @log_list << [DUEL_MSGDLG_M_DUEL_START, nil]
       debug_puts(__method__)
     end
 
@@ -392,12 +390,12 @@ module Unlight
       # args 0:plのAC:String,1:方向:int(BIT演算),2:foeのAC枚数:int
       pl_ac_arr = args[0].split(",")
       pl_ac_arr.size.times do
-        @pl_ac.push({ :id=>0, :dir=>true})
+        @pl_ac.push({ id: 0, dir: true })
       end
       args[2].times do
-        @foe_ac.push({ :id=>0, :dir=>true})
+        @foe_ac.push({ id: 0, dir: true })
       end
-      decre_deck_num(pl_ac_arr.size,args[2]) if pl_ac_arr.size > 0 || args[2] > 0
+      decre_deck_num(pl_ac_arr.size, args[2]) if pl_ac_arr.size > 0 || args[2] > 0
       @phase = __method__
       @phase_args = args
       debug_puts(__method__)
@@ -408,10 +406,10 @@ module Unlight
       # args 0:plのAC:String,1:方向:int(BIT演算),2:foeのAC枚数:int
       pl_ac_arr = args[0].split(",")
       pl_ac_arr.size.times do
-        @pl_ac.push({ :id=>0, :dir=>true})
+        @pl_ac.push({ id: 0, dir: true })
       end
       args[2].times do
-        @foe_ac.push({ :id=>0, :dir=>true})
+        @foe_ac.push({ id: 0, dir: true })
       end
       @phase = __method__
       @phase_args = args
@@ -432,7 +430,6 @@ module Unlight
       debug_puts(__method__)
     end
 
-
     # 移動の結果がでた時にハンドラ
     def duel_determine_move_phase(args)
       # args 0:ログ:String,1:Array[0:先行か:Boolean,1:距離:int,2:plの場AC:String,3:plの場AC方向:int(BIT演算),4:foeの場AC:String,5:foeの場AC方向:String,6:plのNUM:int,7:foeのNUM;int],2,ログ:String
@@ -441,8 +438,8 @@ module Unlight
       @foe_table = []
       @phase = __method__
       @phase_args = args
-      @log_list << [args[0][0],[args[0][1]]]
-      @log_list << [args[2][0],[args[2][1]]]
+      @log_list << [args[0][0], [args[0][1]]]
+      @log_list << [args[2][0], [args[2][1]]]
       state_check(false)
       debug_puts(__method__)
     end
@@ -462,7 +459,7 @@ module Unlight
       @foe_card_idx = args[2][0]
       @phase = __method__
       @phase_args = args
-      @log_list << [DUEL_MSGDLG_CHANGE_CHARA,nil]
+      @log_list << [DUEL_MSGDLG_CHANGE_CHARA, nil]
       debug_puts(__method__)
     end
 
@@ -507,7 +504,7 @@ module Unlight
       @foe_table = []
       @phase = __method__
       @phase_args = args
-      @log_list << [args[0][0],[args[0][1]]]
+      @log_list << [args[0][0], [args[0][1]]]
       debug_puts(__method__)
     end
 
@@ -516,7 +513,7 @@ module Unlight
       # args 0:ログ:String,1:Array[0:plのターンか:Boolean,1:atkのダイス値:String,1:defのダイス値:String]
       @phase = __method__
       @phase_args = args
-      @log_list << [args[0][0],[args[0][1]]] if args[0]!=nil
+      @log_list << [args[0][0], [args[0][1]]] if args[0] != nil
       debug_puts(__method__)
     end
 
@@ -535,18 +532,18 @@ module Unlight
       @foe_card_idx = args[1][0]
       @phase = __method__
       @phase_args = args
-      @log_list << [DUEL_MSGDLG_CHANGE_CHARA,nil]
+      @log_list << [DUEL_MSGDLG_CHANGE_CHARA, nil]
       debug_puts(__method__)
     end
 
     # ターン終了のハンドラ
-    def duel_finish_turn_phase(args)#
+    def duel_finish_turn_phase(args) #
       # args 0:距離:int,1:終了ターン:int
       @pl_table  = []
       @foe_table = []
       @phase = __method__
       @phase_args = args
-      @log_list << [DUEL_MSGDLG_TURN_END,[args[1]]]
+      @log_list << [DUEL_MSGDLG_TURN_END, [args[1]]]
       state_check
       debug_puts(__method__)
     end
@@ -926,7 +923,7 @@ module Unlight
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
       ac_arr = args[0].split(",")
       ac_arr.size.times do
-        @pl_ac.push({ :id=>0, :dir=>true})
+        @pl_ac.push({ id: 0, dir: true })
       end
       decre_deck_num(ac_arr.size) if ac_arr.size > 0
       debug_puts(__method__)
@@ -936,7 +933,7 @@ module Unlight
     def foeEntrant_special_dealed_event(args)
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
       args[2].times do
-        @foe_ac.push({ :id=>0, :dir=>true})
+        @foe_ac.push({ id: 0, dir: true })
       end
       decre_deck_num(args[2]) if args[2] > 0
       debug_puts(__method__)
@@ -947,7 +944,7 @@ module Unlight
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
       ac_arr = args[0].split(",")
       ac_arr.size.times do
-        @pl_ac.push({ :id=>0, :dir=>true})
+        @pl_ac.push({ id: 0, dir: true })
       end
       debug_puts(__method__)
     end
@@ -956,7 +953,7 @@ module Unlight
     def foeEntrant_grave_dealed_event(args)
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
       args[2].times do
-        @foe_ac.push({ :id=>0, :dir=>true})
+        @foe_ac.push({ id: 0, dir: true })
       end
       debug_puts(__method__)
     end
@@ -966,7 +963,7 @@ module Unlight
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
       ac_arr = args[0].split(",")
       ac_arr.size.times do
-        @pl_ac.push({ :id=>0, :dir=>true})
+        @pl_ac.push({ id: 0, dir: true })
       end
       args[2].times do
         @foe_ac.pop
@@ -979,7 +976,7 @@ module Unlight
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
       ac_arr = args[0].split(",")
       ac_arr.size.times do
-        @foe_ac.push({ :id=>0, :dir=>true})
+        @foe_ac.push({ id: 0, dir: true })
       end
       args[2].times do
         @pl_ac.pop
@@ -992,7 +989,7 @@ module Unlight
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
       ac_arr = args[0].split(",")
       ac_arr.size.times do
-        @pl_ac.push({ :id=>0, :dir=>true})
+        @pl_ac.push({ id: 0, dir: true })
       end
       debug_puts(__method__)
     end
@@ -1001,7 +998,7 @@ module Unlight
     def foeEntrant_special_event_card_dealed_event(args)
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
       args[2].times do
-        @foe_ac.push({ :id=>0, :dir=>true})
+        @foe_ac.push({ id: 0, dir: true })
       end
       debug_puts(__method__)
     end
@@ -1030,7 +1027,7 @@ module Unlight
       if args[3]
         @override_cards.delete(args[0]) if @override_cards.key?(args[0])
       else
-        @override_cards[args[0]] = { "u_value"=>args[1], "b_value"=>args[2] }
+        @override_cards[args[0]] = { "u_value" => args[1], "b_value" => args[2] }
       end
       debug_puts(__method__)
     end
@@ -1041,7 +1038,7 @@ module Unlight
       if args[3]
         @override_cards.delete(args[0]) if @override_cards.key?(args[0])
       else
-        @override_cards[args[0]] = { "u_value"=>args[1], "b_value"=>args[2] }
+        @override_cards[args[0]] = { "u_value" => args[1], "b_value" => args[2] }
       end
       debug_puts(__method__)
     end
@@ -1141,11 +1138,11 @@ module Unlight
       if args[0]
         ac_arr = args[1].split(",")
         ac_arr.size.times do
-          @pl_ac.push({ :id=>0, :dir=>true})
+          @pl_ac.push({ id: 0, dir: true })
         end
       else
         args[3].times do
-          @foe_ac.push({ :id=>0, :dir=>true})
+          @foe_ac.push({ id: 0, dir: true })
         end
       end
       @deck_num = @deck_num < args[3] ? 0 : @deck_num - args[3]
@@ -1163,11 +1160,11 @@ module Unlight
     def pl_entrant_buff_on_event(args)
       # args 0:plか:Boolean,,1:index:int,2:状態異常ID:int,3:値:int,4:ターン数:int,5:index:int
       if args[0][0]
-        @pl_state[args[0][1]] << {:id=>args[0][2],:value=>args[0][3],:turn=>args[0][4] }
+        @pl_state[args[0][1]] << { id: args[0][2], value: args[0][3], turn: args[0][4] }
       else
-        @foe_state[args[0][1]] << {:id=>args[0][2],:value=>args[0][3],:turn=>args[0][4] }
+        @foe_state[args[0][1]] << { id: args[0][2], value: args[0][3], turn: args[0][4] }
       end
-      @log_list << [args[1][0],[args[1][1],args[1][2]]]
+      @log_list << [args[1][0], [args[1][1], args[1][2]]]
       debug_puts(__method__)
     end
 
@@ -1175,11 +1172,11 @@ module Unlight
     def foe_entrant_buff_on_event(args)
       # args 0:plか:Boolean,,1:index:int,2:状態異常ID:int,3:値:int,4:ターン数:int,5:index:int
       if args[0][0]
-        @pl_state[args[0][1]] << {:id=>args[0][2],:value=>args[0][3],:turn=>args[0][4] }
+        @pl_state[args[0][1]] << { id: args[0][2], value: args[0][3], turn: args[0][4] }
       else
-        @foe_state[args[0][1]] << {:id=>args[0][2],:value=>args[0][3],:turn=>args[0][4] }
+        @foe_state[args[0][1]] << { id: args[0][2], value: args[0][3], turn: args[0][4] }
       end
-      @log_list << [args[1][0],[args[1][1],args[1][2]]]
+      @log_list << [args[1][0], [args[1][1], args[1][2]]]
       debug_puts(__method__)
     end
 
@@ -1188,12 +1185,12 @@ module Unlight
       # args 0:plか:Boolean,1:index:int,2:状態異常ID:int,3:値:int
       idx = 0
       if args[0]
-        @pl_state[args[1]].each_with_index do |s,i|
+        @pl_state[args[1]].each_with_index do |s, i|
           idx = i if s[:id] == args[2]
         end
         @pl_state[args[1]].delete_at(idx)
       else
-        @foe_state[args[1]].each_with_index do |s,i|
+        @foe_state[args[1]].each_with_index do |s, i|
           idx = i if s[:id] == args[2]
         end
         @foe_state[args[1]].delete_at(idx)
@@ -1206,12 +1203,12 @@ module Unlight
       # args 0:plか:Boolean,1:index:int,2:状態異常ID:int,3:値:int
       idx = 0
       if args[0]
-        @pl_state[args[1]].each_with_index do |s,i|
+        @pl_state[args[1]].each_with_index do |s, i|
           idx = i if s[:id] == args[2]
         end
         @pl_state[args[1]].delete_at(idx)
       else
-        @foe_state[args[1]].each_with_index do |s,i|
+        @foe_state[args[1]].each_with_index do |s, i|
           idx = i if s[:id] == args[2]
         end
         @foe_state[args[1]].delete_at(idx)
@@ -1224,7 +1221,7 @@ module Unlight
       # args 0:plか:Boolean,1:状態異常ID:int,2:値:int,3:index
       idx = 0
       if args[0]
-        @pl_state[args[3]].each_with_index do |s,i|
+        @pl_state[args[3]].each_with_index do |s, i|
           idx = i if s[:id] == args[1]
         end
         if @pl_state[args[3]][idx] != nil
@@ -1232,7 +1229,7 @@ module Unlight
           @pl_state[args[3]][idx][:value] = args[2]
         end
       else
-        @foe_state[args[3]].each_with_index do |s,i|
+        @foe_state[args[3]].each_with_index do |s, i|
           idx = i if s[:id] == args[1]
         end
         if @foe_state[args[3]][idx] != nil
@@ -1248,7 +1245,7 @@ module Unlight
       # args 0:plか:Boolean,1:状態異常ID:int,2:値:int,3:index
       idx = 0
       if args[0]
-        @pl_state[args[3]].each_with_index do |s,i|
+        @pl_state[args[3]].each_with_index do |s, i|
           idx = i if s[:id] == args[1]
         end
         if @pl_state[args[3]][idx] != nil
@@ -1256,7 +1253,7 @@ module Unlight
           @pl_state[args[3]][idx][:value] = args[2]
         end
       else
-        @foe_state[args[3]].each_with_index do |s,i|
+        @foe_state[args[3]].each_with_index do |s, i|
           idx = i if s[:id] == args[1]
         end
         if @foe_state[args[3]][idx] != nil
@@ -1474,12 +1471,12 @@ module Unlight
       pl_deck_ids = []
       foe_deck_ids = []
       @pl_cards.each_index do |s|
-        if @pl_cards[s]      # 念のためのチェック
+        if @pl_cards[s] # 念のためのチェック
           pl_deck_ids << @pl_cards[s].id
         end
       end
       @foe_cards.each_index do |s|
-        if @foe_cards[s]      # 念のためのチェック
+        if @foe_cards[s] # 念のためのチェック
           foe_deck_ids << @foe_cards[s].id
         end
       end
@@ -1510,7 +1507,7 @@ module Unlight
       if @pl_cards
         pl_deck_ids = []
         @pl_cards.each_index do |s|
-          if @pl_cards[s]      # 念のためのチェック
+          if @pl_cards[s] # 念のためのチェック
             pl_deck_ids << @pl_cards[s].id
           end
         end
@@ -1548,9 +1545,6 @@ module Unlight
       puts "phase          :#{@phase}"           if @phase
       puts "phase_args     :#{@phase_args}"      if @phase_args
       puts "******************** #{method} ********************"
-
     end
-
   end
-
 end

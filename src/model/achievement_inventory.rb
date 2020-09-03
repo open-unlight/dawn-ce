@@ -4,11 +4,10 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # カードのインベントリクラス
   class AchievementInventory < Sequel::Model
     # 他クラスのアソシエーション
-    many_to_one :achievement   # キャラカードを複数もてる
+    many_to_one :achievement # キャラカードを複数もてる
 
     plugin :schema
     plugin :validation_class_methods
@@ -17,13 +16,13 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer     :avatar_id, :index=>true #, :table => :chara_card_decks
-      integer     :achievement_id          #, :table => :chara_cards
-      integer     :state, :default => 0, :null =>false
-      integer     :progress, :default => 0
-      integer     :before_avatar_id, :default => 0
+      integer     :avatar_id, index: true #, :table => :chara_card_decks
+      integer     :achievement_id #, :table => :chara_cards
+      integer     :state, default: 0, null: false
+      integer     :progress, default: 0
+      integer     :before_avatar_id, default: 0
       datetime    :end_at
-      String      :code, :default =>""         # 専用コード（置き換え文字列）
+      String      :code, default: "" # 専用コード（置き換え文字列）
       datetime    :created_at
       datetime    :updated_at
     end
@@ -33,12 +32,11 @@ module Unlight
       AchievementInventory.create_table
     end
 
-
     DB.alter_table :achievement_inventories do
-      add_column :progress, :integer, :default => 0 unless Unlight::AchievementInventory.columns.include?(:progress)  # 新規追加2011/07/25
-      add_column :before_avatar_id, :integer, :default => 0 unless Unlight::AchievementInventory.columns.include?(:before_avatar_id)  # 新規追加2011/07/25
-      add_column :end_at, :datetime unless Unlight::AchievementInventory.columns.include?(:end_at)  # 新規追加 2013/02/25
-      add_column :code, String, :default => "" unless Unlight::AchievementInventory.columns.include?(:code)           # 新規追加2015/04/13
+      add_column :progress, :integer, default: 0 unless Unlight::AchievementInventory.columns.include?(:progress) # 新規追加2011/07/25
+      add_column :before_avatar_id, :integer, default: 0 unless Unlight::AchievementInventory.columns.include?(:before_avatar_id) # 新規追加2011/07/25
+      add_column :end_at, :datetime unless Unlight::AchievementInventory.columns.include?(:end_at) # 新規追加 2013/02/25
+      add_column :code, String, default: "" unless Unlight::AchievementInventory.columns.include?(:code) # 新規追加2015/04/13
     end
 
     # バリデーションの設定
@@ -115,12 +113,10 @@ module Unlight
     def progress_inheriting
       prev_id = self.achievement.get_inheriting_progress
       if prev_id != 0
-        prev_ai = AchievementInventory.filter([:avatar_id => self.avatar_id, :achievement_id => prev_id]).all.first
+        prev_ai = AchievementInventory.filter([avatar_id: self.avatar_id, achievement_id: prev_id]).all.first
         self.progress = prev_ai.progress
         self.save_changes
       end
     end
-
   end
-
 end

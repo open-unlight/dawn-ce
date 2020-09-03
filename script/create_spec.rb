@@ -7,7 +7,7 @@ classname = File.basename(arg, ".rb")
 file = Pathname.new(filename)
 
 unless file.exist?
-  file.open('w') {|f| f.puts DATA.read.gsub('__package__',arg).gsub('__ClassName__',classname.capitalize).gsub('__classname__', classname ) }
+  file.open('w') { |f| f.puts DATA.read.gsub('__package__', arg).gsub('__ClassName__', classname.capitalize).gsub('__classname__', classname) }
 end
 
 __END__

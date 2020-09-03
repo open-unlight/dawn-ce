@@ -4,17 +4,16 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # 渦の元データクラス
   class ProfoundData < Sequel::Model(:profound_datas)
     # プラグインの設定
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # 他クラスのアソシエーション
-    one_to_many :quests         # 複数のクエストデータを保持
+    one_to_many :quests # 複数のクエストデータを保持
 
     # スキーマの設定
     set_schema do
@@ -29,9 +28,9 @@ module Unlight
       integer     :group_id                                                 # 所属グループID
       integer     :treasure_level                                           # 報酬レベル
       integer     :stage                                                    # ステージID
-      integer     :finder_start_point,:default=>RAID_FINDER_START_POINT_DEF # 発見者開始ポイント
-      integer     :member_limit,:default=>RAID_MEMBER_LIMIT_DEF             # ステージID
-      String      :caption, :default=>""                                    # 簡易説明
+      integer     :finder_start_point, default: RAID_FINDER_START_POINT_DEF # 発見者開始ポイント
+      integer     :member_limit, default: RAID_MEMBER_LIMIT_DEF             # ステージID
+      String      :caption, default: "" # 簡易説明
       datetime    :created_at
       datetime    :updated_at
     end
@@ -43,7 +42,7 @@ module Unlight
 
     #   テーブルを変更する（履歴を残せ）
     DB.alter_table :profound_datas do
-      add_column :member_limit,:integer,:default => RAID_MEMBER_LIMIT_DEF unless Unlight::ProfoundData.columns.include?(:member_limit) # 新規追加 2015/05/25
+      add_column :member_limit, :integer, default: RAID_MEMBER_LIMIT_DEF unless Unlight::ProfoundData.columns.include?(:member_limit) # 新規追加 2015/05/25
     end
 
     # 全体データバージョンを返す
@@ -51,7 +50,7 @@ module Unlight
       ret = cache_store.get("ProfoundDataVersion")
       unless ret
         ret = refresh_data_version
-        cache_store.set("ProfoundDataVersion",ret)
+        cache_store.set("ProfoundDataVersion", ret)
       end
       ret
     end
@@ -66,7 +65,6 @@ module Unlight
         0
       end
     end
-
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
@@ -88,8 +86,8 @@ module Unlight
       ret = CACHE.get("profound_max_ttl")
       unless ret
         prf_data = ProfoundData.order(Sequel.desc(:ttl)).limit(1).all.first
-        ret = prf_data.ttl.to_f*60*60
-        CACHE.set("profound_max_ttl",ret,60*60*24*30) # 1ヶ月
+        ret = prf_data.ttl.to_f * 60 * 60
+        CACHE.set("profound_max_ttl", ret, 60 * 60 * 24 * 30) # 1ヶ月
       end
       ret
     end
@@ -120,7 +118,7 @@ module Unlight
       ret = ""
       ret << self.id.to_s << ","
       ret << self.prf_type.to_s << ","
-      ret << '"' << (self.name||"") << '",'
+      ret << '"' << (self.name || "") << '",'
       ret << self.rarity.to_s << ","
       ret << self.level.to_s << ","
       ret << self.quest_map_id.to_s << ","
@@ -139,14 +137,14 @@ module Unlight
       ret << boss_id.to_s << ','
       ret << '"' << boss_name << '",'
       ret << max_hp.to_s << ','
-      ret << '"' << (self.caption||"") << '",'
-      rank_bonus,all_bonus,defeat_bonus,found_bonus = ProfoundTreasureData::get_level_treasure_list(self.treasure_level)
+      ret << '"' << (self.caption || "") << '",'
+      rank_bonus, all_bonus, defeat_bonus, found_bonus = ProfoundTreasureData::get_level_treasure_list(self.treasure_level)
       all_bonus_set = []
       all_bonus.each do |b|
         all_bonus_set << "#{b[:type]}_#{b[:id]}_#{b[:num]}_#{b[:sct_type]}"
       end
       all_bonus_set_str = (all_bonus_set.size > 0) ? all_bonus_set.join(",") : ""
-      ret << '"' << (all_bonus_set_str||"") << '",'
+      ret << '"' << (all_bonus_set_str || "") << '",'
       ret << self.member_limit.to_s
       ret
     end

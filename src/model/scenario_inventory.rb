@@ -4,11 +4,10 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # カードのインベントリクラス
   class ScenarioInventory < Sequel::Model
     # 他クラスのアソシエーション
-    many_to_one :scenario   # キャラカードを複数もてる
+    many_to_one :scenario # キャラカードを複数もてる
 
     plugin :schema
     plugin :validation_class_methods
@@ -17,7 +16,7 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer     :avatar_id, :index=>true #, :table => :chara_card_decks
+      integer     :avatar_id, index: true #, :table => :chara_card_decks
       integer     :scenario_id
       integer     :state
       datetime    :end_at
@@ -46,7 +45,5 @@ module Unlight
     before_save do
        self.updated_at = Time.now.utc
     end
-
   end
-
 end

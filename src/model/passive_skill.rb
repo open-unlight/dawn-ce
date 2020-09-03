@@ -4,14 +4,13 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # パッシブクラス
   class PassiveSkill < Sequel::Model
     # プラグインの設定
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # 他クラスのアソシエーション
 
@@ -19,11 +18,11 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, :index=>true
+      String      :name, index: true
       integer     :passive_skill_no
       integer     :pow
-      String      :effect_image, :default => ""
-      String      :caption, :default => ""
+      String      :effect_image, default: ""
+      String      :caption, default: ""
       datetime    :created_at
       datetime    :updated_at
     end
@@ -53,13 +52,12 @@ module Unlight
       Unlight::PassiveSkill::refresh_data_version
     end
 
-
     # 全体データバージョンを返す
     def PassiveSkill::data_version
       ret = cache_store.get("PassiveSkillVersion")
       unless ret
         ret = refresh_data_version
-        cache_store.set("PassiveSkillVersion",ret)
+        cache_store.set("PassiveSkillVersion", ret)
       end
       ret
     end
@@ -96,21 +94,20 @@ module Unlight
 
     # caption文を返す
     def replaced_caption
-      self.pow.to_s&&self.caption ? self.caption.gsub("__POW__", self.pow.to_s).gsub("__NAME__", self.name.delete("+")) : self.caption
+      self.pow.to_s && self.caption ? self.caption.gsub("__POW__", self.pow.to_s).gsub("__NAME__", self.name.delete("+")) : self.caption
     end
 
     def get_data_csv_str
       ret = ""
       ret << self.id.to_s.force_encoding("UTF-8") << ","
       ret << self.passive_skill_no.to_s.force_encoding("UTF-8") << ","
-      ret << '"' << (self.name||"").force_encoding("UTF-8") << '",'
-      ret << '"' << (self.replaced_caption||"").force_encoding("UTF-8") << '",'
-      ret << '"' << (self.effect_image||"").force_encoding("UTF-8") << '"'
+      ret << '"' << (self.name || "").force_encoding("UTF-8") << '",'
+      ret << '"' << (self.replaced_caption || "").force_encoding("UTF-8") << '",'
+      ret << '"' << (self.effect_image || "").force_encoding("UTF-8") << '"'
       ret
     end
 
     # 読み込み時に初期化する
     initialize_condition_method
   end
-
 end

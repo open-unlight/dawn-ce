@@ -4,17 +4,18 @@
 # http://opensource.org/licenses/mit-license.php
 
 # -*- coding: utf-8 -*-
+
 module Unlight
-    POINT_CHECK_MOVE =1
-    POINT_CHECK_BATTLE =0
+    POINT_CHECK_MOVE = 1
+    POINT_CHECK_BATTLE = 0
 
   # 参加者クラス
   class Entrant < BaseEvent
     DEFAULT_CARD_NUM = 5
     DISTANCE_MAX = 3
-    POINT_CHECK_MOVE =1
-    POINT_CHECK_BATTLE =0
-    EVENT_CARD_DRAW_NUM =1
+    POINT_CHECK_MOVE = 1
+    POINT_CHECK_BATTLE = 0
+    EVENT_CARD_DRAW_NUM = 1
 
     # 移動方向の列挙
     DIRECTION_PEND         = 2
@@ -31,13 +32,13 @@ module Unlight
     }
 
     attr_accessor :cards_max, :cards, :hit_points, :hit_points_max,
-    :distance, :initiative,:exit,:foe, :direction, :result_exp, :result_gems,
-    :event_card_draw_num, :chara_change_index, :chara_change_force, :trap,
-    :instant_kill_damage, :is_indomitable, :indomitable_dice_damage, :transformable, :is_transforming,
-    :is_highgate, :magnification_hurt_const_damage, :magnification_cause_const_damage,
-    :field_status, :seconds, :bp_calc_range_free, :determined_damage, :hiding_was_finished,
-    :special_gem_bonus_multi, :monitoring
-    attr_reader :reward_bonus, :base_exp, :exp_bonus,:before_damage,:damaged_times
+                  :distance, :initiative, :exit, :foe, :direction, :result_exp, :result_gems,
+                  :event_card_draw_num, :chara_change_index, :chara_change_force, :trap,
+                  :instant_kill_damage, :is_indomitable, :indomitable_dice_damage, :transformable, :is_transforming,
+                  :is_highgate, :magnification_hurt_const_damage, :magnification_cause_const_damage,
+                  :field_status, :seconds, :bp_calc_range_free, :determined_damage, :hiding_was_finished,
+                  :special_gem_bonus_multi, :monitoring
+    attr_reader :reward_bonus, :base_exp, :exp_bonus, :before_damage, :damaged_times
 
     def initialize(c, ccs, wcs, qcs, ecs, dist, d_set, hp_up = 0, ap_up = 0, dp_up = 0, ai = :none)	# By_K2
       super
@@ -53,7 +54,7 @@ module Unlight
       @hit_points = []                           # 現在のヒットポイント
       @hit_points_max = []                       # 最大のヒットポイント
 
-      @trap = { }                                # トラップ
+      @trap = {} # トラップ
       @table_cards_lock = false                  # テーブルカードを開示しない
 
       @sword_ap = []                             # 近ボーナス
@@ -71,11 +72,11 @@ module Unlight
       @determined_damage = 0                     # ダメージイベントで確定したダメージ
 
       @weapon_passives = []                      # 武器がもつパッシブスキル
-      @special_gem_bonus_multi = 1                     # 戦闘時特殊行動によるgemボーナス
-      @default_weapon_bonus = { }                # 初期の武器ステータスを保持する
+      @special_gem_bonus_multi = 1 # 戦闘時特殊行動によるgemボーナス
+      @default_weapon_bonus = {} # 初期の武器ステータスを保持する
 
       @chara_cards.each_index do |s|
-        if @chara_cards[s]                       # 念のためのチェック
+        if @chara_cards[s] # 念のためのチェック
 
 		  # By_K2 START (무한의탑 몬스터인 경우 층수만큼 POWER 증가)
 		  @chara_cards[s].hp += hp_up;
@@ -83,7 +84,7 @@ module Unlight
 		  @chara_cards[s].dp += dp_up;
 		  # By_K2 END
 
-          @hit_points << (@chara_cards[s].hp - (d_set[s] ? d_set[s]:0))         # 現在のヒットポイントを格納
+          @hit_points << (@chara_cards[s].hp - (d_set[s] ? d_set[s] : 0)) # 現在のヒットポイントを格納
           @hit_points_max << @chara_cards[s].hp                                 # 最大のヒットポイントを格納
 
           if @weapon_cards[s]
@@ -106,8 +107,9 @@ module Unlight
             @weapon_cards[s].each { |w| @arrow_deffence_dice_bonus[s] += w.arrow_deffence_dice_bonus(ai) }
 
             @weapon_cards[s].each { |w|
-              @weapon_passives[s] = w.get_passive_id(ai) }
-            @chara_cards[s].weapon_passive=(@weapon_passives[s])
+              @weapon_passives[s] = w.get_passive_id(ai)
+}
+            @chara_cards[s].weapon_passive = (@weapon_passives[s])
           end
           @default_weapon_bonus[s] = weapon_bonus(s)
         end
@@ -147,17 +149,17 @@ module Unlight
       @transformable = false         # 死ぬと変身する。(キャラカード差し替え)
       @exit = false                  # ゲームから出たか？
       @bp_calc_unenabled             # 攻撃失敗
-      @bp_calc_range_free=false      # 距離を廃したbp計算
-      @seconds=false                 # 必ず後攻
-      @hiding_was_finished=false     # ハイド終了
-      @before_damage=0               # 直前に受けたダメージ
-      @damaged_times=0               # ダメージを受けた回数
-      @locked_cards_id = []             # 手札内でロックされたカード
-      @monitoring = false            # ヒール, 自傷を相手にも適用
+      @bp_calc_range_free = false      # 距離を廃したbp計算
+      @seconds = false                 # 必ず後攻
+      @hiding_was_finished = false     # ハイド終了
+      @before_damage = 0               # 直前に受けたダメージ
+      @damaged_times = 0               # ダメージを受けた回数
+      @locked_cards_id = [] # 手札内でロックされたカード
+      @monitoring = false # ヒール, 自傷を相手にも適用
 
-      @table_on_list = 0b0    # 戦闘テーブルにおかれたもの有効になっているアクションカードのビット配列
+      @table_on_list = 0b0 # 戦闘テーブルにおかれたもの有効になっているアクションカードのビット配列
       # 必殺技使用時に有効になってるかどうかを表すビット配列を格納するハッシュ
-      @feat_battle_table_on_list = { }
+      @feat_battle_table_on_list = {}
       # 結果もらえるEXP
       @result_exp = 0
       @result_gems = 0
@@ -166,18 +168,17 @@ module Unlight
       @exp_bonus = 0     # EXPボーナス
 
       # 経験値の倍率
-      @exp_pow  =1
+      @exp_pow = 1
 
       # ボーナス値による倍率変化
-      @exp_bounus_pow  =1
-      @gem_bounus_pow  =1
+      @exp_bounus_pow = 1
+      @gem_bounus_pow = 1
       # 受け取ったボーナスの合計
       @reward_bonus = 0
-
     end
 
     def set_foe(f)
-      @foe =f
+      @foe = f
     end
 
     # 現在のカードの不足分
@@ -226,8 +227,8 @@ module Unlight
     def weapon_bonus(i)
       ret = []
       if @weapon_cards[i]
-        ret << [@sword_ap[i],@sword_dice_bonus[i],@sword_dp[i],@sword_deffence_dice_bonus[i],
-                @arrow_ap[i],@arrow_dice_bonus[i],@arrow_dp[i],@arrow_deffence_dice_bonus[i],
+        ret << [@sword_ap[i], @sword_dice_bonus[i], @sword_dp[i], @sword_deffence_dice_bonus[i],
+                @arrow_ap[i], @arrow_dice_bonus[i], @arrow_dp[i], @arrow_deffence_dice_bonus[i],
                 weapon_passives_str(i)]
       else
         ret << [0, 0, 0, 0, 0, 0, 0, 0, weapon_passives_str(i)]
@@ -270,12 +271,12 @@ module Unlight
       @arrow_ap[@current_chara_card_no],
       @arrow_dice_bonus[@current_chara_card_no],
       @arrow_dp[@current_chara_card_no],
-      @arrow_deffence_dice_bonus[@current_chara_card_no] = [0,0,0,0,0,0,0,0]
+      @arrow_deffence_dice_bonus[@current_chara_card_no] = [0, 0, 0, 0, 0, 0, 0, 0]
       @weapon_cards[@current_chara_card_no] = nil
     end
 
     def reset_current_default_weapon_bonus()
-      @default_weapon_bonus[@current_chara_card_no][0][0,7] = [0,0,0,0,0,0,0,0]
+      @default_weapon_bonus[@current_chara_card_no][0][0, 7] = [0, 0, 0, 0, 0, 0, 0, 0]
     end
 
     def set_current_default_weapon_bonus()
@@ -324,7 +325,6 @@ module Unlight
     def current_default_weapon_bonus
      @default_weapon_bonus[@current_chara_card_no]
     end
-
 
     # 使用中の装備補正の各要素を返す
     def current_weapon_bonus_at(p)
@@ -379,16 +379,16 @@ module Unlight
 
     def damage_set
       ret = []
-      @hit_points_max.each_index{ |h|
-        ret << @hit_points_max[h]-((@hit_points[h]<1)? 1:@hit_points[h])
+      @hit_points_max.each_index { |h|
+        ret << @hit_points_max[h] - ((@hit_points[h] < 1) ? 1 : @hit_points[h])
       }
       ret
     end
 
     def remain_hp_set
       ret = []
-      @hit_points_max.each_index{ |h|
-        ret << ((@hit_points[h]<1)? 0:@hit_points[h])
+      @hit_points_max.each_index { |h|
+        ret << ((@hit_points[h] < 1) ? 0 : @hit_points[h])
       }
       ret
     end
@@ -421,25 +421,26 @@ module Unlight
 
     # 移動カードのＩＤを受け取ってテーブルにのっける
     # 返値:出したカードのインデックス
-    def move_card_add(cards, dir, index=0 )
+    def move_card_add(cards, dir, index = 0)
       return false unless card_is_enabled?(cards[0])
       # 臨時にカードがカースカードなら無視
       return 0 if MOVE_RULE_EVENT_CARD_NO.include?(ActionCard[cards[0]].event_no)
+
       # 方向が決定していない場合失敗する
       if direction_set?
       # 移動カードテーブルにカードを移動する
         if card_replace(cards, @cards, @table)
           # 移動ができていたらイベントを発行する
-          cards.each_index { |i| move_card_rotate(cards[i], dir[i])}
+          cards.each_index { |i| move_card_rotate(cards[i], dir[i]) }
           move_card_add_succes_event(index, cards[0])
           # カードにテーブルにおかれたことを知らせる
-          @table.each{ |c| c.droped_event if cards.include?(c.id) }
+          @table.each { |c| c.droped_event if cards.include?(c.id) }
           point_check(POINT_CHECK_MOVE)
         else
-          move_card_add_succes_event(-1,0)
+          move_card_add_succes_event(-1, 0)
         end
       else
-          move_card_add_succes_event(-1,0)
+          move_card_add_succes_event(-1, 0)
       end
       index
     end
@@ -447,48 +448,48 @@ module Unlight
 
     # 移動カードのＩＤを受け取ってテーブルから除いて手札に戻す
     # 返値:戻したカードのインデックス
-    def move_card_remove(cards, index=0)
+    def move_card_remove(cards, index = 0)
       if card_replace(cards, @table, @cards)
         point_check(POINT_CHECK_MOVE)
         [index, cards[0]]
       else
-        [-1,0]
+        [-1, 0]
       end
     end
     regist_event MoveCardRemoveAction
 
     # 戦闘カードのＩＤを受け取ってテーブルにのっける（方向付き）
     # 返値:出したカードのインデックス
-    def battle_card_add(cards, dir, index=0)
+    def battle_card_add(cards, dir, index = 0)
       # 無視するカード
       return false unless card_is_enabled?(cards[0])
       return 0 if BATTLE_RULE_EVENT_CARD_NO.include?(ActionCard[cards[0]].event_no)
+
       if card_replace(cards, @cards, @table)
-        cards.each_index { |i| battle_card_rotate(cards[i], dir[i])}
+        cards.each_index { |i| battle_card_rotate(cards[i], dir[i]) }
         # 移動ができていたらイベントを発行する
         battle_card_add_succes_event(index, cards[0])
         # カードにテーブルにおかれたことを知らせる
-        @table.each{ |c| c.droped_event if cards.include?(c.id) }
+        @table.each { |c| c.droped_event if cards.include?(c.id) }
         # ポイントに変化があったか再計算
         point_check(POINT_CHECK_BATTLE)
       else
-          battle_card_add_succes_event(-1,0)
+          battle_card_add_succes_event(-1, 0)
       end
       index
     end
     regist_event AttackCardAddAction
     regist_event DeffenceCardAddAction
 
-
     # 攻撃カードのＩＤを受け取ってテーブルから除いて手札に戻す
     # 返値:戻したカードのインデックス
-    def battle_card_remove(cards, index=0)
+    def battle_card_remove(cards, index = 0)
       if card_replace(cards, @table, @cards)
       # ポイントに変化があったか再計算
         point_check(POINT_CHECK_BATTLE)
         [index, cards[0]]
       else
-        [-1,0]
+        [-1, 0]
       end
     end
     regist_event AttackCardRemoveAction
@@ -531,9 +532,10 @@ module Unlight
     # 返値:戻したカードのテーブル位置とインデックスとIDの配列
     def card_rotate (id, table, index, dir)
       return false unless card_is_enabled?(id)
+
       case table
       when TABLE_HAND
-        @cards.each { |c| c.up(dir) if c.id == id}
+        @cards.each { |c| c.up(dir) if c.id == id }
       when TABLE_MOVE
         move_card_rotate_action(id, dir)
       when TABLE_BATTLE
@@ -543,7 +545,7 @@ module Unlight
           deffence_card_rotate_action(id, dir)
         end
       end
-      [table,index,id,dir]
+      [table, index, id, dir]
     end
     regist_event CardRotateAction
     regist_event EventCardRotateAction
@@ -573,7 +575,7 @@ module Unlight
     # 返値:出し終わったテーブル
     def add_table(cards, table)
       card_replace(cards, @cards, table)
-      table.each{ |c| c.droped_event if cards.include?(c.id) }
+      table.each { |c| c.droped_event if cards.include?(c.id) }
       table
     end
     regist_event AddTableAction
@@ -583,19 +585,19 @@ module Unlight
     def move(i)
       i = 0 if current_chara_card.is_magnetic? || @foe.current_chara_card.is_magnetic?
 
-      if @direction == DIRECTION_CHARA_CHANGE && @hit_points.select{|v| v > 0}.size > 1
+      if @direction == DIRECTION_CHARA_CHANGE && @hit_points.select { |v| v > 0 }.size > 1
         @change_done = false
         @change_need = true
       elsif @direction == DIRECTION_STAY
         self.healed_event(1);
       end
-      mp = (i.abs < DISTANCE_MAX)? i.abs : DISTANCE_MAX
-      mp *= i<=>0
+      mp = (i.abs < DISTANCE_MAX) ? i.abs : DISTANCE_MAX
+      mp *= i <=> 0
       old_distance = @distance
       @distance += mp
       if @distance <= 0
         @distance = 1
-      elsif @distance >DISTANCE_MAX
+      elsif @distance > DISTANCE_MAX
         @distance = DISTANCE_MAX
       end
       move_done
@@ -630,7 +632,7 @@ module Unlight
       # 強制キャラチェンジかどうかを調べる2
       i = @chara_change_index if @chara_change_force
       # 値がない場合に仮カードを代入
-      i = @hit_points.index{|v| v > 0} if i == nil
+      i = @hit_points.index { |v| v > 0 } if i == nil
 
       if !@change_done && @chara_cards[i] && @hit_points[i] > 0
         # イベントを外してすぐに登録すると2重にイベントが登録されてしまうみたい
@@ -659,7 +661,7 @@ module Unlight
     def init_done
       @init_done = true
       # 必殺技のONリストをすべて初期化する
-      @feat_battle_table_on_list = { }
+      @feat_battle_table_on_list = {}
     end
     regist_event InitDoneAction
 
@@ -667,7 +669,7 @@ module Unlight
     def move_done
       @move_done = true
       # 必殺技のONリストをすべて初期化する
-      @feat_battle_table_on_list = { }
+      @feat_battle_table_on_list = {}
     end
     regist_event MoveDoneAction
 
@@ -675,7 +677,7 @@ module Unlight
     def attack_done
       @attack_done = true
       # 必殺技のONリストをすべて初期化する
-      @feat_battle_table_on_list = { }
+      @feat_battle_table_on_list = {}
     end
     regist_event AttackDoneAction
 
@@ -683,7 +685,7 @@ module Unlight
     def deffence_done
       @deffence_done = true
       # 必殺技のONリストをすべて初期化する
-      @feat_battle_table_on_list = { }
+      @feat_battle_table_on_list = {}
     end
     regist_event DeffenceDoneAction
 
@@ -691,7 +693,7 @@ module Unlight
     def change_done
       @change_done = true
       # 必殺技のONリストをすべて初期化する
-      @feat_battle_table_on_list = { }
+      @feat_battle_table_on_list = {}
     end
     regist_event ChangeDoneAction
 
@@ -714,17 +716,17 @@ module Unlight
 
     # ダメージ
     # 返値:ダメージポイント
-    def damaged (d,is_not_hostile=false,set_log=true)
+    def damaged (d, is_not_hostile = false, set_log = true)
       val = d
       if @hit_points[@current_chara_card_no] > 0
         @foe.damaged_event(d) if @monitoring && is_not_hostile
         if (@hit_points[@current_chara_card_no] - val) < 1
-          val = @hit_points[@current_chara_card_no]    # 現在のヒットポイント
+          val = @hit_points[@current_chara_card_no] # 現在のヒットポイント
           # 死んだら一度移動終了ボタンを推したことにする
           init_done_action
           @hit_points[@current_chara_card_no] = 0
           # 生存キャラがある場合にキャラ変更フェイズのフラグを立てる
-          if @hit_points.index{|v| v > 0}
+          if @hit_points.index { |v| v > 0 }
             @change_done = false
             @change_need = true
             self.cards_max = self.cards_max + 1
@@ -744,7 +746,7 @@ module Unlight
           @damaged_times += 1
         end
       end
-      [val,is_not_hostile,set_log]
+      [val, is_not_hostile, set_log]
     end
     regist_event DamagedEvent
 
@@ -783,18 +785,18 @@ module Unlight
 
     # 指定したカードにダメージを与える
     # 返値:カード位置,ダメージポイント
-    def party_damaged(idx, d, is_not_hostile=false, set_log=true)
+    def party_damaged(idx, d, is_not_hostile = false, set_log = true)
       val = 0
       if @hit_points[idx] > 0
         if (@hit_points[idx] - d) < 1
-          val = @hit_points[idx]  # 受けるダメージ
+          val = @hit_points[idx] # 受けるダメージ
           @hit_points[idx] = 0
           # 生存キャラがある場合にキャラ変更フェイズのフラグを立てる
-          if idx == @current_chara_card_no && @hit_points.index{|v| v > 0}
+          if idx == @current_chara_card_no && @hit_points.index { |v| v > 0 }
             @change_done = false
             @change_need = true
             self.cards_max = self.cards_max + 1
-          elsif @hit_points.index{|v| v > 0}
+          elsif @hit_points.index { |v| v > 0 }
             self.cards_max = self.cards_max + 1
           else
             @dead = true
@@ -811,19 +813,19 @@ module Unlight
           @damaged_times += 1
         end
       end
-      [idx ,val, is_not_hostile, set_log]
+      [idx, val, is_not_hostile, set_log]
     end
     regist_event PartyDamagedEvent
 
     # 回復
     # 返値:回復ポイント
-    def healed (d,set_log=true)
-      return [0,set_log] if is_dark?(@current_chara_card_no) # 回復禁止状態をチェックする
+    def healed (d, set_log = true)
+      return [0, set_log] if is_dark?(@current_chara_card_no) # 回復禁止状態をチェックする
 
       ret = d
       if @hit_points[@current_chara_card_no] > 0 || @transformable
         if (@hit_points[@current_chara_card_no] + d) > current_hit_point_max
-          ret = current_hit_point_max - @hit_points[@current_chara_card_no]  # 回復するヒットポイント
+          ret = current_hit_point_max - @hit_points[@current_chara_card_no] # 回復するヒットポイント
           @hit_points[@current_chara_card_no] = current_hit_point_max
         else
           @hit_points[@current_chara_card_no] += d
@@ -831,7 +833,7 @@ module Unlight
       else
         ret = 0
       end
-      [ret,set_log]
+      [ret, set_log]
     end
     regist_event HealedEvent
 
@@ -841,23 +843,23 @@ module Unlight
 
     # キャラクターのHPを、こそっと変更する
     # HPを変動させたいが、エフェクトは出したくないという特殊な場合用
-    def hit_point_changed(pt,set_log=true)
+    def hit_point_changed(pt, set_log = true)
       set_hp = pt > current_hit_point_max ? current_hit_point_max : pt
       @hit_points[@current_chara_card_no] = set_hp
       ret = set_hp
-      [ret,set_log]
+      [ret, set_log]
     end
     regist_event HitPointChangedEvent
 
     # 指定した位置のカードのHPを回復
     # 返値:カード位置,回復ポイント
-    def party_healed (idx, d,set_log=true)
+    def party_healed (idx, d, set_log = true)
       return [idx, 0, set_log] if is_dark?(idx) # 回復禁止状態をチェックする
 
       val = 0
       if @hit_points[idx] > 0
         if (@hit_points[idx] + d) > @hit_points_max[idx]
-          val = @hit_points_max[idx] - @hit_points[idx]  # 回復するヒットポイント
+          val = @hit_points_max[idx] - @hit_points[idx] # 回復するヒットポイント
           @hit_points[idx] = @hit_points_max[idx]
         else
           val = d
@@ -866,7 +868,7 @@ module Unlight
       else
         val = 0
       end
-      [idx ,val, set_log]
+      [idx, val, set_log]
     end
     regist_event PartyHealedEvent
 
@@ -897,11 +899,11 @@ module Unlight
     # イベントカードが使用される（その場で捨てられる）
     # 返値:使用されたアクションカードのid
     def use_action_card(ac)
-      bi = @table.index{|a| a.id == ac.id }
+      bi = @table.index { |a| a.id == ac.id }
       @table.delete_at(bi) if bi
-      mi = @table.index{|a| a.id == ac.id }
+      mi = @table.index { |a| a.id == ac.id }
       @table.delete_at(mi) if mi
-      if mi||bi
+      if mi || bi
         ac.throw
       end
       ac.id
@@ -913,7 +915,7 @@ module Unlight
     def discard(ac)
       ret = 0
       # カードが手札に存在するかを調べる
-      i = @cards.index{|a| a.id == ac.id }
+      i = @cards.index { |a| a.id == ac.id }
       # 存在したらそのインデックスを捨てる
       if i
         @cards.delete_at(i)
@@ -929,7 +931,7 @@ module Unlight
     def discard_table(ac)
       ret = 0
       # カードがテーブルに存在するかを調べる
-      i = @table.index{|a| a.id == ac.id }
+      i = @table.index { |a| a.id == ac.id }
       # 存在したらそのインデックスを捨てる
       if i
         @table.delete_at(i)
@@ -962,7 +964,7 @@ module Unlight
 
     # 墓場からカードが配られる
     def grave_dealed(cards)
-      cards.each { |c| dealed_event(c)}
+      cards.each { |c| dealed_event(c) }
       cards
     end
     regist_event GraveDealedEvent
@@ -981,7 +983,7 @@ module Unlight
     regist_event SpecialEventCardDealedEvent
 
     # カードの数値が変更される
-    def update_card_value(card, reset=false)
+    def update_card_value(card, reset = false)
       [card.id, card.u_value, card.b_value, reset]
     end
     regist_event UpdateCardValueEvent
@@ -994,7 +996,7 @@ module Unlight
 
     # 戦闘フェイズ終了時の初期化
     def battle_phase_init
-      @table.each{ |c| c.throw}
+      @table.each { |c| c.throw }
       @table.clear
       @attack_done = false
       @deffence_done = false
@@ -1016,15 +1018,15 @@ module Unlight
     regist_event DuelBonusEvent
 
     # 特殊メッセージ
-    def special_message(mess, arg=nil)
+    def special_message(mess, arg = nil)
       ret = SPECIAL_MESSAGE_SET[mess]
-      ret = ret.gsub("__DAMAGE__",arg.to_s) if arg
+      ret = ret.gsub("__DAMAGE__", arg.to_s) if arg
       ret
     end
     regist_event SpecialMessageEvent
 
     # 汎用メッセージ
-    def duel_message(mess, arg=nil)
+    def duel_message(mess, arg = nil)
       [mess, arg]
     end
     regist_event DuelMessageEvent
@@ -1089,7 +1091,6 @@ module Unlight
     end
     regist_event MpCalcResolve
 
-
     # ================================
     # 判定関数
     # ================================
@@ -1102,6 +1103,7 @@ module Unlight
     def direction_set?
       true
     end
+
     # イニシアチブフェイズが終わったか？
     def init_done?
       @init_done
@@ -1225,7 +1227,7 @@ module Unlight
         mp_calc
       end
       # 有効カードの内容、ポイント、テーブルのサイズが変わっていた場合にポイントをアップデートする
-       if (@before_on_cards != self.current_on_card_value)||(@before_point != self.tmp_power)
+       if (@before_on_cards != self.current_on_card_value) || (@before_point != self.tmp_power)
          point_update_event unless update_skip
        end
       @before_on_cards = self.current_on_card_value unless update_skip
@@ -1249,7 +1251,6 @@ module Unlight
     end
 
     def move_point_check
-
     end
 
     def move_point_abs
@@ -1404,7 +1405,7 @@ module Unlight
     end
 
     def move_phase_init
-      @table.each{ |c| c.throw}
+      @table.each { |c| c.throw }
       @table.clear
       @init_done = false
       @move_done = false
@@ -1424,11 +1425,11 @@ module Unlight
       @table_on_list = 0
       @table.each do |a|
         tmp = a.move_point
-        unless tmp==0
+        unless tmp == 0
           @table_on_list = @table_on_list | (1 << counter)
           ret += tmp
         end
-        counter +=1
+        counter += 1
       end
       get_move_table_focus_point
       ret
@@ -1449,7 +1450,7 @@ module Unlight
             break
           end
         end
-        counter +=1
+        counter += 1
       end
     end
 
@@ -1458,14 +1459,14 @@ module Unlight
       ret = 0
       counter = 0
       @table_on_list = 0
-      @table.each do  |a|
+      @table.each do |a|
         tmp = a.battle_point(type)
         if tmp > 0
           # ポイントとして換算したので有効ビットを立てる
           @table_on_list = @table_on_list | (1 << counter)
           ret += tmp
         end
-        counter +=1
+        counter += 1
       end
       get_battle_table_focus_point(type)
       ret
@@ -1509,7 +1510,7 @@ module Unlight
 
     # テーブルにあるカードのうち、タイプと数値の基準をクリアするカードの枚数を返す
     # typeを指定しない場合はActionCard::BLNK, equal=true の場合完全一致
-    def get_type_point_table_count(type, point, equal=false)
+    def get_type_point_table_count(type, point, equal = false)
       ret = 0
 
       if equal
@@ -1624,28 +1625,28 @@ module Unlight
 
     # タイプとポイントが一致するアクションカードが存在する？
     def search_check(feat_no, type, point, n = 1)
-      ret  = false
+      ret = false
       counter = 0
       num = 0
       @table.each do |a|
         if a.battle_point(type) == point
           # 有効ビットを立てる
           @feat_battle_table_on_list[feat_no] |= (1 << counter)
-          num +=1
+          num += 1
         end
         if num >= n
-          ret =true
+          ret = true
         end
-        counter +=1
+        counter += 1
       end
       ret
     end
 
     # 提出されている該当タイプのカードの、数値のバリエーションを返す。
     def get_card_points_set(type)
-      ret  = Array.new(9,false)
+      ret = Array.new(9, false)
       @table.each do |a|
-        ret[a.battle_point(type)-1] = true
+        ret[a.battle_point(type) - 1] = true
       end
       ret
     end
@@ -1692,25 +1693,25 @@ module Unlight
 
     # ポイントが一致するアクションカードが存在する？
     def search_check_wld_card(feat_no, point, n = 1)
-      ret  = false
+      ret = false
       counter = 0
       num = 0
       @table.each do |a|
         if a.check_exist_wld_card_value?(point)
           @feat_battle_table_on_list[feat_no] |= (1 << counter)
-          num +=1
+          num += 1
         end
         if num >= n
-          ret =true
+          ret = true
         end
-        counter +=1
+        counter += 1
       end
       ret
     end
 
     # 特定タイプカードがポイント以上あるかしらべる
-    def greater_check(feat_no,type, point)
-      ret  = false
+    def greater_check(feat_no, type, point)
+      ret = false
       counter = 0
       value = 0
       @table.each do |a|
@@ -1720,7 +1721,7 @@ module Unlight
           @feat_battle_table_on_list[feat_no] |= (1 << counter)
         end
         if value >= point
-          ret =true
+          ret = true
         end
         counter += 1
       end
@@ -1728,8 +1729,8 @@ module Unlight
     end
 
     # 特定タイプカードがポイント以下であるかしらべる
-    def below_check(feat_no,type, point)
-      ret  = true
+    def below_check(feat_no, type, point)
+      ret = true
       counter = 0
       value = 0
       tmp_on_list = 0
@@ -1737,7 +1738,7 @@ module Unlight
         v = a.battle_point(type)
         if v > 0
           if value + v > point
-            ret =false
+            ret = false
           end
           value += v
           tmp_on_list |= (1 << counter)
@@ -1755,7 +1756,7 @@ module Unlight
 
     # 特定タイプカードがポイント以上あるかしらべる(フラグ処理しない)
     def greater_check_of_type(type, point)
-      ret  = false
+      ret = false
       value = 0
       @table.each do |a|
         v = a.battle_point(type)
@@ -1779,7 +1780,7 @@ module Unlight
     end
 
     # on_listを書き換える 距離に対応するカードが意味を持たない場合
-    def reset_on_list_by_type_set(feat_no, typeSigns, point, min=false)
+    def reset_on_list_by_type_set(feat_no, typeSigns, point, min = false)
       max_value_type = []
       max_value_type = get_max_value_type(typeSigns, point, min)
 
@@ -1794,7 +1795,7 @@ module Unlight
     # 与えられたタイプの中で,基準値以上で最も数値の高いタイプの配列を返す
     # min=true の場合、数値の小さいものを選ぶ。
     # 基準値を満たさない場合空配列を返す。typeSignsはtypeの1文字版。S,SAD,EM,etc..
-    def get_max_value_type(typeSigns, base_line, min=false)
+    def get_max_value_type(typeSigns, base_line, min = false)
       result_value_type = []
       value_list = []
       type_list = []
@@ -1817,10 +1818,10 @@ module Unlight
 
       result_value = 0
       if !min
-        result_value =  value_list.max
+        result_value = value_list.max
       else
         result_value = base_line
-        while  result_value <= value_list.max do
+        while result_value <= value_list.max do
           if value_list.include?(result_value)
             break
           else
@@ -1830,7 +1831,7 @@ module Unlight
       end
       return [] if result_value == 0
 
-      value_list.each_with_index do |v,i|
+      value_list.each_with_index do |v, i|
         if v == result_value
           result_value_type << type_list[i]
         end
@@ -1877,14 +1878,14 @@ module Unlight
     # 現在のONになっているIDを送る
     def current_on_cards
       ids = []
-      @table.each{ |c|ids << c.id }
-      [ids.join(","),current_on_card_value]
+      @table.each { |c|ids << c.id }
+      [ids.join(","), current_on_card_value]
     end
 
     def current_on_card_value
       ret = 0
       ret = ret | @table_on_list
-      @feat_battle_table_on_list.each_value{ |v| ret|=v}
+      @feat_battle_table_on_list.each_value { |v| ret |= v }
       ret
     end
 
@@ -1921,10 +1922,9 @@ module Unlight
       @table = array
     end
 
-
     # カードをIDで指定して移動する
     # 移動が行われていればTrue
-    def card_replace(cards,from,dst)
+    def card_replace(cards, from, dst)
       ret = false
       cards.each do |a|
         ret = from.reject! do |b|
@@ -1944,7 +1944,7 @@ module Unlight
     end
 
     # トラップ発動エフェクトをクライアントに表示させる
-    def trap_action(kind,distance)
+    def trap_action(kind, distance)
       [kind, distance]
     end
     regist_event TrapActionEvent
@@ -1967,7 +1967,6 @@ module Unlight
       [kind, pow, turn]
     end
     regist_event SetFieldStatusEvent
-
   end
 
   # 経験値を計算
@@ -1987,22 +1986,20 @@ module Unlight
     end
   end
 
-
   # 獲得ジェムを計算
   def update_gems(result)
     if result == RESULT_WIN
-      (@result_gems * 1*(0.4+dice(0.3,4)) * @special_gem_bonus_multi).ceil
+      (@result_gems * 1 * (0.4 + dice(0.3, 4)) * @special_gem_bonus_multi).ceil
     elsif result == RESULT_LOSE
-      (@result_gems * 0.3*(0.4+dice(0.3,4)) * @special_gem_bonus_multi).truncate
+      (@result_gems * 0.3 * (0.4 + dice(0.3, 4)) * @special_gem_bonus_multi).truncate
     elsif result == RESULT_DRAW
-       (@result_gems * 0.5*(0.4+dice(0.3,4)) * @special_gem_bonus_multi).round
+       (@result_gems * 0.5 * (0.4 + dice(0.3, 4)) * @special_gem_bonus_multi).round
     end
   end
 
   def dice(pow, num)
     ret = 0
-    num.times { ret+=rand * pow }
+    num.times { ret += rand * pow }
     ret
   end
-
 end

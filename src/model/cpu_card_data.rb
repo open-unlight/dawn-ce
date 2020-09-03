@@ -10,9 +10,9 @@ module Unlight
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
-    one_to_many :monster_treasure_inventories         # 複数の宝箱をもつ
+    one_to_many :monster_treasure_inventories # 複数の宝箱をもつ
 
     # 他クラスのアソシエーション
     Sequel::Model.plugin :schema
@@ -20,15 +20,15 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, :default => "monster"
-      integer     :allocation_type, :default => QUEST_ALLOC_TYPE_NONE
-      String      :chara_card_id, :default => "1001+1001+1001"
-      String      :weapon_card_id, :default => "0+0+0"
-      String      :equip_card_id, :default => "0+0+0"
-      String      :event_card_id, :default => "1/1/1+1/1/1+1/1/1"
-     integer     :ai_rank, :default => CPU_AI_OLD
+      String      :name, default: "monster"
+      integer     :allocation_type, default: QUEST_ALLOC_TYPE_NONE
+      String      :chara_card_id, default: "1001+1001+1001"
+      String      :weapon_card_id, default: "0+0+0"
+      String      :equip_card_id, default: "0+0+0"
+      String      :event_card_id, default: "1/1/1+1/1/1+1/1/1"
+     integer :ai_rank, default: CPU_AI_OLD
 
-      integer     :treasure_id#, :table => :avatars
+      integer     :treasure_id #, :table => :avatars
       datetime    :created_at
       datetime    :updated_at
     end
@@ -45,8 +45,8 @@ module Unlight
 
     # テーブルを変更する（履歴を残せ）
     DB.alter_table :cpu_card_datas do
-     add_column :ai_rank, :integer, :default => CPU_AI_OLD unless Unlight::CpuCardData.columns.include?(:ai_rank)  # 新規追加 2013/04/01
-     add_column :allocation_type, :integer, :default => QUEST_ALLOC_TYPE_NONE unless Unlight::CpuCardData.columns.include?(:allocation_type)  # 新規追加 2015/2/12
+     add_column :ai_rank, :integer, default: CPU_AI_OLD unless Unlight::CpuCardData.columns.include?(:ai_rank) # 新規追加 2013/04/01
+     add_column :allocation_type, :integer, default: QUEST_ALLOC_TYPE_NONE unless Unlight::CpuCardData.columns.include?(:allocation_type) # 新規追加 2015/2/12
     end
 
     # インサート時の前処理
@@ -70,7 +70,7 @@ module Unlight
       ret = cache_store.get("CpuCardDataVersion")
       unless ret
         ret = refresh_data_version
-        cache_store.set("CpuCardDataVersion",ret)
+        cache_store.set("CpuCardDataVersion", ret)
       end
       ret
     end
@@ -96,9 +96,9 @@ module Unlight
       allocation_id = 0
       case self.allocation_type
       when QUEST_ALLOC_TYPE_COST
-        cost_conditions = self.chara_card_id.split(",").map{ |s| s.scan(/([\d~]+):(\d+)/)[0] }
+        cost_conditions = self.chara_card_id.split(",").map { |s| s.scan(/([\d~]+):(\d+)/)[0] }
         cost_conditions.each do |cond|
-          range = cond[0].split("~", 2).map{ |n| n.to_i }
+          range = cond[0].split("~", 2).map { |n| n.to_i }
           avatar = player.current_avatar
           if check_condition(range, avatar.chara_card_decks[avatar.current_deck].current_cost)
             allocation_id = cond[1].to_i
@@ -124,14 +124,14 @@ module Unlight
     # キャラカードのIDをかえす
     def chara_cards_id
       if self.chara_card_id != ""
-        self.chara_card_id.split(/\+/).map!{|s|s.to_i}
+        self.chara_card_id.split(/\+/).map! { |s|s.to_i }
       else
         1001
       end
     end
 
     def current_cards_ids
-      ret = [-1,-1,-1]
+      ret = [-1, -1, -1]
       if self.chara_card_id != ""
         ids = self.chara_card_id.split(/\+/)
         ids.each_index do |i|
@@ -143,10 +143,10 @@ module Unlight
 
     # 武器カードのIDをかえす
     def weapon_cards_id
-      ret = [[],[],[]]
+      ret = [[], [], []]
       wcs = self.weapon_card_id.split(/\+/)
       wcs.each_index do |i|
-        wcs[i].split(/\//).map!{|s|s.to_i}.each do |c|
+        wcs[i].split(/\//).map! { |s|s.to_i }.each do |c|
           ret[i] << c if c != 0
         end
       end
@@ -155,10 +155,10 @@ module Unlight
 
     # 装備カードのIDをかえす
     def equip_cards_id
-      ret = [[],[],[]]
+      ret = [[], [], []]
       ecs = self.equip_card_id.split(/\+/)
       ecs.each_index do |i|
-        ecs[i].split(/\//).map!{|s|s.to_i}.each do |c|
+        ecs[i].split(/\//).map! { |s|s.to_i }.each do |c|
           ret[i] << c if c != 0
         end
       end
@@ -167,10 +167,10 @@ module Unlight
 
     # イベントカードのIDをかえす
     def event_cards_id
-      ret = [[],[],[]]
+      ret = [[], [], []]
       ecs = self.event_card_id.split(/\+/)
       ecs.each_index do |i|
-        ecs[i].split(/\//).map!{|s|s.to_i}.each do |c|
+        ecs[i].split(/\//).map! { |s|s.to_i }.each do |c|
           ret[i] << c if c != 0
         end
       end
@@ -179,11 +179,10 @@ module Unlight
 
     def treasure_items
       ret = []
-      self.monster_treasure_inventories.sort{|a,b| a.step<=>b.step }.each do |mt|
+      self.monster_treasure_inventories.sort { |a, b| a.step <=> b.step }.each do |mt|
         ret << mt.get_treasure
       end
       ret
     end
-
   end
 end

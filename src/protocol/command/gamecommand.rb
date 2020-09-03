@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
+
 module Unlight
   # GameServerコマンド一覧
   class Command
-
     RECEIVE_COMMANDS =
       [
        # ネゴシエーション
        [:negotiation,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["uid", :int, 4],
         ]
        ],
        # ログイン
        [:login,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["ok", :String, 0],
          ["crypted_sign", :String, 0],
         ]
@@ -27,7 +27,6 @@ module Unlight
        [:cs_keep_alive,
        ],
 
-
        # =========================================
        # ゲームコマンド
        # =========================================
@@ -39,8 +38,6 @@ module Unlight
 #         ]
 #        ],
 
-
-
 #        # セッションの選択
 #        [:cs_select_game_session,
 #         [# Name, Type, Size
@@ -48,46 +45,43 @@ module Unlight
 #         ]
 #        ],
 
-
         # Duelのスタート
-        [:cs_match_start,
-         [# Name, Type, Size
-          ["u_id", :String, 0 ],
-         ]
-        ],
-
-
+       [:cs_match_start,
+        [ # Name, Type, Size
+         ["u_id", :String, 0],
+        ]
+       ],
 
        # アクションカードの情報要求
        [:cs_request_actioncard_info,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["id", :int, 4],
         ]
        ],
 
        # アクションカードのバージョン情報要求
        [:cs_request_actioncard_ver_info,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["id", :int, 4],
         ]
        ],
 
        # クライアントの準備OK
        [:cs_start_ok,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
 
        # 移動方向を決定
        [:cs_set_direction,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["dir", :char, 1],
         ]
        ],
 
        # 移動テーブルにカード追加
        [:cs_move_card_add,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["card", :int, 4],
          ["index", :char, 1],
          ["dir", :Boolean, 1],
@@ -96,7 +90,7 @@ module Unlight
 
        # テーブルから削除
        [:cs_move_card_remove,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["card", :int, 4],
          ["index", :char, 1],
         ]
@@ -104,7 +98,7 @@ module Unlight
 
        # イニシアチブ決定
        [:cs_init_done,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["card_events", :String, 0],
          ["chara_events", :String, 0],
         ]
@@ -112,7 +106,7 @@ module Unlight
 
        # 移動決定
        [:cs_move_done,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["move", :char, 1],
          ["card_events", :String, 0],
          ["chara_events", :String, 0],
@@ -121,7 +115,7 @@ module Unlight
 
        # 攻撃カードをテーブルに追加
        [:cs_attack_card_add,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["card", :int, 4],
          ["index", :char, 1],
          ["dir", :Boolean, 1],
@@ -130,7 +124,7 @@ module Unlight
 
        # 攻撃カードをテーブルから削除
        [:cs_attack_card_remove,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["card", :int, 4],
          ["index", :char, 1],
         ]
@@ -138,7 +132,7 @@ module Unlight
 
        # 防御カードをテーブルに追加
        [:cs_deffence_card_add,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["card", :int, 4],
          ["index", :char, 1],
          ["dir", :Boolean, 1],
@@ -147,7 +141,7 @@ module Unlight
 
        # 防御カードをテーブルから削除
        [:cs_deffence_card_remove,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["card", :int, 4],
          ["index", :char, 1],
         ]
@@ -155,7 +149,7 @@ module Unlight
 
        # 攻撃テーブルで回転
        [:cs_card_rotate,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["card", :int, 4],
          ["table", :char, 1],
          ["index", :char, 1],
@@ -165,7 +159,7 @@ module Unlight
 
        # 攻撃決定、カード
        [:cs_attack_done,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["card_events", :String, 0],
          ["chara_events", :String, 0],
         ]
@@ -173,7 +167,7 @@ module Unlight
 
        # 攻撃決定、カード
        [:cs_deffence_done,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["card_events", :String, 0],
          ["chara_events", :String, 0],
         ]
@@ -181,7 +175,7 @@ module Unlight
 
        # キャラ変更
        [:cs_chara_change,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["index", :char, 1],
         ]
        ],
@@ -191,32 +185,32 @@ module Unlight
        # =========================================
        # UP
        [:cs_result_up,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
        [:cs_result_down,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
        [:cs_result_cancel,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
        [:cs_retry_reward,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
 
        # アバターの持っているアイテムを使用する
        [:cs_avatar_use_item,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["inv_id", :int, 4],
         ]
        ],
 
        # デバッグコードを送る
        [:cs_debug_code,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["code", :char, 1],
         ]
        ],
@@ -227,39 +221,36 @@ module Unlight
       [
        # ログイン成功
        [:nego_cert,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["crypted_sign", :String, 0],
          ["ok", :String, 0],
         ]
        ],
        # ログイン成功
        [:login_cert,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["msg", :String, 0],
          ["hash_key", :String, 0],
         ]
        ],
        # ログイン失敗
-       [:login_fail,      # CMD_No, Command
-        [# Name, Type, Size
+       [:login_fail, # CMD_No, Command
+        [ # Name, Type, Size
         ]
        ],
 
        # KeepAlive信号
        [:sc_keep_alive,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
-
-
 
        # AP不足やルール不適合などのエラーコードを返します
        [:sc_error_no,
-        [# Name, Type, Size
-         ["error_type", :int   , 4],
+        [ # Name, Type, Size
+         ["error_type", :int, 4],
         ]
        ],
-
 
        # =========================================
        # ゲームコマンド
@@ -268,21 +259,21 @@ module Unlight
 
        # インフォ
        [:sc_message,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["msg", :String, 0],
         ]
        ],
 
        # インフォ
        [:sc_message_str_data,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["str", :String, 0],
         ]
        ],
 
       # セッションの決定
        [:sc_determine_session,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["id", :int, 4],
          ["foe", :String, 0],
          ["player_chara_card_id", :String, 0],
@@ -294,7 +285,7 @@ module Unlight
 
       # 追加のキャラカードインベントリを送る
        [:sc_chara_card_inventory_info,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["inv_id", :String, 0],
          ["card_id", :String, 0],
         ]
@@ -306,7 +297,7 @@ module Unlight
 
        # デュエルの開始
        [:sc_one_to_one_duel_start,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["deck_size", :char, 1],
          ["player_event_deck_size", :char, 1],
          ["foe_deck_size", :char, 1],
@@ -316,19 +307,19 @@ module Unlight
 
        # デュエルの開始
        [:sc_three_to_three_duel_start,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["deck_size", :char, 1],
          ["player_event_deck_size", :char, 1],
          ["foe_event_deck_size", :char, 1],
          ["distance", :char, 1],
-         ["multi", :Boolean,1],
+         ["multi", :Boolean, 1],
         ]
        ],
 
       # デュエルの終了
       # ゲーム結果結果
        [:sc_one_to_one_duel_finish,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["result", :char, 1],
          ["gems", :int, 4],
          ["exp", :int, 4],
@@ -344,7 +335,7 @@ module Unlight
       # デュエルの終了
       # ゲーム結果結果
        [:sc_three_to_three_duel_finish,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["result", :char, 1],
          ["gems", :int, 4],
          ["exp", :int, 4],
@@ -358,14 +349,14 @@ module Unlight
 
        # ターンのスタート
        [:sc_duel_start_turn_phase,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["turn_count", :char, 1],
         ]
        ],
 
        # 補充フェイズの終了
        [:sc_duel_refill_phase,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["list", :String, 0],
          ["dir", :int, 4],
          ["foe_size", :char, 1],
@@ -374,7 +365,7 @@ module Unlight
 
        # イベントカード補充フェイズの終了
        [:sc_duel_refill_event_phase,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["list", :String, 0],
          ["dir", :int, 4],
          ["foe_size", :char, 1],
@@ -383,21 +374,21 @@ module Unlight
 
        # 移動カード提出フェイズの開始
        [:sc_duel_move_card_drop_phase_start,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
 
        # 移動カード提出フェイズの終了
        [:sc_duel_move_card_drop_phase_finish,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
 
        # 移動フェイズの終了
        [:sc_duel_determine_move_phase,
-        [# Name, Type, Size
-         ["init", :Boolean,1],
-         ["dist", :char,1],
+        [ # Name, Type, Size
+         ["init", :Boolean, 1],
+         ["dist", :char, 1],
          ["list", :String, 0],
          ["dir", :String, 0],
          ["foe_list", :String, 0],
@@ -411,7 +402,7 @@ module Unlight
 
        # キャラ変更フェイズの開始
        [:sc_duel_chara_change_phase_start,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["player", :Boolean, 1],
          ["foe", :Boolean, 1],
         ]
@@ -419,20 +410,20 @@ module Unlight
 
        # キャラ変更フェイズの終了
        [:sc_duel_chara_change_phase_finish,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
 
        # 攻撃カード提出フェイズの開始
        [:sc_duel_attack_card_drop_phase_start,
-        [# Name, Type, Size
-         ["attack", :Boolean,1],
+        [ # Name, Type, Size
+         ["attack", :Boolean, 1],
         ]
        ],
 
        # 攻撃カード提出フェイズの終了
        [:sc_duel_attack_card_drop_phase_finish,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["list", :String, 0],
          ["dir", :String, 0],
          ["foe_list", :String, 0],
@@ -444,14 +435,14 @@ module Unlight
 
        # 防御カード提出フェイズの開始
        [:sc_duel_deffence_card_drop_phase_start,
-        [# Name, Type, Size
-         ["deffence", :Boolean,1],
+        [ # Name, Type, Size
+         ["deffence", :Boolean, 1],
         ]
        ],
 
        # 防御カード提出フェイズの終了
        [:sc_duel_deffence_card_drop_phase_finish,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["list", :String, 0],
          ["dir", :String, 0],
          ["foe_list", :String, 0],
@@ -463,7 +454,7 @@ module Unlight
 
        # 戦闘ポイントの結果フェイズの終了
        [:sc_duel_determine_battle_point_phase,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["list", :String, 0],
          ["dir", :String, 0],
          ["foe_list", :String, 0],
@@ -475,8 +466,8 @@ module Unlight
 
        # 戦闘結果フェイズの終了
        [:sc_duel_battle_result_phase,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["attack_dice", :String, 0],
          ["deffence_dice", :String, 0],
         ]
@@ -484,7 +475,7 @@ module Unlight
 
        # 死亡キャラ変更フェイズの開始
        [:sc_duel_dead_chara_change_phase_start,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["player", :Boolean, 1],
          ["foe", :Boolean, 1],
          ["list", :String, 0],
@@ -494,32 +485,31 @@ module Unlight
 
        # 死亡キャラ変更フェイズの終了
        [:sc_duel_dead_chara_change_phase_finish,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
 
        # ターン終了フェイズ
        [:sc_duel_finish_turn_phase,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
-
 
        # =====================
        # アクション
        # =====================
        # 移動方向決定アクション（通信：位置）
        [:sc_entrant_set_direction_action,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["dir", :char, 1],
         ]
        ],
 
        # 移動カード追加アクション（通信：位置）
        [:sc_entrant_move_card_add_action,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["index", :char, 1],
          ["id", :int, 4],
         ]
@@ -527,8 +517,8 @@ module Unlight
 
       # 移動カードを戻すアクション（通信:位置）
        [:sc_entrant_move_card_remove_action,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["index", :char, 1],
          ["id", :int, 4],
         ]
@@ -536,30 +526,30 @@ module Unlight
 
       # カードの回転アクション（通信：位置）
        [:sc_entrant_card_rotate_action,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["table", :char, 1],
          ["index", :char, 1],
          ["id", :int, 4],
-         ["dir",:Boolean, 1],
+         ["dir", :Boolean, 1],
         ]
        ],
 
       # カードの回転アクション（通信：位置）
        [:sc_entrant_event_card_rotate_action,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["table", :char, 1],
          ["index", :char, 1],
          ["id", :int, 4],
-         ["dir",:Boolean, 1],
+         ["dir", :Boolean, 1],
         ]
        ],
 
       # 戦闘カードの追加アクション（通信：位置）
        [:sc_entrant_battle_card_add_action,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["index", :char, 1],
          ["id", :int, 4],
         ]
@@ -567,8 +557,8 @@ module Unlight
 
        # 戦闘カードを戻すアクション(通信:位置)
        [:sc_entrant_battle_card_remove_action,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["index", :char, 1],
          ["id", :int, 4],
         ]
@@ -576,42 +566,42 @@ module Unlight
 
        # イニシアチブの決定
        [:sc_entrant_init_done_action,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
         ]
        ],
 
        # 戦闘の決定
        [:sc_entrant_attack_done_action,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
         ]
        ],
 
        # 戦闘の決定
        [:sc_entrant_deffence_done_action,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
         ]
        ],
 
        # 移動
        [:sc_entrant_move_action,
-        [# Name, Type, Size
-         ["dist", :char,1],
+        [ # Name, Type, Size
+         ["dist", :char, 1],
         ]
        ],
 
        # ハイド中の移動
        [:sc_entrant_hide_move_action,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["dist", :char, 1],
         ]
        ],
 
        # キャラカードを変更
        [:sc_entrant_chara_change_action,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["player", :Boolean, 1],
          ["index", :char, 1],
          ["card_id", :int, 4],
@@ -625,8 +615,8 @@ module Unlight
 
        # ダメージイベント
        [:sc_entrant_damaged_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["damage", :int, 4],
          ["is_not_hostile", :Boolean, 1],
         ]
@@ -634,8 +624,8 @@ module Unlight
 
        # パーティダメージイベント
        [:sc_entrant_party_damaged_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["index", :int, 4],
          ["damage", :int, 4],
          ["is_not_hostile", :Boolean, 1],
@@ -644,8 +634,8 @@ module Unlight
 
        # 蘇生イベント
        [:sc_entrant_revive_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["index", :int, 4],
          ["rhp", :int, 4],
         ]
@@ -653,24 +643,24 @@ module Unlight
 
        # 行動制限イベント
        [:sc_entrant_constraint_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
-         ["flag",:int, 4],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
+         ["flag", :int, 4],
         ]
        ],
 
        # 回復イベント
        [:sc_entrant_healed_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["heal", :char, 1],
         ]
        ],
 
        # パーティ回復イベント
        [:sc_entrant_party_healed_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["index", :int, 4],
          ["heal", :char, 1],
         ]
@@ -678,30 +668,30 @@ module Unlight
 
        # HP変更イベント
        [:sc_entrant_hit_point_changed_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["hp", :int, 4],
         ]
        ],
 
        # 状態回復イベント
        [:sc_entrant_cured_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
         ]
        ],
 
        # 必殺技解除イベント
        [:sc_entrant_sealed_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
         ]
        ],
 
        # ポイント更新イベント
        [:sc_entrant_point_update_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["list", :String, 0],
          ["dir", :int, 4],
          ["point", :int, 4],
@@ -710,40 +700,40 @@ module Unlight
 
        # ポイント上書きイベント
        [:sc_entrant_point_rewrite_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["point", :int, 4],
         ]
        ],
 
        # イベントカード使用イベント
        [:sc_entrant_use_action_card_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["used_card_id", :int, 4],
         ]
        ],
 
        # カード破棄イベント
        [:sc_entrant_discard_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["discard_id", :int, 4],
         ]
        ],
 
        # カード破棄イベント
        [:sc_entrant_discard_table_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["discard_id", :int, 4],
         ]
        ],
 
        # 特別にカードを配られるイベント
        [:sc_entrant_special_dealed_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["list", :String, 0],
          ["dir", :int, 4],
          ["size", :int, 4],
@@ -752,8 +742,8 @@ module Unlight
 
        # 墓地のカードが配られるイベント
        [:sc_entrant_grave_dealed_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["list", :String, 0],
          ["dir", :int, 4],
          ["size", :int, 4],
@@ -762,8 +752,8 @@ module Unlight
 
        # プレイヤーからプレイヤーへカードが配られるイベント
        [:sc_entrant_steal_dealed_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["list", :String, 0],
          ["dir", :int, 4],
          ["size", :int, 4],
@@ -772,8 +762,8 @@ module Unlight
 
        # 特別にイベントカードを配られるイベント
        [:sc_entrant_special_event_card_dealed_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["list", :String, 0],
          ["dir", :int, 4],
          ["size", :int, 4],
@@ -782,8 +772,8 @@ module Unlight
 
        # カードの値の変更を通知
        [:sc_entrant_update_card_value_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["id", :int, 4],
          ["u_value", :int, 4],
          ["b_value", :int, 4],
@@ -793,8 +783,8 @@ module Unlight
 
        # 装備カード更新イベント
        [:sc_entrant_update_weapon_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["pl_bonus", :String, 0],
          ["foe_bonus", :String, 0],
         ]
@@ -802,66 +792,66 @@ module Unlight
 
        # 最大カード数更新イベント
        [:sc_entrant_cards_max_update_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["cards_max", :char, 1],
         ]
        ],
 
        # トラップ発動イベント
        [:sc_entrant_trap_action_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
-         ["kind",:int, 4],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
+         ["kind", :int, 4],
          ["distance", :int, 4],
         ]
        ],
 
        # トラップ状態遷移イベント
        [:sc_entrant_trap_update_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
-         ["kind",:int, 4],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
+         ["kind", :int, 4],
          ["distance", :int, 4],
          ["turn", :int, 4],
-         ["visible",:Boolean, 1],
+         ["visible", :Boolean, 1],
         ]
        ],
 
        # フィールド状態変更イベント
        [:sc_set_field_status_event,
-        [# Name, Type, Size
-         ["kind",:int, 4],
-         ["pow",:int, 4],
+        [ # Name, Type, Size
+         ["kind", :int, 4],
+         ["pow", :int, 4],
          ["turn", :int, 4],
         ]
        ],
 
        # ボーナスゲット
        [:sc_duel_bonus_event,
-        [# Name, Type, Size
-         ["bonus_type",:char, 1],
-         ["value",:char, 1],
+        [ # Name, Type, Size
+         ["bonus_type", :char, 1],
+         ["value", :char, 1],
         ]
        ],
 
        # 現在ターン数変更
        [:sc_set_turn_event,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["turn", :int, 4],
         ]
        ],
 
        # カードロックイベント
        [:sc_card_lock_event,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["id", :int, 4],
         ]
        ],
 
        # カードロック解除イベント
        [:sc_clear_card_locks_event,
-        [# Name, Type, Size
+        [ # Name, Type, Size
         ]
        ],
 
@@ -871,7 +861,7 @@ module Unlight
 
        # デッキを初期化
        [:sc_deck_init_event,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["deck_size", :char, 1],
         ]
        ],
@@ -882,8 +872,8 @@ module Unlight
 
        # チャンスイベント
        [:sc_actioncard_chance_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["list", :String, 0],
          ["dir", :int, 4],
          ["size", :int, 4],
@@ -896,7 +886,7 @@ module Unlight
 
        # 状態付加ONイベント
        [:sc_buff_on_event,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["player", :Boolean, 1],
          ["index", :int, 4],
          ["buff_id", :int, 4],
@@ -907,7 +897,7 @@ module Unlight
 
        # 状態付加OFFイベント
        [:sc_buff_off_event,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["player", :Boolean, 1],
          ["index", :int, 4],
          ["buff_id", :int, 4],
@@ -917,7 +907,7 @@ module Unlight
 
        # 状態付加UPDATEイベント
        [:sc_buff_update_event,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["player", :Boolean, 1],
          ["buff_id", :int, 4],
          ["value", :int, 4],
@@ -928,7 +918,7 @@ module Unlight
 
        # 猫状態UPDATEイベント
        [:sc_cat_state_update_event,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["player", :Boolean, 1],
          ["index", :int, 4],
          ["value", :Boolean, 1],
@@ -937,22 +927,22 @@ module Unlight
 
        # 必殺技ONイベント
        [:sc_pl_feat_on_event,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["feat_id", :int, 4],
         ]
        ],
 
        # 必殺技OFFイベント
        [:sc_pl_feat_off_event,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["feat_id", :int, 4],
         ]
        ],
 
        # 必殺技変更イベント
        [:sc_entrant_change_feat_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["chara_index", :int, 4],
          ["feat_index", :int, 4],
          ["feat_id", :int, 4],
@@ -962,99 +952,99 @@ module Unlight
 
        # 必殺技使用イベント
        [:sc_entrant_use_feat_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["used_feat_id", :int, 4],
         ]
        ],
 
        # パッシブ使用イベント
        [:sc_entrant_use_passive_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["used_passive_id", :int, 4],
         ]
        ],
 
        # キャラカード交換イベント
        [:sc_entrant_change_chara_card_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["used_passive_id", :int, 4],
         ]
        ],
 
        # キャラカード変身イベント
        [:sc_entrant_on_transform_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
          ["transform_type", :int, 4],
         ]
        ],
 
        # キャラカード変身解除イベント
        [:sc_entrant_off_transform_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
         ]
        ],
 
        # パッシブスキル発動
        [:sc_entrant_on_passive_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
-         ["skill_id",:int, 4],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
+         ["skill_id", :int, 4],
         ]
        ],
 
        # パッシブスキル終了
        [:sc_entrant_off_passive_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
-         ["skill_id",:int, 4],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
+         ["skill_id", :int, 4],
         ]
        ],
 
        # きりがくれ
        [:sc_entrant_on_lost_in_the_fog_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
-         ["distance",:int, 4],
-         ["truth_distance",:int, 4],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
+         ["distance", :int, 4],
+         ["truth_distance", :int, 4],
         ]
        ],
 
        # きりがくれ終了
        [:sc_entrant_off_lost_in_the_fog_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
-         ["distance",:int, 4],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
+         ["distance", :int, 4],
         ]
        ],
 
        # きりがくれライト
        [:sc_entrant_in_the_fog_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
-         ["range",:String, 0],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
+         ["range", :String, 0],
         ]
        ],
 
        # 技の発動条件を更新
        [:sc_entrant_update_feat_condition_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
-         ["chara_index",:int, 4],
-         ["feat_index",:int, 4],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
+         ["chara_index", :int, 4],
+         ["feat_index", :int, 4],
          ["condition", :String, 0],
         ]
        ],
 
        # ヌイグルミセット
        [:sc_entrant_stuffed_toys_set_event,
-        [# Name, Type, Size
-         ["player",:Boolean, 1],
-         ["num",:int, 4],
+        [ # Name, Type, Size
+         ["player", :Boolean, 1],
+         ["num", :int, 4],
         ]
        ],
 
@@ -1062,7 +1052,7 @@ module Unlight
        # Rewardイベント
        # =====================
        [:sc_reward_candidate_cards_list,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["candidate_list_1", :String, 0],
          ["candidate_list_2", :String, 0],
          ["candidate_list_3", :String, 0],
@@ -1071,35 +1061,33 @@ module Unlight
         ]
        ],
 
-
        # 基本のダイス
        [:sc_bottom_dice_num,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["buttom_dice", :String, 0],
         ]
        ],
 
        # ハイローの結果を返す
        [:sc_high_low_result,
-        [# Name, Type, Size
-         ["win",:Boolean, 1],
+        [ # Name, Type, Size
+         ["win", :Boolean, 1],
          ["getted_cards", :String, 0],
          ["next_cards", :String, 0],
          ["bonus", :int, 4],
         ]
        ],
 
-
        # 結果のダイス
        [:sc_reward_result_dice,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["result_dice", :String, 0],
         ]
        ],
 
        # 報酬の最終結果結果を返す
        [:sc_reward_final_result,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["getted_cards", :String, 0],
          ["total_gems", :int, 4],
          ["total_exp", :int, 4],
@@ -1109,57 +1097,56 @@ module Unlight
 
        # アイテム使用
        [:sc_use_item,
-        [# Name, Type, Size
-         ["inv_id",:int, 4],
+        [ # Name, Type, Size
+         ["inv_id", :int, 4],
         ]
        ],
 
        # アイテムゲット
        [:sc_get_item,
-        [# Name, Type, Size
-         ["inv_id",:int, 4],
-         ["item_id",:int, 4],
+        [ # Name, Type, Size
+         ["inv_id", :int, 4],
+         ["item_id", :int, 4],
         ]
        ],
 
        # スロットカードゲット
        [:sc_get_slot_card,
-        [# Name, Type, Size
-         ["inv_id",:int, 4],
-         ["kind",:int, 4],
-         ["card_id",:int, 4],
+        [ # Name, Type, Size
+         ["inv_id", :int, 4],
+         ["kind", :int, 4],
+         ["card_id", :int, 4],
         ]
        ],
 
-
        # アチーブメント達成
        [:sc_achievement_clear,
-        [# Name, Type, Size
-         ["achi_id",:int, 4],
-         ["item_type",:int, 4],
-         ["item_id",:int, 4],
-         ["item_num",:int, 4],
-         ["slot_type",:int, 4],
+        [ # Name, Type, Size
+         ["achi_id", :int, 4],
+         ["item_type", :int, 4],
+         ["item_id", :int, 4],
+         ["item_num", :int, 4],
+         ["slot_type", :int, 4],
         ]
        ],
 
        # 新しいアチーブメントが追加される
        [:sc_add_new_achievement,
-        [# Name, Type, Size
-         ["achi_id",:int, 4],
+        [ # Name, Type, Size
+         ["achi_id", :int, 4],
         ]
        ],
 
        # アチーブメントが削除される
        [:sc_delete_achievement,
-        [# Name, Type, Size
-         ["achi_id",:int, 4],
+        [ # Name, Type, Size
+         ["achi_id", :int, 4],
         ]
        ],
 
        # アチーブメント情報をアップデート
        [:sc_update_achievement_info,
-        [# Name, Type, Size
+        [ # Name, Type, Size
          ["achievements", :String, 0],
          ["achievements_state", :String, 0],
          ["achievements_progress", :String, 0],
@@ -1170,12 +1157,10 @@ module Unlight
 
        # アチーブメントが完全に削除される
        [:sc_drop_achievement,
-        [# Name, Type, Size
-         ["achi_id",:int, 4],
+        [ # Name, Type, Size
+         ["achi_id", :int, 4],
         ]
        ],
-
-
 
      ]
   end

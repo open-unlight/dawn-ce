@@ -1,0 +1,45 @@
+image: ruby:2.6.6
+
+variables:
+  BUNDLER_VERSION: 2.1.4
+  # Rubocop Cache for Large Project
+  XDG_CACHE_HOME: $CI_PROJECT_DIR/.cache
+
+.install_ruby_gems: &install_ruby_gems
+  - gem install bundler -v ${BUNDLER_VERSION}
+  - bundle install --path vendor
+
+stages:
+  - lint
+  - test
+  - analytics
+  - deploy
+
+cache:
+  paths:
+    - vendor/ruby
+    - .cache
+
+before_script:
+  - export LANG=C.UTF-8
+  - export LC_ALL=C.UTF-8
+  - *install_ruby_gems
+
+rubocop:
+  stage: lint
+  script:
+    - bundle exec rubocop -P --format progress --format json --out rubocop.json
+  artifacts:
+    paths:
+      - rubocop.json
+  except:
+    - schedules
+
+bundler-audit:
+  stage: lint
+  before_script:
+    - gem install bundler-audit
+    - bundle audit --update
+  script:
+    - bundle audit
+  allow_failure: true

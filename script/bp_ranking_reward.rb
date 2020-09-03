@@ -5,7 +5,6 @@ require 'unlight'
 $arg = ARGV.shift
 
 module Unlight
-
   SV_TYPE_STR = ["sb"]
   puts "#{SV_TYPE_STR[THIS_SERVER]}サーバへ報酬を配布します。(y/n)"
   sns_check = gets.chomp
@@ -23,9 +22,9 @@ module Unlight
   puts "BPランキング上位者#{top}名に装備id#{val}を与えます(y/n)"
   answer = gets.chomp
   if answer == "y"
-    b = Avatar.filter(:server_type=>THIS_SERVER).order(Sequel.desc(:point)).limit(top).all.last.point
+    b = Avatar.filter(server_type: THIS_SERVER).order(Sequel.desc(:point)).limit(top).all.last.point
     puts "#{top}位のBP #{b}"
-    ret = Avatar.filter{point >= b}.filter(:server_type=>THIS_SERVER).all
+    ret = Avatar.filter { point >= b }.filter(server_type: THIS_SERVER).all
     ret.each do |a|
       puts "id:#{a.id}"
       a.get_slot_card(SCT_WEAPON, val)
@@ -53,7 +52,7 @@ module Unlight
       rew_list = []
       rew_list_arr.split("-").each do |rew_str|
         rew_arr = rew_str.split("/")
-        rew = { }
+        rew = {}
         rew[:type] = rew_arr.shift.to_i
         rew[:id] = rew_arr.shift.to_i
         rew[:num] = rew_arr.shift.to_i
@@ -67,15 +66,15 @@ module Unlight
     upper = 10000000000
     ranks.each do |rank|
       puts "上限 #{upper}"
-      b = Avatar.filter(:server_type=>THIS_SERVER).order(Sequel.desc(:point)).limit(rank).all.last.point
+      b = Avatar.filter(server_type: THIS_SERVER).order(Sequel.desc(:point)).limit(rank).all.last.point
       puts "#{rank}位のBP #{b}"
-      ret = Avatar.filter{ point < upper }.filter{ point >= b}.filter(:server_type=>THIS_SERVER).order(Sequel.desc(:point)).all
+      ret = Avatar.filter { point < upper }.filter { point >= b }.filter(server_type: THIS_SERVER).order(Sequel.desc(:point)).all
       rew_list = rewards.shift
       p rew_list
       ret.each do |a|
         puts "id:#{a.id} point:#{a.point}"
         rew_list.each do |rew|
-          a.get_treasures(rew[:type],rew[:id],rew[:sct_type],rew[:num])
+          a.get_treasures(rew[:type], rew[:id], rew[:sct_type], rew[:num])
         end
       end
       p ret.size
@@ -84,12 +83,11 @@ module Unlight
 
   end
 
-
   # BP1800以上対象者に対する報酬
   puts "BP1800以上の対象者に冥府の印章を与えます(y/n)"
   answer = gets.chomp
   if answer == "y"
-    Avatar.filter{point >= 1800}.filter(:server_type=>THIS_SERVER).all.each do |a|
+    Avatar.filter { point >= 1800 }.filter(server_type: THIS_SERVER).all.each do |a|
       puts "id:#{a.id}"
       a.get_chara_card(10011)
     end
@@ -99,7 +97,7 @@ module Unlight
   puts "全てのアバターのBPをリセットします(y/n)"
   answer = gets.chomp
   if answer == "y"
-    Avatar.filter{point != 1500}.filter(:server_type=>THIS_SERVER).all.each do |a|
+    Avatar.filter { point != 1500 }.filter(server_type: THIS_SERVER).all.each do |a|
       a.point = 1500
       a.save_changes
     end
@@ -109,10 +107,9 @@ module Unlight
   puts "総合ランキングをリセットします(y/n)(!!! ヤバゲ・ニコはあとに回す方のみで実行 !!!)"
   answer = gets.chomp
   if answer == "y"
-    TotalDuelRanking.filter{point != 1500}.all.each do |a|
+    TotalDuelRanking.filter { point != 1500 }.all.each do |a|
       a.point = 1500
       a.save_changes
     end
   end
-
 end

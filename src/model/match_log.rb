@@ -4,7 +4,6 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # ゲームセッションログ
   class MatchLog < Sequel::Model
     # プラグインの設定
@@ -16,13 +15,13 @@ module Unlight
     # 他クラスのアソシエーション
     many_to_one :channel
 
-    attr_accessor  :a_point, :b_point
+    attr_accessor :a_point, :b_point
 
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer :channel_id#, :table => :channels
-      String      :match_name, :text=>true, :default => ""
+      integer :channel_id #, :table => :channels
+      String      :match_name, text: true, default: ""
       integer     :match_rule
       integer     :match_stage
       integer     :a_avatar_id
@@ -35,20 +34,20 @@ module Unlight
       integer     :b_chara_card_id_2
       integer     :a_deck_cost
       integer     :b_deck_cost
-      integer     :cpu_card_data_id, :default => 0
+      integer     :cpu_card_data_id, default: 0
       integer     :state
-      integer     :match_option, :default => 0
+      integer     :match_option, default: 0
       integer     :match_level
-      integer     :winner_avatar_id , :index=>true
+      integer     :winner_avatar_id, index: true
       integer     :get_bp
       integer     :lose_bp
-      integer     :channel_set_rule, :default => CRULE_FREE
+      integer     :channel_set_rule, default: CRULE_FREE
       String      :a_remain_hp_set
       String      :b_remain_hp_set
-      integer     :turn_num, :default => 0
-      integer     :warn, :default => 0
-      integer     :watch_mode, :default => 0 # 観戦モード, 0:OFF,1:ON
-      integer     :server_type, :default => 0 # tinyint(DB側で変更) 新規追加 2016/11/24
+      integer     :turn_num, default: 0
+      integer     :warn, default: 0
+      integer     :watch_mode, default: 0 # 観戦モード, 0:OFF,1:ON
+      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
       datetime    :start_at
       datetime    :finish_at
       datetime    :created_at
@@ -57,7 +56,6 @@ module Unlight
 
     # バリデーションの設定
     validates do
-
     end
 
     # DBにテーブルをつくる
@@ -66,12 +64,12 @@ module Unlight
     end
 
     DB.alter_table :match_logs do
-      add_column :watch_mode, :integer, :default => 0 unless Unlight::MatchLog.columns.include?(:watch_mode)  # 新規追加2013/01/07
-      add_column :lose_bp, :integer, :default => 0 unless Unlight::MatchLog.columns.include?(:lose_bp)  # 新規追加2013/04/02
-      add_column :a_deck_cost, :integer, :default => 0 unless Unlight::MatchLog.columns.include?(:a_deck_cost)  # 新規追加2013/07/16
-      add_column :b_deck_cost, :integer, :default => 0 unless Unlight::MatchLog.columns.include?(:b_deck_cost)  # 新規追加2013/07/16
-      add_column :channel_set_rule, :integer, :default => CRULE_FREE unless Unlight::MatchLog.columns.include?(:channel_set_rule)  # 新規追加2014/11/13
-      add_column :server_type, :integer, :default => 0 unless Unlight::MatchLog.columns.include?(:server_type)  # 新規追加 2016/11/24
+      add_column :watch_mode, :integer, default: 0 unless Unlight::MatchLog.columns.include?(:watch_mode) # 新規追加2013/01/07
+      add_column :lose_bp, :integer, default: 0 unless Unlight::MatchLog.columns.include?(:lose_bp) # 新規追加2013/04/02
+      add_column :a_deck_cost, :integer, default: 0 unless Unlight::MatchLog.columns.include?(:a_deck_cost)  # 新規追加2013/07/16
+      add_column :b_deck_cost, :integer, default: 0 unless Unlight::MatchLog.columns.include?(:b_deck_cost)  # 新規追加2013/07/16
+      add_column :channel_set_rule, :integer, default: CRULE_FREE unless Unlight::MatchLog.columns.include?(:channel_set_rule) # 新規追加2014/11/13
+      add_column :server_type, :integer, default: 0 unless Unlight::MatchLog.columns.include?(:server_type) # 新規追加 2016/11/24
     end
 
     # インサート時の前処理
@@ -107,17 +105,17 @@ module Unlight
     # キャッシュとUIDを結びつける
     def set_cache(uid)
       MatchLog::cache_store.set("#{uid}}", self.id)
-      @a_avatar =nil
-      @b_avatar =nil
+      @a_avatar = nil
+      @b_avatar = nil
     end
 
     def a_avatar
-      @a_avatar = Avatar[self.a_avatar_id] unless  @a_avatar
+      @a_avatar = Avatar[self.a_avatar_id] unless @a_avatar
       @a_avatar
     end
 
     def b_avatar
-      @b_avatar = Avatar[self.b_avatar_id] unless  @b_avatar
+      @b_avatar = Avatar[self.b_avatar_id] unless @b_avatar
       @b_avatar
     end
 
@@ -174,16 +172,15 @@ module Unlight
       self.save_changes
       @before_bp_a = self.a_avatar.point
       @before_bp_b = self.b_avatar.point
-
     end
 
     # 終了処理
-    def set_finish( result, turn, state )
+    def set_finish(result, turn, state)
       self.refresh
       if self.state == MATCH_START
       # ちゃんと始まっているものを終わりにする
         self.finish_at = Time.now.utc
-        self.a_remain_hp_set  = result[0][:remain_hp].join(",")
+        self.a_remain_hp_set = result[0][:remain_hp].join(",")
         self.b_remain_hp_set = result[1][:remain_hp].join(",")
         self.turn_num = turn
         self.state = state
@@ -193,25 +190,25 @@ module Unlight
         case result[0][:result]
         when RESULT_WIN
           self.winner_avatar_id = self.a_avatar_id
-          self.get_bp =  Avatar[self.a_avatar_id].point - @before_bp_a if @before_bp_a && Avatar[self.a_avatar_id].point
-          self.lose_bp =  Avatar[self.b_avatar_id].point - @before_bp_b if @before_bp_b && Avatar[self.b_avatar_id].point
+          self.get_bp = Avatar[self.a_avatar_id].point - @before_bp_a if @before_bp_a && Avatar[self.a_avatar_id].point
+          self.lose_bp = Avatar[self.b_avatar_id].point - @before_bp_b if @before_bp_b && Avatar[self.b_avatar_id].point
         when RESULT_LOSE
           self.winner_avatar_id = self.b_avatar_id
-          self.get_bp =  Avatar[self.b_avatar_id].point - @before_bp_b if @before_bp_b && Avatar[self.b_avatar_id].point
-          self.lose_bp =  Avatar[self.a_avatar_id].point - @before_bp_a if @before_bp_a && Avatar[self.a_avatar_id].point
+          self.get_bp = Avatar[self.b_avatar_id].point - @before_bp_b if @before_bp_b && Avatar[self.b_avatar_id].point
+          self.lose_bp = Avatar[self.a_avatar_id].point - @before_bp_a if @before_bp_a && Avatar[self.a_avatar_id].point
         end
       end
       self.save_changes
     end
 
     # 対戦の終了
-    def finish_match(result , turn)
-      set_finish( result, turn, MATCH_END )
+    def finish_match(result, turn)
+      set_finish(result, turn, MATCH_END)
     end
 
     # 対戦の終了(相手が放棄していた場合)
-    def finish_aborted_match(result , turn)
-      set_finish( result, turn, MATCH_ABORT_END )
+    def finish_aborted_match(result, turn)
+      set_finish(result, turn, MATCH_ABORT_END)
     end
 
     # 対戦の異常終了
@@ -235,7 +232,7 @@ module Unlight
     end
 
     def warn_same_ip
-      self.warn  = (self.warn|Unlight::M_WARN_SAME_IP)
+      self.warn = (self.warn | Unlight::M_WARN_SAME_IP)
       self.save_changes
     end
   end

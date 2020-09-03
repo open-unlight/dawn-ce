@@ -12,13 +12,13 @@ module Unlight
     class RaidChatServer < ULServer
       include RaidChatController
 
-      attr_accessor :player,:avatar
+      attr_accessor :player, :avatar
 
       # クラスの初期化
       def self.setup
         super
         # コマンドクラスをつくる
-        @@receive_cmd=Command.new(self,:RaidChat)
+        @@receive_cmd = Command.new(self, :RaidChat)
       end
 
       def online_list
@@ -33,12 +33,11 @@ module Unlight
              logout
              @player = nil
            end
-        rescue =>e
+        rescue => e
           puts e.message
         end
         SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}.player#{@player.id}") if @player
       end
-
     end
   end
 end

@@ -11,13 +11,13 @@ include Unlight
 module Protocol
   class GameServer < ULServer
     include GameController
-    attr_accessor :player, :matching, :duel, :opponent_player,:match_log,:watch_duel,:last_connect
+    attr_accessor :player, :matching, :duel, :opponent_player, :match_log, :watch_duel, :last_connect
 
     # クラスの初期化
     def self::setup(id, ip, port)
       super()
       # コマンドクラスをつくる
-      @@receive_cmd=Command.new(self,:Game)
+      @@receive_cmd = Command.new(self, :Game)
       # CPUDECKを初期化
       CharaCardDeck::initialize_CPU_deck
       # コネクションチェック時の分割リスト
@@ -32,7 +32,7 @@ module Protocol
           delete_connection
           logout
         end
-      rescue =>e
+      rescue => e
         puts e.message
       end
       SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")
@@ -49,6 +49,5 @@ module Protocol
     def player
       @player
     end
-
   end
 end

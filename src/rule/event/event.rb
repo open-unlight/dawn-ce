@@ -60,13 +60,13 @@ module Unlight
   class EventRule
     include Singleton
 
-    attr_accessor :dsc, :allow_context, :func, :act_list, :goal_list, :guard_list, :type, :hook_func, :duration_type, :duration_value,:event_type
+    attr_accessor :dsc, :allow_context, :func, :act_list, :goal_list, :guard_list, :type, :hook_func, :duration_type, :duration_value, :event_type
 
     def initialize
       # イベントの説明
       @dsc = ""
       # 実行可能コンテキスト
-      @allow_context  = []
+      @allow_context = []
       # ガード節のリスト
       @guard_list = []
       # ゴール節のリスト
@@ -83,7 +83,7 @@ module Unlight
       @duration_type = :none
       @duration_value = 0
       # イベントタイプ
-      @event_type = {:start => false, :finish=>false}
+      @event_type = { start: false, finish: false }
     end
 
     # イベント定義の名前を登録
@@ -114,37 +114,37 @@ module Unlight
     def EventRule::context (*cont)
       s = []
       cont.each do |a|
-        s <<  "Unlight::"+a[0]+"::"+a[1].to_s
+        s << "Unlight::" + a[0] + "::" + a[1].to_s
       end
       instance.allow_context << s.join("->")
     end
 
     # タイプの登録
     def EventRule::type(t)
-      t = {:type=>t,:obj=>nil,:hook=>nil,:priority=>0} if t.class == Symbol
-      pri = t[:priority]||0
+      t = { type: t, obj: nil, hook: nil, priority: 0 } if t.class == Symbol
+      pri = t[:priority] || 0
       instance.type = t[:type]
-      instance.hook_func = [t[:obj],t[:hook],pri]
+      instance.hook_func = [t[:obj], t[:hook], pri]
     end
 
     # タイムアウトの登録
     def EventRule::duration(t)
-      t = {:type=>t,:value=>0} if t.class == Symbol
+      t = { type: t, value: 0 } if t.class == Symbol
       instance.duration_type = t[:type]
-      instance.duration_value =t[:value]
+      instance.duration_value = t[:value]
     end
 
     # イベントの登録
     def EventRule::event(*arg)
       arg.each do |a|
-        instance.event_type[:start] = true  if a==:start
-        instance.event_type[:finish] = true  if a==:finish
+        instance.event_type[:start] = true if a == :start
+        instance.event_type[:finish] = true if a == :finish
       end
     end
 
     # ゴールの設定
     def EventRule::goal(*args)
-      add_decision(instance.goal_list,args)
+      add_decision(instance.goal_list, args)
     end
 
     # ガードの設定
@@ -158,7 +158,7 @@ module Unlight
     end
 
     # ガードとゴール関数登録関数
-    def EventRule::add_decision(list,args)
+    def EventRule::add_decision(list, args)
       ret = []
       args.each do |a|
         ret << a
@@ -173,15 +173,13 @@ module Unlight
 
     # オブジェクトが含まれているか？
     def EventRule::obj_list_include?(list, arg)
-      list.index{ |item| item[0].to_s == arg.to_s}
+      list.index { |item| item[0].to_s == arg.to_s }
     end
 
     # クラスにインスタンスメソッドが存在するか？
     def EventRule::instance_method_include?(klass_name, method_name)
       eval("Unlight::#{klass_name}.instance_methods.include?(:#{method_name})")
     end
-
-
   end
 
   #= 実際のイベントオブジェ
@@ -189,11 +187,11 @@ module Unlight
   class BaseEvent
     include Context
     # 初期化メソッドのリスト
-    @@init_list = { }
+    @@init_list = {}
     # イベント削除メソッドのリスト
-    @@event_removers = { }
+    @@event_removers = {}
     # Hook削除メソッドのリスト
-    @@hook_removers = { }
+    @@hook_removers = {}
 
     def self::init_list
       @@init_list
@@ -201,7 +199,7 @@ module Unlight
 
     def initialize(*args)
       # フックするイベントの初期化
-      @@init_list[self.class.name].each{|a| self.send(a) }if @@init_list[self.class.name]
+      @@init_list[self.class.name].each { |a| self.send(a) }if @@init_list[self.class.name]
     end
 
     # フックされた関数を実行する
@@ -212,15 +210,14 @@ module Unlight
         li.each_index { |i|
           li[i][0].call
           if li.size == list.size
-            all_end = false if i+1 == li.size
+            all_end = false if i + 1 == li.size
           else
             li = list.clone
             break
           end
         }
-        all_end = false        if li.size == 0
+        all_end = false if li.size == 0
       end
-
     end
 
     # 関数の実行
@@ -239,12 +236,12 @@ module Unlight
 
     # 登録されたすべてのイベントをリムーブする
     def remove_all_event_listener
-      @@event_removers[self.class.name].each{|a| self.send(a) }if @@event_removers[self.class.name]
+      @@event_removers[self.class.name].each { |a| self.send(a) }if @@event_removers[self.class.name]
     end
 
     # 登録されたすべてのイベントをフックをリムーブする
     def remove_all_hook
-      @@hook_removers[self.class.name].each{|a| self.send(a) }if @@hook_removers[self.class.name]
+      @@hook_removers[self.class.name].each { |a| self.send(a) }if @@hook_removers[self.class.name]
     end
 
     # ゴールしたかをしらべる
@@ -254,17 +251,15 @@ module Unlight
       list.each do |b|
         ret = true
         b.each do |c|
-          unless  func_do(c[0],c[1]) # 一つでもfalseなら評価をやめる
+          unless  func_do(c[0], c[1]) # 一つでもfalseなら評価をやめる
             ret = false
             break
           end
         end
-        break if ret           # 一つでもtrueならば評価をやめる
+        break if ret # 一つでもtrueならば評価をやめる
       end
       ret
     end
-
-
 
     # 初期化部分を返す
     def self::init_gen
@@ -350,17 +345,15 @@ module Unlight
 END
     end
 
-
-
     # コンテキストチェック部分を返す
     def self::context_check_gen(doc)
       if @event_rule.allow_context.size > 0
-        c = @event_rule.allow_context.map{|a| 'context_check("'+a+'")' }.join("||")
+        c = @event_rule.allow_context.map { |a| 'context_check("' + a + '")' }.join("||")
         st = "if #{c}\n"
         en = ""
          en = "\n          else\n"
         en += "          end"
-        doc = st+doc+en
+        doc = st + doc + en
       end
       doc
     end
@@ -378,10 +371,9 @@ END
         en += "          guarded = true\n"
         en += "          end\n"
       end
-        doc = st+doc+en
+        doc = st + doc + en
       doc + goal_check_gen
     end
-
 
     # 終了条件チェック部分を返す
     def self::goal_check_gen()
@@ -418,14 +410,12 @@ END
       end
     end
 
-
     def self::finish_event_gen
       if @event_rule.event_type[:finish]
         <<-END
             @#{@f}_finish_event_handlers.each {|i| i.call(self, ret)}  unless guarded
         END
       end
-
     end
 
     def self::start_event_gen
@@ -471,19 +461,18 @@ END
 
     def self::act_list_gen
       ret = []
-      ret <<" "
+      ret << " "
       ret << "      if @#{@f}_context.first == :active||@#{@f}_context.first == :return"
        @event_rule.act_list.each_index do|i|
-         ret <<"          if @#{@f}_act_counter == #{i}"
-         ret <<"            self.send(:#{@event_rule.act_list[i]})"
-         ret <<"            @#{@f}_act_counter +=1 if @#{@f}_context.first == :active"
-         ret <<"          end"
+         ret << "          if @#{@f}_act_counter == #{i}"
+         ret << "            self.send(:#{@event_rule.act_list[i]})"
+         ret << "            @#{@f}_act_counter +=1 if @#{@f}_context.first == :active"
+         ret << "          end"
       end
       ret << "       end"
-      ret = [] if @event_rule.act_list.size==0
+      ret = [] if @event_rule.act_list.size == 0
       ret.join("\n")
     end
-
 
     def self::before_main_gen
       h = @event_rule.hook_func
@@ -526,7 +515,6 @@ END
         #{hook_add_remove_gen}
         END
     end
-
 
     def self::hook_add_remove_gen
       h = @event_rule.hook_func
@@ -638,7 +626,7 @@ END
 
     def self::regist_event(eventrule)
       @event_rule = eventrule.instance
-      @f = underscore(eventrule.to_s.gsub(/Unlight::|.*::/,""))
+      @f = underscore(eventrule.to_s.gsub(/Unlight::|.*::/, ""))
       doc = <<-END
       #{init_gen}
 
@@ -656,15 +644,12 @@ END
     end
 
   def self::underscore(camel_cased_word)
-    camel_cased_word.
-      gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-      gsub(/([a-z\d])([A-Z])/,'\1_\2').
-      downcase
+    camel_cased_word
+      .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+      .gsub(/([a-z\d])([A-Z])/, '\1_\2')
+      .downcase
   end
-
-
   end
-
 end
 
 __END__

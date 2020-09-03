@@ -8,9 +8,9 @@ opt = OptionParser.new
 filename = "../server/src/server_ip.rb"
 
 file = Pathname.new(filename)
-ip =  `wget -q -O - ipcheck.ieserver.net`
+ip = `wget -q -O - ipcheck.ieserver.net`
 
-file.open('w') {|f| f.puts DATA.read.gsub('__IP__',ip.chomp)}
+file.open('w') { |f| f.puts DATA.read.gsub('__IP__', ip.chomp) }
 
 __END__
 

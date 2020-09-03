@@ -10,7 +10,7 @@ module Unlight
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # 他クラスのアソシエーション
     Sequel::Model.plugin :schema
@@ -20,9 +20,9 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :code,:index=>true, :unique=>true
-      integer     :kind, :default => 0
-      integer     :state, :default => 0
+      String      :code, index: true, unique: true
+      integer     :kind, default: 0
+      integer     :state, default: 0
       datetime    :created_at
       datetime    :updated_at
     end
@@ -36,7 +36,6 @@ module Unlight
     if !(ClearCode.table_exists?)
       ClearCode.create_table
     end
-
 
     # インサート時の前処理
     before_create do
@@ -54,23 +53,24 @@ module Unlight
 
     # 済んだかどうか
     def done?
-      self.state>0
+      self.state > 0
     end
 
     # 済んだ
     def self::get_code(kind, max)
       ret = ""
-      if self::filter(:kind =>kind,:state=>STATE_USED).count > max
+      if self::filter(kind: kind, state: STATE_USED).count > max
         return ret
       else
-        ccs = self::filter(:kind =>kind,:state=>STATE_UNUSE).all
-        if ccs.size>0
+        ccs = self::filter(kind: kind, state: STATE_UNUSE).all
+        if ccs.size > 0
           cc =  ccs.first
           ret = cc.code
           cc.state = STATE_USED
           cc.save_changes
         end
       end
+
       ret
     end
   end

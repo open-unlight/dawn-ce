@@ -11,13 +11,13 @@ include Unlight
 module Protocol
   class WatchServer < ULServer
     include WatchController
-    attr_accessor :player, :matching, :duel, :opponent_player,:match_log, :watch_duel
+    attr_accessor :player, :matching, :duel, :opponent_player, :match_log, :watch_duel
 
     # クラスの初期化
     def self::setup(id, ip, port)
       super()
       # コマンドクラスをつくる
-      @@receive_cmd=Command.new(self,:Watch)
+      @@receive_cmd = Command.new(self, :Watch)
       WatchController::init
       CharaCardDeck::initialize_CPU_deck
     end
@@ -30,7 +30,7 @@ module Protocol
           delete_connection
           logout
         end
-      rescue =>e
+      rescue => e
         puts e.message
       end
       SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")

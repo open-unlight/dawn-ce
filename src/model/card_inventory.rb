@@ -4,13 +4,11 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # カードのインベントリクラス
   class CardInventory < Sequel::Model
     # 他クラスのアソシエーション
-    many_to_one :chara_card_deck        # デッキに複数所持される
-    many_to_one :chara_card   # キャラカードを複数もてる
-
+    many_to_one :chara_card_deck # デッキに複数所持される
+    many_to_one :chara_card # キャラカードを複数もてる
 
     plugin :schema
     plugin :validation_class_methods
@@ -19,10 +17,10 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer   :chara_card_deck_id#, :table => :chara_card_decks
-      integer   :chara_card_id#, :table => :chara_cards
-      integer   :position, :default => 0, :null =>false
-      integer   :before_deck_id#, :table => :chara_card_decks
+      integer   :chara_card_deck_id #, :table => :chara_card_decks
+      integer   :chara_card_id #, :table => :chara_cards
+      integer   :position, default: 0, null: false
+      integer   :before_deck_id #, :table => :chara_card_decks
       datetime  :created_at
       datetime  :updated_at
     end
@@ -37,7 +35,7 @@ module Unlight
     end
 
     DB.alter_table :card_inventories do
-     add_column :before_deck_id, :integer, :default => 0 unless Unlight::CardInventory.columns.include?(:before_deck_id)  # 新規追加2011/07/25
+     add_column :before_deck_id, :integer, default: 0 unless Unlight::CardInventory.columns.include?(:before_deck_id) # 新規追加2011/07/25
     end
 
     # インサート時の前処理
@@ -55,7 +53,6 @@ module Unlight
       self.chara_card_deck_id = 0
       self.save_changes
     end
-
 
     # CPU用のキャラカードインベントリを作る
     def CardInventory.create_cpu_card(no, deck_id)
@@ -86,8 +83,5 @@ module Unlight
         end
       end
     end
-
-
   end
-
 end

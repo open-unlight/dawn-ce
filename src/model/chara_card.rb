@@ -4,51 +4,48 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # キャラクタークラス
   class CharaCard < Sequel::Model
-    attr_accessor :owner,:foe,:duel,:deck,:status,:special_status,:using,:index,:status_update
+    attr_accessor :owner, :foe, :duel, :deck, :status, :special_status, :using, :index, :status_update
     attr_reader :event
     # プラグインの設定
     plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-    plugin :caching, CACHE, :ignore_exceptions=>true
+    plugin :caching, CACHE, ignore_exceptions: true
 
     # 他クラスのアソシエーション
-    one_to_many :feat_inventories   # 必殺技のインベントリを保持
-    one_to_many :passive_skill_inventories   # パッシブインベントリ
-    one_to_many :chara_card_requirements   # 必要とするカード
+    one_to_many :feat_inventories # 必殺技のインベントリを保持
+    one_to_many :passive_skill_inventories # パッシブインベントリ
+    one_to_many :chara_card_requirements # 必要とするカード
     one_to_many :chara_card_stories
 
     # 他クラスのアソシエーション
-    many_to_one :charactor      # キャラデータを持つ
-
+    many_to_one :charactor # キャラデータを持つ
 
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, :index=>true
-      String      :ab_name,:default => ""
-      integer     :level, :default => 1
-      integer     :hp, :default => 1
-      integer     :ap, :default => 1
-      integer     :dp, :default => 1
-      integer     :rarity, :default => 1
-      integer     :deck_cost, :default => 1
-      integer     :slot, :default => 0
-      String      :stand_image, :default => ""
-      String      :chara_image, :default => ""
-      String      :artifact_image, :default => ""
-      String      :bg_image, :default => ""
-      String      :caption, :default => ""
+      String      :name, index: true
+      String      :ab_name, default: ""
+      integer     :level, default: 1
+      integer     :hp, default: 1
+      integer     :ap, default: 1
+      integer     :dp, default: 1
+      integer     :rarity, default: 1
+      integer     :deck_cost, default: 1
+      integer     :slot, default: 0
+      String      :stand_image, default: ""
+      String      :chara_image, default: ""
+      String      :artifact_image, default: ""
+      String      :bg_image, default: ""
+      String      :caption, default: ""
       integer     :charactor_id
       integer     :next_id
       datetime    :created_at
       datetime    :updated_at
 
-      integer     :kind, :default => 0 # 新規追加 2013/06/24
-
+      integer     :kind, default: 0 # 新規追加 2013/06/24
     end
 
     # DBにテーブルをつくる
@@ -67,7 +64,7 @@ module Unlight
     end
 
     DB.alter_table :chara_cards do
-      add_column :kind, :integer, :default => 0 unless Unlight::CharaCard.columns.include?(:kind)  # 新規追加 2013/6/24
+      add_column :kind, :integer, default: 0 unless Unlight::CharaCard.columns.include?(:kind) # 新規追加 2013/6/24
     end
 
     # アップデート後の後理処
@@ -80,7 +77,7 @@ module Unlight
       ret = cache_store.get("CharaCardVersion")
       unless ret
         ret = refresh_data_version
-        cache_store.set("CharaCardVersion",ret)
+        cache_store.set("CharaCardVersion", ret)
       end
       ret
     end
@@ -91,7 +88,7 @@ module Unlight
       if m
         FeatInventory::refresh_data_version
         if FeatInventory::data_version
-          cache_store.set("CharaCardVersion",[m.version, FeatInventory::data_version].max)
+          cache_store.set("CharaCardVersion", [m.version, FeatInventory::data_version].max)
           else
           cache_store.set("CharaCardVersion", m.version)
         end
@@ -101,12 +98,10 @@ module Unlight
       end
     end
 
-
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
       self.updated_at.to_i % MODEL_CACHE_INT
     end
-
 
     def CharaCard::up_tree(id)
       CharaCardRequirement.up_tree(id)
@@ -138,7 +133,7 @@ module Unlight
       a = CharaCard[chara_id_str.split(",")[0]]
       b = CharaCard[other_id_str.split(",")[0]]
       level = 0
-      if a.rarity > 5 && b.rarity >5
+      if a.rarity > 5 && b.rarity > 5
         level = 5
       elsif a.rarity > 5
         level = b.level
@@ -148,12 +143,12 @@ module Unlight
         level = a.level > b.level ? b.level : a.level
       end
 
-      if a&&b
+      if a && b
         d = DialogueWeight::get_dialogue(DLG_DUEL_START, a.parent_id, a.charactor_id, b.parent_id, b.charactor_id, level)
         if d
-          ret = [d.id,d.content]
+          ret = [d.id, d.content]
         else
-          ret = [0,""]
+          ret = [0, ""]
         end
       end
       ret
@@ -161,7 +156,7 @@ module Unlight
 
     # カードのストーリーを返す
     def story_id
-      chara_card_stories[0].id if chara_card_stories.size>0
+      chara_card_stories[0].id if chara_card_stories.size > 0
     end
 
     # 台詞IDをゲットする
@@ -220,7 +215,7 @@ module Unlight
       ret = CharaCard::cache_store.get("CharaCard:color_num:#{id}")
       unless ret
         ret = 0
-        slot.to_s.each_char{ |c| ret+=1 if c == color_no}
+        slot.to_s.each_char { |c| ret += 1 if c == color_no }
         CharaCard::cache_store.set("CharaCard:color_num:#{id}", ret)
       end
       ret
@@ -240,13 +235,13 @@ module Unlight
    end
 
     # カードの初期化
-    def init_card(ctxt,entrant,foe,duel,index)
+    def init_card(ctxt, entrant, foe, duel, index)
       @owner = entrant                # 現在の使用者
       @foe = foe
       @duel = duel
       @deck = duel.deck
       @index = index
-      @event = CharaCardEvent.new(ctxt,self)
+      @event = CharaCardEvent.new(ctxt, self)
       @status = []                    # [power, turn, resistance]
       @special_status = []
       # ステータス状態を初期化
@@ -291,26 +286,28 @@ module Unlight
 
       # パッシブのHookを登録
       inventory_max = 4 # 最大４つまで
-      registed_cnt =0
+      registed_cnt = 0
       self.passive_skill_inventories.each do |p|
         break if registed_cnt >= inventory_max
+
         if CHARA_PASSIVE_SKILL_EVENT_NO[p.passive_skill.passive_skill_no]
           CHARA_PASSIVE_SKILL_EVENT_NO[p.passive_skill.passive_skill_no].each do |g|
             @event.send(g) if @event
           end
-          registed_cnt+=1
+          registed_cnt += 1
         end
       end
 
       if weapon_passive
         weapon_passive.each do |pid|
           break if registed_cnt >= inventory_max
+
           pno = PassiveSkill[pid].passive_skill_no
           if CHARA_PASSIVE_SKILL_EVENT_NO[pno]
             CHARA_PASSIVE_SKILL_EVENT_NO[pno].each do |g|
               @event.send(g) if @event
             end
-            registed_cnt+=1
+            registed_cnt += 1
           end
         end
       end
@@ -322,10 +319,10 @@ module Unlight
                           STATE_CONTROL,
                          ]
     # ステータス状態を初期化
-    HAS_PILOTS = [20,27]
+    HAS_PILOTS = [20, 27]
     def cure_status()
       if @status
-        @status.each_with_index do |s,i|
+        @status.each_with_index do |s, i|
           s[1] = 0 unless IRREMEDIABLE_STATE.include?(i)
         end
         if HAS_PILOTS.include?(self.charactor_id)
@@ -344,7 +341,7 @@ module Unlight
     # 特殊ステータスを初期化
     def reset_special_status
       if @special_status
-        @special_status.each_with_index do |s,i|
+        @special_status.each_with_index do |s, i|
           s[1] = 0
         end
       end
@@ -352,7 +349,7 @@ module Unlight
 
     # カードイベントの初期化
     def remove_event()
-      @using =false
+      @using = false
       # ここでFeatEnableをくりあする
       if @event
         @event.init_feats_enable
@@ -361,7 +358,7 @@ module Unlight
     end
 
     # カードイベントの後処理
-    def finalize_event()#
+    def finalize_event() #
       if @event
       # 全てのイベントをリムーブする
         @event.remove_all_event_listener
@@ -370,15 +367,14 @@ module Unlight
         @event.finalize_event
         @event = nil
       end
-      @using =false
-      @owner = nil                # 現在の使用者
+      @using = false
+      @owner = nil # 現在の使用者
       @foe = nil
       @duel = nil
       @status = []
       @index = nil
       @status_update = true
     end
-
 
     # イベントを委譲する
     def method_missing(message, *arg)
@@ -391,31 +387,30 @@ module Unlight
     def get_data_csv_str
       ret = ""
       ret << self.id.to_s << ","
-      ret << '"' << (self.name||"") << '",'
-      ret << '"' << (self.ab_name||"")<< '",'
-      ret << (self.level||0).to_s<< ","
-      ret << (self.hp||0).to_s << ","
-      ret << (self.ap||0).to_s << ","
-      ret << (self.dp||0).to_s << ","
-      ret << (self.rarity||0).to_s << ","
-      ret << (self.deck_cost||0).to_s << ","
-      ret << (self.slot||0).to_s << ","
-      ret << '"' << (self.stand_image||"") << '",'
-      ret << '"' << (self.chara_image||"") << '",'
-      ret << '"' << (self.artifact_image||"") << '",'
-      ret << '"' << (self.bg_image||"") << '",'
-      ret << '"' << (self.caption||"") << '",'
-      ret << '"' << (self.feats_id||"") << '",'
-      ret << (self.story_id||0).to_s << ","
-      ret << (self.charactor_id||0).to_s << ","
-      ret << (self.next_id||0).to_s << ","
+      ret << '"' << (self.name || "") << '",'
+      ret << '"' << (self.ab_name || "") << '",'
+      ret << (self.level || 0).to_s << ","
+      ret << (self.hp || 0).to_s << ","
+      ret << (self.ap || 0).to_s << ","
+      ret << (self.dp || 0).to_s << ","
+      ret << (self.rarity || 0).to_s << ","
+      ret << (self.deck_cost || 0).to_s << ","
+      ret << (self.slot || 0).to_s << ","
+      ret << '"' << (self.stand_image || "") << '",'
+      ret << '"' << (self.chara_image || "") << '",'
+      ret << '"' << (self.artifact_image || "") << '",'
+      ret << '"' << (self.bg_image || "") << '",'
+      ret << '"' << (self.caption || "") << '",'
+      ret << '"' << (self.feats_id || "") << '",'
+      ret << (self.story_id || 0).to_s << ","
+      ret << (self.charactor_id || 0).to_s << ","
+      ret << (self.next_id || 0).to_s << ","
       ret << '"' << (CharaCardRequirement.up_tree(self.id).join(",")) << '",'
-      ret << '"' << (CharaCardRequirement.down_tree(self.id).join(","))<< '",'
-      ret << (self.kind||0).to_s << ","
-      ret << '"' << (self.passives_id||"") << '"'
+      ret << '"' << (CharaCardRequirement.down_tree(self.id).join(",")) << '",'
+      ret << (self.kind || 0).to_s << ","
+      ret << '"' << (self.passives_id || "") << '"'
       ret
     end
-
   end
 
   class CharaCardEvent < BaseEvent
@@ -424,50 +419,50 @@ module Unlight
 
     # パッシブの定数
     PASSIVE_ADDITIONAL_DRAW, PASSIVE_INDOMITABLE_MIND, PASSIVE_DRAIN_SOUL, PASSIVE_SEALING_ATTACK,
-    PASSIVE_INSTANT_KILL_GUARD,PASSIVE_RAGE_AGAINST,PASSIVE_CREATOR,PASSIVE_BOUNCE_BACK,PASSIVE_LINKAGE,
-    PASSIVE_LIBERATION,PASSIVE_HARDEN,PASSIVE_ABSORP,PASSIVE_MOONDOG,PASSIVE_JUMP,PASSIVE_PROTECTION_AIM,
-    PASSIVE_MISTAKE,PASSIVE_STATE_RESISTANCE,PASSIVE_SENKOU,PASSIVE_HATE,PASSIVE_LITTLE_PRINCESS,
-    PASSIVE_CRIMSON_WITCH,PASSIVE_AEGIS,PASSIVE_OCEAN,PASSIVE_RESIST_SKYLLA,PASSIVE_NIGHT_FOG,
-    PASSIVE_DOUBLE_BODDY,PASSIVE_WIT,PASSIVE_CURSE_CARE,PASSIVE_WHITE_LIGHT,PASSIVE_CARAPACE_BREAKE,
-    PASSIVE_CARAPACE,PASSIVE_RESIST_KAMUY,PASSIVE_REVISERS,PASSIVE_RESIST_WALL,PASSIVE_CURSE_SIGN,
-    PASSIVE_LOYALTY,PASSIVE_AIMING_PLUS,PASSIVE_EASING_CARD_CONDITION,PASSIVE_HARVEST,
-    PASSIVE_TD,PASSIVE_MOON_SHINE,PASSIVE_FERTILITY,PASSIVE_RESIST_PUMPKIN,
-    PASSIVE_AWCS,PASSIVE_RESIST_DW,PASSIVE_LONSBROUGH_EVENT,PASSIVE_ROCK_CRUSHER,
-    PASSIVE_PROJECTION,PASSIVE_DAMAGE_MULTIPLIER,PASSIVE_EV201606,PASSIVE_STATE_RESISTANCE_AQUAMARINE,
-    PASSIVE_COOLY,PASSIVE_EV201609,PASSIVE_RESIST_BYAKHEE,PASSIVE_DISASTER_FLAME,PASSIVE_BRAMBLES_CARD,
-    PASSIVE_AWAKENING_ONE,PASSIVE_SERVO_SKULL,PASSIVE_EV201612,PASSIVE_HIGH_PROTECTION,
-    PASSIVE_PUPPET_MASTER,PASSIVE_OGRE_ARM,PASSIVE_CRIMSON_WILL,PASSIVE_GUARDIAN_OF_LIFE,
-    PASSIVE_BURNING_EMBERS=(1..65).to_a
+    PASSIVE_INSTANT_KILL_GUARD, PASSIVE_RAGE_AGAINST, PASSIVE_CREATOR, PASSIVE_BOUNCE_BACK, PASSIVE_LINKAGE,
+    PASSIVE_LIBERATION, PASSIVE_HARDEN, PASSIVE_ABSORP, PASSIVE_MOONDOG, PASSIVE_JUMP, PASSIVE_PROTECTION_AIM,
+    PASSIVE_MISTAKE, PASSIVE_STATE_RESISTANCE, PASSIVE_SENKOU, PASSIVE_HATE, PASSIVE_LITTLE_PRINCESS,
+    PASSIVE_CRIMSON_WITCH, PASSIVE_AEGIS, PASSIVE_OCEAN, PASSIVE_RESIST_SKYLLA, PASSIVE_NIGHT_FOG,
+    PASSIVE_DOUBLE_BODDY, PASSIVE_WIT, PASSIVE_CURSE_CARE, PASSIVE_WHITE_LIGHT, PASSIVE_CARAPACE_BREAKE,
+    PASSIVE_CARAPACE, PASSIVE_RESIST_KAMUY, PASSIVE_REVISERS, PASSIVE_RESIST_WALL, PASSIVE_CURSE_SIGN,
+    PASSIVE_LOYALTY, PASSIVE_AIMING_PLUS, PASSIVE_EASING_CARD_CONDITION, PASSIVE_HARVEST,
+    PASSIVE_TD, PASSIVE_MOON_SHINE, PASSIVE_FERTILITY, PASSIVE_RESIST_PUMPKIN,
+    PASSIVE_AWCS, PASSIVE_RESIST_DW, PASSIVE_LONSBROUGH_EVENT, PASSIVE_ROCK_CRUSHER,
+    PASSIVE_PROJECTION, PASSIVE_DAMAGE_MULTIPLIER, PASSIVE_EV201606, PASSIVE_STATE_RESISTANCE_AQUAMARINE,
+    PASSIVE_COOLY, PASSIVE_EV201609, PASSIVE_RESIST_BYAKHEE, PASSIVE_DISASTER_FLAME, PASSIVE_BRAMBLES_CARD,
+    PASSIVE_AWAKENING_ONE, PASSIVE_SERVO_SKULL, PASSIVE_EV201612, PASSIVE_HIGH_PROTECTION,
+    PASSIVE_PUPPET_MASTER, PASSIVE_OGRE_ARM, PASSIVE_CRIMSON_WILL, PASSIVE_GUARDIAN_OF_LIFE,
+    PASSIVE_BURNING_EMBERS = (1..65).to_a
 
     # ステータス異常の定数
-    STATE_POISON,STATE_PARALYSIS,STATE_ATK_UP,STATE_ATK_DOWN,STATE_DEF_UP,
-    STATE_DEF_DOWN,STATE_BERSERK,STATE_STOP,STATE_SEAL,STATE_DEAD_COUNT,
-    STATE_UNDEAD,STATE_STONE,STATE_MOVE_UP,STATE_MOVE_DOWN,STATE_REGENE,
-    STATE_BIND,STATE_CHAOS,STATE_STIGMATA,STATE_STATE_DOWN,STATE_STICK,
-    STATE_CURSE,STATE_BLESS,STATE_UNDEAD2,STATE_POISON2,STATE_CONTROL,
-    STATE_TARGET,STATE_DARK,STATE_DOLL= (1..28).to_a
+    STATE_POISON, STATE_PARALYSIS, STATE_ATK_UP, STATE_ATK_DOWN, STATE_DEF_UP,
+    STATE_DEF_DOWN, STATE_BERSERK, STATE_STOP, STATE_SEAL, STATE_DEAD_COUNT,
+    STATE_UNDEAD, STATE_STONE, STATE_MOVE_UP, STATE_MOVE_DOWN, STATE_REGENE,
+    STATE_BIND, STATE_CHAOS, STATE_STIGMATA, STATE_STATE_DOWN, STATE_STICK,
+    STATE_CURSE, STATE_BLESS, STATE_UNDEAD2, STATE_POISON2, STATE_CONTROL,
+    STATE_TARGET, STATE_DARK, STATE_DOLL = (1..28).to_a
 
     # 特殊ステータス異常の定数
-    SPECIAL_STATE_CAT,SPECIAL_STATE_ANTISEPTIC,SPECIAL_STATE_SHARPEN_EDGE,SPECIAL_STATE_RESERVE_GUARD,
-    SPECIAL_STATE_DEALING_RESTRICTION,SPECIAL_STATE_CONSTRAINT,SPECIAL_STATE_DAMAGE_INSURANCE,
-    SPECIAL_STATE_OVERRIDE_SKILL,SPECIAL_STATE_MAGNETIC_FIELD,SPECIAL_STATE_CONST_COUNTER,
-    SPECIAL_STATE_STUFFED_TOYS,SPECIAL_STATE_MONITORING,SPECIAL_STATE_TIME_LAG_DROW,
-    SPECIAL_STATE_TIME_LAG_BUFF,SPECIAL_STATE_MACHINE_CELL,SPECIAL_STATE_AX_GUARD=(1..16).to_a
+    SPECIAL_STATE_CAT, SPECIAL_STATE_ANTISEPTIC, SPECIAL_STATE_SHARPEN_EDGE, SPECIAL_STATE_RESERVE_GUARD,
+    SPECIAL_STATE_DEALING_RESTRICTION, SPECIAL_STATE_CONSTRAINT, SPECIAL_STATE_DAMAGE_INSURANCE,
+    SPECIAL_STATE_OVERRIDE_SKILL, SPECIAL_STATE_MAGNETIC_FIELD, SPECIAL_STATE_CONST_COUNTER,
+    SPECIAL_STATE_STUFFED_TOYS, SPECIAL_STATE_MONITORING, SPECIAL_STATE_TIME_LAG_DROW,
+    SPECIAL_STATE_TIME_LAG_BUFF, SPECIAL_STATE_MACHINE_CELL, SPECIAL_STATE_AX_GUARD = (1..16).to_a
 
     BLESS_MAX = 3
 
-    FEAT_SMASH,FEAT_AIMING,FEAT_STRIKE,FEAT_COMBO,FEAT_THORN,
-    FEAT_CHARGE,FEAT_MIRAGE,FEAT_FRENZY_EYES,FEAT_ABYSS,FEAT_RAPID_SWORD,
-    FEAT_ANGER,FEAT_POWER_STOCK,FEAT_SHADOW_SHOT,FEAT_RED_FANG,FEAT_BLESSING_BLOOD,
-    FEAT_COUNTER_PREPARATION,FEAT_KARMIC_TIME,FEAT_KARMIC_RING,FEAT_KARMIC_STRING,FEAT_HI_SMASH,
-    FEAT_HI_POWER_STOCK,FEAT_HI_AIMING,FEAT_HI_RAPID_SWORD,FEAT_HI_KARMIC_STRING,FEAT_HI_FRENZY_EYES,
-    FEAT_HI_SHADOW_SHOT,FEAT_LAND_MINE,FEAT_DESPERADO,FEAT_REJECT_SWORD,FEAT_COUNTER_GUARD,
-    FEAT_PAIN_FLEE,FEAT_BODY_OF_LIGHT,FEAT_SEAL_CHAIN,FEAT_PURIFICATION_LIGHT,FEAT_CRAFTINESS,
-    FEAT_LAND_BOMB,FEAT_REJECT_BLADE,FEAT_SPELL_CHAIN,FEAT_INDOMITABLE_MIND,FEAT_DRAIN_SOUL,
-    FEAT_BACK_STAB,FEAT_ENLIGHTENED,FEAT_DARK_WHIRLPOOL,FEAT_KARMIC_PHANTOM,FEAT_RECOVERY_WAVE,
-    FEAT_SELF_DESTRUCTION,FEAT_DEFFENCE_SHOOTING,FEAT_RECOVERY,FEAT_SHADOW_ATTACK,FEAT_SUICIDAL_TENDENCIES,
-    FEAT_MISFIT,FEAT_BIG_BRAGG,FEAT_LETS_KNIFE,FEAT_SINGLE_HEART,FEAT_DOUBLE_BODY,
-    FEAT_NINE_SOUL,FEAT_THIRTEEN_EYES,FEAT_LIFE_DRAIN, FEAT_RANDOM_CURSE, FEAT_HEAL_VOICE,
+    FEAT_SMASH, FEAT_AIMING, FEAT_STRIKE, FEAT_COMBO, FEAT_THORN,
+    FEAT_CHARGE, FEAT_MIRAGE, FEAT_FRENZY_EYES, FEAT_ABYSS, FEAT_RAPID_SWORD,
+    FEAT_ANGER, FEAT_POWER_STOCK, FEAT_SHADOW_SHOT, FEAT_RED_FANG, FEAT_BLESSING_BLOOD,
+    FEAT_COUNTER_PREPARATION, FEAT_KARMIC_TIME, FEAT_KARMIC_RING, FEAT_KARMIC_STRING, FEAT_HI_SMASH,
+    FEAT_HI_POWER_STOCK, FEAT_HI_AIMING, FEAT_HI_RAPID_SWORD, FEAT_HI_KARMIC_STRING, FEAT_HI_FRENZY_EYES,
+    FEAT_HI_SHADOW_SHOT, FEAT_LAND_MINE, FEAT_DESPERADO, FEAT_REJECT_SWORD, FEAT_COUNTER_GUARD,
+    FEAT_PAIN_FLEE, FEAT_BODY_OF_LIGHT, FEAT_SEAL_CHAIN, FEAT_PURIFICATION_LIGHT, FEAT_CRAFTINESS,
+    FEAT_LAND_BOMB, FEAT_REJECT_BLADE, FEAT_SPELL_CHAIN, FEAT_INDOMITABLE_MIND, FEAT_DRAIN_SOUL,
+    FEAT_BACK_STAB, FEAT_ENLIGHTENED, FEAT_DARK_WHIRLPOOL, FEAT_KARMIC_PHANTOM, FEAT_RECOVERY_WAVE,
+    FEAT_SELF_DESTRUCTION, FEAT_DEFFENCE_SHOOTING, FEAT_RECOVERY, FEAT_SHADOW_ATTACK, FEAT_SUICIDAL_TENDENCIES,
+    FEAT_MISFIT, FEAT_BIG_BRAGG, FEAT_LETS_KNIFE, FEAT_SINGLE_HEART, FEAT_DOUBLE_BODY,
+    FEAT_NINE_SOUL, FEAT_THIRTEEN_EYES, FEAT_LIFE_DRAIN, FEAT_RANDOM_CURSE, FEAT_HEAL_VOICE,
     FEAT_DOUBLE_ATTACK, FEAT_PARTY_DAMAGE, FEAT_GUARD, FEAT_DEATH_CONTROL, FEAT_WIT,
     FEAT_THORN_CARE, FEAT_LIBERATING_SWORD, FEAT_ONE_SLASH, FEAT_TEN_SLASH, FEAT_HANDLED_SLASH,
     FEAT_CURSE_CARE, FEAT_MOON_SHINE, FEAT_RAPTURE, FEAT_DOOMSDAY, FEAT_HELL,
@@ -504,53 +499,52 @@ module Unlight
     FEAT_TENDER_NIGHT, FEAT_FORTUNATE_REASON, FEAT_RUD_NUM, FEAT_VON_NUM, FEAT_CHR_NUM,
     FEAT_WIL_NUM, FEAT_PRECISION_FIRE, FEAT_PURPLE_LIGHTNING, FEAT_MORTAL_STYLE, FEAT_BLOODY_HOWL,
     FEAT_CHARGED_THRUST, FEAT_SWORD_DANCE, FEAT_SWORD_AVOID,
-    FEAT_KUTUNESIRKA,FEAT_FEET_OF_HERMES,FEAT_AEGIS_WING,FEAT_CLAIOMH_SOLAIS,
-    FEAT_MUTATION,FEAT_RAMPANCY,FEAT_SACRIFICE_OF_SOUL,FEAT_SILVER_BULLET,FEAT_PUMPKIN_DROP,
-    FEAT_WANDERING_FEATHER,FEAT_SHEEP_SONG,FEAT_DREAM_OF_OVUERYA,FEAT_MARYS_SHEEP,
-    FEAT_EVIL_EYE,FEAT_BLACK_ARTS,FEAT_BLASPHEMY_CURSE,FEAT_END_OF_END,FEAT_THRONES_GATE,FEAT_GHOST_RESENTMENT,
-    FEAT_CURSE_SWORD,FEAT_RAPID_SWORD_R2,FEAT_ANGER_R,FEAT_VOLITION_DEFLECT,FEAT_SHAROW_SHOT_R,
-    FEAT_BURNING_TAIL,FEAT_QUAKE_WALK,FEAT_DRAINAGE,FEAT_SMILE,FEAT_BLUTKONTAMINA,FEAT_COLD_EYES,
-    FEAT_FEAT1,FEAT_FEAT2,FEAT_FEAT3,FEAT_FEAT4,FEAT_WEASEL,FEAT_DARK_PROFOUND,FEAT_KARMIC_DOR,FEAT_BATAFLY_MOV,
-    FEAT_BATAFLY_ATK,FEAT_BATAFLY_DEF,FEAT_BATAFLY_SLD,FEAT_GRACE_COCKTAIL,FEAT_LAND_MINE_R,FEAT_NAPALM_DEATH,
-    FEAT_SUICIDAL_FAILURE,FEAT_BIG_BRAGG_R,FEAT_LETS_KNIFE_R,FEAT_PREY,FEAT_RUMINATION,FEAT_PILUM,
-    FEAT_ROAD_OF_UNDERGROUND,FEAT_FOX_SHADOW,FEAT_FOX_SHOOT,FEAT_FOX_ZONE,FEAT_ARROW_RAIN,
-    FEAT_ATEMWENDE,FEAT_FADENSONNEN,FEAT_LICHTZWANG,FEAT_SCHNEEPART,FEAT_HIGHGATE,FEAT_DORFLOFT,FEAT_LUMINES,
-    FEAT_SUPER_HEROINE,FEAT_STAMPEDE,FEAT_DEATH_CONTROL2,FEAT_KENGI,FEAT_DOKOWO,FEAT_MIKITTA,FEAT_HONTOU,
-    FEAT_INVITED,FEAT_THROUGH_HAND,FEAT_PROF_BREATH,FEAT_SEVEN_WISH,FEAT_THIRTEEN_EYES_R,
-    FEAT_THORN_CARE_R,FEAT_LIBERATING_SWORD_R,FEAT_CURSE_SWORD_R,FEAT_FLAME_RING,
-    FEAT_PIANO,FEAT_ONA_BALL,FEAT_VIOLENT,FEAT_BALANCE_LIFE,FEAT_LIFETIME_SOUND,FEAT_COMA_WHITE,
-    FEAT_GOES_TO_DARK,FEAT_EX_COUNTER_GUARD,FEAT_EX_THIRTEEN_EYES,FEAT_EX_RAZORS_EDGE,FEAT_EX_RED_MOON,
-    FEAT_HASSEN,FEAT_HANDLED_SLASH_R,FEAT_RAKSHASA_STANCE,FEAT_OBITUARY,FEAT_SOLVENT_RAIN_R,
-    FEAT_KIRIGAKURE,FEAT_MIKAGAMI,FEAT_MUTUAL_LOVE,FEAT_MERE_SHADOW,FEAT_SCAPULIMANCY,FEAT_SOIL_GUARD,
-    FEAT_CARAPACE_SPIN,FEAT_VENDETTA,FEAT_AVENGERS,FEAT_SHARPEN_EDGE,FEAT_HACKNINE,FEAT_BLACK_MAGEIA,
-    FEAT_CORPS_DRAIN,FEAT_INVERT,FEAT_NIGHT_HAWK,FEAT_PHANTOM_BARRETT,FEAT_ONE_ACT,FEAT_FINAL_BARRETT,
-    FEAT_GRIMMDEAD,FEAT_WUNDERKAMMER,FEAT_CONSTRAINT,FEAT_RENOVATE_ATRANDOM,FEAT_BACKBEARD,
-    FEAT_SHADOW_STITCH,FEAT_MEXTLI,FEAT_RIVET_AND_SURGE,FEAT_PHANTOMAS,FEAT_DANGER_DRUG,
-    FEAT_THREE_THUNDER,FEAT_PRIME_HEAL,FEAT_FOUR_COMET,FEAT_CLUB_JUGG,FEAT_KNIFE_JUGG,
-    FEAT_BLOWING_FIRE,FEAT_BALANCE_BALL,FEAT_BAD_MILK,FEAT_MIRA_HP,FEAT_SKILL_DRAIN,FEAT_COFFIN,
-    FEAT_DARK_EYES,FEAT_CROWS_CLAW,FEAT_MOLE,FEAT_SUNSET,FEAT_VINE,FEAT_GRAPE_VINE,
-    FEAT_THUNDER_STRUCK,FEAT_WEAVE_WORLD,FEAT_COLLECTION,FEAT_RESTRICTION,FEAT_DABS,FEAT_VIBRATION,
-    FEAT_TOT,FEAT_DUCK_APPLE,FEAT_RAMPAGE,FEAT_SCRATCH_FIRE,FEAT_BLUE_RUIN,FEAT_THIRD_STEP,
-    FEAT_METAL_SHIELD,FEAT_MAGNETIC_FIELD,FEAT_AFTERGLOW,FEAT_KEEPER,FEAT_HEALING_SCHOCK,
-    FEAT_CLAYMORE,FEAT_TRAP_CHASE,FEAT_PANIC,FEAT_BULLET_COUNTER,FEAT_BEAN_STORM,
-    FEAT_JOKER, FEAT_FAMILIAR, FEAT_CROWN_CROWN, FEAT_RIDDLE_BOX,FEAT_FLUTTER_SWORD_DANCE,
-    FEAT_RITUAL_OF_BRAVERY,FEAT_HUNTING_CHEETAH,FEAT_PROBE,FEAT_TAILORING,FEAT_CUT,
-    FEAT_SEWING,FEAT_CANCELLATION,FEAT_SEIHO,FEAT_DOKKO,FEAT_NYOI,FEAT_KONGO,
-    FEAT_CARP_QUAKE,FEAT_CARP_LIGHTNING,FEAT_FIELD_LOCK,FEAT_ARREST,FEAT_QUICK_DRAW,
-    FEAT_GAZE,FEAT_MONITORING,FEAT_TIME_LAG_DRAW,FEAT_TIME_LAG_BUFF,FEAT_DAMAGE_TRANSFER,
-    FEAT_CIGARETTE,FEAT_THREE_CARD,FEAT_CARD_SEARCH,FEAT_ALL_IN_ONE,FEAT_FIRE_BIRD,FEAT_BRAMBLES,
-    FEAT_FRANKEN_TACKLE,FEAT_FRANKEN_CHARGING,FEAT_MOVING_ONE_R,FEAT_ARROGANT_ONE_R,
-    FEAT_EATING_ONE_R,FEAT_HARF_DEAD,FEAT_MACHINE_CELL,FEAT_HEAT_SEEKER_R,FEAT_DIRECTIONAL_BEAM,
-    FEAT_DELTA,FEAT_SIGMA,FEAT_STAMP,FEAT_ACCELERATION,FEAT_FOAB,FEAT_WHITE_MOON,
-    FEAT_ANGER_BACK= (1..447).to_a
-
+    FEAT_KUTUNESIRKA, FEAT_FEET_OF_HERMES, FEAT_AEGIS_WING, FEAT_CLAIOMH_SOLAIS,
+    FEAT_MUTATION, FEAT_RAMPANCY, FEAT_SACRIFICE_OF_SOUL, FEAT_SILVER_BULLET, FEAT_PUMPKIN_DROP,
+    FEAT_WANDERING_FEATHER, FEAT_SHEEP_SONG, FEAT_DREAM_OF_OVUERYA, FEAT_MARYS_SHEEP,
+    FEAT_EVIL_EYE, FEAT_BLACK_ARTS, FEAT_BLASPHEMY_CURSE, FEAT_END_OF_END, FEAT_THRONES_GATE, FEAT_GHOST_RESENTMENT,
+    FEAT_CURSE_SWORD, FEAT_RAPID_SWORD_R2, FEAT_ANGER_R, FEAT_VOLITION_DEFLECT, FEAT_SHAROW_SHOT_R,
+    FEAT_BURNING_TAIL, FEAT_QUAKE_WALK, FEAT_DRAINAGE, FEAT_SMILE, FEAT_BLUTKONTAMINA, FEAT_COLD_EYES,
+    FEAT_FEAT1, FEAT_FEAT2, FEAT_FEAT3, FEAT_FEAT4, FEAT_WEASEL, FEAT_DARK_PROFOUND, FEAT_KARMIC_DOR, FEAT_BATAFLY_MOV,
+    FEAT_BATAFLY_ATK, FEAT_BATAFLY_DEF, FEAT_BATAFLY_SLD, FEAT_GRACE_COCKTAIL, FEAT_LAND_MINE_R, FEAT_NAPALM_DEATH,
+    FEAT_SUICIDAL_FAILURE, FEAT_BIG_BRAGG_R, FEAT_LETS_KNIFE_R, FEAT_PREY, FEAT_RUMINATION, FEAT_PILUM,
+    FEAT_ROAD_OF_UNDERGROUND, FEAT_FOX_SHADOW, FEAT_FOX_SHOOT, FEAT_FOX_ZONE, FEAT_ARROW_RAIN,
+    FEAT_ATEMWENDE, FEAT_FADENSONNEN, FEAT_LICHTZWANG, FEAT_SCHNEEPART, FEAT_HIGHGATE, FEAT_DORFLOFT, FEAT_LUMINES,
+    FEAT_SUPER_HEROINE, FEAT_STAMPEDE, FEAT_DEATH_CONTROL2, FEAT_KENGI, FEAT_DOKOWO, FEAT_MIKITTA, FEAT_HONTOU,
+    FEAT_INVITED, FEAT_THROUGH_HAND, FEAT_PROF_BREATH, FEAT_SEVEN_WISH, FEAT_THIRTEEN_EYES_R,
+    FEAT_THORN_CARE_R, FEAT_LIBERATING_SWORD_R, FEAT_CURSE_SWORD_R, FEAT_FLAME_RING,
+    FEAT_PIANO, FEAT_ONA_BALL, FEAT_VIOLENT, FEAT_BALANCE_LIFE, FEAT_LIFETIME_SOUND, FEAT_COMA_WHITE,
+    FEAT_GOES_TO_DARK, FEAT_EX_COUNTER_GUARD, FEAT_EX_THIRTEEN_EYES, FEAT_EX_RAZORS_EDGE, FEAT_EX_RED_MOON,
+    FEAT_HASSEN, FEAT_HANDLED_SLASH_R, FEAT_RAKSHASA_STANCE, FEAT_OBITUARY, FEAT_SOLVENT_RAIN_R,
+    FEAT_KIRIGAKURE, FEAT_MIKAGAMI, FEAT_MUTUAL_LOVE, FEAT_MERE_SHADOW, FEAT_SCAPULIMANCY, FEAT_SOIL_GUARD,
+    FEAT_CARAPACE_SPIN, FEAT_VENDETTA, FEAT_AVENGERS, FEAT_SHARPEN_EDGE, FEAT_HACKNINE, FEAT_BLACK_MAGEIA,
+    FEAT_CORPS_DRAIN, FEAT_INVERT, FEAT_NIGHT_HAWK, FEAT_PHANTOM_BARRETT, FEAT_ONE_ACT, FEAT_FINAL_BARRETT,
+    FEAT_GRIMMDEAD, FEAT_WUNDERKAMMER, FEAT_CONSTRAINT, FEAT_RENOVATE_ATRANDOM, FEAT_BACKBEARD,
+    FEAT_SHADOW_STITCH, FEAT_MEXTLI, FEAT_RIVET_AND_SURGE, FEAT_PHANTOMAS, FEAT_DANGER_DRUG,
+    FEAT_THREE_THUNDER, FEAT_PRIME_HEAL, FEAT_FOUR_COMET, FEAT_CLUB_JUGG, FEAT_KNIFE_JUGG,
+    FEAT_BLOWING_FIRE, FEAT_BALANCE_BALL, FEAT_BAD_MILK, FEAT_MIRA_HP, FEAT_SKILL_DRAIN, FEAT_COFFIN,
+    FEAT_DARK_EYES, FEAT_CROWS_CLAW, FEAT_MOLE, FEAT_SUNSET, FEAT_VINE, FEAT_GRAPE_VINE,
+    FEAT_THUNDER_STRUCK, FEAT_WEAVE_WORLD, FEAT_COLLECTION, FEAT_RESTRICTION, FEAT_DABS, FEAT_VIBRATION,
+    FEAT_TOT, FEAT_DUCK_APPLE, FEAT_RAMPAGE, FEAT_SCRATCH_FIRE, FEAT_BLUE_RUIN, FEAT_THIRD_STEP,
+    FEAT_METAL_SHIELD, FEAT_MAGNETIC_FIELD, FEAT_AFTERGLOW, FEAT_KEEPER, FEAT_HEALING_SCHOCK,
+    FEAT_CLAYMORE, FEAT_TRAP_CHASE, FEAT_PANIC, FEAT_BULLET_COUNTER, FEAT_BEAN_STORM,
+    FEAT_JOKER, FEAT_FAMILIAR, FEAT_CROWN_CROWN, FEAT_RIDDLE_BOX, FEAT_FLUTTER_SWORD_DANCE,
+    FEAT_RITUAL_OF_BRAVERY, FEAT_HUNTING_CHEETAH, FEAT_PROBE, FEAT_TAILORING, FEAT_CUT,
+    FEAT_SEWING, FEAT_CANCELLATION, FEAT_SEIHO, FEAT_DOKKO, FEAT_NYOI, FEAT_KONGO,
+    FEAT_CARP_QUAKE, FEAT_CARP_LIGHTNING, FEAT_FIELD_LOCK, FEAT_ARREST, FEAT_QUICK_DRAW,
+    FEAT_GAZE, FEAT_MONITORING, FEAT_TIME_LAG_DRAW, FEAT_TIME_LAG_BUFF, FEAT_DAMAGE_TRANSFER,
+    FEAT_CIGARETTE, FEAT_THREE_CARD, FEAT_CARD_SEARCH, FEAT_ALL_IN_ONE, FEAT_FIRE_BIRD, FEAT_BRAMBLES,
+    FEAT_FRANKEN_TACKLE, FEAT_FRANKEN_CHARGING, FEAT_MOVING_ONE_R, FEAT_ARROGANT_ONE_R,
+    FEAT_EATING_ONE_R, FEAT_HARF_DEAD, FEAT_MACHINE_CELL, FEAT_HEAT_SEEKER_R, FEAT_DIRECTIONAL_BEAM,
+    FEAT_DELTA, FEAT_SIGMA, FEAT_STAMP, FEAT_ACCELERATION, FEAT_FOAB, FEAT_WHITE_MOON,
+    FEAT_ANGER_BACK = (1..447).to_a
 
     # 13の目シリーズ
-    THIRTEEN_EYES=[FEAT_THIRTEEN_EYES,FEAT_EX_THIRTEEN_EYES,FEAT_THIRTEEN_EYES_R]
+    THIRTEEN_EYES = [FEAT_THIRTEEN_EYES, FEAT_EX_THIRTEEN_EYES, FEAT_THIRTEEN_EYES_R]
 
     # 技の属性の定数
-    ATTRIBUTE_DEATH,ATTRIBUTE_HALF,ATTRIBUTE_CONSTANT,ATTRIBUTE_DYING,ATTRIBUTE_ZAKURO,
-    ATTRIBUTE_HP_EXCHANGE,ATTRIBUTE_DIFF,ATTRIBUTE_SELF_INJURY,ATTRIBUTE_REFLECTION,ATTRIBUTE_COUNTER,
+    ATTRIBUTE_DEATH, ATTRIBUTE_HALF, ATTRIBUTE_CONSTANT, ATTRIBUTE_DYING, ATTRIBUTE_ZAKURO,
+    ATTRIBUTE_HP_EXCHANGE, ATTRIBUTE_DIFF, ATTRIBUTE_SELF_INJURY, ATTRIBUTE_REFLECTION, ATTRIBUTE_COUNTER,
     ATTRIBUTE_SPECIAL_COUNTER = (1..11).to_a
 
     # ダメージイベント用。ダメージの由来を示すフラグ。(由来が対戦相手:false, それ以外:true)。省略可。デフォルト値:false
@@ -570,9 +564,9 @@ module Unlight
     AI_RANGE_NOTHING = []
 
     # カメのID
-    TURTLES_ID = (30036 .. 30039).to_a.concat((30119 .. 30121).to_a)
+    TURTLES_ID = (30036..30039).to_a.concat((30119..30121).to_a)
     # 巨人岩石
-    ROCK_SPIRITS_ID = (30125 .. 30128).to_a
+    ROCK_SPIRITS_ID = (30125..30128).to_a
 
     # ノイクローム
     NOICHROME_ID = 57
@@ -588,12 +582,12 @@ module Unlight
       super
       share_context(c)
       # 必殺技を登録
-      @feats = { }
+      @feats = {}
       @cc.feat_inventories.each do |f|
         @feats[f.feat.feat_no] = f.feat.id
       end
       # パッシブを登録
-      @passives = { }
+      @passives = {}
       @cc.passive_skill_inventories.each do |s|
         @passives[s.passive_skill.passive_skill_no] = s.passive_skill.id
       end
@@ -604,17 +598,17 @@ module Unlight
           @passives[pno] = p if !@passives.key?(pno)
         end
       end
-      @feats_enable = { }
-      @used_feats = { }
-      @passives_enable = { }
+      @feats_enable = {}
+      @used_feats = {}
+      @passives_enable = {}
     end
 
     def init_feats_enable
-      @feats_enable = { }
+      @feats_enable = {}
     end
 
     def init_passives_enable
-      @passives_enable = { }
+      @passives_enable = {}
     end
 
     def reset_feats_enable
@@ -630,12 +624,11 @@ module Unlight
     end
 
     def finalize_event
-      @cc =nil
+      @cc = nil
     end
 
     # 複数の要素から影響を受ける特殊ダメージ量を評価する
-    def attribute_damage(attribute, target, d=0)
-
+    def attribute_damage(attribute, target, d = 0)
       ret = 0
 
       # 完全無効化の類
@@ -644,7 +637,7 @@ module Unlight
         when ATTRIBUTE_DEATH, ATTRIBUTE_DIFF
           # DEATHは基本的に無効化できない, DIFFはダイスにかかる
         else
-          set_state(target.current_chara_card.special_status[SPECIAL_STATE_SHARPEN_EDGE], 1, target.current_chara_card.special_status[SPECIAL_STATE_SHARPEN_EDGE][1]-1)
+          set_state(target.current_chara_card.special_status[SPECIAL_STATE_SHARPEN_EDGE], 1, target.current_chara_card.special_status[SPECIAL_STATE_SHARPEN_EDGE][1] - 1)
           target.current_chara_card.finish_sharpen_edge_feat if @cc.special_status[SPECIAL_STATE_SHARPEN_EDGE][1] == 0
           target.duel_message_event(DUEL_MSGDLG_AVOID_DAMAGE, d)
           return ret
@@ -666,10 +659,10 @@ module Unlight
       when ATTRIBUTE_HALF
         if instant_kill_guard?(target)
           owner.attribute_regist_message_event(:ATTRIBUTE_REGIST_MESSAGE_HALF)
-          ret = (target.instant_kill_damage*0.5).to_i
+          ret = (target.instant_kill_damage * 0.5).to_i
 
         else
-          ret = (target.hit_point/2).to_i
+          ret = (target.hit_point / 2).to_i
         end
 
         # 固定値ダメージ  特定のスキルで軽減・無効化する。
@@ -683,7 +676,7 @@ module Unlight
           use_volition_deflect_feat_damage(d)
           ret = 0
         elsif (target.current_chara_card.special_status[SPECIAL_STATE_CONST_COUNTER][1] > 0 && target.current_chara_card.special_status[SPECIAL_STATE_CONST_COUNTER][0] >= d)
-          owner.damaged_event(attribute_damage(ATTRIBUTE_REFLECTION,owner,d))
+          owner.damaged_event(attribute_damage(ATTRIBUTE_REFLECTION, owner, d))
           ret = 0
         elsif target.current_chara_card.status[STATE_UNDEAD2][1] > 0
           ret = 0
@@ -707,7 +700,7 @@ module Unlight
         if d == 99
           ret = instant_kill_guard?(target) ? d : d - target.hit_point
         else
-          ret = instant_kill_guard?(target) ? target.instant_kill_damage*(8 - d) : target.hit_point - d
+          ret = instant_kill_guard?(target) ? target.instant_kill_damage * (8 - d) : target.hit_point - d
         end
 
         # HP交換  無効化される場合、使用者のダメージ量に等しいダメージを相手に与える。
@@ -742,21 +735,21 @@ module Unlight
         # 反射によるダメージ
       when ATTRIBUTE_REFLECTION
         dmg = target.current_chara_card.status[STATE_UNDEAD2][1] > 0 ? 0 : d
-        dmg = target.current_chara_card.is_senkou? ? dmg*7 : dmg
-        dmg = target.current_chara_card.in_carapace? ? dmg*5 : dmg
+        dmg = target.current_chara_card.is_senkou? ? dmg * 7 : dmg
+        dmg = target.current_chara_card.in_carapace? ? dmg * 5 : dmg
         ret = dmg
 
         # カウンターによるダメージ
       when ATTRIBUTE_COUNTER
         dmg = target.current_chara_card.status[STATE_UNDEAD2][1] > 0 ? 0 : d
-        dmg = target.current_chara_card.is_senkou? ? dmg*7 : dmg
-        dmg = target.current_chara_card.in_carapace? ? dmg*5 : dmg
+        dmg = target.current_chara_card.is_senkou? ? dmg * 7 : dmg
+        dmg = target.current_chara_card.in_carapace? ? dmg * 5 : dmg
         ret = dmg
 
         # 割合ダメージ、即死系のカウンター
       when ATTRIBUTE_SPECIAL_COUNTER
-        dmg = target.current_chara_card.is_senkou? ? d*7 : d
-        dmg = target.current_chara_card.in_carapace? ? dmg*5 : dmg
+        dmg = target.current_chara_card.is_senkou? ? d * 7 : d
+        dmg = target.current_chara_card.in_carapace? ? dmg * 5 : dmg
         ret = dmg
 
       end
@@ -771,11 +764,10 @@ module Unlight
       end
 
       return ret
-
     end
 
     # パーティダメージ量を評価する
-    def attribute_party_damage(target, indexies, damage, attribute=ATTRIBUTE_CONSTANT, type=TARGET_TYPE_SINGLE, attack_times=1, is_not_hostile=false)
+    def attribute_party_damage(target, indexies, damage, attribute = ATTRIBUTE_CONSTANT, type = TARGET_TYPE_SINGLE, attack_times = 1, is_not_hostile = false)
       idxs = indexies.kind_of?(Array) ? indexies : [indexies]
 
       return if idxs.size == 0
@@ -811,15 +803,13 @@ module Unlight
           hps << [i, target.hit_points[i]]
         end
         attack_times.times do
-          damage_to_index(target, hps.sort{ |a,b| a[1] <=> b[1] }[0][0], damage, attribute, type, is_not_hostile)
+          damage_to_index(target, hps.sort { |a, b| a[1] <=> b[1] }[0][0], damage, attribute, type, is_not_hostile)
         end
       end
-
     end
 
     # 指定したIndexへダメージを与える
     def damage_to_index(target, index, damage, attribute, type, is_not_hostile)
-
       # 割り込み攻撃回避動作
       case type
       when TARGET_TYPE_ALL
@@ -836,7 +826,7 @@ module Unlight
 
       # 攻撃実行
       if index == target.current_chara_card_no
-        target.damaged_event(attribute_damage(attribute,foe,damage), is_not_hostile)
+        target.damaged_event(attribute_damage(attribute, foe, damage), is_not_hostile)
       else
         unless target.chara_cards[index].status[STATE_UNDEAD2][1] > 0
           target.party_damaged_event(index, damage, is_not_hostile)
@@ -845,7 +835,7 @@ module Unlight
     end
 
     def get_last_index(target)
-      target.hit_points.size-1
+      target.hit_points.size - 1
     end
 
     # ===========================================
@@ -865,7 +855,7 @@ module Unlight
     # 追加ドローを発動終了する
     def finish_additional_draw_passive
       if @passives_enable[PASSIVE_ADDITIONAL_DRAW]
-        owner.special_dealed_event(duel.deck.draw_cards_event(PassiveSkill.pow(@passives[PASSIVE_ADDITIONAL_DRAW])).each{ |c| owner.dealed_event(c)})
+        owner.special_dealed_event(duel.deck.draw_cards_event(PassiveSkill.pow(@passives[PASSIVE_ADDITIONAL_DRAW])).each { |c| owner.dealed_event(c) })
         off_passive_event(true, PASSIVE_ADDITIONAL_DRAW)
       end
       @passives_enable[PASSIVE_ADDITIONAL_DRAW] = false
@@ -934,7 +924,7 @@ module Unlight
         end
 
         if foe.cards.size > 0 && drain_cond
-          tmp_cards = foe.cards.dup.sort_by{rand}
+          tmp_cards = foe.cards.dup.sort_by { rand }
           tmp_count = 0
           tmp_cards.each do |c|
             if c.u_type == ActionCard::SPC || c.b_type == ActionCard::SPC
@@ -978,7 +968,6 @@ module Unlight
     end
     regist_event FinishSealingAttackPassiveEvent
 
-
     # ------------------
     # 千古不朽
     # ------------------
@@ -1014,7 +1003,7 @@ module Unlight
     def check_rage_against_passive
       # 相手キャラクターに自分へのダメージを与えたキャラがいる
       if @cc.using && duel.profound_id
-        chara_set =  ProfoundLog::get_chara_ranking_no_set(duel.profound_id, PassiveSkill.pow(@passives[PASSIVE_RAGE_AGAINST]))
+        chara_set = ProfoundLog::get_chara_ranking_no_set(duel.profound_id, PassiveSkill.pow(@passives[PASSIVE_RAGE_AGAINST]))
         if chara_set.include?(foe.current_chara_card.charactor_id)
           on_passive_event(true, PASSIVE_RAGE_AGAINST) unless @passives_enable[PASSIVE_RAGE_AGAINST]
           @passives_enable[PASSIVE_RAGE_AGAINST] = true
@@ -1031,8 +1020,6 @@ module Unlight
     regist_event CheckRageAgainstPassiveCharaChangeEvent
     regist_event CheckRageAgainstPassiveDeadChangeEvent
 
-
-
     # レイジを発動チェック。（最初のターンだけ1回だけチェックする。毎ターンしないのは重いから）
     def check_rage_against_only_first_turn_passive
       if duel.turn == 0
@@ -1040,7 +1027,6 @@ module Unlight
       end
     end
     regist_event CheckRageAgainstPassiveStartEvent
-
 
     # レイジ発動。攻撃時に基本攻撃力を二倍にする
     def finish_rage_against_passive
@@ -1086,7 +1072,7 @@ module Unlight
 
     def use_creator_passive
       if @passives_enable[PASSIVE_CREATOR]
-        transform_of_fire if @cc.owner.hit_point <=0 && owner.chara_cards[owner.current_chara_card_no].id != 20011
+        transform_of_fire if @cc.owner.hit_point <= 0 && owner.chara_cards[owner.current_chara_card_no].id != 20011
       end
     end
     regist_event UseCreatorPassiveDamageEvent
@@ -1113,7 +1099,7 @@ module Unlight
     def use_bounce_back_passive_damage
       if @passives_enable[PASSIVE_BOUNCE_BACK]
         if duel.tmp_damage > 0
-          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(duel.tmp_damage+PassiveSkill.pow(@passives[PASSIVE_BOUNCE_BACK])).each{ |c| @cc.owner.dealed_event(c)})
+          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(duel.tmp_damage + PassiveSkill.pow(@passives[PASSIVE_BOUNCE_BACK])).each { |c| @cc.owner.dealed_event(c) })
         end
       end
     end
@@ -1180,7 +1166,7 @@ module Unlight
     def check_harden_passive
       if @cc.using
         min = Time.now.min
-        if (10 .. 19).include?(min) || (40 .. 49).include?(min)
+        if (10..19).include?(min) || (40..49).include?(min)
           force_on_passive(PASSIVE_HARDEN)
         end
       end
@@ -1194,7 +1180,7 @@ module Unlight
         if ats.include?("special") && !ats.include?("physical")
           duel.tmp_damage *= 2
         elsif !ats.include?("special")
-          duel.tmp_damage = (duel.tmp_damage/4).to_i
+          duel.tmp_damage = (duel.tmp_damage / 4).to_i
         end
       end
     end
@@ -1218,7 +1204,7 @@ module Unlight
     def check_absorp_passive
       if @cc.using
         min = Time.now.min
-        if (20 .. 29).include?(min) || (50 .. 59).include?(min)
+        if (20..29).include?(min) || (50..59).include?(min)
           unless @passives_enable[PASSIVE_HARDEN]
             force_on_passive(PASSIVE_ABSORP)
           end
@@ -1298,7 +1284,7 @@ module Unlight
       spc_num = owner.get_type_table_count_both_faces(ActionCard::SPC) + owner.get_type_cards_count_both_faces(ActionCard::SPC)
       r = rand(100)
       jump_r = (spc_num * 15) + 5 - @jump_passive_reduce
-      r_cap = 100 - @jump_passive_reduce*2
+      r_cap = 100 - @jump_passive_reduce * 2
       jump_r = r_cap if jump_r > r_cap
       if @cc.using && !owner.initiative && r < jump_r && check_passive(PASSIVE_JUMP)
         @passives_enable[PASSIVE_JUMP] = true
@@ -1315,9 +1301,9 @@ module Unlight
         on_passive_event(true, PASSIVE_JUMP)
         off_transform_sequence(true)
         jump_passive_restore
-        owner.change_need=(false)
-        owner.change_done=(true)
-        owner.cards_max=(@jump_passive_pre_cards_max) if owner.cards_max != @jump_passive_pre_cards_max
+        owner.change_need = (false)
+        owner.change_done = (true)
+        owner.cards_max = (@jump_passive_pre_cards_max) if owner.cards_max != @jump_passive_pre_cards_max
         @jump_passive_reduce += 15
         jump_passive_card_reset
       end
@@ -1362,7 +1348,7 @@ module Unlight
 
     # 発動時、カードを半分破棄、再度引く
     def jump_passive_card_reset
-      ex_num = ((owner.cards.size+1)/2).to_i
+      ex_num = ((owner.cards.size + 1) / 2).to_i
       # 破棄候補のカード
       aca = []
       # カードをシャッフルする
@@ -1376,7 +1362,7 @@ module Unlight
           discard(owner, aca[a])
         end
       end
-      owner.special_dealed_event(duel.deck.draw_cards_event(ex_num).each{ |c| owner.dealed_event(c)}) if owner.cards.size != before_cards_num
+      owner.special_dealed_event(duel.deck.draw_cards_event(ex_num).each { |c| owner.dealed_event(c) }) if owner.cards.size != before_cards_num
     end
 
     # ------------------
@@ -1411,7 +1397,6 @@ module Unlight
     regist_event FinishProtectionAimPassiveEvent
     regist_event FinishProtectionAimPassiveDeadCharaChangeEvent
 
-
     regist_event FinishProtectionAimPassiveEvent
     regist_event FinishProtectionAimPassiveDeadCharaChangeEvent
     # ------------------
@@ -1425,11 +1410,12 @@ module Unlight
         mistake_r = 100
         if cnt > 0
           mistake_r = @cc.owner.hit_point * 2 / @cc.owner.current_hit_point * 100
-          r_cap = 100 - (@passive_mistake_count*30)
+          r_cap = 100 - (@passive_mistake_count * 30)
           mistake_r = r_cap if mistake_r > r_cap
         end
         r = rand(100)
         return if r >= mistake_r || !check_passive(PASSIVE_MISTAKE)
+
         @passives_enable[PASSIVE_MISTAKE] = true
       end
     end
@@ -1478,13 +1464,12 @@ module Unlight
     end
     regist_event CheckStatusResistancePassiveEvent
 
-
     # ------------------
     # 潜行する災厄
     # ------------------
     # 発動状態をONにする HP 3/5 ~ 2/5 まで
     def check_senkou_passive
-      if @cc.using && owner.current_hit_point_max*3/5 >= owner.hit_point && owner.hit_point > owner.current_hit_point_max*2/5
+      if @cc.using && owner.current_hit_point_max * 3 / 5 >= owner.hit_point && owner.hit_point > owner.current_hit_point_max * 2 / 5
         force_on_passive(PASSIVE_SENKOU)
       end
     end
@@ -1517,7 +1502,7 @@ module Unlight
     # ------------------
     # 発動状態をONにする HP 2/5 ~ 0まで
     def check_hate_passive
-      if @cc.using && ((PassiveSkill.pow(@passives[PASSIVE_HATE]) == 7 && owner.current_hit_point_max*2/5 >= owner.hit_point) || (PassiveSkill.pow(@passives[PASSIVE_HATE]) == 5 && owner.current_hit_point_max/2 >= owner.hit_point && foe.current_hit_point_max/2 >= foe.hit_point))
+      if @cc.using && ((PassiveSkill.pow(@passives[PASSIVE_HATE]) == 7 && owner.current_hit_point_max * 2 / 5 >= owner.hit_point) || (PassiveSkill.pow(@passives[PASSIVE_HATE]) == 5 && owner.current_hit_point_max / 2 >= owner.hit_point && foe.current_hit_point_max / 2 >= foe.hit_point))
         force_on_passive(PASSIVE_HATE)
       end
     end
@@ -1534,7 +1519,7 @@ module Unlight
     # 発動する
     def use_hate_passive_damage
       if @passives_enable[PASSIVE_HATE]
-        if @cc&&@cc.index == owner.current_chara_card_no && !owner.initiative
+        if @cc && @cc.index == owner.current_chara_card_no && !owner.initiative
           duel.tmp_damage = duel.tmp_damage * 2
         end
       end
@@ -1703,7 +1688,7 @@ module Unlight
     # ------------------
     # 発動状態をONにする HP 2/5 ~ 0まで
     def check_night_fog_passive
-      if @cc.using && owner.current_hit_point_max/2 >= owner.hit_point
+      if @cc.using && owner.current_hit_point_max / 2 >= owner.hit_point
         force_on_passive(PASSIVE_NIGHT_FOG)
         owner.magnification_hurt_const_damage = 2
       end
@@ -1721,7 +1706,7 @@ module Unlight
     # 発動する
     def use_night_fog_passive_damage
       if @passives_enable[PASSIVE_NIGHT_FOG]
-        if @cc&&@cc.index == owner.current_chara_card_no && !owner.initiative
+        if @cc && @cc.index == owner.current_chara_card_no && !owner.initiative
           if duel.tmp_damage > PassiveSkill.pow(@passives[PASSIVE_NIGHT_FOG])
             duel.tmp_damage = PassiveSkill.pow(@passives[PASSIVE_NIGHT_FOG])
           end
@@ -1757,7 +1742,7 @@ module Unlight
       if @passives_enable[PASSIVE_DOUBLE_BODDY] && !owner.initiative
         if duel.tmp_damage > 0
 
-          attribute_party_damage(foe, get_hps(foe), ((duel.tmp_damage)/2).to_i, ATTRIBUTE_REFLECTION, TARGET_TYPE_RANDOM)
+          attribute_party_damage(foe, get_hps(foe), ((duel.tmp_damage) / 2).to_i, ATTRIBUTE_REFLECTION, TARGET_TYPE_RANDOM)
 
         end
       end
@@ -1800,21 +1785,20 @@ module Unlight
             case r
             when 0..rate[0]
               card = MOVE_EVENT_CARD5
-            when rate[0]+1 .. rate[1]
+            when rate[0] + 1..rate[1]
               card = MOVE_EVENT_CARD4
-            when rate[1]+1 .. rate[2]
+            when rate[1] + 1..rate[2]
               card = MOVE_EVENT_CARD3
-            when rate[2]+1 .. rate[3]
+            when rate[2] + 1..rate[3]
               card = MOVE_EVENT_CARD2
             else
               card = MOVE_EVENT_CARD1
             end
 
-            ret = duel.get_event_deck(owner).replace_event_cards(card,1,true)
+            ret = duel.get_event_deck(owner).replace_event_cards(card, 1, true)
             if ret > 0
-              @cc.owner.special_event_card_dealed_event(duel.get_event_deck(owner).draw_cards_event(1).each{ |c| @cc.owner.dealed_event(c)})
+              @cc.owner.special_event_card_dealed_event(duel.get_event_deck(owner).draw_cards_event(1).each { |c| @cc.owner.dealed_event(c) })
             end
-
           end
 
         end
@@ -1913,7 +1897,6 @@ module Unlight
                     foe.current_chara_card.status[STATE_MOVE_DOWN][1]) if buffed
     end
 
-
     # ------------------
     # 白晄
     # ------------------
@@ -1929,7 +1912,7 @@ module Unlight
     def finish_white_light_passive
       if @passives_enable[PASSIVE_WHITE_LIGHT]
         num = foe.current_chara_card.hp == foe.hit_point ? 1 + PassiveSkill.pow(@passives[PASSIVE_WHITE_LIGHT]) : 1
-        owner.special_dealed_event(duel.deck.draw_cards_event(num).each{ |c| owner.dealed_event(c)})
+        owner.special_dealed_event(duel.deck.draw_cards_event(num).each { |c| owner.dealed_event(c) })
         off_passive_event(true, PASSIVE_WHITE_LIGHT)
       end
       @passives_enable[PASSIVE_WHITE_LIGHT] = false
@@ -1982,7 +1965,7 @@ module Unlight
     # ------------------
     # 発動状態をONにする HP 1/3 ~ 0まで
     def check_carapace_passive
-      if @cc.using && owner.current_hit_point_max/3 >= owner.hit_point
+      if @cc.using && owner.current_hit_point_max / 3 >= owner.hit_point
         force_on_passive(PASSIVE_CARAPACE)
       end
     end
@@ -2085,15 +2068,15 @@ module Unlight
 
     def set_all_resist
       if @cc.using && @cc.status
-        @cc.status.each_with_index do |s,i|
+        @cc.status.each_with_index do |s, i|
           s[2] = 100 unless i == STATE_CONTROL
         end
       end
     end
 
     def crear_all_resist
-      if @cc.using &&  @cc.status
-        @cc.status.each_with_index do |s,i|
+      if @cc.using && @cc.status
+        @cc.status.each_with_index do |s, i|
           s[2] = 0 unless i == STATE_CONTROL
         end
       end
@@ -2152,7 +2135,7 @@ module Unlight
     # ------------------
     # 収穫を発動可能状態にする
     def check_harvest_passive
-      if @cc.using && owner.current_hit_point_max/2 >= owner.hit_point
+      if @cc.using && owner.current_hit_point_max / 2 >= owner.hit_point
         check_and_on_passive(PASSIVE_HARVEST)
       end
     end
@@ -2163,12 +2146,12 @@ module Unlight
       if @passives_enable[PASSIVE_HARVEST]
         dealed_cards = []
         num = PassiveSkill.pow(@passives[PASSIVE_HARVEST])
-        owner.special_dealed_event(duel.deck.draw_cards_event(num).each{ |c|
+        owner.special_dealed_event(duel.deck.draw_cards_event(num).each { |c|
                                      dealed_cards << c
                                      owner.dealed_event(c)
                                    })
         off_passive_event(true, PASSIVE_HARVEST)
-        dealed_cards.each{ |c|
+        dealed_cards.each { |c|
           if c.u_type != ActionCard::ARW && c.b_type != ActionCard::ARW
             foe.current_chara_card.steal_deal(c)
           end
@@ -2232,10 +2215,10 @@ module Unlight
         end
         PassiveSkill.pow(@passives[PASSIVE_MOON_SHINE]).times do |a|
           if aca[a]
-            dmg+=discard(foe, aca[a])
+            dmg += discard(foe, aca[a])
           end
         end
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,dmg)) if dmg > 0
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg)) if dmg > 0
         off_passive_event(true, PASSIVE_MOON_SHINE)
       end
       @passives_enable[PASSIVE_MOON_SHINE] = false
@@ -2271,7 +2254,7 @@ module Unlight
         end
 
         if new_card_count > 0
-          set_state(@cc.status[STATE_ATK_UP], ((new_card_count+1)/2).to_i, 1);
+          set_state(@cc.status[STATE_ATK_UP], ((new_card_count + 1) / 2).to_i, 1);
           on_buff_event(true, owner.current_chara_card_no, STATE_ATK_UP, @cc.status[STATE_ATK_UP][0], @cc.status[STATE_ATK_UP][1])
         end
         off_passive_event(true, PASSIVE_FERTILITY)
@@ -2300,13 +2283,13 @@ module Unlight
     def check_awcs_passive
       if @cc.using
         if @awcs_stack.nil?
-          @awcs = [2,3]
+          @awcs = [2, 3]
           @awcs_stack = 0
         end
         @awcs_stack += 1
         force_on_passive(PASSIVE_AWCS)
         if rand(11 - @awcs_stack) < 3
-          @awcs = @awcs == [2,3] ? [1] : [2,3]
+          @awcs = @awcs == [2, 3] ? [1] : [2, 3]
           @awcs_stack = 0
 
           if @awcs == [1]
@@ -2324,7 +2307,7 @@ module Unlight
     # 発動する
     def use_awcs_passive_damage
       if @passives_enable[PASSIVE_AWCS]
-        if @cc&&@cc.index == owner.current_chara_card_no && !owner.initiative
+        if @cc && @cc.index == owner.current_chara_card_no && !owner.initiative
           if !@awcs.include?(owner.distance)
             duel.tmp_damage = duel.tmp_damage * 2
           end
@@ -2368,7 +2351,7 @@ module Unlight
     # 発動する
     def use_lonsbrough_event_passive_damage
       if @passives_enable[PASSIVE_LONSBROUGH_EVENT]
-        if @cc&&@cc.index == owner.current_chara_card_no && !owner.initiative
+        if @cc && @cc.index == owner.current_chara_card_no && !owner.initiative
           duel.tmp_damage = (duel.tmp_damage * 1.5).ceil
         end
       end
@@ -2438,7 +2421,7 @@ module Unlight
 
     def gen_multipler_num(pow)
       str = pow.to_s
-      n = str[str.size-1].to_i
+      n = str[str.size - 1].to_i
       n == 1 ? 1.5 : n
     end
 
@@ -2537,7 +2520,7 @@ module Unlight
       if @passives_enable[PASSIVE_COOLY] && !owner.initiative
         owner.battle_table = []
         @passive_cooly_card_list.shuffle.each do |c|
-          if (!duel.deck.exist?(c) && !foe.cards.include?(c) && !owner.cards.include?(c))  # 山札・手札になければ引く
+          if (!duel.deck.exist?(c) && !foe.cards.include?(c) && !owner.cards.include?(c)) # 山札・手札になければ引く
             owner.grave_dealed_event([c])
             break
           end
@@ -2546,7 +2529,6 @@ module Unlight
       end
     end
     regist_event UseCoolyPassiveDefenseEvent
-
 
     def init_cooly
       @passive_cooly_card_list = []
@@ -2596,7 +2578,7 @@ module Unlight
       if @passives_enable[PASSIVE_BURNING_EMBERS] && owner.initiative
         owner.battle_table = []
         @passive_burning_embers_card_list.shuffle.each do |c|
-          if (!duel.deck.exist?(c) && !foe.cards.include?(c) && !owner.cards.include?(c))  # 山札・手札になければ引く
+          if (!duel.deck.exist?(c) && !foe.cards.include?(c) && !owner.cards.include?(c)) # 山札・手札になければ引く
             owner.grave_dealed_event([c])
             break
           end
@@ -2606,7 +2588,6 @@ module Unlight
     end
     regist_event UseBurningEmbersPassiveDefenseEvent
     regist_event UseBurningEmbersPassiveDefenseDetCharaChangeEvent
-
 
     def init_burning_embers
       @passive_burning_embers_card_list = []
@@ -2718,7 +2699,7 @@ module Unlight
     # ------------------
     # 発動状態をONにする
     def check_servo_skull_passive
-      if @cc.using && owner.initiative && owner.current_hit_point_max/2 <= owner.hit_point
+      if @cc.using && owner.initiative && owner.current_hit_point_max / 2 <= owner.hit_point
         force_on_passive(PASSIVE_SERVO_SKULL)
       else
         force_off_passive(PASSIVE_SERVO_SKULL)
@@ -2751,7 +2732,7 @@ module Unlight
     # ------------------
     # 発動状態をONにする
     def check_ev201612_passive
-      if @cc.using && owner.initiative  && foe.current_chara_card.kind == CC_KIND_PROFOUND_BOSS
+      if @cc.using && owner.initiative && foe.current_chara_card.kind == CC_KIND_PROFOUND_BOSS
         force_on_passive(PASSIVE_EV201612)
       else
         force_off_passive(PASSIVE_EV201612)
@@ -2803,7 +2784,7 @@ module Unlight
     # 発動終了する
     def finish_high_protection_passive
       if @passives_enable[PASSIVE_HIGH_PROTECTION] && @high_protection_def_card_point > 0
-        set_state(@cc.status[STATE_DEF_DOWN], @high_protection_def_card_point*2, 2)
+        set_state(@cc.status[STATE_DEF_DOWN], @high_protection_def_card_point * 2, 2)
         on_buff_event(true, owner.current_chara_card_no, STATE_DEF_DOWN, @cc.status[STATE_DEF_DOWN][0], @cc.status[STATE_DEF_DOWN][1])
       end
       off_passive_event(true, PASSIVE_HIGH_PROTECTION)
@@ -2811,7 +2792,6 @@ module Unlight
     end
     regist_event FinishHighProtectionPassiveEvent
     regist_event FinishHighProtectionPassiveDeadCharaChangeEvent
-
 
     # ------------------
     # パペットマスター
@@ -2833,12 +2813,14 @@ module Unlight
         # 相手の手札を奪う
         PassiveSkill.pow(@passives[PASSIVE_PUPPET_MASTER]).times do
           break if foe.cards.size == 0
+
           steal_deal(foe.cards[rand(foe.cards.size)])
         end
 
         # 相手の使用カードを奪う
         PassiveSkill.pow(@passives[PASSIVE_PUPPET_MASTER]).times do
           return if foe.battle_table.size == 0
+
           @cc.owner.grave_dealed_event([foe.battle_table.delete_at(rand(foe.battle_table.size))])
         end
 
@@ -2873,7 +2855,7 @@ module Unlight
     # 精密射撃+を発動終了する
     def use_aiming_plus_passive
       if @passives_enable[PASSIVE_AIMING_PLUS] && @feats_enable[FEAT_AIMING]
-        @cc.owner.tmp_power+=PassiveSkill.pow(@passives[PASSIVE_AIMING_PLUS])
+        @cc.owner.tmp_power += PassiveSkill.pow(@passives[PASSIVE_AIMING_PLUS])
       end
     end
     regist_event UseAimingPlusPassiveEvent
@@ -2961,8 +2943,8 @@ module Unlight
     def use_brambles_card_passive
       if @cc && @cc.index == owner.current_chara_card_no && @passives_enable[PASSIVE_BRAMBLES_CARD]
         dmg = owner.move_point_abs > 2 ? 2 : owner.move_point_abs
-        owner.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,owner,dmg), IS_NOT_HOSTILE_DAMAGE)
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,dmg))
+        owner.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, owner, dmg), IS_NOT_HOSTILE_DAMAGE)
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg))
       end
     end
     regist_event UseBramblesCardPassiveEvent
@@ -3079,7 +3061,7 @@ module Unlight
             @cc.status[STATE_STIGMATA][1] = 9 if @cc.status[STATE_STIGMATA][1] > 9
             on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
           else
-            set_state(@cc.status[STATE_STIGMATA], 1,  PassiveSkill.pow(@passives[PASSIVE_GUARDIAN_OF_LIFE]));
+            set_state(@cc.status[STATE_STIGMATA], 1, PassiveSkill.pow(@passives[PASSIVE_GUARDIAN_OF_LIFE]));
             on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
           end
         end
@@ -3123,15 +3105,15 @@ module Unlight
 
     # 毒状態かどうかのチェック
     def check_poison_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_POISON][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_POISON][1] > 0
       end
     end
     regist_event CheckPoisonStateEvent
 
     # 毒が終了される
     def finish_poison_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_POISON][1] > 0
-        owner.damaged_event(1,IS_NOT_HOSTILE_DAMAGE) if owner.hit_point > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_POISON][1] > 0
+        owner.damaged_event(1, IS_NOT_HOSTILE_DAMAGE) if owner.hit_point > 0
         @cc.status[STATE_POISON][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_POISON, @cc.status[STATE_POISON][0])
       end
@@ -3143,15 +3125,15 @@ module Unlight
     # ------------------
     # 猛毒状態かどうかのチェック
     def check_poison2_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_POISON2][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_POISON2][1] > 0
       end
     end
     regist_event CheckPoison2StateEvent
 
     # 猛毒が終了される
     def finish_poison2_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_POISON2][1] > 0
-        owner.damaged_event(2,IS_NOT_HOSTILE_DAMAGE) if owner.hit_point > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_POISON2][1] > 0
+        owner.damaged_event(2, IS_NOT_HOSTILE_DAMAGE) if owner.hit_point > 0
         @cc.status[STATE_POISON2][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_POISON2, @cc.status[STATE_POISON2][0])
       end
@@ -3164,7 +3146,7 @@ module Unlight
 
     # 麻痺状態かどうかのチェック
     def check_paralysis_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_PARALYSIS][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_PARALYSIS][1] > 0
         owner.move_point = 0
       end
     end
@@ -3172,7 +3154,7 @@ module Unlight
 
     # 麻痺が終了される
     def finish_paralysis_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_PARALYSIS][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_PARALYSIS][1] > 0
         @cc.status[STATE_PARALYSIS][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_PARALYSIS, @cc.status[STATE_PARALYSIS][0])
       end
@@ -3185,7 +3167,7 @@ module Unlight
 
     # ATKアップが使用されたかのチェック
     def check_attack_up_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_ATK_UP][1] > 0 && owner.initiative && owner.tmp_power > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_ATK_UP][1] > 0 && owner.initiative && owner.tmp_power > 0
         owner.tmp_power += @cc.status[STATE_ATK_UP][0]
       end
     end
@@ -3193,7 +3175,7 @@ module Unlight
 
     # ATKアップが終了される
     def finish_attack_up_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_ATK_UP][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_ATK_UP][1] > 0
         @cc.status[STATE_ATK_UP][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_ATK_UP, @cc.status[STATE_ATK_UP][0])
       end
@@ -3205,7 +3187,7 @@ module Unlight
     # ------------------
     # ATKダウンが使用されたかのチェック
     def check_attack_down_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_ATK_DOWN][1] > 0 && owner.initiative && owner.tmp_power > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_ATK_DOWN][1] > 0 && owner.initiative && owner.tmp_power > 0
         owner.tmp_power -= @cc.status[STATE_ATK_DOWN][0]
       end
     end
@@ -3213,13 +3195,12 @@ module Unlight
 
     # ATKダウンが終了される
     def finish_attack_down_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_ATK_DOWN][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_ATK_DOWN][1] > 0
         @cc.status[STATE_ATK_DOWN][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_ATK_DOWN, @cc.status[STATE_ATK_DOWN][0])
       end
     end
     regist_event FinishAttackDownStateEvent
-
 
     # ------------------
     # DEFアップ状態
@@ -3227,7 +3208,7 @@ module Unlight
 
     # DEFアップが使用されたかのチェック
     def check_deffence_up_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_DEF_UP][1] > 0 && !owner.initiative
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_DEF_UP][1] > 0 && !owner.initiative
         owner.tmp_power += @cc.status[STATE_DEF_UP][0]
       end
     end
@@ -3235,7 +3216,7 @@ module Unlight
 
     # DEFアップが終了される
     def finish_deffence_up_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_DEF_UP][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_DEF_UP][1] > 0
         @cc.status[STATE_DEF_UP][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_DEF_UP, @cc.status[STATE_DEF_UP][0])
       end
@@ -3248,7 +3229,7 @@ module Unlight
 
     # DEFダウンが使用されたかのチェック
     def check_deffence_down_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_DEF_DOWN][1] > 0 && !owner.initiative
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_DEF_DOWN][1] > 0 && !owner.initiative
         owner.tmp_power -= @cc.status[STATE_DEF_DOWN][0]
       end
     end
@@ -3256,13 +3237,12 @@ module Unlight
 
     # DEFダウンが終了される
     def finish_deffence_down_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_DEF_DOWN][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_DEF_DOWN][1] > 0
         @cc.status[STATE_DEF_DOWN][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_DEF_DOWN, @cc.status[STATE_DEF_DOWN][0])
       end
     end
     regist_event FinishDeffenceDownStateEvent
-
 
     # ------------------
     # MOVEアップ状態
@@ -3270,7 +3250,7 @@ module Unlight
 
     # MOVEアップが使用されたかのチェック
     def check_move_up_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_MOVE_UP][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_MOVE_UP][1] > 0
         owner.tmp_power += @cc.status[STATE_MOVE_UP][0]
       end
     end
@@ -3278,7 +3258,7 @@ module Unlight
 
     # DEFアップが終了される
     def finish_move_up_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_MOVE_UP][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_MOVE_UP][1] > 0
         @cc.status[STATE_MOVE_UP][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_MOVE_UP, @cc.status[STATE_MOVE_UP][0])
       end
@@ -3291,7 +3271,7 @@ module Unlight
 
     # MOVEダウンが使用されたかのチェック
     def check_move_down_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_MOVE_DOWN][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_MOVE_DOWN][1] > 0
         if owner.tmp_power > 0
           owner.tmp_power -= @cc.status[STATE_MOVE_DOWN][0]
           owner.tmp_power = 0 if owner.tmp_power < 0
@@ -3305,7 +3285,7 @@ module Unlight
 
     # MOVEダウンが終了される
     def finish_move_down_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_MOVE_DOWN][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_MOVE_DOWN][1] > 0
         @cc.status[STATE_MOVE_DOWN][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_MOVE_DOWN, @cc.status[STATE_MOVE_DOWN][0])
       end
@@ -3318,7 +3298,7 @@ module Unlight
 
     # バーサークが使用されたかのチェック
     def check_berserk_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_BERSERK][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_BERSERK][1] > 0
         duel.tmp_damage = duel.tmp_damage * 2
       end
     end
@@ -3326,13 +3306,12 @@ module Unlight
 
     # バーサークが終了される
     def finish_berserk_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_BERSERK][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_BERSERK][1] > 0
         @cc.status[STATE_BERSERK][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_BERSERK, @cc.status[STATE_BERSERK][0])
       end
     end
     regist_event FinishBerserkStateEvent
-
 
     # ------------------
     # 停止状態
@@ -3340,7 +3319,7 @@ module Unlight
 
     # 停止が使用されたかのチェック
     def check_attack_stop_state
-      if @cc&&@cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_STOP][1] > 0
+      if @cc && @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_STOP][1] > 0
         owner.attack_done # 即決定
       end
     end
@@ -3348,7 +3327,7 @@ module Unlight
 
     # 停止が使用されたかのチェック
     def check_deffence_stop_state
-      if @cc&&@cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_STOP][1] > 0
+      if @cc && @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_STOP][1] > 0
         owner.deffence_done # 即決定
       end
     end
@@ -3356,13 +3335,12 @@ module Unlight
 
     # 停止が終了される
     def finish_stop_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_STOP][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_STOP][1] > 0
         @cc.status[STATE_STOP][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_STOP, @cc.status[STATE_STOP][0])
       end
     end
     regist_event FinishStopStateEvent
-
 
     # ------------------
     # 封印状態
@@ -3370,14 +3348,14 @@ module Unlight
 
     # 封印が使用されたかのチェック
     def check_seal_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_SEAL][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_SEAL][1] > 0
       end
     end
     regist_event CheckSealStateEvent
 
     # 封印が終了される
     def finish_seal_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_SEAL][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_SEAL][1] > 0
         @cc.status[STATE_SEAL][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_SEAL, @cc.status[STATE_SEAL][0])
       end
@@ -3390,16 +3368,16 @@ module Unlight
 
     # 自壊が使用されたかのチェック
     def check_dead_count_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_DEAD_COUNT][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_DEAD_COUNT][1] > 0
       end
     end
     regist_event CheckDeadCountStateEvent
 
     # 自壊が終了される
     def finish_dead_count_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_DEAD_COUNT][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_DEAD_COUNT][1] > 0
         @cc.status[STATE_DEAD_COUNT][1] -= 1 if @cc.status_update
-        @cc.owner.damaged_event(attribute_damage(ATTRIBUTE_DEATH, owner),IS_NOT_HOSTILE_DAMAGE) if @cc.status[STATE_DEAD_COUNT][1] <= 0
+        @cc.owner.damaged_event(attribute_damage(ATTRIBUTE_DEATH, owner), IS_NOT_HOSTILE_DAMAGE) if @cc.status[STATE_DEAD_COUNT][1] <= 0
         update_buff_event(true, STATE_DEAD_COUNT, @cc.status[STATE_DEAD_COUNT][0])
       end
     end
@@ -3410,14 +3388,14 @@ module Unlight
     # ------------------
     # 操想が使用されたかのチェック
     def check_control_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_CONTROL][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_CONTROL][1] > 0
       end
     end
     regist_event CheckControlStateEvent
 
     # 操想が終了される
     def finish_control_state
-      if  @cc && @cc.status[STATE_CONTROL][1] > 0 && ! Charactor.attribute(@cc.charactor_id).include?("revisers")
+      if @cc && @cc.status[STATE_CONTROL][1] > 0 && ! Charactor.attribute(@cc.charactor_id).include?("revisers")
         @cc.status[STATE_CONTROL][1] -= 1 if @cc.status_update
         attribute_party_damage(owner, @cc.index, 99, ATTRIBUTE_DEATH, TARGET_TYPE_SINGLE, 1, IS_NOT_HOSTILE_DAMAGE) if @cc.status[STATE_CONTROL][1] <= 0
 
@@ -3436,7 +3414,7 @@ module Unlight
 
     # 不死が使用されたかのチェック
     def check_undead_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_UNDEAD][1] > 0 && !owner.initiative
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_UNDEAD][1] > 0 && !owner.initiative
         duel.tmp_damage = 0
       end
     end
@@ -3444,7 +3422,7 @@ module Unlight
 
     # 不死が終了される
     def finish_undead_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_UNDEAD][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_UNDEAD][1] > 0
         @cc.status[STATE_UNDEAD][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_UNDEAD, @cc.status[STATE_UNDEAD][0])
       end
@@ -3457,7 +3435,7 @@ module Unlight
 
     # 不死が使用されたかのチェック
     def check_undead2_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_UNDEAD2][1] > 0 && !owner.initiative
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_UNDEAD2][1] > 0 && !owner.initiative
         duel.tmp_damage = 0
       end
     end
@@ -3465,7 +3443,7 @@ module Unlight
 
     # 不死が終了される
     def finish_undead2_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_UNDEAD2][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_UNDEAD2][1] > 0
         @cc.status[STATE_UNDEAD2][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_UNDEAD2, @cc.status[STATE_UNDEAD2][0])
       end
@@ -3478,12 +3456,13 @@ module Unlight
 
     # 石化が使用されたかのチェック
     def check_stone_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_STONE][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_STONE][1] > 0
         if foe.current_chara_card.event.passives_enable[PASSIVE_AWAKENING_ONE] && !owner.initiative ||
           owner.current_chara_card.event.passives_enable[PASSIVE_AWAKENING_ONE] && owner.initiative
 
           return
         end
+
         duel.tmp_damage = (duel.tmp_damage * 0.5).to_i
       end
     end
@@ -3491,7 +3470,7 @@ module Unlight
 
     # 石化が終了される
     def finish_stone_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_STONE][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_STONE][1] > 0
         @cc.status[STATE_STONE][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_STONE, @cc.status[STATE_STONE][0])
       end
@@ -3509,7 +3488,7 @@ module Unlight
 
     # リジェネが終了される
     def finish_regene_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_REGENE][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_REGENE][1] > 0
         owner.healed_event(1)
         @cc.status[STATE_REGENE][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_REGENE, @cc.status[STATE_REGENE][0])
@@ -3523,17 +3502,17 @@ module Unlight
 
     # 呪縛状態かどうかのチェック
     def check_bind_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_BIND][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_BIND][1] > 0
         dmg = owner.move_point_abs > 2 ? 2 : owner.move_point_abs
         add_dmg = @cc.status[STATE_BIND][0] > 1 ? @cc.status[STATE_BIND][0] - 1 : 0
-        owner.damaged_event(dmg+add_dmg, IS_NOT_HOSTILE_DAMAGE)
+        owner.damaged_event(dmg + add_dmg, IS_NOT_HOSTILE_DAMAGE)
       end
     end
     regist_event CheckBindStateEvent
 
     # 呪縛が終了される
     def finish_bind_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_BIND][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_BIND][1] > 0
         @cc.status[STATE_BIND][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_BIND, @cc.status[STATE_BIND][0])
       end
@@ -3546,7 +3525,7 @@ module Unlight
 
     # 混沌が使用されたかのチェック
     def check_chaos_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_CHAOS][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_CHAOS][1] > 0
         owner.tmp_power *= 2
       end
     end
@@ -3555,7 +3534,7 @@ module Unlight
 
     # 混沌が終了される
     def finish_chaos_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_CHAOS][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_CHAOS][1] > 0
         @cc.status[STATE_CHAOS][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_CHAOS, @cc.status[STATE_CHAOS][0])
       end
@@ -3567,7 +3546,7 @@ module Unlight
     # ------------------
     # 聖痕が使用されたかのチェック
     def check_stigmata_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_STIGMATA][1] > 0 && owner.tmp_power > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_STIGMATA][1] > 0 && owner.tmp_power > 0
         owner.tmp_power += @cc.status[STATE_STIGMATA][1]
       end
     end
@@ -3579,13 +3558,12 @@ module Unlight
     end
     regist_event FinishStigmataStateEvent
 
-
     # ------------------
     # 能力低下
     # ------------------
     # 能力低下が使用されたかのチェック
     def check_state_down_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_STATE_DOWN][1] > 0 && owner.tmp_power > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_STATE_DOWN][1] > 0 && owner.tmp_power > 0
         owner.tmp_power -= @cc.status[STATE_STATE_DOWN][1]
         owner.tmp_power = 0 if owner.tmp_power < 0
       end
@@ -3598,13 +3576,12 @@ module Unlight
     end
     regist_event FinishStateDownStateEvent
 
-
     # ------------------
     # 詛呪
     # ------------------
     # 詛呪が使用されたかのチェック
     def check_curse_attack_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_CURSE][1] > 0 && owner.initiative && duel.tmp_damage > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_CURSE][1] > 0 && owner.initiative && duel.tmp_damage > 0
         damage_cap = 10 - @cc.status[STATE_CURSE][1]
         damage_cap = 5 if instant_kill_guard?(owner) && damage_cap < 5
         duel.tmp_damage = damage_cap if duel.tmp_damage > damage_cap
@@ -3617,9 +3594,9 @@ module Unlight
     # ------------------
     # 臨界が使用されたかのチェック
     def check_bless_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_BLESS][1] > 0 && owner.tmp_power > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_BLESS][1] > 0 && owner.tmp_power > 0
         case @cc.status[STATE_BLESS][1]
-        when 1 .. 2
+        when 1..2
           owner.tmp_power += @cc.status[STATE_BLESS][1]
         when 3
           owner.tmp_power += @cc.status[STATE_BLESS][1] + 2
@@ -3646,7 +3623,7 @@ module Unlight
 
     # 棍術が使用されたかのチェック
     def check_attack_stick_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_STICK][0] == 1 && @cc.status[STATE_STICK][1] > 0 && owner.initiative && owner.tmp_power > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_STICK][0] == 1 && @cc.status[STATE_STICK][1] > 0 && owner.initiative && owner.tmp_power > 0
         owner.tmp_power *= 2
       end
     end
@@ -3654,7 +3631,7 @@ module Unlight
 
     # 棍術が使用されたかのチェック
     def check_deffence_stick_state
-      if  @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_STICK][0] == 2 && @cc.status[STATE_STICK][1] > 0 && !owner.initiative
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_STICK][0] == 2 && @cc.status[STATE_STICK][1] > 0 && !owner.initiative
         owner.tmp_power *= 2
       end
     end
@@ -3679,7 +3656,7 @@ module Unlight
     # ------------------
     # 攻撃力上書き
     def check_cat_state_attack
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.special_status[SPECIAL_STATE_CAT][1] > 0 && owner.initiative && owner.tmp_power > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.special_status[SPECIAL_STATE_CAT][1] > 0 && owner.initiative && owner.tmp_power > 0
         owner.tmp_power = 13
       end
     end
@@ -3687,7 +3664,7 @@ module Unlight
 
     # 防御力上書き
     def check_cat_state_defence
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.special_status[SPECIAL_STATE_CAT][1] > 0 && !owner.initiative
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.special_status[SPECIAL_STATE_CAT][1] > 0 && !owner.initiative
         owner.tmp_power = 7
       end
     end
@@ -3695,7 +3672,7 @@ module Unlight
 
     # 猫状態の終了
     def finish_cat_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.special_status[SPECIAL_STATE_CAT][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.special_status[SPECIAL_STATE_CAT][1] > 0
         @cc.special_status[SPECIAL_STATE_CAT][1] -= 1 if @cc.status_update
         if @cc.special_status[SPECIAL_STATE_CAT][1] == 0
           off_transform_sequence(true)
@@ -3711,20 +3688,19 @@ module Unlight
     # ------------------
     # 人形が終了される
     def finish_doll_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_DOLL][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_DOLL][1] > 0
         @cc.status[STATE_DOLL][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_DOLL, @cc.status[STATE_DOLL][0])
       end
     end
     regist_event FinishDollStateEvent
 
-
     # ------------------
     # 断絶
     # ------------------
     # 断絶が終了される
     def finish_dark_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.status[STATE_DARK][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_DARK][1] > 0
         @cc.status[STATE_DARK][1] -= 1 if @cc.status_update
         update_buff_event(true, STATE_DARK, @cc.status[STATE_DARK][0])
       end
@@ -3767,7 +3743,7 @@ module Unlight
     # 磁場状態
     # ------------------
     def finish_magnetic_field_state
-      if @cc&&@cc.index == owner.current_chara_card_no && @cc.special_status[SPECIAL_STATE_MAGNETIC_FIELD][1] > 0
+      if @cc && @cc.index == owner.current_chara_card_no && @cc.special_status[SPECIAL_STATE_MAGNETIC_FIELD][1] > 0
         @cc.special_status[SPECIAL_STATE_MAGNETIC_FIELD][1] -= 1 if @cc.status_update
       end
     end
@@ -3794,14 +3770,14 @@ module Unlight
 
     # シャープンエッジ使用時
     def use_sharpen_edge_state_damage
-      if @cc&&@cc.index == owner.current_chara_card_no && !owner.initiative &&
+      if @cc && @cc.index == owner.current_chara_card_no && !owner.initiative &&
           @cc.special_status[SPECIAL_STATE_SHARPEN_EDGE][1] > 0 &&
           @feats_enable[FEAT_SHARPEN_EDGE]
 
         if duel.tmp_damage > 0
           owner.duel_message_event(DUEL_MSGDLG_AVOID_DAMAGE, duel.tmp_damage)
           duel.tmp_damage = 0
-          set_state(@cc.special_status[SPECIAL_STATE_SHARPEN_EDGE], 1, @cc.special_status[SPECIAL_STATE_SHARPEN_EDGE][1]-1)
+          set_state(@cc.special_status[SPECIAL_STATE_SHARPEN_EDGE], 1, @cc.special_status[SPECIAL_STATE_SHARPEN_EDGE][1] - 1)
           finish_sharpen_edge_feat if @cc.special_status[SPECIAL_STATE_SHARPEN_EDGE][1] == 0
         end
       end
@@ -3840,7 +3816,7 @@ module Unlight
     # 行動制限状態
     # ------------------
     # MOVEフェイズの行動を制限する
-    CONSTRAINT_FORWARD,CONSTRAINT_BACKWARD,CONSTRAINT_STAY,CONSTRAINT_CHARA_CHANGE=[1,2,4,8]
+    CONSTRAINT_FORWARD, CONSTRAINT_BACKWARD, CONSTRAINT_STAY, CONSTRAINT_CHARA_CHANGE = [1, 2, 4, 8]
     # ターン開始
     def check_constraint_state
       if @cc && @cc.using && @cc.special_status[SPECIAL_STATE_CONSTRAINT][1] > 0
@@ -3896,7 +3872,7 @@ module Unlight
 
     # ダメージないとき
     def use_damage_insurance_damage
-      if @cc&&@cc.index == owner.current_chara_card_no && owner.initiative &&
+      if @cc && @cc.index == owner.current_chara_card_no && owner.initiative &&
           @cc.special_status[SPECIAL_STATE_DAMAGE_INSURANCE][1] > 0 &&
           @feats_enable[FEAT_MEXTLI]
 
@@ -3913,7 +3889,7 @@ module Unlight
           if dmg < 1
             dmg = 0
           else
-            dmg = ((dmg + 1)/2).to_i
+            dmg = ((dmg + 1) / 2).to_i
           end
 
           foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg))
@@ -3928,7 +3904,7 @@ module Unlight
     # ------------------
     # スキル上書きが終了される
     def finish_override_skill_state
-      if  @cc && @cc.special_status[SPECIAL_STATE_OVERRIDE_SKILL][1] > 0
+      if @cc && @cc.special_status[SPECIAL_STATE_OVERRIDE_SKILL][1] > 0
         @cc.special_status[SPECIAL_STATE_OVERRIDE_SKILL][1] -= 1 if @cc.status_update
         if @cc.special_status[SPECIAL_STATE_OVERRIDE_SKILL][1] <= 0
           reset_override_feats
@@ -3936,7 +3912,6 @@ module Unlight
       end
     end
     regist_event FinishOverrideSkillStateEvent
-
 
     def reset_override_feats
       # 相手
@@ -3947,7 +3922,7 @@ module Unlight
       if @override_feats && @override_feats.key?(3)
         owner.chara_cards[@override_feats[3][:owner_index]].reset_override_my_feats()
       end
-      @override_feats = { }
+      @override_feats = {}
     end
 
     # ------------------
@@ -3958,7 +3933,7 @@ module Unlight
       if @cc.using && @cc.special_status[SPECIAL_STATE_STUFFED_TOYS][1] > 0 && owner.initiative && owner.tmp_power > 0
         owner.duel_message_event(DUEL_MSGDLG_DOLL_ATK)
         @cc.special_status[SPECIAL_STATE_STUFFED_TOYS][1].times do |i|
-          duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,1))
+          duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, 1))
         end
       end
     end
@@ -4019,7 +3994,7 @@ module Unlight
       if @cc && @cc.special_status[SPECIAL_STATE_TIME_LAG_DROW][1] > 0
         @cc.special_status[SPECIAL_STATE_TIME_LAG_DROW][1] -= 1 if @cc.status_update
         if owner.initiative
-          owner.special_dealed_event(duel.deck.draw_cards_event(4).each{ |c| owner.dealed_event(c)})
+          owner.special_dealed_event(duel.deck.draw_cards_event(4).each { |c| owner.dealed_event(c) })
         end
       end
     end
@@ -4033,6 +4008,7 @@ module Unlight
       if @cc && @cc.special_status[SPECIAL_STATE_TIME_LAG_BUFF][1] > 0
         @cc.special_status[SPECIAL_STATE_TIME_LAG_BUFF][1] -= 1 if @cc.status_update
         return unless @cc.using
+
         buffed = set_state(@cc.status[STATE_ATK_UP], @cc.special_status[SPECIAL_STATE_TIME_LAG_BUFF][0], 1)
         on_buff_event(true, owner.current_chara_card_no, STATE_ATK_UP, @cc.status[STATE_ATK_UP][0], @cc.status[STATE_ATK_UP][1]) if buffed
         buffed = set_state(foe.current_chara_card.status[STATE_DEF_DOWN], @cc.special_status[SPECIAL_STATE_TIME_LAG_BUFF][0], 1)
@@ -4086,7 +4062,7 @@ module Unlight
 
     def use_ax_guard_state
       if @cc && @cc.special_status[SPECIAL_STATE_AX_GUARD][1] > 0 && !owner.initiative
-        duel.tmp_damage = (duel.tmp_damage/2).to_i
+        duel.tmp_damage = (duel.tmp_damage / 2).to_i
       end
     end
     regist_event UseAxGuardStateEvent
@@ -4098,7 +4074,6 @@ module Unlight
       end
     end
     regist_event FinishAxGuardStateEvent
-
 
     # ===========================================
     # ステータス関連の汎用イベント
@@ -4118,7 +4093,7 @@ module Unlight
     regist_event OffBuffEvent
 
     # 状態付加が進行したときのイベント
-    def update_buff(player, id, value, idx=-1, turn=-1)
+    def update_buff(player, id, value, idx = -1, turn = -1)
       target = player ? owner : foe
       index = idx < 0 ? target.current_chara_card_no : idx
       [player, id, value, index, turn]
@@ -4224,7 +4199,7 @@ module Unlight
     # 強打が使用される
     def use_smash_feat()
       if @feats_enable[FEAT_SMASH]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_SMASH])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SMASH])
       end
     end
     regist_event UseSmashFeatEvent
@@ -4258,7 +4233,7 @@ module Unlight
     # ブラッディハウルが使用される
     def use_bloody_howl_feat()
       if @feats_enable[FEAT_BLOODY_HOWL]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_BLOODY_HOWL])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_BLOODY_HOWL])
       end
     end
     regist_event UseBloodyHowlFeatEvent
@@ -4276,7 +4251,7 @@ module Unlight
       if @feats_enable[FEAT_BLOODY_HOWL]
         @feats_enable[FEAT_BLOODY_HOWL] = false
         tmp_hp_before = foe.hit_point
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,(owner.tmp_power/10).to_i))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, (owner.tmp_power / 10).to_i))
         tmp_hp_after = foe.hit_point
         owner.healed_event(tmp_hp_before - tmp_hp_after)
       end
@@ -4302,7 +4277,7 @@ module Unlight
     # 精密射撃が使用される
     def use_aiming_feat()
       if @feats_enable[FEAT_AIMING]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_AIMING])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_AIMING])
       end
     end
     regist_event UseAimingFeatEvent
@@ -4335,7 +4310,7 @@ module Unlight
     # 精密射撃が使用される
     def use_precision_fire_feat()
       if @feats_enable[FEAT_PRECISION_FIRE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_PRECISION_FIRE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_PRECISION_FIRE])
         @precision_fire_arrow_const = @cc.owner.get_table_max_value(ActionCard::ARW)
       end
     end
@@ -4354,7 +4329,7 @@ module Unlight
       if @feats_enable[FEAT_PRECISION_FIRE]
         @feats_enable[FEAT_PRECISION_FIRE] = false
         if foe.distance == 3 && @precision_fire_arrow_const > 2
-          duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,@precision_fire_arrow_const-2))
+          duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, @precision_fire_arrow_const - 2))
         end
       end
     end
@@ -4380,7 +4355,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_strike_feat()
       if @feats_enable[FEAT_STRIKE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_STRIKE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_STRIKE])
       end
     end
     regist_event UseStrikeFeatEvent
@@ -4397,17 +4372,16 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_strike_feat_damage()
       if @feats_enable[FEAT_STRIKE]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           # 手持ちのカードを複製してシャッフル
-          aca =foe.cards.shuffle
+          aca = foe.cards.shuffle
           # ダメージの分だけカードを捨てる
-          duel.tmp_damage.times{ |a| discard(foe, aca[a]) if aca[a] }
+          duel.tmp_damage.times { |a| discard(foe, aca[a]) if aca[a] }
         end
         @feats_enable[FEAT_STRIKE] = false
       end
     end
     regist_event UseStrikeFeatDamageEvent
-
 
     # ------------------
     # 連続技
@@ -4429,7 +4403,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_combo_feat()
       if @feats_enable[FEAT_COMBO]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_COMBO])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_COMBO])
       end
     end
     regist_event UseComboFeatEvent
@@ -4490,7 +4464,8 @@ module Unlight
 
         @sword_dance_card_set.each_with_index do |a, i|
           break unless a
-          foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,i)) if i > 0
+
+          foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, i)) if i > 0
         end
 
       end
@@ -4517,11 +4492,10 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_thorn_feat()
       if @feats_enable[FEAT_THORN]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_THORN])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_THORN])
       end
     end
     regist_event UseThornFeatEvent
-
 
     # 茨の森が使用終了
     def finish_thorn_feat()
@@ -4564,7 +4538,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_purple_lightning_feat()
       if @feats_enable[FEAT_PURPLE_LIGHTNING]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_PURPLE_LIGHTNING])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_PURPLE_LIGHTNING])
       end
     end
     regist_event UsePurpleLightningFeatEvent
@@ -4584,16 +4558,16 @@ module Unlight
         if duel.tmp_damage > 0
           # 手持ちのカードを複製してシャッフル
           foe_cards_cnt = foe.cards.size
-          aca =foe.cards.shuffle
+          aca = foe.cards.shuffle
           # ダメージの分だけカードを捨てる
-          duel.tmp_damage.times{ |a| discard(foe, aca[a]) if aca[a] }
+          duel.tmp_damage.times { |a| discard(foe, aca[a]) if aca[a] }
           deal_count = duel.tmp_damage
           if foe.current_chara_card.kind != CC_KIND_MONSTAR &&
               foe.current_chara_card.kind != CC_KIND_BOSS_MONSTAR &&
               foe.current_chara_card.kind != CC_KIND_PROFOUND_BOSS
             deal_count = foe_cards_cnt if duel.tmp_damage > foe_cards_cnt
           end
-          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(deal_count).each{ |c| @cc.owner.dealed_event(c)})
+          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(deal_count).each { |c| @cc.owner.dealed_event(c) })
         end
         @feats_enable[FEAT_PURPLE_LIGHTNING] = false
       end
@@ -4621,7 +4595,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_charge_feat()
       if @feats_enable[FEAT_CHARGE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_CHARGE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_CHARGE])
       end
     end
     regist_event UseChargeFeatEvent
@@ -4658,7 +4632,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_charged_thrust_feat()
       if @feats_enable[FEAT_CHARGED_THRUST]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_CHARGED_THRUST])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_CHARGED_THRUST])
       end
     end
     regist_event UseChargedThrustFeatEvent
@@ -4682,7 +4656,7 @@ module Unlight
       if !@mirage_checked && @cc.owner.initiative == false
         @cc.owner.reset_feat_on_cards(FEAT_MIRAGE)
         check_feat(FEAT_MIRAGE)
-        @mirage_checked= true
+        @mirage_checked = true
         @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
       end
     end
@@ -4701,7 +4675,6 @@ module Unlight
     regist_event CheckAddMirageFeatEvent
     regist_event CheckRotateMirageFeatEvent
 
-
     # 砂漠の蜃気楼が使用される
     # 有効の場合必殺技IDを返す
     def use_mirage_feat()
@@ -4710,7 +4683,6 @@ module Unlight
       end
     end
     regist_event UseMirageFeatEvent
-
 
     # 砂漠の蜃気楼が使用終了
     def finish_mirage_feat()
@@ -4742,11 +4714,10 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_frenzy_eyes_feat()
       if @feats_enable[FEAT_FRENZY_EYES]
-         @cc.owner.tmp_power+=3
+         @cc.owner.tmp_power += 3
       end
     end
     regist_event UseFrenzyEyesFeatEvent
-
 
     # 狂気の眼窩が使用終了
     def finish_frenzy_eyes_feat()
@@ -4795,18 +4766,17 @@ module Unlight
     end
     regist_event UseAbyssFeatEvent
 
-
     # 深淵が使用終了される
     def finish_abyss_feat()
       if @feats_enable[FEAT_ABYSS]
         @feats_enable[FEAT_ABYSS] = false
         use_feat_event(@feats[FEAT_ABYSS])
         @feat_abyss_bornus_damage = 0 unless @feat_abyss_bornus_damage
-        d = ((@cc.owner.get_battle_table_point(ActionCard::SPC)+1)/2).to_i + @feat_abyss_bornus_damage
+        d = ((@cc.owner.get_battle_table_point(ActionCard::SPC) + 1) / 2).to_i + @feat_abyss_bornus_damage
         if Feat.pow(@feats[FEAT_ABYSS]) > 0
           duel.first_entrant.healed_event(d)
         end
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,d))
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, d))
       end
     end
     regist_event FinishAbyssFeatEvent
@@ -4833,9 +4803,9 @@ module Unlight
     def use_rapid_sword_feat()
       if @feats_enable[FEAT_RAPID_SWORD]
         if Feat.pow(@feats[FEAT_RAPID_SWORD]) == 2
-          @cc.owner.tmp_power+=(((@cc.owner.get_battle_table_point(ActionCard::SWD)+1)/2).to_i)
+          @cc.owner.tmp_power += (((@cc.owner.get_battle_table_point(ActionCard::SWD) + 1) / 2).to_i)
         else
-          @cc.owner.tmp_power+=@cc.owner.get_battle_table_point(ActionCard::SWD)
+          @cc.owner.tmp_power += @cc.owner.get_battle_table_point(ActionCard::SWD)
         end
       end
     end
@@ -4872,7 +4842,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_rapid_sword_r2_feat()
       if @feats_enable[FEAT_RAPID_SWORD_R2]
-        @cc.owner.tmp_power+=@cc.owner.get_battle_table_point(ActionCard::SWD) + Feat.pow(@feats[FEAT_RAPID_SWORD_R2])
+        @cc.owner.tmp_power += @cc.owner.get_battle_table_point(ActionCard::SWD) + Feat.pow(@feats[FEAT_RAPID_SWORD_R2])
       end
     end
     regist_event UseRapidSwordR2FeatEvent
@@ -4906,9 +4876,9 @@ module Unlight
     # 怒りの一撃が使用される
     def use_anger_feat()
       if @feats_enable[FEAT_ANGER]
-        mod = (@cc.hp - @cc.owner.current_hit_point)*2
+        mod = (@cc.hp - @cc.owner.current_hit_point) * 2
         mod_max = Feat.pow(@feats[FEAT_ANGER])
-        @cc.owner.tmp_power += (mod > mod_max)? mod_max:mod
+        @cc.owner.tmp_power += (mod > mod_max) ? mod_max : mod
       end
     end
     regist_event UseAngerFeatEvent
@@ -4921,7 +4891,6 @@ module Unlight
       end
     end
     regist_event FinishAngerFeatEvent
-
 
     # ------------------
     # 必殺の構え
@@ -4976,9 +4945,8 @@ module Unlight
         @feats_enable[FEAT_MORTAL_STYLE] = false
 
         r = rand(2) + 1
-        @cc.status[STATE_ATK_UP][0] = @cc.status[STATE_ATK_UP][1] > 0 ? @cc.status[STATE_ATK_UP][0]+r : Feat.pow(@feats[FEAT_MORTAL_STYLE])
-        @cc.status[STATE_DEF_UP][0] = @cc.status[STATE_DEF_UP][1] > 0 ? @cc.status[STATE_DEF_UP][0]+r : Feat.pow(@feats[FEAT_MORTAL_STYLE])
-
+        @cc.status[STATE_ATK_UP][0] = @cc.status[STATE_ATK_UP][1] > 0 ? @cc.status[STATE_ATK_UP][0] + r : Feat.pow(@feats[FEAT_MORTAL_STYLE])
+        @cc.status[STATE_DEF_UP][0] = @cc.status[STATE_DEF_UP][1] > 0 ? @cc.status[STATE_DEF_UP][0] + r : Feat.pow(@feats[FEAT_MORTAL_STYLE])
 
         if @cc.status[STATE_ATK_UP][0] > 9 && @cc.status[STATE_ATK_DOWN][1] > 0
 
@@ -4997,7 +4965,6 @@ module Unlight
           end
 
         end
-
 
         if @cc.status[STATE_DEF_UP][0] > 9 && @cc.status[STATE_DEF_DOWN][1] > 0
 
@@ -5023,7 +4990,6 @@ module Unlight
         on_buff_event(true, owner.current_chara_card_no, STATE_DEF_UP, @cc.status[STATE_DEF_UP][0], @cc.status[STATE_DEF_UP][1])
 
       end
-
     end
     regist_event FinishMortalStyleFeatEvent
 
@@ -5062,7 +5028,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_shadow_shot_feat_damage()
       if @feats_enable[FEAT_SHADOW_SHOT]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           buffed = set_state(foe.current_chara_card.status[STATE_PARALYSIS], 1, Feat.pow(@feats[FEAT_SHADOW_SHOT]));
           on_buff_event(false, foe.current_chara_card_no, STATE_PARALYSIS, foe.current_chara_card.status[STATE_PARALYSIS][0], foe.current_chara_card.status[STATE_PARALYSIS][1]) if buffed
         end
@@ -5070,7 +5036,6 @@ module Unlight
       end
     end
     regist_event UseShadowShotFeatDamageEvent
-
 
     # ------------------
     # 赫い牙
@@ -5109,7 +5074,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_red_fang_feat_damage()
       if @feats_enable[FEAT_RED_FANG]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           buffed = set_state(foe.current_chara_card.status[STATE_POISON], 1, 3);
           on_buff_event(false, foe.current_chara_card_no, STATE_POISON, foe.current_chara_card.status[STATE_POISON][0], foe.current_chara_card.status[STATE_POISON][1]) if buffed
         end
@@ -5117,7 +5082,6 @@ module Unlight
       end
     end
     regist_event UseRedFangFeatDamageEvent
-
 
     # ------------------
     # 血の恵み
@@ -5139,7 +5103,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_blessing_blood_feat()
       if @feats_enable[FEAT_BLESSING_BLOOD]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_BLESSING_BLOOD])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_BLESSING_BLOOD])
       end
     end
     regist_event UseBlessingBloodFeatEvent
@@ -5165,7 +5129,6 @@ module Unlight
       end
     end
     regist_event UseBlessingBloodFeatDamageEvent
-
 
     # ------------------
     # 反撃の狼煙
@@ -5196,13 +5159,12 @@ module Unlight
     def use_counter_preparation_feat_damage()
       if @feats_enable[FEAT_COUNTER_PREPARATION]
         if duel.tmp_damage > 0
-          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(duel.tmp_damage+Feat.pow(@feats[FEAT_COUNTER_PREPARATION])).each{ |c| @cc.owner.dealed_event(c)})
+          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(duel.tmp_damage + Feat.pow(@feats[FEAT_COUNTER_PREPARATION])).each { |c| @cc.owner.dealed_event(c) })
         end
         @feats_enable[FEAT_COUNTER_PREPARATION] = false
       end
     end
     regist_event UseCounterPreparationFeatDamageEvent
-
 
     # ------------------
     # 因果の刻
@@ -5263,11 +5225,11 @@ module Unlight
         # 相手のカードを回転する
         if Feat.pow(@feats[FEAT_KARMIC_RING]) > 0
           foe.battle_table.each do |a|
-            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (a.up?)? false : true)
+            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (a.up?) ? false : true)
           end
         else
           foe.battle_table.each do |a|
-            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1)? true : false)
+            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1) ? true : false)
           end
         end
         @feats_enable[FEAT_KARMIC_RING] = false
@@ -5282,7 +5244,6 @@ module Unlight
       end
     end
     regist_event FinishKarmicRingFeatEvent
-
 
     # ------------------
     # 因果の糸
@@ -5334,7 +5295,7 @@ module Unlight
     # 強打2が使用される
     def use_hi_smash_feat()
       if @feats_enable[FEAT_HI_SMASH]
-        @cc.owner.tmp_power+=5
+        @cc.owner.tmp_power += 5
       end
     end
     regist_event UseHiSmashFeatEvent
@@ -5347,7 +5308,6 @@ module Unlight
       end
     end
     regist_event FinishHiSmashFeatEvent
-
 
     # ------------------
     # 必殺の構え2（未使用）
@@ -5398,7 +5358,7 @@ module Unlight
     # 精密射撃が使用される
     def use_hi_aiming_feat()
       if @feats_enable[FEAT_HI_AIMING]
-        @cc.owner.tmp_power+=3
+        @cc.owner.tmp_power += 3
       end
     end
     regist_event UseHiAimingFeatEvent
@@ -5433,7 +5393,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_hi_rapid_sword_feat()
       if @feats_enable[FEAT_HI_RAPID_SWORD]
-        @cc.owner.tmp_power+=(((@cc.owner.get_battle_table_point(ActionCard::SWD)+1)*0.75).to_i)
+        @cc.owner.tmp_power += (((@cc.owner.get_battle_table_point(ActionCard::SWD) + 1) * 0.75).to_i)
       end
     end
     regist_event UseHiRapidSwordFeatEvent
@@ -5446,7 +5406,6 @@ module Unlight
       end
     end
     regist_event FinishHiRapidSwordFeatEvent
-
 
     # ------------------
     # 因果の糸2（未使用）
@@ -5479,7 +5438,6 @@ module Unlight
     end
     regist_event UseHiKarmicStringFeatEvent
 
-
     # ------------------
     # 狂気の眼窩2（未使用）
     # ------------------
@@ -5500,7 +5458,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_hi_frenzy_eyes_feat()
       if @feats_enable[FEAT_HI_FRENZY_EYES]
-        @cc.owner.tmp_power+=3
+        @cc.owner.tmp_power += 3
       end
     end
     regist_event UseHiFrenzyEyesFeatEvent
@@ -5525,7 +5483,6 @@ module Unlight
       end
     end
     regist_event UseHiFrenzyEyesFeatDamageEvent
-
 
     # ------------------
     # 影撃ち2（未使用）
@@ -5563,9 +5520,8 @@ module Unlight
     # 影撃ち2が使用される(ダメージ時)
     # 有効の場合必殺技IDを返す
     def use_hi_shadow_shot_feat_damage()
-
       if @feats_enable[FEAT_HI_SHADOW_SHOT]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           buffed = set_state(foe.current_chara_card.status[STATE_PARALYSIS], 1, 2);
           on_buff_event(false, foe.current_chara_card_no, STATE_PARALYSIS, foe.current_chara_card.status[STATE_PARALYSIS][0], foe.current_chara_card.status[STATE_PARALYSIS][1]) if buffed
         end
@@ -5595,11 +5551,10 @@ module Unlight
       if @feats_enable[FEAT_LAND_MINE]
         @feats_enable[FEAT_LAND_MINE] = false
         use_feat_event(@feats[FEAT_LAND_MINE])
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,Feat.pow(@feats[FEAT_LAND_MINE])))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_LAND_MINE])))
       end
     end
     regist_event UseLandMineFeatEvent
-
 
     # ------------------
     # デスペラード
@@ -5621,7 +5576,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_desperado_feat()
       if @feats_enable[FEAT_DESPERADO]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_DESPERADO])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_DESPERADO])
       end
     end
     regist_event UseDesperadoFeatEvent
@@ -5634,7 +5589,6 @@ module Unlight
       end
     end
     regist_event FinishDesperadoFeatEvent
-
 
     # ------------------
     # リジェクトソード
@@ -5656,7 +5610,7 @@ module Unlight
     # リジェクトソードが使用される
     def use_reject_sword_feat()
       if @feats_enable[FEAT_REJECT_SWORD]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_REJECT_SWORD])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_REJECT_SWORD])
       end
     end
     regist_event UseRejectSwordFeatEvent
@@ -5669,7 +5623,6 @@ module Unlight
       end
     end
     regist_event FinishRejectSwordFeatEvent
-
 
     # ------------------
     # カウンターガード
@@ -5727,7 +5680,6 @@ module Unlight
       end
     end
     regist_event FinishCounterGuardFeatEvent
-
 
     # ------------------
     # ペインフリー
@@ -5794,7 +5746,6 @@ module Unlight
     end
     regist_event FinishBodyOfLightFeatEvent
 
-
     # ------------------
     # 封印の鎖
     # ------------------
@@ -5832,7 +5783,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_seal_chain_feat_damage()
       if @feats_enable[FEAT_SEAL_CHAIN]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           buffed = set_state(foe.current_chara_card.status[STATE_SEAL], 1, 2);
           on_buff_event(false, foe.current_chara_card_no, STATE_SEAL, foe.current_chara_card.status[STATE_SEAL][0], foe.current_chara_card.status[STATE_SEAL][1]) if buffed
         end
@@ -5840,7 +5791,6 @@ module Unlight
       end
     end
     regist_event UseSealChainFeatDamageEvent
-
 
     # ------------------
     # 降魔の光
@@ -5879,7 +5829,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_purification_light_feat_damage()
       if @feats_enable[FEAT_PURIFICATION_LIGHT]
-        if duel.tmp_damage>0 && !instant_kill_guard?(foe)
+        if duel.tmp_damage > 0 && !instant_kill_guard?(foe)
           buffed = set_state(foe.current_chara_card.status[STATE_STOP], 1, 1);
           on_buff_event(false, foe.current_chara_card_no, STATE_STOP, foe.current_chara_card.status[STATE_STOP][0], foe.current_chara_card.status[STATE_STOP][1]) if buffed
         end
@@ -5909,7 +5859,7 @@ module Unlight
       if @feats_enable[FEAT_CRAFTINESS]
         use_feat_event(@feats[FEAT_CRAFTINESS])
         @feats_enable[FEAT_CRAFTINESS] = false
-        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(Feat.pow(@feats[FEAT_CRAFTINESS])).each{ |c| @cc.owner.dealed_event(c)})
+        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(Feat.pow(@feats[FEAT_CRAFTINESS])).each { |c| @cc.owner.dealed_event(c) })
       end
     end
     regist_event FinishCraftinessFeatEvent
@@ -5935,7 +5885,7 @@ module Unlight
       if @feats_enable[FEAT_LAND_BOMB]
         @feats_enable[FEAT_LAND_BOMB] = false
         use_feat_event(@feats[FEAT_LAND_BOMB])
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,3))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, 3))
       end
     end
     regist_event UseLandBombFeatEvent
@@ -5960,7 +5910,7 @@ module Unlight
     # リジェクトブレイドが使用される
     def use_reject_blade_feat()
       if @feats_enable[FEAT_REJECT_BLADE]
-        @cc.owner.tmp_power+=5
+        @cc.owner.tmp_power += 5
       end
     end
     regist_event UseRejectBladeFeatEvent
@@ -5973,7 +5923,6 @@ module Unlight
       end
     end
     regist_event FinishRejectBladeFeatEvent
-
 
     # ------------------
     # 呪縛の鎖（未使用）
@@ -6012,7 +5961,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_spell_chain_feat_damage()
       if @feats_enable[FEAT_SPELL_CHAIN]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           buffed = set_state(foe.current_chara_card.status[STATE_SEAL], 1, 2);
           on_buff_event(false, foe.current_chara_card_no, STATE_SEAL, foe.current_chara_card.status[STATE_SEAL][0], foe.current_chara_card.status[STATE_SEAL][1]) if buffed
         end
@@ -6095,7 +6044,7 @@ module Unlight
         use_feat_event(@feats[FEAT_DRAIN_SOUL])
         # 相手のカードを奪う
         if foe.cards.size > 0
-          tmp_cards = foe.cards.dup.sort_by{rand}
+          tmp_cards = foe.cards.dup.sort_by { rand }
           tmp_count = 0
           tmp_cards.each do |c|
             if c.u_type == ActionCard::SPC || c.b_type == ActionCard::SPC
@@ -6109,7 +6058,6 @@ module Unlight
       end
     end
     regist_event UseDrainSoulFeatEvent
-
 
     # ------------------
     # バックスタブ
@@ -6133,7 +6081,7 @@ module Unlight
     # バックスタブが使用される
     def use_back_stab_feat()
       if @feats_enable[FEAT_BACK_STAB]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_BACK_STAB]) if foe.current_chara_card.status[STATE_PARALYSIS][1] > 0
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_BACK_STAB]) if foe.current_chara_card.status[STATE_PARALYSIS][1] > 0
       end
     end
     regist_event UseBackStabFeatEvent
@@ -6194,7 +6142,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_dark_whirlpool_feat()
       if @feats_enable[FEAT_DARK_WHIRLPOOL]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_DARK_WHIRLPOOL])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_DARK_WHIRLPOOL])
       end
     end
     regist_event UseDarkWhirlpoolFeatEvent
@@ -6231,7 +6179,7 @@ module Unlight
     # 因果の幻が使用される
     def use_karmic_phantom_feat()
       if @feats_enable[FEAT_KARMIC_PHANTOM]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_KARMIC_PHANTOM])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_KARMIC_PHANTOM])
       end
     end
     regist_event UseKarmicPhantomFeatEvent
@@ -6257,7 +6205,6 @@ module Unlight
       end
     end
     regist_event FinishKarmicPhantomFeatEvent
-
 
     # ------------------
     # 治癒の波動
@@ -6309,8 +6256,8 @@ module Unlight
       if @feats_enable[FEAT_SELF_DESTRUCTION]
         @feats_enable[FEAT_SELF_DESTRUCTION] = false
         use_feat_event(@feats[FEAT_SELF_DESTRUCTION])
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,@cc.owner.hit_point*Feat.pow(@feats[FEAT_SELF_DESTRUCTION])))
-        duel.first_entrant.damaged_event(@cc.owner.hit_point*Feat.pow(@feats[FEAT_SELF_DESTRUCTION]),IS_NOT_HOSTILE_DAMAGE)
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, @cc.owner.hit_point * Feat.pow(@feats[FEAT_SELF_DESTRUCTION])))
+        duel.first_entrant.damaged_event(@cc.owner.hit_point * Feat.pow(@feats[FEAT_SELF_DESTRUCTION]), IS_NOT_HOSTILE_DAMAGE)
       end
     end
     regist_event FinishSelfDestructionFeatEvent
@@ -6335,7 +6282,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_deffence_shooting_feat()
       if @feats_enable[FEAT_DEFFENCE_SHOOTING]
-        @cc.owner.tmp_power+=(@cc.owner.table_point_check(ActionCard::ARW)+Feat.pow(@feats[FEAT_DEFFENCE_SHOOTING]))
+        @cc.owner.tmp_power += (@cc.owner.table_point_check(ActionCard::ARW) + Feat.pow(@feats[FEAT_DEFFENCE_SHOOTING]))
       end
     end
     regist_event UseDeffenceShootingFeatEvent
@@ -6349,7 +6296,6 @@ module Unlight
       end
     end
     regist_event UseDeffenceShootingFeatDamageEvent
-
 
     # ------------------
     # 再生
@@ -6399,7 +6345,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_shadow_attack_feat()
       if @feats_enable[FEAT_SHADOW_ATTACK]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_SHADOW_ATTACK])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SHADOW_ATTACK])
       end
     end
     regist_event UseShadowAttackFeatEvent
@@ -6409,7 +6355,7 @@ module Unlight
       if @feats_enable[FEAT_SHADOW_ATTACK]
         @feats_enable[FEAT_SHADOW_ATTACK] = false
         use_feat_event(@feats[FEAT_SHADOW_ATTACK])
-        point = rand(3)-2
+        point = rand(3) - 2
         @cc.owner.move_action(point)
         @cc.foe.move_action(point)
       end
@@ -6437,7 +6383,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_suicidal_tendencies_feat()
       if @feats_enable[FEAT_SUICIDAL_TENDENCIES]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_SUICIDAL_TENDENCIES])*@cc.owner.get_battle_table_point(ActionCard::SPC)
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SUICIDAL_TENDENCIES]) * @cc.owner.get_battle_table_point(ActionCard::SPC)
       end
     end
     regist_event UseSuicidalTendenciesFeatEvent
@@ -6447,7 +6393,7 @@ module Unlight
       if @feats_enable[FEAT_SUICIDAL_TENDENCIES]
         @feats_enable[FEAT_SUICIDAL_TENDENCIES] = false
         use_feat_event(@feats[FEAT_SUICIDAL_TENDENCIES])
-        owner.damaged_event(@cc.owner.get_battle_table_point(ActionCard::SPC).to_i,IS_NOT_HOSTILE_DAMAGE)
+        owner.damaged_event(@cc.owner.get_battle_table_point(ActionCard::SPC).to_i, IS_NOT_HOSTILE_DAMAGE)
         # HP0以下になったら相手の必殺技を解除
         foe.sealed_event() if owner.hit_point <= 0
       end
@@ -6476,7 +6422,6 @@ module Unlight
     end
     regist_event UseMisfitFeatEvent
 
-
     # ミスフィットが使用終了
     def finish_misfit_feat()
     end
@@ -6501,7 +6446,6 @@ module Unlight
       end
     end
     regist_event UseMisfitFeatDamageEvent
-
 
     # ------------------
     # ビッグブラッグ
@@ -6531,7 +6475,6 @@ module Unlight
     end
     regist_event FinishBigBraggFeatEvent
 
-
     # ------------------
     # レッツナイフ
     # ------------------
@@ -6553,7 +6496,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_lets_knife_feat()
       if @feats_enable[FEAT_LETS_KNIFE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_LETS_KNIFE])*@cc.owner.battle_table.count
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_LETS_KNIFE]) * @cc.owner.battle_table.count
       end
     end
     regist_event UseLetsKnifeFeatEvent
@@ -6606,7 +6549,6 @@ module Unlight
     end
     regist_event UseSingleHeartFeatEvent
 
-
     # ------------------
     # ２つの身体
     # ------------------
@@ -6649,9 +6591,9 @@ module Unlight
           end
           # 相手のカードを回転する
           if Feat.pow(@feats[FEAT_DOUBLE_BODY]) > 0
-            attribute_party_damage(foe, hps, ((duel.tmp_damage+1)/2).to_i, ATTRIBUTE_REFLECTION, TARGET_TYPE_RANDOM)
+            attribute_party_damage(foe, hps, ((duel.tmp_damage + 1) / 2).to_i, ATTRIBUTE_REFLECTION, TARGET_TYPE_RANDOM)
           else
-            attribute_party_damage(foe, hps, ((duel.tmp_damage)/2).to_i, ATTRIBUTE_REFLECTION, TARGET_TYPE_RANDOM)
+            attribute_party_damage(foe, hps, ((duel.tmp_damage) / 2).to_i, ATTRIBUTE_REFLECTION, TARGET_TYPE_RANDOM)
           end
         end
         @feats_enable[FEAT_DOUBLE_BODY] = false
@@ -6689,7 +6631,7 @@ module Unlight
         @feats_enable[FEAT_NINE_SOUL] = false
         use_feat_event(@feats[FEAT_NINE_SOUL])
         add_num = Feat.pow(@feats[FEAT_NINE_SOUL]) > 10 ? 2 : 1
-        duel.second_entrant.healed_event(((@cc.owner.get_battle_table_point(ActionCard::SPC)+add_num)/2).to_i)
+        duel.second_entrant.healed_event(((@cc.owner.get_battle_table_point(ActionCard::SPC) + add_num) / 2).to_i)
       end
     end
     regist_event FinishNineSoulFeatEvent
@@ -6753,7 +6695,6 @@ module Unlight
     end
     regist_event UseThirteenEyesFeatDamageEvent
 
-
     # ------------------
     # ライフドレイン
     # ------------------
@@ -6791,7 +6732,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_life_drain_feat_damage()
       if @feats_enable[FEAT_LIFE_DRAIN]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           # 回復処理
           @cc.owner.healed_event(1)
         end
@@ -6799,7 +6740,6 @@ module Unlight
       end
     end
     regist_event UseLifeDrainFeatDamageEvent
-
 
     # ------------------
     # ランダムカース
@@ -6835,7 +6775,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_random_curse_feat_damage()
       if @feats_enable[FEAT_RANDOM_CURSE]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           tmp = rand(3)
           if tmp == 0
             buffed = set_state(foe.current_chara_card.status[STATE_PARALYSIS], 1, Feat.pow(@feats[FEAT_RANDOM_CURSE]));
@@ -6852,7 +6792,6 @@ module Unlight
       end
     end
     regist_event UseRandomCurseFeatDamageEvent
-
 
     # ------------------
     # 癒しの声
@@ -6886,7 +6825,6 @@ module Unlight
     end
     regist_event FinishHealVoiceFeatEvent
 
-
     # ------------------
     # ダブルアタック
     # ------------------
@@ -6907,7 +6845,7 @@ module Unlight
     # ダブルアタックが使用される
     def use_double_attack_feat()
       if @feats_enable[FEAT_DOUBLE_ATTACK]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_DOUBLE_ATTACK])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_DOUBLE_ATTACK])
       end
     end
     regist_event UseDoubleAttackFeatEvent
@@ -6955,7 +6893,6 @@ module Unlight
       end
     end
     regist_event UsePartyDamageFeatEvent
-
 
     # 全体攻撃が使用終了される
     def finish_party_damage_feat()
@@ -7014,7 +6951,6 @@ module Unlight
     end
     regist_event FinishGuardFeatEvent
 
-
     # ------------------
     # 自壊攻撃
     # ------------------
@@ -7050,7 +6986,7 @@ module Unlight
     def use_death_control_feat_damage()
       if @feats_enable[FEAT_DEATH_CONTROL]
         use_feat_event(@feats[FEAT_DEATH_CONTROL])
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
 
           foe_dead_count_num = foe.current_chara_card.status[STATE_DEAD_COUNT][1]
           own_dead_count_num = owner.current_chara_card.status[STATE_DEAD_COUNT][1]
@@ -7095,7 +7031,6 @@ module Unlight
     end
     regist_event UseDeathControlFeatDamageEvent
 
-
     # ------------------
     # 移動上昇(機知)
     # ------------------
@@ -7130,7 +7065,6 @@ module Unlight
     end
     regist_event FinishWitFeatEvent
 
-
     # ------------------
     # 茨の構え
     # ------------------
@@ -7151,7 +7085,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_thorn_care_feat()
       if @feats_enable[FEAT_THORN_CARE]
-        @cc.owner.tmp_power+=(@cc.owner.table_point_check(ActionCard::MOVE)*Feat.pow(@feats[FEAT_THORN_CARE]))
+        @cc.owner.tmp_power += (@cc.owner.table_point_check(ActionCard::MOVE) * Feat.pow(@feats[FEAT_THORN_CARE]))
       end
     end
     regist_event UseThornCareFeatEvent
@@ -7181,7 +7115,6 @@ module Unlight
       end
     end
     regist_event UseThornCareFeatDamageEvent
-
 
     # ------------------
     # 解放剣
@@ -7222,18 +7155,17 @@ module Unlight
       if @feats_enable[FEAT_LIBERATING_SWORD]
         dmg = 0
         foe.current_chara_card.status.each do |i|
-          dmg+=1 if i[1] > 0
+          dmg += 1 if i[1] > 0
         end
         @cc.status.each do |i|
-          dmg+=1 if i[1] > 0
+          dmg += 1 if i[1] > 0
         end
-        dmg = (dmg*1.5).to_i if Feat.pow(@feats[FEAT_LIBERATING_SWORD]) == 7
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,dmg))
+        dmg = (dmg * 1.5).to_i if Feat.pow(@feats[FEAT_LIBERATING_SWORD]) == 7
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg))
         @feats_enable[FEAT_LIBERATING_SWORD] = false
       end
     end
     regist_event UseLiberatingSwordFeatDamageEvent
-
 
     # ------------------
     # 一閃
@@ -7276,7 +7208,6 @@ module Unlight
     end
     regist_event UseOneSlashFeatDamageEvent
 
-
     # ------------------
     # 十閃
     # ------------------
@@ -7304,7 +7235,7 @@ module Unlight
       if @feats_enable[FEAT_TEN_SLASH]
         use_feat_event(@feats[FEAT_TEN_SLASH])
         @feats_enable[FEAT_TEN_SLASH] = false
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,1))
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, 1))
         set_state(@cc.status[STATE_DEF_UP], Feat.pow(@feats[FEAT_TEN_SLASH]), 3)
         on_buff_event(true, owner.current_chara_card_no, STATE_DEF_UP, @cc.status[STATE_DEF_UP][0], @cc.status[STATE_DEF_UP][1])
       end
@@ -7348,13 +7279,12 @@ module Unlight
         set_state(@cc.status[buff], Feat.pow(@feats[FEAT_HASSEN]), 3)
         on_buff_event(true, owner.current_chara_card_no, buff, @cc.status[buff][0], @cc.status[buff][1])
 
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,1))
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, 1))
 
         @feats_enable[FEAT_HASSEN] = false
       end
     end
     regist_event FinishHassenFeatEvent
-
 
     # ------------------
     # 百閃
@@ -7396,7 +7326,7 @@ module Unlight
         if (@cc.status[STATE_ATK_UP][1] > 0) && (@cc.status[STATE_DEF_UP][1] > 0)
           tmp_dice_atk = duel.tmp_dice_heads_atk
           tmp_dice_def = duel.tmp_dice_heads_def
-          (Feat.pow(@feats[FEAT_HANDLED_SLASH])-1).times.each do |i|
+          (Feat.pow(@feats[FEAT_HANDLED_SLASH]) - 1).times.each do |i|
             # １回目のダイスを振ってダメージを保存
             rec_damage = duel.tmp_damage
             # ダメージ計算をもう１度実行
@@ -7487,13 +7417,13 @@ module Unlight
             @cc.special_status[SPECIAL_STATE_CAT][1] <= 0 &&
             owner.greater_check(feat_no, ActionCard::SWD, 6)
 
-          unless  @feats_enable[feat_no]
+          unless @feats_enable[feat_no]
             @feats_enable[feat_no] = true
             on_feat_event(feat_no)
           end
         else
           @cc.owner.reset_feat_on_cards(feat_no)
-          if  @feats_enable[feat_no]
+          if @feats_enable[feat_no]
             @feats_enable[feat_no] = false
             off_feat_event(feat_no)
           end
@@ -7593,7 +7523,7 @@ module Unlight
       end
     end
 
-    def curse_care_hp_check(dmg=0)
+    def curse_care_hp_check(dmg = 0)
       if @cc.owner.hit_point <= @curse_care_dead_line + dmg
         @curse_care_actuate_ex = true
         @curse_care_actuate_normal = true if dmg > 0
@@ -7659,7 +7589,7 @@ module Unlight
 
     # 羅刹が使用されたかのチェック
     def use_rakshasa_stance_feat_result
-      if @cc&&@cc.using &&
+      if @cc && @cc.using &&
           owner.initiative? &&
           @feats_enable[FEAT_RAKSHASA_STANCE]
 
@@ -7678,7 +7608,6 @@ module Unlight
 
     # ownerに特異メソッドを付加する
     def add_singlton_method_rakshasa_stance_feat()
-
       unless owner.singleton_class.instance_methods(false).include?(:greater_check)
         def owner.greater_check(feat_no, type, point)
           case type
@@ -7686,7 +7615,7 @@ module Unlight
           else
             return false
           end
-          ret  = false
+          ret = false
           counter = 0
           value = 0
           @table.each do |a|
@@ -7696,7 +7625,7 @@ module Unlight
               @feat_battle_table_on_list[feat_no] |= (1 << counter)
             end
             if value >= point
-              ret =true
+              ret = true
             end
             counter += 1
           end
@@ -7712,13 +7641,13 @@ module Unlight
           end
           counter = 0
           @table_on_list = 0
-          @table.each do  |a|
+          @table.each do |a|
             tmp = a.battle_point(type)
             if tmp > 0
               @table_on_list = @table_on_list | (1 << counter)
               ret += tmp
             end
-            counter +=1
+            counter += 1
           end
           get_battle_table_focus_point(type)
           ret
@@ -7770,7 +7699,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_moon_shine_feat()
       if @feats_enable[FEAT_MOON_SHINE]
-        @cc.owner.tmp_power+=4
+        @cc.owner.tmp_power += 4
       end
     end
     regist_event UseMoonShineFeatEvent
@@ -7790,10 +7719,10 @@ module Unlight
         # ダメージの分だけカードを捨てる
         Feat.pow(@feats[FEAT_MOON_SHINE]).times do |a|
           if aca[a]
-            dmg+=discard(foe, aca[a])
+            dmg += discard(foe, aca[a])
           end
         end
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,dmg)) if dmg > 0
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg)) if dmg > 0
       end
       @feats_enable[FEAT_MOON_SHINE] = false
     end
@@ -7819,7 +7748,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_rapture_feat()
       if @feats_enable[FEAT_RAPTURE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_RAPTURE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_RAPTURE])
       end
     end
     regist_event UseRaptureFeatEvent
@@ -7846,7 +7775,6 @@ module Unlight
       end
     end
     regist_event UseRaptureFeatDamageEvent
-
 
     # ------------------
     # ドゥームスデイ
@@ -7919,9 +7847,9 @@ module Unlight
       if @feats_enable[FEAT_HELL]
         @feats_enable[FEAT_HELL] = false
         use_feat_event(@feats[FEAT_HELL])
-        d = (@cc.owner.get_battle_table_point(ActionCard::SWD)+@cc.owner.get_battle_table_point(ActionCard::ARW))/Feat.pow(@feats[FEAT_HELL]).to_f
+        d = (@cc.owner.get_battle_table_point(ActionCard::SWD) + @cc.owner.get_battle_table_point(ActionCard::ARW)) / Feat.pow(@feats[FEAT_HELL]).to_f
         d = Feat.pow(@feats[FEAT_HELL]) < 5 ? d.ceil : d.to_i
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe, d))
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, d))
       end
     end
     regist_event FinishHellFeatEvent
@@ -8054,7 +7982,7 @@ module Unlight
         if Feat.pow(@feats[FEAT_EATING_ONE]) == 6
           bonus = 2 if foe.current_chara_card.status[STATE_STONE][1] > 0
         end
-        @cc.owner.tmp_power+=(@cc.owner.table_point_check(ActionCard::MOVE)*(Feat.pow(@feats[FEAT_EATING_ONE])+bonus))
+        @cc.owner.tmp_power += (@cc.owner.table_point_check(ActionCard::MOVE) * (Feat.pow(@feats[FEAT_EATING_ONE]) + bonus))
       end
     end
     regist_event UseEatingOneFeatEvent
@@ -8130,7 +8058,7 @@ module Unlight
         @feats_enable[FEAT_WHITE_LIGHT] = false
         p = Feat.pow(@feats[FEAT_WHITE_LIGHT])
         p *= 2 if foe.current_chara_card.hp == foe.hit_point
-        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(p).each{ |c| @cc.owner.dealed_event(c)})
+        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(p).each { |c| @cc.owner.dealed_event(c) })
       end
     end
     regist_event FinishWhiteLightFeatEvent
@@ -8156,7 +8084,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_crystal_shield_feat()
       if @feats_enable[FEAT_CRYSTAL_SHIELD]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_CRYSTAL_SHIELD])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_CRYSTAL_SHIELD])
       end
     end
     regist_event UseCrystalShieldFeatEvent
@@ -8180,7 +8108,6 @@ module Unlight
     end
     regist_event FinishCrystalShieldFeatEvent
 
-
     # ------------------
     # スノーボーリング
     # ------------------
@@ -8201,7 +8128,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_snow_balling_feat()
       if @feats_enable[FEAT_SNOW_BALLING]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_SNOW_BALLING])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SNOW_BALLING])
       end
     end
     regist_event UseSnowBallingFeatEvent
@@ -8296,7 +8223,6 @@ module Unlight
       end
     end
     regist_event UseObituaryFeatDamageEvent
-
 
     # ------------------
     # ソルベントレイン
@@ -8407,7 +8333,6 @@ module Unlight
     end
     regist_event FinishSolventRainRFeatEvent
 
-
     # ------------------
     # 知覚の扉
     # ------------------
@@ -8440,11 +8365,10 @@ module Unlight
           set_state(@cc.status[STATE_MOVE_UP], 1, Feat.pow(@feats[FEAT_AWAKING_DOOR]));
           on_buff_event(true, owner.current_chara_card_no, STATE_MOVE_UP, @cc.status[STATE_MOVE_UP][0], @cc.status[STATE_MOVE_UP][1])
         end
-        owner.damaged_event(1,IS_NOT_HOSTILE_DAMAGE) if owner.hit_point > 0
+        owner.damaged_event(1, IS_NOT_HOSTILE_DAMAGE) if owner.hit_point > 0
       end
     end
     regist_event FinishAwakingDoorFeatEvent
-
 
     # ------------------
     # オーバードウズ
@@ -8466,9 +8390,9 @@ module Unlight
     # オーバードウズが使用される
     def use_over_dose_feat()
       if @feats_enable[FEAT_OVER_DOSE]
-        mod = @cc.owner.current_hit_point*2
+        mod = @cc.owner.current_hit_point * 2
         mod_max = Feat.pow(@feats[FEAT_OVER_DOSE])
-        @cc.owner.tmp_power += (mod > mod_max)? mod_max:mod
+        @cc.owner.tmp_power += (mod > mod_max) ? mod_max : mod
       end
     end
     regist_event UseOverDoseFeatEvent
@@ -8481,7 +8405,6 @@ module Unlight
       end
     end
     regist_event FinishOverDoseFeatEvent
-
 
     # ------------------
     # レイザーズエッジ
@@ -8504,7 +8427,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_razors_edge_feat()
       if @feats_enable[FEAT_RAZORS_EDGE] || @feats_enable[FEAT_EX_RAZORS_EDGE]
-        foe.tmp_power = foe.tmp_power/2
+        foe.tmp_power = foe.tmp_power / 2
       end
     end
     regist_event UseOwnerRazorsEdgeFeatEvent
@@ -8533,7 +8456,6 @@ module Unlight
       end
     end
     regist_event FinishRazorsEdgeFeatEvent
-
 
     # ------------------
     # ヘルズベル
@@ -8565,14 +8487,14 @@ module Unlight
         use_feat_event(@feats[FEAT_HELLS_BELL])
         # 敵デッキ全体にダメージ
         hps_f = []
-        foe.hit_points.each_with_index do |v,i|
+        foe.hit_points.each_with_index do |v, i|
           hps_f << i if v > 0
         end
         attribute_party_damage(foe, hps_f, Feat.pow(@feats[FEAT_HELLS_BELL]), ATTRIBUTE_CONSTANT, TARGET_TYPE_ALL) if hps_f.size > 0
 
         # 自身を除く自デッキ全体にダメージ
         hps_o = []
-        owner.hit_points.each_with_index do |v,i|
+        owner.hit_points.each_with_index do |v, i|
           hps_o << i if v > 0 && i != owner.current_chara_card_no
         end
         attribute_party_damage(owner, hps_o, Feat.pow(@feats[FEAT_HELLS_BELL]), ATTRIBUTE_CONSTANT, TARGET_TYPE_ALL, 1, IS_NOT_HOSTILE_DAMAGE) if hps_o.size > 0
@@ -8639,7 +8561,6 @@ module Unlight
     end
     regist_event UseAtkDrainFeatEvent
 
-
     # 攻撃吸収が使用終了される
     def finish_atk_drain_feat()
       if @feats_enable[FEAT_ATK_DRAIN]
@@ -8673,7 +8594,6 @@ module Unlight
     def use_def_drain_feat()
     end
     regist_event UseDefDrainFeatEvent
-
 
     # 防御吸収が使用終了される
     def finish_def_drain_feat()
@@ -8734,7 +8654,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_poison_skin_feat()
       if @feats_enable[FEAT_POISON_SKIN]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_POISON_SKIN])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_POISON_SKIN])
       end
     end
     regist_event UsePoisonSkinFeatEvent
@@ -8783,7 +8703,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_roar_feat()
       if @feats_enable[FEAT_ROAR]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_ROAR])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_ROAR])
       end
     end
     regist_event UseRoarFeatEvent
@@ -8798,7 +8718,6 @@ module Unlight
       end
     end
     regist_event FinishRoarFeatEvent
-
 
     # ------------------
     # 火炎のブレス
@@ -8830,7 +8749,7 @@ module Unlight
         use_feat_event(@feats[FEAT_FIRE_BREATH])
         # 敵デッキ全体にダメージ
         hps = []
-        foe.hit_points.each_with_index do |v,i|
+        foe.hit_points.each_with_index do |v, i|
           hps << i if v > 0
         end
 
@@ -8839,7 +8758,6 @@ module Unlight
       end
     end
     regist_event FinishFireBreathFeatEvent
-
 
     # ------------------
     # ワールウインド
@@ -8862,7 +8780,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_whirl_wind_feat()
       if @feats_enable[FEAT_WHIRL_WIND]
-        @cc.owner.tmp_power+=(owner.distance * Feat.pow(@feats[FEAT_WHIRL_WIND]))
+        @cc.owner.tmp_power += (owner.distance * Feat.pow(@feats[FEAT_WHIRL_WIND]))
       end
     end
     regist_event UseWhirlWindFeatEvent
@@ -8877,7 +8795,6 @@ module Unlight
       end
     end
     regist_event FinishWhirlWindFeatEvent
-
 
     # ------------------
     # アクティブアーマ
@@ -8899,7 +8816,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_active_armor_feat()
       if @feats_enable[FEAT_ACTIVE_ARMOR]
-        @cc.owner.tmp_power+=(@cc.owner.table_point_check(ActionCard::DEF)*Feat.pow(@feats[FEAT_ACTIVE_ARMOR]))
+        @cc.owner.tmp_power += (@cc.owner.table_point_check(ActionCard::DEF) * Feat.pow(@feats[FEAT_ACTIVE_ARMOR]))
       end
     end
     regist_event UseActiveArmorFeatEvent
@@ -8992,7 +8909,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_scolor_attack_feat_damage()
       if @feats_enable[FEAT_SCOLOR_ATTACK]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           duel.tmp_damage += duel.tmp_damage * rand(Feat.pow(@feats[FEAT_SCOLOR_ATTACK]))
         end
         @feats_enable[FEAT_SCOLOR_ATTACK] = false
@@ -9088,7 +9005,6 @@ module Unlight
     end
     regist_event FinishPurgeFeatEvent
 
-
     # ------------------
     # ハイハンド
     # ------------------
@@ -9109,7 +9025,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_high_hand_feat()
       if @feats_enable[FEAT_HIGH_HAND]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_HIGH_HAND])*@cc.foe.battle_table.count
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_HIGH_HAND]) * @cc.foe.battle_table.count
       end
     end
     regist_event UseHighHandFeatEvent
@@ -9123,7 +9039,6 @@ module Unlight
       end
     end
     regist_event UseHighHandFeatDamageEvent
-
 
     # ------------------
     # ジャックポット
@@ -9155,7 +9070,7 @@ module Unlight
         multi_num = Feat.pow(@feats[FEAT_JACK_POT]) > 2 ? 2 : Feat.pow(@feats[FEAT_JACK_POT])
         p = owner.battle_table.count * multi_num
         p += 2 if Feat.pow(@feats[FEAT_JACK_POT]) > 2
-        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(p).each{ |c| @cc.owner.dealed_event(c)})
+        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(p).each { |c| @cc.owner.dealed_event(c) })
         @feats_enable[FEAT_JACK_POT] = false
       end
     end
@@ -9254,7 +9169,6 @@ module Unlight
     end
     regist_event UseGambleFeatDamageEvent
 
-
     # ------------------
     # バードケージ
     # ------------------
@@ -9316,7 +9230,7 @@ module Unlight
         @feats_enable[FEAT_HANGING] = false
         d = foe.current_chara_card.status[STATE_BIND][1]
         d += 1 if d > 0 && Feat.pow(@feats[FEAT_HANGING]) > 5
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,d))
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, d))
       end
     end
     regist_event FinishHangingFeatEvent
@@ -9431,11 +9345,11 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_ctl_feat()
       if @feats_enable[FEAT_CTL]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_CTL])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_CTL])
         # 特殊カードをさがす
         foe.cards.each do |c|
           if c.u_type == ActionCard::SPC || c.b_type == ActionCard::SPC
-            @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_CTL])
+            @cc.owner.tmp_power += Feat.pow(@feats[FEAT_CTL])
             break
           end
         end
@@ -9472,7 +9386,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_bpa_feat()
       if @feats_enable[FEAT_BPA]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_BPA])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_BPA])
       end
     end
     regist_event UseBpaFeatEvent
@@ -9484,7 +9398,7 @@ module Unlight
         dmg = 0
         dmg = foe.battle_table.size if foe.battle_table
         dmg += 1 if (Feat.pow(@feats[FEAT_BPA]) == 5 && dmg > 0)
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,dmg)) if dmg > 0
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg)) if dmg > 0
       end
       @feats_enable[FEAT_BPA] = false
     end
@@ -9584,7 +9498,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_counter_rush_feat()
       if @feats_enable[FEAT_COUNTER_RUSH]
-        @cc.owner.tmp_power = foe.tmp_power+Feat.pow(@feats[FEAT_COUNTER_RUSH])
+        @cc.owner.tmp_power = foe.tmp_power + Feat.pow(@feats[FEAT_COUNTER_RUSH])
       end
     end
     regist_event UseCounterRushFeatEvent
@@ -9618,7 +9532,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_disaster_flame_feat()
       if @feats_enable[FEAT_DISASTER_FLAME]
-        @cc.owner.tmp_power+=3
+        @cc.owner.tmp_power += 3
       end
     end
     regist_event UseDisasterFlameFeatEvent
@@ -9644,7 +9558,6 @@ module Unlight
     end
     regist_event FinishDisasterFlameFeatEvent
 
-
     # ------------------
     # 煉獄
     # ------------------
@@ -9665,7 +9578,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_hell_fire_feat()
       if @feats_enable[FEAT_HELL_FIRE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_HELL_FIRE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_HELL_FIRE])
       end
     end
     regist_event UseHellFireFeatEvent
@@ -9689,7 +9602,7 @@ module Unlight
             hps << i if duel.second_entrant.hit_points[i] > 0
           end
           @hell_fire_feat_target_index = hps[rand(hps.size)]
-          @hell_fire_feat_const_damage = Feat.pow(@feats[FEAT_HELL_FIRE]) == 15 ? ((duel.tmp_damage+1)/2).to_i : (duel.tmp_damage/2).to_i
+          @hell_fire_feat_const_damage = Feat.pow(@feats[FEAT_HELL_FIRE]) == 15 ? ((duel.tmp_damage + 1) / 2).to_i : (duel.tmp_damage / 2).to_i
         end
       end
     end
@@ -9747,7 +9660,7 @@ module Unlight
       if @feats_enable[FEAT_BLINDNESS]
         unless (foe.current_chara_card.get_enable_feats(PHASE_ATTACK).keys & THIRTEEN_EYES).size > 0
           hands_limit = Feat.pow(@feats[FEAT_BLINDNESS]) > 5 ? 2 : 0
-          foe.tmp_power = foe.tmp_power/2 if foe.cards.count <= hands_limit
+          foe.tmp_power = foe.tmp_power / 2 if foe.cards.count <= hands_limit
           foe.point_rewrite_event
         end
       end
@@ -9762,7 +9675,6 @@ module Unlight
       end
     end
     regist_event FinishBlindnessFeatEvent
-
 
     # ------------------
     # 焼滅
@@ -9798,7 +9710,7 @@ module Unlight
         # カードを全て捨てる
         aca.count.times do |a|
           if aca[a]
-            dmg+=discard(foe, aca[a])
+            dmg += discard(foe, aca[a])
           end
         end
         foe.damaged_event(attribute_damage(ATTRIBUTE_COUNTER, foe, dmg * Feat.pow(@feats[FEAT_FIRE_DISAPPEAR])))
@@ -9940,7 +9852,6 @@ module Unlight
     end
     regist_event UseSchwarBlitzFeatDamageEvent
 
-
     # ------------------
     # ハイランダー
     # ------------------
@@ -9986,7 +9897,6 @@ module Unlight
       end
     end
     regist_event UseHiRounderFeatConstDamageEvent
-
 
     # ------------------
     # ブラッドレッティング
@@ -10196,7 +10106,7 @@ module Unlight
           @cc.status[STATE_STIGMATA][1] = 9 if @cc.status[STATE_STIGMATA][1] > 9
           on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         else
-          set_state(@cc.status[STATE_STIGMATA], 1,  Feat.pow(@feats[FEAT_ANGER_NAIL]));
+          set_state(@cc.status[STATE_STIGMATA], 1, Feat.pow(@feats[FEAT_ANGER_NAIL]));
           on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         end
       end
@@ -10250,7 +10160,6 @@ module Unlight
       end
     end
     regist_event UseCalmBackFeatDamageEvent
-
 
     # ------------------
     # 慈悲の青眼
@@ -10329,7 +10238,7 @@ module Unlight
         use_feat_event(@feats[FEAT_WOLF_FANG])
         stigma_pow = @cc.status[STATE_STIGMATA][1]
         stigma_pow += Feat.pow(@feats[FEAT_WOLF_FANG]) if Feat.pow(@feats[FEAT_WOLF_FANG]) > 1 && stigma_pow > 0
-        dmg = attribute_damage(ATTRIBUTE_CONSTANT,foe,stigma_pow)
+        dmg = attribute_damage(ATTRIBUTE_CONSTANT, foe, stigma_pow)
         owner.healed_event(stigma_pow)
         foe.damaged_event(dmg)
         owner.cured_event()
@@ -10377,9 +10286,9 @@ module Unlight
         if duel.tmp_damage > 0
           # 相手のカードを回転する
           if Feat.pow(@feats[FEAT_HAGAKURE]) > 0
-            duel.tmp_damage = ((duel.tmp_damage+1)/2).to_i
+            duel.tmp_damage = ((duel.tmp_damage + 1) / 2).to_i
           else
-            duel.tmp_damage = (duel.tmp_damage/2).to_i
+            duel.tmp_damage = (duel.tmp_damage / 2).to_i
           end
         end
         @feats_enable[FEAT_HAGAKURE] = false
@@ -10535,7 +10444,7 @@ module Unlight
     end
     regist_event UseMikazukiFeatEvent
 
-    EX_MIKAZUKI_STATE_LIST=
+    EX_MIKAZUKI_STATE_LIST =
       [
        STATE_ATK_UP,
        STATE_DEF_UP,
@@ -10577,7 +10486,6 @@ module Unlight
     end
     regist_event FinishMikazukiFeatEvent
 
-
     # ------------------
     # カサブランカの風
     # ------------------
@@ -10600,10 +10508,10 @@ module Unlight
       if @feats_enable[FEAT_CASABLANCA]
         use_feat_event(@feats[FEAT_CASABLANCA])
         @feats_enable[FEAT_CASABLANCA] = false
-        mov_up = rand(Feat.pow(@feats[FEAT_CASABLANCA]))+1
+        mov_up = rand(Feat.pow(@feats[FEAT_CASABLANCA])) + 1
         up_turn = Feat.pow(@feats[FEAT_CASABLANCA]) > 1 ? 4 : 3
         if @cc.status[STATE_MOVE_UP][1] > 0
-          set_state(@cc.status[STATE_MOVE_UP], (@cc.status[STATE_MOVE_UP][0]+mov_up), up_turn);
+          set_state(@cc.status[STATE_MOVE_UP], (@cc.status[STATE_MOVE_UP][0] + mov_up), up_turn);
           on_buff_event(true, owner.current_chara_card_no, STATE_MOVE_UP, @cc.status[STATE_MOVE_UP][0], @cc.status[STATE_MOVE_UP][1])
         else
           set_state(@cc.status[STATE_MOVE_UP], mov_up, up_turn);
@@ -10633,7 +10541,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_rhodesia_feat()
       if @feats_enable[FEAT_RHODESIA]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_RHODESIA])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_RHODESIA])
       end
     end
     regist_event UseRhodesiaFeatEvent
@@ -10694,14 +10602,13 @@ module Unlight
         hps = get_hps(foe)
         if Feat.pow(@feats[FEAT_MADRIPOOL]) == 99
           attribute_party_damage(foe, hps, 1, ATTRIBUTE_CONSTANT, TARGET_TYPE_RANDOM, 2)
-          attribute_party_damage(foe, get_hps(foe), 1+(@cc.status[STATE_MOVE_UP][0]/3), ATTRIBUTE_CONSTANT, TARGET_TYPE_RANDOM)
+          attribute_party_damage(foe, get_hps(foe), 1 + (@cc.status[STATE_MOVE_UP][0] / 3), ATTRIBUTE_CONSTANT, TARGET_TYPE_RANDOM)
         else
           attribute_party_damage(foe, hps, 1, ATTRIBUTE_CONSTANT, TARGET_TYPE_RANDOM, Feat.pow(@feats[FEAT_MADRIPOOL])) if hps.count > 0
         end
       end
     end
     regist_event FinishMadripoolFeatEvent
-
 
     # ------------------
     # エイジャの曙光
@@ -10732,7 +10639,7 @@ module Unlight
         @feats_enable[FEAT_ASIA] = false
         use_feat_event(@feats[FEAT_ASIA])
         hps = []
-        foe.hit_points.each_with_index do |v,i|
+        foe.hit_points.each_with_index do |v, i|
           hps << i if v > 0
         end
 
@@ -10817,10 +10724,10 @@ module Unlight
       if @feats_enable[FEAT_SHADOW_SWORD]
         @feats_enable[FEAT_SHADOW_SWORD] = false
         use_feat_event(@feats[FEAT_SHADOW_SWORD])
-        foe.damaged_event(attribute_damage(ATTRIBUTE_HALF,foe))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_HALF, foe))
         if Feat.pow(@feats[FEAT_SHADOW_SWORD]) == 3
-          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(Feat.pow(@feats[FEAT_SHADOW_SWORD])).each{ |c| @cc.owner.dealed_event(c)})
-          foe.special_dealed_event(duel.deck.draw_cards_event(Feat.pow(@feats[FEAT_SHADOW_SWORD])).each{ |c| foe.dealed_event(c)})
+          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(Feat.pow(@feats[FEAT_SHADOW_SWORD])).each { |c| @cc.owner.dealed_event(c) })
+          foe.special_dealed_event(duel.deck.draw_cards_event(Feat.pow(@feats[FEAT_SHADOW_SWORD])).each { |c| foe.dealed_event(c) })
         end
       end
     end
@@ -10904,9 +10811,9 @@ module Unlight
     def use_destruct_gear_feat_damage()
       if @feats_enable[FEAT_DESTRUCT_GEAR]
         if duel.tmp_damage > 0
-          duel.tmp_damage = duel.tmp_damage*Feat.pow(@feats[FEAT_DESTRUCT_GEAR])
+          duel.tmp_damage = duel.tmp_damage * Feat.pow(@feats[FEAT_DESTRUCT_GEAR])
         end
-        owner.damaged_event(owner.hit_point - owner.hit_point/2,IS_NOT_HOSTILE_DAMAGE)
+        owner.damaged_event(owner.hit_point - owner.hit_point / 2, IS_NOT_HOSTILE_DAMAGE)
         @feats_enable[FEAT_DESTRUCT_GEAR] = false
       end
     end
@@ -10955,7 +10862,7 @@ module Unlight
           if hps.size > 0
             attribute_party_damage(owner, hps, duel.tmp_damage, ATTRIBUTE_CONSTANT, TARGET_TYPE_RANDOM)
           else
-            duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,owner,duel.tmp_damage))
+            duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, owner, duel.tmp_damage))
           end
           duel.tmp_damage = 0
         end
@@ -11002,7 +10909,7 @@ module Unlight
     def use_kill_shot_feat_damage()
       if @feats_enable[FEAT_KILL_SHOT]
         if duel.tmp_damage > 0
-          duel.tmp_damage = duel.tmp_damage*Feat.pow(@feats[FEAT_KILL_SHOT])
+          duel.tmp_damage = duel.tmp_damage * Feat.pow(@feats[FEAT_KILL_SHOT])
         end
         @feats_enable[FEAT_KILL_SHOT] = false
       end
@@ -11081,10 +10988,10 @@ module Unlight
           tmp_cards = owner.cards.dup
           tmp_cards.each do |c|
             if c.u_type == ActionCard::ARW || c.b_type == ActionCard::ARW
-              ct+=discard(owner, c)
+              ct += discard(owner, c)
             end
           end
-          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(ct).each{ |c| @cc.owner.dealed_event(c)}) if ct > 0
+          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(ct).each { |c| @cc.owner.dealed_event(c) }) if ct > 0
         end
         @feats_enable[FEAT_FLAME_OFFERING] = false
       end
@@ -11111,7 +11018,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_drain_hand_feat()
       if @feats_enable[FEAT_DRAIN_HAND]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_DRAIN_HAND])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_DRAIN_HAND])
       end
     end
     regist_event UseDrainHandFeatEvent
@@ -11161,10 +11068,10 @@ module Unlight
           ct = 0
           tmp_cards = foe.cards.shuffle
           tmp_cards.count.times do |i|
-            ct+=discard(foe, tmp_cards[i])
+            ct += discard(foe, tmp_cards[i])
             break unless foe.cards.size > Feat.pow(@feats[FEAT_FIRE_PRIZON])
           end
-          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(ct).each{ |c| @cc.owner.dealed_event(c)})
+          @cc.owner.special_dealed_event(duel.deck.draw_cards_event(ct).each { |c| @cc.owner.dealed_event(c) })
         end
         @feats_enable[FEAT_FIRE_PRIZON] = false
       end
@@ -11237,7 +11144,6 @@ module Unlight
     end
     regist_event UseDeadGuardFeatDamageEvent
 
-
     # 必殺技が使用終了
     def finish_dead_guard_feat()
       if @feats_enable[FEAT_DEAD_GUARD]
@@ -11282,13 +11188,12 @@ module Unlight
       if @feats_enable[FEAT_DEAD_BLUE]
         # レベルが奇数なら即死
         if foe.current_chara_card.level % 2 == 1
-          duel.first_entrant.damaged_event(attribute_damage(ATTRIBUTE_DEATH,foe))
+          duel.first_entrant.damaged_event(attribute_damage(ATTRIBUTE_DEATH, foe))
         end
         @feats_enable[FEAT_DEAD_BLUE] = false
       end
     end
     regist_event UseDeadBlueFeatDamageEvent
-
 
     # ------------------
     # 善悪の彼岸
@@ -11310,11 +11215,10 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_evil_guard_feat()
       if @feats_enable[FEAT_EVIL_GUARD]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_EVIL_GUARD])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_EVIL_GUARD])
       end
     end
     regist_event UseEvilGuardFeatEvent
-
 
     # 善悪の彼岸が使用終了
     def finish_evil_guard_feat()
@@ -11341,7 +11245,6 @@ module Unlight
     end
     regist_event UseEvilGuardFeatDamageEvent
 
-
     # ------------------
     # 道連れ
     # ------------------
@@ -11366,7 +11269,6 @@ module Unlight
     end
     regist_event UseAbyssEyesFeatEvent
 
-
     # 道連れが使用終了
     def finish_abyss_eyes_feat()
       if @feats_enable[FEAT_ABYSS_EYES]
@@ -11381,7 +11283,7 @@ module Unlight
       if @feats_enable[FEAT_ABYSS_EYES]
         # HPがマイナスで1度だけ発動
         if duel.tmp_damage >= @cc.owner.hit_point
-          duel.first_entrant.damaged_event(attribute_damage(ATTRIBUTE_DYING,foe,1))
+          duel.first_entrant.damaged_event(attribute_damage(ATTRIBUTE_DYING, foe, 1))
         end
         @feats_enable[FEAT_ABYSS_EYES] = false
       end
@@ -11411,19 +11313,17 @@ module Unlight
     end
     regist_event UseDeadRedFeatEvent
 
-
     # 偶数即死が使用終了される
     def finish_dead_red_feat()
       if @feats_enable[FEAT_DEAD_RED]
         @feats_enable[FEAT_DEAD_RED] = false
         use_feat_event(@feats[FEAT_DEAD_RED])
         if foe.current_chara_card.level % 2 == 0
-          duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_DEATH,foe))
+          duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_DEATH, foe))
         end
       end
     end
     regist_event FinishDeadRedFeatEvent
-
 
     # ------------------
     # 幽冥の夜
@@ -11445,7 +11345,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_night_ghost_feat()
       if @feats_enable[FEAT_NIGHT_GHOST]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_NIGHT_GHOST])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_NIGHT_GHOST])
       end
     end
     regist_event UseNightGhostFeatEvent
@@ -11556,7 +11456,7 @@ module Unlight
             dmg += discard(owner, aca[i])
           end
         end
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,dmg))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg))
         @feats_enable[FEAT_CONFUSE_POOL] = false
       end
     end
@@ -11583,7 +11483,7 @@ module Unlight
       if @feats_enable[FEAT_PROMINENCE]
         use_feat_event(@feats[FEAT_PROMINENCE])
         @feats_enable[FEAT_PROMINENCE] = false
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,Feat.pow(@feats[FEAT_PROMINENCE])))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_PROMINENCE])))
         owner.healed_event(Feat.pow(@feats[FEAT_PROMINENCE])) if owner.hit_point > 0
       end
     end
@@ -11592,11 +11492,10 @@ module Unlight
     # プロミネンスを使用
     def finish_prominence_feat()
       if @feats_enable[FEAT_PROMINENCE]
-        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(Feat.pow(@feats[FEAT_PROMINENCE])).each{ |c| @cc.owner.dealed_event(c)})
+        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(Feat.pow(@feats[FEAT_PROMINENCE])).each { |c| @cc.owner.dealed_event(c) })
       end
     end
     regist_event FinishProminenceFeatEvent
-
 
     # ------------------
     # バトルアックス
@@ -11673,11 +11572,11 @@ module Unlight
         use_feat_event(@feats[FEAT_MOAB])
         # 敵デッキ全体にダメージ
         hps = []
-        foe.hit_points.each_with_index do |v,i|
+        foe.hit_points.each_with_index do |v, i|
           hps << i if v > 0
         end
         attribute_party_damage(foe, hps, Feat.pow(@feats[FEAT_MOAB]), ATTRIBUTE_CONSTANT, TARGET_TYPE_ALL)
-        duel.first_entrant.damaged_event(Feat.pow(@feats[FEAT_MOAB]),IS_NOT_HOSTILE_DAMAGE)
+        duel.first_entrant.damaged_event(Feat.pow(@feats[FEAT_MOAB]), IS_NOT_HOSTILE_DAMAGE)
       end
     end
     regist_event FinishMoabFeatEvent
@@ -11713,7 +11612,6 @@ module Unlight
     end
     regist_event FinishOverHeatFeatEvent
 
-
     # ------------------
     # 蒼き薔薇
     # ------------------
@@ -11741,7 +11639,6 @@ module Unlight
     end
     regist_event UseBlueRoseFeatEvent
 
-
     # 蒼き薔薇が使用終了
     def finish_blue_rose_feat()
       if @feats_enable[FEAT_BLUE_ROSE]
@@ -11756,7 +11653,7 @@ module Unlight
       if @feats_enable[FEAT_BLUE_ROSE]
         # ダメージがマイナス（ダイスの結果防御点の方が上回った場合）
         if duel.tmp_damage <= 0
-          d = attribute_damage(ATTRIBUTE_HALF,duel.first_entrant)
+          d = attribute_damage(ATTRIBUTE_HALF, duel.first_entrant)
           duel.first_entrant.damaged_event(attribute_damage(ATTRIBUTE_SPECIAL_COUNTER, duel.first_entrant, d))
         end
         @feats_enable[FEAT_BLUE_ROSE] = false
@@ -11787,16 +11684,16 @@ module Unlight
         @feats_enable[FEAT_WHITE_CROW] = false
         use_feat_event(@feats[FEAT_WHITE_CROW])
         point = 0
-        @cc.status.each_with_index do |c,i|
-          point+=1 if c[1] > 0 && i != STATE_CONTROL
+        @cc.status.each_with_index do |c, i|
+          point += 1 if c[1] > 0 && i != STATE_CONTROL
         end
-        foe.current_chara_card.status.each_with_index do |c,i|
-          point+=1 if c[1] > 0 && i != STATE_CONTROL
+        foe.current_chara_card.status.each_with_index do |c, i|
+          point += 1 if c[1] > 0 && i != STATE_CONTROL
         end
         # 状態初期化
         owner.cured_event()
         foe.cured_event()
-        @cc.owner.healed_event(point*Feat.pow(@feats[FEAT_WHITE_CROW]))
+        @cc.owner.healed_event(point * Feat.pow(@feats[FEAT_WHITE_CROW]))
       end
     end
     regist_event FinishWhiteCrowFeatEvent
@@ -11860,7 +11757,7 @@ module Unlight
       if @feats_enable[FEAT_RED_MOON] || @feats_enable[FEAT_EX_RED_MOON]
         # ダメージが1以上
         if duel.tmp_damage > 1
-          @cc.owner.healed_event((duel.tmp_damage/2).to_i)
+          @cc.owner.healed_event((duel.tmp_damage / 2).to_i)
         end
         f_no = @feats[FEAT_RED_MOON] ? FEAT_RED_MOON : FEAT_EX_RED_MOON
         @feats_enable[f_no] = false
@@ -11901,20 +11798,19 @@ module Unlight
             sp_dmg = @cc.owner.get_battle_table_point(ActionCard::SPC) + 4
             dmg_max = owner.hit_point - guard_hp
             dmg = dmg_max < sp_dmg ? dmg_max : sp_dmg
-            duel.first_entrant.damaged_event(dmg,IS_NOT_HOSTILE_DAMAGE)
+            duel.first_entrant.damaged_event(dmg, IS_NOT_HOSTILE_DAMAGE)
           end
         else
           if @cc.owner.get_battle_table_point(ActionCard::SPC) >= owner.hit_point
-            duel.first_entrant.damaged_event(owner.hit_point-1,IS_NOT_HOSTILE_DAMAGE)
+            duel.first_entrant.damaged_event(owner.hit_point - 1, IS_NOT_HOSTILE_DAMAGE)
           else
-            duel.first_entrant.damaged_event(@cc.owner.get_battle_table_point(ActionCard::SPC),IS_NOT_HOSTILE_DAMAGE)
+            duel.first_entrant.damaged_event(@cc.owner.get_battle_table_point(ActionCard::SPC), IS_NOT_HOSTILE_DAMAGE)
           end
         end
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,@cc.owner.get_battle_table_point(ActionCard::SPC)+Feat.pow(@feats[FEAT_BLACK_SUN])))
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, @cc.owner.get_battle_table_point(ActionCard::SPC) + Feat.pow(@feats[FEAT_BLACK_SUN])))
       end
     end
     regist_event FinishBlackSunFeatEvent
-
 
     # ------------------
     # ジラソーレ
@@ -11936,7 +11832,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_girasole_feat()
       if @feats_enable[FEAT_GIRASOLE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_GIRASOLE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_GIRASOLE])
       end
     end
     regist_event UseGirasoleFeatEvent
@@ -11979,7 +11875,7 @@ module Unlight
           if hps.size > 0
             attribute_party_damage(foe, hps, @girasole_damage, ATTRIBUTE_CONSTANT, TARGET_TYPE_RANDOM)
           else
-            duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,@girasole_damage))
+            duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, @girasole_damage))
           end
         end
         @feats_enable[FEAT_GIRASOLE] = false
@@ -12069,7 +11965,7 @@ module Unlight
             if i == STATE_BLESS && (add_num + foe.current_chara_card.status[i][1]) > BLESS_MAX
               add_num = (BLESS_MAX - foe.current_chara_card.status[i][1])
             end
-            buffed = set_state(foe.current_chara_card.status[i], foe.current_chara_card.status[i][0], foe.current_chara_card.status[i][1]+add_num)
+            buffed = set_state(foe.current_chara_card.status[i], foe.current_chara_card.status[i][0], foe.current_chara_card.status[i][1] + add_num)
             if foe.current_chara_card.status_update
               update_buff_event(false, i, foe.current_chara_card.status[i][0], foe.current_chara_card_no, add_num) if buffed
             else
@@ -12105,24 +12001,22 @@ module Unlight
     end
     regist_event UseRosmarinoFeatEvent
 
-
     # ロスマリーノが使用終了される
     def finish_rosmarino_feat()
       if @feats_enable[FEAT_ROSMARINO]
         @feats_enable[FEAT_ROSMARINO] = false
         use_feat_event(@feats[FEAT_ROSMARINO])
-        dmg = (duel.first_entrant.hit_point-duel.second_entrant.hit_point).abs
+        dmg = (duel.first_entrant.hit_point - duel.second_entrant.hit_point).abs
         if duel.first_entrant.hit_point > duel.second_entrant.hit_point
-          duel.first_entrant.damaged_event(attribute_damage(ATTRIBUTE_HP_EXCHANGE,duel.first_entrant,dmg),IS_NOT_HOSTILE_DAMAGE)
+          duel.first_entrant.damaged_event(attribute_damage(ATTRIBUTE_HP_EXCHANGE, duel.first_entrant, dmg), IS_NOT_HOSTILE_DAMAGE)
           duel.second_entrant.healed_event(dmg)
         else
-          duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_HP_EXCHANGE,duel.second_entrant,dmg))
+          duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_HP_EXCHANGE, duel.second_entrant, dmg))
           duel.first_entrant.healed_event(dmg)
         end
       end
     end
     regist_event FinishRosmarinoFeatEvent
-
 
     # ------------------
     # 八葉
@@ -12170,8 +12064,8 @@ module Unlight
           updated_state << STATE_REGENE
         end
         if mhp >= mhp_criteria[3]
-          set_state(@cc.status[STATE_ATK_UP], Feat.pow(@feats[FEAT_HACHIYOU])+2, Feat.pow(@feats[FEAT_HACHIYOU]))
-          set_state(@cc.status[STATE_DEF_UP], Feat.pow(@feats[FEAT_HACHIYOU])+1, Feat.pow(@feats[FEAT_HACHIYOU]))
+          set_state(@cc.status[STATE_ATK_UP], Feat.pow(@feats[FEAT_HACHIYOU]) + 2, Feat.pow(@feats[FEAT_HACHIYOU]))
+          set_state(@cc.status[STATE_DEF_UP], Feat.pow(@feats[FEAT_HACHIYOU]) + 1, Feat.pow(@feats[FEAT_HACHIYOU]))
         end
         if Feat.pow(@feats[FEAT_HACHIYOU]) == 4 && mhp >= mhp_criteria[4]
           set_state(@cc.status[STATE_MOVE_UP], 1,  Feat.pow(@feats[FEAT_HACHIYOU]))
@@ -12184,7 +12078,6 @@ module Unlight
       end
     end
     regist_event FinishHachiyouFeatEvent
-
 
     # ------------------
     # 鉄石の構え
@@ -12219,7 +12112,7 @@ module Unlight
         duel.second_entrant.hit_points.each_index do |i|
           hps << [i, duel.second_entrant.hit_points[i]] if i != duel.second_entrant.current_chara_card_no && duel.second_entrant.hit_points[i] > 0
         end
-        duel.second_entrant.party_healed_event(hps.sort{ |a,b| a[1] <=> b[1] }[0][0], 3) if hps.size > 0
+        duel.second_entrant.party_healed_event(hps.sort { |a, b| a[1] <=> b[1] }[0][0], 3) if hps.size > 0
       end
     end
     regist_event FinishStoneCareFeatEvent
@@ -12264,7 +12157,7 @@ module Unlight
         # ダメージが1以上
         if duel.tmp_damage > 1
           duel.first_entrant.hit_points.each_index do |i|
-            @cc.owner.party_healed_event(i, (duel.tmp_damage/2).to_i) if i != @cc.owner.current_chara_card_no && @cc.owner.hit_points[i] > 0
+            @cc.owner.party_healed_event(i, (duel.tmp_damage / 2).to_i) if i != @cc.owner.current_chara_card_no && @cc.owner.hit_points[i] > 0
           end
         end
         @feats_enable[FEAT_DUST_SWORD] = false
@@ -12321,7 +12214,6 @@ module Unlight
     end
     regist_event UseIllusionFeatDamageEvent
 
-
     # ------------------
     # 絶望の叫び
     # ------------------
@@ -12345,14 +12237,14 @@ module Unlight
         use_feat_event(@feats[FEAT_DESPAIR_SHOUT])
         @feats_enable[FEAT_DESPAIR_SHOUT] = false
         if foe.current_chara_card.status[STATE_ATK_DOWN][1] > 0
-          buffed = set_state(foe.current_chara_card.status[STATE_ATK_DOWN], (foe.current_chara_card.status[STATE_ATK_DOWN][0]+Feat.pow(@feats[FEAT_DESPAIR_SHOUT])), 3);
+          buffed = set_state(foe.current_chara_card.status[STATE_ATK_DOWN], (foe.current_chara_card.status[STATE_ATK_DOWN][0] + Feat.pow(@feats[FEAT_DESPAIR_SHOUT])), 3);
           on_buff_event(false, foe.current_chara_card_no, STATE_ATK_DOWN, foe.current_chara_card.status[STATE_ATK_DOWN][0], foe.current_chara_card.status[STATE_ATK_DOWN][1]) if buffed
         else
           buffed = set_state(foe.current_chara_card.status[STATE_ATK_DOWN], Feat.pow(@feats[FEAT_DESPAIR_SHOUT]), 3);
           on_buff_event(false, foe.current_chara_card_no, STATE_ATK_DOWN, foe.current_chara_card.status[STATE_ATK_DOWN][0], foe.current_chara_card.status[STATE_ATK_DOWN][1]) if buffed
         end
         if foe.current_chara_card.status[STATE_DEF_DOWN][1] > 0
-          buffed = set_state(foe.current_chara_card.status[STATE_DEF_DOWN], (foe.current_chara_card.status[STATE_DEF_DOWN][0]+Feat.pow(@feats[FEAT_DESPAIR_SHOUT])), 3);
+          buffed = set_state(foe.current_chara_card.status[STATE_DEF_DOWN], (foe.current_chara_card.status[STATE_DEF_DOWN][0] + Feat.pow(@feats[FEAT_DESPAIR_SHOUT])), 3);
           on_buff_event(false, foe.current_chara_card_no, STATE_DEF_DOWN, foe.current_chara_card.status[STATE_DEF_DOWN][0], foe.current_chara_card.status[STATE_DEF_DOWN][1]) if buffed
         else
           buffed = set_state(foe.current_chara_card.status[STATE_DEF_DOWN], Feat.pow(@feats[FEAT_DESPAIR_SHOUT]), 3);
@@ -12382,7 +12274,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_darkness_song_feat()
       if @feats_enable[FEAT_DARKNESS_SONG]
-        foe.tmp_power = (foe.tmp_power/Feat.pow(@feats[FEAT_DARKNESS_SONG])).to_i
+        foe.tmp_power = (foe.tmp_power / Feat.pow(@feats[FEAT_DARKNESS_SONG])).to_i
       end
     end
     regist_event UseDarknessSongFeatEvent
@@ -12419,7 +12311,7 @@ module Unlight
         use_feat_event(@feats[FEAT_GUARD_SPIRIT])
         @feats_enable[FEAT_GUARD_SPIRIT] = false
         if @cc.status[STATE_DEF_UP][1] > 0
-          set_state(@cc.status[STATE_DEF_UP], (@cc.status[STATE_DEF_UP][0]+Feat.pow(@feats[FEAT_GUARD_SPIRIT])), 3)
+          set_state(@cc.status[STATE_DEF_UP], (@cc.status[STATE_DEF_UP][0] + Feat.pow(@feats[FEAT_GUARD_SPIRIT])), 3)
           on_buff_event(true, owner.current_chara_card_no, STATE_DEF_UP, @cc.status[STATE_DEF_UP][0], @cc.status[STATE_DEF_UP][1])
         else
           set_state(@cc.status[STATE_DEF_UP], Feat.pow(@feats[FEAT_GUARD_SPIRIT]), 3)
@@ -12428,7 +12320,6 @@ module Unlight
       end
     end
     regist_event FinishGuardSpiritFeatEvent
-
 
     # ------------------
     # 殺戮器官
@@ -12493,7 +12384,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_fools_hand_feat()
       if @feats_enable[FEAT_FOOLS_HAND]
-        @cc.owner.tmp_power += foe.hit_points.select{ |h| h > 0 }.count * Feat.pow(@feats[FEAT_FOOLS_HAND])
+        @cc.owner.tmp_power += foe.hit_points.select { |h| h > 0 }.count * Feat.pow(@feats[FEAT_FOOLS_HAND])
       end
     end
     regist_event UseFoolsHandFeatEvent
@@ -12511,7 +12402,7 @@ module Unlight
     def use_fools_hand_feat_damage()
       if @feats_enable[FEAT_FOOLS_HAND]
         if @feats_enable[FEAT_SLAUGHTER_ORGAN]
-          owner.damaged_event(foe.hit_points.select{ |h| h > 0 }.count, IS_NOT_HOSTILE_DAMAGE)
+          owner.damaged_event(foe.hit_points.select { |h| h > 0 }.count, IS_NOT_HOSTILE_DAMAGE)
         end
         @feats_enable[FEAT_FOOLS_HAND] = false
       end
@@ -12552,7 +12443,6 @@ module Unlight
       end
     end
     regist_event FinishTimeSeedFeatEvent
-
 
     # ------------------
     # 運命の鉄門
@@ -12599,10 +12489,10 @@ module Unlight
           hps_s << [i, foe.hit_points[i]] if foe.hit_points[i] > 0
         end
         # 同率HPの場合、自パーティを優先して倒す
-        if hps_f.size > 0 && hps_f.sort{ |a,b| a[1] <=> b[1] }[0][1] <= hps_s.sort{ |a,b| a[1] <=> b[1] }[0][1]
-          attribute_party_damage(owner, hps_f.sort{  |a,b| a[1] <=> b[1] }[0][0], 99 ,ATTRIBUTE_DEATH, TARGET_TYPE_SINGLE, 1, IS_NOT_HOSTILE_DAMAGE) if hps_f.size > 0
+        if hps_f.size > 0 && hps_f.sort { |a, b| a[1] <=> b[1] }[0][1] <= hps_s.sort { |a, b| a[1] <=> b[1] }[0][1]
+          attribute_party_damage(owner, hps_f.sort { |a, b| a[1] <=> b[1] }[0][0], 99, ATTRIBUTE_DEATH, TARGET_TYPE_SINGLE, 1, IS_NOT_HOSTILE_DAMAGE) if hps_f.size > 0
         else
-          foe.party_damaged_event(hps_s.sort{ |a,b| a[1] <=> b[1] }[0][0], attribute_damage(ATTRIBUTE_DEATH, foe)) if hps_s.size > 0
+          foe.party_damaged_event(hps_s.sort { |a, b| a[1] <=> b[1] }[0][0], attribute_damage(ATTRIBUTE_DEATH, foe)) if hps_s.size > 0
         end
         # 殺戮状態で回復
         owner.healed_event(Feat.pow(@feats[FEAT_IRONGATE_OF_FATE])) if (@feats_enable[FEAT_SLAUGHTER_ORGAN] && owner.hit_point > 0)
@@ -12651,7 +12541,7 @@ module Unlight
     def finish_gatherer_feat()
       if @feats_enable[FEAT_GATHERER]
         @cc.owner.grave_dealed_event(@gatherer_tmp_table) if @gatherer_tmp_table
-        @gatherer_tmp_table =nil
+        @gatherer_tmp_table = nil
         @feats_enable[FEAT_GATHERER] = false
       end
     end
@@ -12664,9 +12554,9 @@ module Unlight
       if @feats_enable[FEAT_GATHERER]
         # ギャザラー中に死んだり、キャラチェンジしたときもカードを返さないと場からカードがなくなってしまう！
         # カードをきちんと墓場に戻す場合
-        @gatherer_tmp_table.each { |c| c.throw} if @gatherer_tmp_table
+        @gatherer_tmp_table.each { |c| c.throw } if @gatherer_tmp_table
 
-        @gatherer_tmp_table =nil
+        @gatherer_tmp_table = nil
         @feats_enable[FEAT_GATHERER] = false
       end
     end
@@ -12691,7 +12581,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_judge_feat()
       if @feats_enable[FEAT_JUDGE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_JUDGE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_JUDGE])
       end
     end
     regist_event UseJudgeFeatEvent
@@ -12701,7 +12591,7 @@ module Unlight
       if @feats_enable[FEAT_JUDGE]
         use_feat_event(@feats[FEAT_JUDGE])
         if foe.tmp_power >= 10
-          foe.damaged_event(attribute_damage(ATTRIBUTE_COUNTER, foe, (foe.tmp_power*0.1).to_i))
+          foe.damaged_event(attribute_damage(ATTRIBUTE_COUNTER, foe, (foe.tmp_power * 0.1).to_i))
         end
         @feats_enable[FEAT_JUDGE] = false
       end
@@ -12715,7 +12605,6 @@ module Unlight
       end
     end
     regist_event UseJudgeFeatDamageEvent
-
 
     # ------------------
     # ザ・ドリーム
@@ -12754,7 +12643,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_dream_feat_damage()
       if @feats_enable[FEAT_DREAM]
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,foe.cards.count))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, foe.cards.count))
         @feats_enable[FEAT_DREAM] = false
       end
     end
@@ -12783,15 +12672,14 @@ module Unlight
         # 相手のカードを奪う
         (99).times do
           if foe.cards.size > 0
-            steal_deal(foe.cards[foe.cards.size-1])
+            steal_deal(foe.cards[foe.cards.size - 1])
           end
         end
-        owner.damaged_event((owner.current_hit_point_max*0.5).to_i,IS_NOT_HOSTILE_DAMAGE)
+        owner.damaged_event((owner.current_hit_point_max * 0.5).to_i, IS_NOT_HOSTILE_DAMAGE)
         @feats_enable[FEAT_ONE_ABOVE_ALL] = false
       end
     end
     regist_event UseOneAboveAllFeatEvent
-
 
     # ------------------
     # アンチセプティック・F
@@ -12868,7 +12756,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_silver_machine_feat()
       if @feats_enable[FEAT_SILVER_MACHINE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_SILVER_MACHINE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SILVER_MACHINE])
       end
     end
     regist_event UseSilverMachineFeatEvent
@@ -12916,7 +12804,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_atom_heart_feat()
       if @feats_enable[FEAT_ATOM_HEART]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_ATOM_HEART])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_ATOM_HEART])
       end
     end
     regist_event UseAtomHeartFeatEvent
@@ -13009,7 +12897,6 @@ module Unlight
     end
     regist_event UseElectricSurgeryFeatDamageEvent
 
-
     # ------------------
     # アシッドイーター
     # ------------------
@@ -13044,7 +12931,6 @@ module Unlight
     regist_event FinishDetermineAcidEaterFeatEvent
     regist_event FinishCalcAcidEaterFeatEvent
 
-
     # アシッドイーターを使用
     def finish_next_acid_eater_feat()
       if @acid_eater_used
@@ -13056,7 +12942,6 @@ module Unlight
       @acid_eater_used = false
     end
     regist_event FinishNextAcidEaterFeatEvent
-
 
     # ------------------
     # デッドロック
@@ -13078,7 +12963,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_dead_lock_feat()
       if @feats_enable[FEAT_DEAD_LOCK]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_DEAD_LOCK])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_DEAD_LOCK])
       end
     end
     regist_event UseDeadLockFeatEvent
@@ -13104,7 +12989,6 @@ module Unlight
       end
     end
     regist_event UseDeadLockFeatDamageEvent
-
 
     # ------------------
     # ベガーズバンケット
@@ -13159,7 +13043,6 @@ module Unlight
     regist_event FinishCharaChangeExBeggarsBanquetFeatEvent
     regist_event FinishFoeCharaChangeExBeggarsBanquetFeatEvent
 
-
     # ------------------
     # スワンソング
     # ------------------
@@ -13187,8 +13070,8 @@ module Unlight
       if @feats_enable[FEAT_SWAN_SONG]
         use_feat_event(@feats[FEAT_SWAN_SONG])
         if owner.hit_point >= Feat.pow(@feats[FEAT_SWAN_SONG])
-          owner.damaged_event(owner.hit_point-1, IS_NOT_HOSTILE_DAMAGE)
-          foe.damaged_event(attribute_damage(ATTRIBUTE_DYING,foe,1))
+          owner.damaged_event(owner.hit_point - 1, IS_NOT_HOSTILE_DAMAGE)
+          foe.damaged_event(attribute_damage(ATTRIBUTE_DYING, foe, 1))
         end
         @feats_enable[FEAT_SWAN_SONG] = false
       end
@@ -13223,10 +13106,10 @@ module Unlight
         if foe.cards.size > 0
           tmp_cards.each do |c|
             if steal_count > deal_count
-              if @cc.owner.distance == 1 &&(c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD)
+              if @cc.owner.distance == 1 && (c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD)
                 steal_deal(c)
                 deal_count += 1
-              elsif @cc.owner.distance > 1 &&(c.u_type == ActionCard::ARW || c.b_type == ActionCard::ARW)
+              elsif @cc.owner.distance > 1 && (c.u_type == ActionCard::ARW || c.b_type == ActionCard::ARW)
                 steal_deal(c)
                 deal_count += 1
               end
@@ -13251,7 +13134,6 @@ module Unlight
     end
     regist_event UseIdleGraveFeatEvent
 
-
     # ------------------
     # 慟哭の歌
     # ------------------
@@ -13271,7 +13153,7 @@ module Unlight
     def use_sorrow_song_feat()
       if @feats_enable[FEAT_SORROW_SONG]
         unless (foe.current_chara_card.get_enable_feats(PHASE_ATTACK).keys & THIRTEEN_EYES).size > 0
-          foe.tmp_power = (foe.tmp_power/2).to_i
+          foe.tmp_power = (foe.tmp_power / 2).to_i
           foe.point_rewrite_event
         end
       end
@@ -13284,6 +13166,7 @@ module Unlight
         use_feat_event(@feats[FEAT_SORROW_SONG])
 
         return if Feat.pow(@feats[FEAT_SORROW_SONG]) == 0
+
         @feats_enable[FEAT_SORROW_SONG] = false
         # 自身を能力低下
         if @cc.status[STATE_STATE_DOWN][1] > 0
@@ -13337,7 +13220,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_red_wheel_feat()
       if @feats_enable[FEAT_RED_WHEEL]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_RED_WHEEL])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_RED_WHEEL])
       end
     end
     regist_event UseRedWheelFeatEvent
@@ -13358,21 +13241,20 @@ module Unlight
         duel.second_entrant.hit_points.each_index do |i|
           hps << i if duel.second_entrant.hit_points[i] > 0
         end
-        attribute_party_damage(foe, hps, (owner.tmp_power/10).to_i, ATTRIBUTE_CONSTANT, TARGET_TYPE_HP_MIN)
+        attribute_party_damage(foe, hps, (owner.tmp_power / 10).to_i, ATTRIBUTE_CONSTANT, TARGET_TYPE_HP_MIN)
         # 自身を能力低下
         if @cc.status[STATE_STATE_DOWN][1] > 0
           @cc.status[STATE_STATE_DOWN][1] += 1
           @cc.status[STATE_STATE_DOWN][1] = 9 if @cc.status[STATE_STATE_DOWN][1] > 9
           on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         else
-          set_state(@cc.status[STATE_STATE_DOWN], 1,  1)
+          set_state(@cc.status[STATE_STATE_DOWN], 1, 1)
           on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         end
         @feats_enable[FEAT_RED_WHEEL] = false
       end
     end
     regist_event UseRedWheelFeatDamageEvent
-
 
     # ------------------
     # 赤い石榴
@@ -13448,34 +13330,34 @@ module Unlight
     # HPを固定させる
     def random_hp(v = 0)
       if owner.hit_point > v
-        owner.damaged_event(owner.hit_point-v,IS_NOT_HOSTILE_DAMAGE)
+        owner.damaged_event(owner.hit_point - v, IS_NOT_HOSTILE_DAMAGE)
       elsif owner.hit_point < v
-        owner.healed_event(v-owner.hit_point)
+        owner.healed_event(v - owner.hit_point)
       end
       if v == 99
-        foe.healed_event(attribute_damage(ATTRIBUTE_ZAKURO,foe,v))
+        foe.healed_event(attribute_damage(ATTRIBUTE_ZAKURO, foe, v))
       elsif foe.hit_point > v
-        foe.damaged_event(attribute_damage(ATTRIBUTE_ZAKURO,foe,v))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_ZAKURO, foe, v))
       elsif foe.hit_point > v
-        foe.healed_event(foe.hit_point-v)
+        foe.healed_event(foe.hit_point - v)
       elsif foe.hit_point < v
-        foe.healed_event(v-foe.hit_point)
+        foe.healed_event(v - foe.hit_point)
       end
     end
 
     # 手札を固定させる
     def random_hand(v = 0)
       if owner.cards.count < v
-        owner.special_dealed_event(duel.deck.draw_cards_event(v-owner.cards.count).each{ |c| owner.dealed_event(c)})
+        owner.special_dealed_event(duel.deck.draw_cards_event(v - owner.cards.count).each { |c| owner.dealed_event(c) })
       elsif owner.cards.count > v
         aca = owner.cards.shuffle
-        (owner.cards.count-v).times{ |a| discard(owner, aca[a]) if aca[a] }
+        (owner.cards.count - v).times { |a| discard(owner, aca[a]) if aca[a] }
       end
       if foe.cards.count < v
-        foe.special_dealed_event(duel.deck.draw_cards_event(v-foe.cards.count).each{ |c| foe.dealed_event(c)})
+        foe.special_dealed_event(duel.deck.draw_cards_event(v - foe.cards.count).each { |c| foe.dealed_event(c) })
       elsif foe.cards.count > v
         aca = foe.cards.shuffle
-        (foe.cards.count-v).times{ |a| discard(foe, aca[a]) if aca[a] }
+        (foe.cards.count - v).times { |a| discard(foe, aca[a]) if aca[a] }
       end
     end
 
@@ -13489,22 +13371,22 @@ module Unlight
                                         ]
     # ランダムに移動
     def random_move(v = 0)
-      mp = rand(4) -2
+      mp = rand(4) - 2
       @cc.owner.move_action(mp)
       @cc.foe.move_action(mp)
-      owner.special_message_event(RED_PEMEGRANTE_RAND_MOVE_MESS_SET[mp+2])
+      owner.special_message_event(RED_PEMEGRANTE_RAND_MOVE_MESS_SET[mp + 2])
     end
 
     # 全てにダメージ
     def random_damage_all(v = 0)
       hps = []
-      owner.hit_points.each_with_index do |v,i|
+      owner.hit_points.each_with_index do |v, i|
         hps << i if v > 0
       end
       attribute_party_damage(owner, hps, v, ATTRIBUTE_CONSTANT, TARGET_TYPE_ALL, 1, IS_NOT_HOSTILE_DAMAGE) if hps.size > 0
 
       hps = []
-      foe.hit_points.each_with_index do |v,i|
+      foe.hit_points.each_with_index do |v, i|
         hps << i if v > 0
       end
       attribute_party_damage(foe, hps, v, ATTRIBUTE_CONSTANT, TARGET_TYPE_ALL) if hps.size > 0
@@ -13519,7 +13401,6 @@ module Unlight
         foe.party_healed_event(i, v) if foe.hit_points[i] > 0
       end
     end
-
 
     # ------------------
     # クロックワークス
@@ -13545,9 +13426,9 @@ module Unlight
         # イベントカードを引く
         num = Feat.pow(@feats[FEAT_CLOCK_WORKS]) == 1 ? owner.get_battle_table_point(ActionCard::SPC) : Feat.pow(@feats[FEAT_CLOCK_WORKS])
         num = 2 if num > 2
-        @cc.owner.special_event_card_dealed_event(duel.get_event_deck(owner).draw_cards_event(num).each{ |c| @cc.owner.dealed_event(c)})
+        @cc.owner.special_event_card_dealed_event(duel.get_event_deck(owner).draw_cards_event(num).each { |c| @cc.owner.dealed_event(c) })
         # ターンを加算する
-        duel.set_turn(duel.turn+num)
+        duel.set_turn(duel.turn + num)
       end
     end
     regist_event FinishClockWorksFeatEvent
@@ -13570,7 +13451,7 @@ module Unlight
 
     def use_ex_time_hunt_feat()
       if @feats_enable[FEAT_TIME_HUNT] && Feat.pow(@feats[FEAT_TIME_HUNT]) == 5
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_TIME_HUNT])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_TIME_HUNT])
       end
     end
     regist_event UseExTimeHuntFeatEvent
@@ -13618,10 +13499,10 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_time_bomb_feat()
       if @feats_enable[FEAT_TIME_BOMB]
-        if Feat.pow(@feats[FEAT_TIME_BOMB]) == 11 && ![2,3,5,7,11,13,17].include?(duel.turn)
-            @cc.owner.tmp_power+=7
+        if Feat.pow(@feats[FEAT_TIME_BOMB]) == 11 && ![2, 3, 5, 7, 11, 13, 17].include?(duel.turn)
+            @cc.owner.tmp_power += 7
         else
-          @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_TIME_BOMB])
+          @cc.owner.tmp_power += Feat.pow(@feats[FEAT_TIME_BOMB])
         end
       end
     end
@@ -13632,9 +13513,9 @@ module Unlight
       if @feats_enable[FEAT_TIME_BOMB]
         @feats_enable[FEAT_TIME_BOMB] = false
         use_feat_event(@feats[FEAT_TIME_BOMB])
-        if [2,3,5,7,11,13,17].include?(duel.turn)
+        if [2, 3, 5, 7, 11, 13, 17].include?(duel.turn)
           d = Feat.pow(@feats[FEAT_TIME_BOMB]) > 7 ? 4 : 3
-          foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,d))
+          foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, d))
         end
       end
     end
@@ -13662,7 +13543,7 @@ module Unlight
         use_feat_event(@feats[FEAT_IN_THE_EVENING])
         @feats_enable[FEAT_IN_THE_EVENING] = false
         @cc.owner.chara_cards.each_index do |i|
-          @cc.owner.party_healed_event(i, ((@cc.owner.chara_cards[i].rarity-4)/2).to_i) if @cc.owner.hit_points[i] > 0 && @cc.owner.chara_cards[i].rarity > 5
+          @cc.owner.party_healed_event(i, ((@cc.owner.chara_cards[i].rarity - 4) / 2).to_i) if @cc.owner.hit_points[i] > 0 && @cc.owner.chara_cards[i].rarity > 5
         end
       end
     end
@@ -13712,13 +13593,13 @@ module Unlight
               foe.current_chara_card.status[STATE_DEAD_COUNT][1] = 0
               foe.damaged_event(attribute_damage(ATTRIBUTE_DEATH, foe))
             else
-              (foe.current_chara_card.status[STATE_DEAD_COUNT][1]).times{ update_buff_event(false, STATE_DEAD_COUNT, foe.current_chara_card.status[STATE_DEAD_COUNT][0]) }
+              (foe.current_chara_card.status[STATE_DEAD_COUNT][1]).times { update_buff_event(false, STATE_DEAD_COUNT, foe.current_chara_card.status[STATE_DEAD_COUNT][0]) }
               # レイド戦の場合は、OnBuffイベントで更新するのみ
               on_buff_event(false, foe.current_chara_card_no, STATE_DEAD_COUNT, foe.current_chara_card.status[STATE_DEAD_COUNT][0], 0)
               foe.damaged_event(attribute_damage(ATTRIBUTE_DEATH, foe))
             end
           else
-            (3).times{ update_buff_event(false, STATE_DEAD_COUNT, foe.current_chara_card.status[STATE_DEAD_COUNT][0]) }
+            (3).times { update_buff_event(false, STATE_DEAD_COUNT, foe.current_chara_card.status[STATE_DEAD_COUNT][0]) }
             foe.current_chara_card.status[STATE_DEAD_COUNT][1] -= 3
             # レイドの場合は3まで短縮
             unless @cc.status_update
@@ -13734,7 +13615,6 @@ module Unlight
       end
     end
     regist_event UseFinalWaltzFeatDamageEvent
-
 
     # ------------------
     # 自棄のソナタ
@@ -13814,7 +13694,7 @@ module Unlight
       if @feats_enable[FEAT_GLADIATOR_MARCH]
         @feats_enable[FEAT_GLADIATOR_MARCH] = false
         use_feat_event(@feats[FEAT_GLADIATOR_MARCH])
-        heal = ((duel.turn-1) / 6).to_i + 1
+        heal = ((duel.turn - 1) / 6).to_i + 1
         @cc.owner.hit_points.each_index do |i|
           @cc.owner.party_healed_event(i, heal) if @cc.owner.hit_points[i] > 0
         end
@@ -13900,7 +13780,7 @@ module Unlight
     def finish_change_delicious_milk_feat()
       if @feats_enable[FEAT_DELICIOUS_MILK]
         # 自分ひとりでキャラチェンジしたとき移動方向を制御
-        owner.set_direction(Entrant::DIRECTION_STAY) if owner.hit_points.select{ |h| h > 0 }.count <= 1 && owner.direction == Entrant::DIRECTION_CHARA_CHANGE
+        owner.set_direction(Entrant::DIRECTION_STAY) if owner.hit_points.select { |h| h > 0 }.count <= 1 && owner.direction == Entrant::DIRECTION_CHARA_CHANGE
       end
     end
     regist_event FinishChangeDeliciousMilkFeatEvent
@@ -13960,12 +13840,12 @@ module Unlight
           hps << [i, duel.second_entrant.hit_points[i]] if i != duel.second_entrant.current_chara_card_no && duel.second_entrant.hit_points[i] > 0
         end
         if hps.size > 0
-          hps.shuffle! if hps.size ==2 && hps[0][1] == hps[1][1] # 残り二人のhpが同じ値ならばランダムに入れ替える
-          chp = hps.sort{ |a,b| a[1] <=> b[1] }[0]
+          hps.shuffle! if hps.size == 2 && hps[0][1] == hps[1][1] # 残り二人のhpが同じ値ならばランダムに入れ替える
+          chp = hps.sort { |a, b| a[1] <=> b[1] }[0]
           if chp[1] < owner.hit_point
-            duel.second_entrant.party_healed_event(chp[0], owner.hit_point-chp[1])
+            duel.second_entrant.party_healed_event(chp[0], owner.hit_point - chp[1])
           elsif chp[1] > owner.hit_point
-            duel.second_entrant.party_damaged_event(chp[0], chp[1]-owner.hit_point)
+            duel.second_entrant.party_damaged_event(chp[0], chp[1] - owner.hit_point)
           end
         end
       end
@@ -13993,7 +13873,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_blood_collecting_feat()
       if @feats_enable[FEAT_BLOOD_COLLECTING]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_BLOOD_COLLECTING])*@cc.owner.get_battle_table_point(ActionCard::SPC)
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_BLOOD_COLLECTING]) * @cc.owner.get_battle_table_point(ActionCard::SPC)
       end
     end
     regist_event UseBloodCollectingFeatEvent
@@ -14008,10 +13888,10 @@ module Unlight
           hps << [i, owner.hit_points[i]] if i != owner.current_chara_card_no && owner.hit_points[i] > 0
         end
         if hps.size > 0
-          hps.shuffle! if hps.size ==2 && hps[0][1] == hps[1][1] # 残り二人のhpが同じ値ならばランダムに入れ替える
+          hps.shuffle! if hps.size == 2 && hps[0][1] == hps[1][1] # 残り二人のhpが同じ値ならばランダムに入れ替える
           # オーナー側は自傷ダメージとして取り扱う
           attribute_party_damage(owner,
-                                 hps.sort{ |a,b| a[1] <=> b[1] }[0][0],
+                                 hps.sort { |a, b| a[1] <=> b[1] }[0][0],
                                  owner.get_battle_table_point(ActionCard::SPC).to_i,
                                  ATTRIBUTE_CONSTANT,
                                  TARGET_TYPE_SINGLE,
@@ -14066,7 +13946,7 @@ module Unlight
         # 変身時の効果
         owner.cards_max = owner.cards_max + 1 if @feats_enable[FEAT_DELICIOUS_MILK]
         # 自身は死亡
-        owner.damaged_event(99,IS_NOT_HOSTILE_DAMAGE)
+        owner.damaged_event(99, IS_NOT_HOSTILE_DAMAGE)
         # HP0以下になったら相手の必殺技を解除
         foe.sealed_event() if owner.hit_point <= 0
       end
@@ -14099,14 +13979,13 @@ module Unlight
     end
     regist_event UseIceGateFeatEvent
 
-
     # 氷の門が使用終了される
     def finish_ice_gate_feat()
       if @feats_enable[FEAT_ICE_GATE]
         @feats_enable[FEAT_ICE_GATE] = false
         use_feat_event(@feats[FEAT_ICE_GATE])
         if (foe.current_chara_card.level % 2) == 1 && (duel.turn % 2) == 1
-          foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,Feat.pow(@feats[FEAT_ICE_GATE])))
+          foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_ICE_GATE])))
         end
       end
     end
@@ -14138,14 +14017,13 @@ module Unlight
     end
     regist_event UseFireGateFeatEvent
 
-
     # 炎の門が使用終了される
     def finish_fire_gate_feat()
       if @feats_enable[FEAT_FIRE_GATE]
         @feats_enable[FEAT_FIRE_GATE] = false
         use_feat_event(@feats[FEAT_FIRE_GATE])
         if (foe.current_chara_card.level % 2) == 0 && (duel.turn % 2) == 0
-          foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,Feat.pow(@feats[FEAT_FIRE_GATE])))
+          foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_FIRE_GATE])))
         end
       end
     end
@@ -14179,11 +14057,11 @@ module Unlight
       if @feats_enable[FEAT_BREAK_GATE]
         @feats_enable[FEAT_BREAK_GATE] = false
         use_feat_event(@feats[FEAT_BREAK_GATE])
-        mp = rand(4) -2
+        mp = rand(4) - 2
         @cc.owner.move_action(mp)
         @cc.foe.move_action(mp)
         if duel.turn % 5 == 0
-          owner.damaged_event(Feat.pow(@feats[FEAT_BREAK_GATE]),IS_NOT_HOSTILE_DAMAGE)
+          owner.damaged_event(Feat.pow(@feats[FEAT_BREAK_GATE]), IS_NOT_HOSTILE_DAMAGE)
         end
       end
     end
@@ -14232,7 +14110,6 @@ module Unlight
     end
     regist_event UseShoutOfGateFeatDamageEvent
 
-
     # ------------------
     # フュリアスアンガー
     # ------------------
@@ -14274,7 +14151,7 @@ module Unlight
           if @cc.status[STATE_STICK][0] == 1
             foe.cured_event()
           elsif Feat.pow(@feats[FEAT_FERREOUS_ANGER]) == 10 && @cc.status[STATE_STICK][0] == 2
-            @cc.status.each_with_index do |s,i|
+            @cc.status.each_with_index do |s, i|
               if s[1] > 0 && i != STATE_STICK && (! CharaCard::IRREMEDIABLE_STATE.include?(i))
                 s[1] = 0
                 off_buff_event(true, owner.current_chara_card_no, i, s[0])
@@ -14322,7 +14199,7 @@ module Unlight
           change_stick_state
           on_buff_event(true, owner.current_chara_card_no, STATE_STICK, @cc.status[STATE_STICK][0], @cc.status[STATE_STICK][1])
         else
-          set_state(@cc.status[STATE_STICK], 1+rand(2), 1)
+          set_state(@cc.status[STATE_STICK], 1 + rand(2), 1)
           on_buff_event(true, owner.current_chara_card_no, STATE_STICK, @cc.status[STATE_STICK][0], @cc.status[STATE_STICK][1])
         end
 
@@ -14351,7 +14228,7 @@ module Unlight
     # グッドウィルが使用
     def use_good_will_feat()
       if @feats_enable[FEAT_GOOD_WILL]
-        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_GOOD_WILL])+1
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_GOOD_WILL]) + 1
       end
     end
     regist_event UseGoodWillFeatEvent
@@ -14392,7 +14269,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_great_vengeance_feat()
       if @feats_enable[FEAT_GREAT_VENGEANCE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_GREAT_VENGEANCE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_GREAT_VENGEANCE])
       end
     end
     regist_event UseGreatVengeanceFeatEvent
@@ -14453,7 +14330,7 @@ module Unlight
       if @feats_enable[FEAT_INNOCENT_SOUL]
         use_feat_event(@feats[FEAT_INNOCENT_SOUL])
         @feats_enable[FEAT_INNOCENT_SOUL] = false
-        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(Feat.pow(@feats[FEAT_INNOCENT_SOUL])).each{ |c| @cc.owner.dealed_event(c)})
+        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(Feat.pow(@feats[FEAT_INNOCENT_SOUL])).each { |c| @cc.owner.dealed_event(c) })
         d = Feat.pow(@feats[FEAT_INNOCENT_SOUL]) > 4 ? 3 : Feat.pow(@feats[FEAT_INNOCENT_SOUL]) - 1
         owner.damaged_event(d, IS_NOT_HOSTILE_DAMAGE)
       end
@@ -14522,7 +14399,7 @@ module Unlight
               hps << [i, foe.hit_points[i]]
             end
           end
-          foe.chara_change_index = hps.sort{ |a,b| a[1] <=> b[1] }[0][0]
+          foe.chara_change_index = hps.sort { |a, b| a[1] <=> b[1] }[0][0]
           foe.chara_change_force = true
         end
       end
@@ -14560,7 +14437,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_idle_fate_feat()
       if @feats_enable[FEAT_IDLE_FATE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_IDLE_FATE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_IDLE_FATE])
       end
     end
     regist_event UseIdleFateFeatEvent
@@ -14607,7 +14484,6 @@ module Unlight
     end
     regist_event UseRegrettableJudgmentFeatEvent
 
-
     # 無念の裁きが使用終了
     def finish_regrettable_judgment_feat()
       if @feats_enable[FEAT_REGRETTABLE_JUDGMENT]
@@ -14622,14 +14498,13 @@ module Unlight
       if @feats_enable[FEAT_REGRETTABLE_JUDGMENT]
         # HPがマイナスで1度だけ発動
         if duel.tmp_damage >= @cc.owner.hit_point
-          d = attribute_damage(ATTRIBUTE_DEATH,duel.first_entrant)
+          d = attribute_damage(ATTRIBUTE_DEATH, duel.first_entrant)
           duel.first_entrant.damaged_event(attribute_damage(ATTRIBUTE_SPECIAL_COUNTER, duel.first_entrant, d))
         end
       end
       @feats_enable[FEAT_REGRETTABLE_JUDGMENT] = false
     end
     regist_event UseRegrettableJudgmentFeatDamageEvent
-
 
     # ------------------
     # 罪業の蠢き
@@ -14651,7 +14526,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_sin_wriggle_feat()
       if @feats_enable[FEAT_SIN_WRIGGLE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_SIN_WRIGGLE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SIN_WRIGGLE])
       end
     end
     regist_event UseSinWriggleFeatEvent
@@ -14671,13 +14546,12 @@ module Unlight
         # ダメージがマイナス（ダイスの結果防御点の方が上回った場合）
         if duel.tmp_damage > 0
           # 対戦相手のイベントカードを腐らせる
-          duel.get_event_deck(foe).replace_event_cards(USELESS_EVENT_CARD_ID,duel.tmp_damage)
+          duel.get_event_deck(foe).replace_event_cards(USELESS_EVENT_CARD_ID, duel.tmp_damage)
         end
         @feats_enable[FEAT_SIN_WRIGGLE] = false
       end
     end
     regist_event UseSinWriggleFeatDamageEvent
-
 
     # ------------------
     # 懶惰の呻き
@@ -14758,7 +14632,7 @@ module Unlight
       if @feats_enable[FEAT_CONTAMINATION_SORROW]
         @feats_enable[FEAT_CONTAMINATION_SORROW] = false
         use_feat_event(@feats[FEAT_CONTAMINATION_SORROW])
-        num = (((owner.cards.count - foe.cards.count).abs+1) / 2).to_i
+        num = (((owner.cards.count - foe.cards.count).abs + 1) / 2).to_i
         cards_num_before = foe.cards.size
         if owner.cards.count < foe.cards.count
           # 相手のカードを奪う
@@ -14775,7 +14649,6 @@ module Unlight
       end
     end
     regist_event FinishContaminationSorrowFeatEvent
-
 
     # ------------------
     # 蹉跌の犇めき
@@ -14800,18 +14673,16 @@ module Unlight
     end
     regist_event UseFailureGroanFeatEvent
 
-
     # 蹉跌の犇めきが使用終了される
     def finish_failure_groan_feat()
       if @feats_enable[FEAT_FAILURE_GROAN]
         @feats_enable[FEAT_FAILURE_GROAN] = false
         use_feat_event(@feats[FEAT_FAILURE_GROAN])
         dmg = Feat.pow(@feats[FEAT_FAILURE_GROAN]) - duel.deck.size
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,dmg)) if dmg > 0
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg)) if dmg > 0
       end
     end
     regist_event FinishFailureGroanFeatEvent
-
 
     # ------------------
     # 大聖堂
@@ -14895,7 +14766,7 @@ module Unlight
       if @feats_enable[FEAT_WINTER_DREAM]
         # 自身のイベントカードを強化
         replace_num = Feat.pow(@feats[FEAT_WINTER_DREAM]) == 10 ? 3 : 2
-        duel.get_event_deck(owner).replace_event_cards(S5A5_EVENT_CARD_ID,replace_num)
+        duel.get_event_deck(owner).replace_event_cards(S5A5_EVENT_CARD_ID, replace_num)
         @feats_enable[FEAT_WINTER_DREAM] = false
       end
     end
@@ -14923,7 +14794,7 @@ module Unlight
         use_feat_event(@feats[FEAT_TENDER_NIGHT])
         @feats_enable[FEAT_TENDER_NIGHT] = false
         replace_num = Feat.pow(@feats[FEAT_TENDER_NIGHT]) == 2 ? 3 : 1
-        duel.get_event_deck(owner).replace_event_cards(HP5_EVENT_CARD_ID,replace_num)
+        duel.get_event_deck(owner).replace_event_cards(HP5_EVENT_CARD_ID, replace_num)
         owner.healed_event(1)
       end
     end
@@ -14950,7 +14821,7 @@ module Unlight
       if @feats_enable[FEAT_FORTUNATE_REASON]
         use_feat_event(@feats[FEAT_FORTUNATE_REASON])
         @feats_enable[FEAT_FORTUNATE_REASON] = false
-        duel.get_event_deck(owner).replace_event_cards(CHANCE5_EVENT_CARD_ID,Feat.pow(@feats[FEAT_FORTUNATE_REASON]))
+        duel.get_event_deck(owner).replace_event_cards(CHANCE5_EVENT_CARD_ID, Feat.pow(@feats[FEAT_FORTUNATE_REASON]))
         owner.cards_max = owner.cards_max - 1 if owner.cards_max > 1
       end
     end
@@ -14977,7 +14848,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_rud_num_feat()
       if @feats_enable[FEAT_RUD_NUM]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_RUD_NUM])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_RUD_NUM])
       end
     end
     regist_event UseRudNumFeatEvent
@@ -15013,7 +14884,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_von_num_feat()
       if @feats_enable[FEAT_VON_NUM]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_VON_NUM])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_VON_NUM])
       end
     end
     regist_event UseVonNumFeatEvent
@@ -15033,14 +14904,13 @@ module Unlight
         damage_line = Feat.pow(@feats[FEAT_VON_NUM]) == 6 ? 8 : 10
         # ダメージがマイナス（ダイスの結果防御点の方が上回った場合）
         if duel.tmp_damage >= damage_line
-          foe.damaged_event(attribute_damage(ATTRIBUTE_REFLECTION,foe,duel.tmp_damage))
+          foe.damaged_event(attribute_damage(ATTRIBUTE_REFLECTION, foe, duel.tmp_damage))
           duel.tmp_damage = 0
         end
         @feats_enable[FEAT_VON_NUM] = false
       end
     end
     regist_event UseVonNumFeatDamageEvent
-
 
     # ------------------
     # ChrNum
@@ -15063,15 +14933,15 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_chr_num_feat()
       if @feats_enable[FEAT_CHR_NUM]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_CHR_NUM])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_CHR_NUM])
       end
     end
     regist_event UseChrNumFeatEvent
 
     # 吸収するステータス
-    DRAIN_STATE_SET = [[STATE_ATK_UP,STATE_ATK_DOWN,3],
-                       [STATE_DEF_UP,STATE_DEF_DOWN,3],
-                       [STATE_MOVE_UP,STATE_MOVE_DOWN,1]]
+    DRAIN_STATE_SET = [[STATE_ATK_UP, STATE_ATK_DOWN, 3],
+                       [STATE_DEF_UP, STATE_DEF_DOWN, 3],
+                       [STATE_MOVE_UP, STATE_MOVE_DOWN, 1]]
 
     # ChrNumが使用終了
     def finish_chr_num_feat()
@@ -15110,14 +14980,14 @@ module Unlight
     end
     regist_event UseWilNumFeatEvent
     # 吸収するステータス
-    POWER_UP_STATE_SET = [STATE_ATK_UP,STATE_ATK_DOWN,STATE_DEF_UP,STATE_DEF_DOWN,STATE_MOVE_UP,STATE_MOVE_DOWN]
+    POWER_UP_STATE_SET = [STATE_ATK_UP, STATE_ATK_DOWN, STATE_DEF_UP, STATE_DEF_DOWN, STATE_MOVE_UP, STATE_MOVE_DOWN]
 
     # WilNumが使用終了される
     def finish_wil_num_feat()
       if @feats_enable[FEAT_WIL_NUM]
         @feats_enable[FEAT_WIL_NUM] = false
         use_feat_event(@feats[FEAT_WIL_NUM])
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,Feat.pow(@feats[FEAT_WIL_NUM])))
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_WIL_NUM])))
 
         # 状態異常を強化
         POWER_UP_STATE_SET.each do |p|
@@ -15153,7 +15023,7 @@ module Unlight
     # 必殺技の状態
     def use_kutunesirka_feat()
       if @feats_enable[FEAT_KUTUNESIRKA]
-        @cc.owner.tmp_power +=Feat.pow(@feats[FEAT_KUTUNESIRKA])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_KUTUNESIRKA])
       end
     end
     regist_event UseKutunesirkaFeatEvent
@@ -15178,7 +15048,6 @@ module Unlight
     end
     regist_event UseKutunesirkaFeatDamageEvent
 
-
     # ------------------
     # ヘルメスの靴(ドゥンケルハイト)
     # ------------------
@@ -15199,7 +15068,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_feet_of_hermes_feat()
       if @feats_enable[FEAT_FEET_OF_HERMES]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_FEET_OF_HERMES])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_FEET_OF_HERMES])
       end
     end
     regist_event UseFeetOfHermesFeatEvent
@@ -15242,7 +15111,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_aegis_wing_feat()
       if @feats_enable[FEAT_AEGIS_WING]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_AEGIS_WING])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_AEGIS_WING])
       end
     end
     regist_event UseAegisWingFeatEvent
@@ -15307,7 +15176,6 @@ module Unlight
       end
     end
     regist_event FinishClaiomhSolaisFeatEvent
-
 
     # ------------------
     # 細胞変異
@@ -15396,7 +15264,7 @@ module Unlight
         dmg = owner.current_hit_point_max - duel.tmp_dice_heads_atk
         dmg = 0 if dmg < 0
         if @cc.status[STATE_UNDEAD][1] > 0
-          foe.damaged_event(attribute_damage(ATTRIBUTE_COUNTER, foe, ((dmg+Feat.pow(@feats[FEAT_RAMPANCY]))/2).to_i))
+          foe.damaged_event(attribute_damage(ATTRIBUTE_COUNTER, foe, ((dmg + Feat.pow(@feats[FEAT_RAMPANCY])) / 2).to_i))
         else
           duel.tmp_damage = foe.tmp_power > 0 ? dmg : owner.hit_point - 1
         end
@@ -15448,12 +15316,12 @@ module Unlight
         down_point = @cc.status[STATE_STATE_DOWN][1]
 
         rand_num = rand(100)
-        if rand_num < down_point*10
+        if rand_num < down_point * 10
           @cc.status[STATE_STATE_DOWN][1] = 0
           off_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0])
 
           if foe.current_chara_card.status[STATE_STATE_DOWN][1] > 0
-            buffed = set_state(foe.current_chara_card.status[STATE_STATE_DOWN], 1, foe.current_chara_card.status[STATE_STATE_DOWN][1]+down_point)
+            buffed = set_state(foe.current_chara_card.status[STATE_STATE_DOWN], 1, foe.current_chara_card.status[STATE_STATE_DOWN][1] + down_point)
             on_buff_event(false, foe.current_chara_card_no, STATE_STATE_DOWN, foe.current_chara_card.status[STATE_STATE_DOWN][0], foe.current_chara_card.status[STATE_STATE_DOWN][1]) if buffed
           else
             buffed = set_state(foe.current_chara_card.status[STATE_STATE_DOWN], 1, down_point)
@@ -15483,13 +15351,12 @@ module Unlight
     regist_event CheckAddSilverBulletFeatEvent
     regist_event CheckRotateSilverBulletFeatEvent
 
-
     # 銀の弾丸が使用終了
     def finish_silver_bullet_feat()
       if @feats_enable[FEAT_SILVER_BULLET]
         @feats_enable[FEAT_SILVER_BULLET] = false
         use_feat_event(@feats[FEAT_SILVER_BULLET])
-        owner.damaged_event(3,IS_NOT_HOSTILE_DAMAGE)
+        owner.damaged_event(3, IS_NOT_HOSTILE_DAMAGE)
         set_state(@cc.status[STATE_UNDEAD], 1, Feat.pow(@feats[FEAT_SILVER_BULLET]));
         on_buff_event(true, owner.current_chara_card_no, STATE_UNDEAD, @cc.status[STATE_UNDEAD][0], @cc.status[STATE_UNDEAD][1])
       end
@@ -15516,9 +15383,9 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_pumpkin_drop_feat()
       if @feats_enable[FEAT_PUMPKIN_DROP]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_PUMPKIN_DROP])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_PUMPKIN_DROP])
         # 素数ターンで攻撃力増加
-        if [2,3,5,7,11,13,17].include?(duel.turn)
+        if [2, 3, 5, 7, 11, 13, 17].include?(duel.turn)
           @cc.owner.tmp_power += duel.turn
         end
       end
@@ -15538,8 +15405,8 @@ module Unlight
     def use_pumpkin_drop_feat_damage()
       if @feats_enable[FEAT_PUMPKIN_DROP]
         # 素数ターンでPTダメージ
-        pumpkin_drop_const_actuated = [2,3,5,7,11,13,17].include?(duel.turn) && duel.tmp_damage > 0
-        @pumpkin_drop_const_damage = pumpkin_drop_const_actuated ? (((duel.second_entrant.current_hit_point<duel.tmp_damage ? duel.second_entrant.current_hit_point : duel.tmp_damage)+1)/2).to_i : 0
+        pumpkin_drop_const_actuated = [2, 3, 5, 7, 11, 13, 17].include?(duel.turn) && duel.tmp_damage > 0
+        @pumpkin_drop_const_damage = pumpkin_drop_const_actuated ? (((duel.second_entrant.current_hit_point < duel.tmp_damage ? duel.second_entrant.current_hit_point : duel.tmp_damage) + 1) / 2).to_i : 0
       end
     end
     regist_event UsePumpkinDropFeatDamageEvent
@@ -15547,7 +15414,7 @@ module Unlight
     def use_pumpkin_drop_feat_const_damage()
       if @feats_enable[FEAT_PUMPKIN_DROP]
         if @pumpkin_drop_const_damage > 0
-          attribute_party_damage(foe,get_hps(foe),@pumpkin_drop_const_damage,ATTRIBUTE_CONSTANT,TARGET_TYPE_ALL)
+          attribute_party_damage(foe, get_hps(foe), @pumpkin_drop_const_damage, ATTRIBUTE_CONSTANT, TARGET_TYPE_ALL)
         end
         @feats_enable[FEAT_PUMPKIN_DROP] = false
       end
@@ -15574,7 +15441,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_wandering_feather_feat()
       if @feats_enable[FEAT_WANDERING_FEATHER]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_WANDERING_FEATHER])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_WANDERING_FEATHER])
       end
     end
     regist_event UseWanderingFeatherFeatEvent
@@ -15639,7 +15506,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_sheep_song_feat()
       if @feats_enable[FEAT_SHEEP_SONG]
-        @cc.owner.tmp_power+= Feat.pow(@feats[FEAT_SHEEP_SONG]) < 5 ? 0 : 3
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SHEEP_SONG]) < 5 ? 0 : 3
       end
     end
     regist_event UseSheepSongFeatEvent
@@ -15647,7 +15514,7 @@ module Unlight
     # ひつじ数え歌が使用終了
     def finish_sheep_song_feat()
       if @feats_enable[FEAT_SHEEP_SONG]
-        @cc.owner.healed_event(((Feat.pow(@feats[FEAT_SHEEP_SONG])+1)/3).to_i)
+        @cc.owner.healed_event(((Feat.pow(@feats[FEAT_SHEEP_SONG]) + 1) / 3).to_i)
         use_feat_event(@feats[FEAT_SHEEP_SONG])
         rand_num = rand(100)
         div_num = 1
@@ -15660,11 +15527,11 @@ module Unlight
           end
         elsif rand_num < Feat.pow(@feats[FEAT_SHEEP_SONG]) * 8
           div_num = Feat.pow(@feats[FEAT_SHEEP_SONG]) < 5 ? 2 : 3
-          foe.tmp_power = (foe.tmp_power/div_num).to_i
+          foe.tmp_power = (foe.tmp_power / div_num).to_i
           duel.bp[duel.initi[0]] = foe.tmp_power
         else
           div_num = 4
-          foe.tmp_power = (foe.tmp_power*2/3).to_i
+          foe.tmp_power = (foe.tmp_power * 2 / 3).to_i
           duel.bp[duel.initi[0]] = foe.tmp_power
         end
 
@@ -15705,8 +15572,8 @@ module Unlight
         use_feat_event(@feats[FEAT_DREAM_OF_OVUERYA])
         @feats_enable[FEAT_DREAM_OF_OVUERYA] = false
         draw_card_num = owner.hit_point >= Feat.pow(@feats[FEAT_DREAM_OF_OVUERYA]) ? 4 : 2
-        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(draw_card_num).each{ |c| @cc.owner.dealed_event(c)})
-        owner.damaged_event(1,IS_NOT_HOSTILE_DAMAGE)
+        @cc.owner.special_dealed_event(duel.deck.draw_cards_event(draw_card_num).each { |c| @cc.owner.dealed_event(c) })
+        owner.damaged_event(1, IS_NOT_HOSTILE_DAMAGE)
       end
     end
     regist_event FinishDreamOfOvueryaFeatEvent
@@ -15731,7 +15598,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_marys_sheep_feat()
       if @feats_enable[FEAT_MARYS_SHEEP]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_MARYS_SHEEP])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_MARYS_SHEEP])
       end
     end
     regist_event UseMarysSheepFeatEvent
@@ -15777,7 +15644,7 @@ module Unlight
     # 必殺技の状態
     def use_evil_eye_feat()
       if @feats_enable[FEAT_EVIL_EYE]
-        @cc.owner.tmp_power +=Feat.pow(@feats[FEAT_EVIL_EYE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_EVIL_EYE])
       end
     end
     regist_event UseEvilEyeFeatEvent
@@ -15792,7 +15659,7 @@ module Unlight
 
           if foe.current_chara_card.status[STATE_CURSE][1] > 0
 
-            buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1]+1);
+            buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1] + 1);
             on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
 
           else
@@ -15817,7 +15684,7 @@ module Unlight
           add_pt = Feat.pow(@feats[FEAT_EVIL_EYE]) == 9 ? 2 : 1
           if foe.current_chara_card.status[STATE_CURSE][1] > 0
 
-            buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1]+add_pt);
+            buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1] + add_pt);
             on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
 
           else
@@ -15862,7 +15729,7 @@ module Unlight
 
         if foe.current_chara_card.status[STATE_CURSE][1] > 0
 
-          buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1]+1);
+          buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1] + 1);
           on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
 
         else
@@ -15902,7 +15769,7 @@ module Unlight
     # 必殺技の状態
     def use_blasphemy_curse_feat()
       if @feats_enable[FEAT_BLASPHEMY_CURSE]
-        @cc.owner.tmp_power +=Feat.pow(@feats[FEAT_BLASPHEMY_CURSE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_BLASPHEMY_CURSE])
       end
     end
     regist_event UseBlasphemyCurseFeatEvent
@@ -15924,7 +15791,7 @@ module Unlight
 
         if pow > 0
 
-          foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,pow))
+          foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, pow))
           owner.healed_event(pow)
           foe.current_chara_card.status[STATE_CURSE][1] = 0
           off_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0])
@@ -16014,7 +15881,7 @@ module Unlight
     def use_thrones_gate_feat_damage()
       if @feats_enable[FEAT_THRONES_GATE]
         @feats_enable[FEAT_THRONES_GATE] = false
-        foe.damaged_event(attribute_damage(ATTRIBUTE_DEATH,foe)) if duel.turn % foe.current_chara_card.level == 0
+        foe.damaged_event(attribute_damage(ATTRIBUTE_DEATH, foe)) if duel.turn % foe.current_chara_card.level == 0
       end
     end
     regist_event UseThronesGateFeatDamageEvent
@@ -16039,7 +15906,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_ghost_resentment_feat()
       if @feats_enable[FEAT_GHOST_RESENTMENT]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_GHOST_RESENTMENT])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_GHOST_RESENTMENT])
       end
     end
     regist_event UseGhostResentmentFeatEvent
@@ -16099,7 +15966,7 @@ module Unlight
       if @feats_enable[FEAT_SWORD_AVOID]
         @feats_enable[FEAT_SWORD_AVOID] = false
         use_feat_event(@feats[FEAT_SWORD_AVOID])
-        duel.first_entrant.damaged_event(attribute_damage(ATTRIBUTE_REFLECTION,foe,@sword_avoid_foe_damage)) if @sword_avoid_foe_damage
+        duel.first_entrant.damaged_event(attribute_damage(ATTRIBUTE_REFLECTION, foe, @sword_avoid_foe_damage)) if @sword_avoid_foe_damage
         @sword_avoid_foe_damage = 0
       end
     end
@@ -16110,7 +15977,7 @@ module Unlight
     def use_sword_avoid_feat_damage()
       if @feats_enable[FEAT_SWORD_AVOID]
         if duel.tmp_damage > 0
-          owner_damage = ((duel.tmp_damage+1)/2).to_i
+          owner_damage = ((duel.tmp_damage + 1) / 2).to_i
           @sword_avoid_foe_damage = duel.tmp_damage - owner_damage
 
           duel.tmp_damage = owner_damage
@@ -16158,7 +16025,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_curse_sword_feat_damage()
       if @feats_enable[FEAT_CURSE_SWORD]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           hps = []
           duel.second_entrant.hit_points.each_index do |i|
             if duel.second_entrant.hit_points[i] > 0
@@ -16194,7 +16061,7 @@ module Unlight
       if @feats_enable[FEAT_ANGER_R]
         mod = (@cc.hp - @cc.owner.current_hit_point) * 2 + Feat.pow(@feats[FEAT_ANGER_R])
         mod_max = 99
-        @cc.owner.tmp_power += (mod > mod_max)? mod_max : mod
+        @cc.owner.tmp_power += (mod > mod_max) ? mod_max : mod
       end
     end
     regist_event UseAngerRFeatEvent
@@ -16228,7 +16095,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_volition_deflect_feat()
       if @feats_enable[FEAT_VOLITION_DEFLECT]
-        owner.const_damage_guard=(true)
+        owner.const_damage_guard = (true)
         use_feat_event(@feats[FEAT_VOLITION_DEFLECT])
       end
     end
@@ -16238,20 +16105,19 @@ module Unlight
     def use_volition_deflect_feat_damage(d)
         rand_num = rand(100)
         if rand_num < 33
-          owner.damaged_event(attribute_damage(ATTRIBUTE_REFLECTION,owner,d))
+          owner.damaged_event(attribute_damage(ATTRIBUTE_REFLECTION, owner, d))
         end
     end
 
     # 必殺技が使用終了
     def finish_volition_deflect_feat()
       if @feats_enable[FEAT_VOLITION_DEFLECT]
-        owner.const_damage_guard=(false)
+        owner.const_damage_guard = (false)
         @feats_enable[FEAT_VOLITION_DEFLECT] = false
       end
     end
     regist_event FinishVolitionDeflectFeatEvent
     regist_event FinishVolitionDeflectFeatDeadCharaChangeEvent
-
 
     # ------------------
     # 影撃ち(復活)
@@ -16290,7 +16156,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_shadow_shot_r_feat_damage()
       if @feats_enable[FEAT_SHAROW_SHOT_R]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           buffed = set_state(foe.current_chara_card.status[STATE_PARALYSIS], 1, 3);
           on_buff_event(false, foe.current_chara_card_no, STATE_PARALYSIS, foe.current_chara_card.status[STATE_PARALYSIS][0], foe.current_chara_card.status[STATE_PARALYSIS][1]) if buffed
         end
@@ -16314,7 +16180,6 @@ module Unlight
     regist_event CheckRemoveBurningTailFeatEvent
     regist_event CheckAddBurningTailFeatEvent
     regist_event CheckRotateBurningTailFeatEvent
-
 
     def use_burning_tail_feat()
       if @feats_enable[FEAT_BURNING_TAIL]
@@ -16343,7 +16208,7 @@ module Unlight
             attack_phase_feats << f.feat_no if f.caption.include?("[攻撃:")
           end
 
-          foe.battle_table.each_with_index do |c,i|
+          foe.battle_table.each_with_index do |c, i|
             foe.battle_card_rotate_silence(c.id, !c.up?)
             attack_phase_feats.each do |f|
               foe.reset_feat_on_cards(f)
@@ -16358,7 +16223,7 @@ module Unlight
 
             feats_index_sum_tmp = 0
             now_on_feats.each do |key, value|
-              attack_phase_feats.each_with_index do |a,i|
+              attack_phase_feats.each_with_index do |a, i|
                 feats_index_sum_tmp += i if a == key.to_i
               end
             end
@@ -16367,7 +16232,6 @@ module Unlight
             powers << foe.tmp_power
 
             foe.battle_card_rotate_silence(c.id, !c.up?)
-
           end
 
           selection_guideline = []
@@ -16611,7 +16475,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_blutkontamina_feat_damage()
       if @feats_enable[FEAT_BLUTKONTAMINA]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
 
           foe_dead_count_num = foe.current_chara_card.status[STATE_DEAD_COUNT][1]
 
@@ -16641,8 +16505,6 @@ module Unlight
       end
     end
     regist_event UseBlutkontaminaFeatDamageEvent
-
-
 
     # ------------------
     # つめたい視線
@@ -16704,7 +16566,6 @@ module Unlight
     end
     regist_event UseFeat1FeatEvent
 
-
     # feat1が使用される
     def finish_feat1_feat()
       if @feats_enable[FEAT_FEAT1]
@@ -16714,7 +16575,6 @@ module Unlight
         min_turn = foe.current_chara_card.kind == CC_KIND_PROFOUND_BOSS ? 1 : 0
 
         foe.current_chara_card.status.each_index do |i|
-
           reduce_count = 0
           while foe.current_chara_card.status[i][1] > min_turn && reduce_count < reduce_num
 
@@ -16936,7 +16796,7 @@ module Unlight
     regist_event UseFeat4FeatEvent
 
     def check_bp_feat4_feat
-      if @feats_enable[FEAT_FEAT4] &&  @cc && @cc.index == owner.current_chara_card_no && @over_drive_five
+      if @feats_enable[FEAT_FEAT4] && @cc && @cc.index == owner.current_chara_card_no && @over_drive_five
         owner.tmp_power *= 2
       end
     end
@@ -16992,18 +16852,18 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_weasel_feat()
       if @feats_enable[FEAT_WEASEL]
-        @cc.owner.tmp_power+=2
+        @cc.owner.tmp_power += 2
       end
     end
     regist_event UseWeaselFeatEvent
 
     def use_weasel_feat_deal()
       if @feat_weasel_deff_card_list
-        if duel.turn > 1 && @feat_weasel_deff_card_list["#{duel.turn-1}"]
+        if duel.turn > 1 && @feat_weasel_deff_card_list["#{duel.turn - 1}"]
           owner.battle_table = []
           deal_list = []
-          @feat_weasel_deff_card_list["#{duel.turn-1}"].each do |c|
-            deal_list << c if (!duel.deck.exist?(c) && !foe.cards.include?(c) && !owner.cards.include?(c))  # 山札・手札になければ引く
+          @feat_weasel_deff_card_list["#{duel.turn - 1}"].each do |c|
+            deal_list << c if (!duel.deck.exist?(c) && !foe.cards.include?(c) && !owner.cards.include?(c)) # 山札・手札になければ引く
           end
           @cc.owner.grave_dealed_event(deal_list)
         end
@@ -17088,7 +16948,7 @@ module Unlight
     regist_event CheckEndingWeaselFeatEvent
 
     def init_weasel
-        @feat_weasel_deff_card_list = { }
+        @feat_weasel_deff_card_list = {}
     end
 
     # ------------------
@@ -17110,8 +16970,8 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_dark_profound_feat()
       if @feats_enable[FEAT_DARK_PROFOUND]
-        @cc.owner.tmp_power+=4
-        @cc.owner.tmp_power+=4 * Feat.pow(@feats[FEAT_DARK_PROFOUND]) if @cc.using && owner.initiative && @cc.owner.distance == 3
+        @cc.owner.tmp_power += 4
+        @cc.owner.tmp_power += 4 * Feat.pow(@feats[FEAT_DARK_PROFOUND]) if @cc.using && owner.initiative && @cc.owner.distance == 3
       end
     end
     regist_event UseDarkProfoundFeatEvent
@@ -17167,11 +17027,11 @@ module Unlight
         # 相手のカードを回転する
         if Feat.pow(@feats[FEAT_KARMIC_DOR]) > 0
           foe.battle_table.each do |a|
-            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (a.up?)? false : true)
+            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (a.up?) ? false : true)
           end
         else
           foe.battle_table.each do |a|
-            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1)? true : false)
+            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1) ? true : false)
           end
         end
       end
@@ -17208,12 +17068,12 @@ module Unlight
       check_feat(FEAT_BATAFLY_MOV)
       # ポイントの変更をチェック
       if @feats_enable[FEAT_BATAFLY_MOV]
-        owner.table_cards_lock=(true)
+        owner.table_cards_lock = (true)
         owner.reset_on_list_by_type_set(FEAT_BATAFLY_MOV, "SAD", 3)
         owner.point_update_event
       else
         owner.clear_feat_battle_table_on_list(FEAT_BATAFLY_MOV)
-        owner.table_cards_lock=(false)
+        owner.table_cards_lock = (false)
       end
       @cc.owner.point_check(Entrant::POINT_CHECK_MOVE)
     end
@@ -17229,7 +17089,7 @@ module Unlight
         d = batafly_feat_type_to_distance(owner.get_max_value_type("SAD", 3))
         trap_status = { TRAP_STATUS_DISTANCE => d,
                         TRAP_STATUS_POW => Feat.pow(@feats[FEAT_BATAFLY_MOV]),
-                        TRAP_STATUS_TURN => TRAP_KEEP_TURN-1,
+                        TRAP_STATUS_TURN => TRAP_KEEP_TURN - 1,
                         TRAP_STATUS_STATE => TRAP_STATE_READY,
                         TRAP_STATUS_VISIBILITY => false
                       }
@@ -17241,7 +17101,7 @@ module Unlight
     def finish_batafly_mov_feat
       if @feats_enable[FEAT_BATAFLY_MOV]
         @feats_enable[FEAT_BATAFLY_MOV] = false
-        owner.table_cards_lock=(false)
+        owner.table_cards_lock = (false)
       end
     end
     regist_event FinishBataflyMovFeatEvent
@@ -17259,14 +17119,14 @@ module Unlight
       check_feat(FEAT_BATAFLY_ATK)
       # ポイントの変更をチェック
       if @feats_enable[FEAT_BATAFLY_ATK]
-        owner.table_cards_lock=(true)
+        owner.table_cards_lock = (true)
         min_val = 3
         min_val = 2 if @easing_feat_list && @easing_feat_list.key?(@feats[FEAT_BATAFLY_ATK])
         owner.reset_on_list_by_type_set(FEAT_BATAFLY_ATK, "SAD", min_val)
         owner.point_update_event
       else
         owner.clear_feat_battle_table_on_list(FEAT_BATAFLY_ATK)
-        owner.table_cards_lock=(false)
+        owner.table_cards_lock = (false)
       end
       @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
     end
@@ -17315,11 +17175,11 @@ module Unlight
       check_feat(FEAT_BATAFLY_DEF)
       # ポイントの変更をチェック
       if @feats_enable[FEAT_BATAFLY_DEF]
-        owner.table_cards_lock=(true)
+        owner.table_cards_lock = (true)
         owner.reset_on_list_by_type_set(FEAT_BATAFLY_DEF, "SAD", 3)
         owner.point_update_event
       else
-        owner.table_cards_lock=(false) if !@feats_enable[FEAT_BATAFLY_SLD]
+        owner.table_cards_lock = (false) if !@feats_enable[FEAT_BATAFLY_SLD]
         owner.clear_feat_battle_table_on_list(FEAT_BATAFLY_DEF)
       end
       @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
@@ -17365,11 +17225,11 @@ module Unlight
       check_feat(FEAT_BATAFLY_SLD)
       # ポイントの変更をチェック
       if @feats_enable[FEAT_BATAFLY_SLD]
-        owner.table_cards_lock=(true)
+        owner.table_cards_lock = (true)
         owner.reset_on_list_by_type_set(FEAT_BATAFLY_SLD, "SAD", 1, true)
         owner.point_update_event
       else
-        owner.table_cards_lock=(false) if !@feats[FEAT_BATAFLY_DEF]
+        owner.table_cards_lock = (false) if !@feats[FEAT_BATAFLY_DEF]
         owner.clear_feat_battle_table_on_list(FEAT_BATAFLY_SLD)
       end
       @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
@@ -17400,7 +17260,7 @@ module Unlight
                         TRAP_STATUS_STATE => TRAP_STATE_WAIT,
                         TRAP_STATUS_VISIBILITY => true }
         set_trap(owner, FEAT_BATAFLY_SLD, trap_status)
-        owner.invincible=(false)
+        owner.invincible = (false)
       end
     end
     regist_event FinishBataflySldFeatEvent
@@ -17437,12 +17297,12 @@ module Unlight
 
         # 使用回数+2を最大値として、ランダムにステータスを増減する
         max_val = @feat_grace_cocktail_cnt
-        rand_atk = rand(max_val+1) + max_val
+        rand_atk = rand(max_val + 1) + max_val
         atk_sign = rand(2)
-        rand_def = rand(max_val+1) + max_val
+        rand_def = rand(max_val + 1) + max_val
         def_sign = rand(2)
         status_list = [STATE_ATK_UP, STATE_ATK_DOWN, STATE_DEF_UP, STATE_DEF_DOWN]
-        on_buff_status = { } # 有効にするステータス
+        on_buff_status = {} # 有効にするステータス
 
         if atk_sign > 0
           on_buff_status[STATE_ATK_UP] = rand_atk
@@ -17475,7 +17335,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_grace_cocktail_feat_damage()
       if @feats_enable[FEAT_GRACE_COCKTAIL]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           buffed = set_state(foe.current_chara_card.status[STATE_PARALYSIS], 1, 3);
           on_buff_event(false, foe.current_chara_card_no, STATE_PARALYSIS, foe.current_chara_card.status[STATE_PARALYSIS][0], foe.current_chara_card.status[STATE_PARALYSIS][1]) if buffed
         end
@@ -17504,11 +17364,10 @@ module Unlight
       if @feats_enable[FEAT_LAND_MINE_R]
         @feats_enable[FEAT_LAND_MINE_R] = false
         use_feat_event(@feats[FEAT_LAND_MINE_R])
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,Feat.pow(@feats[FEAT_LAND_MINE_R])))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_LAND_MINE_R])))
       end
     end
     regist_event UseLandMineRFeatEvent
-
 
     # ------------------
     # ナパーム・デス
@@ -17530,7 +17389,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_napalm_death_feat()
       if @feats_enable[FEAT_NAPALM_DEATH]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_NAPALM_DEATH])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_NAPALM_DEATH])
       end
     end
     regist_event UseNapalmDeathFeatEvent
@@ -17550,7 +17409,6 @@ module Unlight
       end
     end
     regist_event FinishNapalmDeathFeatEvent
-
 
     # ------------------
     # スーサイダル・F
@@ -17573,7 +17431,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_suicidal_failure_feat()
       if @feats_enable[FEAT_SUICIDAL_FAILURE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_SUICIDAL_FAILURE])*@cc.owner.get_battle_table_point(ActionCard::SPC)
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SUICIDAL_FAILURE]) * @cc.owner.get_battle_table_point(ActionCard::SPC)
       end
     end
     regist_event UseSuicidalFailureFeatEvent
@@ -17585,7 +17443,7 @@ module Unlight
         use_feat_event(@feats[FEAT_SUICIDAL_FAILURE])
         btp_spc = @cc.owner.get_battle_table_point(ActionCard::SPC).to_i
         @feat_big_bragg_pow = @feat_big_bragg_pow ? @feat_big_bragg_pow + btp_spc : btp_spc
-        owner.damaged_event(attribute_damage(ATTRIBUTE_SELF_INJURY,owner,btp_spc), IS_NOT_HOSTILE_DAMAGE)
+        owner.damaged_event(attribute_damage(ATTRIBUTE_SELF_INJURY, owner, btp_spc), IS_NOT_HOSTILE_DAMAGE)
         # HP0以下になったら相手の必殺技を解除
         foe.sealed_event() if owner.hit_point <= 0
       end
@@ -17630,17 +17488,17 @@ module Unlight
           foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, 1))
           owner.healed_event(1)
         else
-          buffed = set_state(foe.current_chara_card.status[STATE_DEF_DOWN], Feat.pow(@feats[FEAT_BIG_BRAGG_R])+1, 3);
+          buffed = set_state(foe.current_chara_card.status[STATE_DEF_DOWN], Feat.pow(@feats[FEAT_BIG_BRAGG_R]) + 1, 3);
           on_buff_event(false, foe.current_chara_card_no, STATE_DEF_DOWN, foe.current_chara_card.status[STATE_DEF_DOWN][0], foe.current_chara_card.status[STATE_DEF_DOWN][1]) if buffed
-          buffed = set_state(foe.current_chara_card.status[STATE_ATK_DOWN], Feat.pow(@feats[FEAT_BIG_BRAGG_R])+1, 3);
+          buffed = set_state(foe.current_chara_card.status[STATE_ATK_DOWN], Feat.pow(@feats[FEAT_BIG_BRAGG_R]) + 1, 3);
           on_buff_event(false, foe.current_chara_card_no, STATE_ATK_DOWN, foe.current_chara_card.status[STATE_ATK_DOWN][0], foe.current_chara_card.status[STATE_ATK_DOWN][1]) if buffed
 
           if @feat_big_bragg_pow < 19
             foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, 2))
             owner.healed_event(2)
           else
-            foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, (@feat_big_bragg_pow/5).to_i))
-            owner.healed_event((@feat_big_bragg_pow/5).to_i)
+            foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, (@feat_big_bragg_pow / 5).to_i))
+            owner.healed_event((@feat_big_bragg_pow / 5).to_i)
           end
         end
       end
@@ -17667,7 +17525,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_lets_knife_r_feat()
       if @feats_enable[FEAT_LETS_KNIFE_R]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_LETS_KNIFE_R])*@cc.owner.battle_table.count
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_LETS_KNIFE_R]) * @cc.owner.battle_table.count
       end
     end
     regist_event UseLetsKnifeRFeatEvent
@@ -17702,7 +17560,7 @@ module Unlight
       if @feats_enable[FEAT_PREY]
         use_feat_event(@feats[FEAT_PREY])
         @feats_enable[FEAT_PREY] = false
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,2))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, 2))
         if foe.hit_point < 1
           buffed = foe.current_chara_card.set_state(@cc.status[STATE_CHAOS], 1, Feat.pow(@feats[FEAT_PREY]))
           foe.current_chara_card.on_buff_event(false, owner.current_chara_card_no, STATE_CHAOS, @cc.status[STATE_CHAOS][0], @cc.status[STATE_CHAOS][1]) if buffed
@@ -17739,7 +17597,7 @@ module Unlight
         end
 
         if foe.cards.size > 0
-          tmp_cards = foe.cards.dup.sort_by{rand}
+          tmp_cards = foe.cards.dup.sort_by { rand }
           tmp_cards.each do |c|
             if (c.u_type == ActionCard::ARW || c.b_type == ActionCard::ARW || c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD) && (c.u_value >= Feat.pow(@feats[FEAT_RUMINATION]) || c.b_value >= Feat.pow(@feats[FEAT_RUMINATION]))
               steal_deal(c)
@@ -17924,7 +17782,7 @@ module Unlight
       if @feats_enable[FEAT_FOX_SHOOT]
         multi_pt = Feat.pow(@feats[FEAT_FOX_SHOOT]) > 2 ? Feat.pow(@feats[FEAT_FOX_SHOOT]) : Feat.pow(@feats[FEAT_FOX_SHOOT]) + 1
         add_pt = Feat.pow(@feats[FEAT_FOX_SHOOT]) * 2 - 2
-        ret = @cc.owner.get_same_number_both_sides_table_count(1)    # ret = [count:int, paralysis, poison]
+        ret = @cc.owner.get_same_number_both_sides_table_count(1) # ret = [count:int, paralysis, poison]
         @fox_shoot_feat_paralysis_turn = ret[1]
         @fox_shoot_feat_poison_turn = ret[2]
         @cc.owner.tmp_power += add_pt + multi_pt * ret[0]
@@ -17984,7 +17842,7 @@ module Unlight
     # 狐空間を使用
     def use_fox_zone_feat_attack_deal()
       if @feats_enable[FEAT_FOX_ZONE] && owner.initiative
-        deal_num = @fox_zone_arrow_set.size == @fox_zone_arrow_set_size ? ((@fox_zone_arrow_set_size+1)/2).to_i : @fox_zone_arrow_set.size
+        deal_num = @fox_zone_arrow_set.size == @fox_zone_arrow_set_size ? ((@fox_zone_arrow_set_size + 1) / 2).to_i : @fox_zone_arrow_set.size
         deal_arrow(deal_num, true) if deal_num > 0
       end
     end
@@ -17993,7 +17851,7 @@ module Unlight
 
     def use_fox_zone_feat_defense_deal()
       if @feats_enable[FEAT_FOX_ZONE]
-        deal_num = @fox_zone_arrow_set.size == @fox_zone_arrow_set_size ? ((@fox_zone_arrow_set_size+1)/2).to_i : @fox_zone_arrow_set.size
+        deal_num = @fox_zone_arrow_set.size == @fox_zone_arrow_set_size ? ((@fox_zone_arrow_set_size + 1) / 2).to_i : @fox_zone_arrow_set.size
         deal_arrow(deal_num) if deal_num > 0
       end
     end
@@ -18016,7 +17874,7 @@ module Unlight
     end
     regist_event FinishFoxZoneFeatEvent
 
-    def deal_arrow(n, pop=false)
+    def deal_arrow(n, pop = false)
       cid = 0
       n.times do
         if pop
@@ -18025,9 +17883,9 @@ module Unlight
           cid = @fox_zone_arrow_set.shift
         end
 
-        ret = duel.get_event_deck(owner).replace_event_cards(cid,1,true)
+        ret = duel.get_event_deck(owner).replace_event_cards(cid, 1, true)
         if ret > 0
-          @cc.owner.special_event_card_dealed_event(duel.get_event_deck(owner).draw_cards_event(1).each{ |c| @cc.owner.dealed_event(c)})
+          @cc.owner.special_event_card_dealed_event(duel.get_event_deck(owner).draw_cards_event(1).each { |c| @cc.owner.dealed_event(c) })
         end
       end
     end
@@ -18237,7 +18095,6 @@ module Unlight
 
         total_const_damage = 0
         atk_count.times do |c|
-
           r = rand(100)
           if trigger > r
             hps = []
@@ -18304,7 +18161,7 @@ module Unlight
       if @feats_enable[FEAT_SCHNEEPART] && @feats_enable[FEAT_SCHNEEPART]
         # ダメージが1以上
         if duel.tmp_damage > 1 && @feats_enable[FEAT_LICHTZWANG]
-          @cc.owner.healed_event((duel.tmp_damage/Feat.pow(FEAT_SCHNEEPART)).to_i) if owner.hit_point>0
+          @cc.owner.healed_event((duel.tmp_damage / Feat.pow(FEAT_SCHNEEPART)).to_i) if owner.hit_point > 0
         end
         @feats_enable[FEAT_SCHNEEPART] = false
       end
@@ -18348,7 +18205,7 @@ module Unlight
         end
 
         if hps.count > 0
-          attribute_party_damage(owner, hps[0], (duel.tmp_damage/2).to_i)
+          attribute_party_damage(owner, hps[0], (duel.tmp_damage / 2).to_i)
           # ToDo 状態クリア
           duel.tmp_damage = 0
           set_state(owner.chara_cards[hps[0]].status[STATE_SEAL], 1, 0)
@@ -18380,7 +18237,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_dorfloft_feat()
       if @feats_enable[FEAT_DORFLOFT]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_DORFLOFT])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_DORFLOFT])
       end
     end
     regist_event UseDorfloftFeatEvent
@@ -18421,7 +18278,7 @@ module Unlight
     # ルミネセンスの状態
     def use_lumines_feat()
       if @feats_enable[FEAT_LUMINES]
-        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_LUMINES]) + owner.get_battle_table_point(ActionCard::DEF)*4
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_LUMINES]) + owner.get_battle_table_point(ActionCard::DEF) * 4
       end
     end
     regist_event UseLuminesFeatEvent
@@ -18438,7 +18295,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_lumines_feat_damage()
       if @feats_enable[FEAT_LUMINES]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           buffed = set_state(foe.current_chara_card.status[STATE_SEAL], 1, 2);
           on_buff_event(false, foe.current_chara_card_no, STATE_SEAL, foe.current_chara_card.status[STATE_SEAL][0], foe.current_chara_card.status[STATE_SEAL][1]) if buffed
         end
@@ -18514,13 +18371,13 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_stampede_feat_damage()
       if @feats_enable[FEAT_STAMPEDE]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           buff_list = { STATE_PARALYSIS => 2, STATE_POISON => 3, STATE_SEAL => 2, STATE_DEAD_COUNT => 4 }
           dead_count_turn = 4
           other_buff_turn = 2
           buff_list.delete(STATE_DEAD_COUNT) if foe.current_chara_card.status[STATE_DEAD_COUNT][1] > 0
           cnt = rand(2) + 1
-          shuffled_list = buff_list.sort_by{rand}
+          shuffled_list = buff_list.sort_by { rand }
 
           shuffled_list.each_with_index do |b, i|
             buff = b[0]
@@ -18572,7 +18429,7 @@ module Unlight
     def use_death_control2_feat_damage()
       if @feats_enable[FEAT_DEATH_CONTROL2]
         use_feat_event(@feats[FEAT_DEATH_CONTROL2])
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
 
           foe_dead_count_num = foe.current_chara_card.status[STATE_DEAD_COUNT][1]
           own_dead_count_num = owner.current_chara_card.status[STATE_DEAD_COUNT][1]
@@ -18643,7 +18500,7 @@ module Unlight
     def use_kengi_feat_roll_chancel
       if @feats_enable[FEAT_KENGI]
         # 通常のダイスロールはキャンセルする
-        duel.roll_cancel=(true)
+        duel.roll_cancel = (true)
       end
     end
     regist_event UseKengiFeatRollChancelEvent
@@ -18658,7 +18515,7 @@ module Unlight
 
         fumble_cnt = 0
         @kengi_feat_count.times do |n|
-          idx = result[1].index{ |elem| elem > 3 }
+          idx = result[1].index { |elem| elem > 3 }
           if idx.nil?
             break
           else
@@ -18742,7 +18599,7 @@ module Unlight
       if @feats_enable[FEAT_MIKITTA]
         use_feat_event(@feats[FEAT_MIKITTA])
         duel.tmp_damage = 0
-        owner.damaged_event(1,IS_NOT_HOSTILE_DAMAGE)
+        owner.damaged_event(1, IS_NOT_HOSTILE_DAMAGE)
         @feats_enable[FEAT_MIKITTA] = false
       end
     end
@@ -18775,7 +18632,7 @@ module Unlight
     def use_hontou_feat_roll_chancel
       if @feats_enable[FEAT_HONTOU] && !@feats_enable[FEAT_KENGI]
         # 通常のダイスロールはキャンセルする
-        duel.roll_cancel=(true)
+        duel.roll_cancel = (true)
       end
     end
     regist_event UseHontouFeatRollChancelEvent
@@ -18830,7 +18687,7 @@ module Unlight
       if @feats_enable[FEAT_INVITED]
         use_feat_event(@feats[FEAT_INVITED])
         @feats_enable[FEAT_INVITED] = false
-        @cc.owner.special_dealed_event(duel.deck.draw_low_cards_event(Feat.pow(@feats[FEAT_INVITED])).each{ |c| @cc.owner.dealed_event(c)})
+        @cc.owner.special_dealed_event(duel.deck.draw_low_cards_event(Feat.pow(@feats[FEAT_INVITED])).each { |c| @cc.owner.dealed_event(c) })
       end
     end
     regist_event FinishInvitedFeatEvent
@@ -18856,7 +18713,7 @@ module Unlight
       if @feats_enable[FEAT_THROUGH_HAND]
         use_feat_event(@feats[FEAT_THROUGH_HAND])
         @feats_enable[FEAT_THROUGH_HAND] = false
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,Feat.pow(@feats[FEAT_THROUGH_HAND])))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_THROUGH_HAND])))
         owner.healed_event(1) if owner.hit_point > 0
       end
     end
@@ -18883,9 +18740,9 @@ module Unlight
       if @feats_enable[FEAT_PROF_BREATH]
         use_feat_event(@feats[FEAT_PROF_BREATH])
         @feats_enable[FEAT_PROF_BREATH] = false
-        ret = duel.get_event_deck(owner).replace_event_cards(FOCUS_EVENT_CARD_MOVE20,1,true)
+        ret = duel.get_event_deck(owner).replace_event_cards(FOCUS_EVENT_CARD_MOVE20, 1, true)
         if ret > 0
-          @cc.owner.special_event_card_dealed_event(duel.get_event_deck(owner).draw_cards_event(1).each{ |c| @cc.owner.dealed_event(c)})
+          @cc.owner.special_event_card_dealed_event(duel.get_event_deck(owner).draw_cards_event(1).each { |c| @cc.owner.dealed_event(c) })
         end
       end
     end
@@ -19006,7 +18863,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_thorn_care_r_feat()
       if @feats_enable[FEAT_THORN_CARE_R]
-        @cc.owner.tmp_power+=(@cc.owner.table_point_check(ActionCard::MOVE)*Feat.pow(@feats[FEAT_THORN_CARE_R]))
+        @cc.owner.tmp_power += (@cc.owner.table_point_check(ActionCard::MOVE) * Feat.pow(@feats[FEAT_THORN_CARE_R]))
       end
     end
     regist_event UseThornCareRFeatEvent
@@ -19036,7 +18893,6 @@ module Unlight
       end
     end
     regist_event UseThornCareRFeatDamageEvent
-
 
     # ------------------
     # 解放剣(復活)
@@ -19076,13 +18932,13 @@ module Unlight
       if @feats_enable[FEAT_LIBERATING_SWORD_R]
         dmg = 0
         foe.current_chara_card.status.each do |i|
-          dmg+=1 if i[1] > 0
+          dmg += 1 if i[1] > 0
         end
         @cc.status.each do |i|
-          dmg+=1 if i[1] > 0
+          dmg += 1 if i[1] > 0
         end
-        dmg = (dmg*1.5).to_i
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,dmg))
+        dmg = (dmg * 1.5).to_i
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg))
         @feats_enable[FEAT_LIBERATING_SWORD_R] = false
       end
     end
@@ -19132,7 +18988,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_curse_sword_r_feat_damage()
       if @feats_enable[FEAT_CURSE_SWORD_R]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           hps = []
           duel.second_entrant.hit_points.each_index do |i|
             if duel.second_entrant.hit_points[i] > 0
@@ -19169,13 +19025,13 @@ module Unlight
       if @feats_enable[FEAT_FLAME_RING]
         atk = 0
         if foe.current_chara_card.status[STATE_ATK_DOWN][1] > 0
-          @cc.owner.tmp_power+=foe.current_chara_card.status[STATE_ATK_DOWN][0]
+          @cc.owner.tmp_power += foe.current_chara_card.status[STATE_ATK_DOWN][0]
         end
         if foe.current_chara_card.status[STATE_DEF_DOWN][1] > 0
-          @cc.owner.tmp_power+=foe.current_chara_card.status[STATE_DEF_DOWN][0]
+          @cc.owner.tmp_power += foe.current_chara_card.status[STATE_DEF_DOWN][0]
         end
         if (foe.current_chara_card.status[STATE_STATE_DOWN][1] > 0)
-          @cc.owner.tmp_power+=foe.current_chara_card.status[STATE_STATE_DOWN][1]*2
+          @cc.owner.tmp_power += foe.current_chara_card.status[STATE_STATE_DOWN][1] * 2
         end
       end
     end
@@ -19239,7 +19095,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_piano_feat()
       if @feats_enable[FEAT_PIANO]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_PIANO])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_PIANO])
       end
     end
     regist_event UsePianoFeatEvent
@@ -19300,7 +19156,7 @@ module Unlight
         @cc.owner.move_action(move_point)
         @cc.foe.move_action(move_point)
         mp_abs = move_point < 0 ? -move_point : move_point
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,mp_abs))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, mp_abs))
       end
       @feats_enable[FEAT_ONA_BALL] = false
     end
@@ -19326,7 +19182,7 @@ module Unlight
     def finish_violent_feat()
       if @feats_enable[FEAT_VIOLENT] && owner.initiative?
         use_feat_event(@feats[FEAT_VIOLENT])
-        atk_times = owner.hit_point <= owner.current_chara_card.hp/2 ? 3 : 1
+        atk_times = owner.hit_point <= owner.current_chara_card.hp / 2 ? 3 : 1
         atk_times.times do |c|
           hps = []
           duel.second_entrant.hit_points.each_index do |i|
@@ -19334,7 +19190,7 @@ module Unlight
           end
           if hps.count > 0
             target_index = hps[rand(hps.size)]
-            attribute_party_damage(foe, target_index, (foe.hit_points[target_index]/2).to_i, ATTRIBUTE_HALF)
+            attribute_party_damage(foe, target_index, (foe.hit_points[target_index] / 2).to_i, ATTRIBUTE_HALF)
           end
         end
       end
@@ -19436,7 +19292,7 @@ module Unlight
 
           hps.each do |h|
             if Feat.pow(@feats[FEAT_BALANCE_LIFE]) > 2
-              h[2] = h[1]-1 if h[1] <= h[2]
+              h[2] = h[1] - 1 if h[1] <= h[2]
             end
             attribute_party_damage(owner, h[0], h[2])
           end
@@ -19483,7 +19339,6 @@ module Unlight
     end
     regist_event UseLifetimeSoundFeatEvent
 
-
     # ライフタイムサウンドが使用終了
     def finish_lifetime_sound_feat()
       if @feats_enable[FEAT_LIFETIME_SOUND]
@@ -19507,7 +19362,7 @@ module Unlight
 
           # 味方へのダメージは自傷ダメージとして取り扱う
           absorb = hps[0][1] - save_hp < @lifetime_sound_sp_count ? hps[0][1] - save_hp : @lifetime_sound_sp_count
-          attribute_party_damage(owner, hps.sort{ |a,b| b[1] <=> a[1] }[0][0], absorb, ATTRIBUTE_CONSTANT, TARGET_TYPE_SINGLE, 1, IS_NOT_HOSTILE_DAMAGE) if absorb > 0
+          attribute_party_damage(owner, hps.sort { |a, b| b[1] <=> a[1] }[0][0], absorb, ATTRIBUTE_CONSTANT, TARGET_TYPE_SINGLE, 1, IS_NOT_HOSTILE_DAMAGE) if absorb > 0
         end
 
         owner.healed_event(absorb) if absorb > 0
@@ -19880,7 +19735,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_mutual_love_feat()
       if @feats_enable[FEAT_MUTUAL_LOVE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_MUTUAL_LOVE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_MUTUAL_LOVE])
       end
     end
     regist_event UseMutualLoveFeatEvent
@@ -19921,7 +19776,7 @@ module Unlight
           if hps.size > 0
             attribute_party_damage(foe, hps, @mutual_love_damage, ATTRIBUTE_CONSTANT, TARGET_TYPE_RANDOM)
           else
-            duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,@mutual_love_damage))
+            duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, @mutual_love_damage))
           end
         end
         @feats_enable[FEAT_MUTUAL_LOVE] = false
@@ -19950,7 +19805,7 @@ module Unlight
     def use_mere_shadow_feat()
       if @feats_enable[FEAT_MERE_SHADOW]
         atk_pt = @feats_enable[FEAT_KIRIGAKURE] ? 5 + Feat.pow(@feats[FEAT_MERE_SHADOW]) : 5
-        @cc.owner.tmp_power+=atk_pt
+        @cc.owner.tmp_power += atk_pt
       end
     end
     regist_event UseMereShadowFeatEvent
@@ -19964,13 +19819,12 @@ module Unlight
           # テーブルをシャッフル
           aca = foe.battle_table.shuffle
           # カードを捨てる
-          num.times{ |a| foe.discard_table_event(aca[a]) if aca[a] }
+          num.times { |a| foe.discard_table_event(aca[a]) if aca[a] }
           foe.current_chara_card.recheck_battle_point(foe, PHASE_DEFENSE)
         end
       end
     end
     regist_event FinishMereShadowFeatEvent
-
 
     def finish_mere_shadow_feat_dice_attr
       if @feats_enable[FEAT_MERE_SHADOW]
@@ -20005,12 +19859,12 @@ module Unlight
         cid = TORTO_EVENT_CARDS[rand(TORTO_EVENT_CARDS.length)]
         ret = duel.get_event_deck(owner).replace_event_cards(cid, Feat.pow(@feats[FEAT_SCAPULIMANCY]), true)
         if ret > 0
-          @cc.owner.special_event_card_dealed_event(duel.get_event_deck(owner).draw_cards_event(ret).each{ |c| @cc.owner.dealed_event(c)})
+          @cc.owner.special_event_card_dealed_event(duel.get_event_deck(owner).draw_cards_event(ret).each { |c| @cc.owner.dealed_event(c) })
         end
 
         ret = duel.get_event_deck(foe).replace_event_cards(cid, Feat.pow(@feats[FEAT_SCAPULIMANCY]), true)
         if ret > 0
-          foe.special_event_card_dealed_event(duel.get_event_deck(foe).draw_cards_event(ret).each{ |c| foe.dealed_event(c)})
+          foe.special_event_card_dealed_event(duel.get_event_deck(foe).draw_cards_event(ret).each { |c| foe.dealed_event(c) })
         end
       end
     end
@@ -20036,7 +19890,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_soil_guard_feat()
       if @feats_enable[FEAT_SOIL_GUARD]
-        @cc.owner.tmp_power+=(@cc.owner.table_point_check(ActionCard::DEF)*Feat.pow(@feats[FEAT_SOIL_GUARD]))
+        @cc.owner.tmp_power += (@cc.owner.table_point_check(ActionCard::DEF) * Feat.pow(@feats[FEAT_SOIL_GUARD]))
       end
     end
     regist_event UseSoilGuardFeatEvent
@@ -20138,7 +19992,7 @@ module Unlight
     # 有効の場合必殺技IDをgす
     def use_avengers_feat()
       if @feats_enable[FEAT_AVENGERS]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_AVENGERS])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_AVENGERS])
       end
     end
     regist_event UseAvengersFeatEvent
@@ -20155,7 +20009,7 @@ module Unlight
             hps << i
           end
           hps.size.times do |i|
-            pow = owner.chara_cards[i].status[STATE_ATK_UP][1] > 0 ? owner.chara_cards[i].status[STATE_ATK_UP][0]+buff_pow : buff_pow
+            pow = owner.chara_cards[i].status[STATE_ATK_UP][1] > 0 ? owner.chara_cards[i].status[STATE_ATK_UP][0] + buff_pow : buff_pow
             turn = i == owner.current_chara_card_no ? 3 : 2
             set_state(owner.chara_cards[i].status[STATE_ATK_UP], pow, turn)
             on_buff_event(true, i, STATE_ATK_UP, owner.chara_cards[i].status[STATE_ATK_UP][0], owner.chara_cards[i].status[STATE_ATK_UP][1])
@@ -20186,7 +20040,7 @@ module Unlight
     # ホロウメモリーを使用
     def use_sharpen_edge_feat()
       if @feats_enable[FEAT_SHARPEN_EDGE]
-        pow = owner.current_chara_card.status[STATE_ATK_UP][1] > 0 ? owner.current_chara_card.status[STATE_ATK_UP][0]+Feat.pow(@feats[FEAT_SHARPEN_EDGE])  : Feat.pow(@feats[FEAT_SHARPEN_EDGE])
+        pow = owner.current_chara_card.status[STATE_ATK_UP][1] > 0 ? owner.current_chara_card.status[STATE_ATK_UP][0] + Feat.pow(@feats[FEAT_SHARPEN_EDGE]) : Feat.pow(@feats[FEAT_SHARPEN_EDGE])
         set_state(owner.current_chara_card.status[STATE_ATK_UP], pow, 3)
         on_buff_event(true, owner.current_chara_card_no, STATE_ATK_UP, owner.current_chara_card.status[STATE_ATK_UP][0], owner.current_chara_card.status[STATE_ATK_UP][1])
         set_state(@cc.special_status[SPECIAL_STATE_SHARPEN_EDGE], 1, Feat.pow(@feats[FEAT_SHARPEN_EDGE]))
@@ -20237,7 +20091,7 @@ module Unlight
           aim_hp = (Feat.pow(@feats[FEAT_HACKNINE]) - owner.damaged_times)
           aim_hp = 1 if aim_hp < 1
         end
-        foe.damaged_event(attribute_damage(ATTRIBUTE_DYING,foe,aim_hp)) if foe.hit_point > aim_hp
+        foe.damaged_event(attribute_damage(ATTRIBUTE_DYING, foe, aim_hp)) if foe.hit_point > aim_hp
         @feats_enable[FEAT_HACKNINE] = false
       end
     end
@@ -20421,7 +20275,7 @@ module Unlight
         if owner.initiative?
 
           hps = []
-          foe.chara_cards.each_with_index do |c,i|
+          foe.chara_cards.each_with_index do |c, i|
             hps << i if i != foe.current_chara_card_no && c.status[STATE_TARGET][1] == 0 && foe.hit_points[i] > 0
           end
 
@@ -20468,7 +20322,7 @@ module Unlight
     # 幽幻の剛弾が使用される
     def use_phantom_barrett_feat()
       if @feats_enable[FEAT_PHANTOM_BARRETT]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_PHANTOM_BARRETT])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_PHANTOM_BARRETT])
       end
     end
     regist_event UsePhantomBarrettFeatEvent
@@ -20482,7 +20336,7 @@ module Unlight
 
           target_count = 0
           hps = []
-          foe.chara_cards.each_with_index do |c,i|
+          foe.chara_cards.each_with_index do |c, i|
             hps << i if c.status[STATE_TARGET][1] > 0 && foe.hit_points[i] > 0
           end
 
@@ -20499,13 +20353,12 @@ module Unlight
           end
 
           # パーティダメージ
-          attribute_party_damage(foe, hps, dmg, ATTRIBUTE_CONSTANT, TARGET_TYPE_ALL)  if hps.size > 0
+          attribute_party_damage(foe, hps, dmg, ATTRIBUTE_CONSTANT, TARGET_TYPE_ALL) if hps.size > 0
 
         end
       end
     end
     regist_event FinishPhantomBarrettFeatEvent
-
 
     # ------------------
     # 惑わしの一幕
@@ -20523,10 +20376,9 @@ module Unlight
     regist_event CheckAddOneActFeatEvent
     regist_event CheckRotateOneActFeatEvent
 
-
     def use_one_act_feat()
       if @feats_enable[FEAT_ONE_ACT]
-        @cc.owner.tmp_power +=4
+        @cc.owner.tmp_power += 4
         @one_act_card_types = @cc.owner.get_table_card_types
         @one_act_card_types.delete(ActionCard::DEF)
       end
@@ -20606,7 +20458,7 @@ module Unlight
         use_feat_event(@feats[FEAT_FINAL_BARRETT])
         target_count = 0
         hps = []
-        foe.chara_cards.each_with_index do |c,i|
+        foe.chara_cards.each_with_index do |c, i|
           if c.status[STATE_TARGET][1] > 0
             target_count += 1
             hps << i if foe.hit_points[i] > 0
@@ -20665,7 +20517,7 @@ module Unlight
       if @feats_enable[FEAT_GRIMMDEAD]
         dmg = owner.distance - @grimmdead_tmp_dist
         dmg += Feat.pow(@feats[FEAT_GRIMMDEAD]) if dmg > 0
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,dmg)) if dmg > 0
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg)) if dmg > 0
       end
     end
     regist_event UseGrimmdeadFeatMoveAfterEvent
@@ -20697,7 +20549,7 @@ module Unlight
     # ヴンダーカンマーが使用される
     def use_wunderkammer_feat()
       if @feats_enable[FEAT_WUNDERKAMMER]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_WUNDERKAMMER])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_WUNDERKAMMER])
       end
     end
     regist_event UseWunderkammerFeatEvent
@@ -20714,11 +20566,11 @@ module Unlight
     # 状態異常で時限治癒される
     def use_wunderkammer_feat_damage()
       if @feats_enable[FEAT_WUNDERKAMMER]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           pow = 0
           if @cc.status[STATE_CONTROL][1] > 0
             c = Feat.pow(@feats[FEAT_WUNDERKAMMER]) > 6 ? 1 : 0
-            pow = ((foe.cards_max + c)/2).to_i
+            pow = ((foe.cards_max + c) / 2).to_i
           else
             pow = Feat.pow(@feats[FEAT_WUNDERKAMMER]) > 6 ? 2 : 1
           end
@@ -20749,7 +20601,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_constraint_feat()
       if @feats_enable[FEAT_CONSTRAINT]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_CONSTRAINT])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_CONSTRAINT])
       end
     end
     regist_event UseConstraintFeatEvent
@@ -20780,7 +20632,7 @@ module Unlight
           end
           bits = 0
 
-          c_list = [CONSTRAINT_FORWARD,CONSTRAINT_BACKWARD,CONSTRAINT_STAY,CONSTRAINT_CHARA_CHANGE]
+          c_list = [CONSTRAINT_FORWARD, CONSTRAINT_BACKWARD, CONSTRAINT_STAY, CONSTRAINT_CHARA_CHANGE]
           c_list.delete(CONSTRAINT_CHARA_CHANGE) if get_hps(foe).size == 1
           c_num.times do
             constraint_type = c_list.delete_at(rand(c_list.length))
@@ -20815,7 +20667,7 @@ module Unlight
     # ヴンダーカンマーが使用される
     def use_renovate_atrandom_feat()
       if @feats_enable[FEAT_RENOVATE_ATRANDOM]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_RENOVATE_ATRANDOM])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_RENOVATE_ATRANDOM])
       end
     end
     regist_event UseRenovateAtrandomFeatEvent
@@ -20875,7 +20727,6 @@ module Unlight
           catch :exit do
             status_list.each do |s|
               proc_order.each do |i|
-
                 if owner.chara_cards[i].status[s][1] > 0
                   foe.current_chara_card.status[s][0] = owner.chara_cards[i].status[s][0]
                   foe.current_chara_card.status[s][1] = owner.chara_cards[i].status[s][1]
@@ -20884,20 +20735,18 @@ module Unlight
                   off_buff_event(true, i, s, owner.chara_cards[i].status[s][0])
                   throw :exit
                 end
-
               end
             end
           end
         else
           # 操想時 一旦集計して重複を省く
-          proc_list = { }
+          proc_list = {}
           status_list.each do |s|
-            proc_list[s] = [1 ,0]
+            proc_list[s] = [1, 0]
           end
 
           status_list.each do |s|
             proc_order.each do |i|
-
               if owner.chara_cards[i].status[s][1] > 0
                 proc_list[s][0] = owner.chara_cards[i].status[s][0] if proc_list[s][0] < owner.chara_cards[i].status[s][0]
                 proc_list[s][1] = owner.chara_cards[i].status[s][1] if proc_list[s][1] < owner.chara_cards[i].status[s][1]
@@ -20905,7 +20754,6 @@ module Unlight
                 owner.chara_cards[i].status[s][1] = 0
                 off_buff_event(true, i, s, owner.chara_cards[i].status[s][0])
               end
-
             end
           end
 
@@ -20981,7 +20829,7 @@ module Unlight
     # 必殺技の状態
     def use_shadow_stitch_feat()
       if @feats_enable[FEAT_SHADOW_STITCH]
-        @cc.owner.tmp_power-=Feat.pow(@feats[FEAT_SHADOW_STITCH])
+        @cc.owner.tmp_power -= Feat.pow(@feats[FEAT_SHADOW_STITCH])
         @cc.owner.tmp_power = 0 if @cc.owner.tmp_power < 0
       end
     end
@@ -20997,7 +20845,7 @@ module Unlight
 
     # 影縫いが使用される(非ダメージ時)
     # 有効の場合必殺技IDを返す
-    SHADOW_STITCH_TURNS=[1,4,7,10,13,16]
+    SHADOW_STITCH_TURNS = [1, 4, 7, 10, 13, 16]
     def use_shadow_stitch_feat_damage()
       if @feats_enable[FEAT_SHADOW_STITCH]
         if SHADOW_STITCH_TURNS.include?(duel.turn)
@@ -21063,7 +20911,7 @@ module Unlight
     def use_rivet_and_surge_feat()
       if @feats_enable[FEAT_RIVET_AND_SURGE]
         add_pt = owner.initiative ? (Feat.pow(@feats[FEAT_RIVET_AND_SURGE]) * 2 + 1) : 0
-        @cc.owner.tmp_power+=(owner.get_effective_weapon_status * (Feat.pow(@feats[FEAT_RIVET_AND_SURGE]) - 1) + add_pt)
+        @cc.owner.tmp_power += (owner.get_effective_weapon_status * (Feat.pow(@feats[FEAT_RIVET_AND_SURGE]) - 1) + add_pt)
       end
     end
     regist_event UseRivetAndSurgeFeatAttackEvent
@@ -21123,7 +20971,7 @@ module Unlight
           # 手札破棄
           ac = foe.cards.shuffle[0]
 
-          up_list = { }
+          up_list = {}
           if ac
             return if discard(foe, ac) == 0
 
@@ -21157,11 +21005,11 @@ module Unlight
           owner.set_current_default_weapon_bonus()
 
           18.times do
-            bornus = [0,0,0,0,0,0,0,0,""]
+            bornus = [0, 0, 0, 0, 0, 0, 0, 0, ""]
 
             # 9 未満のステータスをリストアップ
             under_nine_statuses = []
-            for i in [WeaponCard::BORNUS_TYPE_SWORD_AP,WeaponCard::BORNUS_TYPE_ARROW_AP,WeaponCard::BORNUS_TYPE_SWORD_DP,WeaponCard::BORNUS_TYPE_ARROW_DP]
+            [WeaponCard::BORNUS_TYPE_SWORD_AP, WeaponCard::BORNUS_TYPE_ARROW_AP, WeaponCard::BORNUS_TYPE_SWORD_DP, WeaponCard::BORNUS_TYPE_ARROW_DP].each do |i|
               under_nine_statuses << i if owner.current_weapon_bonus_at(i) < 9
             end
 
@@ -21198,7 +21046,7 @@ module Unlight
         foe.update_weapon_event
         if stealed
           owner.duel_message_event(DUEL_MSGDLG_WEAPON_STATUS_UP)
-          owner.special_gem_bonus_multi=3
+          owner.special_gem_bonus_multi = 3
         end
       end
     end
@@ -21415,19 +21263,19 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_club_jugg_feat()
       if @feats_enable[FEAT_CLUB_JUGG]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_CLUB_JUGG])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_CLUB_JUGG])
       end
     end
     regist_event UseClubJuggFeatEvent
 
     # 使用したカードからホールドするカードを選び、引く
     def use_club_jugg_feat_deal
-      @club_jugg_phase_count = @club_jugg_phase_count ? @club_jugg_phase_count+1 : 1
+      @club_jugg_phase_count = @club_jugg_phase_count ? @club_jugg_phase_count + 1 : 1
       if @feats_enable[FEAT_CLUB_JUGG]
         use_feat_event(@feats[FEAT_CLUB_JUGG])
         # 効果発揮は後手のときのみ
         if @club_jugg_phase_count == 2
-          deal_list=[]
+          deal_list = []
           owner.battle_table.clone.shuffle.each do |ac|
             deal_list << ac if ac.u_type == ActionCard::DEF || ac.b_type == ActionCard::DEF
             break if deal_list.size > 2
@@ -21465,20 +21313,20 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_knife_jugg_feat()
       if @feats_enable[FEAT_KNIFE_JUGG]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_KNIFE_JUGG])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_KNIFE_JUGG])
       end
     end
     regist_event UseKnifeJuggFeatEvent
 
     # 使用したカードからホールドするカードを選び、引く
     def use_knife_jugg_feat_deal
-      @knife_jugg_phase_count = @knife_jugg_phase_count ? @knife_jugg_phase_count+1 : 1
+      @knife_jugg_phase_count = @knife_jugg_phase_count ? @knife_jugg_phase_count + 1 : 1
       if @feats_enable[FEAT_KNIFE_JUGG]
         use_feat_event(@feats[FEAT_KNIFE_JUGG])
 
         # 効果発揮は後手のときのみ
         if @knife_jugg_phase_count == 2
-          deal_list=[]
+          deal_list = []
           owner.battle_table.clone.shuffle.each do |ac|
             deal_list << ac if ac.u_type == ActionCard::SWD || ac.b_type == ActionCard::SWD
             break if deal_list.size > 2
@@ -21518,7 +21366,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_blowing_fire_feat()
       if @feats_enable[FEAT_BLOWING_FIRE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_BLOWING_FIRE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_BLOWING_FIRE])
       end
     end
     regist_event UseBlowingFireFeatEvent
@@ -21545,7 +21393,7 @@ module Unlight
             end
           end
         end
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,dmg)) if dmg > 0
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg)) if dmg > 0
       end
       @feats_enable[FEAT_BLOWING_FIRE] = false
     end
@@ -21597,7 +21445,7 @@ module Unlight
     def finish_balance_ball_feat()
       if @feats_enable[FEAT_BALANCE_BALL]
         @feats_enable[FEAT_BALANCE_BALL] = false
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,Feat.pow(@feats[FEAT_BALANCE_BALL])))
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_BALANCE_BALL])))
       end
     end
     regist_event FinishBalanceBallFeatEvent
@@ -21627,7 +21475,7 @@ module Unlight
     end
     regist_event UseBadMilkFeatEvent
 
-    RECALC_FEATS=
+    RECALC_FEATS =
       [
        FEAT_RED_MOON,
        FEAT_EX_RED_MOON,
@@ -21656,7 +21504,7 @@ module Unlight
     def finish_change_bad_milk_feat()
       if @feats_enable[FEAT_BAD_MILK]
         # 自分ひとりでキャラチェンジしたとき移動方向を制御
-        owner.set_direction(Entrant::DIRECTION_STAY) if owner.hit_points.select{ |h| h > 0 }.count <= 1 && owner.direction == Entrant::DIRECTION_CHARA_CHANGE
+        owner.set_direction(Entrant::DIRECTION_STAY) if owner.hit_points.select { |h| h > 0 }.count <= 1 && owner.direction == Entrant::DIRECTION_CHARA_CHANGE
       end
     end
     regist_event FinishChangeBadMilkFeatEvent
@@ -21745,7 +21593,7 @@ module Unlight
     # スキルドレインが使用される
     def use_skill_drain_feat()
       if @feats_enable[FEAT_SKILL_DRAIN]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_SKILL_DRAIN])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SKILL_DRAIN])
       end
     end
     regist_event UseSkillDrainFeatEvent
@@ -21767,9 +21615,9 @@ module Unlight
     regist_event UseSkillDrainFeatDamageEvent
 
     # 技を上書きする
-    COFFIN_DAMAGE=1264
-    COFFIN_BAD_STATUS=1266
-    COFFIN_ATK=1265
+    COFFIN_DAMAGE = 1264
+    COFFIN_BAD_STATUS = 1266
+    COFFIN_ATK = 1265
     def finish_skill_drain_feat_finish()
       if @feats_enable[FEAT_SKILL_DRAIN] && @skill_drain_target_chara_index
         @feats_enable[FEAT_SKILL_DRAIN] = false
@@ -21813,15 +21661,14 @@ module Unlight
       ret
     end
 
-
     # スキル上書き actorは行使者側を示す
-    def override_my_feats(index, f_id_src, actor=false)
-      @override_feats = { } unless @override_feats
+    def override_my_feats(index, f_id_src, actor = false)
+      @override_feats = {} unless @override_feats
 
       f_no_src = 0
       actor_index = actor ? owner.current_chara_card_no : nil
       foe_index = @skill_drain_target_chara_index && (foe.chara_cards[@skill_drain_target_chara_index].charactor_id != GREGOR) ? @skill_drain_target_chara_index : nil
-      other_feats = { }
+      other_feats = {}
 
       if actor
         if foe_index && @override_feats.size > 0 && @override_feats[3][:foe_index]
@@ -21860,17 +21707,17 @@ module Unlight
       end
       set_state(@cc.special_status[SPECIAL_STATE_OVERRIDE_SKILL], 1, 3) if actor
       @override_feats[index] = {
-        :feat_id => f_id_src,
-        :feat_no=> f_no_src,
-        :owner_index=>actor_index,
-        :foe_index=>foe_index,
-        :other_feats=>other_feats
+        feat_id: f_id_src,
+        feat_no: f_no_src,
+        owner_index: actor_index,
+        foe_index: foe_index,
+        other_feats: other_feats
       }
     end
 
     # 相手のfeat_id以外の技のリストを返す
     def get_other_feats(chara_index, feat_id)
-      others = { }
+      others = {}
 
       foe.chara_cards[chara_index].feat_inventories.each do |fi|
         if fi.feat_id != feat_id
@@ -21883,7 +21730,7 @@ module Unlight
 
     # スキル上書きを解除
     def reset_override_my_feats()
-      @override_feats = { } unless @override_feats
+      @override_feats = {} unless @override_feats
 
       @override_feats.each_key do |index|
         if @cc.feat_inventories[index]
@@ -21905,16 +21752,16 @@ module Unlight
           set_state(@cc.special_status[SPECIAL_STATE_OVERRIDE_SKILL], 1, 0)
         end
       end
-      @override_feats = { }
+      @override_feats = {}
     end
 
     # 技のhookを全て削除する
     def delete_feat_hook(f_no)
       CHARA_FEAT_EVENT_NO[f_no].each do |fe|
-        cap = fe.to_s.split('_').collect!{ |w| w.capitalize }.join
+        cap = fe.to_s.split('_').collect! { |w| w.capitalize }.join
         func_name = eval(cap).func_name
         hook_func_name = eval(cap).hook_func_name
-        eval("#{hook_func_name}").delete_if{ |method_set| method_set[0] == eval("self.method(:#{func_name})")}
+        eval("#{hook_func_name}").delete_if { |method_set| method_set[0] == eval("self.method(:#{func_name})") }
       end
     end
 
@@ -22026,7 +21873,6 @@ module Unlight
     end
     regist_event UseDarkEyesFeatDamageEvent
 
-
     # ------------------
     # 烏爪一転
     # ------------------
@@ -22058,7 +21904,7 @@ module Unlight
           end
         end
 
-        @cc.owner.tmp_power=5*(3+@feat_crows_clow_level) if @feat_crows_clow_level > 0
+        @cc.owner.tmp_power = 5 * (3 + @feat_crows_clow_level) if @feat_crows_clow_level > 0
       end
     end
     regist_event UseCrowsClawFeatEvent
@@ -22101,7 +21947,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_mole_feat()
       if @feats_enable[FEAT_MOLE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_MOLE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_MOLE])
       end
     end
     regist_event UseMoleFeatEvent
@@ -22121,7 +21967,7 @@ module Unlight
         # ダメージがマイナス（ダイスの結果防御点の方が上回った場合）
         if duel.tmp_damage <= 0
 
-          counter_dmg = Feat.pow(@feats[FEAT_MOLE])/2
+          counter_dmg = Feat.pow(@feats[FEAT_MOLE]) / 2
           foe.damaged_event(attribute_damage(ATTRIBUTE_COUNTER, foe, counter_dmg))
 
           buffed = set_state(foe.current_chara_card.status[STATE_MOVE_DOWN], 1, 2)
@@ -22262,7 +22108,7 @@ module Unlight
     def use_grape_vine_feat()
       if @feats_enable[FEAT_GRAPE_VINE]
         if @feat_vine_distance && @feat_vine_distance == owner.distance
-          @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_GRAPE_VINE])
+          @cc.owner.tmp_power += Feat.pow(@feats[FEAT_GRAPE_VINE])
         else
           off_feat_event(FEAT_GRAPE_VINE)
           @feats_enable[FEAT_GRAPE_VINE] = false
@@ -22291,7 +22137,6 @@ module Unlight
     end
     regist_event UseGrapeVineFeatDamageEvent
 
-
     # ------------------
     # サンダーストラック
     # ------------------
@@ -22311,9 +22156,9 @@ module Unlight
     # サンダーストラックが使用される
     def use_thunder_struck_feat()
       if @feats_enable[FEAT_THUNDER_STRUCK]
-        mod = @cc.owner.current_hit_point*2
+        mod = @cc.owner.current_hit_point * 2
         mod_max = Feat.pow(@feats[FEAT_THUNDER_STRUCK])
-        @cc.owner.tmp_power += (mod > mod_max)? mod_max:mod
+        @cc.owner.tmp_power += (mod > mod_max) ? mod_max : mod
       end
     end
     regist_event UseThunderStruckFeatEvent
@@ -22322,7 +22167,7 @@ module Unlight
     def finish_thunder_struck_feat()
       if @feats_enable[FEAT_THUNDER_STRUCK]
         use_feat_event(@feats[FEAT_THUNDER_STRUCK])
-        owner.damaged_event(1,IS_NOT_HOSTILE_DAMAGE)
+        owner.damaged_event(1, IS_NOT_HOSTILE_DAMAGE)
       end
     end
     regist_event FinishThunderStruckFeatEvent
@@ -22334,7 +22179,6 @@ module Unlight
       end
     end
     regist_event FinishThunderStruckFeatEndEvent
-
 
     # ------------------
     # ウィーヴワールド
@@ -22356,7 +22200,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_weave_world_feat()
       if @feats_enable[FEAT_WEAVE_WORLD]
-        @cc.owner.tmp_power+=5
+        @cc.owner.tmp_power += 5
       end
     end
     regist_event UseWeaveWorldFeatEvent
@@ -22367,7 +22211,7 @@ module Unlight
         @feats_enable[FEAT_WEAVE_WORLD] = false
         use_feat_event(@feats[FEAT_WEAVE_WORLD])
         dmg = @cc.owner.get_battle_table_point(ActionCard::ARW) + foe.get_type_point_cards_both_faces(ActionCard::SWD)
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,(dmg/Feat.pow(@feats[FEAT_WEAVE_WORLD])).to_i))
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, (dmg / Feat.pow(@feats[FEAT_WEAVE_WORLD])).to_i))
       end
     end
     regist_event FinishWeaveWorldFeatEvent
@@ -22390,19 +22234,19 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_collection_feat()
       if @feats_enable[FEAT_COLLECTION]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_COLLECTION])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_COLLECTION])
       end
     end
     regist_event UseCollectionFeatEvent
 
     def use_collection_feat_deal()
       if @feat_collection_card_list
-        if duel.turn > 1 && @feat_collection_card_list["#{duel.turn-1}"]
+        if duel.turn > 1 && @feat_collection_card_list["#{duel.turn - 1}"]
           owner.battle_table = []
           deal_list = []
           cnt = 0
-          @feat_collection_card_list["#{duel.turn-1}"].sort_by{ |c| c.get_value_max }.reverse_each do |c|
-            deal_list << c if (!duel.deck.exist?(c) && !foe.cards.include?(c) && !owner.cards.include?(c))  # 山札・手札になければ引く
+          @feat_collection_card_list["#{duel.turn - 1}"].sort_by { |c| c.get_value_max }.reverse_each do |c|
+            deal_list << c if (!duel.deck.exist?(c) && !foe.cards.include?(c) && !owner.cards.include?(c)) # 山札・手札になければ引く
             break if deal_list.size > 1
           end
           @cc.owner.grave_dealed_event(deal_list)
@@ -22459,7 +22303,7 @@ module Unlight
     regist_event CheckEndingCollectionFeatEvent
 
     def init_collection
-        @feat_collection_card_list = { }
+        @feat_collection_card_list = {}
     end
 
     # ------------------
@@ -22479,7 +22323,7 @@ module Unlight
     # DEF++
     def use_restriction_feat()
       if @feats_enable[FEAT_RESTRICTION]
-        @cc.owner.tmp_power+=owner.get_type_table_count(ActionCard::DEF)
+        @cc.owner.tmp_power += owner.get_type_table_count(ActionCard::DEF)
       end
     end
     regist_event UseRestrictionFeatEvent
@@ -22489,7 +22333,7 @@ module Unlight
       if @feats_enable[FEAT_RESTRICTION]
         use_feat_event(@feats[FEAT_RESTRICTION])
         ac_type = owner.distance == 1 ? ActionCard::SWD : ActionCard::ARW
-        num = (duel.deck.get_grave_card_count()/15).to_i+1
+        num = (duel.deck.get_grave_card_count() / 15).to_i + 1
         @cc.owner.grave_dealed_event(duel.deck.draw_grave_cards(num, ac_type))
         @feats_enable[FEAT_RESTRICTION] = false
       end
@@ -22513,7 +22357,7 @@ module Unlight
     # ATK++
     def use_dabs_feat()
       if @feats_enable[FEAT_DABS]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_DABS])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_DABS])
       end
     end
     regist_event UseDabsFeatEvent
@@ -22522,7 +22366,7 @@ module Unlight
     def finish_dabs_feat()
       if @feats_enable[FEAT_DABS]
         use_feat_event(@feats[FEAT_DABS])
-        num = (duel.deck.get_grave_card_count()/15).to_i+1
+        num = (duel.deck.get_grave_card_count() / 15).to_i + 1
         @cc.owner.grave_dealed_event(duel.deck.draw_grave_cards(num, ActionCard::DEF))
         @feats_enable[FEAT_DABS] = false
       end
@@ -22546,7 +22390,7 @@ module Unlight
     # ATK++
     def use_vibration_feat()
       if @feats_enable[FEAT_VIBRATION]
-        @cc.owner.tmp_power+=duel.deck.get_grave_card_count(4)*Feat.pow(@feats[FEAT_VIBRATION])
+        @cc.owner.tmp_power += duel.deck.get_grave_card_count(4) * Feat.pow(@feats[FEAT_VIBRATION])
       end
     end
     regist_event UseVibrationFeatEvent
@@ -22580,7 +22424,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_tot_feat()
       if @feats_enable[FEAT_TOT]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_TOT])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_TOT])
       end
     end
     regist_event UseTotFeatEvent
@@ -22602,16 +22446,14 @@ module Unlight
         discarded_count = 0
         target_ac_type = owner.distance == 1 ? ActionCard::SWD : ActionCard::ARW
         # 手持ちのカードを複製してシャッフル
-        aca =foe.cards.shuffle
+        aca = foe.cards.shuffle
         # 最大2枚カードを捨てる
         aca.each do |ac|
-
           if ac.get_types.include?(target_ac_type)
             discarded_count += discard(foe, ac)
           end
 
           break if discarded_count >= discard_max
-
         end
 
         # 捨てた数が足りなければ
@@ -22660,7 +22502,7 @@ module Unlight
         max_deal_count += 2 if Feat.pow(@feats[FEAT_DUCK_APPLE]) == 5
         max_deal_count += 4 if Feat.pow(@feats[FEAT_DUCK_APPLE]) == 7
         while type_point < Feat.pow(@feats[FEAT_DUCK_APPLE]) do
-          owner.special_dealed_event(duel.deck.draw_cards_event(1).each{ |c|
+          owner.special_dealed_event(duel.deck.draw_cards_event(1).each { |c|
                                        r = c.get_exist_value?(target_ac_type)
                                        type_point += r[1] if r
                                        owner.dealed_event(c)
@@ -22725,7 +22567,6 @@ module Unlight
     end
     regist_event UseRampageFeatDamageEvent
 
-
     # ------------------
     # スクラッチファイア
     # ------------------
@@ -22750,7 +22591,7 @@ module Unlight
     # 必殺技の状態
     def use_scratch_fire_feat()
       if @feats_enable[FEAT_SCRATCH_FIRE]
-        @cc.owner.tmp_power+=@cc.owner.table_point_check(ActionCard::SWD)
+        @cc.owner.tmp_power += @cc.owner.table_point_check(ActionCard::SWD)
       end
     end
     regist_event UseScratchFireFeatEvent
@@ -22918,7 +22759,6 @@ module Unlight
     regist_event CheckAddMetalShieldFeatEvent
     regist_event CheckRotateMetalShieldFeatEvent
 
-
     # メタルシールドが使用される
     # 有効の場合必殺技IDを返す
     def use_metal_shield_feat()
@@ -22928,7 +22768,6 @@ module Unlight
       end
     end
     regist_event UseMetalShieldFeatEvent
-
 
     # メタルシールドが使用終了
     def finish_metal_shield_feat()
@@ -22979,7 +22818,6 @@ module Unlight
       end
     end
     regist_event FinalMagneticFieldFeatEvent
-
 
     # ------------------
     # 拒絶の余光
@@ -23103,7 +22941,7 @@ module Unlight
         # 変身時の効果
         owner.cards_max = owner.cards_max + 1
         # 自身は死亡
-        owner.damaged_event(99,IS_NOT_HOSTILE_DAMAGE)
+        owner.damaged_event(99, IS_NOT_HOSTILE_DAMAGE)
         # HP0以下になったら相手の必殺技を解除
         foe.sealed_event() if owner.hit_point <= 0
       end
@@ -23182,7 +23020,7 @@ module Unlight
           saca = owner.cards.select { |c| c.get_types.include?(ActionCard::SWD) }
           ac = nil
           if saca.size > 0
-            ac = saca.sort_by{ |c| c.get_value_max(ActionCard::SWD) }[0]
+            ac = saca.sort_by { |c| c.get_value_max(ActionCard::SWD) }[0]
           else
             ac = owner.cards.shuffle[0]
           end
@@ -23193,7 +23031,7 @@ module Unlight
 
     def use_trap_chase_feat()
       if @feats_enable[FEAT_TRAP_CHASE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_TRAP_CHASE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_TRAP_CHASE])
       end
     end
     regist_event UseTrapChaseFeatEvent
@@ -23210,11 +23048,11 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_trap_chase_feat_damage()
       if @feats_enable[FEAT_TRAP_CHASE]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           # 手持ちのカードを複製してシャッフル
-          aca =foe.cards.shuffle
+          aca = foe.cards.shuffle
           # ダメージの分だけカードを捨てる
-          duel.tmp_damage.times{ |a| discard(foe, aca[a]) if aca[a] }
+          duel.tmp_damage.times { |a| discard(foe, aca[a]) if aca[a] }
         end
         @feats_enable[FEAT_TRAP_CHASE] = false
       end
@@ -23254,7 +23092,7 @@ module Unlight
           aaca = owner.cards.select { |c| c.get_types.include?(ActionCard::ARW) }
           ac = nil
           if aaca.size > 0
-            ac = aaca.sort_by{ |c| c.get_value_max(ActionCard::ARW) }[0]
+            ac = aaca.sort_by { |c| c.get_value_max(ActionCard::ARW) }[0]
           else
             ac = owner.cards.shuffle[0]
           end
@@ -23283,7 +23121,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_panic_feat_damage()
       if @feats_enable[FEAT_PANIC]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           buffed = set_state(foe.current_chara_card.status[STATE_POISON], 1, 3);
           on_buff_event(false, foe.current_chara_card_no, STATE_POISON, foe.current_chara_card.status[STATE_POISON][0], foe.current_chara_card.status[STATE_POISON][1]) if buffed
         end
@@ -23324,11 +23162,11 @@ module Unlight
         @feats_enable[FEAT_BULLET_COUNTER] = false
         if duel.tmp_damage <= 0
           hps = []
-          foe.chara_cards.each_with_index do |c,i|
+          foe.chara_cards.each_with_index do |c, i|
             hps << i if (c.status[STATE_POISON][1] > 0 || c.status[STATE_POISON2][1] > 0) && foe.hit_points[i] > 0
           end
           # パーティダメージ
-          attribute_party_damage(foe, hps, 3, ATTRIBUTE_CONSTANT, TARGET_TYPE_ALL)  if hps.size > 0
+          attribute_party_damage(foe, hps, 3, ATTRIBUTE_CONSTANT, TARGET_TYPE_ALL) if hps.size > 0
         end
       end
     end
@@ -23416,7 +23254,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_familiar_feat()
       if @feats_enable[FEAT_FAMILIAR]
-        num = @cc.owner.cards.count{|ac| ac.joker? }
+        num = @cc.owner.cards.count { |ac| ac.joker? }
         @cc.owner.tmp_power += Feat.pow(@feats[FEAT_FAMILIAR]) + 6 * num
       end
     end
@@ -23426,7 +23264,7 @@ module Unlight
     def finish_familiar_feat()
       if @feats_enable[FEAT_FAMILIAR]
         use_feat_event(@feats[FEAT_FAMILIAR])
-        tmp_card = owner.cards.find{|ac| ac.joker?}
+        tmp_card = owner.cards.find { |ac| ac.joker? }
         if tmp_card
           discard(owner, tmp_card)
         end
@@ -23434,7 +23272,6 @@ module Unlight
       end
     end
     regist_event FinishFamiliarFeatEvent
-
 
     # ------------------
     # クラウンクラウン
@@ -23468,14 +23305,13 @@ module Unlight
     end
     regist_event FinishCrownCrownFeatEvent
 
-
     # クラウンクラウンが使用される(ダメージ時)
     # 有効の場合必殺技IDを返す
     def use_crown_crown_feat_damage()
       if @feats_enable[FEAT_CROWN_CROWN]
-        num = @cc.owner.cards.count{|ac| ac.joker? }
-        duel.tmp_damage += num *2
-        tmp_card = owner.cards.find{|ac| ac.joker?}
+        num = @cc.owner.cards.count { |ac| ac.joker? }
+        duel.tmp_damage += num * 2
+        tmp_card = owner.cards.find { |ac| ac.joker? }
         if tmp_card
           discard(owner, tmp_card)
         end
@@ -23483,7 +23319,6 @@ module Unlight
       end
     end
     regist_event UseCrownCrownFeatDamageEvent
-
 
     # ------------------
     # リドルボックス
@@ -23517,33 +23352,32 @@ module Unlight
     end
     regist_event FinishRiddleBoxFeatEvent
 
-
     # リドルボックスが使用される(ダメージ時)
     # 有効の場合必殺技IDを返す
     def use_riddle_box_feat_damage()
       if @feats_enable[FEAT_RIDDLE_BOX]
         # 自分
-        num = owner.cards.count{|ac| ac.joker?}
+        num = owner.cards.count { |ac| ac.joker? }
         # 最大１５枚までしか増えない
-        num = (num * Feat.pow(@feats[FEAT_RIDDLE_BOX]) > 15 )? (15 - num) : num * (Feat.pow(@feats[FEAT_RIDDLE_BOX])-1)
+        num = (num * Feat.pow(@feats[FEAT_RIDDLE_BOX]) > 15) ? (15 - num) : num * (Feat.pow(@feats[FEAT_RIDDLE_BOX]) - 1)
         if num > 0
           # デッキに足してから引く
           num.times do |i|
             duel.deck.append_joker_card_event(true)
           end
-          owner.special_dealed_event(duel.deck.draw_cards_event(num).each{ |c| owner.dealed_event(c)})
+          owner.special_dealed_event(duel.deck.draw_cards_event(num).each { |c| owner.dealed_event(c) })
         end
 
         # 相手
-        num = foe.cards.count{|ac| ac.joker?}
+        num = foe.cards.count { |ac| ac.joker? }
         # 最大１５枚までしか増えない
-        num = (num * Feat.pow(@feats[FEAT_RIDDLE_BOX])> 15) ?  (15 - num) : num * (Feat.pow(@feats[FEAT_RIDDLE_BOX])-1)
+        num = (num * Feat.pow(@feats[FEAT_RIDDLE_BOX]) > 15) ? (15 - num) : num * (Feat.pow(@feats[FEAT_RIDDLE_BOX]) - 1)
         if num > 0
           # デッキに足してから引く
           num.times do |i|
             duel.deck.append_joker_card_event(true)
           end
-          foe.special_dealed_event(duel.deck.draw_cards_event(num).each{ |c| foe.dealed_event(c)})
+          foe.special_dealed_event(duel.deck.draw_cards_event(num).each { |c| foe.dealed_event(c) })
         end
       end
       @feats_enable[FEAT_RIDDLE_BOX] = false
@@ -23613,7 +23447,6 @@ module Unlight
       @feats_enable[FEAT_RITUAL_OF_BRAVERY] = false
     end
     regist_event FinishRitualOfBraveryFeatEvent
-
 
     # ------------------
     # 狩猟豹の剣
@@ -23689,7 +23522,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_probe_feat_pow()
       if @feats_enable[FEAT_PROBE]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_PROBE])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_PROBE])
       end
     end
     regist_event UseProbeFeatPowEvent
@@ -23703,7 +23536,7 @@ module Unlight
 
         # 相手に手札を渡す
         # 剣と特殊に重み付け
-        sorted_cards = owner.cards.sort_by { |c| c.get_value_max(ActionCard::SWD)*10 + c.get_value_max(ActionCard::SPC) > 1 ? c.get_value_max(ActionCard::SPC) * 9 : 3 + c.get_value_max(ActionCard::ARW)}
+        sorted_cards = owner.cards.sort_by { |c| c.get_value_max(ActionCard::SWD) * 10 + c.get_value_max(ActionCard::SPC) > 1 ? c.get_value_max(ActionCard::SPC) * 9 : 3 + c.get_value_max(ActionCard::ARW) }
         3.times do
           if owner.cards.size > 0
             foe.current_chara_card.steal_deal(owner.cards[owner.cards.index(sorted_cards.shift)])
@@ -23719,7 +23552,6 @@ module Unlight
       end
     end
     regist_event FinishProbeFeatEvent
-
 
     # ------------------
     # 仕立
@@ -23789,7 +23621,7 @@ module Unlight
     def use_cut_feat()
       if @feats_enable[FEAT_CUT]
         multi_num = @cc.status[STATE_CONTROL][1] > 0 ? 3 : 2
-        @cc.owner.tmp_power+=@cc.special_status[SPECIAL_STATE_STUFFED_TOYS][1] * multi_num
+        @cc.owner.tmp_power += @cc.special_status[SPECIAL_STATE_STUFFED_TOYS][1] * multi_num
       end
     end
     regist_event UseCutFeatEvent
@@ -23826,7 +23658,7 @@ module Unlight
     # 縫製が使用
     def use_sewing_feat()
       if @feats_enable[FEAT_SEWING]
-        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SEWING]) + @cc.special_status[SPECIAL_STATE_STUFFED_TOYS][1]*3
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SEWING]) + @cc.special_status[SPECIAL_STATE_STUFFED_TOYS][1] * 3
       end
     end
     regist_event UseSewingFeatEvent
@@ -23900,7 +23732,7 @@ module Unlight
                         foe.current_chara_card.status[STATE_MOVE_DOWN][1]) if buffed
         end
         multi_num = @cc.status[STATE_CONTROL][1] > 0 ? 3 : 2
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,@cc.special_status[SPECIAL_STATE_STUFFED_TOYS][1] * multi_num))
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, @cc.special_status[SPECIAL_STATE_STUFFED_TOYS][1] * multi_num))
         @cc.special_status[SPECIAL_STATE_STUFFED_TOYS][1] = 0
         stuffed_toys_set_event(true, @cc.special_status[SPECIAL_STATE_STUFFED_TOYS][1])
       end
@@ -23927,7 +23759,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_seiho_feat()
       if @feats_enable[FEAT_SEIHO]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_SEIHO])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SEIHO])
       end
     end
     regist_event UseSeihoFeatEvent
@@ -23940,15 +23772,14 @@ module Unlight
         owner.cards.each do |c|
           if (1..60).include?(c.id)
             if c.u_type == ActionCard::SWD && c.u_value < 4
-              c.rewrite_u_value(c.u_value+1)
+              c.rewrite_u_value(c.u_value + 1)
             end
             if c.b_type == ActionCard::SWD && c.b_value < 4
-              c.rewrite_b_value(c.b_value+1)
+              c.rewrite_b_value(c.b_value + 1)
             end
           end
         end
       end
-
     end
     regist_event FinishSeihoFeatEvent
 
@@ -23972,7 +23803,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_dokko_feat()
       if @feats_enable[FEAT_DOKKO]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_DOKKO])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_DOKKO])
       end
     end
     regist_event UseDokkoFeatEvent
@@ -24024,7 +23855,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_nyoi_feat()
       if @feats_enable[FEAT_NYOI]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_NYOI])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_NYOI])
       end
     end
     regist_event UseNyoiFeatEvent
@@ -24056,10 +23887,10 @@ module Unlight
           foe.cards.each do |c|
             if (1..60).include?(c.id)
               if c.u_value > 1
-                c.rewrite_u_value(c.u_value-1)
+                c.rewrite_u_value(c.u_value - 1)
               end
               if c.b_value > 1
-                c.rewrite_b_value(c.b_value-1)
+                c.rewrite_b_value(c.b_value - 1)
               end
             end
           end
@@ -24105,7 +23936,7 @@ module Unlight
     def use_kongo_feat_damage()
       if @feats_enable[FEAT_KONGO]
         if owner.distance == 1
-          duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,8))
+          duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, 8))
         end
 
         if !instant_kill_guard?(foe)
@@ -24139,9 +23970,9 @@ module Unlight
         use_feat_event(@feats[FEAT_CARP_QUAKE])
         @feats_enable[FEAT_CARP_QUAKE] = false
         r = rand(Feat.pow(@feats[FEAT_CARP_QUAKE])) + 1
-        foe.special_dealed_event(duel.deck.draw_cards_event(r).each{ |c| @cc.foe.dealed_event(c)})
+        foe.special_dealed_event(duel.deck.draw_cards_event(r).each { |c| @cc.foe.dealed_event(c) })
         r = rand(Feat.pow(@feats[FEAT_CARP_QUAKE])) + 1
-        owner.special_dealed_event(duel.deck.draw_cards_event(r).each{ |c| @cc.owner.dealed_event(c)})
+        owner.special_dealed_event(duel.deck.draw_cards_event(r).each { |c| @cc.owner.dealed_event(c) })
       end
     end
     regist_event FinishCarpQuakeFeatEvent
@@ -24166,7 +23997,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_carp_lightning_feat()
       if @feats_enable[FEAT_CARP_LIGHTNING]
-        @cc.owner.tmp_power+=(4+Feat.pow(@feats[FEAT_CARP_LIGHTNING])*4)
+        @cc.owner.tmp_power += (4 + Feat.pow(@feats[FEAT_CARP_LIGHTNING]) * 4)
       end
     end
     regist_event UseCarpLightningFeatEvent
@@ -24191,6 +24022,7 @@ module Unlight
         if duel.tmp_damage < 5
           foe.cards.shuffle.each do |c|
              break if cnt >= max_num
+
             if (1..60).include?(c.id)
               rewrite_count = false
               if c.u_value < 9
@@ -24204,13 +24036,14 @@ module Unlight
                 rewrite_count = true
               end
               if rewrite_count
-                cnt+=1
+                cnt += 1
               end
             end
           end
         else
           foe.cards.shuffle.each do |c|
              break if cnt >= max_num
+
             if (1..60).include?(c.id)
               rewrite_count = false
               if c.u_value > 1
@@ -24224,7 +24057,7 @@ module Unlight
                 rewrite_count = true
               end
               if rewrite_count
-                cnt+=1
+                cnt += 1
               end
             end
           end
@@ -24260,7 +24093,6 @@ module Unlight
     end
     regist_event UseFieldLockFeatEvent
 
-
     # ------------------
     # 捕縛
     # ------------------
@@ -24281,11 +24113,10 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_arrest_feat()
       if @feats_enable[FEAT_ARREST]
-        @cc.owner.tmp_power+= (Feat.pow(@feats[FEAT_ARREST]) * owner.distance)
+        @cc.owner.tmp_power += (Feat.pow(@feats[FEAT_ARREST]) * owner.distance)
       end
     end
     regist_event UseArrestFeatEvent
-
 
     # 捕縛が使用終了
     def finish_arrest_feat()
@@ -24331,7 +24162,7 @@ module Unlight
     # クイックドローが使用される
     def use_quick_draw_feat()
       if @feats_enable[FEAT_QUICK_DRAW]
-        @cc.owner.tmp_power+= (Feat.pow(@feats[FEAT_QUICK_DRAW]) + owner.distance * 2)
+        @cc.owner.tmp_power += (Feat.pow(@feats[FEAT_QUICK_DRAW]) + owner.distance * 2)
       end
     end
     regist_event UseQuickDrawFeatEvent
@@ -24363,7 +24194,7 @@ module Unlight
 
     def use_gaze_feat()
       if @feats_enable[FEAT_GAZE]
-        @cc.owner.tmp_power+= (Feat.pow(@feats[FEAT_GAZE]) * foe.battle_table.size)
+        @cc.owner.tmp_power += (Feat.pow(@feats[FEAT_GAZE]) * foe.battle_table.size)
       end
     end
     regist_event UseGazeFeatEvent
@@ -24378,6 +24209,7 @@ module Unlight
         draw_table = []
         gaze_cnt.times do |n|
           break if tmp_table.size == 0
+
           draw_table << tmp_table.shift
         end
         foe.battle_table = []
@@ -24536,8 +24368,8 @@ module Unlight
           hps << [i, duel.second_entrant.hit_points[i], duel.second_entrant.chara_cards[i].hp - duel.second_entrant.hit_points[i]] if duel.second_entrant.hit_points[i] > 0
         end
         if hps.size > 1
-          hps.shuffle! if hps.size ==2 && hps[0][1] == hps[1][1] # 残り二人のhpが同じ値ならばランダムに入れ替える
-          chp = hps.sort!{ |a,b| a[1] <=> b[1] }.shift
+          hps.shuffle! if hps.size == 2 && hps[0][1] == hps[1][1] # 残り二人のhpが同じ値ならばランダムに入れ替える
+          chp = hps.sort! { |a, b| a[1] <=> b[1] }.shift
 
           dmg = 0
           hps.each do |hp|
@@ -24669,7 +24501,7 @@ module Unlight
         if owner.get_type_point_table_count(ActionCard::SPC, 1, true) > 2
           d += 3
         end
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,d)) if d > 0
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, d)) if d > 0
       end
     end
     regist_event FinishThreeCardFeatEvent
@@ -24695,7 +24527,7 @@ module Unlight
       if @feats_enable[FEAT_CARD_SEARCH]
         use_feat_event(@feats[FEAT_CARD_SEARCH])
         @feats_enable[FEAT_CARD_SEARCH] = false
-        @cc.owner.special_dealed_event(duel.deck.draw_low_cards_event(Feat.pow(@feats[FEAT_CARD_SEARCH]), 2).each{ |c| @cc.owner.dealed_event(c)})
+        @cc.owner.special_dealed_event(duel.deck.draw_low_cards_event(Feat.pow(@feats[FEAT_CARD_SEARCH]), 2).each { |c| @cc.owner.dealed_event(c) })
       end
     end
     regist_event FinishCardSearchFeatEvent
@@ -24728,7 +24560,7 @@ module Unlight
       if @feats_enable[FEAT_ALL_IN_ONE]
         # 自分のカードを回転する
         owner.battle_table.each do |a|
-          owner.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1)? true : false)
+          owner.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1) ? true : false)
         end
       end
     end
@@ -24777,7 +24609,7 @@ module Unlight
         # カードを全て捨てる
         aca.count.times do |a|
           if aca[a]
-            dmg+=discard(foe, aca[a])
+            dmg += discard(foe, aca[a])
           end
         end
         foe.damaged_event(attribute_damage(ATTRIBUTE_COUNTER, foe, dmg * Feat.pow(@feats[FEAT_FIRE_BIRD])))
@@ -24829,7 +24661,7 @@ module Unlight
     def use_brambles_feat_move_after()
       if @feats_enable[FEAT_BRAMBLES]
         dmg = (owner.distance - @brambles_tmp_dist).abs * 2
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,dmg)) if dmg > 0
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, dmg)) if dmg > 0
       end
     end
     regist_event UseBramblesFeatMoveAfterEvent
@@ -24862,7 +24694,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_franken_tackle_feat()
       if @feats_enable[FEAT_FRANKEN_TACKLE] && owner.battle_table.count >= foe.battle_table.count
-        foe.tmp_power = foe.tmp_power/2
+        foe.tmp_power = foe.tmp_power / 2
       end
     end
     regist_event UseOwnerFrankenTackleFeatEvent
@@ -24885,7 +24717,6 @@ module Unlight
     end
     regist_event FinishFrankenTackleFeatEvent
 
-
     # ------------------
     # フランケン充電
     # ------------------
@@ -24906,7 +24737,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_franken_charging_feat()
       if @feats_enable[FEAT_FRANKEN_CHARGING]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_FRANKEN_CHARGING])*@cc.owner.battle_table.count
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_FRANKEN_CHARGING]) * @cc.owner.battle_table.count
       end
     end
     regist_event UseFrankenChargingFeatEvent
@@ -24998,7 +24829,7 @@ module Unlight
     def finish_turn_moving_one_r_feat()
       if @feats_enable[FEAT_MOVING_ONE_R]
         @feats_enable[FEAT_MOVING_ONE_R] = false
-        owner.healed_event((@moving_one_r_feat_tmp_hp - owner.hit_point + 1)/2) if @moving_one_r_feat_tmp_hp > owner.hit_point && owner.hit_point > 0
+        owner.healed_event((@moving_one_r_feat_tmp_hp - owner.hit_point + 1) / 2) if @moving_one_r_feat_tmp_hp > owner.hit_point && owner.hit_point > 0
         off_transform_sequence(true)
       end
     end
@@ -25062,7 +24893,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_eating_one_r_feat()
       if @feats_enable[FEAT_EATING_ONE_R]
-        @cc.owner.tmp_power+=(@cc.owner.table_point_check(ActionCard::MOVE)*Feat.pow(@feats[FEAT_EATING_ONE_R]))
+        @cc.owner.tmp_power += (@cc.owner.table_point_check(ActionCard::MOVE) * Feat.pow(@feats[FEAT_EATING_ONE_R]))
       end
     end
     regist_event UseEatingOneRFeatEvent
@@ -25112,8 +24943,8 @@ module Unlight
       if @feats_enable[FEAT_HARF_DEAD]
         @feats_enable[FEAT_HARF_DEAD] = false
         # HPのチェック
-        if @cc.owner.current_hit_point_max/2 > @cc.owner.hit_point
-          heal_num = @cc.owner.current_hit_point_max/2 - @cc.owner.hit_point
+        if @cc.owner.current_hit_point_max / 2 > @cc.owner.hit_point
+          heal_num = @cc.owner.current_hit_point_max / 2 - @cc.owner.hit_point
           @cc.owner.healed_event(heal_num)
         end
       end
@@ -25155,7 +24986,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_directional_beam_feat_damage()
       if @feats_enable[FEAT_DIRECTIONAL_BEAM]
-        if duel.tmp_damage>0
+        if duel.tmp_damage > 0
           duel.tmp_damage += duel.tmp_damage * rand(Feat.pow(@feats[FEAT_DIRECTIONAL_BEAM]))
         end
         @feats_enable[FEAT_DIRECTIONAL_BEAM] = false
@@ -25205,7 +25036,6 @@ module Unlight
     end
     regist_event FinishHeatSeekerRFeatDamageEvent
 
-
     # ------------------
     # マシンセル
     # ------------------
@@ -25237,7 +25067,6 @@ module Unlight
       end
     end
     regist_event FinishMachineCellFeatEvent
-
 
     # ------------------
     # デルタ
@@ -25271,7 +25100,7 @@ module Unlight
         @feats_enable[FEAT_DELTA] = false
         d = foe.current_chara_card.status[STATE_BIND][1]
         d += 1 if d > 0
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,d))
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, d))
       end
     end
     regist_event FinishDeltaFeatEvent
@@ -25352,7 +25181,7 @@ module Unlight
     # スタンプが使用される
     def use_stamp_feat()
       if @feats_enable[FEAT_STAMP]
-        @cc.owner.tmp_power+=Feat.pow(@feats[FEAT_STAMP])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_STAMP])
       end
     end
     regist_event UseStampFeatEvent
@@ -25433,12 +25262,12 @@ module Unlight
         use_feat_event(@feats[FEAT_FOAB])
         # 敵デッキ全体にダメージ
         hps = []
-        foe.hit_points.each_with_index do |v,i|
+        foe.hit_points.each_with_index do |v, i|
           hps << i if v > 0
         end
         attribute_party_damage(foe, hps, Feat.pow(@feats[FEAT_FOAB]), ATTRIBUTE_CONSTANT, TARGET_TYPE_ALL)
-        own_dmg = @cc.special_status[SPECIAL_STATE_AX_GUARD][1] > 0 ? (Feat.pow(@feats[FEAT_FOAB])/2).to_i : Feat.pow(@feats[FEAT_FOAB])
-        duel.first_entrant.damaged_event(own_dmg,IS_NOT_HOSTILE_DAMAGE)
+        own_dmg = @cc.special_status[SPECIAL_STATE_AX_GUARD][1] > 0 ? (Feat.pow(@feats[FEAT_FOAB]) / 2).to_i : Feat.pow(@feats[FEAT_FOAB])
+        duel.first_entrant.damaged_event(own_dmg, IS_NOT_HOSTILE_DAMAGE)
       end
     end
     regist_event FinishFoabFeatEvent
@@ -25492,11 +25321,11 @@ module Unlight
         f_id = @feats[FEAT_WHITE_MOON]
         use_feat_event(f_id)
         if @cc.owner.get_battle_table_point(ActionCard::SPC) >= owner.hit_point && @cc.status[STATE_BERSERK][1] > 0
-          duel.first_entrant.damaged_event(owner.hit_point-1,IS_NOT_HOSTILE_DAMAGE)
+          duel.first_entrant.damaged_event(owner.hit_point - 1, IS_NOT_HOSTILE_DAMAGE)
         else
-          duel.first_entrant.damaged_event(@cc.owner.get_battle_table_point(ActionCard::SPC),IS_NOT_HOSTILE_DAMAGE)
+          duel.first_entrant.damaged_event(@cc.owner.get_battle_table_point(ActionCard::SPC), IS_NOT_HOSTILE_DAMAGE)
         end
-        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT,foe,@cc.owner.get_battle_table_point(ActionCard::SPC)))
+        duel.second_entrant.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, @cc.owner.get_battle_table_point(ActionCard::SPC)))
       end
     end
     regist_event FinishWhiteMoonFeatEvent
@@ -25570,8 +25399,6 @@ module Unlight
     end
     regist_event UseAngerBackFeatDamageEvent
 
-
-
     # ===========================================
     # トラップ用イベント等
     # ===========================================
@@ -25605,7 +25432,7 @@ module Unlight
                 open_trap(kind, owner.trap[kind.to_s])
               end
             else
-              owner.invincible=(false)
+              owner.invincible = (false)
             end
           end
         end
@@ -25645,7 +25472,6 @@ module Unlight
 
         delete_list = []
         trap.each do |kind, status|
-
           trap["#{kind}"][TRAP_STATUS_TURN] -= 1
 
           # ターンを進める。規定ターン経過したものは消す
@@ -25664,7 +25490,7 @@ module Unlight
           trap.delete(kind)
         end
 
-        owner.invincible=(false)
+        owner.invincible = (false)
       end
     end
     regist_event ProgressTrapEvent
@@ -25704,7 +25530,6 @@ module Unlight
 
     # トラップを起動
     def open_trap(kind, status)
-
       case kind.to_i
       when FEAT_BATAFLY_MOV
         buffed = foe.current_chara_card.set_state(@cc.status[STATE_SEAL], 1, status[TRAP_STATUS_POW]);
@@ -25717,10 +25542,10 @@ module Unlight
         buffed = foe.current_chara_card.set_state(@cc.status[STATE_STONE], 1, 2);
         foe.current_chara_card.on_buff_event(false, owner.current_chara_card_no, STATE_STONE, @cc.status[STATE_STONE][0], @cc.status[STATE_STONE][1]) if buffed
         aca = owner.cards.shuffle
-        status[TRAP_STATUS_POW].times{ |a| discard(owner, aca[a]) if aca[a] }
+        status[TRAP_STATUS_POW].times { |a| discard(owner, aca[a]) if aca[a] }
 
       when FEAT_BATAFLY_SLD
-        owner.invincible=(true)
+        owner.invincible = (true)
 
       when FEAT_CLAYMORE
         owner.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, owner, status[TRAP_STATUS_POW]))
@@ -25766,23 +25591,22 @@ module Unlight
       end
     end
 
-
     # ===========================================
     # 必殺技の汎用イベント
     # ===========================================
     # 必殺技が使用されたときのイベント
-    COFFIN_ID=1264
-    GREGOR_FEAT_BEGIN=1255
-    GREGOR_FEAT_END=1267
+    COFFIN_ID = 1264
+    GREGOR_FEAT_BEGIN = 1255
+    GREGOR_FEAT_END = 1267
     def use_feat(id)
       unless @used_feats[id]
-        @cc.owner.duel_bonus_event(DUEL_BONUS_FEAT,@used_feats.size+1) if @cc&&@cc.owner&&origin_feat?(id)
+        @cc.owner.duel_bonus_event(DUEL_BONUS_FEAT, @used_feats.size + 1) if @cc && @cc.owner && origin_feat?(id)
         @used_feats[id] = true
       end
 
       if @cc.charactor_id == GREGOR
         case id
-        when GREGOR_FEAT_BEGIN .. GREGOR_FEAT_END
+        when GREGOR_FEAT_BEGIN..GREGOR_FEAT_END
         else
           off_feat_event(Feat[id].feat_no)
           return use_feat(COFFIN_ID)
@@ -25844,11 +25668,11 @@ module Unlight
     # ===========================================
     # 特殊イベント
     # ===========================================
-    TRANSFORM_TYPE_STANDARD=0
-    TRANSFORM_TYPE_CAT=1
+    TRANSFORM_TYPE_STANDARD = 0
+    TRANSFORM_TYPE_CAT = 1
     # キャラカード変身イベント,トラップがあれば更新する
-    def on_transform_sequence(player, type=TRANSFORM_TYPE_STANDARD)
-      on_transform_event(player,type)
+    def on_transform_sequence(player, type = TRANSFORM_TYPE_STANDARD)
+      on_transform_event(player, type)
       target = player ? owner : foe
       update_trap_all(target)
     end
@@ -25860,7 +25684,7 @@ module Unlight
       update_trap_all(target)
     end
 
-    def on_transform(player, type=TRANSFORM_TYPE_STANDARD)
+    def on_transform(player, type = TRANSFORM_TYPE_STANDARD)
       if player
         owner.is_transforming = true
       else
@@ -26038,15 +25862,15 @@ module Unlight
           return
         end
         # 条件関数と封印状態をチェックする
-        if check_feat_core(@feats[feat_no],@cc.owner,@check_feat_range_free) && @cc.status[STATE_SEAL][1] <= 0 && @cc.special_status[SPECIAL_STATE_CAT][1] <= 0
-          unless  @feats_enable[feat_no]
+        if check_feat_core(@feats[feat_no], @cc.owner, @check_feat_range_free) && @cc.status[STATE_SEAL][1] <= 0 && @cc.special_status[SPECIAL_STATE_CAT][1] <= 0
+          unless @feats_enable[feat_no]
             @feats_enable[feat_no] = true
             on_feat_event(feat_no)
           end
         else
           # OFFの場合有効カードをリセットする
           @cc.owner.reset_feat_on_cards(feat_no)
-          if  @feats_enable[feat_no]
+          if @feats_enable[feat_no]
             @feats_enable[feat_no] = false
             off_feat_event(feat_no)
           end
@@ -26086,7 +25910,7 @@ module Unlight
       if target.initiative
         swd_pt = target.get_battle_table_point(ActionCard::SWD)
         arw_pt = target.get_battle_table_point(ActionCard::ARW)
-        if swd_pt+arw_pt > 0
+        if swd_pt + arw_pt > 0
           range = swd_pt >= arw_pt ? AI_RANGE_SWORD : AI_RANGE_ARROW
         end
       else
@@ -26101,18 +25925,18 @@ module Unlight
     end
 
     # FeatへのCondition問い合わせ, range_freeで距離を無視
-    def check_feat_core(fid, target, range_free=false)
+    def check_feat_core(fid, target, range_free = false)
       Feat.check_feat(fid, target, range_free)
     end
 
     # 現在有効状態にある技 引数はフェイズによる絞込み
-    def get_enable_feats(phase=nil, target=owner)
-      ret = { }
+    def get_enable_feats(phase = nil, target = owner)
+      ret = {}
       if phase.nil?
         ret = @feats_enable.select { |k, v| v == true }
       else
         feats = get_feats_list_as_for(target, phase)
-        ret = @feats_enable.select { |k, v| v == true && feats.include?(k)}
+        ret = @feats_enable.select { |k, v| v == true && feats.include?(k) }
       end
       ret
     end
@@ -26122,14 +25946,14 @@ module Unlight
       # 現在OC使用中の場合のみチェックする
       if @cc.using
         # 条件関数と封印状態をチェックする
-        if Feat.check_feat(@feats[feat_no],@cc.owner) && @cc.status[STATE_SEAL][1] <= 0 && !skip_check_feat(feat_no)
+        if Feat.check_feat(@feats[feat_no], @cc.owner) && @cc.status[STATE_SEAL][1] <= 0 && !skip_check_feat(feat_no)
           unless  @feats_enable[feat_no]
             @feats_enable[feat_no] = true
           end
         else
           # OFFの場合有効カードをリセットする
           @cc.owner.reset_feat_on_cards(feat_no)
-          if  @feats_enable[feat_no]
+          if @feats_enable[feat_no]
             @feats_enable[feat_no] = false
           end
         end
@@ -26167,8 +25991,9 @@ module Unlight
     # ステータス状態を設定する
     def set_state(state, power, turn)
       if state
-        r = rand(100)+1
+        r = rand(100) + 1
         return false if state[2] > r
+
         state[0] = power
         state[0] = 9 if power > 9
         state[1] = turn
@@ -26196,10 +26021,11 @@ module Unlight
     end
 
     # 生存者のインデックスを配列で返す カレントインデックスを除外するか
-    def get_hps(entrant, except_current=false)
+    def get_hps(entrant, except_current = false)
       hps = []
-      entrant.hit_points.each_with_index do |v,i|
+      entrant.hit_points.each_with_index do |v, i|
         next if except_current && entrant.current_chara_card_no == i
+
         hps << i if v > 0
       end
       hps
@@ -26213,9 +26039,9 @@ module Unlight
     # 発動中のステータス取得
     def get_active_status
       ret = nil
-      @cc.status.each_with_index do |s,i|
+      @cc.status.each_with_index do |s, i|
         if s[1] > 0
-          ret = { } unless ret
+          ret = {} unless ret
           ret[i] = s
         end
       end
@@ -26268,9 +26094,9 @@ module Unlight
       dice_attribute_list
     end
 
-    EX_FEATS={ FEAT_RAZORS_EDGE=>FEAT_EX_RAZORS_EDGE }
+    EX_FEATS = { FEAT_RAZORS_EDGE => FEAT_EX_RAZORS_EDGE }
     # 技の提出条件緩和する 数値2以上を必要とするタイプについて、必要条件-1
-    def easing_card_condition(f_no, pow=-1)
+    def easing_card_condition(f_no, pow = -1)
       if EX_FEATS.key?(f_no) && @feats.key?(EX_FEATS[f_no])
         f_no = EX_FEATS[f_no]
       elsif !@feats.key?(f_no)
@@ -26278,18 +26104,17 @@ module Unlight
       end
 
       f_id = @feats[f_no]
-      @easing_feat_list = { } unless @easing_feat_list
+      @easing_feat_list = {} unless @easing_feat_list
       unless @easing_feat_list.has_key?(f_id)
         # 無ければ登録
         eased_condition = easing_condition_all_type(Feat[f_id].condition, pow)
         condition_check = Feat.condition_check_gen(eased_condition).gsub("__FEAT__", f_no.to_s)
         update_feat_condition_event(true, owner.current_chara_card_no, get_feat_inventories_index(f_id), eased_condition)
-        @easing_feat_list[f_id] = {:f_no => f_no, :pow => pow, :condition => condition_check}
+        @easing_feat_list[f_id] = { f_no: f_no, pow: pow, condition: condition_check }
       end
 
       create_easing_check_feat(f_id, f_no)
     end
-
 
     # 条件緩和用特異メソッド定義
     def create_easing_check_feat(f_id, f_no)
@@ -26311,29 +26136,29 @@ module Unlight
       ret = 0
       @feats.each do |no, id|
         break if id == feat_id
+
         ret += 1
       end
       ret
     end
 
-
     # 既定条件の値をnumだけ変動させた技条件文字列を返す
     COND_PTN = /([ASDMEW]|\[.*\])(\d?)([+=-]?)(?:\*(\d))?/
     REDUCTION_TYPE_PRIORITY = ["D", "M", "S", "A", "E", "W"]
-    def easing_condition_all_type(condition, num=-1)
+    def easing_condition_all_type(condition, num = -1)
       return "" if condition == ""
 
       dist_cond, ac_cond = condition.split(":")
 
       # 既定の技のコンディションを文字列から解釈
-      ac_cond_list = { }
+      ac_cond_list = {}
       ac_cond.split(",").each_with_index do |c_str, i|
         ma = c_str.match(COND_PTN)
         ac_cond_list[i] = {
-          :type_sign => ma[1],
-          :value => ma[2].to_i,
-          :op => ma[3],
-          :num => ma[4]
+          type_sign: ma[1],
+          value: ma[2].to_i,
+          op: ma[3],
+          num: ma[4]
         }
       end
 
@@ -26359,16 +26184,14 @@ module Unlight
 
         # 2以上の数値は減算対象
         ac_cond_list.each do |i, cond|
-
           if (cond[:type_sign] != "W")
             if num < 0 && cond[:value] > 1
-              cond[:value] += (cond[:op] == "-" ? -1*num : num)
+              cond[:value] += (cond[:op] == "-" ? -1 * num : num)
               cond[:value] = 1 if cond[:value] < 1
               cond[:value] = 9 if cond[:value] > 9
             elsif cond[:value] == 0
             end
           end
-
         end
       end
       ac_cond = ac_cond_list.collect { |i, cond|
@@ -26381,6 +26204,5 @@ module Unlight
       ret = dist_cond + ":" + ac_cond
       ret
     end
-
   end
 end

@@ -50,12 +50,11 @@ module Unlight
     event      :finish
   end
 
-
   # ===========================
   # フェイズ定義
   # ===========================
 
-  class InitPhase <EventRule
+  class InitPhase < EventRule
       dsc        "初期化フェイズ"
       func       :init
       event      :finish
@@ -63,47 +62,46 @@ module Unlight
 
   class CandidateCardsListPhase < EventRule
       dsc        "報酬のスタート"
-      guard      ["self",:not_win_skip],["self",:not_reroll?]
+      guard      ["self", :not_win_skip], ["self", :not_reroll?]
       func       :candidate_cards_list
       event      :finish
   end
 
-  class BottomDiceNumPhase <EventRule
+  class BottomDiceNumPhase < EventRule
     dsc        "基本ダイス数フェイズ"
       func       :bottom_dice_num
       event      :finish
   end
 
-  class HighLowPhase <EventRule
+  class HighLowPhase < EventRule
       dsc        "ハイロー待ちフェイズ"
       func       :high_low
       event      :finish
-      goal       ["self",:challenged]
-      goal       ["self",:first?]
+      goal       ["self", :challenged]
+      goal       ["self", :first?]
   end
 
-  class ExitPhase <EventRule
+  class ExitPhase < EventRule
       dsc        "カード決定待ちフェイズ"
       func       :exit
       event      :finish
-      goal       ["self",:exited?]
+      goal       ["self", :exited?]
   end
-
 
   # ===========================
   # イベント定義
   # ===========================
 
   class UpEvent < EventRule
-    dsc       "アップを選択した結果"
-    context    ["Reward", :high_low_phase]
+    dsc "アップを選択した結果"
+    context ["Reward", :high_low_phase]
     func      :up
     event     :finish
   end
 
   class DownEvent < EventRule
     dsc       "ダウンを選択した結果"
-    context    ["Reward", :high_low_phase]
+    context ["Reward", :high_low_phase]
     func      :down
     event     :finish
   end
@@ -116,30 +114,29 @@ module Unlight
 
   class CancelEvent < EventRule
     dsc       "キャンセルを選択した結果"
-    context    ["Reward", :exit_phase]
+    context ["Reward", :exit_phase]
     func      :cancel
     event     :finish
   end
 
   class RetryRewardEvent < EventRule
     dsc       "報酬ゲームを続ける"
-    context    ["Reward", :exit_phase]
+    context ["Reward", :exit_phase]
     func      :retry_reward
     event     :finish
   end
 
   class RerollEvent < EventRule
     dsc       "アイテムのリロールを使用"
-    context    ["Reward", :exit_phase]
+    context ["Reward", :exit_phase]
     func      :reroll
     event     :finish
   end
 
   class AmendEvent < EventRule
     dsc       "ダイス修正アイテムを使用"
-    context    ["Reward", :exit_phase]
+    context ["Reward", :exit_phase]
     func      :amend
     event     :finish
   end
-
 end

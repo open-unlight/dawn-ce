@@ -4,7 +4,6 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
-
   # 3対3のデュエル用ルール
   # Todo
   # ・切断による中断
@@ -12,29 +11,29 @@ module Unlight
   # ・alphaとBetaの削除
 
   class MultiDuel < BaseEvent
-    attr_accessor  :alpha, :beta, :move_timer, :entrants, :deck, :initi, :result, :bp, :tmp_damage, :tmp_dice, :tmp_dice_heads_atk, :tmp_dice_heads_def, :alpha_reward, :beta_reward, :ai_type, :event_decks, :dice_attributes, :profound_id
+    attr_accessor :alpha, :beta, :move_timer, :entrants, :deck, :initi, :result, :bp, :tmp_damage, :tmp_dice, :tmp_dice_heads_atk, :tmp_dice_heads_def, :alpha_reward, :beta_reward, :ai_type, :event_decks, :dice_attributes, :profound_id
     attr_reader :turn, :bonus_level, :avatar_names
     # 現在のゲームリスト
-    @@current_list=[]
+    @@current_list = []
     # すべてのデュエルをアップデート（サーバーから呼ばれます）
    def MultiDuel.update
-     @@current_list.each{ |a|a.update}
+     @@current_list.each { |a|a.update }
    end
 
    # コンストラクタ
-   def initialize(pl, foe, deck1, deck2, rule, is_get_bp, ai=:none, stage = 0, hp1_set=[0,0,0], hp2_set= [0,0,0],bonus_level = 0, wild_items_id=0, timeout_turn = BATTLE_TIMEOUT_TURN, ai_rank = CPU_AI_OLD, hp_up = 0, ap_up = 0, dp_up = 0)		# By_K2
+   def initialize(pl, foe, deck1, deck2, rule, is_get_bp, ai=:none, stage = 0, hp1_set=[0, 0, 0], hp2_set= [0, 0, 0], bonus_level = 0, wild_items_id=0, timeout_turn = BATTLE_TIMEOUT_TURN, ai_rank = CPU_AI_OLD, hp_up = 0, ap_up = 0, dp_up = 0)	# By_K2
      super
      create_context                                                     # コンテクストの作成
      @rule = rule
      @is_get_bp = is_get_bp
      @turn = 0                                                          # 現在のターン数
      @using_cards = []                                                  # 場に存在する使用中のカード
-     @ai_type = ai                                                           # CPUかどうか
+     @ai_type = ai # CPUかどうか
 
      @cards1 = []                                                        # プレイヤーキャラカード
      @cards2 = []                                                        # 対戦相手キャラカード
-     event_cards1 = []                                                  # プレイヤーが所持するイベントカード
-     event_cards2 = []                                                   # 対戦相手が所持するイベントカード
+     event_cards1 = [] # プレイヤーが所持するイベントカード
+     event_cards2 = [] # 対戦相手が所持するイベントカード
      weapon_cards1 = []                                                   # プレイヤーが所持する武器カード
      weapon_cards2 = []                                                   # 対戦相手が所持する武器カード
      equip_cards1 = []                                                   # プレイヤーが所持する装備カード
@@ -68,10 +67,10 @@ module Unlight
        equip_cards1 = deck1.equip_cards
        equip_cards2 = deck2.equip_cards
        # イベントカードデッキが規定枚数以下の場合１のカードをランダムで詰める
-       while event_cards1.size < SLOT_MAX_EVENT*@cards1.size
+       while event_cards1.size < SLOT_MAX_EVENT * @cards1.size
          event_cards1 << EventCard::get_random_filler_card()
        end
-       while event_cards2.size < SLOT_MAX_EVENT*@cards2.size
+       while event_cards2.size < SLOT_MAX_EVENT * @cards2.size
          event_cards2 << EventCard::get_random_filler_card()
        end
      end
@@ -79,22 +78,22 @@ module Unlight
      @cards1.delete(nil)
      @cards2.delete(nil)
 
-     @alpha = Entrant.new(context, @cards1, weapon_cards1, equip_cards1, event_cards1, DEFAULT_DISTANCE, hp1_set,0,0,0,@ai_type)       # 対戦者A (By_K2)
-     @beta = Entrant.new(context, @cards2, weapon_cards2, equip_cards2, event_cards2, DEFAULT_DISTANCE, hp2_set, hp_up, ap_up, dp_up, @ai_type)       # 対戦者B (By_K2)
+     @alpha = Entrant.new(context, @cards1, weapon_cards1, equip_cards1, event_cards1, DEFAULT_DISTANCE, hp1_set, 0, 0, 0, @ai_type) # 対戦者A (By_K2)
+     @beta = Entrant.new(context, @cards2, weapon_cards2, equip_cards2, event_cards2, DEFAULT_DISTANCE, hp2_set, hp_up, ap_up, dp_up, @ai_type) # 対戦者B (By_K2)
      @alpha.set_foe(@beta)
      @beta.set_foe(@alpha)
-     @deck = Deck.new(context,stage)
-     @cards1.each_index { |i| @cards1[i].init_card(context, @alpha, @beta, self, i) if @cards1[i] }      # キャラカードを初期化
-     @cards1[0].init_event                                               # イベントとフックの登録
-     @cards2.each_index { |i| @cards2[i].init_card(context, @beta, @alpha, self, i) if @cards2[i] }      # キャラカードを初期化
+     @deck = Deck.new(context, stage)
+     @cards1.each_index { |i| @cards1[i].init_card(context, @alpha, @beta, self, i) if @cards1[i] } # キャラカードを初期化
+     @cards1[0].init_event # イベントとフックの登録
+     @cards2.each_index { |i| @cards2[i].init_card(context, @beta, @alpha, self, i) if @cards2[i] } # キャラカードを初期化
      @cards2[0].init_event                                               # イベントとフックの登録
 
      @avatars = [pl, foe]                                                # アバター
      @avatar_names = [pl.name, foe.name]                                 # アバター名
      @entrants = [@alpha, @beta]                                         #対戦者全員
-     @initi = [0,1]                                                     # イニシアチブの結果
-     @event_deck1,@event_deck2 = EventDeck.create_decks(context,event_cards1,event_cards2,self) # イベントカードデッキを作る
-     @event_decks = [@event_deck1, @event_deck2]                                         #対戦者全員
+     @initi = [0, 1] # イニシアチブの結果
+     @event_deck1, @event_deck2 = EventDeck.create_decks(context, event_cards1, event_cards2, self) # イベントカードデッキを作る
+     @event_decks = [@event_deck1, @event_deck2] #対戦者全員
      add_finish_listener_three_to_three_duel(method(:finish_game))      # ゲーム結果を監視
      @@current_list << self                                             # ゲームリストに追加
      @tmp_damage                                                        # ダメージの一時保管
@@ -112,11 +111,11 @@ module Unlight
 
      # 勝ったときのEXPを計算する
      alpha_exp = 0
-     @cards2.each{ |c| alpha_exp +=c.level*EXP_POW}
+     @cards2.each { |c| alpha_exp += c.level * EXP_POW }
      @alpha.result_exp = alpha_exp
 
      beta_exp = 0
-     @cards1.each{ |c| beta_exp +=c.level*EXP_POW}
+     @cards1.each { |c| beta_exp += c.level * EXP_POW }
      @beta.result_exp = beta_exp
 
      @alpha.result_gems = (@cards2.length) * GEM_POW
@@ -129,11 +128,11 @@ module Unlight
        @alpha.result_exp = @alpha.result_exp * 1.0
        @ai.one_to_one_ai
      elsif @ai_type == :duel_ai
-       @ai = AI.new(context, self, @alpha, @cards1, @cards2,CPU_AI_FEAT_ON)
+       @ai = AI.new(context, self, @alpha, @cards1, @cards2, CPU_AI_FEAT_ON)
        @beta.result_exp = @beta.result_exp * 1.0
        @ai.one_to_one_ai
      elsif @ai_type == :profound_ai
-       @ai = AI.new(context, self, @beta, @cards1, @cards2,CPU_AI_FEAT_ON)
+       @ai = AI.new(context, self, @beta, @cards1, @cards2, CPU_AI_FEAT_ON)
        @alpha.result_exp = @alpha.result_exp * 1.0
        @ai.one_to_one_ai
      end
@@ -142,7 +141,6 @@ module Unlight
      @bonus_level = bonus_level
      # 特別ボーナスアイテムの配列
      @wild_items_id = wild_items_id
-
    end
 
    # キャラカードを個別に初期化
@@ -150,12 +148,12 @@ module Unlight
      @cards2[0].finalize_event
      card.init_card(context, target, foe, self, index)
      @cards2[0] = card
-     @cards2[0].init_event                                               # イベントとフックの登録
+     @cards2[0].init_event # イベントとフックの登録
      # refresh_quest_ai
    end
 
    # 途中でAIに切り替える
-   def change_player_to_ai( index )
+   def change_player_to_ai(index)
      SERVER_LOG.info("MultiDuel: [change_player_to_ai]");
      if index == 0
        @ai = AI.new(context, self, @beta, @cards1, @cards2, CPU_AI_FEAT_ON)
@@ -167,7 +165,7 @@ module Unlight
    end
 
    def refresh_quest_ai
-     @ai.finish_ai(nil,nil) if @ai
+     @ai.finish_ai(nil, nil) if @ai
      @ai = AI.new(context, self, @beta, @cards1, @cards2, @ai_rank)
      @ai.one_to_one_ai
    end
@@ -190,8 +188,8 @@ module Unlight
    end
 
    def exit_game
-     SERVER_LOG.info("MultiDuel:[exit game]#{ @alpha.exit&&@beta.exit}")
-     if @alpha.exit&&@beta.exit
+     SERVER_LOG.info("MultiDuel:[exit game]#{@alpha.exit && @beta.exit}")
+     if @alpha.exit && @beta.exit
        @event_decks.each do |e|
          e.remove_all_event_listener
          e.remove_all_hook
@@ -202,10 +200,10 @@ module Unlight
        @deck.remove_all_hook
        remove_all_event_listener
        remove_all_hook
-       @ai.finish_ai(nil,nil) if @ai
+       @ai.finish_ai(nil, nil) if @ai
        @avatars = []
        @ai = nil
-       @using_cards = []                                                  # 場に存在する使用中のカード
+       @using_cards = [] # 場に存在する使用中のカード
        @cards1.each do |c|
          if c
           c.finalize_event
@@ -232,13 +230,16 @@ module Unlight
    def rule
      @rule
    end
+
    def is_get_bp
      @is_get_bp
    end
+
    # 先手
    def first_entrant
      @entrants[@initi[0]]
    end
+
    # 後手
    def second_entrant
      @entrants[@initi[1]]
@@ -280,15 +281,12 @@ module Unlight
      event_resume
    end
 
-
-
    # =========== ゲームの実体 ==============
    # スタート
    def start
      @result
    end
    regist_event ThreeToThreeDuel
-
 
    # =========== フェイズの実体 ==============
 
@@ -303,7 +301,7 @@ module Unlight
        @alpha.update_weapon_event
        @beta.update_weapon_event
      end
-     @turn+= 1
+     @turn += 1
    end
    regist_event StartTurnPhase
 
@@ -316,11 +314,11 @@ module Unlight
        ret << dc
      end
      res = [ret[0].clone, ret[1].clone]
-     until ret == [[],[]]
-       @alpha.dealed_event(ret[0].shift) if ret[0].size>0
-       @beta.dealed_event(ret[1].shift) if ret[1].size>0
+     until ret == [[], []]
+       @alpha.dealed_event(ret[0].shift) if ret[0].size > 0
+       @beta.dealed_event(ret[1].shift) if ret[1].size > 0
      end
-     @entrants.each{ |e|
+     @entrants.each { |e|
        e.move_phase_init_event
      }
 
@@ -337,9 +335,9 @@ module Unlight
        ret << dc
      end
      res = [ret[0].clone, ret[1].clone]
-     until ret == [[],[]]
-       @alpha.dealed_event(ret[0].shift) if ret[0].size>0
-       @beta.dealed_event(ret[1].shift) if ret[1].size>0
+     until ret == [[], []]
+       @alpha.dealed_event(ret[0].shift) if ret[0].size > 0
+       @beta.dealed_event(ret[1].shift) if ret[1].size > 0
      end
      res
    end
@@ -348,7 +346,6 @@ module Unlight
    # カードをドロップ
    # 返値:なし
    def move_card_drop
-
    end
    regist_event MoveCardDropPhase
 
@@ -373,17 +370,17 @@ module Unlight
        set_initiative(false)
      elsif @alpha.move_point.abs > @beta.move_point.abs
        set_initiative(true)
-     elsif  @alpha.move_point.abs < @beta.move_point.abs
+     elsif @alpha.move_point.abs < @beta.move_point.abs
        set_initiative(false)
      else
        set_initiative(rand(2) == 1)
      end
-     a_point = @alpha.get_direction*@alpha.move_point.abs
-     b_point = @beta.get_direction*@beta.move_point.abs
+     a_point = @alpha.get_direction * @alpha.move_point.abs
+     b_point = @beta.get_direction * @beta.move_point.abs
      det = a_point + b_point
      ret << @alpha.move_point_appearance(a_point)
      ret << @beta.move_point_appearance(b_point)
-     @entrants.each{ |e|
+     @entrants.each { |e|
        e.move_action(det)
        e.move_phase_init_event
      }
@@ -433,7 +430,7 @@ module Unlight
      @bp = []
      @entrants[@initi[0]].bp_calc_resolve
      @entrants[@initi[1]].dp_calc_resolve
-     @dice_attributes =  @entrants[@initi[0]].dice_attribute_regist_event
+     @dice_attributes = @entrants[@initi[0]].dice_attribute_regist_event
      @bp[@initi[0]] = @entrants[@initi[0]].tmp_power
      @bp[@initi[1]] = @entrants[@initi[1]].tmp_power
      ret
@@ -448,10 +445,9 @@ module Unlight
      @initi.each do |i|
        res = []
        @bp[i].times do |b|
-
          res << rand(6)
        end
-       res.each_index { |j| d[i] +=1 if res[j] > 3}
+       res.each_index { |j| d[i] += 1 if res[j] > 3 }
        ret << res
      end
      @tmp_damage = d[@initi[0]] - d[@initi[1]]
@@ -475,18 +471,18 @@ module Unlight
      ent1 = @entrants[@initi[1]]
 
      # 一撃死のチェック）
-     striked = ((ent1.current_hit_point_max == ent1.current_hit_point)&&(ent1.current_hit_point_max <= @tmp_damage)) ? true:false
-     ent1.damaged_event(@tmp_damage ) if @tmp_damage  > 0
+     striked = ((ent1.current_hit_point_max == ent1.current_hit_point) && (ent1.current_hit_point_max <= @tmp_damage)) ? true : false
+     ent1.damaged_event(@tmp_damage) if @tmp_damage > 0
      # ファーストアタックか実行済みでなくかつダメージが生じていたら
-     if not(@first_attack_bonus_done)&&@tmp_damage  > 0
-       @entrants[@initi[0]].duel_bonus_event(DUEL_BONUS_FIRST_ATTACK,1)
+     if not(@first_attack_bonus_done) && @tmp_damage > 0
+       @entrants[@initi[0]].duel_bonus_event(DUEL_BONUS_FIRST_ATTACK, 1)
        @first_attack_bonus_done = true # 実行済みにする
      end
 
      # チェック
      if striked
        # 一撃死ならば、ヒットポイントの二分の一切り捨てのボーナス（MAX7くらい？）
-       @entrants[@initi[0]].duel_bonus_event(DUEL_BONUS_STRIKE_KILL,(ent1.current_hit_point_max/2).truncate)
+       @entrants[@initi[0]].duel_bonus_event(DUEL_BONUS_STRIKE_KILL, (ent1.current_hit_point_max / 2).truncate)
      end
 
      @tmp_damage = 0
@@ -500,7 +496,7 @@ module Unlight
    def change_initiative
      first_entrant.initiative = false
      second_entrant.initiative = true
-     @initi = [@initi[1],@initi[0]]
+     @initi = [@initi[1], @initi[0]]
    end
    regist_event ChangeInitiativePhase
 
@@ -529,74 +525,74 @@ module Unlight
    # ゲームの終了
    # 返値:参加者の勝敗
    def finish_game(*arg)
-     ret  =[]
+     ret = []
      SERVER_LOG.info("MultiDuel: [end_game] ai:#{@ai_type}");
      if (@entrants[0].total_hit_point == @entrants[1].total_hit_point) # &&@turn == BATTLE_TIMEOUT_TURN
-       @alpha_reward = Reward.new(@alpha.chara_cards,@beta.chara_cards, get_reward_result(RESULT_DRAW),@ai_type,@alpha.reward_bonus,@bonus_level)
-       @beta_reward = Reward.new(@beta.chara_cards,@alpha.chara_cards, get_reward_result(RESULT_DRAW),@ai_type,@beta.reward_bonus,@bonus_level)
+       @alpha_reward = Reward.new(@alpha.chara_cards, @beta.chara_cards, get_reward_result(RESULT_DRAW), @ai_type, @alpha.reward_bonus, @bonus_level)
+       @beta_reward = Reward.new(@beta.chara_cards, @alpha.chara_cards, get_reward_result(RESULT_DRAW), @ai_type, @beta.reward_bonus, @bonus_level)
          ret = [{
-                  :result => RESULT_DRAW,
-                  :reward =>@alpha_reward,
-                  :gems => @alpha.update_gems(RESULT_DRAW),
-                  :exp => @alpha.update_exp(RESULT_DRAW),
-                  :damage => @alpha.damage_set,
-                  :remain_hp => @alpha.remain_hp_set,
-                },{
-                  :result => RESULT_DRAW,
-                  :reward =>@beta_reward,
-                  :gems =>@beta.update_gems(RESULT_DRAW),
-                  :exp => @beta.update_exp(RESULT_DRAW),
-                  :damage => @beta.damage_set,
-                  :remain_hp => @beta.remain_hp_set,
+                  result: RESULT_DRAW,
+                  reward: @alpha_reward,
+                  gems: @alpha.update_gems(RESULT_DRAW),
+                  exp: @alpha.update_exp(RESULT_DRAW),
+                  damage: @alpha.damage_set,
+                  remain_hp: @alpha.remain_hp_set,
+                }, {
+                  result: RESULT_DRAW,
+                  reward: @beta_reward,
+                  gems: @beta.update_gems(RESULT_DRAW),
+                  exp: @beta.update_exp(RESULT_DRAW),
+                  damage: @beta.damage_set,
+                  remain_hp: @beta.remain_hp_set,
                 }]
      elsif (@entrants[0].total_hit_point > @entrants[1].total_hit_point)
        if @entrants[0].total_hit_point == 1
          SERVER_LOG.info("MultiDuel: [BONUS SURVIVER]");
-         @entrants[0].duel_bonus_event(DUEL_BONUS_SURVIVER,@entrants[1].chara_cards.size+2)
+         @entrants[0].duel_bonus_event(DUEL_BONUS_SURVIVER, @entrants[1].chara_cards.size + 2)
        end
-       @alpha_reward = Reward.new(@alpha.chara_cards,@beta.chara_cards, get_reward_result(RESULT_WIN),@ai_type,@alpha.reward_bonus,@bonus_level,@wild_items_id)
-       @beta_reward = Reward.new(@beta.chara_cards,@alpha.chara_cards, get_reward_result(RESULT_LOSE),@ai_type,@beta.reward_bonus,@bonus_level)
+       @alpha_reward = Reward.new(@alpha.chara_cards, @beta.chara_cards, get_reward_result(RESULT_WIN), @ai_type, @alpha.reward_bonus, @bonus_level, @wild_items_id)
+       @beta_reward = Reward.new(@beta.chara_cards, @alpha.chara_cards, get_reward_result(RESULT_LOSE), @ai_type, @beta.reward_bonus, @bonus_level)
        ret = [{
-                :result => RESULT_WIN,
-                :reward =>@alpha_reward,
-                :gems => @alpha.update_gems(RESULT_WIN),
-                :exp => @alpha.update_exp(RESULT_WIN),
-                :damage => @alpha.damage_set,
-                :remain_hp => @alpha.remain_hp_set,
-              },{
-                :result => RESULT_LOSE,
-                :reward =>@beta_reward,
-                :gems =>@beta.update_gems(RESULT_LOSE),
-                :exp => @beta.update_exp(RESULT_LOSE),
-                :damage => @beta.damage_set,
-                :remain_hp => @beta.remain_hp_set,
+                result: RESULT_WIN,
+                reward: @alpha_reward,
+                gems: @alpha.update_gems(RESULT_WIN),
+                exp: @alpha.update_exp(RESULT_WIN),
+                damage: @alpha.damage_set,
+                remain_hp: @alpha.remain_hp_set,
+              }, {
+                result: RESULT_LOSE,
+                reward: @beta_reward,
+                gems: @beta.update_gems(RESULT_LOSE),
+                exp: @beta.update_exp(RESULT_LOSE),
+                damage: @beta.damage_set,
+                remain_hp: @beta.remain_hp_set,
                 }]
      else
        if @entrants[1].total_hit_point == 1
          SERVER_LOG.info("MultiDuel: [BONUS SURVIVER]");
-         @entrants[1].duel_bonus_event(DUEL_BONUS_SURVIVER,@entrants[0].chara_cards.size+2)
+         @entrants[1].duel_bonus_event(DUEL_BONUS_SURVIVER, @entrants[0].chara_cards.size + 2)
        end
-       @alpha_reward = Reward.new(@alpha.chara_cards,@beta.chara_cards, get_reward_result(RESULT_LOSE),@ai_type,@alpha.reward_bonus,@bonus_level)
-       @beta_reward = Reward.new(@beta.chara_cards,@alpha.chara_cards, get_reward_result(RESULT_WIN),@ai_type,@beta.reward_bonus,@bonus_level,@wild_items_id)
+       @alpha_reward = Reward.new(@alpha.chara_cards, @beta.chara_cards, get_reward_result(RESULT_LOSE), @ai_type, @alpha.reward_bonus, @bonus_level)
+       @beta_reward = Reward.new(@beta.chara_cards, @alpha.chara_cards, get_reward_result(RESULT_WIN), @ai_type, @beta.reward_bonus, @bonus_level, @wild_items_id)
          ret = [{
-                  :result => RESULT_LOSE,
-                  :reward =>@alpha_reward,
-                  :gems =>@alpha.update_gems(RESULT_LOSE),
-                  :exp => @alpha.update_exp(RESULT_LOSE),
-                  :damage => @alpha.damage_set,
-                  :remain_hp => @alpha.remain_hp_set,
-                },{
-                  :result => RESULT_WIN,
-                  :reward =>@beta_reward,
-                  :gems => @beta.update_gems(RESULT_WIN),
-                  :exp => @beta.update_exp(RESULT_WIN),
-                  :remain_hp => @beta.remain_hp_set,
+                  result: RESULT_LOSE,
+                  reward: @alpha_reward,
+                  gems: @alpha.update_gems(RESULT_LOSE),
+                  exp: @alpha.update_exp(RESULT_LOSE),
+                  damage: @alpha.damage_set,
+                  remain_hp: @alpha.remain_hp_set,
+                }, {
+                  result: RESULT_WIN,
+                  reward: @beta_reward,
+                  gems: @beta.update_gems(RESULT_WIN),
+                  exp: @beta.update_exp(RESULT_WIN),
+                  remain_hp: @beta.remain_hp_set,
                 }]
      end
      if ai_type == :none || ai_type == :proxy_ai
        wp = win_bp
        lp = lose_bp
-       @avatars.each_with_index do |a,i|
+       @avatars.each_with_index do |a, i|
          a.set_result(ret[i][:result], wp, lp, is_get_bp)
        end
      end
@@ -615,14 +611,13 @@ module Unlight
    # 共にゲーム開始準備が整っているか
    def game_start_ok?
      ret = false
-     if (@alpha&&@alpha.start_ok?)&&(@beta&&@beta.start_ok?)
+     if (@alpha && @alpha.start_ok?) && (@beta && @beta.start_ok?)
        ret = true
      end
      ret
    end
 
    def game_start?
-
      @turn > 0
    end
 
@@ -631,7 +626,7 @@ module Unlight
    end
 
    def get_reward_result(r)
-     if @ai_type == :none ||@ai_type == :duel_ai||@ai_type == :proxy_ai    # クエスト戦闘でない
+     if @ai_type == :none || @ai_type == :duel_ai || @ai_type == :proxy_ai # クエスト戦闘でない
        if @rule == RULE_1VS1
          case r
          when RESULT_WIN
@@ -689,7 +684,6 @@ module Unlight
 
    # ジェムを計算
    def calc_gem
-
    end
 
    # ターンを変更する
@@ -701,7 +695,7 @@ module Unlight
        @turn = BATTLE_TIMEOUT_TURN
        @three_to_three_duel_counter = BATTLE_TIMEOUT_TURN
      end
-     @entrants.each{ |e|
+     @entrants.each { |e|
        e.set_turn_event(@turn)
      }
    end
@@ -709,7 +703,7 @@ module Unlight
    # デバッグコマンドで最終ターンにしてしまう
    def set_last_turn
      @turn = BATTLE_TIMEOUT_TURN - 1
-     @three_to_three_duel_counter  = BATTLE_TIMEOUT_TURN - 1
+     @three_to_three_duel_counter = BATTLE_TIMEOUT_TURN - 1
    end
 
    # レイド戦で強制終了させる際に使用
@@ -717,6 +711,5 @@ module Unlight
      @turn = @battle_timeout_turn
      @three_to_three_duel_counter = @battle_timeout_turn
    end
-
  end
 end

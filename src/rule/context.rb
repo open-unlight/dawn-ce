@@ -12,7 +12,6 @@
 
 module Unlight
   module Context
-
     # コンストラクタ
     # 親となるオブジェが作る
     def create_context()
@@ -34,7 +33,7 @@ module Unlight
       # すでにアクティブなものがある場合
       if ret
         # アクティブなものに追加して返す
-        ret << [self,self.class.name, method]
+        ret << [self, self.class.name, method]
         @current_context.check_list_update
         ret
       else
@@ -44,7 +43,7 @@ module Unlight
         if ret
           # コンテキストを実行中に変更する
           ret[0] = :active
-          ret << [self,self.class.name, method]
+          ret << [self, self.class.name, method]
           @current_context.check_list_update
           ret
         else
@@ -58,7 +57,7 @@ module Unlight
 
     # イベントがサスペンドするとき呼ばれる
     def event_suspend(list)
-      if list[0]==:active ||list[0]==:return
+      if list[0] == :active || list[0] == :return
         list[0] = :suspend
       else
         raise "This event is not active. Can't suspend."
@@ -67,15 +66,15 @@ module Unlight
     end
 
     # イベントが終了するとき呼ばれる
-    def event_finish(list,init_method)
-      if list[0]==:active||list[0]==:return
+    def event_finish(list, init_method)
+      if list[0] == :active || list[0] == :return
         list.pop
         if list.size == 1
           @current_context.delete(list)
           list.clear
           self.send(init_method)
         else
-          list[0] =:return
+          list[0] = :return
           self.send(init_method)
           s = list[-1].last.to_s + "_action_increment"
           list[-1].first.send(s.to_sym)
@@ -85,10 +84,10 @@ module Unlight
       end
     end
 
-    def interrupt_event(method,c)
+    def interrupt_event(method, c)
       ret = @current_context.assoc(:active)
       if ret
-        ret << [self,self.class.name, method]
+        ret << [self, self.class.name, method]
         c = []
         c << ret
         @current_context.check_list_update
@@ -111,6 +110,7 @@ module Unlight
       @current_context.check_list_update()
       @resumed = false
     end
+
     # 現在のコンテキストを返す
     def context
       @current_context
@@ -126,7 +126,6 @@ module Unlight
     def context_to_s
       @current_context.check_list
     end
-
   end
 
 class ContextValue < Array
@@ -152,7 +151,5 @@ class ContextValue < Array
    check_list_update()
    @check_list
  end
-
 end
-
 end
