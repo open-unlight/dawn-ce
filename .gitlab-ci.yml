@@ -4,6 +4,7 @@ variables:
   BUNDLER_VERSION: 2.1.4
   # Rubocop Cache for Large Project
   XDG_CACHE_HOME: $CI_PROJECT_DIR/.cache
+  CUCUMBER_PUBLISH_QUIET: 'true'
   # Services
   DATABASE_URL: mysql2://unlight:unlight@mysql/unlight_db?encoding=utf8
   MYSQL_USER: unlight
@@ -70,3 +71,9 @@ rspec:
       - coverage
     reports:
       junit: rspec.xml
+
+cucumber:
+  <<: *base_test
+  script:
+    # TODO: Run database migration
+    - bundle exec cucumber
