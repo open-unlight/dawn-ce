@@ -35,10 +35,10 @@ group :development do
 end
 
 group :test do
-  gem 'rspec'
-  gem 'rspec_junit_formatter'
+  gem 'rspec', require: false
+  gem 'rspec_junit_formatter', require: false
 
-  gem 'cucumber'
+  gem 'cucumber', require: false
 
-  gem 'simplecov'
+  gem 'simplecov', '~> 0.17.1', require: false
 end

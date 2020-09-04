@@ -29,7 +29,7 @@ stages:
   - lint
   - test
   - analytics
-  - deploy
+  - package
 
 cache:
   paths:
@@ -77,3 +77,24 @@ cucumber:
   script:
     # TODO: Run database migration
     - bundle exec cucumber
+
+sonarqube:
+  stage: analytics
+  image:
+    name: sonarsource/sonar-scanner-cli
+    entrypoint: [""]
+  variables:
+    GIT_DEPTH: 0
+  before_script: []
+  script:
+    - sonar-scanner
+      -Dsonar.projectKey=OpenUnlight-Dawn
+      -Dsonar.sourceEncoding=UTF-8
+      -Dsonar.qualitygate.wait=true
+      -Dsonar.ruby.rubocop.reportPaths=rubocop.json
+      -Dsonar.ruby.coverage.reportPaths=coverage/.resultset.json
+      -Dsonar.exclusions=vendor/ruby/**/*
+      -Dsonar.sources=.
+  allow_failure: true
+  only:
+    - master
