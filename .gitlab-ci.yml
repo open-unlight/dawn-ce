@@ -4,10 +4,25 @@ variables:
   BUNDLER_VERSION: 2.1.4
   # Rubocop Cache for Large Project
   XDG_CACHE_HOME: $CI_PROJECT_DIR/.cache
+  # Services
+  DATABASE_URL: mysql2://unlight:unlight@mysql/unlight_db?encoding=utf8
+  MYSQL_USER: unlight
+  MYSQL_PASSWORD: unlight
+  MYSQL_DATABASE: unlight_db
+  MYSQL_ROOT_PASSWORD: unlight
+  MEMCACHED_HOST: memcached:11211
 
 .install_ruby_gems: &install_ruby_gems
   - gem install bundler -v ${BUNDLER_VERSION}
   - bundle install --path vendor
+
+.base_test: &base_test
+  stage: test
+  before_script:
+    - *install_ruby_gems
+  services:
+    - mysql:5.7
+    - memcached:alpine
 
 stages:
   - lint
@@ -43,3 +58,15 @@ bundler-audit:
   script:
     - bundle audit
   allow_failure: true
+
+rspec:
+  <<: *base_test
+  script:
+    # TODO: Run database migration
+    - bundle exec rspec --format progress --format RspecJunitFormatter --out rspec.xml
+  artifacts:
+    paths:
+      - rspec.xml
+      - coverage
+    reports:
+      junit: rspec.xml

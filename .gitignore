@@ -1,3 +1,25 @@
+# Ignore bundler config.
+.bundle/
+vendor/bundle/
+
+# Application
 data/**/*.csv
 data/**/*.sql
+
+# Ignore all logfiles and tempfiles.
+/tmp/*
+/log/*
+!/log/.keep
+!/tmp/.keep
+*.orig
+.DS_Store
 tags
+
+# Tests
+/coverage/
+/spec/tmp
+
+# Dotenv
+.env
+.env*
+!.env.example
