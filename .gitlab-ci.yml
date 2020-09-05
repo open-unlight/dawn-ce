@@ -25,11 +25,16 @@ variables:
     - mysql:5.7
     - memcached:alpine
 
+.aws-login: &aws-login
+  - apk add --no-cache curl jq python py-pip
+  - pip install awscli
+  - $(aws ecr get-login --no-include-email --region ap-northeast-1)
+
 stages:
   - lint
   - test
   - analytics
-  - package
+  - build
 
 cache:
   paths:
@@ -98,3 +103,33 @@ sonarqube:
   allow_failure: true
   only:
     - master
+
+build:
+  stage: build
+  image: docker:19.03.1
+  services:
+    - docker:19.03.1-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2376
+  before_script:
+    - *aws-login
+  script:
+    - docker pull $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG || true
+    - docker pull $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem || true
+    - docker build
+      --target gem
+      --cache-from $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem
+      --pull
+      -t dawn-gem .
+    - docker build
+      --build-arg REVISION=$(echo $CI_COMMIT_REF_NAME | cut -d '/' -f2)
+      --cache-from dawn-gem
+      --cache-from $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
+      -t dawn .
+    # Upload to AWS
+    - docker tag dawn-gem $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem
+    - docker tag dawn $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker push $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem
+    - docker push $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
+    - if [ "$CI_COMMIT_REF_NAME" == "master" ]; then docker tag $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_IMAGE:latest; fi
+    - if [ "$CI_COMMIT_REF_NAME" == "master" ]; then docker push $DOCKER_IMAGE:latest; fi
