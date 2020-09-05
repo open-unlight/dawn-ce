@@ -10,7 +10,7 @@
 
 module Unlight
   # ライブラリのパス
-  $:.unshift File.expand_path(File.dirname(__FILE__))
+  $:.unshift __dir__
   LIB_PATH = File.dirname(__FILE__).gsub("src/constants", "") + 'lib'
   # BotTest用セッションキー固定
   BOT_SESSION = false
@@ -21,7 +21,7 @@ module Unlight
 
   # ============== DB組み合わせタイプ ==================
   USE_DB_TYPE = {
-    SERVER_SB => [SERVER_SB],
+    SERVER_SB => [SERVER_SB]
   }
 
   #
@@ -338,7 +338,7 @@ module Unlight
     none: 0b0000,
     name: 0b0001,
     email: 0b0010,
-    salt: 0b0100,
+    salt: 0b0100
   }
 
   # プレイヤーのペナルティ定数（追加はいいが変更はダメ）
@@ -376,7 +376,7 @@ module Unlight
   #Sqlite3設定のデフォルト
   SQLITE3 =  {
     DB_File: File.dirname(__FILE__).gsub("src/constants", "") + 'data/game_dev2.db',
-    LOG_File: File.dirname(__FILE__).gsub("src/constants", "") + 'data/db.log',
+    LOG_File: File.dirname(__FILE__).gsub("src/constants", "") + 'data/db.log'
   }
 
   case STORE_TYPE
@@ -448,7 +448,6 @@ end
 
 module Sequel
   def self.string_to_datetime(string)
-    begin
       if datetime_class == DateTime
         DateTime.parse(string, convert_two_digit_years)
       elsif datetime_class.respond_to?(:relaxed_rfc3339)
@@ -456,16 +455,15 @@ module Sequel
       else
         datetime_class.parse(string)
       end
-    rescue => e
+  rescue => e
       raise convert_exception_class(e, InvalidValue)
-    end
   end
 end
 
 # 新しい物が頭に追加される順序付きハッシュ
 class OrderHash < Hash
   def initialize
-    @keys = Array.new
+    @keys = []
   end
 
   #superとして、Hash#[]=を呼び出す
@@ -492,19 +490,19 @@ class OrderHash < Hash
 
   def each
     @keys.each { |k|
-      arr_tmp = Array.new
+      arr_tmp = []
       arr_tmp << k
       arr_tmp << self[k]
       yield(arr_tmp)
     }
-    return self
+    self
   end
 
   def each_pair
     @keys.each { |k|
       yield(k, self[k])
     }
-    return self
+    self
   end
 
   def reject!(&block)
@@ -520,18 +518,18 @@ class OrderHash < Hash
     @keys.each { |k|
       yield(self[k])
     }
-    return self
+    self
   end
 
   def map
-    arr_tmp = Array.new
+    arr_tmp = []
     @keys.each { |k|
-      arg_arr = Array.new
+      arg_arr = []
       arg_arr << k
       arg_arr << self[k]
       arr_tmp << yield(arg_arr)
     }
-    return arr_tmp
+    arr_tmp
   end
 
   def sort_hash(&block)
@@ -544,6 +542,6 @@ class OrderHash < Hash
     arr_tmp.each { |item|
       hash_tmp[item[0]] = item[1]
     }
-    return hash_tmp
+    hash_tmp
   end
 end
