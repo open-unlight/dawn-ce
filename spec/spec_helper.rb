@@ -3,6 +3,8 @@
 require 'bundler/setup'
 require 'simplecov'
 
+require_relative '../src/unlight'
+
 SimpleCov.start do
   load_profile "test_frameworks"
 
