@@ -1,4 +1,8 @@
-# -*- coding: utf-8 -*-
+# Unlight
+# Copyright (c) 2019 CPA
+# Copyright (c) 2019 Open Unlight
+# This software is released under the Apache 2.0 License.
+# https://opensource.org/licenses/Apache2.0
 
 #
 # 定数モジュール
@@ -378,7 +382,7 @@ module Unlight
   case STORE_TYPE
   when :sqlite3
   # ログレベル
-    DB_SERVER_LOG = Logger.new(File.dirname(__FILE__).gsub("src/constants", "") + "data/#{$SERVER_NAME}_mysqldb.log", 48, 10 * 1024 * 1024)
+    DB_SERVER_LOG = Logger.new(STDOUT)
     DB_SERVER_LOG.level = Logger::DEBUG
 #    DB = Sequel.connect("sqlite://#{SQLITE3[:DB_File]}", :loggers => [Logger.new(SQLITE3[:LOG_File],3,)])
     DB = Sequel.connect("sqlite://#{SQLITE3[:DB_File]}", loggers: [DB_SERVER_LOG])
@@ -396,7 +400,7 @@ module Unlight
   end
 
   # ログの出力先
-  SERVER_LOG = Logger.new(File.dirname(__FILE__).gsub("src/constants", "") + "bin/pids/#{$SERVER_NAME}.log", 128, 10 * 1024 * 1024)
+  SERVER_LOG = Logger.new(STDOUT)
   # ログレベル
 #  SERVER_LOG.level = Logger::DEBUG
   SERVER_LOG.level = Logger::INFO
@@ -462,7 +466,6 @@ end
 class OrderHash < Hash
   def initialize
     @keys = Array.new
-    attr_accessor = @keys
   end
 
   #superとして、Hash#[]=を呼び出す
@@ -510,7 +513,7 @@ class OrderHash < Hash
              del = k if yield(k, self[k])
      }
     @keys.delete(del)
-    return super &block
+    super(&block)
   end
 
   def each_value
