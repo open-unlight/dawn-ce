@@ -1,0 +1,27 @@
+version: '3.4'
+
+x-image: &image
+  image: ${IMAGE}:latest
+  restart: unless-stopped
+  env_file:
+    - .env
+  depends_on:
+    - memcached
+    - mysql
+
+services:
+  memcached:
+    image: memcached:alpine
+    command: memcached -m 1024
+  mysql:
+    image: mysql:5.7
+    env_file:
+      - .env
+    ports:
+      - '3307:3306'
+  auth:
+    <<: *image
+    command: unlight server -t authentication -p 12001
+    ports:
+      - '12001:12001'
+  # TODO: Add servers

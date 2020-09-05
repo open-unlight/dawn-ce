@@ -1,7 +1,8 @@
 # Unlight
-# Copyright(c)2019 CPA
-# This software is released under the MIT License.
-# http://opensource.org/licenses/mit-license.php
+# Copyright (c) 2019 CPA
+# Copyright (c) 2019 Open Unlight
+# This software is released under the Apache 2.0 License.
+# https://opensource.org/licenses/Apache2.0
 
 $:.unshift File.dirname(__FILE__)
 d = File.dirname(__FILE__).gsub!("src", "")
@@ -13,7 +14,7 @@ require 'logger'
 require 'dalli'
 Sequel::Model.require_valid_table = false
 
-require 'db_config'
+require_relative '../config/database'
 if File.exist?(File.dirname(__FILE__) + "/server_ip.rb")
   require 'server_ip'
 end
