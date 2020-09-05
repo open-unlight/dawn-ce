@@ -1,4 +1,8 @@
-# -*- coding: utf-8 -*-
+# Unlight
+# Copyright (c) 2019 CPA
+# Copyright (c) 2019 Open Unlight
+# This software is released under the Apache 2.0 License.
+# https://opensource.org/licenses/Apache2.0
 
 #
 # 定数モジュール
@@ -6,7 +10,7 @@
 
 module Unlight
   # ライブラリのパス
-  $:.unshift File.expand_path(File.dirname(__FILE__))
+  $:.unshift __dir__
   LIB_PATH = File.dirname(__FILE__).gsub("src/constants", "") + 'lib'
   # BotTest用セッションキー固定
   BOT_SESSION = false
@@ -17,7 +21,7 @@ module Unlight
 
   # ============== DB組み合わせタイプ ==================
   USE_DB_TYPE = {
-    SERVER_SB => [SERVER_SB],
+    SERVER_SB => [SERVER_SB]
   }
 
   #
@@ -334,7 +338,7 @@ module Unlight
     none: 0b0000,
     name: 0b0001,
     email: 0b0010,
-    salt: 0b0100,
+    salt: 0b0100
   }
 
   # プレイヤーのペナルティ定数（追加はいいが変更はダメ）
@@ -372,13 +376,13 @@ module Unlight
   #Sqlite3設定のデフォルト
   SQLITE3 =  {
     DB_File: File.dirname(__FILE__).gsub("src/constants", "") + 'data/game_dev2.db',
-    LOG_File: File.dirname(__FILE__).gsub("src/constants", "") + 'data/db.log',
+    LOG_File: File.dirname(__FILE__).gsub("src/constants", "") + 'data/db.log'
   }
 
   case STORE_TYPE
   when :sqlite3
   # ログレベル
-    DB_SERVER_LOG = Logger.new(File.dirname(__FILE__).gsub("src/constants", "") + "data/#{$SERVER_NAME}_mysqldb.log", 48, 10 * 1024 * 1024)
+    DB_SERVER_LOG = Logger.new(STDOUT)
     DB_SERVER_LOG.level = Logger::DEBUG
 #    DB = Sequel.connect("sqlite://#{SQLITE3[:DB_File]}", :loggers => [Logger.new(SQLITE3[:LOG_File],3,)])
     DB = Sequel.connect("sqlite://#{SQLITE3[:DB_File]}", loggers: [DB_SERVER_LOG])
@@ -396,7 +400,7 @@ module Unlight
   end
 
   # ログの出力先
-  SERVER_LOG = Logger.new(File.dirname(__FILE__).gsub("src/constants", "") + "bin/pids/#{$SERVER_NAME}.log", 128, 10 * 1024 * 1024)
+  SERVER_LOG = Logger.new(STDOUT)
   # ログレベル
 #  SERVER_LOG.level = Logger::DEBUG
   SERVER_LOG.level = Logger::INFO
@@ -444,7 +448,6 @@ end
 
 module Sequel
   def self.string_to_datetime(string)
-    begin
       if datetime_class == DateTime
         DateTime.parse(string, convert_two_digit_years)
       elsif datetime_class.respond_to?(:relaxed_rfc3339)
@@ -452,17 +455,15 @@ module Sequel
       else
         datetime_class.parse(string)
       end
-    rescue => e
+  rescue => e
       raise convert_exception_class(e, InvalidValue)
-    end
   end
 end
 
 # 新しい物が頭に追加される順序付きハッシュ
 class OrderHash < Hash
   def initialize
-    @keys = Array.new
-    attr_accessor = @keys
+    @keys = []
   end
 
   #superとして、Hash#[]=を呼び出す
@@ -489,19 +490,19 @@ class OrderHash < Hash
 
   def each
     @keys.each { |k|
-      arr_tmp = Array.new
+      arr_tmp = []
       arr_tmp << k
       arr_tmp << self[k]
       yield(arr_tmp)
     }
-    return self
+    self
   end
 
   def each_pair
     @keys.each { |k|
       yield(k, self[k])
     }
-    return self
+    self
   end
 
   def reject!(&block)
@@ -510,25 +511,25 @@ class OrderHash < Hash
              del = k if yield(k, self[k])
      }
     @keys.delete(del)
-    return super &block
+    super(&block)
   end
 
   def each_value
     @keys.each { |k|
       yield(self[k])
     }
-    return self
+    self
   end
 
   def map
-    arr_tmp = Array.new
+    arr_tmp = []
     @keys.each { |k|
-      arg_arr = Array.new
+      arg_arr = []
       arg_arr << k
       arg_arr << self[k]
       arr_tmp << yield(arg_arr)
     }
-    return arr_tmp
+    arr_tmp
   end
 
   def sort_hash(&block)
@@ -541,6 +542,6 @@ class OrderHash < Hash
     arr_tmp.each { |item|
       hash_tmp[item[0]] = item[1]
     }
-    return hash_tmp
+    hash_tmp
   end
 end

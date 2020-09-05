@@ -287,12 +287,6 @@ Lint/AmbiguousBlockAssociation:
   Exclude:
     - 'script/create_font_swf.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/AmbiguousOperator:
-  Exclude:
-    - 'src/constants/constants.rb'
-
 # Offense count: 9
 # Configuration parameters: AllowSafeAssignment.
 Lint/AssignmentInCondition:
@@ -669,7 +663,6 @@ Style/Dir:
   Exclude:
     - 'src/authentication.rb'
     - 'src/chat.rb'
-    - 'src/constants/constants.rb'
     - 'src/data_lobby.rb'
     - 'src/game.rb'
     - 'src/global_chat.rb'
@@ -701,7 +694,6 @@ Style/EmptyElse:
 Style/EmptyLiteral:
   Exclude:
     - 'script/create_font_swf.rb'
-    - 'src/constants/constants.rb'
     - 'src/model/achievement.rb'
     - 'src/model/avatar.rb'
     - 'src/net/srp.rb'
@@ -1074,12 +1066,6 @@ Style/RandomWithOffset:
     - 'src/model/chara_card.rb'
     - 'src/rule/reward.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/RedundantBegin:
-  Exclude:
-    - 'src/constants/constants.rb'
-
 # Offense count: 13
 # Cop supports --auto-correct.
 Style/RedundantCondition:
@@ -1121,7 +1107,6 @@ Style/RedundantParentheses:
 # Configuration parameters: AllowMultipleReturnValues.
 Style/RedundantReturn:
   Exclude:
-    - 'src/constants/constants.rb'
     - 'src/controller/lobby_controller.rb'
     - 'src/controller/match_controller.rb'
     - 'src/model/avatar.rb'
@@ -1285,8 +1270,6 @@ Style/TrailingCommaInHashLiteral:
   Exclude:
     - 'script/import_csv_data.rb'
     - 'script/ranking_event_reward.rb'
-    - 'src/constants/common_constants.rb'
-    - 'src/constants/constants.rb'
     - 'src/model/achievement.rb'
     - 'src/model/avatar_item.rb'
     - 'src/model/chara_card.rb'

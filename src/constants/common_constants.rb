@@ -1270,7 +1270,7 @@ module Unlight
     CRULE_RADDER => [1002, 1130, 1146],
     CRULE_COST_A => [1001, 1131, 1147],
     CRULE_COST_B => [1001],
-    CRULE_EVENT  => [],
+    CRULE_EVENT  => []
   }
 
   # 期間限定イベントデュエルアチーブメント定数
@@ -1702,7 +1702,7 @@ module Unlight
                          ],
     QUEST_TYPE_CHARA_VOTE => [
                           [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010],
-                         ],
+                         ]
   }
 
   #
