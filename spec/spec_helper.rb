@@ -3,8 +3,6 @@
 require 'bundler/setup'
 require 'simplecov'
 
-require_relative '../src/unlight'
-
 SimpleCov.start do
   load_profile "test_frameworks"
 
@@ -22,6 +20,8 @@ SimpleCov.start do
   add_group "Rules", "src/rule"
   add_group "Libraries", "lib/"
 end
+
+require_relative '../src/unlight'
 
 Dir[Bundler.root.join('spec/support/**/*.rb')].sort.each { |support| require support }
 
