@@ -22,7 +22,8 @@ variables:
   before_script:
     - *install_ruby_gems
   services:
-    - mysql:5.7
+    - name: mysql:5.7
+      command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
     - memcached:alpine
 
 .aws-login: &aws-login
