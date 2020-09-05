@@ -1,7 +1,8 @@
 # Unlight
-# Copyright(c)2019 CPA
-# This software is released under the MIT License.
-# http://opensource.org/licenses/mit-license.php
+# Copyright (c) 2019 CPA
+# Copyright (c) 2019 Open Unlight
+# This software is released under the Apache 2.0 License.
+# https://opensource.org/licenses/Apache2.0
 
 $:.unshift File.expand_path(File.dirname(__FILE__))
 require 'optparse'
@@ -19,13 +20,11 @@ module Unlight
 }
 
   opt.parse! ARGV
+
+  SV_IP = ENV['HOSTNAME']
   $SERVER_NAME = "RAIDRANK_SV#{SV_PORT}"
-  begin
-    SV_IP = `wget -q -O - ipcheck.ieserver.net -T=3`
-  rescue => e
-    SERVER_LOG.fatal("RaidRankServer:IP 未設定")
-  end
 end
+
 require 'unlight'
 require 'protocol/raidrankserver'
 

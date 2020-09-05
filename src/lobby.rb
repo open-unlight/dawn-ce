@@ -1,7 +1,8 @@
 # Unlight
-# Copyright(c)2019 CPA
-# This software is released under the MIT License.
-# http://opensource.org/licenses/mit-license.php
+# Copyright (c) 2019 CPA
+# Copyright (c) 2019 Open Unlight
+# This software is released under the Apache 2.0 License.
+# https://opensource.org/licenses/Apache2.0
 
 $:.unshift File.expand_path(File.dirname(__FILE__))
 require 'optparse'
@@ -19,14 +20,11 @@ module Unlight
 }
 
   opt.parse! ARGV
-  $SERVER_NAME = "LOBBY_SV#{SV_PORT}"
 
-  begin
-    SV_IP = "0.0.0.0"
-  rescue => e
-    SERVER_LOG.fatal("GameServer:IP 未設定")
-  end
+  SV_IP = ENV['HOSTNAME']
+  $SERVER_NAME = "LOBBY_SV#{SV_PORT}"
 end
+
 require 'unlight'
 require 'protocol/lobbyserver'
 

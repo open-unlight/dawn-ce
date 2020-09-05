@@ -22,6 +22,7 @@ services:
       - '3307:3306'
   auth:
     <<: *image
+    hostname: auth.lvh.me
     command: unlight server -t authentication -p 12001
     ports:
       - '12001:12001'
