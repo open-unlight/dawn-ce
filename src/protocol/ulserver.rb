@@ -5,7 +5,6 @@
 
 # 各サーバクラスの親
 require 'net/crypt'
-require File::expand_path(__FILE__).gsub(/src\/protocol\/ulserver.rb/, "") + "script/constdata_keys.rb"
 
 module Unlight
   module Protocol
@@ -187,7 +186,8 @@ module Unlight
           end
           if @player
             regist_connection
-            login_cert(CONSTDATA_ENCRYPTKEY, IMAGEFILE_HASHKEY)
+            # TODO: Implement data encryption support
+            login_cert(ENV['DATA_ENCRYPTKEY'], ENV['IMAGE_HASHKEY'])
             do_login
           end
         else
