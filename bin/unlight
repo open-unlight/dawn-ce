@@ -40,6 +40,9 @@ when 'console', 'rake'
   return send("run_#{command}") if respond_to?("run_#{command}", true)
 
   exec("bundle exec #{command} #{ARGV.join(' ')}")
+when 'authentication'
+  ensure_connection
+  exec("#{command} #{ARGV.join(' ')}")
 else
   exec("#{command} #{ARGV.join(' ')}")
 end
