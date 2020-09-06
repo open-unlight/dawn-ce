@@ -19,7 +19,7 @@ $stdout.sync = true
 $stderr.sync = true
 
 # TODO: Replace with Dawn::Server.name
-$SERVER_NAME = "AUTH_SERVER_#{Dawn::Server.port}"
+$SERVER_NAME = "RAID_CHAT_SERVER_#{Dawn::Server.port}"
 
 EM.set_descriptor_table_size(10000) # ソケットMaxを設定
 EM.epoll                            # Epollを使用するように設定。

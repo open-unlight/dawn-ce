@@ -13,13 +13,13 @@ require 'eventmachine'
 
 require 'dawn/server'
 require 'unlight'
-require 'protocol/raidrankserver'
+require 'protocol/watchserver'
 
 $stdout.sync = true
 $stderr.sync = true
 
 # TODO: Replace with Dawn::Server.name
-$SERVER_NAME = "RAID_RANK_SERVER_#{Dawn::Server.port}"
+$SERVER_NAME = "WATCH_SERVER_#{Dawn::Server.port}"
 
 EM.set_descriptor_table_size(10000) # ソケットMaxを設定
 EM.epoll                            # Epollを使用するように設定。
@@ -27,18 +27,29 @@ EM.epoll                            # Epollを使用するように設定。
 module Unlight
   include Protocol
 
+  EM.set_descriptor_table_size(10000) # ソケットMaxを設定
+  EM.epoll                            # Epollを使用するように設定。
   EM.run do
-    RaidRankServer.setup
-    EM.start_server "0.0.0.0", Dawn::Server.port, RaidRankServer
-    SERVER_LOG.info("RaidRankServer Start: ip[#{Dawn::Server.hostname}] port[#{Dawn::Server.port}]")
+    WatchServer.setup(Dawn::Server.id, Dawn::Server.hostname, Dawn::Server.port)
+    EM.start_server "0.0.0.0", Dawn::Server.port, WatchServer
+    SERVER_LOG.info("WatchServer Start: ip[#{Dawn::Server.hostname}] port[#{Dawn::Server.port}]")
     # タイマの制度を上げる
     EM.set_quantum(10)
+    # 1/24でメインループを更新
+    EM::PeriodicTimer.new(1, proc {
+      begin
+        WatchServer::all_duel_update
+      rescue => e
+        SERVER_LOG.fatal("WatchServer: [DUEL:] fatal error #{e}:#{e.backtrace}")
+      end
+    })
+
     # 1分に一回でソケットの生き死にをチェック
     EM::PeriodicTimer.new(60, proc {
       begin
-        RaidRankServer.check_connection
+        WatchServer.check_connection
       rescue => e
-        SERVER_LOG.fatal("RaidRankServer: [check_connection:] fatal error #{e}:#{e.backtrace}")
+        SERVER_LOG.fatal("WatchServer [check_connection:] fatal error #{e}:#{e.backtrace}")
       end
     })
 
@@ -46,9 +57,9 @@ module Unlight
       # 7時間に一回でDBとの接続をチェック
       EM::PeriodicTimer.new(60 * 60 * 7, proc {
         begin
-          RaidRankServer.check_db_connection
+          WatchServer.check_db_connection
         rescue => e
-          SERVER_LOG.fatal("RaidRankServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
+          SERVER_LOG.fatal("WatchServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
         end
       })
     end
