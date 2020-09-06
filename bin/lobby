@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+
+# Unlight
+# Copyright (c) 2019 CPA
+# Copyright (c) 2019 Open Unlight
+# This software is released under the Apache 2.0 License.
+# https://opensource.org/licenses/Apache2.0
+
+$:.unshift Bundler.root.join('lib')
+$:.unshift Bundler.root.join('src')
+require 'bundler/setup'
+require 'eventmachine'
+
+require 'dawn/server'
+require 'unlight'
+require 'protocol/lobbyserver'
+
+$stdout.sync = true
+$stderr.sync = true
+
+# TODO: Replace with Dawn::Server.name
+$SERVER_NAME = "LOBBY_SERVER_#{Dawn::Server.port}"
+
+EM.set_descriptor_table_size(10000) # ソケットMaxを設定
+EM.epoll                            # Epollを使用するように設定。
+
+module Unlight
+  include Protocol
+
+  EM.run do
+    LobbyServer.setup
+    EM.start_server "0.0.0.0", Dawn::Server.port, LobbyServer
+    SERVER_LOG.info("LobbyServer Start: port[#{Dawn::Server.port}]")
+    # タイマの制度を上げる
+    EM.set_quantum(10)
+
+    # 1分に一回でソケットの生き死にをチェック
+    EM::PeriodicTimer.new(60, proc {
+      begin
+        LobbyServer.check_connection
+      rescue => e
+        SERVER_LOG.fatal("LobbyServer: [check_connection:] fatal error #{e}:#{e.backtrace}")
+      end
+    })
+
+    if DB_CONNECT_CHECK
+      # 7時間に一回でDBとの接続をチェック
+      EM::PeriodicTimer.new(60 * 60 * 7, proc {
+        begin
+          LobbyServer.check_db_connection
+        rescue => e
+          SERVER_LOG.fatal("LobbyServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
+        end
+      })
+    end
+  end
+end

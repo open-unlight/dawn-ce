@@ -23,6 +23,7 @@ $SERVER_NAME = "GAME_SERVER_#{Dawn::Server.port}"
 
 EM.set_descriptor_table_size(10000) # ソケットMaxを設定
 EM.epoll                            # Epollを使用するように設定。
+
 module Unlight
   include Protocol
 
