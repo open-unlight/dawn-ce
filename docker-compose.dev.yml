@@ -23,7 +23,7 @@ services:
   auth:
     <<: *image
     hostname: auth.lvh.me
-    command: unlight server -t authentication -p 12001
+    command: server -t authentication -p 12001
     ports:
       - '12001:12001'
   # TODO: Add servers

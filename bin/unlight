@@ -1,3 +1,45 @@
 #!/usr/bin/env ruby
 
-# TODO
+# Unlight
+# Copyright (c) 2019 Open Unlight
+# This software is released under the Apache 2.0 License.
+# https://opensource.org/licenses/Apache2.0
+# frozen_string_literal: true
+
+require 'timeout'
+require 'logger'
+require 'bundler/setup'
+require 'sequel'
+
+require_relative '../config/database'
+
+def ensure_connection
+  puts 'Check database connection...'
+  Timeout.timeout(30) do
+    # TODO: Replace with Database URL
+    conn = Sequel.mysql2(nil, Unlight::MYSQL_CONFIG)
+    conn.test_connection
+  rescue Sequel::DatabaseConnectionError
+    sleep 1
+    retry
+  end
+rescue Timeout::TimeoutError
+  puts 'Unable connect to database'
+  exit 1
+end
+
+command = ARGV.shift
+
+def run_console
+  exec("irb -r bundler/setup -r ./src/unlight")
+end
+
+case command
+when 'console', 'rake'
+  ensure_connection
+  return send("run_#{command}") if respond_to?("run_#{command}", true)
+
+  exec("bundle exec #{command} #{ARGV.join(' ')}")
+else
+  exec("#{command} #{ARGV.join(' ')}")
+end
