@@ -41,7 +41,7 @@ when 'console', 'rake'
 
   exec("bundle exec #{command} #{ARGV.join(' ')}")
 when 'authentication', 'chat', 'global_chat', 'game', 'lobby', 'data_lobby', 'matching',
-     'raid'
+     'raid', 'raid_chat'
   ensure_connection
   exec("#{command} #{ARGV.join(' ')}")
 else
