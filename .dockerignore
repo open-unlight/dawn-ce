@@ -1,0 +1,7 @@
+.git
+.env
+tags
+backup/
+coverage/
+spec/
+features/
