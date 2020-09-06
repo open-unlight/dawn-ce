@@ -14,7 +14,7 @@ module Dawn
     class << self
       extend Forwardable
 
-      delegate %w[port hostname] => :instance
+      delegate %w[id port hostname] => :instance
     end
 
     include Singleton
@@ -22,9 +22,17 @@ module Dawn
     # @since 0.1.0
     def initialize
       @parser = OptionParser.new
+      @parser.on('-i ID') { |id| @id = id.to_i }
       @parser.on('-p PORT') { |port| @port = port.to_i }
       @parser.on('-h HOSTNAME') { |name| @hostname = name }
       @parser.parse!
+    end
+
+    # @return [Integer] the server id
+    #
+    # @since 0.1.0
+    def id
+      @id || 0
     end
 
     # @param port [Integer] port to listen
