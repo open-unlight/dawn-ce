@@ -40,7 +40,7 @@ when 'console', 'rake'
   return send("run_#{command}") if respond_to?("run_#{command}", true)
 
   exec("bundle exec #{command} #{ARGV.join(' ')}")
-when 'authentication', 'chat', 'game'
+when 'authentication', 'chat', 'global_chat', 'game'
   ensure_connection
   exec("#{command} #{ARGV.join(' ')}")
 else

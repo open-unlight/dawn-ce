@@ -8,7 +8,7 @@
 
 $:.unshift Bundler.root.join('lib')
 $:.unshift Bundler.root.join('src')
-require 'rubygems'
+require 'bundler/setup'
 require 'eventmachine'
 
 require 'dawn/server'
