@@ -8,18 +8,18 @@
 
 $:.unshift Bundler.root.join('lib')
 $:.unshift Bundler.root.join('src')
-require 'bundler/setup'
+require 'rubygems'
 require 'eventmachine'
 
 require 'dawn/server'
 require 'unlight'
-require 'protocol/authserver'
+require 'protocol/chatserver'
 
 $stdout.sync = true
 $stderr.sync = true
 
 # TODO: Replace with Dawn::Server.name
-$SERVER_NAME = "AUTH_SERVER_#{Dawn::Server.port}"
+$SERVER_NAME = "CHAT_SERVER_#{Dawn::Server.port}"
 
 EM.set_descriptor_table_size(10000) # ソケットMaxを設定
 EM.epoll                            # Epollを使用するように設定。
@@ -27,18 +27,20 @@ EM.epoll                            # Epollを使用するように設定。
 module Unlight
   include Protocol
 
+  EM.set_descriptor_table_size(10000) # ソケットMaxを設定
+  EM.epoll                            # Epollを使用するように設定。
   EM.run do
-    AuthServer.setup
-    EM.start_server "0.0.0.0", Dawn::Server.port, AuthServer
-    SERVER_LOG.info("AuthServer Start: ip[#{Dawn::Server.hostname}] port[#{Dawn::Server.port}]")
-    EM.set_quantum(10) # タイマの制度を上げる
-
+    ChatServer.setup
+    EM.start_server "0.0.0.0", Dawn::Server.port, ChatServer
+    SERVER_LOG.info("ChatServer Start: ip[#{Dawn::Server.hostname}] port[#{Dawn::Server.port}]")
+    # タイマの制度を上げる
+    EM.set_quantum(10)
     # 1分に一回でソケットの生き死にをチェック
     EM::PeriodicTimer.new(60, proc {
       begin
-        AuthServer.check_connection
+        ChatServer.check_connection
       rescue => e
-        SERVER_LOG.fatal("AuthServer: [check_connection:] fatal error #{e}:#{e.backtrace}")
+        SERVER_LOG.fatal("ChatServer: [check_connection:] fatal error #{e}:#{e.backtrace}")
       end
     })
 
@@ -46,9 +48,9 @@ module Unlight
       # 7時間に一回でDBとの接続をチェック
       EM::PeriodicTimer.new(60 * 60 * 7, proc {
         begin
-          AuthServer.check_db_connection
+          ChatServer.check_db_connection
         rescue => e
-          SERVER_LOG.fatal("AuthServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
+          SERVER_LOG.fatal("ChatServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
         end
       })
     end
