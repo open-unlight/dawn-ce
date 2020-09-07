@@ -1,20 +1,13 @@
 version: '3.4'
 
-x-database: &database-environment
-  MYSQL_USER: unlight
-  MYSQL_PASSWORD: unlight
-  MYSQL_DATABASE: unlight_db
-  MYSQL_ROOT_PASSWORD: unlight
-
 x-image: &image
   image: ${IMAGE}:latest
   restart: unless-stopped
   env_file:
     - .env
   environment:
-    <<: *database-environment
-    DB_HOST: mysql
-    DB_ADAPTER: mysql
+    DATABASE_URL: mysql2://unlight:unlight@mysql/unlight_db?encoding=utf8mb4
+    MEMCACHED_HOST: memcached:11211
   depends_on:
     - memcached
     - mysql
@@ -27,7 +20,10 @@ services:
     image: mysql:5.7
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
-      <<: *database-environment
+      MYSQL_USER: unlight
+      MYSQL_PASSWORD: unlight
+      MYSQL_DATABASE: unlight_db
+      MYSQL_ROOT_PASSWORD: unlight
     ports:
       - '3307:3306'
   auth:

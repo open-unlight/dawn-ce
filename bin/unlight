@@ -11,14 +11,14 @@ require 'logger'
 require 'bundler/setup'
 require 'sequel'
 
-require_relative '../config/database'
+$:.unshift Bundler.root.join('lib')
+
+require 'dawn/database'
 
 def ensure_connection
   puts 'Check database connection...'
   Timeout.timeout(30) do
-    # TODO: Replace with Database URL
-    conn = Sequel.mysql2(nil, Unlight::MYSQL_CONFIG)
-    conn.test_connection
+    Dawn::Database.current.test_connection
   rescue Sequel::DatabaseConnectionError
     sleep 1
     retry
