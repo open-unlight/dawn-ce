@@ -129,6 +129,9 @@ build:
       --cache-from dawn-gem
       --cache-from $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
       -t dawn .
+    # Prepare for Upload
+    - docker tag dawn-gem $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem
+    - docker tag dawn $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
     # Security Check
     - |
       VERSION=$(
@@ -139,8 +142,6 @@ build:
       tar zxvf dockle.tar.gz
     - ./dockle --exit-code 1 $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
     # Upload to AWS
-    - docker tag dawn-gem $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem
-    - docker tag dawn $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
     - docker push $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem
     - docker push $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
     - if [ "$CI_COMMIT_REF_NAME" == "master" ]; then docker tag $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_IMAGE:latest; fi
