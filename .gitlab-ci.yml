@@ -115,6 +115,7 @@ build:
     DOCKER_HOST: tcp://docker:2376
   before_script:
     - *aws-login
+    - apk -Uuv add bash git curl tar sed grep
   script:
     - docker pull $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG || true
     - docker pull $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem || true
@@ -128,6 +129,15 @@ build:
       --cache-from dawn-gem
       --cache-from $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
       -t dawn .
+    # Security Check
+    - |
+      VERSION=$(
+      curl --silent "https://api.github.com/repos/goodwithtech/dockle/releases/latest" | \
+      grep '"tag_name":' | \
+      sed -E 's/.*"v([^"]+)".*/\1/' \
+      ) && curl -L -o dockle.tar.gz https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.tar.gz &&  \
+      tar zxvf dockle.tar.gz
+    - ./dockle --exit-code 1 $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
     # Upload to AWS
     - docker tag dawn-gem $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem
     - docker tag dawn $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
