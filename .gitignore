@@ -5,10 +5,12 @@ vendor/bundle/
 # Application
 data/**/*.csv
 data/**/*.sql
+config/database.yml
 
 # Ignore all logfiles and tempfiles.
 /tmp/*
 /log/*
+/bin/pids/
 !/log/.keep
 !/tmp/.keep
 *.orig

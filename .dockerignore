@@ -21,4 +21,5 @@ rspec.xml
 # Application
 backup/
 vendor/
+config/database.yml
 .env*

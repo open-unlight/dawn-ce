@@ -379,18 +379,19 @@ module Unlight
     LOG_File: File.dirname(__FILE__).gsub("src/constants", "") + 'data/db.log'
   }
 
-  case STORE_TYPE
-  when :sqlite3
-  # ログレベル
-    DB_SERVER_LOG = Logger.new(STDOUT)
-    DB_SERVER_LOG.level = Logger::DEBUG
-#    DB = Sequel.connect("sqlite://#{SQLITE3[:DB_File]}", :loggers => [Logger.new(SQLITE3[:LOG_File],3,)])
-    DB = Sequel.connect("sqlite://#{SQLITE3[:DB_File]}", loggers: [DB_SERVER_LOG])
-  when :mysql
-#    Sequel::MySQL2.default_engine = 'InnoDB'
-    DB = Sequel.mysql2(nil, MYSQL_CONFIG)
-  end
-#  DB = Sequel.mysql(nil,MYSQL)
+  #   case STORE_TYPE
+  #   when :sqlite3
+  #   # ログレベル
+  #     DB_SERVER_LOG = Logger.new(STDOUT)
+  #     DB_SERVER_LOG.level = Logger::DEBUG
+  # #    DB = Sequel.connect("sqlite://#{SQLITE3[:DB_File]}", :loggers => [Logger.new(SQLITE3[:LOG_File],3,)])
+  #     DB = Sequel.connect("sqlite://#{SQLITE3[:DB_File]}", loggers: [DB_SERVER_LOG])
+  #   when :mysql
+  # #    Sequel::MySQL2.default_engine = 'InnoDB'
+  #     DB = Sequel.mysql2(nil, MYSQL_CONFIG)
+  #   end
+  # #  DB = Sequel.mysql(nil,MYSQL)
+  DB = Dawn::Database.current
 
   Sequel.default_timezone = :utc
 
@@ -400,7 +401,7 @@ module Unlight
   end
 
   # ログの出力先
-  SERVER_LOG = Logger.new(STDOUT)
+  SERVER_LOG = Dawn.logger
   # ログレベル
 #  SERVER_LOG.level = Logger::DEBUG
   SERVER_LOG.level = Logger::INFO

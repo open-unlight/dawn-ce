@@ -4,7 +4,8 @@
 # This software is released under the Apache 2.0 License.
 # https://opensource.org/licenses/Apache2.0
 
-$:.unshift File.dirname(__FILE__)
+$:.unshift Bundler.root.join('src')
+$:.unshift Bundler.root.join('lib')
 d = File.dirname(__FILE__).gsub!("src", "")
 ENV['INLINEDIR'] = "#{d}lib/ruby_inline"
 
@@ -14,10 +15,22 @@ require 'logger'
 require 'dalli'
 Sequel::Model.require_valid_table = false
 
-require_relative '../config/database'
+# db_config.rb
+module Unlight
+  # Memcache Server
+  MEMCACHE_CONFIG = (ENV['MEMCACHED_HOST'] || 'localhost:11211')
+  MEMCACHE_OPTIONS = {
+    timeout: 1,
+    namespace: 'unlight'
+  }
+end
+
 if File.exist?(File.dirname(__FILE__) + "/server_ip.rb")
   require 'server_ip'
 end
+
+# Dawn
+require 'dawn/database'
 
 # 定数
 require 'constants/common_constants'
