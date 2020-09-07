@@ -21,4 +21,4 @@ rspec.xml
 # Application
 backup/
 vendor/
-.env
+.env*
