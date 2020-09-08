@@ -24,6 +24,7 @@ end
 group :development, :test do
   gem 'rubocop', '~> 0.90', require: false
   gem 'rubocop-performance', require: false
+  gem 'rubocop-rspec', require: false
 
   gem 'bundler-audit', require: false
 end
