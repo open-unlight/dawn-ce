@@ -2,6 +2,7 @@
 
 require 'bundler/setup'
 require 'simplecov'
+require 'faker'
 
 SimpleCov.start do
   load_profile "test_frameworks"
