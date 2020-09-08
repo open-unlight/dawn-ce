@@ -5,7 +5,7 @@
 
 module Unlight
   module ChatController
-    CHAT_CHANNEL_NAME  = ["A", "B", "C", "Duel", "Watch"]
+    CHAT_CHANNEL_NAME  = %w[A B C Duel Watch]
     CHAT_CHANNEL_DUEL  = 3
     CHAT_CHANNEL_WATCH = 4
 

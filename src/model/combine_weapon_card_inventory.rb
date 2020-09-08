@@ -32,11 +32,11 @@ module Unlight
       datetime    :updated_at
     end
 
-    # バリデーションの設定
+     # バリデーションの設定
      validates do
      end
 
-   # DBにテーブルをつくる
+    # DBにテーブルをつくる
     if !(CombineWeaponCardInventory.table_exists?)
       CombineWeaponCardInventory.create_table
     end

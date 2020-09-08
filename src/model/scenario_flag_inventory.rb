@@ -23,7 +23,7 @@ module Unlight
       datetime    :updated_at
     end
 
-   # DBにテーブルをつくる
+    # DBにテーブルをつくる
     if !(ScenarioFlagInventory.table_exists?)
       ScenarioFlagInventory.create_table
     end
@@ -31,7 +31,7 @@ module Unlight
     DB.alter_table :scenario_flag_inventories do
     end
 
-    # バリデーションの設定
+     # バリデーションの設定
      validates do
      end
 

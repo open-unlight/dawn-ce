@@ -178,7 +178,7 @@ module Unlight
     def set_finish(result, turn, state)
       self.refresh
       if self.state == MATCH_START
-      # ちゃんと始まっているものを終わりにする
+        # ちゃんと始まっているものを終わりにする
         self.finish_at = Time.now.utc
         self.a_remain_hp_set = result[0][:remain_hp].join(",")
         self.b_remain_hp_set = result[1][:remain_hp].join(",")

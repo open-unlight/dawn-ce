@@ -19,12 +19,12 @@ module Unlight
       datetime    :updated_at
     end
 
-    # バリデーションの設定
-    #    include Validation
+     # バリデーションの設定
+     #    include Validation
      validates do
      end
 
-   # DBにテーブルをつくる
+    # DBにテーブルをつくる
     if !(Dialogue.table_exists?)
       Dialogue.create_table
     end

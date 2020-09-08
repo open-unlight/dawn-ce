@@ -122,7 +122,7 @@ module Unlight
       ret
     end
 
-   # 指定したアバターのランキングを更新する(外部でかつslaveから更新せよ)
+    # 指定したアバターのランキングを更新する(外部でかつslaveから更新せよ)
     def WeeklyQuestRanking::update_ranking(server_type)
       before_rank_id_set = get_order_ranking_id(server_type)
       avatars = {}

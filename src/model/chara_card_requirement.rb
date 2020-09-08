@@ -23,11 +23,11 @@ module Unlight
       datetime    :updated_at
     end
 
-    # バリデーションの設定
+     # バリデーションの設定
      validates do
      end
 
-   # DBにテーブルをつくる
+    # DBにテーブルをつくる
     if !(CharaCardRequirement.table_exists?)
       CharaCardRequirement.create_table
     end

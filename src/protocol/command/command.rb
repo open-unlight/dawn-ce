@@ -73,9 +73,9 @@ module Unlight
           c = @cmd_val.new(i[0], i[1], i[2])
           if c.size == 0
             ret << "            #{c.name}_len = data[#{s unless s == ""}#{pos},2].unpack('n*')[0]\n"
-#            ret << "p data[#{pos},2]\n"
+            #            ret << "p data[#{pos},2]\n"
             pos += 2
-#            ret << "p #{c.name}_len\n"
+            #            ret << "p #{c.name}_len\n"
             ret << "            #{c.name} = data[#{s unless s == ""}#{pos},#{c.name}_len]#{type_rec_res(c.type)}\n"
             s << "#{c.name}_len+"
           else
@@ -157,11 +157,11 @@ module Unlight
       end
 
       if comp
-#        ret << "            data2 = Zlib::Deflate.deflate(data2,Zlib::BEST_SPEED)\n"
+        #        ret << "            data2 = Zlib::Deflate.deflate(data2,Zlib::BEST_SPEED)\n"
         ret << "            data2 = Zlib::Deflate.deflate(data2)\n"
         ret << "            data << data2\n"
       end
-#      puts ret
+      #      puts ret
       ret
     end
     private :gen_receve_cmd

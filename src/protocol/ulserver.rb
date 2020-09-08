@@ -143,7 +143,7 @@ module Unlight
          SERVER_LOG.warn("#{@@class_name}:Command [#{msg}] is Undefined")
       end
 
-    # 子クラスが使用する汎用関数
+      # 子クラスが使用する汎用関数
 
       # ネゴシエーション（認証済みかを確認）
       def negotiation(id)
@@ -295,7 +295,7 @@ module Unlight
 end
 
 if RUBY_VERSION == "1.9.2"
-#  Dateクラスで重たいmethod_missingを差し替え（クソ重たい処理をクソさぼっているので）
+  #  Dateクラスで重たいmethod_missingを差し替え（クソ重たい処理をクソさぼっているので）
   class Date::Format::Bag
     def method_missing(t, *args, &block)
       t = t.to_s

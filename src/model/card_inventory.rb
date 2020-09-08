@@ -25,11 +25,11 @@ module Unlight
       datetime  :updated_at
     end
 
-    # バリデーションの設定
+     # バリデーションの設定
      validates do
      end
 
-   # DBにテーブルをつくる
+    # DBにテーブルをつくる
     if !(CardInventory.table_exists?)
       CardInventory.create_table
     end

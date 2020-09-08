@@ -112,7 +112,7 @@ module Unlight
       ret
     end
 
-    # ランダムで埋め草カードを返す
+   # ランダムで埋め草カードを返す
    def self::get_random_filler_card()
       @@filler_cards[rand(@@filler_cards.size)]
     end

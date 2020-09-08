@@ -15,7 +15,7 @@ module Unlight
     attr_reader :turn, :bonus_level, :avatar_names
     # 現在のゲームリスト
     @@current_list = []
-    # すべてのデュエルをアップデート（サーバーから呼ばれます）
+   # すべてのデュエルをアップデート（サーバーから呼ばれます）
    def MultiDuel.update
      @@current_list.each { |a|a.update }
    end

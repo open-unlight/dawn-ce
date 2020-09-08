@@ -130,7 +130,7 @@ module Unlight
         ]
        ],
 
-      # セッションの決定
+       # セッションの決定
        [:sc_determine_session,
         [ # Name, Type, Size
          ["id", :int, 4],
@@ -145,7 +145,7 @@ module Unlight
         ]
        ],
 
-      # 追加のキャラカードインベントリを送る
+       # 追加のキャラカードインベントリを送る
        [:sc_chara_card_inventory_info,
         [ # Name, Type, Size
          ["inv_id", :String, 0],
@@ -178,8 +178,8 @@ module Unlight
         ]
        ],
 
-      # デュエルの終了
-      # ゲーム結果結果
+       # デュエルの終了
+       # ゲーム結果結果
        [:sc_one_to_one_duel_finish,
         [ # Name, Type, Size
          ["result", :char, 1],
@@ -191,8 +191,8 @@ module Unlight
          ]
        ],
 
-      # デュエルの終了
-      # ゲーム結果結果
+       # デュエルの終了
+       # ゲーム結果結果
        [:sc_three_to_three_duel_finish,
         [ # Name, Type, Size
          ["result", :char, 1],
@@ -374,7 +374,7 @@ module Unlight
         ]
        ],
 
-      # 移動カードを戻すアクション（通信:位置）
+       # 移動カードを戻すアクション（通信:位置）
        [:sc_entrant_move_card_remove_action,
         [ # Name, Type, Size
          ["player", :Boolean, 1],
@@ -383,7 +383,7 @@ module Unlight
         ]
        ],
 
-      # カードの回転アクション（通信：位置）
+       # カードの回転アクション（通信：位置）
        [:sc_entrant_card_rotate_action,
         [ # Name, Type, Size
          ["player", :Boolean, 1],
@@ -394,7 +394,7 @@ module Unlight
         ]
        ],
 
-      # カードの回転アクション（通信：位置）
+       # カードの回転アクション（通信：位置）
        [:sc_entrant_event_card_rotate_action,
         [ # Name, Type, Size
          ["player", :Boolean, 1],
@@ -405,7 +405,7 @@ module Unlight
         ]
        ],
 
-      # 戦闘カードの追加アクション（通信：位置）
+       # 戦闘カードの追加アクション（通信：位置）
        [:sc_entrant_battle_card_add_action,
         [ # Name, Type, Size
          ["player", :Boolean, 1],

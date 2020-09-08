@@ -4,7 +4,7 @@ require 'unlight'
 $arg = ARGV.shift
 
 module Unlight
-  REWARD_TYPE_STR = ["none", "消費アイテム", "アバター衣装", "キャラカード", "装備カード", "イベントカード"]
+  REWARD_TYPE_STR = %w[none 消費アイテム アバター衣装 キャラカード 装備カード イベントカード]
 
   puts "イベントランキングを更新します（y/n）"
   answer = gets.chomp

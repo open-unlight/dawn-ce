@@ -27,7 +27,7 @@ module Unlight
       datetime    :updated_at
     end
 
-   # DBにテーブルをつくる
+    # DBにテーブルをつくる
     if !(AchievementInventory.table_exists?)
       AchievementInventory.create_table
     end
@@ -39,7 +39,7 @@ module Unlight
       add_column :code, String, default: "" unless Unlight::AchievementInventory.columns.include?(:code) # 新規追加2015/04/13
     end
 
-    # バリデーションの設定
+     # バリデーションの設定
      validates do
      end
 

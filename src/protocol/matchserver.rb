@@ -58,7 +58,7 @@ module Protocol
      MatchController::check_boot(server_channel)
     end
 
-      # サーバを終了する
+    # サーバを終了する
     def self::exit_server
       # 自分のチャンネルのステートをOFFにする
       self::server_channel.shut_down

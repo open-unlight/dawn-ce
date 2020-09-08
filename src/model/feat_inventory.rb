@@ -24,7 +24,7 @@ module Unlight
       datetime    :updated_at
     end
 
-    # バリデーションの設定
+     # バリデーションの設定
      validates do
      end
 

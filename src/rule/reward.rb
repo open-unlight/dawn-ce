@@ -1,7 +1,7 @@
-# Unlight
-# Copyright(c)2019 CPA
-# This software is released under the MIT License.
-# http://opensource.org/licenses/mit-license.php
+ # Unlight
+ # Copyright(c)2019 CPA
+ # This software is released under the MIT License.
+ # http://opensource.org/licenses/mit-license.php
 
  require 'rule/event/reward_event'
 
@@ -151,9 +151,9 @@ module Unlight
     end
     regist_event ExitPhase
 
-    # ====================================
-    # イベント
-    # ===================================
+   # ====================================
+   # イベント
+   # ===================================
    # ハイローアップにチャレンジ
    def up
      result_dice_event
@@ -172,7 +172,7 @@ module Unlight
 
    # ハイローをスキップ
    def skip
-#     puts  "skip"
+     #     puts  "skip"
      @challenged = true
      @win_skip = false
      challenge(:skip)
@@ -189,9 +189,9 @@ module Unlight
        @final_result = [nil, [], nil, @step_num, inv_id]
      else
        if @avatar
-#         puts "cancel !!!!!!!!!!!!!!!!!"
-#         puts @candidate_list
-#         puts @win_num
+         #         puts "cancel !!!!!!!!!!!!!!!!!"
+         #         puts @candidate_list
+         #         puts @win_num
          cc = @candidate_list[@win_num]
          cc = @candidate_list.last unless cc # おそらくMAXの時には最後を返す
          @add_point = 0
@@ -213,22 +213,22 @@ module Unlight
            @add_point = add_point
            @total_gems = @gems + add_point
          when ITEM
-#           puts "cancel set ITEM!!!!!!!!!!!!!!!!!x#{cc[2]},id:#{cc[1]}"
+           #           puts "cancel set ITEM!!!!!!!!!!!!!!!!!x#{cc[2]},id:#{cc[1]}"
            cc[2].times do
              @avatar.get_item(cc[1])
            end
          when EVENT_CARD
-#           puts "cancel set EVENT CARD!!!!!!!!!!!!!!!!!x#{cc[2]},id:#{cc[1]}"
+           #           puts "cancel set EVENT CARD!!!!!!!!!!!!!!!!!x#{cc[2]},id:#{cc[1]}"
            cc[2].times do
              @avatar.get_slot_card(SCT_EVENT, cc[1])
            end
          when WEAPON_CARD
-#           puts "cancel set WEAPON CARD!!!!!!!!!!!!!!!!!x#{cc[2]},id:#{cc[1]}"
+           #           puts "cancel set WEAPON CARD!!!!!!!!!!!!!!!!!x#{cc[2]},id:#{cc[1]}"
            cc[2].times do
              @avatar.get_slot_card(SCT_WEAPON, cc[1])
            end
          else
- #          puts "cancel set CC!!!!!!!!!!!!!!!!! x#{cc[2]},id:#{cc[1]}"
+           #          puts "cancel set CC!!!!!!!!!!!!!!!!! x#{cc[2]},id:#{cc[1]}"
            add_cards = []
            cc[2].times do
              CardInventory.new do |c|
@@ -257,7 +257,7 @@ module Unlight
    # 報酬ゲームを続ける
    def retry_reward
      # ハイローで失敗しているときはリトライ出来ない
-#     puts "retry event"  if  @high_low_result[0]
+     #     puts "retry event"  if  @high_low_result[0]
      @selected = :retry if @high_low_result[0]
      update
    end
@@ -267,7 +267,7 @@ module Unlight
    def reroll
      @reroll = true
      ret = true
-#     puts "reroll"
+     #     puts "reroll"
      @selected = :reroll
      update
      ret
@@ -277,7 +277,7 @@ module Unlight
    # 報酬ゲームでダイスを修正
    def amend(v)
      ret = false
-#     puts "amend"
+     #     puts "amend"
      b_calc = 0
      @bottom_dice.each do |a|
        b_calc += a
@@ -296,9 +296,9 @@ module Unlight
    end
    regist_event AmendEvent
 
-   # ========================
-   # 判定関数
-   # =======================
+    # ========================
+    # 判定関数
+    # =======================
     # アイテム選択＆ゲットカード待ちフェイズ終了か？
     def exited?
       @selected
@@ -374,7 +374,7 @@ module Unlight
      @result_dice.each do |b|
        r_calc += b
      end
-#     @bottom_dice = @result_dice
+     #     @bottom_dice = @result_dice
      case selected
      when :up
        b_calc <= r_calc
@@ -388,7 +388,7 @@ module Unlight
    # 報酬用のキャラカードを新しいものに更新する
    def update_chara_card
      @pl_cc = @pl_deck[rand(@pl_deck.size)] # 自分のキャラカード
-#     @foe_cc = @foe_deck[rand(foe_deck.size)]          # 相手のキャラカード
+     #     @foe_cc = @foe_deck[rand(foe_deck.size)]          # 相手のキャラカード
    end
 
    # ジャンルを選択する
@@ -412,7 +412,7 @@ module Unlight
        if r < (b + v)
          @before_genre << k
          @before_genre.shift if @before_genre.size > @before_max
-#         puts "genre selected!!! #{ret}"
+         #         puts "genre selected!!! #{ret}"
          return ret
        else
          b += v
@@ -423,18 +423,18 @@ module Unlight
    # ジャンルの再選択（前回をなしにしてひき直す）
    def reselect_genre
      @before_genre.pop
-#     puts "reslected genre !!"
+     #     puts "reslected genre !!"
      select_genre
    end
 
    def win_num
      @win_num
-#     (@win_num/3).to_i
+     #     (@win_num/3).to_i
    end
 
    def step_num
      @step_num
-#     (@step_num/3).to_i
+     #     (@step_num/3).to_i
    end
 
    def bonus_num
@@ -477,7 +477,7 @@ module Unlight
        when :wild_item
          ret = get_wild_item
        end
-#        puts "select genre !!!!!! #{ret}"
+       #        puts "select genre !!!!!! #{ret}"
        if ret[2] == 0
          g = reselect_genre
        else
@@ -485,7 +485,7 @@ module Unlight
        end
      end
      @step_num += 1 if @step_num < @step_cap
-#     puts "update step_num is #{@step_num}"
+     #     puts "update step_num is #{@step_num}"
      ret
    end
 
@@ -494,8 +494,8 @@ module Unlight
      ret = [0, 0, 0]
      # アイテムはハッシュの配列 指定ステップの最大値のアイテムを返す
      @wild_items.each { |w|
-#       puts "#step is #{@step_min+w[:step]},#{step_num}"
-#       ret = w[:item] if (w[:step]+@step_min) < step_num
+       #       puts "#step is #{@step_min+w[:step]},#{step_num}"
+       #       ret = w[:item] if (w[:step]+@step_min) < step_num
        ret = w[:item] if (w[:step] + @step_min) == step_num
      }
      ret
@@ -526,13 +526,13 @@ module Unlight
      # 取得するキャラカードをデッキ内からランダムで更新
      update_chara_card
      level = 0
-#     puts "level1!!!!!!!! : #{level}"
+     #     puts "level1!!!!!!!! : #{level}"
      # レベルを補正する
      level = @pl_cc.level + dec
      if level < 1
        level = 1
      end
-##     puts "level2!!!!!!!! : #{level}"
+     ##     puts "level2!!!!!!!! : #{level}"
      cid = @pl_cc.kind == CC_KIND_CHARA ? @pl_cc.charactor_id : @pl_cc.base_charactor_id
      if @pl_cc.kind == CC_KIND_RENTAL
        # レンタルカードの場合 GEM男
@@ -679,136 +679,136 @@ module Unlight
      ret
    end
 
-#    # プレイヤーカードを一枚返す（IDの配列で）
-#    def p_one
-#      if @pl_cc.rarity <= 5
-#        [@pl_cc.id]
-#      else
-#        get_search_card(@pl_cc.name,@pl_cc.level, 1..5 )
-#      end
-#    end
+   #    # プレイヤーカードを一枚返す（IDの配列で）
+   #    def p_one
+   #      if @pl_cc.rarity <= 5
+   #        [@pl_cc.id]
+   #      else
+   #        get_search_card(@pl_cc.name,@pl_cc.level, 1..5 )
+   #      end
+   #    end
 
-#    # プレイヤーカードを二枚返す（IDの配列で）
-#    def p_two
-#      if @pl_cc.rarity <= 5
-#        id = @pl_cc.id
-#      else
-#        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
-#      end
-#      [id, id]
-#    end
+   #    # プレイヤーカードを二枚返す（IDの配列で）
+   #    def p_two
+   #      if @pl_cc.rarity <= 5
+   #        id = @pl_cc.id
+   #      else
+   #        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
+   #      end
+   #      [id, id]
+   #    end
 
-#    # プレイヤーカードを４枚返す（IDの配列で）
-#    def p_four
-#      if @pl_cc.rarity <= 5
-#        id = @pl_cc.id
-#      else
-#        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
-#      end
-#      [id, id, id, id]
-#    end
+   #    # プレイヤーカードを４枚返す（IDの配列で）
+   #    def p_four
+   #      if @pl_cc.rarity <= 5
+   #        id = @pl_cc.id
+   #      else
+   #        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
+   #      end
+   #      [id, id, id, id]
+   #    end
 
-#    # プレイヤーカードを８枚返す（IDの配列で）
-#    def p_eight
-#      if @pl_cc.rarity <= 5
-#        id = @pl_cc.id
-#      else
-#        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
-#      end
-#      [id, id, id, id, id, id, id, id]
-#    end
+   #    # プレイヤーカードを８枚返す（IDの配列で）
+   #    def p_eight
+   #      if @pl_cc.rarity <= 5
+   #        id = @pl_cc.id
+   #      else
+   #        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
+   #      end
+   #      [id, id, id, id, id, id, id, id]
+   #    end
 
-#    # 対戦相手のカードを一枚返す（IDの配列で）
-#    def f_one
-#      if @foe_cc.rarity <= 5
-#        [@foe_cc.id]
-#      else
-#        get_search_card(@foe_cc.name,@foe_cc.level, 1..5 )
-#      end
-#    end
+   #    # 対戦相手のカードを一枚返す（IDの配列で）
+   #    def f_one
+   #      if @foe_cc.rarity <= 5
+   #        [@foe_cc.id]
+   #      else
+   #        get_search_card(@foe_cc.name,@foe_cc.level, 1..5 )
+   #      end
+   #    end
 
-#    # レアリティ2以下のカードをランダムで1枚返す（IDの配列で）
-#    def q_first
-#       cards = CharaCard.filter([[:rarity , 1..2], [:level , 1], [~:name, @pl_cc.name]])
-# #     p cards.all
-#      r = cards.all[rand(cards.count)]
-#      if r
-#        [r.id]
-#      else
-#        p_one
-#      end
-#    end
+   #    # レアリティ2以下のカードをランダムで1枚返す（IDの配列で）
+   #    def q_first
+   #       cards = CharaCard.filter([[:rarity , 1..2], [:level , 1], [~:name, @pl_cc.name]])
+   # #     p cards.all
+   #      r = cards.all[rand(cards.count)]
+   #      if r
+   #        [r.id]
+   #      else
+   #        p_one
+   #      end
+   #    end
 
-#    # レアリティ3から４のカードをランダム1枚返す（IDの配列で）
-#    def q_second
-#      cards = CharaCard.filter([[:rarity , 3..4], [:level , 1], [~:name, @pl_cc.name]])
-# #     p cards.all
-#      r = cards.all[rand(cards.count)]
-#      if r
-#        [r.id]
-#      else
-#        p_two
-#      end
-#    end
+   #    # レアリティ3から４のカードをランダム1枚返す（IDの配列で）
+   #    def q_second
+   #      cards = CharaCard.filter([[:rarity , 3..4], [:level , 1], [~:name, @pl_cc.name]])
+   # #     p cards.all
+   #      r = cards.all[rand(cards.count)]
+   #      if r
+   #        [r.id]
+   #      else
+   #        p_two
+   #      end
+   #    end
 
-#    # レアリティ５のカードをランダム1枚返す（IDの配列で）
-#    def q_third
-#      cards = CharaCard.filter([[:rarity , 5], [:level , 1], [~:name, @pl_cc.name]])
-#  #    p cards.all
-#      r = cards.all[rand(cards.count)]
-#      if r
-#        [r.id]
-#      else
-#        p_eight
-#      end
-#    end
+   #    # レアリティ５のカードをランダム1枚返す（IDの配列で）
+   #    def q_third
+   #      cards = CharaCard.filter([[:rarity , 5], [:level , 1], [~:name, @pl_cc.name]])
+   #  #    p cards.all
+   #      r = cards.all[rand(cards.count)]
+   #      if r
+   #        [r.id]
+   #      else
+   #        p_eight
+   #      end
+   #    end
 
-#    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで返す
-#    def r_one
-#      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
-# #     p cards.all
-#      r = cards.all[rand(cards.count)]
-#      if r
-#        [r.id]
-#      else
-#        p_eight
-#      end
-#    end
+   #    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで返す
+   #    def r_one
+   #      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
+   # #     p cards.all
+   #      r = cards.all[rand(cards.count)]
+   #      if r
+   #        [r.id]
+   #      else
+   #        p_eight
+   #      end
+   #    end
 
-#    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで2枚返す
-#    def r_two
-#      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
-# #     p cards.all
-#      r = cards.all[rand(cards.count)]
-#      if r
-#        [r.id, r.id]
-#      else
-#        p_eight
-#      end
-#    end
+   #    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで2枚返す
+   #    def r_two
+   #      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
+   # #     p cards.all
+   #      r = cards.all[rand(cards.count)]
+   #      if r
+   #        [r.id, r.id]
+   #      else
+   #        p_eight
+   #      end
+   #    end
 
-#    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで3枚返す
-#    def r_three
-#      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
-# #     p cards.all
-#      r = cards.all[rand(cards.count)]
-#      if r
-#        [r.id, r.id, r.id]
-#      else
-#        p_eight
-#      end
-#    end
+   #    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで3枚返す
+   #    def r_three
+   #      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
+   # #     p cards.all
+   #      r = cards.all[rand(cards.count)]
+   #      if r
+   #        [r.id, r.id, r.id]
+   #      else
+   #        p_eight
+   #      end
+   #    end
 
-#    # あるキャラクターの特定レベル、特定レアリティのカードをランダムで返す
-#    def get_search_card(name, level, rare)
-#      cards = CharaCard.filter([[:rarity , rare], [:name , name], [:level , level]])
-# #     p cards.all
-#      r = cards.all[rand(cards.count)]
-#      if r
-#        r.id
-#      else
-#        q_first
-#      end
-#    end
+   #    # あるキャラクターの特定レベル、特定レアリティのカードをランダムで返す
+   #    def get_search_card(name, level, rare)
+   #      cards = CharaCard.filter([[:rarity , rare], [:name , name], [:level , level]])
+   # #     p cards.all
+   #      r = cards.all[rand(cards.count)]
+   #      if r
+   #        r.id
+   #      else
+   #        q_first
+   #      end
+   #    end
  end
 end

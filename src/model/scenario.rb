@@ -28,11 +28,11 @@ module Unlight
     @@script_str_set = []
     @@script_set = []
 
-    # バリデーションの設定
+     # バリデーションの設定
      validates do
      end
 
-   # DBにテーブルをつくる
+    # DBにテーブルをつくる
     if !(Scenario.table_exists?)
       Scenario.create_table
     end

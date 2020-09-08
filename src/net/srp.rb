@@ -231,8 +231,8 @@ class SRP
     a
   end
 
-# Miller-Rabin Test  (Prime Test)
-# See, http://www.cs.albany.edu/~berg/csi445/Assignments/pa4.html
+  # Miller-Rabin Test  (Prime Test)
+  # See, http://www.cs.albany.edu/~berg/csi445/Assignments/pa4.html
   def bitarray(n)
     b = Array::new
     i = 0

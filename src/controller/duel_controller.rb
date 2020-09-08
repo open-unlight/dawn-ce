@@ -513,7 +513,7 @@ module Unlight
       set_cache_act_command(pl_change_done, foe_change_done)
     end
 
-   # キャラ変更フェイズ終了
+    # キャラ変更フェイズ終了
     def duel_chara_change_phase_finish_handler(duel, ret)
       # フェイズ終了時に変更キャラが選択されてない場合は適当なキャラに変更する
       duel.entrants.each { |e| e.chara_change_action if e.not_change_done? }

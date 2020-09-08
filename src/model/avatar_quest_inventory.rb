@@ -35,7 +35,7 @@ module Unlight
     validates do
     end
 
-   # DBにテーブルをつくる
+    # DBにテーブルをつくる
     if !(AvatarQuestInventory.table_exists?)
       AvatarQuestInventory.create_table
     end

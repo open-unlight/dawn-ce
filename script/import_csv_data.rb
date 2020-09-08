@@ -112,7 +112,7 @@ def csv_import(dir, local)
       `sqlite3 -separator , ./data/game_dev2.db ".import ./tmp.csv import_temp" > /dev/null 2>&1`
       # 更新日時を都合する
       model_colmuns = label.select { |c| !c.match(LANGUAGE_SET) }.delete_if { |item| item == "created_at" }
-      insert_colmuns = (model_colmuns + ["created_at", "updated_at"]).collect! { |c| c.to_sym }
+      insert_colmuns = (model_colmuns + %w[created_at updated_at]).collect! { |c| c.to_sym }
       dates_colmuns = insert_colmuns.select { |item| item.match(/_at$/) }.delete_if { |item| item == :created_at || item == :updated_at }
       unless suffix.blank?
         swap_colmuns = label.grep(/#{suffix}$/) { |col_name| col_name.gsub(suffix, "") }

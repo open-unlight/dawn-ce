@@ -3,40 +3,40 @@
 # This software is released under the MIT License.
 # http://opensource.org/licenses/mit-license.php
 
-  # イベント定義
-  # dsc:
-  #   説明文
-  #     "説明"
-  # context:*
-  #   実行可能な文脈
-  #     ["obj", :event], ...
-  # guard:*
-  #     実行条件 （登録した条件の一つでも合致すれば実行）。指定なければ必ず実行。
-  #   ["reciver",:method],...
-  # goal:*
-  #   終了条件 （登録した条件の一つでも成功すれば成功）。指定なければ必ず終了。Hookの場合は逆に終了しない。
-  #   ["reciver",:method],...
-  # type:
-  #   関数はいつ実行されるのか
-  #   直ちに実行           type=>:instant < default
-  #   なにかの前に行われる type=>:before, :obj=>"reciver", :hook=>:method ,:priority =>0
-  #   なにかの後に行われ   type=>:after, :obj=>"reciver", :hook=>:method,:priority =>0
-  #   なにかを置き換える   type=>:proxy, :obj=>"reciver", :hook=>:method
-  #   (priorityは値の低い順に実行される。使用可能なのは整数のみ)
-  # duration:
-  #   終了しない場合どれくらい続くか？(Hook系のイベントには使用できない)
-  #   終わらない       :none <default
-  #   複数回           type=>:times, value=>x
-  #   秒               type=>:sec, value=>x
-  # event:
-  #   イベントを発行するか？
-  #   実行前     :start     (add_start_listener_xxx(method:yyyy), 返値:target)
-  #   実行後     :finish    (add_finish_listener_xxx(method:yyyy),返値:taeget,ret)
-  #   発行しない :< default
-  # func:
-  #   実行関数（hookする関数）
-  # act:
-  #   追加実行されるイベント
+# イベント定義
+# dsc:
+#   説明文
+#     "説明"
+# context:*
+#   実行可能な文脈
+#     ["obj", :event], ...
+# guard:*
+#     実行条件 （登録した条件の一つでも合致すれば実行）。指定なければ必ず実行。
+#   ["reciver",:method],...
+# goal:*
+#   終了条件 （登録した条件の一つでも成功すれば成功）。指定なければ必ず終了。Hookの場合は逆に終了しない。
+#   ["reciver",:method],...
+# type:
+#   関数はいつ実行されるのか
+#   直ちに実行           type=>:instant < default
+#   なにかの前に行われる type=>:before, :obj=>"reciver", :hook=>:method ,:priority =>0
+#   なにかの後に行われ   type=>:after, :obj=>"reciver", :hook=>:method,:priority =>0
+#   なにかを置き換える   type=>:proxy, :obj=>"reciver", :hook=>:method
+#   (priorityは値の低い順に実行される。使用可能なのは整数のみ)
+# duration:
+#   終了しない場合どれくらい続くか？(Hook系のイベントには使用できない)
+#   終わらない       :none <default
+#   複数回           type=>:times, value=>x
+#   秒               type=>:sec, value=>x
+# event:
+#   イベントを発行するか？
+#   実行前     :start     (add_start_listener_xxx(method:yyyy), 返値:target)
+#   実行後     :finish    (add_finish_listener_xxx(method:yyyy),返値:taeget,ret)
+#   発行しない :< default
+# func:
+#   実行関数（hookする関数）
+# act:
+#   追加実行されるイベント
 
 module Unlight
   # ====================
@@ -47,12 +47,12 @@ module Unlight
   # イベントの起動チェック関数を列挙する
   CHARA_PASSIVE_SKILL_EVENT_NO = [
                     [],
-                                 # 0
+                    # 0
                     [
                      :check_additional_draw_passive_event,
                      :finish_additional_draw_passive_event,
                     ],
-                                 # 1 追加ドロー
+                    # 1 追加ドロー
                     [
                      :check_indomitable_mind_passive_event,
                      :check_indomitable_mind_passive_change_event,
@@ -60,29 +60,29 @@ module Unlight
                      :finish_indomitable_mind_passive_event,
                      :finish_indomitable_mind_passive_dead_chara_change_event,
                     ],
-                                 # 2 不屈
+                    # 2 不屈
                     [
                      :check_drain_soul_passive_event,
                      :finish_drain_soul_passive_event,
                     ],
-                                 # 3 精神の器
+                    # 3 精神の器
                     [
                      :check_sealing_attack_passive_event,
                      :check_sealing_attack_passive_change_event,
                      :finish_sealing_attack_passive_event,
                     ],
-                                 # 4 剣聖
+                    # 4 剣聖
                     [
                      :check_instant_kill_guard_passive_start_turn_event,
                     ],
-                                 # 5 千古不朽
+                    # 5 千古不朽
                     [
                      :check_rage_against_passive_start_event,
                      :check_rage_against_passive_chara_change_event,
                      :check_rage_against_passive_dead_change_event,
                      :finish_rage_against_passive_event
                     ],
-                                 # 6 レイジ
+                    # 6 レイジ
                     [
                      :check_creator_passive_start_turn_event,
                      :check_creator_passive_chara_change_event,
@@ -96,7 +96,7 @@ module Unlight
                      :finish_creator_passive_dead_chara_change_event,
                      :finish_creator_passive_finish_turn_event,
                     ],
-                                 # 7 創造主
+                    # 7 創造主
                     [
                      :check_bounce_back_passive_event,
                      :check_bounce_back_passive_change_event,
@@ -104,40 +104,40 @@ module Unlight
                      :finish_bounce_back_passive_event,
                      :finish_bounce_back_passive_dead_chara_change_event,
                     ],
-                                 # 8 バウンスバック
+                    # 8 バウンスバック
                     [
                      :check_linkage_passive_start_turn_event,
                      :check_linkage_passive_chara_change_event,
                      :check_linkage_passive_dead_chara_change_event,
                     ],
-                                 # 9 リンケージ
+                    # 9 リンケージ
                     [
                      :use_liberation_passive_event,
                      :finish_liberation_passive_event,
                      :finish_liberation_passive_dead_chara_change_event,
                     ],
-                                 # 10 リベレーション
+                    # 10 リベレーション
                     [
                      :check_harden_passive_event,
                      :use_harden_passive_damage_event,
                      :finish_harden_passive_event,
                      :finish_harden_passive_dead_chara_change_event,
                     ],
-                                 # 11 ハーデン
+                    # 11 ハーデン
                     [
                      :check_absorp_passive_event,
                      :use_absorp_passive_damage_event,
                      :finish_absorp_passive_event,
                      :finish_absorp_passive_dead_chara_change_event,
                     ],
-                                 # 12 アブソープ
+                    # 12 アブソープ
                     [
                      :check_moondog_passive_event,
                      :check_moondog_passive_change_event,
                      :use_moondog_passive_event,
                      :finish_moondog_passive_event,
                     ],
-                                 # 13 幻月
+                    # 13 幻月
                     [
                      :check_jump_passive_event,
                      :use_jump_passive_damage_before_event,
@@ -147,32 +147,32 @@ module Unlight
                      :use_jump_passive_battle_result_after_event,
                      :finish_jump_passive_event,
                     ],
-                                 # 14 跳躍
+                    # 14 跳躍
                     [
                      :check_protection_aim_passive_event,
                      :check_protection_aim_passive_change_event,
                      :use_protection_aim_passive_event,
                      :finish_protection_aim_passive_event,
                     ],
-                                 # 15 プロテクションエイム
+                    # 15 プロテクションエイム
                     [
                      :check_mistake_passive_event,
                      :use_mistake_passive_damage_event,
                      :finish_mistake_passive_event,
                      :finish_mistake_passive_dead_chara_change_event,
                     ],
-                                 # 16 C・ミステイク
+                    # 16 C・ミステイク
                     [
                      :check_status_resistance_passive_event,
                     ],
-                                 # 17 スライムカバー
+                    # 17 スライムカバー
                     [
                      :check_senkou_passive_event,
                      :use_senkou_passive_event,
                      :finish_senkou_passive_event,
                      :finish_senkou_passive_dead_chara_change_event,
                     ],
-                                 # 18 潜行する災厄
+                    # 18 潜行する災厄
                     [
                      :check_hate_passive_event,
                      :use_hate_passive_event,
@@ -180,7 +180,7 @@ module Unlight
                      :finish_hate_passive_event,
                      :finish_hate_passive_dead_chara_change_event,
                     ],
-                                 # 19 果てる路
+                    # 19 果てる路
                     [
                      :check_little_princess_passive_event,
                      :check_little_princess_change_passive_event,
@@ -188,7 +188,7 @@ module Unlight
                      :finish_little_princess_passive_event,
                      :finish_little_princess_passive_dead_chara_change_event,
                     ],
-                                 # 20 リトルプリンセス
+                    # 20 リトルプリンセス
                     [
                      :check_crimson_witch_passive_event,
                      :check_crimson_witch_change_passive_event,
@@ -196,7 +196,7 @@ module Unlight
                      :finish_crimson_witch_passive_event,
                      :finish_crimson_witch_passive_dead_chara_change_event,
                     ],
-                                 # 21 深紅の魔女
+                    # 21 深紅の魔女
                     [
                      :check_aegis_passive_event,
                      :check_aegis_passive_change_event,
@@ -204,18 +204,18 @@ module Unlight
                      :finish_aegis_passive_event,
                      :finish_aegis_passive_dead_chara_change_event,
                     ],
-                                 # 22 イージス
+                    # 22 イージス
                     [
                      :check_ocean_passive_event,
                      :check_ocean_passive_change_event,
                      :check_ocean_passive_dead_change_event,
                      :finish_ocean_passive_event,
                     ],
-                                 # 23 溟海符
+                    # 23 溟海符
                     [
                      :check_resist_skylla_passive_event,
                     ],
-                                 # 24 状態抵抗 スキュラ
+                    # 24 状態抵抗 スキュラ
                     [
                      :check_night_fog_passive_event,
                      :use_night_fog_passive_event,
@@ -223,7 +223,7 @@ module Unlight
                      :finish_night_fog_passive_event,
                      :finish_night_fog_passive_dead_chara_change_event,
                     ],
-                                 # 25 立ち込める夜霧
+                    # 25 立ち込める夜霧
                     [
                      :check_double_boddy_passive_event,
                      :check_double_boddy_passive_change_event,
@@ -231,14 +231,14 @@ module Unlight
                      :finish_double_boddy_passive_event,
                      :finish_double_boddy_passive_dead_chara_change_event,
                     ],
-                                 # 26 2つの身体(パッシブ)
+                    # 26 2つの身体(パッシブ)
                     [
                      :check_wit_passive_event,
                      :use_wit_passive_draw_event,
                      :use_wit_passive_event,
                      :finish_wit_passive_event,
                     ],
-                                 # 27 機知
+                    # 27 機知
                     [
                      :check_curse_care_passive_event,
                      :check_curse_care_passive_change_event,
@@ -251,12 +251,12 @@ module Unlight
                      :finish_curse_care_passive_event,
                      :finish_curse_care_passive_dead_chara_change_event,
                     ],
-                                 # 28 修羅
+                    # 28 修羅
                     [
                      :check_white_light_passive_event,
                      :finish_white_light_passive_event,
                     ],
-                                 # 29 白晄
+                    # 29 白晄
                     [
                      :check_carapace_break_passive_event,
                      :check_carapace_break_change_passive_event,
@@ -265,33 +265,33 @@ module Unlight
                      :finish_carapace_break_passive_event,
                      :finish_carapace_break_passive_dead_chara_change_event,
                     ],
-                                 # 30 甲羅割り
+                    # 30 甲羅割り
                     [
                      :check_carapace_passive_event,
                      :use_carapace_passive_event,
                      :finish_carapace_passive_event,
                      :finish_carapace_passive_dead_chara_change_event,
                     ],
-                                 # 31 身隠し
+                    # 31 身隠し
                     [
                      :check_resist_kamuy_passive_event,
                      :check_chara_resist_kamuy_passive_event,
                      :restore_resist_kamuy_passive_event,
                     ],
-                                 # 32 状態抵抗 かめ
+                    # 32 状態抵抗 かめ
                     [
                      :check_revisers_passive_event,
                      :check_revisers_passive_change_event,
                      :check_revisers_passive_dead_change_event,
                     ],
-                                 # 33 リバイザーズ
+                    # 33 リバイザーズ
                     [
                      :check_resist_wall_passive_event,
                      :check_resist_wall_passive_change_event,
                      :check_resist_wall_passive_dead_change_event,
                      :check_resist_wall_passive_move_event,
                     ],
-                                 # 34 レジストウォール
+                    # 34 レジストウォール
                     [
                      :check_curse_sign_passive_event,
                      :check_curse_sign_passive_change_event,
@@ -300,7 +300,7 @@ module Unlight
                      :finish_curse_sign_passive_change_event,
                      :finish_curse_sign_passive_dead_change_event,
                     ],
-                                 # 35 呪印符
+                    # 35 呪印符
                     [
                      :check_loyalty_passive_event,
                      :check_loyalty_passive_change_event,
@@ -309,7 +309,7 @@ module Unlight
                      :finish_loyalty_passive_change_event,
                      :finish_loyalty_passive_dead_change_event,
                     ],
-                                 # 36 従者の忠誠
+                    # 36 従者の忠誠
                     [
                      :check_aiming_plus_passive_event,
                      :check_aiming_plus_passive_change_event,
@@ -317,54 +317,54 @@ module Unlight
                      :finish_aiming_plus_passive_event,
                      :finish_aiming_plus_passive_dead_chara_change_event,
                     ],
-                                 # 37 精密射撃+
+                    # 37 精密射撃+
                     [
                      :check_easing_card_condition_passive_event,
                      :check_easing_card_condition_passive_change_event,
                      :check_easing_card_condition_passive_dead_change_event,
                     ],
-                                 # 38 精密射撃+
+                    # 38 精密射撃+
                     [
                      :check_harvest_passive_event,
                      :finish_harvest_passive_event,
                     ],
-                                 # 39 収穫
+                    # 39 収穫
                     [
                      :check_td_passive_event,
                      :finish_td_passive_event,
                     ],
-                                 # 40 T.D.
+                    # 40 T.D.
                     [
                      :check_moon_shine_passive_event,
                      :check_moon_shine_passive_change_event,
                      :finish_moon_shine_passive_event,
                     ],
-                                 # 41 ムーンシャイン
+                    # 41 ムーンシャイン
                     [
                      :check_fertility_passive_event,
                      :finish_fertility_passive_pre_event,
                      :finish_fertility_passive_event,
                     ],
-                                 # 42 豊穣符
+                    # 42 豊穣符
                     [
                      :check_resist_pumpkin_passive_event,
                     ],
-                                 # 43 状態抵抗 クエカボチャ
+                    # 43 状態抵抗 クエカボチャ
                     [
                      :check_awcs_passive_event,
                      :use_awcs_passive_damage_event,
                     ],
-                                 # 44 AWCS
+                    # 44 AWCS
                     [
                      :check_resist_dw_passive_event,
                     ],
-                                 # 45 状態抵抗 DW
+                    # 45 状態抵抗 DW
                     [
                      :check_lonsbrough_event_passive_event,
                      :check_lonsbrough_event_passive_change_event,
                      :use_lonsbrough_event_passive_damage_event,
                     ],
-                                 # 46 ロンズブラウイベント
+                    # 46 ロンズブラウイベント
                     [
                      :check_rock_crusher_passive_event,
                      :check_rock_crusher_change_passive_event,
@@ -373,13 +373,13 @@ module Unlight
                      :finish_rock_crusher_passive_event,
                      :finish_rock_crusher_passive_dead_chara_change_event,
                     ],
-                                 # 47 岩石割り
+                    # 47 岩石割り
                     [
                      :check_projection_passive_change_event,
                      :check_projection_passive_dead_change_event,
                      :finish_projection_passive_event,
                     ],
-                                 # 48 交錯する影
+                    # 48 交錯する影
                     [
                      :check_damage_multiplier_passive_event,
                      :check_damage_multiplier_change_passive_event,
@@ -388,7 +388,7 @@ module Unlight
                      :finish_damage_multiplier_passive_event,
                      :finish_damage_multiplier_passive_dead_chara_change_event,
                     ],
-                                 # 49 ダメージ乗算
+                    # 49 ダメージ乗算
                     [
                      :check_ev201606_passive_event,
                      :check_ev201606_change_passive_event,
@@ -397,11 +397,11 @@ module Unlight
                      :finish_ev201606_passive_event,
                      :finish_ev201606_passive_dead_chara_change_event,
                     ],
-                                 # 50 2016.6イベント
+                    # 50 2016.6イベント
                     [
                      :check_status_resistance_aquamarine_passive_event,
                     ],
-                                 # 51 アクアマリン
+                    # 51 アクアマリン
                     [
                      :check_cooly_passive_event,
                      :check_cooly_change_passive_event,
@@ -410,7 +410,7 @@ module Unlight
                      :use_cooly_passive_attack_event,
                      :use_cooly_passive_defense_event,
                     ],
-                                 # 52 爽涼符
+                    # 52 爽涼符
                     [
                      :check_ev201609_passive_event,
                      :check_ev201609_change_passive_event,
@@ -419,17 +419,17 @@ module Unlight
                      :finish_ev201609_passive_event,
                      :finish_ev201609_passive_dead_chara_change_event,
                     ],
-                                 # 53 2016.9イベント
+                    # 53 2016.9イベント
                     [
                      :check_resist_byakhee_passive_event,
                     ],
-                                 # 54 状態抵抗 ビヤーキー
+                    # 54 状態抵抗 ビヤーキー
                     [
                      :check_disaster_flame_passive_event,
                      :check_disaster_flame_passive_change_event,
                      :finish_disaster_flame_passive_event,
                     ],
-                                 # 55 劫火
+                    # 55 劫火
                     [
                      :check_brambles_card_passive_event,
                      :check_brambles_card_passive_change_event,
@@ -437,13 +437,13 @@ module Unlight
                      :use_brambles_card_passive_event,
                      :finish_brambles_card_passive_event,
                     ],
-                                 # 56 荊棘符
+                    # 56 荊棘符
                     [
                      :check_awakening_one_passive_event,
                      :check_awakening_one_passive_change_event,
                      :finish_awakening_one_passive_event,
                     ],
-                                 # 57 目覚めしもの
+                    # 57 目覚めしもの
                     [
                      :check_servo_skull_passive_event,
                      :check_servo_skull_passive_change_event,
@@ -451,7 +451,7 @@ module Unlight
                      :finish_servo_skull_passive_event,
                      :finish_servo_skull_passive_dead_chara_change_event,
                     ],
-                                 # 58 サーボスカル
+                    # 58 サーボスカル
                     [
                      :check_ev201612_passive_event,
                      :check_ev201612_change_passive_event,
@@ -459,21 +459,21 @@ module Unlight
                      :finish_ev201612_passive_event,
                      :finish_ev201612_passive_dead_chara_change_event,
                     ],
-                                 # 59 2016.12イベント
+                    # 59 2016.12イベント
                     [
                      :check_high_protection_passive_event,
                      :check_high_protection_passive_change_event,
                      :use_high_protection_passive_event,
                      :finish_high_protection_passive_event,
                     ],
-                                 # 60 ハイプロテクション
+                    # 60 ハイプロテクション
                     [
                      :check_puppet_master_passive_event,
                      :check_puppet_master_passive_change_event,
                      :use_puppet_master_passive_event,
                      :finish_puppet_master_passive_event,
                     ],
-                                 # 61 パペットマスター
+                    # 61 パペットマスター
                     [
                      :check_ogre_arm_passive_event,
                      :check_ogre_arm_change_passive_event,
@@ -481,7 +481,7 @@ module Unlight
                      :finish_ogre_arm_passive_event,
                      :finish_ogre_arm_passive_dead_chara_change_event,
                     ],
-                                 # 62 岩石割り
+                    # 62 岩石割り
                     [
                      :check_crimson_will_passive_event,
                      :check_crimson_will_passive_change_event,
@@ -489,7 +489,7 @@ module Unlight
                      :finish_crimson_will_passive_event,
                      :finish_crimson_will_passive_dead_chara_change_event,
                     ],
-                                 # 63 紅の意志
+                    # 63 紅の意志
                     [
                      :check_guardian_of_life_passive_event,
                      :check_guardian_of_life_passive_change_event,
@@ -498,7 +498,7 @@ module Unlight
                      :finish_guardian_of_life_passive_event,
                      :finish_guardian_of_life_passive_dead_chara_change_event,
                     ],
-                                 # 64 生命の守人
+                    # 64 生命の守人
                     [
                      :check_burning_embers_passive_event,
                      :check_burning_embers_change_passive_event,
@@ -508,11 +508,11 @@ module Unlight
                      :use_burning_embers_passive_defense_event,
                      :use_burning_embers_passive_defense_det_chara_change_event,
                     ],
-                                 # 65 余焔符
+                     # 65 余焔符
                    ]
 
-#---------------------------------------------------------------------------------------------
-# ドロー
+  #---------------------------------------------------------------------------------------------
+  # ドロー
 
   class CheckAdditionalDrawPassiveEvent < EventRule
     dsc        "ドローをチェック"
@@ -526,8 +526,8 @@ module Unlight
     func       :finish_additional_draw_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 不屈
+  #---------------------------------------------------------------------------------------------
+  # 不屈
 
   class CheckIndomitableMindPassiveEvent < EventRule
     dsc        "不屈をチェック"
@@ -559,8 +559,8 @@ module Unlight
     func       :finish_indomitable_mind_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 精神の器
+  #---------------------------------------------------------------------------------------------
+  # 精神の器
 
   class CheckDrainSoulPassiveEvent < EventRule
     dsc        "精神の器をチェック"
@@ -574,8 +574,8 @@ module Unlight
     func       :finish_drain_soul_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 剣聖
+  #---------------------------------------------------------------------------------------------
+  # 剣聖
 
   class CheckSealingAttackPassiveEvent < EventRule
     dsc        "封印攻撃をチェック"
@@ -595,8 +595,8 @@ module Unlight
     func       :finish_sealing_attack_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 千古不朽
+  #---------------------------------------------------------------------------------------------
+  # 千古不朽
 
   class CheckInstantKillGuardPassiveStartTurnEvent < EventRule
     dsc        "千古不朽開始"
@@ -604,8 +604,8 @@ module Unlight
     func       :check_instant_kill_guard_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# レイジ
+  #---------------------------------------------------------------------------------------------
+  # レイジ
 
   class CheckRageAgainstPassiveStartEvent < EventRule
     dsc        "レイジアゲンストを発動"
@@ -637,8 +637,8 @@ module Unlight
     event      :finish
   end
 
-#---------------------------------------------------------------------------------------------
-# 創造主
+  #---------------------------------------------------------------------------------------------
+  # 創造主
 
   class CheckCreatorPassiveStartTurnEvent < EventRule
     dsc        "創造主開始"
@@ -712,8 +712,8 @@ module Unlight
     func       :use_creator_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# バウンスバック
+  #---------------------------------------------------------------------------------------------
+  # バウンスバック
 
   class CheckBounceBackPassiveEvent < EventRule
     dsc        "バウンスバックをチェック"
@@ -745,8 +745,8 @@ module Unlight
     func       :finish_bounce_back_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# リンケージ
+  #---------------------------------------------------------------------------------------------
+  # リンケージ
 
   class CheckLinkagePassiveStartTurnEvent < EventRule
     dsc        "リンケージ開始"
@@ -766,8 +766,8 @@ module Unlight
     func       :check_linkage_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# リべレーション
+  #---------------------------------------------------------------------------------------------
+  # リべレーション
 
   class UseLiberationPassiveEvent < EventRule
     dsc        "リべレーションを発動"
@@ -787,8 +787,8 @@ module Unlight
     func       :finish_liberation_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# ハーデン
+  #---------------------------------------------------------------------------------------------
+  # ハーデン
 
   class CheckHardenPassiveEvent < EventRule
     dsc        "ハーデンをチェック"
@@ -814,8 +814,8 @@ module Unlight
     func       :finish_harden_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# アブソープ
+  #---------------------------------------------------------------------------------------------
+  # アブソープ
 
   class CheckAbsorpPassiveEvent < EventRule
     dsc        "アブソープをチェック"
@@ -841,8 +841,8 @@ module Unlight
     func       :finish_absorp_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 幻月
+  #---------------------------------------------------------------------------------------------
+  # 幻月
 
   class CheckMoondogPassiveEvent < EventRule
     dsc        "幻月をチェック"
@@ -874,8 +874,8 @@ module Unlight
     func       :finish_moondog_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 跳躍
+  #---------------------------------------------------------------------------------------------
+  # 跳躍
 
   class CheckJumpPassiveEvent < EventRule
     dsc        "跳躍をチェック"
@@ -925,8 +925,8 @@ module Unlight
     func       :finish_jump_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# プロテクションエイム
+  #---------------------------------------------------------------------------------------------
+  # プロテクションエイム
 
   class CheckProtectionAimPassiveEvent < EventRule
     dsc        "プロテクションエイムをチェック"
@@ -958,8 +958,8 @@ module Unlight
     func       :finish_protection_aim_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# ミステイク
+  #---------------------------------------------------------------------------------------------
+  # ミステイク
   class CheckMistakePassiveEvent < EventRule
     dsc        "ミステイクが可能か"
     type       type: :after, obj: "owner", hook: :deffence_done_action
@@ -987,8 +987,8 @@ module Unlight
     func       :finish_mistake_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 状態抵抗 妖蛆
+  #---------------------------------------------------------------------------------------------
+  # 状態抵抗 妖蛆
   class CheckStatusResistancePassiveEvent < EventRule
     dsc        "ミステイクが可能か"
     type       type: :before, obj: "duel", hook: :start_turn_phase
@@ -996,8 +996,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 潜行する災厄
+  #---------------------------------------------------------------------------------------------
+  # 潜行する災厄
 
   class CheckSenkouPassiveEvent < EventRule
     dsc        "潜行する災厄をチェック"
@@ -1023,8 +1023,8 @@ module Unlight
     func       :finish_senkou_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 果てる路
+  #---------------------------------------------------------------------------------------------
+  # 果てる路
 
   class CheckHatePassiveEvent < EventRule
     dsc        "果てる路をチェック"
@@ -1056,8 +1056,8 @@ module Unlight
     func       :finish_hate_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# リトルプリンセス
+  #---------------------------------------------------------------------------------------------
+  # リトルプリンセス
 
   class CheckLittlePrincessPassiveEvent < EventRule
     dsc        "リトルプリンセスをチェック"
@@ -1089,8 +1089,8 @@ module Unlight
     func       :finish_little_princess_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 深紅の魔女
+  #---------------------------------------------------------------------------------------------
+  # 深紅の魔女
 
   class CheckCrimsonWitchPassiveEvent < EventRule
     dsc        "深紅の魔女をチェック"
@@ -1122,8 +1122,8 @@ module Unlight
     func       :finish_crimson_witch_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# イージス
+  #---------------------------------------------------------------------------------------------
+  # イージス
 
   class CheckAegisPassiveEvent < EventRule
     dsc        "イージスをチェック"
@@ -1155,8 +1155,8 @@ module Unlight
     func       :finish_aegis_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 溟海符
+  #---------------------------------------------------------------------------------------------
+  # 溟海符
 
   class CheckOceanPassiveEvent < EventRule
     dsc        "溟海符をチェック"
@@ -1188,8 +1188,8 @@ module Unlight
     func       :finish_ocean_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 状態抵抗 スキュラ
+  #---------------------------------------------------------------------------------------------
+  # 状態抵抗 スキュラ
   class CheckResistSkyllaPassiveEvent < EventRule
     dsc        "状態抵抗が可能か"
     type       type: :before, obj: "duel", hook: :start_turn_phase
@@ -1197,8 +1197,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 立ち込める夜霧
+  #---------------------------------------------------------------------------------------------
+  # 立ち込める夜霧
 
   class CheckNightFogPassiveEvent < EventRule
     dsc        "立ち込める夜霧をチェック"
@@ -1230,8 +1230,8 @@ module Unlight
     func       :finish_night_fog_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 2つの身体(パッシブ)
+  #---------------------------------------------------------------------------------------------
+  # 2つの身体(パッシブ)
 
   class CheckDoubleBoddyPassiveEvent < EventRule
     dsc        "2つの身体(パッシブ)をチェック"
@@ -1263,8 +1263,8 @@ module Unlight
     func       :finish_double_boddy_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 機知
+  #---------------------------------------------------------------------------------------------
+  # 機知
 
   class CheckWitPassiveEvent < EventRule
     dsc        "機知をチェック"
@@ -1290,8 +1290,8 @@ module Unlight
     func       :finish_wit_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 修羅
+  #---------------------------------------------------------------------------------------------
+  # 修羅
 
   class CheckCurseCarePassiveEvent < EventRule
     dsc        "修羅をチェック"
@@ -1353,8 +1353,8 @@ module Unlight
     func       :finish_curse_care_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 白晄
+  #---------------------------------------------------------------------------------------------
+  # 白晄
 
   class CheckWhiteLightPassiveEvent < EventRule
     dsc        "白晄をチェック"
@@ -1368,8 +1368,8 @@ module Unlight
     func       :finish_white_light_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 甲羅割
+  #---------------------------------------------------------------------------------------------
+  # 甲羅割
 
   class CheckCarapaceBreakPassiveEvent < EventRule
     dsc        "甲羅割をチェック"
@@ -1407,8 +1407,8 @@ module Unlight
     func       :finish_carapace_break_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 身隠し
+  #---------------------------------------------------------------------------------------------
+  # 身隠し
 
   class CheckCarapacePassiveEvent < EventRule
     dsc        "身隠しをチェック"
@@ -1434,8 +1434,8 @@ module Unlight
     func       :finish_carapace_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 状態抵抗 かめ
+  #---------------------------------------------------------------------------------------------
+  # 状態抵抗 かめ
   class CheckResistKamuyPassiveEvent < EventRule
     dsc        "状態抵抗が可能か"
     type       type: :before, obj: "duel", hook: :start_turn_phase
@@ -1457,8 +1457,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# リバイザーズ
+  #---------------------------------------------------------------------------------------------
+  # リバイザーズ
 
   class CheckRevisersPassiveEvent < EventRule
     dsc        "リバイザーズをチェック"
@@ -1478,8 +1478,8 @@ module Unlight
     func       :check_revisers_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# レジストウォール
+  #---------------------------------------------------------------------------------------------
+  # レジストウォール
   class CheckResistWallPassiveEvent < EventRule
     dsc        "レジストウォールが可能か"
     type       type: :before, obj: "owner", hook: :move_phase_init_event
@@ -1508,8 +1508,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 呪印符
+  #---------------------------------------------------------------------------------------------
+  # 呪印符
 
   class CheckCurseSignPassiveEvent < EventRule
     dsc        "溟海符をチェック"
@@ -1547,8 +1547,8 @@ module Unlight
     func       :check_curse_sign_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 従者の忠誠
+  #---------------------------------------------------------------------------------------------
+  # 従者の忠誠
 
   class CheckLoyaltyPassiveEvent < EventRule
     dsc        "従者の忠誠をチェック"
@@ -1586,8 +1586,8 @@ module Unlight
     func       :finish_loyalty_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 精密射撃+
+  #---------------------------------------------------------------------------------------------
+  # 精密射撃+
 
   class CheckAimingPlusPassiveEvent < EventRule
     dsc        "精密射撃+をチェック"
@@ -1619,8 +1619,8 @@ module Unlight
     func       :finish_aiming_plus_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# AC条件緩和
+  #---------------------------------------------------------------------------------------------
+  # AC条件緩和
 
   class CheckEasingCardConditionPassiveEvent < EventRule
     dsc        "精密射撃+をチェック"
@@ -1640,8 +1640,8 @@ module Unlight
     func       :check_easing_card_condition_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 収穫
+  #---------------------------------------------------------------------------------------------
+  # 収穫
 
   class CheckHarvestPassiveEvent < EventRule
     dsc        "収穫をチェック"
@@ -1655,8 +1655,8 @@ module Unlight
     func       :finish_harvest_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# T.D.
+  #---------------------------------------------------------------------------------------------
+  # T.D.
 
   class CheckTdPassiveEvent < EventRule
     dsc        "T.D.をチェック"
@@ -1670,8 +1670,8 @@ module Unlight
     func       :finish_td_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# ムーンシャイン(passive)
+  #---------------------------------------------------------------------------------------------
+  # ムーンシャイン(passive)
 
   class CheckMoonShinePassiveEvent < EventRule
     dsc        "封印攻撃をチェック"
@@ -1691,8 +1691,8 @@ module Unlight
     func       :finish_moon_shine_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 豊穣
+  #---------------------------------------------------------------------------------------------
+  # 豊穣
 
   class CheckFertilityPassiveEvent < EventRule
     dsc        "豊穣をチェック"
@@ -1712,8 +1712,8 @@ module Unlight
     func       :finish_fertility_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 状態抵抗 クエカボチャ
+  #---------------------------------------------------------------------------------------------
+  # 状態抵抗 クエカボチャ
   class CheckResistPumpkinPassiveEvent < EventRule
     dsc        "状態抵抗が可能か"
     type       type: :before, obj: "duel", hook: :start_turn_phase
@@ -1721,8 +1721,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# AWCS
+  #---------------------------------------------------------------------------------------------
+  # AWCS
 
   class CheckAwcsPassiveEvent < EventRule
     dsc        "AWCSをチェック"
@@ -1736,8 +1736,8 @@ module Unlight
     func       :use_awcs_passive_damage
   end
 
-#---------------------------------------------------------------------------------------------
-# 状態抵抗 DW
+  #---------------------------------------------------------------------------------------------
+  # 状態抵抗 DW
   class CheckResistDwPassiveEvent < EventRule
     dsc        "DWが可能か"
     type       type: :before, obj: "duel", hook: :start_turn_phase
@@ -1745,8 +1745,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ロンズブラウイベント
+  #---------------------------------------------------------------------------------------------
+  # ロンズブラウイベント
 
   class CheckLonsbroughEventPassiveEvent < EventRule
     dsc        "LONSBROUGH_EVENTをチェック"
@@ -1772,8 +1772,8 @@ module Unlight
     func       :use_lonsbrough_event_passive_damage
   end
 
-#---------------------------------------------------------------------------------------------
-# 岩石割
+  #---------------------------------------------------------------------------------------------
+  # 岩石割
 
   class CheckRockCrusherPassiveEvent < EventRule
     dsc        "岩石割をチェック"
@@ -1811,8 +1811,8 @@ module Unlight
     func       :finish_rock_crusher_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 交錯する影
+  #---------------------------------------------------------------------------------------------
+  # 交錯する影
 
   class CheckProjectionPassiveChangeEvent < EventRule
     dsc        "交錯する影をチェック"
@@ -1832,8 +1832,8 @@ module Unlight
     func       :finish_projection_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# ダメージ乗算
+  #---------------------------------------------------------------------------------------------
+  # ダメージ乗算
 
   class CheckDamageMultiplierPassiveEvent < EventRule
     dsc        "ダメージ乗算をチェック"
@@ -1871,8 +1871,8 @@ module Unlight
     func       :finish_damage_multiplier_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 2016,6イベント
+  #---------------------------------------------------------------------------------------------
+  # 2016,6イベント
 
   class CheckEv201606PassiveEvent < EventRule
     dsc        "2016,6イベントをチェック"
@@ -1910,8 +1910,8 @@ module Unlight
     func       :finish_ev201606_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 状態抵抗 鯉
+  #---------------------------------------------------------------------------------------------
+  # 状態抵抗 鯉
   class CheckStatusResistanceAquamarinePassiveEvent < EventRule
     dsc        "ミステイクが可能か"
     type       type: :before, obj: "duel", hook: :start_turn_phase
@@ -1919,8 +1919,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 爽涼符
+  #---------------------------------------------------------------------------------------------
+  # 爽涼符
 
   class CheckCoolyPassiveEvent < EventRule
     dsc        "爽涼符をチェック"
@@ -1958,8 +1958,8 @@ module Unlight
     func       :use_cooly_passive_defense
   end
 
-#---------------------------------------------------------------------------------------------
-# 状態抵抗 Byakhee
+  #---------------------------------------------------------------------------------------------
+  # 状態抵抗 Byakhee
   class CheckResistByakheePassiveEvent < EventRule
     dsc        "DWが可能か"
     type       type: :before, obj: "duel", hook: :start_turn_phase
@@ -1967,8 +1967,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 劫火(passive)
+  #---------------------------------------------------------------------------------------------
+  # 劫火(passive)
 
   class CheckDisasterFlamePassiveEvent < EventRule
     dsc        "封印攻撃をチェック"
@@ -1988,8 +1988,8 @@ module Unlight
     func       :finish_disaster_flame_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 荊棘符
+  #---------------------------------------------------------------------------------------------
+  # 荊棘符
 
   class CheckBramblesCardPassiveEvent < EventRule
     dsc        "荊棘符をチェック"
@@ -2021,8 +2021,8 @@ module Unlight
     func       :finish_brambles_card_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 目覚めしもの
+  #---------------------------------------------------------------------------------------------
+  # 目覚めしもの
 
   class CheckAwakeningOnePassiveEvent < EventRule
     dsc        "封印攻撃をチェック"
@@ -2042,8 +2042,8 @@ module Unlight
     func       :finish_awakening_one_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# サーボスカル
+  #---------------------------------------------------------------------------------------------
+  # サーボスカル
 
   class CheckServoSkullPassiveEvent < EventRule
     dsc        "サーボスカルをチェック"
@@ -2075,8 +2075,8 @@ module Unlight
     func       :finish_servo_skull_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 2016,12イベント
+  #---------------------------------------------------------------------------------------------
+  # 2016,12イベント
 
   class CheckEv201612PassiveEvent < EventRule
     dsc        "2016,12イベントをチェック"
@@ -2108,8 +2108,8 @@ module Unlight
     func       :finish_ev201612_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# ハイプロテクション
+  #---------------------------------------------------------------------------------------------
+  # ハイプロテクション
 
   class CheckHighProtectionPassiveEvent < EventRule
     dsc        "ハイプロテクションをチェック"
@@ -2141,8 +2141,8 @@ module Unlight
     func       :finish_high_protection_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# パペットマスター
+  #---------------------------------------------------------------------------------------------
+  # パペットマスター
 
   class CheckPuppetMasterPassiveEvent < EventRule
     dsc        "パペットマスターをチェック"
@@ -2174,8 +2174,8 @@ module Unlight
     func       :finish_puppet_master_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# オーガアーム
+  #---------------------------------------------------------------------------------------------
+  # オーガアーム
 
   class CheckOgreArmPassiveEvent < EventRule
     dsc        "オーガアームをチェック"
@@ -2207,8 +2207,8 @@ module Unlight
     func       :finish_ogre_arm_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 紅の意志
+  #---------------------------------------------------------------------------------------------
+  # 紅の意志
 
   class CheckCrimsonWillPassiveEvent < EventRule
     dsc        "紅の意志をチェック"
@@ -2240,8 +2240,8 @@ module Unlight
     func       :finish_crimson_will_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 生命の守り人
+  #---------------------------------------------------------------------------------------------
+  # 生命の守り人
 
   class CheckGuardianOfLifePassiveEvent < EventRule
     dsc        "生命の守り人をチェック"
@@ -2279,8 +2279,8 @@ module Unlight
     func       :finish_guardian_of_life_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 余焔符
+  #---------------------------------------------------------------------------------------------
+  # 余焔符
 
   class CheckBurningEmbersPassiveEvent < EventRule
     dsc        "爽涼符をチェック"
@@ -2324,8 +2324,8 @@ module Unlight
     func       :use_burning_embers_passive_defense
   end
 
-#---------------------------------------------------------------------------------------------
-# 汎用
+  #---------------------------------------------------------------------------------------------
+  # 汎用
 
   class OnPassiveEvent < EventRule
     dsc        "パッシブがON"
@@ -2347,7 +2347,7 @@ module Unlight
   # イベントの起動チェック関数を列挙する
   CHARA_STATE_EVENT_NO = [
                     [],
-                          # 0
+                    # 0
                     [
                      :check_poison_state_event,
                      :finish_poison_state_event,
@@ -2461,15 +2461,15 @@ module Unlight
                     ],    # 人形状態
                    ]
 
-#---------------------------------------------------------------------------------------------
-# 毒状態
+  #---------------------------------------------------------------------------------------------
+  # 毒状態
 
   class CheckPoisonStateEvent < EventRule
     dsc        "毒状態か"
     type       type: :after, obj: "owner", hook: :move_action
     func       :check_poison_state
-#     type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase
-#     func       :check_poison_state
+    #     type       :type=>:before, :obj=>"duel", :hook=>:determine_move_phase
+    #     func       :check_poison_state
   end
 
   class FinishPoisonStateEvent < EventRule
@@ -2478,8 +2478,8 @@ module Unlight
     func       :finish_poison_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 猛毒状態
+  #---------------------------------------------------------------------------------------------
+  # 猛毒状態
 
   class CheckPoison2StateEvent < EventRule
     dsc        "毒状態か"
@@ -2493,8 +2493,8 @@ module Unlight
     func       :finish_poison2_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 麻痺状態
+  #---------------------------------------------------------------------------------------------
+  # 麻痺状態
 
   class CheckParalysisStateEvent < EventRule
     dsc        "麻痺状態か"
@@ -2508,8 +2508,8 @@ module Unlight
     func       :finish_paralysis_state
   end
 
-#---------------------------------------------------------------------------------------------
-# ATKアップ状態
+  #---------------------------------------------------------------------------------------------
+  # ATKアップ状態
 
   class CheckAttackUpStateEvent < EventRule
     dsc        "ATKアップ状態か"
@@ -2523,8 +2523,8 @@ module Unlight
     func       :finish_attack_up_state
   end
 
-#---------------------------------------------------------------------------------------------
-# ATKダウン状態
+  #---------------------------------------------------------------------------------------------
+  # ATKダウン状態
 
   class CheckAttackDownStateEvent < EventRule
     dsc        "ATKダウン状態か"
@@ -2538,8 +2538,8 @@ module Unlight
     func       :finish_attack_down_state
   end
 
-#---------------------------------------------------------------------------------------------
-# DEFアップ状態
+  #---------------------------------------------------------------------------------------------
+  # DEFアップ状態
 
   class CheckDeffenceUpStateEvent < EventRule
     dsc        "DEFアップ状態か"
@@ -2553,8 +2553,8 @@ module Unlight
     func       :finish_deffence_up_state
   end
 
-#---------------------------------------------------------------------------------------------
-# DEFダウン状態
+  #---------------------------------------------------------------------------------------------
+  # DEFダウン状態
 
   class CheckDeffenceDownStateEvent < EventRule
     dsc        "ATKダウン状態か"
@@ -2568,8 +2568,8 @@ module Unlight
     func       :finish_deffence_down_state
   end
 
-#---------------------------------------------------------------------------------------------
-# バーサーク状態
+  #---------------------------------------------------------------------------------------------
+  # バーサーク状態
 
   class CheckBerserkStateEvent < EventRule
     dsc        "バーサーク状態か"
@@ -2583,8 +2583,8 @@ module Unlight
     func       :finish_berserk_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 停止状態
+  #---------------------------------------------------------------------------------------------
+  # 停止状態
 
   class CheckAttackStopStateEvent < EventRule
     dsc        "停止状態か"
@@ -2604,8 +2604,8 @@ module Unlight
     func       :finish_stop_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 封印状態
+  #---------------------------------------------------------------------------------------------
+  # 封印状態
 
   class CheckSealStateEvent < EventRule
     dsc        "封印状態か"
@@ -2619,8 +2619,8 @@ module Unlight
     func       :finish_seal_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 自壊状態
+  #---------------------------------------------------------------------------------------------
+  # 自壊状態
 
   class CheckDeadCountStateEvent < EventRule
     dsc        "自壊状態か"
@@ -2634,8 +2634,8 @@ module Unlight
     func       :finish_dead_count_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 不死状態
+  #---------------------------------------------------------------------------------------------
+  # 不死状態
 
   class CheckUndeadStateEvent < EventRule
     dsc        "不死状態か"
@@ -2649,8 +2649,8 @@ module Unlight
     func       :finish_undead_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 石化状態
+  #---------------------------------------------------------------------------------------------
+  # 石化状態
 
   class CheckStoneStateEvent < EventRule
     dsc        "石化状態か"
@@ -2664,8 +2664,8 @@ module Unlight
     func       :finish_stone_state
   end
 
-#---------------------------------------------------------------------------------------------
-# MOVEアップ状態
+  #---------------------------------------------------------------------------------------------
+  # MOVEアップ状態
 
   class CheckMoveUpStateEvent < EventRule
     dsc        "MOVEアップ状態か"
@@ -2679,8 +2679,8 @@ module Unlight
     func       :finish_move_up_state
   end
 
-#---------------------------------------------------------------------------------------------
-# MOVEダウン状態
+  #---------------------------------------------------------------------------------------------
+  # MOVEダウン状態
 
   class CheckMoveDownStateEvent < EventRule
     dsc        "MOVEダウン状態か"
@@ -2694,8 +2694,8 @@ module Unlight
     func       :finish_move_down_state
   end
 
-#---------------------------------------------------------------------------------------------
-# リジェネ状態
+  #---------------------------------------------------------------------------------------------
+  # リジェネ状態
 
   class CheckRegeneStateEvent < EventRule
     dsc        "リジェネ状態か"
@@ -2709,8 +2709,8 @@ module Unlight
     func       :finish_regene_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 呪縛状態
+  #---------------------------------------------------------------------------------------------
+  # 呪縛状態
 
   class CheckBindStateEvent < EventRule
     dsc        "呪縛状態か"
@@ -2724,8 +2724,8 @@ module Unlight
     func       :finish_bind_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 混沌状態
+  #---------------------------------------------------------------------------------------------
+  # 混沌状態
 
   class CheckChaosAttackStateEvent < EventRule
     dsc        "混沌状態か"
@@ -2745,8 +2745,8 @@ module Unlight
     func       :finish_chaos_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 聖痕
+  #---------------------------------------------------------------------------------------------
+  # 聖痕
 
   class CheckStigmataAttackStateEvent < EventRule
     dsc        "聖痕状態か"
@@ -2766,8 +2766,8 @@ module Unlight
     func       :finish_stigmata_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 能力低下
+  #---------------------------------------------------------------------------------------------
+  # 能力低下
 
   class CheckStateDownAttackStateEvent < EventRule
     dsc        "能力低下状態か"
@@ -2787,8 +2787,8 @@ module Unlight
     func       :finish_state_down_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 棍術状態
+  #---------------------------------------------------------------------------------------------
+  # 棍術状態
 
   class CheckAttackStickStateEvent < EventRule
     dsc        "棍術状態か"
@@ -2808,8 +2808,8 @@ module Unlight
     func       :finish_stick_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 能力低下
+  #---------------------------------------------------------------------------------------------
+  # 能力低下
 
   class CheckStateDownAttackStateEvent < EventRule
     dsc        "能力低下状態か"
@@ -2829,8 +2829,8 @@ module Unlight
     func       :finish_state_down_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 詛呪
+  #---------------------------------------------------------------------------------------------
+  # 詛呪
 
   class CheckCurseAttackStateEvent < EventRule
     dsc        "詛呪によるダメージ制限"
@@ -2838,8 +2838,8 @@ module Unlight
     func       :check_curse_attack_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 臨界
+  #---------------------------------------------------------------------------------------------
+  # 臨界
 
   class CheckBlessAttackStateEvent < EventRule
     dsc        "臨界の空イベント"
@@ -2853,8 +2853,8 @@ module Unlight
     func       :check_bless_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 不死2状態
+  #---------------------------------------------------------------------------------------------
+  # 不死2状態
 
   class CheckUndead2StateEvent < EventRule
     dsc        "不死2状態か"
@@ -2868,8 +2868,8 @@ module Unlight
     func       :finish_undead2_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 操想状態
+  #---------------------------------------------------------------------------------------------
+  # 操想状態
 
   class CheckControlStateEvent < EventRule
     dsc        "操想状態か"
@@ -2883,23 +2883,23 @@ module Unlight
     func       :finish_control_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 暗黒状態
+  #---------------------------------------------------------------------------------------------
+  # 暗黒状態
   class FinishDarkStateEvent < EventRule
     dsc        "暗黒状態が終了"
     type       type: :before, obj: "duel", hook: :finish_turn_phase
     func       :finish_dark_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 人形状態
+  #---------------------------------------------------------------------------------------------
+  # 人形状態
   class FinishDollStateEvent < EventRule
     dsc        "暗黒状態が終了"
     type       type: :after, obj: "duel", hook: :determine_move_phase
     func       :finish_doll_state
   end
 
-# 汎用
+  # 汎用
 
   class OnBuffEvent < EventRule
     dsc        "状態付加がON"
@@ -2951,8 +2951,8 @@ module Unlight
                           ],    # フィールド状態チェック
                          ]
 
-#---------------------------------------------------------------------------------------------
-# トラップチェック
+  #---------------------------------------------------------------------------------------------
+  # トラップチェック
 
   class ProgressTrapEvent < EventRule
     dsc        "ターンの最後に自身のトラップの状態を進行させる"
@@ -2996,8 +2996,8 @@ module Unlight
     func       :open_trap_check
   end
 
-#---------------------------------------------------------------------------------------------
-# 結界
+  #---------------------------------------------------------------------------------------------
+  # 結界
 
   class CheckBarrierStateEvent < EventRule
     dsc        "結界による無敵状態イベント"
@@ -3005,8 +3005,8 @@ module Unlight
     func       :check_barrier_state
   end
 
-#---------------------------------------------------------------------------------------------
-# かばわれ状態
+  #---------------------------------------------------------------------------------------------
+  # かばわれ状態
 
   class CheckHarbourEvent < EventRule
     dsc        "かばわれによるダメージ無効化イベント"
@@ -3014,8 +3014,8 @@ module Unlight
     func       :check_harbour
   end
 
-#---------------------------------------------------------------------------------------------
-# フィールド状態の自動アップデート
+  #---------------------------------------------------------------------------------------------
+  # フィールド状態の自動アップデート
 
   class CheckFieldStatusDetChangeEvent < EventRule
     dsc        "フェイズ前のエイリアス設定"
@@ -3041,8 +3041,8 @@ module Unlight
     func       :check_field_status_finish_turn
   end
 
-#---------------------------------------------------------------------------------------------
-# アクションカードのリセット
+  #---------------------------------------------------------------------------------------------
+  # アクションカードのリセット
 
   # class ClearRewritenValueStartTurnEvent < EventRule
   #   dsc        "レイドボス用のクリア"
@@ -3053,12 +3053,12 @@ module Unlight
   # アイコンとして表示しない、解除不可能な状態異常。技無効化等で解除される
   CHARA_SPECIAL_STATE_EVENT_NO = [
                     [],
-                          # 0
+                    # 0
                     [
                      :check_cat_state_attack_event,
                      :check_cat_state_defence_event,
                      :finish_cat_state_event,
-                    ],    # 1 猫状態
+                    ], # 1 猫状態
                     [],    # 2 アンチセプチック 実体は技の内部で実装
                     [],    # 3 シャープンエッジ状態 実体は技の方で実装
                     [],    # 4 控えでダメージ無効 フラグとして使う
@@ -3105,8 +3105,8 @@ module Unlight
                     ],    # 16 アクスガード 終了チェック Rフロレ
                                 ]
 
-#---------------------------------------------------------------------------------------------
-# 猫状態
+  #---------------------------------------------------------------------------------------------
+  # 猫状態
 
   class CheckCatStateAttackEvent < EventRule
     dsc        "攻撃力固定 この後に聖痕・ATK補正を加算する"
@@ -3126,8 +3126,8 @@ module Unlight
     func       :finish_cat_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 一時的な手札制限
+  #---------------------------------------------------------------------------------------------
+  # 一時的な手札制限
 
   class CheckDealingRestrictionStateEvent < EventRule
     dsc        "ヴンダーカンマーが可能か"
@@ -3141,8 +3141,8 @@ module Unlight
     func       :finish_dealing_restriction_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 行動制限状態
+  #---------------------------------------------------------------------------------------------
+  # 行動制限状態
 
   class CheckConstraintStateEvent < EventRule
     dsc        "コンストレイント状態チェック"
@@ -3156,8 +3156,8 @@ module Unlight
     func       :finish_constraint_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 磁場状態 スキルによる移動禁止
+  #---------------------------------------------------------------------------------------------
+  # 磁場状態 スキルによる移動禁止
 
   class FinishMagneticFieldStateEvent < EventRule
     dsc        "コンストレイント終了"
@@ -3165,8 +3165,8 @@ module Unlight
     func       :finish_magnetic_field_state
   end
 
-#---------------------------------------------------------------------------------------------
-# ヌイグルミ
+  #---------------------------------------------------------------------------------------------
+  # ヌイグルミ
 
   class CheckStuffedToysStateDamageEvent < EventRule
     dsc        "追加攻撃"
@@ -3186,8 +3186,8 @@ module Unlight
     event      :finish
   end
 
-#---------------------------------------------------------------------------------------------
-# 監視状態の終了チェック
+  #---------------------------------------------------------------------------------------------
+  # 監視状態の終了チェック
 
   class UseMonitoringStateHealBeforeEvent < EventRule
     dsc        "コンストレイント終了"
@@ -3219,8 +3219,8 @@ module Unlight
     func       :finish_monitoring_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 時差ドロー状態の終了チェック
+  #---------------------------------------------------------------------------------------------
+  # 時差ドロー状態の終了チェック
 
   class FinishTimeLagDrawStateEvent < EventRule
     dsc        "コンストレイント終了"
@@ -3228,8 +3228,8 @@ module Unlight
     func       :finish_time_lag_draw_state
   end
 
-#---------------------------------------------------------------------------------------------
-# 時差バフ状態の終了チェック
+  #---------------------------------------------------------------------------------------------
+  # 時差バフ状態の終了チェック
 
   class FinishTimeLagBuffStateChangeEvent < EventRule
     dsc        "コンストレイント終了"
@@ -3237,8 +3237,8 @@ module Unlight
     func       :finish_time_lag_buff_state
   end
 
-#---------------------------------------------------------------------------------------------
-# マシンセル状態 Rエイダ
+  #---------------------------------------------------------------------------------------------
+  # マシンセル状態 Rエイダ
 
   class CheckMachineCellStateEvent < EventRule
     dsc        "使用"
@@ -3258,8 +3258,8 @@ module Unlight
     func       :finish_machine_cell_state
   end
 
-#---------------------------------------------------------------------------------------------
-# アクスガード状態 Rエイダ
+  #---------------------------------------------------------------------------------------------
+  # アクスガード状態 Rエイダ
 
   class CheckAxGuardStateEvent < EventRule
     dsc        "使用"
@@ -3287,7 +3287,7 @@ module Unlight
   # イベントの起動チェック関数を列挙する
   CHARA_FEAT_EVENT_NO = [
                     nil,
-                        # 0
+                    # 0
                     [
                      :check_add_smash_feat_event,
                      :check_remove_smash_feat_event,
@@ -3317,7 +3317,7 @@ module Unlight
                      :use_combo_feat_event,
                      :finish_combo_feat_event,
                     ],
-                        # 4
+                    # 4
                     [:check_add_thorn_feat_event,
                      :check_remove_thorn_feat_event,
                      :check_rotate_thorn_feat_event,
@@ -3325,14 +3325,14 @@ module Unlight
                      :use_thorn_feat_damage_event,
                      :finish_thorn_feat_event,
                     ],
-                        # 5
+                    # 5
                     [:check_add_charge_feat_event,
                      :check_remove_charge_feat_event,
                      :check_rotate_charge_feat_event,
                      :use_charge_feat_event,
                      :finish_charge_feat_event,
                     ],
-                        # 6
+                    # 6
                     [:check_add_mirage_feat_event,
                      :check_remove_mirage_feat_event,
                      :check_rotate_mirage_feat_event,
@@ -3340,7 +3340,7 @@ module Unlight
                      :use_mirage_feat_event,
                      :finish_mirage_feat_event,
                     ],
-                        # 7
+                    # 7
                     [:check_add_frenzy_eyes_feat_event,
                      :check_remove_frenzy_eyes_feat_event,
                      :check_rotate_frenzy_eyes_feat_event,
@@ -3348,34 +3348,34 @@ module Unlight
                      :use_frenzy_eyes_feat_damage_event,
                      :finish_frenzy_eyes_feat_event,
                     ],
-                        # 8 狂気の眼窩
+                    # 8 狂気の眼窩
                     [:check_add_abyss_feat_event,
                      :check_remove_abyss_feat_event,
                      :check_rotate_abyss_feat_event,
                      :use_abyss_feat_event,
                      :finish_abyss_feat_event,
                     ],
-                        # 9 深淵
+                    # 9 深淵
                     [:check_add_rapid_sword_feat_event,
                      :check_remove_rapid_sword_feat_event,
                      :check_rotate_rapid_sword_feat_event,
                      :use_rapid_sword_feat_event,
                      :finish_rapid_sword_feat_event,
                     ],
-                        # 10 神速の剣
+                    # 10 神速の剣
                     [:check_add_anger_feat_event,
                      :check_remove_anger_feat_event,
                      :check_rotate_anger_feat_event,
                      :use_anger_feat_event,
                      :finish_anger_feat_event,
                     ],
-                        # 11 怒りの一撃
+                    # 11 怒りの一撃
                     [:check_add_power_stock_feat_event,
                      :check_remove_power_stock_feat_event,
                      :check_rotate_power_stock_feat_event,
                      :finish_power_stock_feat_event,
                     ],
-                        # 12 必殺の構え
+                    # 12 必殺の構え
                     [:check_add_shadow_shot_feat_event,
                      :check_remove_shadow_shot_feat_event,
                      :check_rotate_shadow_shot_feat_event,
@@ -3383,7 +3383,7 @@ module Unlight
                      :use_shadow_shot_feat_damage_event,
                      :finish_shadow_shot_feat_event,
                     ],
-                        # 13 影撃ち
+                    # 13 影撃ち
                     [:check_add_red_fang_feat_event,
                      :check_remove_red_fang_feat_event,
                      :check_rotate_red_fang_feat_event,
@@ -3391,7 +3391,7 @@ module Unlight
                      :use_red_fang_feat_damage_event,
                      :finish_red_fang_feat_event,
                     ],
-                        # 14
+                    # 14
                     [:check_add_blessing_blood_feat_event,
                      :check_remove_blessing_blood_feat_event,
                      :check_rotate_blessing_blood_feat_event,
@@ -3399,14 +3399,14 @@ module Unlight
                      :use_blessing_blood_feat_damage_event,
                      :finish_blessing_blood_feat_event,
                     ],
-                        # 15
+                    # 15
                     [:check_add_counter_preparation_feat_event,
                      :check_remove_counter_preparation_feat_event,
                      :check_rotate_counter_preparation_feat_event,
                      :use_counter_preparation_feat_damage_event,
                      :finish_counter_preparation_feat_event,
                     ],
-                        # 16
+                    # 16
                     [:check_add_karmic_time_feat_event,
                      :check_remove_karmic_time_feat_event,
                      :check_rotate_karmic_time_feat_event,
@@ -3414,20 +3414,20 @@ module Unlight
                      :finish_chara_change_karmic_time_feat_event,
                      :finish_foe_chara_change_karmic_time_feat_event,
                     ],
-                        # 17
+                    # 17
                     [:check_add_karmic_ring_feat_event,
                      :check_remove_karmic_ring_feat_event,
                      :check_rotate_karmic_ring_feat_event,
                      :use_karmic_ring_feat_event,
                      :finish_karmic_ring_feat_event,
                     ],
-                        # 18 因果の輪
+                    # 18 因果の輪
                     [:check_add_karmic_string_feat_event,
                      :check_remove_karmic_string_feat_event,
                      :check_rotate_karmic_string_feat_event,
                      :use_karmic_string_feat_event,
                     ],
-                        # 19
+                    # 19
                     [
                      :check_add_hi_smash_feat_event,
                      :check_remove_hi_smash_feat_event,
@@ -3435,14 +3435,14 @@ module Unlight
                      :use_hi_smash_feat_event,
                      :finish_hi_smash_feat_event,
                     ],
-                        # 20
+                    # 20
                     [
                      :check_add_hi_power_stock_feat_event,
                      :check_remove_hi_power_stock_feat_event,
                      :check_rotate_hi_power_stock_feat_event,
                      :finish_hi_power_stock_feat_event,
                     ],
-                        # 21
+                    # 21
                     [
                      :check_add_hi_aiming_feat_event,
                      :check_remove_hi_aiming_feat_event,
@@ -3450,20 +3450,20 @@ module Unlight
                      :use_hi_aiming_feat_event,
                      :finish_hi_aiming_feat_event,
                     ],
-                        # 22
+                    # 22
                     [:check_add_hi_rapid_sword_feat_event,
                      :check_remove_hi_rapid_sword_feat_event,
                      :check_rotate_hi_rapid_sword_feat_event,
                      :use_hi_rapid_sword_feat_event,
                      :finish_hi_rapid_sword_feat_event,
                     ],
-                        # 23
+                    # 23
                     [:check_add_hi_karmic_string_feat_event,
                      :check_remove_hi_karmic_string_feat_event,
                      :check_rotate_hi_karmic_string_feat_event,
                      :use_hi_karmic_string_feat_event,
                     ],
-                        # 24
+                    # 24
                     [:check_add_hi_frenzy_eyes_feat_event,
                      :check_remove_hi_frenzy_eyes_feat_event,
                      :check_rotate_hi_frenzy_eyes_feat_event,
@@ -3471,7 +3471,7 @@ module Unlight
                      :use_hi_frenzy_eyes_feat_damage_event,
                      :finish_hi_frenzy_eyes_feat_event,
                     ],
-                        # 25
+                    # 25
                     [:check_add_hi_shadow_shot_feat_event,
                      :check_remove_hi_shadow_shot_feat_event,
                      :check_rotate_hi_shadow_shot_feat_event,
@@ -3479,13 +3479,13 @@ module Unlight
                      :use_hi_shadow_shot_feat_damage_event,
                      :finish_hi_shadow_shot_feat_event,
                     ],
-                        # 26
+                    # 26
                     [:check_add_land_mine_feat_event,
                      :check_remove_land_mine_feat_event,
                      :check_rotate_land_mine_feat_event,
                      :use_land_mine_feat_event,
                     ],
-                        # 27 地雷
+                    # 27 地雷
                     [
                      :check_add_desperado_feat_event,
                      :check_remove_desperado_feat_event,
@@ -3493,7 +3493,7 @@ module Unlight
                      :use_desperado_feat_event,
                      :finish_desperado_feat_event,
                     ],
-                        # 28
+                    # 28
                     [
                      :check_add_reject_sword_feat_event,
                      :check_remove_reject_sword_feat_event,
@@ -3501,7 +3501,7 @@ module Unlight
                      :use_reject_sword_feat_event,
                      :finish_reject_sword_feat_event,
                     ],
-                        # 29
+                    # 29
                     [
                      :check_add_counter_guard_feat_event,
                      :check_remove_counter_guard_feat_event,
@@ -3510,14 +3510,14 @@ module Unlight
                      :use_counter_guard_feat_dice_attr_event,
                      :finish_counter_guard_feat_event,
                     ],
-                        # 30 カウンターガード
+                    # 30 カウンターガード
                     [
                      :check_add_pain_flee_feat_event,
                      :check_remove_pain_flee_feat_event,
                      :check_rotate_pain_flee_feat_event,
                      :finish_pain_flee_feat_event,
                     ],
-                        # 31
+                    # 31
                     [
                      :check_add_body_of_light_feat_event,
                      :check_remove_body_of_light_feat_event,
@@ -3525,7 +3525,7 @@ module Unlight
                      :use_body_of_light_feat_event,
                      :finish_body_of_light_feat_event,
                     ],
-                        # 32 光の移し身
+                    # 32 光の移し身
                     [:check_add_seal_chain_feat_event,
                      :check_remove_seal_chain_feat_event,
                      :check_rotate_seal_chain_feat_event,
@@ -3533,7 +3533,7 @@ module Unlight
                      :use_seal_chain_feat_damage_event,
                      :finish_seal_chain_feat_event,
                     ],
-                        # 33 封印の鎖
+                    # 33 封印の鎖
                     [
                      :check_add_purification_light_feat_event,
                      :check_remove_purification_light_feat_event,
@@ -3542,19 +3542,19 @@ module Unlight
                      :use_purification_light_feat_damage_event,
                      :finish_purification_light_feat_event,
                     ],
-                        # 34
+                    # 34
                     [:check_add_craftiness_feat_event,
                      :check_remove_craftiness_feat_event,
                      :check_rotate_craftiness_feat_event,
                      :finish_craftiness_feat_event,
                     ],
-                        # 35 知略
+                    # 35 知略
                     [:check_add_land_bomb_feat_event,
                      :check_remove_land_bomb_feat_event,
                      :check_rotate_land_bomb_feat_event,
                      :use_land_bomb_feat_event,
                     ],
-                        # 36 地雷2
+                    # 36 地雷2
                     [
                      :check_add_reject_blade_feat_event,
                      :check_remove_reject_blade_feat_event,
@@ -3562,7 +3562,7 @@ module Unlight
                      :use_reject_blade_feat_event,
                      :finish_reject_blade_feat_event,
                     ],
-                        # 37 リジェクトブレイド
+                    # 37 リジェクトブレイド
                     [
                      :check_add_spell_chain_feat_event,
                      :check_remove_spell_chain_feat_event,
@@ -3571,7 +3571,7 @@ module Unlight
                      :use_spell_chain_feat_damage_event,
                      :finish_spell_chain_feat_event,
                     ],
-                        # 38 呪縛の鎖
+                    # 38 呪縛の鎖
                     [
                      :check_add_indomitable_mind_feat_event,
                      :check_remove_indomitable_mind_feat_event,
@@ -3581,14 +3581,14 @@ module Unlight
                      :finish_indomitable_mind_feat_event,
                      :finish_indomitable_mind_feat_dead_chara_change_event,
                     ],
-                        # 39 不屈の心
+                    # 39 不屈の心
                     [
                      :check_add_drain_soul_feat_event,
                      :check_remove_drain_soul_feat_event,
                      :check_rotate_drain_soul_feat_event,
                      :use_drain_soul_feat_event,
                     ],
-                        # 40 精神力吸収
+                    # 40 精神力吸収
                     [
                      :check_add_back_stab_feat_event,
                      :check_remove_back_stab_feat_event,
@@ -3596,14 +3596,14 @@ module Unlight
                      :use_back_stab_feat_event,
                      :finish_back_stab_feat_event,
                     ],
-                        # 41 バックスタブ
+                    # 41 バックスタブ
                     [
                      :check_add_enlightened_feat_event,
                      :check_remove_enlightened_feat_event,
                      :check_rotate_enlightened_feat_event,
                      :use_enlightened_feat_event,
                     ],
-                        # 42 見切り
+                    # 42 見切り
                     [
                      :check_add_dark_whirlpool_feat_event,
                      :check_remove_dark_whirlpool_feat_event,
@@ -3611,7 +3611,7 @@ module Unlight
                      :use_dark_whirlpool_feat_event,
                      :use_dark_whirlpool_feat_damage_event,
                     ],
-                        # 43 暗黒の渦
+                    # 43 暗黒の渦
                     [
                      :check_add_karmic_phantom_feat_event,
                      :check_remove_karmic_phantom_feat_event,
@@ -3619,21 +3619,21 @@ module Unlight
                      :use_karmic_phantom_feat_event,
                      :finish_karmic_phantom_feat_event,
                     ],
-                        # 44 因果の幻
+                    # 44 因果の幻
                     [
                      :check_add_recovery_wave_feat_event,
                      :check_remove_recovery_wave_feat_event,
                      :check_rotate_recovery_wave_feat_event,
                      :finish_recovery_wave_feat_event,
                     ],
-                        # 45 治癒の波動
+                    # 45 治癒の波動
                     [
                      :check_add_self_destruction_feat_event,
                      :check_remove_self_destruction_feat_event,
                      :check_rotate_self_destruction_feat_event,
                      :finish_self_destruction_feat_event,
                     ],
-                        # 46 自爆
+                    # 46 自爆
                     [
                      :check_add_deffence_shooting_feat_event,
                      :check_remove_deffence_shooting_feat_event,
@@ -3641,14 +3641,14 @@ module Unlight
                      :use_deffence_shooting_feat_event,
                      :use_deffence_shooting_feat_damage_event,
                     ],
-                        # 47 防護射撃
+                    # 47 防護射撃
                     [
                      :check_add_recovery_feat_event,
                      :check_remove_recovery_feat_event,
                      :check_rotate_recovery_feat_event,
                      :finish_recovery_feat_event,
                     ],
-                        # 48 再生
+                    # 48 再生
                     [
                      :check_add_shadow_attack_feat_event,
                      :check_remove_shadow_attack_feat_event,
@@ -3656,7 +3656,7 @@ module Unlight
                      :use_shadow_attack_feat_event,
                      :finish_shadow_attack_feat_event,
                     ],
-                        # 49 幻影
+                    # 49 幻影
                     [
                      :check_add_suicidal_tendencies_feat_event,
                      :check_remove_suicidal_tendencies_feat_event,
@@ -3664,7 +3664,7 @@ module Unlight
                      :use_suicidal_tendencies_feat_event,
                      :finish_suicidal_tendencies_feat_event,
                     ],
-                        # 50 スーサイダルテンデンシー
+                    # 50 スーサイダルテンデンシー
                     [:check_add_misfit_feat_event,
                      :check_remove_misfit_feat_event,
                      :check_rotate_misfit_feat_event,
@@ -3672,13 +3672,13 @@ module Unlight
                      :use_misfit_feat_damage_event,
                      :finish_misfit_feat_event,
                     ],
-                        # 51 ミスフィット
+                    # 51 ミスフィット
                     [:check_add_big_bragg_feat_event,
                      :check_remove_big_bragg_feat_event,
                      :check_rotate_big_bragg_feat_event,
                      :finish_big_bragg_feat_event,
                     ],
-                        # 52 ビッグブラッグ
+                    # 52 ビッグブラッグ
                     [
                      :check_add_lets_knife_feat_event,
                      :check_remove_lets_knife_feat_event,
@@ -3686,14 +3686,14 @@ module Unlight
                      :use_lets_knife_feat_event,
                      :finish_lets_knife_feat_event,
                     ],
-                        # 53 レッツナイフ
+                    # 53 レッツナイフ
                     [
                      :check_add_single_heart_feat_event,
                      :check_remove_single_heart_feat_event,
                      :check_rotate_single_heart_feat_event,
                      :use_single_heart_feat_event,
                     ],
-                        # 54 1つの心
+                    # 54 1つの心
                     [
                      :check_add_double_body_feat_event,
                      :check_remove_double_body_feat_event,
@@ -3702,14 +3702,14 @@ module Unlight
                      :use_double_body_feat_damage_event,
                      :finish_double_body_feat_event,
                     ],
-                        # 55 2つの身体
+                    # 55 2つの身体
                     [:check_add_nine_soul_feat_event,
                      :check_remove_nine_soul_feat_event,
                      :check_rotate_nine_soul_feat_event,
                      :use_nine_soul_feat_event,
                      :finish_nine_soul_feat_event,
                     ],
-                        # 56 9つの魂
+                    # 56 9つの魂
 
                     [
                      :check_add_thirteen_eyes_feat_event,
@@ -3720,7 +3720,7 @@ module Unlight
                      :finish_thirteen_eyes_feat_event,
                      :use_thirteen_eyes_feat_damage_event,
                     ],
-                        # 57 13の眼
+                    # 57 13の眼
                     [:check_add_life_drain_feat_event,
                      :check_remove_life_drain_feat_event,
                      :check_rotate_life_drain_feat_event,
@@ -3728,7 +3728,7 @@ module Unlight
                      :use_life_drain_feat_damage_event,
                      :finish_life_drain_feat_event,
                     ],
-                        # 58 ライフドレイン
+                    # 58 ライフドレイン
                     [:check_add_random_curse_feat_event,
                      :check_remove_random_curse_feat_event,
                      :check_rotate_random_curse_feat_event,
@@ -3736,14 +3736,14 @@ module Unlight
                      :use_random_curse_feat_damage_event,
                      :finish_random_curse_feat_event,
                     ],
-                        # 59 ランダムカース
+                    # 59 ランダムカース
                     [:check_add_heal_voice_feat_event,
                      :check_remove_heal_voice_feat_event,
                      :check_rotate_heal_voice_feat_event,
                      :use_heal_voice_feat_event,
                      :finish_heal_voice_feat_event,
                     ],
-                        # 60 癒しの声
+                    # 60 癒しの声
                     [
                      :check_add_double_attack_feat_event,
                      :check_remove_double_attack_feat_event,
@@ -3751,7 +3751,7 @@ module Unlight
                      :use_double_attack_feat_event,
                      :finish_double_attack_feat_event,
                     ],
-                        # 61 ダブルアタック
+                    # 61 ダブルアタック
                     [
                      :check_add_party_damage_feat_event,
                      :check_remove_party_damage_feat_event,
@@ -3759,7 +3759,7 @@ module Unlight
                      :use_party_damage_feat_event,
                      :finish_party_damage_feat_event,
                     ],
-                        # 62 全体攻撃
+                    # 62 全体攻撃
                     [
                      :check_add_guard_feat_event,
                      :check_remove_guard_feat_event,
@@ -3768,7 +3768,7 @@ module Unlight
                      :use_guard_feat_damage_event,
                      :finish_guard_feat_event,
                     ],
-                        # 63 ダメージ軽減
+                    # 63 ダメージ軽減
 
                     [
                      :check_add_death_control_feat_event,
@@ -3778,7 +3778,7 @@ module Unlight
                      :use_death_control_feat_damage_event,
                      :finish_death_control_feat_event,
                     ],
-                        # 64 自壊攻撃
+                    # 64 自壊攻撃
                     [
                      :check_add_wit_feat_event,
                      :check_remove_wit_feat_event,
@@ -3786,7 +3786,7 @@ module Unlight
                      :use_wit_feat_event,
                      :finish_wit_feat_event,
                     ],
-                        # 65 機知
+                    # 65 機知
                     [
                      :check_add_thorn_care_feat_event,
                      :check_remove_thorn_care_feat_event,
@@ -3795,7 +3795,7 @@ module Unlight
                      :use_thorn_care_feat_damage_event,
                      :finish_thorn_care_feat_event,
                     ],
-                        # 66 茨の構え
+                    # 66 茨の構え
                     [
                      :check_add_liberating_sword_feat_event,
                      :check_remove_liberating_sword_feat_event,
@@ -3804,7 +3804,7 @@ module Unlight
                      :use_liberating_sword_feat_damage_event,
                      :finish_liberating_sword_feat_event,
                     ],
-                        # 67 解放剣
+                    # 67 解放剣
                     [
                      :check_add_one_slash_feat_event,
                      :check_remove_one_slash_feat_event,
@@ -3813,7 +3813,7 @@ module Unlight
                      :use_one_slash_feat_damage_event,
                      :finish_one_slash_feat_event,
                     ],
-                        # 68 一閃
+                    # 68 一閃
                     [
                      :check_add_ten_slash_feat_event,
                      :check_remove_ten_slash_feat_event,
@@ -3821,7 +3821,7 @@ module Unlight
                      :use_ten_slash_feat_event,
                      :finish_ten_slash_feat_event,
                     ],
-                        # 69 十閃
+                    # 69 十閃
                     [
                      :check_add_handled_slash_feat_event,
                      :check_remove_handled_slash_feat_event,
@@ -3830,7 +3830,7 @@ module Unlight
                      :use_handled_slash_feat_damage_event,
                      :finish_handled_slash_feat_event,
                     ],
-                        # 70 百閃
+                    # 70 百閃
                     [
                      :check_add_curse_care_feat_event,
                      :check_remove_curse_care_feat_event,
@@ -3842,7 +3842,7 @@ module Unlight
                      :use_curse_care_feat_heal3_event,
                      :use_curse_care_feat_heal_det_bp_event,
                     ],
-                        # 71 修羅の構え
+                    # 71 修羅の構え
                     [
                      :check_add_moon_shine_feat_event,
                      :check_remove_moon_shine_feat_event,
@@ -3850,7 +3850,7 @@ module Unlight
                      :use_moon_shine_feat_event,
                      :finish_moon_shine_feat_event,
                     ],
-                        # 72 ムーンシャイン
+                    # 72 ムーンシャイン
                     [
                      :check_add_rapture_feat_event,
                      :check_remove_rapture_feat_event,
@@ -3859,28 +3859,28 @@ module Unlight
                      :use_rapture_feat_damage_event,
                      :finish_rapture_feat_event,
                     ],
-                        # 73 ラプチュア
+                    # 73 ラプチュア
                     [
                      :check_add_doomsday_feat_event,
                      :check_remove_doomsday_feat_event,
                      :check_rotate_doomsday_feat_event,
                      :finish_doomsday_feat_event,
                     ],
-                        # 74 ドゥームスデイ
+                    # 74 ドゥームスデイ
                     [
                      :check_add_hell_feat_event,
                      :check_remove_hell_feat_event,
                      :check_rotate_hell_feat_event,
                      :finish_hell_feat_event,
                     ],
-                        # 75 hellboundheart
+                    # 75 hellboundheart
                     [
                      :check_add_awaking_feat_event,
                      :check_remove_awaking_feat_event,
                      :check_rotate_awaking_feat_event,
                      :finish_awaking_feat_event,
                     ],
-                        # 76 スーパーヒロイン
+                    # 76 スーパーヒロイン
                     [
                      :check_add_moving_one_feat_event,
                      :check_remove_moving_one_feat_event,
@@ -3888,7 +3888,7 @@ module Unlight
                      :use_moving_one_feat_event,
                      :finish_moving_one_feat_event,
                     ],
-                        # 77 近距離移動
+                    # 77 近距離移動
                     [
                      :check_add_arrogant_one_feat_event,
                      :check_remove_arrogant_one_feat_event,
@@ -3896,7 +3896,7 @@ module Unlight
                      :use_arrogant_one_feat_event,
                      :finish_arrogant_one_feat_event,
                     ],
-                        # 78 下位防御
+                    # 78 下位防御
                     [
                      :check_add_eating_one_feat_event,
                      :check_remove_eating_one_feat_event,
@@ -3904,20 +3904,20 @@ module Unlight
                      :use_eating_one_feat_event,
                      :finish_eating_one_feat_event,
                     ],
-                        # 79 食らうもの
+                    # 79 食らうもの
                     [
                      :check_add_reviving_one_feat_event,
                      :check_remove_reviving_one_feat_event,
                      :check_rotate_reviving_one_feat_event,
                      :finish_reviving_one_feat_event,
                     ],
-                        # 80 蘇るもの
+                    # 80 蘇るもの
                     [:check_add_white_light_feat_event,
                      :check_remove_white_light_feat_event,
                      :check_rotate_white_light_feat_event,
                      :finish_white_light_feat_event,
                     ],
-                        # 81 ホワイトライト
+                    # 81 ホワイトライト
                     [:check_add_crystal_shield_feat_event,
                      :check_remove_crystal_shield_feat_event,
                      :check_rotate_crystal_shield_feat_event,
@@ -3925,7 +3925,7 @@ module Unlight
                      :use_after_crystal_shield_feat_event,
                      :finish_crystal_shield_feat_event,
                     ],
-                        # 82 クリスタル・M
+                    # 82 クリスタル・M
                     [
                      :check_add_snow_balling_feat_event,
                      :check_remove_snow_balling_feat_event,
@@ -3935,7 +3935,7 @@ module Unlight
                      :use_snow_balling_feat_const_damage_event,
                      :finish_snow_balling_feat_event,
                     ],
-                        # 83 スノーボーリング
+                    # 83 スノーボーリング
                     [
                      :check_add_solvent_rain_feat_event,
                      :check_remove_solvent_rain_feat_event,
@@ -3943,14 +3943,14 @@ module Unlight
                      :use_solvent_rain_feat_event,
                      :finish_solvent_rain_feat_event,
                     ],
-                        # 84 ソルベント・レイン
+                    # 84 ソルベント・レイン
                     [
                      :check_add_awaking_door_feat_event,
                      :check_remove_awaking_door_feat_event,
                      :check_rotate_awaking_door_feat_event,
                      :finish_awaking_door_feat_event,
                     ],
-                        # 85 知覚の扉
+                    # 85 知覚の扉
                     [
                      :check_add_over_dose_feat_event,
                      :check_remove_over_dose_feat_event,
@@ -3958,7 +3958,7 @@ module Unlight
                      :use_over_dose_feat_event,
                      :finish_over_dose_feat_event,
                     ],
-                        # 86 オーバードウズ
+                    # 86 オーバードウズ
 
                     [
                      :check_add_razors_edge_feat_event,
@@ -3969,42 +3969,42 @@ module Unlight
                      :use_razors_edge_feat_dice_attr_event,
                      :finish_razors_edge_feat_event,
                     ],
-                        # 87 レイザーズエッジ
+                    # 87 レイザーズエッジ
                     [
                      :check_add_hells_bell_feat_event,
                      :check_remove_hells_bell_feat_event,
                      :check_rotate_hells_bell_feat_event,
                      :finish_hells_bell_feat_event,
                     ],
-                        # 88 ヘルズベル
+                    # 88 ヘルズベル
                     [
                      :check_add_drain_seed_feat_event,
                      :check_remove_drain_seed_feat_event,
                      :check_rotate_drain_seed_feat_event,
                      :finish_drain_seed_feat_event,
                     ],
-                        # 89 ドレインシード
+                    # 89 ドレインシード
                     [
                      :check_add_atk_drain_feat_event,
                      :check_remove_atk_drain_feat_event,
                      :check_rotate_atk_drain_feat_event,
                      :finish_atk_drain_feat_event,
                     ],
-                        # 90 攻撃吸収
+                    # 90 攻撃吸収
                     [
                      :check_add_def_drain_feat_event,
                      :check_remove_def_drain_feat_event,
                      :check_rotate_def_drain_feat_event,
                      :finish_def_drain_feat_event,
                     ],
-                        # 91 防御吸収
+                    # 91 防御吸収
                     [
                      :check_add_mov_drain_feat_event,
                      :check_remove_mov_drain_feat_event,
                      :check_rotate_mov_drain_feat_event,
                      :finish_mov_drain_feat_event,
                     ],
-                        # 92 移動吸収
+                    # 92 移動吸収
                     [
                      :check_add_poison_skin_feat_event,
                      :check_remove_poison_skin_feat_event,
@@ -4013,28 +4013,28 @@ module Unlight
                      :use_poison_skin_feat_damage_event,
                      :finish_poison_skin_feat_event,
                     ],
-                        # 93 毒竜燐
+                    # 93 毒竜燐
                     [:check_add_roar_feat_event,
                      :check_remove_roar_feat_event,
                      :check_rotate_roar_feat_event,
                      :use_roar_feat_event,
                      :finish_roar_feat_event,
                     ],
-                        # 94 咆哮
+                    # 94 咆哮
                     [
                      :check_add_fire_breath_feat_event,
                      :check_remove_fire_breath_feat_event,
                      :check_rotate_fire_breath_feat_event,
                      :finish_fire_breath_feat_event,
                     ],
-                        # 95 ヘルズベル
+                    # 95 ヘルズベル
                     [:check_add_whirl_wind_feat_event,
                      :check_remove_whirl_wind_feat_event,
                      :check_rotate_whirl_wind_feat_event,
                      :use_whirl_wind_feat_event,
                      :finish_whirl_wind_feat_event,
                     ],
-                        # 96 ワールウインド
+                    # 96 ワールウインド
                     [
                      :check_add_active_armor_feat_event,
                      :check_remove_active_armor_feat_event,
@@ -4048,7 +4048,7 @@ module Unlight
                      :check_unseal_active_armor_feat_damage_after_event,
                      :check_seal_active_armor_feat_chara_change_event,
                     ],
-                        # 97 アクティブアーマ
+                    # 97 アクティブアーマ
                     [
                      :check_add_scolor_attack_feat_event,
                      :check_remove_scolor_attack_feat_event,
@@ -4057,7 +4057,7 @@ module Unlight
                      :use_scolor_attack_feat_damage_event,
                      :finish_scolor_attack_feat_event,
                     ],
-                        # 98 マシンガン
+                    # 98 マシンガン
                     [
                      :check_add_heat_seeker_feat_event,
                      :check_remove_heat_seeker_feat_event,
@@ -4066,14 +4066,14 @@ module Unlight
                      :use_heat_seeker_feat_damage_event,
                      :finish_heat_seeker_feat_event,
                     ],
-                        # 99 ヒートシーカー
+                    # 99 ヒートシーカー
                     [
                      :check_add_purge_feat_event,
                      :check_remove_purge_feat_event,
                      :check_rotate_purge_feat_event,
                      :finish_purge_feat_event,
                     ],
-                        # 100 パージ
+                    # 100 パージ
                     [
                      :check_add_high_hand_feat_event,
                      :check_remove_high_hand_feat_event,
@@ -4081,7 +4081,7 @@ module Unlight
                      :use_high_hand_feat_event,
                      :use_high_hand_feat_damage_event,
                     ],
-                        # 101 ハイハンド
+                    # 101 ハイハンド
                     [:check_add_jack_pot_feat_event,
                      :check_remove_jack_pot_feat_event,
                      :check_rotate_jack_pot_feat_event,
@@ -4089,7 +4089,7 @@ module Unlight
                      :use_after_jack_pot_feat_event,
                      :finish_jack_pot_feat_event,
                     ],
-                        # 102 ジャックポット
+                    # 102 ジャックポット
                     [
                      :check_add_low_ball_feat_event,
                      :check_remove_low_ball_feat_event,
@@ -4098,7 +4098,7 @@ module Unlight
                      :use_low_ball_feat_damage_event,
                      :finish_low_ball_feat_event,
                     ],
-                        # 103 ローボール
+                    # 103 ローボール
                     [
                      :check_add_gamble_feat_event,
                      :check_remove_gamble_feat_event,
@@ -4107,14 +4107,14 @@ module Unlight
                      :use_gamble_feat_damage_event,
                      :finish_gamble_feat_event,
                     ],
-                        # 104 ギャンブル
+                    # 104 ギャンブル
                     [
                      :check_add_bird_cage_feat_event,
                      :check_remove_bird_cage_feat_event,
                      :check_rotate_bird_cage_feat_event,
                      :finish_bird_cage_feat_event,
                     ],
-                        # 105 バードケージ
+                    # 105 バードケージ
                     [
                      :check_add_hanging_feat_event,
                      :check_remove_hanging_feat_event,
@@ -4122,7 +4122,7 @@ module Unlight
                      :use_hanging_feat_event,
                      :finish_hanging_feat_event,
                     ],
-                        # 106 ハンギング
+                    # 106 ハンギング
                     [
                      :check_add_blast_off_feat_event,
                      :check_remove_blast_off_feat_event,
@@ -4131,14 +4131,14 @@ module Unlight
                      :ex_blast_off_feat_event,
                      :finish_blast_off_feat_event,
                     ],
-                        # 107 ブラストオフ
+                    # 107 ブラストオフ
                     [:check_add_puppet_master_feat_event,
                      :check_remove_puppet_master_feat_event,
                      :check_rotate_puppet_master_feat_event,
                      :use_puppet_master_feat_event,
                      :finish_puppet_master_feat_event,
                     ],
-                        # 108 パペットマスター
+                    # 108 パペットマスター
                     [
                      :check_add_ctl_feat_event,
                      :check_remove_ctl_feat_event,
@@ -4146,7 +4146,7 @@ module Unlight
                      :use_ctl_feat_event,
                      :finish_ctl_feat_event,
                     ],
-                        # 109 C.T.L
+                    # 109 C.T.L
                     [
                      :check_add_bpa_feat_event,
                      :check_remove_bpa_feat_event,
@@ -4154,7 +4154,7 @@ module Unlight
                      :use_bpa_feat_event,
                      :finish_bpa_feat_event,
                     ],
-                        # 110 B.P.A
+                    # 110 B.P.A
                     [
                      :check_add_lar_feat_event,
                      :check_remove_lar_feat_event,
@@ -4163,14 +4163,14 @@ module Unlight
                      :use_lar_feat_damage_event,
                      :finish_lar_feat_event,
                     ],
-                        # 111 L.A.R
+                    # 111 L.A.R
                     [
                      :check_add_sss_feat_event,
                      :check_remove_sss_feat_event,
                      :check_rotate_sss_feat_event,
                      :finish_sss_feat_event,
                     ],
-                        # 112 S.S.S
+                    # 112 S.S.S
                     [
                      :check_add_counter_rush_feat_event,
                      :check_remove_counter_rush_feat_event,
@@ -4178,7 +4178,7 @@ module Unlight
                      :use_counter_rush_feat_event,
                      :finish_counter_rush_feat_event,
                     ],
-                        # 113 カウンターラッシュ
+                    # 113 カウンターラッシュ
                     [
                      :check_add_disaster_flame_feat_event,
                      :check_remove_disaster_flame_feat_event,
@@ -4186,7 +4186,7 @@ module Unlight
                      :use_disaster_flame_feat_event,
                      :finish_disaster_flame_feat_event,
                     ],
-                        # 114 劫火
+                    # 114 劫火
                     [
                      :check_add_hell_fire_feat_event,
                      :check_remove_hell_fire_feat_event,
@@ -4196,7 +4196,7 @@ module Unlight
                      :use_hell_fire_feat_const_damage_event,
                      :finish_hell_fire_feat_event,
                     ],
-                        # 115 煉獄
+                    # 115 煉獄
                     [
                      :check_add_blindness_feat_event,
                      :check_remove_blindness_feat_event,
@@ -4205,7 +4205,7 @@ module Unlight
                      :use_blindness_feat2_event,
                      :finish_blindness_feat_event,
                     ],
-                        # 116 眩彩
+                    # 116 眩彩
                     [
                      :check_add_fire_disappear_feat_event,
                      :check_remove_fire_disappear_feat_event,
@@ -4214,7 +4214,7 @@ module Unlight
                      :use_after_fire_disappear_feat_event,
                      :finish_fire_disappear_feat_event,
                     ],
-                        # 117 焼滅
+                    # 117 焼滅
                     [
                      :check_add_dark_hole_feat_event,
                      :check_remove_dark_hole_feat_event,
@@ -4222,7 +4222,7 @@ module Unlight
                      :use_dark_hole_feat_event,
                      :finish_dark_hole_feat_event,
                     ],
-                        # 118 ダークホール
+                    # 118 ダークホール
                     [
                      :check_add_tannhauser_gate_feat_event,
                      :check_remove_tannhauser_gate_feat_event,
@@ -4230,7 +4230,7 @@ module Unlight
                      :use_tannhauser_gate_feat_event,
                      :finish_tannhauser_gate_feat_event,
                     ],
-                        # 119 タンホイザーゲート
+                    # 119 タンホイザーゲート
                     [
                      :check_add_schwar_blitz_feat_event,
                      :check_remove_schwar_blitz_feat_event,
@@ -4239,7 +4239,7 @@ module Unlight
                      :use_schwar_blitz_feat_damage_event,
                      :finish_schwar_blitz_feat_event,
                     ],
-                        # 120 シュバルトブリッツ
+                    # 120 シュバルトブリッツ
                     [
                      :check_add_hi_rounder_feat_event,
                      :check_remove_hi_rounder_feat_event,
@@ -4248,7 +4248,7 @@ module Unlight
                      :finish_hi_rounder_feat_event,
                      :use_hi_rounder_feat_const_damage_event,
                     ],
-                        # 121 ハイランダー
+                    # 121 ハイランダー
                     [
                      :check_add_blood_retting_feat_event,
                      :check_remove_blood_retting_feat_event,
@@ -4257,14 +4257,14 @@ module Unlight
                      :use_blood_retting_feat_damage_event,
                      :finish_blood_retting_feat_event,
                     ],
-                        # 122 ブラッドレッティング
+                    # 122 ブラッドレッティング
                     [
                      :check_add_acupuncture_feat_event,
                      :check_remove_acupuncture_feat_event,
                      :check_rotate_acupuncture_feat_event,
                      :finish_acupuncture_feat_event,
                     ],
-                        # 123 アキュパンクチャー
+                    # 123 アキュパンクチャー
                     [
                      :check_add_dissection_feat_event,
                      :check_remove_dissection_feat_event,
@@ -4273,7 +4273,7 @@ module Unlight
                      :use_dissection_feat_damage_event,
                      :use_dissection_feat_guard_event,
                     ],
-                        # 124 ディセクション
+                    # 124 ディセクション
                     [
                      :check_add_euthanasia_feat_event,
                      :check_remove_euthanasia_feat_event,
@@ -4282,14 +4282,14 @@ module Unlight
                      :use_euthanasia_feat_damage_event,
                      :finish_euthanasia_feat_event,
                     ],
-                        # 125 ユーサネイジアー
+                    # 125 ユーサネイジアー
                     [
                      :check_add_anger_nail_feat_event,
                      :check_remove_anger_nail_feat_event,
                      :check_rotate_anger_nail_feat_event,
                      :finish_anger_nail_feat_event,
                     ],
-                        # 126 憤怒の爪
+                    # 126 憤怒の爪
                     [
                      :check_add_calm_back_feat_event,
                      :check_remove_calm_back_feat_event,
@@ -4298,7 +4298,7 @@ module Unlight
                      :use_calm_back_feat_damage_event,
                      :finish_calm_back_feat_event,
                     ],
-                        # 127 静謐な背中
+                    # 127 静謐な背中
                     [
                      :check_add_blue_eyes_feat_event,
                      :check_remove_blue_eyes_feat_event,
@@ -4306,7 +4306,7 @@ module Unlight
                      :use_blue_eyes_feat_event,
                      :finish_blue_eyes_feat_event,
                     ],
-                        # 128 慈悲の青眼
+                    # 128 慈悲の青眼
                     [
                      :check_add_wolf_fang_feat_event,
                      :check_remove_wolf_fang_feat_event,
@@ -4314,7 +4314,7 @@ module Unlight
                      :use_wolf_fang_feat_event,
                      :finish_wolf_fang_feat_event,
                     ],
-                        # 129 戦慄の狼牙
+                    # 129 戦慄の狼牙
                     [
                      :check_add_hagakure_feat_event,
                      :check_remove_hagakure_feat_event,
@@ -4323,7 +4323,7 @@ module Unlight
                      :use_hagakure_feat_damage_event,
                      :finish_hagakure_feat_event,
                     ],
-                        # 130 葉隠れ
+                    # 130 葉隠れ
                     [
                      :check_add_reppu_feat_event,
                      :check_remove_reppu_feat_event,
@@ -4335,7 +4335,7 @@ module Unlight
                      :finish_dead_change_reppu_feat_event,
                      :finish_turn_reppu_feat_event,
                     ],
-                        # 131 烈風
+                    # 131 烈風
                     [
                      :check_add_enpi_feat_event,
                      :check_remove_enpi_feat_event,
@@ -4344,7 +4344,7 @@ module Unlight
                      :use_enpi_feat_damage_event,
                      :finish_enpi_feat_event,
                     ],
-                        # 132 燕飛
+                    # 132 燕飛
                     [
                      :check_add_mikazuki_feat_event,
                      :check_remove_mikazuki_feat_event,
@@ -4352,14 +4352,14 @@ module Unlight
                      :use_mikazuki_feat_event,
                      :finish_mikazuki_feat_event,
                     ],
-                        # 133 三日月
+                    # 133 三日月
                     [
                      :check_add_casablanca_feat_event,
                      :check_remove_casablanca_feat_event,
                      :check_rotate_casablanca_feat_event,
                      :finish_casablanca_feat_event,
                     ],
-                        # 134 カサブランカの風
+                    # 134 カサブランカの風
                     [
                      :check_add_rhodesia_feat_event,
                      :check_remove_rhodesia_feat_event,
@@ -4368,21 +4368,21 @@ module Unlight
                      :use_rhodesia_feat_damage_event,
                      :finish_rhodesia_feat_event,
                     ],
-                        # 135 ローデシアの海
+                    # 135 ローデシアの海
                     [
                      :check_add_madripool_feat_event,
                      :check_remove_madripool_feat_event,
                      :check_rotate_madripool_feat_event,
                      :finish_madripool_feat_event,
                     ],
-                        # 136 マドリプールの雑踏
+                    # 136 マドリプールの雑踏
                     [
                      :check_add_asia_feat_event,
                      :check_remove_asia_feat_event,
                      :check_rotate_asia_feat_event,
                      :finish_asia_feat_event,
                     ],
-                        # 137 エイジャの曙光
+                    # 137 エイジャの曙光
                     [
                      :check_add_demonic_feat_event,
                      :check_remove_demonic_feat_event,
@@ -4391,7 +4391,7 @@ module Unlight
                      :use_demonic_feat_damage_event,
                      :finish_demonic_feat_event,
                     ],
-                        # 138 デモニック
+                    # 138 デモニック
                     [
                      :check_add_shadow_sword_feat_event,
                      :check_remove_shadow_sword_feat_event,
@@ -4399,7 +4399,7 @@ module Unlight
                      :use_shadow_sword_feat_event,
                      :finish_shadow_sword_feat_event,
                     ],
-                        # 139 残像剣
+                    # 139 残像剣
                     [
                      :check_add_perfect_dead_feat_event,
                      :check_remove_perfect_dead_feat_event,
@@ -4408,7 +4408,7 @@ module Unlight
                      :use_perfect_dead_feat_damage_event,
                      :finish_perfect_dead_feat_event,
                     ],
-                        # 140 パーフェクトデッド
+                    # 140 パーフェクトデッド
                     [
                      :check_add_destruct_gear_feat_event,
                      :check_remove_destruct_gear_feat_event,
@@ -4417,7 +4417,7 @@ module Unlight
                      :use_destruct_gear_feat_damage_event,
                      :finish_destruct_gear_feat_event,
                     ],
-                        # 141 破壊の歯車
+                    # 141 破壊の歯車
                     [
                      :check_add_power_shift_feat_event,
                      :check_remove_power_shift_feat_event,
@@ -4426,7 +4426,7 @@ module Unlight
                      :use_power_shift_feat_damage_event,
                      :finish_power_shift_feat_event,
                     ],
-                        # 142 パワーシフト
+                    # 142 パワーシフト
                     [
                      :check_add_kill_shot_feat_event,
                      :check_remove_kill_shot_feat_event,
@@ -4435,7 +4435,7 @@ module Unlight
                      :use_kill_shot_feat_damage_event,
                      :finish_kill_shot_feat_event,
                     ],
-                        # 143 キルショット
+                    # 143 キルショット
                     [
                      :check_add_defrect_feat_event,
                      :check_remove_defrect_feat_event,
@@ -4444,14 +4444,14 @@ module Unlight
                      :use_defrect_feat_damage_event,
                      :finish_defrect_feat_event,
                     ],
-                        # 144 ディフレクト
+                    # 144 ディフレクト
                     [
                      :check_add_flame_offering_feat_event,
                      :check_remove_flame_offering_feat_event,
                      :check_rotate_flame_offering_feat_event,
                      :use_flame_offering_feat_event,
                     ],
-                        # 145 炎の供物
+                    # 145 炎の供物
                     [
                      :check_add_drain_hand_feat_event,
                      :check_remove_drain_hand_feat_event,
@@ -4460,21 +4460,21 @@ module Unlight
                      :use_drain_hand_feat_damage_event,
                      :finish_drain_hand_feat_event,
                     ],
-                        # 146 吸収の手
+                    # 146 吸収の手
                     [
                      :check_add_fire_prizon_feat_event,
                      :check_remove_fire_prizon_feat_event,
                      :check_rotate_fire_prizon_feat_event,
                      :use_fire_prizon_feat_event,
                     ],
-                        # 147 焔の監獄
+                    # 147 焔の監獄
                     [
                      :check_add_time_stop_feat_event,
                      :check_remove_time_stop_feat_event,
                      :check_rotate_time_stop_feat_event,
                      :finish_time_stop_feat_event,
                     ],
-                        # 148 時間停止
+                    # 148 時間停止
                     [
                      :check_add_dead_guard_feat_event,
                      :check_remove_dead_guard_feat_event,
@@ -4483,7 +4483,7 @@ module Unlight
                      :use_dead_guard_feat_damage_event,
                      :finish_dead_guard_feat_event,
                     ],
-                        # 149 即死防御
+                    # 149 即死防御
                     [
                      :check_add_dead_blue_feat_event,
                      :check_remove_dead_blue_feat_event,
@@ -4492,7 +4492,7 @@ module Unlight
                      :use_dead_blue_feat_damage_event,
                      :finish_dead_blue_feat_event,
                     ],
-                        # 150 奇数即死
+                    # 150 奇数即死
                     [
                      :check_add_evil_guard_feat_event,
                      :check_remove_evil_guard_feat_event,
@@ -4501,7 +4501,7 @@ module Unlight
                      :use_evil_guard_feat_damage_event,
                      :finish_evil_guard_feat_event,
                     ],
-                        # 151 善悪の彼岸
+                    # 151 善悪の彼岸
                     [
                      :check_add_abyss_eyes_feat_event,
                      :check_remove_abyss_eyes_feat_event,
@@ -4510,14 +4510,14 @@ module Unlight
                      :use_abyss_eyes_feat_damage_event,
                      :finish_abyss_eyes_feat_event,
                     ],
-                        # 152 道連れ
+                    # 152 道連れ
                     [
                      :check_add_dead_red_feat_event,
                      :check_remove_dead_red_feat_event,
                      :check_rotate_dead_red_feat_event,
                      :finish_dead_red_feat_event,
                     ],
-                        # 153 偶数即死
+                    # 153 偶数即死
                     [
                      :check_add_night_ghost_feat_event,
                      :check_remove_night_ghost_feat_event,
@@ -4526,7 +4526,7 @@ module Unlight
                      :use_night_ghost_feat_damage_event,
                      :finish_night_ghost_feat_event,
                     ],
-                        # 154 幽冥の夜
+                    # 154 幽冥の夜
                     [
                      :check_add_avatar_war_feat_event,
                      :check_remove_avatar_war_feat_event,
@@ -4535,7 +4535,7 @@ module Unlight
                      :use_avatar_war_feat_damage_event,
                      :finish_avatar_war_feat_event,
                     ],
-                        # 155 人形の軍勢
+                    # 155 人形の軍勢
                     [
                      :check_add_confuse_pool_feat_event,
                      :check_remove_confuse_pool_feat_event,
@@ -4544,7 +4544,7 @@ module Unlight
                      :use_confuse_pool_feat_damage_event,
                      :finish_confuse_pool_feat_event,
                     ],
-                        # 156 混沌の渦
+                    # 156 混沌の渦
                     [
                      :check_add_prominence_feat_event,
                      :check_remove_prominence_feat_event,
@@ -4552,7 +4552,7 @@ module Unlight
                      :use_prominence_feat_event,
                      :finish_prominence_feat_event,
                     ],
-                        # 157 プロミネンス
+                    # 157 プロミネンス
                     [
                      :check_add_battle_axe_feat_event,
                      :check_remove_battle_axe_feat_event,
@@ -4561,21 +4561,21 @@ module Unlight
                      :use_battle_axe_feat_damage_event,
                      :finish_battle_axe_feat_event,
                     ],
-                        # 158 バトルアックス
+                    # 158 バトルアックス
                     [
                      :check_add_moab_feat_event,
                      :check_remove_moab_feat_event,
                      :check_rotate_moab_feat_event,
                      :finish_moab_feat_event,
                     ],
-                        # 159 MOAB
+                    # 159 MOAB
                     [
                      :check_add_over_heat_feat_event,
                      :check_remove_over_heat_feat_event,
                      :check_rotate_over_heat_feat_event,
                      :finish_over_heat_feat_event,
                     ],
-                        # 160 オーバーヒート
+                    # 160 オーバーヒート
                     [
                      :check_add_blue_rose_feat_event,
                      :check_remove_blue_rose_feat_event,
@@ -4584,14 +4584,14 @@ module Unlight
                      :use_blue_rose_feat_damage_event,
                      :finish_blue_rose_feat_event,
                     ],
-                        # 161 蒼き薔薇
+                    # 161 蒼き薔薇
                     [
                      :check_add_white_crow_feat_event,
                      :check_remove_white_crow_feat_event,
                      :check_rotate_white_crow_feat_event,
                      :finish_white_crow_feat_event,
                     ],
-                        # 162 白鴉
+                    # 162 白鴉
                     [
                      :check_add_red_moon_feat_event,
                      :check_remove_red_moon_feat_event,
@@ -4601,14 +4601,14 @@ module Unlight
                      :use_red_moon_feat_damage_event,
                      :finish_red_moon_feat_event,
                     ],
-                        # 163 深紅の月
+                    # 163 深紅の月
                     [
                      :check_add_black_sun_feat_event,
                      :check_remove_black_sun_feat_event,
                      :check_rotate_black_sun_feat_event,
                      :finish_black_sun_feat_event,
                     ],
-                        # 164黒い太陽
+                    # 164黒い太陽
                     [
                      :check_add_girasole_feat_event,
                      :check_remove_girasole_feat_event,
@@ -4618,14 +4618,14 @@ module Unlight
                      :use_girasole_feat_const_damage_event,
                      :finish_girasole_feat_event,
                     ],
-                        # 165 ジラソーレ
+                    # 165 ジラソーレ
                     [
                      :check_add_violetta_feat_event,
                      :check_remove_violetta_feat_event,
                      :check_rotate_violetta_feat_event,
                      :finish_violetta_feat_event,
                     ],
-                        # 166 ビオレッタ
+                    # 166 ビオレッタ
                     [
                      :check_add_digitale_feat_event,
                      :check_remove_digitale_feat_event,
@@ -4634,21 +4634,21 @@ module Unlight
                      :use_digitale_feat_damage_event,
                      :finish_digitale_feat_event,
                     ],
-                        # 167 ディジタリス
+                    # 167 ディジタリス
                     [
                      :check_add_rosmarino_feat_event,
                      :check_remove_rosmarino_feat_event,
                      :check_rotate_rosmarino_feat_event,
                      :finish_rosmarino_feat_event,
                     ],
-                        # 168 ロスマリーノ
+                    # 168 ロスマリーノ
                     [
                      :check_add_hachiyou_feat_event,
                      :check_remove_hachiyou_feat_event,
                      :check_rotate_hachiyou_feat_event,
                      :finish_hachiyou_feat_event,
                     ],
-                        # 169 八葉
+                    # 169 八葉
                     [
                      :check_add_stone_care_feat_event,
                      :check_remove_stone_care_feat_event,
@@ -4656,7 +4656,7 @@ module Unlight
                      :use_stone_care_feat_event,
                      :finish_stone_care_feat_event,
                     ],
-                        # 170 鉄石の構え
+                    # 170 鉄石の構え
                     [
                      :check_add_dust_sword_feat_event,
                      :check_remove_dust_sword_feat_event,
@@ -4665,7 +4665,7 @@ module Unlight
                      :use_dust_sword_feat_damage_event,
                      :finish_dust_sword_feat_event,
                     ],
-                        # 171 絶塵剣
+                    # 171 絶塵剣
                     [
                      :check_add_illusion_feat_event,
                      :check_remove_illusion_feat_event,
@@ -4674,14 +4674,14 @@ module Unlight
                      :use_illusion_feat_damage_event,
                      :finish_illusion_feat_event,
                     ],
-                        # 172 夢幻
+                    # 172 夢幻
                     [
                      :check_add_despair_shout_feat_event,
                      :check_remove_despair_shout_feat_event,
                      :check_rotate_despair_shout_feat_event,
                      :finish_despair_shout_feat_event,
                     ],
-                        # 173 絶望の叫び
+                    # 173 絶望の叫び
                     [
                      :check_add_darkness_song_feat_event,
                      :check_remove_darkness_song_feat_event,
@@ -4689,14 +4689,14 @@ module Unlight
                      :use_darkness_song_feat_event,
                      :finish_darkness_song_feat_event,
                     ],
-                        # 174 暗黒神の歌
+                    # 174 暗黒神の歌
                     [
                      :check_add_guard_spirit_feat_event,
                      :check_remove_guard_spirit_feat_event,
                      :check_rotate_guard_spirit_feat_event,
                      :finish_guard_spirit_feat_event,
                     ],
-                        # 175 守護霊の魂
+                    # 175 守護霊の魂
                     [
                      :check_add_slaughter_organ_feat_event,
                      :check_remove_slaughter_organ_feat_event,
@@ -4705,7 +4705,7 @@ module Unlight
                      :finish_slaughter_organ_feat_event,
                      :finish_turn_slaughter_organ_feat_event,
                     ],
-                        # 176 殺戮器官
+                    # 176 殺戮器官
                     [
                      :check_add_fools_hand_feat_event,
                      :check_remove_fools_hand_feat_event,
@@ -4714,7 +4714,7 @@ module Unlight
                      :use_fools_hand_feat_damage_event,
                      :finish_fools_hand_feat_event,
                     ],
-                        # 177 愚者の手
+                    # 177 愚者の手
                     [
                      :check_add_time_seed_feat_event,
                      :check_remove_time_seed_feat_event,
@@ -4722,7 +4722,7 @@ module Unlight
                      :use_time_seed_feat_event,
                      :finish_time_seed_feat_event,
                     ],
-                        # 178 時の種子
+                    # 178 時の種子
                     [
                      :check_add_irongate_of_fate_feat_event,
                      :check_remove_irongate_of_fate_feat_event,
@@ -4731,7 +4731,7 @@ module Unlight
                      :use_irongate_of_fate_feat_damage_event,
                      :finish_irongate_of_fate_feat_event,
                     ],
-                        # 179 運命の鉄門
+                    # 179 運命の鉄門
                     [
                      :check_add_gatherer_feat_event,
                      :check_remove_gatherer_feat_event,
@@ -4742,7 +4742,7 @@ module Unlight
                      :finish_chara_change_gatherer_feat_event,
                      :finish_foe_chara_change_gatherer_feat_event,
                     ],
-                        # 180 ザ・ギャザラー
+                    # 180 ザ・ギャザラー
                     [
                      :check_add_judge_feat_event,
                      :check_remove_judge_feat_event,
@@ -4751,7 +4751,7 @@ module Unlight
                      :use_judge_feat_damage_event,
                      :finish_judge_feat_event,
                     ],
-                        # 161 ザ・ジャッジ
+                    # 161 ザ・ジャッジ
                     [
                      :check_add_dream_feat_event,
                      :check_remove_dream_feat_event,
@@ -4760,14 +4760,14 @@ module Unlight
                      :use_dream_feat_damage_event,
                      :finish_dream_feat_event,
                     ],
-                        # 182 ザ・ドリーム
+                    # 182 ザ・ドリーム
                     [
                      :check_add_one_above_all_feat_event,
                      :check_remove_one_above_all_feat_event,
                      :check_rotate_one_above_all_feat_event,
                      :use_one_above_all_feat_event,
                     ],
-                        # 183 ジ・ワン・アボヴ・オール
+                    # 183 ジ・ワン・アボヴ・オール
                     [
                      :check_add_antiseptic_feat_event,
                      :check_remove_antiseptic_feat_event,
@@ -4779,7 +4779,7 @@ module Unlight
                      :check_antiseptic_state_dead_change_event,
                      :finish_antiseptic_state_event,
                     ],
-                        # 184 アンチセプティック・F
+                    # 184 アンチセプティック・F
                     [
                      :check_add_silver_machine_feat_event,
                      :check_remove_silver_machine_feat_event,
@@ -4788,7 +4788,7 @@ module Unlight
                      :finish_silver_machine_feat_event,
                      :finish_turn_silver_machine_feat_event,
                     ],
-                        # 185 シルバーマシン
+                    # 185 シルバーマシン
                     [
                      :check_add_atom_heart_feat_event,
                      :check_remove_atom_heart_feat_event,
@@ -4801,7 +4801,7 @@ module Unlight
                      :disable_atom_heart_feat_event,
                      :disable_next_atom_heart_feat_event,
                     ],
-                        # 186 アトムハート
+                    # 186 アトムハート
                     [
                      :check_add_electric_surgery_feat_event,
                      :check_remove_electric_surgery_feat_event,
@@ -4810,7 +4810,7 @@ module Unlight
                      :use_electric_surgery_feat_damage_event,
                      :finish_electric_surgery_feat_event,
                     ],
-                        # 187 エレクトロサージェリー
+                    # 187 エレクトロサージェリー
                     [
                      :check_add_acid_eater_feat_event,
                      :check_remove_acid_eater_feat_event,
@@ -4820,7 +4820,7 @@ module Unlight
                      :finish_calc_acid_eater_feat_event,
                      :finish_next_acid_eater_feat_event,
                     ],
-                        # 188 アシッドイーター
+                    # 188 アシッドイーター
                     [
                      :check_add_dead_lock_feat_event,
                      :check_remove_dead_lock_feat_event,
@@ -4829,7 +4829,7 @@ module Unlight
                      :use_dead_lock_feat_damage_event,
                      :finish_dead_lock_feat_event,
                     ],
-                        # 189 デッドロック
+                    # 189 デッドロック
                     [
                      :check_add_beggars_banquet_feat_event,
                      :check_remove_beggars_banquet_feat_event,
@@ -4840,7 +4840,7 @@ module Unlight
                      :finish_chara_change_ex_beggars_banquet_feat_event,
                      :finish_foe_chara_change_ex_beggars_banquet_feat_event,
                     ],
-                        # 190 ベガーズバンケット
+                    # 190 ベガーズバンケット
                     [
                      :check_add_swan_song_feat_event,
                      :check_remove_swan_song_feat_event,
@@ -4848,14 +4848,14 @@ module Unlight
                      :use_swan_song_feat_event,
                      :finish_swan_song_feat_event,
                     ],
-                        # 191 スワンソング
+                    # 191 スワンソング
                     [
                      :check_add_idle_grave_feat_event,
                      :check_remove_idle_grave_feat_event,
                      :check_rotate_idle_grave_feat_event,
                      :use_idle_grave_feat_event,
                     ],
-                        # 192 精神力吸収
+                    # 192 精神力吸収
                     [
                      :check_add_sorrow_song_feat_event,
                      :check_remove_sorrow_song_feat_event,
@@ -4864,7 +4864,7 @@ module Unlight
                      :finish_sorrow_song_feat_event,
                      :finish_ex_sorrow_song_feat_event,
                     ],
-                        # 193 慟哭の歌
+                    # 193 慟哭の歌
                     [
                      :check_add_red_wheel_feat_event,
                      :check_remove_red_wheel_feat_event,
@@ -4873,21 +4873,21 @@ module Unlight
                      :use_red_wheel_feat_damage_event,
                      :finish_red_wheel_feat_event,
                     ],
-                        # 194 紅蓮の車輪
+                    # 194 紅蓮の車輪
                     [
                      :check_add_red_pomegranate_feat_event,
                      :check_remove_red_pomegranate_feat_event,
                      :check_rotate_red_pomegranate_feat_event,
                      :finish_red_pomegranate_feat_event,
                     ],
-                        # 195 赤い石榴
+                    # 195 赤い石榴
                     [
                      :check_add_clock_works_feat_event,
                      :check_remove_clock_works_feat_event,
                      :check_rotate_clock_works_feat_event,
                      :finish_clock_works_feat_event,
                     ],
-                        # 196 クロックワークス
+                    # 196 クロックワークス
                     [
                      :check_add_time_hunt_feat_event,
                      :check_remove_time_hunt_feat_event,
@@ -4896,7 +4896,7 @@ module Unlight
                      :use_time_hunt_feat_event,
                      :finish_time_hunt_feat_event,
                     ],
-                        # 197 タイムハント
+                    # 197 タイムハント
                     [
                      :check_add_time_bomb_feat_event,
                      :check_remove_time_bomb_feat_event,
@@ -4904,14 +4904,14 @@ module Unlight
                      :use_time_bomb_feat_event,
                      :finish_time_bomb_feat_event,
                     ],
-                        # 198 タイムボム
+                    # 198 タイムボム
                     [
                      :check_add_in_the_evening_feat_event,
                      :check_remove_in_the_evening_feat_event,
                      :check_rotate_in_the_evening_feat_event,
                      :finish_in_the_evening_feat_event,
                     ],
-                        # 199 インジイブニング
+                    # 199 インジイブニング
                     [
                      :check_add_final_waltz_feat_event,
                      :check_remove_final_waltz_feat_event,
@@ -4920,7 +4920,7 @@ module Unlight
                      :use_final_waltz_feat_damage_event,
                      :finish_final_waltz_feat_event,
                     ],
-                        # 200 終局のワルツ
+                    # 200 終局のワルツ
                     [
                      :check_add_desperate_sonata_feat_event,
                      :check_remove_desperate_sonata_feat_event,
@@ -4929,7 +4929,7 @@ module Unlight
                      :finish_desperate_sonata_feat_event,
                      :finish_turn_desperate_sonata_feat_event,
                     ],
-                        # 201 自棄のソナタ
+                    # 201 自棄のソナタ
                     [
                      :check_add_gladiator_march_feat_event,
                      :check_remove_gladiator_march_feat_event,
@@ -4937,7 +4937,7 @@ module Unlight
                      :use_gladiator_march_feat_event,
                      :finish_gladiator_march_feat_event,
                     ],
-                        # 202 剣闘士のマーチ
+                    # 202 剣闘士のマーチ
                     [
                      :check_add_requiem_of_revenge_feat_event,
                      :check_remove_requiem_of_revenge_feat_event,
@@ -4945,7 +4945,7 @@ module Unlight
                      :use_requiem_of_revenge_feat_event,
                      :finish_requiem_of_revenge_feat_event,
                     ],
-                        # 203 恩讐のレクイエム
+                    # 203 恩讐のレクイエム
                     [
                      :check_add_delicious_milk_feat_event,
                      :check_remove_delicious_milk_feat_event,
@@ -4956,7 +4956,7 @@ module Unlight
                      :finish_delicious_milk_feat_event,
                      :finish_turn_delicious_milk_feat_event,
                     ],
-                        # 204 おいしいミルク
+                    # 204 おいしいミルク
                     [
                      :check_add_easy_injection_feat_event,
                      :check_remove_easy_injection_feat_event,
@@ -4964,7 +4964,7 @@ module Unlight
                      :use_easy_injection_feat_event,
                      :finish_easy_injection_feat_event,
                     ],
-                        # 205 やさしいお注射
+                    # 205 やさしいお注射
                     [
                      :check_add_blood_collecting_feat_event,
                      :check_remove_blood_collecting_feat_event,
@@ -4972,7 +4972,7 @@ module Unlight
                      :use_blood_collecting_feat_event,
                      :finish_blood_collecting_feat_event,
                     ],
-                        # 206 たのしい採血
+                    # 206 たのしい採血
                     [
                      :check_add_secret_medicine_feat_event,
                      :check_remove_secret_medicine_feat_event,
@@ -4980,7 +4980,7 @@ module Unlight
                      :use_secret_medicine_feat_event,
                      :finish_secret_medicine_feat_event,
                     ],
-                        # 207 ひみつのお薬
+                    # 207 ひみつのお薬
                     [
                      :check_add_ice_gate_feat_event,
                      :check_remove_ice_gate_feat_event,
@@ -4988,7 +4988,7 @@ module Unlight
                      :use_ice_gate_feat_event,
                      :finish_ice_gate_feat_event,
                     ],
-                        # 208 氷の門
+                    # 208 氷の門
                     [
                      :check_add_fire_gate_feat_event,
                      :check_remove_fire_gate_feat_event,
@@ -4996,14 +4996,14 @@ module Unlight
                      :use_fire_gate_feat_event,
                      :finish_fire_gate_feat_event,
                     ],
-                        # 209 炎の門
+                    # 209 炎の門
                     [
                      :check_add_break_gate_feat_event,
                      :check_remove_break_gate_feat_event,
                      :check_rotate_break_gate_feat_event,
                      :finish_break_gate_feat_event,
                     ],
-                        # 210
+                    # 210
                     [
                      :check_add_shout_of_gate_feat_event,
                      :check_remove_shout_of_gate_feat_event,
@@ -5012,7 +5012,7 @@ module Unlight
                      :use_shout_of_gate_feat_damage_event,
                      :finish_shout_of_gate_feat_event,
                     ],
-                        # 211 叫ぶ門
+                    # 211 叫ぶ門
                     [
                      :check_add_ferreous_anger_feat_event,
                      :check_remove_ferreous_anger_feat_event,
@@ -5021,14 +5021,14 @@ module Unlight
                      :use_ferreous_anger_feat_damage_event,
                      :finish_ferreous_anger_feat_event,
                     ],
-                        # 212 フュリアスアンガー
+                    # 212 フュリアスアンガー
                     [
                      :check_add_name_of_charity_feat_event,
                      :check_remove_name_of_charity_feat_event,
                      :check_rotate_name_of_charity_feat_event,
                      :use_name_of_charity_feat_event,
                     ],
-                        # 213 ネームオブチャリティ
+                    # 213 ネームオブチャリティ
                     [
                      :check_add_good_will_feat_event,
                      :check_remove_good_will_feat_event,
@@ -5036,7 +5036,7 @@ module Unlight
                      :use_good_will_feat_event,
                      :finish_good_will_feat_event,
                     ],
-                        # 214 グッドウィル
+                    # 214 グッドウィル
                     [
                      :check_add_great_vengeance_feat_event,
                      :check_remove_great_vengeance_feat_event,
@@ -5046,14 +5046,14 @@ module Unlight
                      :use_great_vengeance_feat_const_damage_event,
                      :finish_great_vengeance_feat_event,
                     ],
-                        # 215 グレートベンジェンス
+                    # 215 グレートベンジェンス
                     [
                      :check_add_innocent_soul_feat_event,
                      :check_remove_innocent_soul_feat_event,
                      :check_rotate_innocent_soul_feat_event,
                      :finish_innocent_soul_feat_event,
                     ],
-                        # 216 無辜の魂
+                    # 216 無辜の魂
                     [
                      :check_add_infallible_deed_feat_event,
                      :check_remove_infallible_deed_feat_event,
@@ -5067,7 +5067,7 @@ module Unlight
                      :finish_dead_change_infallible_deed_feat_event,
                      :finish_turn_infallible_deed_feat_event,
                     ],
-                        # 217 無謬の行い(光彩陸離)
+                    # 217 無謬の行い(光彩陸離)
                     [
                      :check_add_idle_fate_feat_event,
                      :check_remove_idle_fate_feat_event,
@@ -5076,7 +5076,7 @@ module Unlight
                      :use_idle_fate_feat_damage_event,
                      :finish_idle_fate_feat_event,
                     ],
-                        # 218 無為の運命
+                    # 218 無為の運命
                     [
                      :check_add_regrettable_judgment_feat_event,
                      :check_remove_regrettable_judgment_feat_event,
@@ -5085,7 +5085,7 @@ module Unlight
                      :use_regrettable_judgment_feat_damage_event,
                      :finish_regrettable_judgment_feat_event,
                     ],
-                        # 219 無念の裁き
+                    # 219 無念の裁き
                     [
                      :check_add_sin_wriggle_feat_event,
                      :check_remove_sin_wriggle_feat_event,
@@ -5094,7 +5094,7 @@ module Unlight
                      :use_sin_wriggle_feat_damage_event,
                      :finish_sin_wriggle_feat_event,
                     ],
-                        # 220 罪業の蠢き
+                    # 220 罪業の蠢き
                     [
                      :check_add_idle_groan_feat_event,
                      :check_remove_idle_groan_feat_event,
@@ -5104,21 +5104,21 @@ module Unlight
                      :finish_idle_groan_feat_event,
                      :finish_turn_idle_groan_feat_event,
                     ],
-                        # 221 懶惰の呻き
+                    # 221 懶惰の呻き
                     [
                      :check_add_contamination_sorrow_feat_event,
                      :check_remove_contamination_sorrow_feat_event,
                      :check_rotate_contamination_sorrow_feat_event,
                      :finish_contamination_sorrow_feat_event,
                     ],
-                        # 222 汚濁の囁き
+                    # 222 汚濁の囁き
                     [
                      :check_add_failure_groan_feat_event,
                      :check_remove_failure_groan_feat_event,
                      :check_rotate_failure_groan_feat_event,
                      :finish_failure_groan_feat_event,
                     ],
-                        # 223 蹉跌の犇めき
+                    # 223 蹉跌の犇めき
                     [
                      :check_add_cathedral_feat_event,
                      :check_remove_cathedral_feat_event,
@@ -5126,7 +5126,7 @@ module Unlight
                      :use_cathedral_feat_event,
                      :finish_cathedral_feat_event,
                     ],
-                        # 224 大聖堂
+                    # 224 大聖堂
                     [
                      :check_add_winter_dream_feat_event,
                      :check_remove_winter_dream_feat_event,
@@ -5135,21 +5135,21 @@ module Unlight
                      :use_winter_dream_feat_damage_event,
                      :finish_winter_dream_feat_event,
                     ],
-                        # 225 冬の夢
+                    # 225 冬の夢
                     [
                      :check_add_tender_night_feat_event,
                      :check_remove_tender_night_feat_event,
                      :check_rotate_tender_night_feat_event,
                      :finish_tender_night_feat_event,
                     ],
-                        # 226 夜はやさし
+                    # 226 夜はやさし
                     [
                      :check_add_fortunate_reason_feat_event,
                      :check_remove_fortunate_reason_feat_event,
                      :check_rotate_fortunate_reason_feat_event,
                      :finish_fortunate_reason_feat_event,
                     ],
-                        # 227 しあわせの理由
+                    # 227 しあわせの理由
                     [
                      :check_add_rud_num_feat_event,
                      :check_remove_rud_num_feat_event,
@@ -5157,7 +5157,7 @@ module Unlight
                      :use_rud_num_feat_event,
                      :finish_rud_num_feat_event,
                     ],
-                        # 228 RudNum
+                    # 228 RudNum
                     [
                      :check_add_von_num_feat_event,
                      :check_remove_von_num_feat_event,
@@ -5166,7 +5166,7 @@ module Unlight
                      :use_von_num_feat_damage_event,
                      :finish_von_num_feat_event,
                     ],
-                        # 229 VonNum
+                    # 229 VonNum
                     [
                      :check_add_chr_num_feat_event,
                      :check_remove_chr_num_feat_event,
@@ -5174,14 +5174,14 @@ module Unlight
                      :use_chr_num_feat_event,
                      :finish_chr_num_feat_event,
                     ],
-                        # 230 CHR799
+                    # 230 CHR799
                     [
                      :check_add_wil_num_feat_event,
                      :check_remove_wil_num_feat_event,
                      :check_rotate_wil_num_feat_event,
                      :finish_wil_num_feat_event,
                     ],
-                        # 231 wil846
+                    # 231 wil846
                     [
                      :check_add_precision_fire_feat_event,
                      :check_remove_precision_fire_feat_event,
@@ -5190,7 +5190,7 @@ module Unlight
                      :use_precision_fire_feat_damage_event,
                      :finish_precision_fire_feat_event,
                     ],
-                        # 232 精密射撃(復活)
+                    # 232 精密射撃(復活)
                     [
                      :check_add_purple_lightning_feat_event,
                      :check_remove_purple_lightning_feat_event,
@@ -5199,14 +5199,14 @@ module Unlight
                      :use_purple_lightning_feat_damage_event,
                      :finish_purple_lightning_feat_event,
                     ],
-                        # 233 紫電
+                    # 233 紫電
                     [
                      :check_add_mortal_style_feat_event,
                      :check_remove_mortal_style_feat_event,
                      :check_rotate_mortal_style_feat_event,
                      :finish_mortal_style_feat_event,
                     ],
-                        # 234 必殺の構え(復活)
+                    # 234 必殺の構え(復活)
                     [
                      :check_add_bloody_howl_feat_event,
                      :check_remove_bloody_howl_feat_event,
@@ -5215,7 +5215,7 @@ module Unlight
                      :finish_bloody_howl_feat_event,
                      :use_bloody_howl_feat_damage_event,
                     ],
-                        # 235 ブラッディハウル
+                    # 235 ブラッディハウル
                     [
                      :check_add_charged_thrust_feat_event,
                      :check_remove_charged_thrust_feat_event,
@@ -5223,7 +5223,7 @@ module Unlight
                      :use_charged_thrust_feat_event,
                      :finish_charged_thrust_feat_event,
                     ],
-                        # 236 チャージドストラト
+                    # 236 チャージドストラト
                     [
                      :check_add_sword_dance_feat_event,
                      :check_remove_sword_dance_feat_event,
@@ -5232,7 +5232,7 @@ module Unlight
                      :finish_sword_dance_feat_event,
                      :use_sword_dance_feat_damage_event,
                     ],
-                        # 237 ソードダンス
+                    # 237 ソードダンス
                     [
                      :check_add_sword_avoid_feat_event,
                      :check_remove_sword_avoid_feat_event,
@@ -5241,7 +5241,7 @@ module Unlight
                      :use_sword_avoid_feat_damage_event,
                      :finish_sword_avoid_feat_event,
                     ],
-                        # 238 受け流し
+                    # 238 受け流し
                     [
                      :check_add_kutunesirka_feat_event,
                      :check_remove_kutunesirka_feat_event,
@@ -5250,7 +5250,7 @@ module Unlight
                      :finish_kutunesirka_feat_event,
                      :use_kutunesirka_feat_damage_event,
                     ],
-                        # 239 クトネシリカ(フォイルニスゼーレ)
+                    # 239 クトネシリカ(フォイルニスゼーレ)
                     [
                      :check_add_feet_of_hermes_feat_event,
                      :check_remove_feet_of_hermes_feat_event,
@@ -5258,7 +5258,7 @@ module Unlight
                      :use_feet_of_hermes_feat_event,
                      :use_feet_of_hermes_feat_damage_event,
                     ],
-                        # 240 ヘルメスの靴(ドゥンケルハイト)
+                    # 240 ヘルメスの靴(ドゥンケルハイト)
                     [
                      :check_add_aegis_wing_feat_event,
                      :check_remove_aegis_wing_feat_event,
@@ -5267,7 +5267,7 @@ module Unlight
                      :finish_aegis_wing_feat_event,
                      :use_aegis_wing_feat_damage_event,
                     ],
-                        # 241 イージスの翼(シャッテンフリューゲル)
+                    # 241 イージスの翼(シャッテンフリューゲル)
                     [
                      :check_add_claiomh_solais_feat_event,
                      :check_remove_claiomh_solais_feat_event,
@@ -5275,7 +5275,7 @@ module Unlight
                      :use_claiomh_solais_feat_event,
                      :finish_claiomh_solais_feat_event,
                     ],
-                        # 242 クラウ・ソラス(ヴィルベルリッテル)
+                    # 242 クラウ・ソラス(ヴィルベルリッテル)
                     [
                      :check_add_mutation_feat_event,
                      :check_remove_mutation_feat_event,
@@ -5284,7 +5284,7 @@ module Unlight
                      :finish_mutation_feat_event,
                      :finish_effect_mutation_feat_event,
                     ],
-                        # 243 細胞変異
+                    # 243 細胞変異
                     [
                      :check_add_rampancy_feat_event,
                      :check_remove_rampancy_feat_event,
@@ -5292,7 +5292,7 @@ module Unlight
                      :use_rampancy_feat_damage_event,
                      :finish_rampancy_feat_event,
                     ],
-                        # 244 指嗾する仔
+                    # 244 指嗾する仔
                     [
                      :check_add_sacrifice_of_soul_feat_event,
                      :check_remove_sacrifice_of_soul_feat_event,
@@ -5301,14 +5301,14 @@ module Unlight
                      :use_sacrifice_of_soul_feat_heal_event,
                      :use_sacrifice_of_soul_feat_damage_event,
                     ],
-                        # 245 魂魄の贄
+                    # 245 魂魄の贄
                     [
                      :check_add_silver_bullet_feat_event,
                      :check_remove_silver_bullet_feat_event,
                      :check_rotate_silver_bullet_feat_event,
                      :finish_silver_bullet_feat_event,
                     ],
-                        # 246 銀の丸弾(哀切の残光)
+                    # 246 銀の丸弾(哀切の残光)
                     [
                      :check_add_pumpkin_drop_feat_event,
                      :check_remove_pumpkin_drop_feat_event,
@@ -5318,7 +5318,7 @@ module Unlight
                      :use_pumpkin_drop_feat_const_damage_event,
                      :finish_pumpkin_drop_feat_event,
                     ],
-                        # 247 かぼちゃ落とし
+                    # 247 かぼちゃ落とし
                     [
                      :check_add_wandering_feather_feat_event,
                      :check_remove_wandering_feather_feat_event,
@@ -5327,7 +5327,7 @@ module Unlight
                      :finish_wandering_feather_feat_event,
                      :cutin_wandering_feather_feat_event,
                     ],
-                        # 248 彷徨う羽根
+                    # 248 彷徨う羽根
                     [
                      :check_add_sheep_song_feat_event,
                      :check_remove_sheep_song_feat_event,
@@ -5335,14 +5335,14 @@ module Unlight
                      :use_sheep_song_feat_event,
                      :finish_sheep_song_feat_event,
                     ],
-                        # 249 ひつじ数え歌
+                    # 249 ひつじ数え歌
                     [
                      :check_add_dream_of_ovuerya_feat_event,
                      :check_remove_dream_of_ovuerya_feat_event,
                      :check_rotate_dream_of_ovuerya_feat_event,
                      :finish_dream_of_ovuerya_feat_event,
                     ],
-                        # 250 オヴェリャの夢
+                    # 250 オヴェリャの夢
                     [
                      :check_add_marys_sheep_feat_event,
                      :check_remove_marys_sheep_feat_event,
@@ -5351,7 +5351,7 @@ module Unlight
                      :use_marys_sheep_feat_damage_event,
                      :finish_marys_sheep_feat_event,
                     ],
-                        # 251 メリーズシープ
+                    # 251 メリーズシープ
                     [
                      :check_add_evil_eye_feat_event,
                      :check_remove_evil_eye_feat_event,
@@ -5360,14 +5360,14 @@ module Unlight
                      :use_evil_eye_feat_damage_event,
                      :finish_evil_eye_feat_event,
                     ],
-                        # 252 光り輝く邪眼
+                    # 252 光り輝く邪眼
                     [
                      :check_add_black_arts_feat_event,
                      :check_remove_black_arts_feat_event,
                      :check_rotate_black_arts_feat_event,
                      :finish_black_arts_feat_event,
                     ],
-                        # 253 超越者の邪法
+                    # 253 超越者の邪法
                     [
                      :check_add_blasphemy_curse_feat_event,
                      :check_remove_blasphemy_curse_feat_event,
@@ -5376,7 +5376,7 @@ module Unlight
                      :use_blasphemy_curse_feat_damage_event,
                      :finish_blasphemy_curse_feat_event,
                     ],
-                        # 254 冒涜する呪詛
+                    # 254 冒涜する呪詛
                     [
                      :check_add_end_of_end_feat_event,
                      :check_remove_end_of_end_feat_event,
@@ -5385,7 +5385,7 @@ module Unlight
                      :use_end_of_end_feat_damage_event,
                      :finish_end_of_end_feat_event,
                     ],
-                        # 255 終焉の果て
+                    # 255 終焉の果て
                     [
                      :check_add_thrones_gate_feat_event,
                      :check_remove_thrones_gate_feat_event,
@@ -5394,7 +5394,7 @@ module Unlight
                      :use_thrones_gate_feat_damage_event,
                      :finish_thrones_gate_feat_event,
                     ],
-                        # 256 玉座の凱旋門
+                    # 256 玉座の凱旋門
                     [
                      :check_add_ghost_resentment_feat_event,
                      :check_remove_ghost_resentment_feat_event,
@@ -5403,7 +5403,7 @@ module Unlight
                      :use_ghost_resentment_feat_damage_event,
                      :finish_ghost_resentment_feat_event,
                     ],
-                        # 257 幽愁暗恨
+                    # 257 幽愁暗恨
                     [
                      :check_add_curse_sword_feat_event,
                      :check_remove_curse_sword_feat_event,
@@ -5412,7 +5412,7 @@ module Unlight
                      :use_curse_sword_feat_damage_event,
                      :finish_curse_sword_feat_event,
                     ],
-                        # 258 Ex呪剣
+                    # 258 Ex呪剣
                     [
                      :check_add_rapid_sword_r2_feat_event,
                      :check_remove_rapid_sword_r2_feat_event,
@@ -5420,7 +5420,7 @@ module Unlight
                      :use_rapid_sword_r2_feat_event,
                      :finish_rapid_sword_r2_feat_event,
                     ],
-                        # 259 神速の剣(復活)
+                    # 259 神速の剣(復活)
                     [
                      :check_add_anger_r_feat_event,
                      :check_remove_anger_r_feat_event,
@@ -5428,7 +5428,7 @@ module Unlight
                      :use_anger_r_feat_event,
                      :finish_anger_r_feat_event,
                     ],
-                        # 260 怒りの一撃
+                    # 260 怒りの一撃
                     [
                      :check_add_volition_deflect_feat_event,
                      :check_remove_volition_deflect_feat_event,
@@ -5436,7 +5436,7 @@ module Unlight
                      :use_volition_deflect_feat_event,
                      :finish_volition_deflect_feat_event,
                     ],
-                        # 261 ヴォリッションディフレクト
+                    # 261 ヴォリッションディフレクト
                     [
                      :check_add_shadow_shot_r_feat_event,
                      :check_remove_shadow_shot_r_feat_event,
@@ -5445,7 +5445,7 @@ module Unlight
                      :use_shadow_shot_r_feat_damage_event,
                      :finish_shadow_shot_r_feat_event,
                     ],
-                        # 262 影撃ち(復活)
+                    # 262 影撃ち(復活)
                     [
                      :check_add_burning_tail_feat_event,
                      :check_remove_burning_tail_feat_event,
@@ -5453,14 +5453,14 @@ module Unlight
                      :use_burning_tail_feat_event,
                      :finish_burning_tail_feat_event,
                     ],
-                        # 263 嚇灼の尾
+                    # 263 嚇灼の尾
                     [
                      :check_add_quake_walk_feat_event,
                      :check_remove_quake_walk_feat_event,
                      :check_rotate_quake_walk_feat_event,
                      :finish_quake_walk_feat_event,
                     ],
-                        # 264 震歩
+                    # 264 震歩
                     [
                      :check_add_drainage_feat_event,
                      :check_remove_drainage_feat_event,
@@ -5470,7 +5470,7 @@ module Unlight
                      :use_drainage_feat_const_damage_event,
                      :finish_drainage_feat_event,
                     ],
-                        # 265 ドレナージ
+                    # 265 ドレナージ
                     [
                      :check_add_smile_feat_event,
                      :check_remove_smile_feat_event,
@@ -5479,7 +5479,7 @@ module Unlight
                      :use_smile_feat_damage_event,
                      :finish_smile_feat_event,
                     ],
-                        # 266 やさしい微笑み
+                    # 266 やさしい微笑み
                     [
                      :check_add_blutkontamina_feat_event,
                      :check_remove_blutkontamina_feat_event,
@@ -5488,7 +5488,7 @@ module Unlight
                      :use_blutkontamina_feat_damage_event,
                      :finish_blutkontamina_feat_event,
                     ],
-                        # 267 血統汚染(レイド用)
+                    # 267 血統汚染(レイド用)
                     [
                      :check_add_cold_eyes_feat_event,
                      :check_remove_cold_eyes_feat_event,
@@ -5496,7 +5496,7 @@ module Unlight
                      :use_cold_eyes_feat_damage_event,
                      :finish_cold_eyes_feat_event,
                     ],
-                        # 268 つめたい視線
+                    # 268 つめたい視線
                     [
                      :check_add_feat1_feat_event,
                      :check_remove_feat1_feat_event,
@@ -5505,7 +5505,7 @@ module Unlight
                      :use_feat1_feat_damage_event,
                      :finish_feat1_feat_event,
                     ],
-                        # 269 Feat1
+                    # 269 Feat1
                     [
                      :check_add_feat2_feat_event,
                      :check_remove_feat2_feat_event,
@@ -5514,7 +5514,7 @@ module Unlight
                      :finish_feat2_feat_event,
                      :use_feat2_feat_damage_event,
                     ],
-                        # 270 Feat2
+                    # 270 Feat2
                     [
                      :check_add_feat3_feat_event,
                      :check_remove_feat3_feat_event,
@@ -5522,7 +5522,7 @@ module Unlight
                      :use_feat3_feat_event,
                      :finish_feat3_feat_event,
                     ],
-                        # 271 Feat3
+                    # 271 Feat3
                     [
                      :check_add_feat4_feat_event,
                      :check_remove_feat4_feat_event,
@@ -5534,7 +5534,7 @@ module Unlight
                      :start_feat4_feat_event,
                      :finish_feat4_feat_event,
                     ],
-                        # 272 Feat4
+                    # 272 Feat4
                     [
                      :check_add_weasel_feat_event,
                      :check_remove_weasel_feat_event,
@@ -5547,7 +5547,7 @@ module Unlight
                      :finish_weasel_feat_event,
                      :check_ending_weasel_feat_event,
                     ],
-                        # 273 見えざる白群の鼬
+                    # 273 見えざる白群の鼬
                     [
                      :check_add_dark_profound_feat_event,
                      :check_remove_dark_profound_feat_event,
@@ -5556,7 +5556,7 @@ module Unlight
                      :use_dark_profound_feat_bornus_event,
                      :finish_dark_profound_feat_event,
                     ],
-                        # 274 暗黒の渦(復活)
+                    # 274 暗黒の渦(復活)
                     [
                      :check_add_karmic_dor_feat_event,
                      :check_remove_karmic_dor_feat_event,
@@ -5565,7 +5565,7 @@ module Unlight
                      :use_karmic_dor_feat_event,
                      :finish_karmic_dor_feat_event,
                     ],
-                        # 275 因果の扉
+                    # 275 因果の扉
                     [
                      :check_add_batafly_mov_feat_event,
                      :check_remove_batafly_mov_feat_event,
@@ -5573,7 +5573,7 @@ module Unlight
                      :determine_distance_batafly_mov_feat_event,
                      :finish_batafly_mov_feat_event,
                     ],
-                        # 276 batafly_mov
+                    # 276 batafly_mov
                     [
                      :check_add_batafly_atk_feat_event,
                      :check_remove_batafly_atk_feat_event,
@@ -5581,7 +5581,7 @@ module Unlight
                      :use_batafly_atk_feat_event,
                      :finish_batafly_atk_feat_event,
                     ],
-                        # 277 batafly_atk
+                    # 277 batafly_atk
                     [
                      :check_add_batafly_def_feat_event,
                      :check_remove_batafly_def_feat_event,
@@ -5589,7 +5589,7 @@ module Unlight
                      :use_batafly_def_feat_event,
                      :finish_batafly_def_feat_event,
                     ],
-                        # 278 batafly_def
+                    # 278 batafly_def
                     [
                      :check_add_batafly_sld_feat_event,
                      :check_remove_batafly_sld_feat_event,
@@ -5597,7 +5597,7 @@ module Unlight
                      :use_batafly_sld_feat_event,
                      :finish_batafly_sld_feat_event,
                     ],
-                        # 279 batafly_sld
+                    # 279 batafly_sld
                     [
                      :check_add_grace_cocktail_feat_event,
                      :check_remove_grace_cocktail_feat_event,
@@ -5606,14 +5606,14 @@ module Unlight
                      :use_grace_cocktail_feat_damage_event,
                      :finish_grace_cocktail_feat_event,
                     ],
-                        # 280 ベンダーカクテル
+                    # 280 ベンダーカクテル
                     [
                      :check_add_land_mine_r_feat_event,
                      :check_remove_land_mine_r_feat_event,
                      :check_rotate_land_mine_r_feat_event,
                      :use_land_mine_r_feat_event,
                     ],
-                        # 281 ランドマイン(復活)
+                    # 281 ランドマイン(復活)
                     [
                      :check_add_napalm_death_feat_event,
                      :check_remove_napalm_death_feat_event,
@@ -5621,7 +5621,7 @@ module Unlight
                      :use_napalm_death_feat_event,
                      :finish_napalm_death_feat_event,
                     ],
-                        # 282 ナパーム・デス
+                    # 282 ナパーム・デス
                     [
                      :check_add_suicidal_failure_feat_event,
                      :check_remove_suicidal_failure_feat_event,
@@ -5629,14 +5629,14 @@ module Unlight
                      :use_suicidal_failure_feat_event,
                      :finish_suicidal_failure_feat_event,
                     ],
-                        # 283 スーサイダルフェイルア
+                    # 283 スーサイダルフェイルア
                     [
                      :check_add_big_bragg_r_feat_event,
                      :check_remove_big_bragg_r_feat_event,
                      :check_rotate_big_bragg_r_feat_event,
                      :finish_big_bragg_r_feat_event,
                     ],
-                        # 284 ビッグブラッグ(復活)
+                    # 284 ビッグブラッグ(復活)
                     [
                      :check_add_lets_knife_r_feat_event,
                      :check_remove_lets_knife_r_feat_event,
@@ -5644,14 +5644,14 @@ module Unlight
                      :use_lets_knife_r_feat_event,
                      :finish_lets_knife_r_feat_event,
                     ],
-                        # 285 レッツナイフ(復活)
+                    # 285 レッツナイフ(復活)
                     [
                      :check_add_prey_feat_event,
                      :check_remove_prey_feat_event,
                      :check_rotate_prey_feat_event,
                      :use_prey_feat_event,
                     ],
-                        # 286 捕食
+                    # 286 捕食
                     [
                      :check_add_rumination_feat_event,
                      :check_remove_rumination_feat_event,
@@ -5661,7 +5661,7 @@ module Unlight
                      :finish_rumination_feat_foe_chara_change_event,
                      :finish_rumination_feat_owner_chara_change_event,
                     ],
-                        # 287 反芻
+                    # 287 反芻
                     [
                      :check_add_pilum_feat_event,
                      :check_remove_pilum_feat_event,
@@ -5670,7 +5670,7 @@ module Unlight
                      :finish_pilum_feat_event,
                      :use_pilum_feat_damage_event,
                     ],
-                        # 288 ピルム
+                    # 288 ピルム
                     [
                      :check_add_road_of_underground_feat_event,
                      :check_remove_road_of_underground_feat_event,
@@ -5679,7 +5679,7 @@ module Unlight
                      :use_road_of_underground_feat_finish_move_event,
                      :finish_road_of_underground_feat_event,
                     ],
-                        # 289 地中の路
+                    # 289 地中の路
                     [
                      :check_add_fox_shadow_feat_event,
                      :check_remove_fox_shadow_feat_event,
@@ -5687,7 +5687,7 @@ module Unlight
                      :use_fox_shadow_feat_event,
                      :finish_fox_shadow_feat_event,
                     ],
-                        # 290 狐分身
+                    # 290 狐分身
                     [
                      :check_add_fox_shoot_feat_event,
                      :check_remove_fox_shoot_feat_event,
@@ -5696,7 +5696,7 @@ module Unlight
                      :finish_fox_shoot_feat_event,
                      :use_fox_shoot_feat_damage_event,
                     ],
-                        # 291 狐シュート
+                    # 291 狐シュート
                     [
                      :check_add_fox_zone_feat_event,
                      :check_remove_fox_zone_feat_event,
@@ -5707,7 +5707,7 @@ module Unlight
                      :use_fox_zone_feat_defense_deal_event,
                      :finish_fox_zone_feat_event,
                     ],
-                        # 292 狐間空
+                    # 292 狐間空
                     [
                      :check_add_arrow_rain_feat_event,
                      :check_remove_arrow_rain_feat_event,
@@ -5715,7 +5715,7 @@ module Unlight
                      :use_arrow_rain_feat_event,
                      :finish_arrow_rain_feat_event,
                     ],
-                        # 293 墜下する流星
+                    # 293 墜下する流星
                     [
                      :check_add_atemwende_feat_event,
                      :check_remove_atemwende_feat_event,
@@ -5724,7 +5724,7 @@ module Unlight
                      :finish_change_atemwende_feat_event,
                      :finish_turn_atemwende_feat_event,
                     ],
-                        # 294 光輝強迫
+                    # 294 光輝強迫
                     [
                      :check_add_fadensonnen_feat_event,
                      :check_remove_fadensonnen_feat_event,
@@ -5732,7 +5732,7 @@ module Unlight
                      :use_fadensonnen_feat_event,
                      :finish_fadensonnen_feat_event,
                     ],
-                        # 295 雪の重唱
+                    # 295 雪の重唱
                     [
                      :check_add_lichtzwang_feat_event,
                      :check_remove_lichtzwang_feat_event,
@@ -5741,7 +5741,7 @@ module Unlight
                      :finish_lichtzwang_feat_event,
                      :use_lichtzwang_feat_damage_event,
                     ],
-                        # 296 紡がれる陽
+                    # 296 紡がれる陽
                     [
                      :check_add_schneepart_feat_event,
                      :check_remove_schneepart_feat_event,
@@ -5750,14 +5750,14 @@ module Unlight
                      :use_schneepart_feat_damage_event,
                      :finish_schneepart_feat_event,
                     ],
-                        # 297 溜息の転換
+                    # 297 溜息の転換
                     [
                      :check_add_highgate_feat_event,
                      :check_remove_highgate_feat_event,
                      :check_rotate_highgate_feat_event,
                      :use_highgate_feat_event,
                     ],
-                        # 298 ハイゲート
+                    # 298 ハイゲート
                     [
                      :check_add_dorfloft_feat_event,
                      :check_remove_dorfloft_feat_event,
@@ -5765,7 +5765,7 @@ module Unlight
                      :use_dorfloft_feat_event,
                      :use_dorfloft_feat_damage_event,
                     ],
-                        # 299 ドルフルフト
+                    # 299 ドルフルフト
                     [
                      :check_add_lumines_feat_event,
                      :check_remove_lumines_feat_event,
@@ -5774,14 +5774,14 @@ module Unlight
                      :use_lumines_feat_damage_event,
                      :finish_lumines_feat_event,
                     ],
-                        # 300 ルミネセンス
+                    # 300 ルミネセンス
                     [
                      :check_add_super_heroine_feat_event,
                      :check_remove_super_heroine_feat_event,
                      :check_rotate_super_heroine_feat_event,
                      :finish_super_heroine_feat_event,
                     ],
-                        # 301 スーパーヒロイン(復活)
+                    # 301 スーパーヒロイン(復活)
                     [
                      :check_add_stampede_feat_event,
                      :check_remove_stampede_feat_event,
@@ -5790,7 +5790,7 @@ module Unlight
                      :use_stampede_feat_damage_event,
                      :finish_stampede_feat_event,
                     ],
-                        # 302 T・スタンピード
+                    # 302 T・スタンピード
                     [
                      :check_add_death_control2_feat_event,
                      :check_remove_death_control2_feat_event,
@@ -5799,7 +5799,7 @@ module Unlight
                      :use_death_control2_feat_damage_event,
                      :finish_death_control2_feat_event,
                     ],
-                        # 303 D・コントロール(復活)
+                    # 303 D・コントロール(復活)
                     [
                      :check_add_kengi_feat_event,
                      :check_remove_kengi_feat_event,
@@ -5809,21 +5809,21 @@ module Unlight
                      :use_kengi_feat_battle_result_event,
                      :finish_kengi_feat_event,
                     ],
-                        # 304 俺様の剣技に見惚れろ
+                    # 304 俺様の剣技に見惚れろ
                     [
                      :check_add_dokowo_feat_event,
                      :check_remove_dokowo_feat_event,
                      :check_rotate_dokowo_feat_event,
                      :finish_dokowo_feat_event,
                     ],
-                        # 305 何処を見てやがる
+                    # 305 何処を見てやがる
                     [
                      :check_add_mikitta_feat_event,
                      :check_remove_mikitta_feat_event,
                      :check_rotate_mikitta_feat_event,
                      :finish_mikitta_feat_event,
                     ],
-                        # 306 お前の技は見切った
+                    # 306 お前の技は見切った
                     [
                      :check_add_hontou_feat_event,
                      :check_remove_hontou_feat_event,
@@ -5833,28 +5833,28 @@ module Unlight
                      :use_hontou_feat_battle_result_event,
                      :finish_hontou_feat_event,
                     ],
-                        # 307 これが俺様の本当の力だ
+                    # 307 これが俺様の本当の力だ
                     [
                      :check_add_invited_feat_event,
                      :check_remove_invited_feat_event,
                      :check_rotate_invited_feat_event,
                      :finish_invited_feat_event,
                     ],
-                        # 308 招かれるものども
+                    # 308 招かれるものども
                     [
                      :check_add_through_hand_feat_event,
                      :check_remove_through_hand_feat_event,
                      :check_rotate_through_hand_feat_event,
                      :use_through_hand_feat_event,
                     ],
-                        # 309 透き通る手
+                    # 309 透き通る手
                     [
                      :check_add_prof_breath_feat_event,
                      :check_remove_prof_breath_feat_event,
                      :check_rotate_prof_breath_feat_event,
                      :finish_prof_breath_feat_event,
                     ],
-                        # 310 深遠なる息
+                    # 310 深遠なる息
                     [
                      :check_add_seven_wish_feat_event,
                      :check_remove_seven_wish_feat_event,
@@ -5862,7 +5862,7 @@ module Unlight
                      :use_seven_wish_feat_event,
                      :use_seven_wish_feat_damage_event,
                     ],
-                        # 311 7つの願い
+                    # 311 7つの願い
                     [
                      :check_add_thirteen_eyes_r_feat_event,
                      :check_remove_thirteen_eyes_r_feat_event,
@@ -5872,7 +5872,7 @@ module Unlight
                      :finish_thirteen_eyes_r_feat_event,
                      :use_thirteen_eyes_r_feat_damage_event,
                     ],
-                        # 312 13の眼(復活)
+                    # 312 13の眼(復活)
                     [
                      :check_add_thorn_care_r_feat_event,
                      :check_remove_thorn_care_r_feat_event,
@@ -5881,7 +5881,7 @@ module Unlight
                      :use_thorn_care_r_feat_damage_event,
                      :finish_thorn_care_r_feat_event,
                     ],
-                        # 313 茨の構え(復活)
+                    # 313 茨の構え(復活)
                     [
                      :check_add_liberating_sword_r_feat_event,
                      :check_remove_liberating_sword_r_feat_event,
@@ -5890,7 +5890,7 @@ module Unlight
                      :use_liberating_sword_r_feat_damage_event,
                      :finish_liberating_sword_r_feat_event,
                     ],
-                        # 314 解放剣(復活)
+                    # 314 解放剣(復活)
                     [
                      :check_add_curse_sword_r_feat_event,
                      :check_remove_curse_sword_r_feat_event,
@@ -5899,7 +5899,7 @@ module Unlight
                      :use_curse_sword_r_feat_damage_event,
                      :finish_curse_sword_r_feat_event,
                     ],
-                        # 315 獄剣
+                    # 315 獄剣
                     [
                      :check_add_flame_ring_feat_event,
                      :check_remove_flame_ring_feat_event,
@@ -5907,7 +5907,7 @@ module Unlight
                      :use_flame_ring_feat_event,
                      :finish_flame_ring_feat_event,
                     ],
-                        # 316 火の輪くぐり
+                    # 316 火の輪くぐり
                     [
                      :check_add_piano_feat_event,
                      :check_remove_piano_feat_event,
@@ -5916,14 +5916,14 @@ module Unlight
                      :use_piano_feat_damage_event,
                      :finish_piano_feat_event,
                     ],
-                        # 317 ピアノ
+                    # 317 ピアノ
                     [
                      :check_add_ona_ball_feat_event,
                      :check_remove_ona_ball_feat_event,
                      :check_rotate_ona_ball_feat_event,
                      :finish_next_ona_ball_feat_event,
                     ],
-                        # 318 玉乗り
+                    # 318 玉乗り
                     [
                      :check_add_violent_feat_event,
                      :check_remove_violent_feat_event,
@@ -5931,7 +5931,7 @@ module Unlight
                      :finish_violent_feat_change_event,
                      :finish_violent_feat_event,
                     ],
-                        # 319 暴れる
+                    # 319 暴れる
                     [
                      :check_add_balance_life_feat_event,
                      :check_remove_balance_life_feat_event,
@@ -5940,7 +5940,7 @@ module Unlight
                      :use_balance_life_feat_damage_event,
                      :finish_balance_life_feat_event,
                     ],
-                        # 320 バランスライフ
+                    # 320 バランスライフ
                     [
                      :check_add_lifetime_sound_feat_event,
                      :check_remove_lifetime_sound_feat_event,
@@ -5949,7 +5949,7 @@ module Unlight
                      :finish_lifetime_sound_feat_event,
                      :finish_lifetime_sound_feat_damage_event,
                     ],
-                        # 321 ライフタイムサウンド
+                    # 321 ライフタイムサウンド
                     [
                      :check_add_coma_white_feat_event,
                      :check_remove_coma_white_feat_event,
@@ -5957,14 +5957,14 @@ module Unlight
                      :use_coma_white_feat_event,
                      :finish_coma_white_feat_event,
                     ],
-                        # 322 コマホワイト
+                    # 322 コマホワイト
                     [
                      :check_add_goes_to_dark_feat_event,
                      :check_remove_goes_to_dark_feat_event,
                      :check_rotate_goes_to_dark_feat_event,
                      :finish_goes_to_dark_feat_event,
                     ],
-                        # 323 ゴーズトゥダーク
+                    # 323 ゴーズトゥダーク
                     [
                      :check_add_counter_guard_feat_event,
                      :check_remove_counter_guard_feat_event,
@@ -5973,7 +5973,7 @@ module Unlight
                      :use_ex_counter_guard_feat_dice_attr_event,
                      :finish_counter_guard_feat_event,
                     ],
-                        # 324 Exカウンターガード
+                    # 324 Exカウンターガード
                     [
                      :check_add_thirteen_eyes_feat_event,
                      :check_remove_thirteen_eyes_feat_event,
@@ -5983,7 +5983,7 @@ module Unlight
                      :finish_ex_thirteen_eyes_feat_event,
                      :use_thirteen_eyes_feat_damage_event,
                     ],
-                        # 325 Ex13の眼
+                    # 325 Ex13の眼
                     [
                      :check_add_razors_edge_feat_event,
                      :check_remove_razors_edge_feat_event,
@@ -5993,7 +5993,7 @@ module Unlight
                      :use_ex_razors_edge_feat_dice_attr_event,
                      :finish_razors_edge_feat_event,
                     ],
-                        # 326 Exレイザーズエッジ
+                    # 326 Exレイザーズエッジ
                     [
                      :check_add_red_moon_feat_event,
                      :check_remove_red_moon_feat_event,
@@ -6003,7 +6003,7 @@ module Unlight
                      :use_red_moon_feat_damage_event,
                      :finish_red_moon_feat_event,
                     ],
-                        # 327 Ex深紅の月
+                    # 327 Ex深紅の月
                     [
                      :check_add_hassen_feat_event,
                      :check_remove_hassen_feat_event,
@@ -6011,7 +6011,7 @@ module Unlight
                      :use_hassen_feat_event,
                      :finish_hassen_feat_event,
                     ],
-                        # 328 八閃
+                    # 328 八閃
                     [
                      :check_add_handled_slash_r_feat_event,
                      :check_remove_handled_slash_r_feat_event,
@@ -6020,7 +6020,7 @@ module Unlight
                      :use_handled_slash_r_feat_damage_event,
                      :finish_handled_slash_r_feat_event,
                     ],
-                        # 329 百閃R
+                    # 329 百閃R
                     [
                      :check_add_rakshasa_stance_feat_event,
                      :check_remove_rakshasa_stance_feat_event,
@@ -6032,7 +6032,7 @@ module Unlight
                      :off_rakshasa_stance_feat_event,
                      :finish_rakshasa_stance_feat_event,
                     ],
-                        # 330 羅刹の構え
+                    # 330 羅刹の構え
                     [
                      :check_add_obituary_feat_event,
                      :check_remove_obituary_feat_event,
@@ -6041,7 +6041,7 @@ module Unlight
                      :use_obituary_feat_damage_event,
                      :finish_obituary_feat_event,
                     ],
-                        # 331 オビチュアリ
+                    # 331 オビチュアリ
                     [
                      :check_add_solvent_rain_r_feat_event,
                      :check_remove_solvent_rain_r_feat_event,
@@ -6049,7 +6049,7 @@ module Unlight
                      :use_solvent_rain_r_feat_event,
                      :finish_solvent_rain_r_feat_event,
                     ],
-                        # 332 ソルベント・レインR
+                    # 332 ソルベント・レインR
                     [
                      :check_add_kirigakure_feat_event,
                      :check_remove_kirigakure_feat_event,
@@ -6070,7 +6070,7 @@ module Unlight
                      :finish_kirigakure_feat_do_damage_event,
                      :finish_kirigakure_feat_finish_turn_event,
                     ],
-                        # 333 霧隠れ
+                    # 333 霧隠れ
                     [
                      :check_add_mikagami_feat_event,
                      :check_remove_mikagami_feat_event,
@@ -6078,7 +6078,7 @@ module Unlight
                      :use_mikagami_feat_event,
                      :finish_mikagami_feat_event,
                     ],
-                        # 334 水鏡
+                    # 334 水鏡
                     [
                      :check_add_mutual_love_feat_event,
                      :check_remove_mutual_love_feat_event,
@@ -6088,7 +6088,7 @@ module Unlight
                      :use_mutual_love_feat_const_damage_event,
                      :finish_mutual_love_feat_event,
                     ],
-                        # 335 落花流水
+                    # 335 落花流水
                     [
                      :check_add_mere_shadow_feat_event,
                      :check_remove_mere_shadow_feat_event,
@@ -6097,14 +6097,14 @@ module Unlight
                      :finish_mere_shadow_feat_event,
                      :finish_mere_shadow_feat_dice_attr_event,
                     ],
-                        # 336 鏡花水月
+                    # 336 鏡花水月
                     [
                      :check_add_scapulimancy_feat_event,
                      :check_remove_scapulimancy_feat_event,
                      :check_rotate_scapulimancy_feat_event,
                      :finish_scapulimancy_feat_event,
                     ],
-                        # 337 亀占い
+                    # 337 亀占い
                     [
                      :check_add_soil_guard_feat_event,
                      :check_remove_soil_guard_feat_event,
@@ -6112,14 +6112,14 @@ module Unlight
                      :use_soil_guard_feat_event,
                      :use_soil_guard_feat_damage_event,
                     ],
-                        # 338 土盾
+                    # 338 土盾
                     [
                      :check_add_carapace_spin_feat_event,
                      :check_remove_carapace_spin_feat_event,
                      :check_rotate_carapace_spin_feat_event,
                      :finish_carapace_spin_feat_event,
                     ],
-                        # 339 甲羅スピン
+                    # 339 甲羅スピン
                     [
                      :check_add_vendetta_feat_event,
                      :check_remove_vendetta_feat_event,
@@ -6127,7 +6127,7 @@ module Unlight
                      :use_vendetta_feat_event,
                      :finish_vendetta_feat_event,
                     ],
-                       # 340 ヴェンデッタ
+                    # 340 ヴェンデッタ
                     [
                      :check_add_avengers_feat_event,
                      :check_remove_avengers_feat_event,
@@ -6135,7 +6135,7 @@ module Unlight
                      :use_avengers_feat_event,
                      :finish_avengers_feat_event,
                     ],
-                        # 341 アヴェンジャー
+                    # 341 アヴェンジャー
                     [
                      :check_add_sharpen_edge_feat_event,
                      :check_remove_sharpen_edge_feat_event,
@@ -6146,7 +6146,7 @@ module Unlight
                      :use_sharpen_edge_state_damage_event,
                      :finish_sharpen_edge_state_event,
                     ],
-                        # 342 シャープンエッジ
+                    # 342 シャープンエッジ
                     [
                      :check_add_hacknine_feat_event,
                      :check_remove_hacknine_feat_event,
@@ -6154,14 +6154,14 @@ module Unlight
                      :use_hacknine_feat_event,
                      :finish_hacknine_feat_event,
                     ],
-                        # 343 ハックナイン
+                    # 343 ハックナイン
                     [
                      :check_add_black_mageia_feat_event,
                      :check_remove_black_mageia_feat_event,
                      :check_rotate_black_mageia_feat_event,
                      :finish_black_mageia_feat_event,
                     ],
-                        # 344 ブラックマゲイア
+                    # 344 ブラックマゲイア
                     [
                      :check_add_corps_drain_feat_event,
                      :check_remove_corps_drain_feat_event,
@@ -6169,14 +6169,14 @@ module Unlight
                      :finish_corps_drain_feat_event,
                      :use_corps_drain_feat_damage_event,
                     ],
-                        # 345 コープスドレイン
+                    # 345 コープスドレイン
                     [
                      :check_add_invert_feat_event,
                      :check_remove_invert_feat_event,
                      :check_rotate_invert_feat_event,
                      :finish_invert_feat_event,
                     ],
-                        # 346 インヴァート
+                    # 346 インヴァート
                     [
                      :check_add_night_hawk_feat_event,
                      :check_remove_night_hawk_feat_event,
@@ -6189,7 +6189,7 @@ module Unlight
                      :use_night_hawk_feat_dead_change_event,
                      :finish_night_hawk_feat_change_event,
                     ],
-                        # 347 追跡する夜鷹
+                    # 347 追跡する夜鷹
                     [
                      :check_add_phantom_barrett_feat_event,
                      :check_remove_phantom_barrett_feat_event,
@@ -6197,7 +6197,7 @@ module Unlight
                      :use_phantom_barrett_feat_event,
                      :finish_phantom_barrett_feat_event,
                     ],
-                        # 348 幽幻の剛弾
+                    # 348 幽幻の剛弾
                     [
                      :check_add_one_act_feat_event,
                      :check_remove_one_act_feat_event,
@@ -6205,14 +6205,14 @@ module Unlight
                      :use_one_act_feat_event,
                      :finish_one_act_feat_event,
                     ],
-                        # 349 惑わしの一幕
+                    # 349 惑わしの一幕
                     [
                      :check_add_final_barrett_feat_event,
                      :check_remove_final_barrett_feat_event,
                      :check_rotate_final_barrett_feat_event,
                      :finish_final_barrett_feat_event,
                     ],
-                        # 350 終極の烈弾
+                    # 350 終極の烈弾
                     [
                      :check_add_grimmdead_feat_event,
                      :check_remove_grimmdead_feat_event,
@@ -6223,7 +6223,7 @@ module Unlight
                      :use_grimmdead_feat_move_after_event,
                      :finish_grimmdead_feat_event,
                     ],
-                        # 351 グリムデッド
+                    # 351 グリムデッド
                     [
                      :check_add_wunderkammer_feat_event,
                      :check_remove_wunderkammer_feat_event,
@@ -6232,7 +6232,7 @@ module Unlight
                      :use_wunderkammer_feat_damage_event,
                      :finish_wunderkammer_feat_event,
                     ],
-                        # 352 ヴンダーカンマー
+                    # 352 ヴンダーカンマー
                     [
                      :check_add_constraint_feat_event,
                      :check_remove_constraint_feat_event,
@@ -6241,7 +6241,7 @@ module Unlight
                      :use_constraint_feat_damage_event,
                      :finish_constraint_feat_event,
                     ],
-                        # 353 コンストレイント
+                    # 353 コンストレイント
                     [
                      :check_add_renovate_atrandom_feat_event,
                      :check_remove_renovate_atrandom_feat_event,
@@ -6250,7 +6250,7 @@ module Unlight
                      :use_renovate_atrandom_feat_damage_event,
                      :finish_renovate_atrandom_feat_event,
                     ],
-                        # 354 リノベートアトランダム
+                    # 354 リノベートアトランダム
                     [
                      :check_add_backbeard_feat_event,
                      :check_remove_backbeard_feat_event,
@@ -6258,7 +6258,7 @@ module Unlight
                      :use_backbeard_feat_damage_event,
                      :finish_backbeard_feat_event,
                     ],
-                        # 355 催眠術
+                    # 355 催眠術
                     [
                      :check_add_shadow_stitch_feat_event,
                      :check_remove_shadow_stitch_feat_event,
@@ -6267,7 +6267,7 @@ module Unlight
                      :use_shadow_stitch_feat_damage_event,
                      :finish_shadow_stitch_feat_event,
                     ],
-                        # 356 影縫い
+                    # 356 影縫い
                     [
                      :check_add_mextli_feat_event,
                      :check_remove_mextli_feat_event,
@@ -6277,7 +6277,7 @@ module Unlight
                      :check_damage_insurance_dead_change_event,
                      :use_damage_insurance_damage_event,
                     ],
-                        # 357 ミキストリ
+                    # 357 ミキストリ
                     [
                      :check_add_rivet_and_surge_feat_event,
                      :check_remove_rivet_and_surge_feat_event,
@@ -6287,21 +6287,21 @@ module Unlight
                      :cutin_rivet_and_surge_feat_event,
                      :finish_rivet_and_surge_feat_event,
                     ],
-                       # 358 リベットアンドサージ
+                    # 358 リベットアンドサージ
                     [
                      :check_add_phantomas_feat_event,
                      :check_remove_phantomas_feat_event,
                      :check_rotate_phantomas_feat_event,
                      :finish_phantomas_feat_event,
                     ],
-                       # 359 ファントマ
+                    # 359 ファントマ
                     [
                      :check_add_danger_drug_feat_event,
                      :check_remove_danger_drug_feat_event,
                      :check_rotate_danger_drug_feat_event,
                      :finish_danger_drug_feat_event,
                     ],
-                        # 360 危険ドラッグ
+                    # 360 危険ドラッグ
                     [
                      :check_add_three_thunder_feat_event,
                      :check_remove_three_thunder_feat_event,
@@ -6309,7 +6309,7 @@ module Unlight
                      :use_three_thunder_feat_event,
                      :finish_three_thunder_feat_event,
                     ],
-                        # 361 HP3サンダー
+                    # 361 HP3サンダー
                     [
                      :check_add_prime_heal_feat_event,
                      :check_remove_prime_heal_feat_event,
@@ -6317,7 +6317,7 @@ module Unlight
                      :use_prime_heal_feat_event,
                      :finish_prime_heal_feat_event,
                     ],
-                        # 362 素数ヒール
+                    # 362 素数ヒール
                     [
                      :check_add_four_comet_feat_event,
                      :check_remove_four_comet_feat_event,
@@ -6325,7 +6325,7 @@ module Unlight
                      :use_four_comet_feat_event,
                      :finish_four_comet_feat_event,
                     ],
-                        # 363 HP4コメット
+                    # 363 HP4コメット
                     [
                      :check_add_club_jugg_feat_event,
                      :check_remove_club_jugg_feat_event,
@@ -6334,7 +6334,7 @@ module Unlight
                      :use_club_jugg_feat_deal_event,
                      :finish_club_jugg_feat_event,
                     ],
-                        # 364 クラブジャグ
+                    # 364 クラブジャグ
                     [
                      :check_add_knife_jugg_feat_event,
                      :check_remove_knife_jugg_feat_event,
@@ -6343,7 +6343,7 @@ module Unlight
                      :use_knife_jugg_feat_deal_event,
                      :finish_knife_jugg_feat_event,
                     ],
-                        # 365 ナイフジャグ
+                    # 365 ナイフジャグ
                     [
                      :check_add_blowing_fire_feat_event,
                      :check_remove_blowing_fire_feat_event,
@@ -6351,7 +6351,7 @@ module Unlight
                      :use_blowing_fire_feat_event,
                      :finish_blowing_fire_feat_event,
                     ],
-                        # 366 火吹き
+                    # 366 火吹き
                     [
                      :check_add_balance_ball_feat_event,
                      :check_remove_balance_ball_feat_event,
@@ -6359,7 +6359,7 @@ module Unlight
                      :use_balance_ball_feat_event,
                      :finish_balance_ball_feat_event,
                     ],
-                        # 367 バランスボール
+                    # 367 バランスボール
                     [
                      :check_add_bad_milk_feat_event,
                      :check_remove_bad_milk_feat_event,
@@ -6371,7 +6371,7 @@ module Unlight
                      :finish_bad_milk_feat_event,
                      :finish_turn_bad_milk_feat_event,
                     ],
-                        # 368 劣化ミルク
+                    # 368 劣化ミルク
                     [
                      :check_add_mira_hp_feat_event,
                      :check_remove_mira_hp_feat_event,
@@ -6380,7 +6380,7 @@ module Unlight
                      :use_mira_hp_feat_damage_event,
                      :finish_mira_hp_feat_event,
                     ],
-                        # 369 ミラHP
+                    # 369 ミラHP
                     [
                      :check_add_skill_drain_feat_event,
                      :check_remove_skill_drain_feat_event,
@@ -6391,7 +6391,7 @@ module Unlight
                      :finish_skill_drain_feat_finish_event,
                      :finish_override_skill_state_event,
                     ],
-                        # 370 スキルドレイン
+                    # 370 スキルドレイン
                     [
                      :check_add_coffin_feat_event,
                      :check_remove_coffin_feat_event,
@@ -6399,7 +6399,7 @@ module Unlight
                      :use_coffin_feat_event,
                      :finish_coffin_feat_event,
                     ],
-                        # 371 コフィン
+                    # 371 コフィン
                     [
                      :check_add_dark_eyes_feat_event,
                      :check_remove_dark_eyes_feat_event,
@@ -6408,7 +6408,7 @@ module Unlight
                      :use_dark_eyes_feat_move_event,
                      :use_dark_eyes_feat_damage_event,
                     ],
-                        # 372 玄青眼
+                    # 372 玄青眼
                     [
                      :check_add_crows_claw_feat_event,
                      :check_remove_crows_claw_feat_event,
@@ -6416,7 +6416,7 @@ module Unlight
                      :use_crows_claw_feat_event,
                      :finish_crows_claw_feat_event,
                     ],
-                        # 373 烏爪一転
+                    # 373 烏爪一転
                     [
                      :check_add_mole_feat_event,
                      :check_remove_mole_feat_event,
@@ -6425,7 +6425,7 @@ module Unlight
                      :use_mole_feat_damage_event,
                      :finish_mole_feat_event,
                     ],
-                        # 374 土竜一転
+                    # 374 土竜一転
                     [
                      :check_add_sunset_feat_event,
                      :check_remove_sunset_feat_event,
@@ -6435,7 +6435,7 @@ module Unlight
                      :use_sunset_feat_damage_check_event,
                      :use_sunset_feat_const_damage_event,
                     ],
-                        # 375 五彩晩霞
+                    # 375 五彩晩霞
                     [
                      :check_add_vine_feat_event,
                      :check_remove_vine_feat_event,
@@ -6445,7 +6445,7 @@ module Unlight
                      :finish_vine_feat_event,
                      :finish_vine_feat_turn_event
                     ],
-                        # 376 蔓縛り
+                    # 376 蔓縛り
                     [
                      :check_add_grape_vine_feat_event,
                      :check_remove_grape_vine_feat_event,
@@ -6454,7 +6454,7 @@ module Unlight
                      :use_grape_vine_feat_damage_event,
                      :use_grape_vine_feat_foe_event
                     ],
-                        # 377 吸収
+                    # 377 吸収
                     [
                      :check_add_thunder_struck_feat_event,
                      :check_remove_thunder_struck_feat_event,
@@ -6463,7 +6463,7 @@ module Unlight
                      :finish_thunder_struck_feat_event,
                      :finish_thunder_struck_feat_end_event,
                     ],
-                        # 378 サンダーストラック
+                    # 378 サンダーストラック
                     [
                      :check_add_weave_world_feat_event,
                      :check_remove_weave_world_feat_event,
@@ -6471,7 +6471,7 @@ module Unlight
                      :use_weave_world_feat_event,
                      :finish_weave_world_feat_event,
                     ],
-                        # 379 ウィーヴワールド
+                    # 379 ウィーヴワールド
                     [
                      :check_add_collection_feat_event,
                      :check_remove_collection_feat_event,
@@ -6483,7 +6483,7 @@ module Unlight
                      :finish_collection_feat_event,
                      :check_ending_collection_feat_event,
                     ],
-                        # 380 コレクション
+                    # 380 コレクション
                     [
                      :check_add_restriction_feat_event,
                      :check_remove_restriction_feat_event,
@@ -6491,7 +6491,7 @@ module Unlight
                      :use_restriction_feat_event,
                      :finish_restriction_feat_event,
                     ],
-                        # 381 Dリストリクション
+                    # 381 Dリストリクション
                     [
                      :check_add_dabs_feat_event,
                      :check_remove_dabs_feat_event,
@@ -6499,7 +6499,7 @@ module Unlight
                      :use_dabs_feat_event,
                      :finish_dabs_feat_event,
                     ],
-                        # 382 DABS
+                    # 382 DABS
                     [
                      :check_add_vibration_feat_event,
                      :check_remove_vibration_feat_event,
@@ -6507,7 +6507,7 @@ module Unlight
                      :use_vibration_feat_event,
                      :finish_vibration_feat_event,
                     ],
-                        # 383 VIBRATION
+                    # 383 VIBRATION
                     [
                      :check_add_tot_feat_event,
                      :check_remove_tot_feat_event,
@@ -6516,14 +6516,14 @@ module Unlight
                      :use_tot_feat_damage_event,
                      :finish_tot_feat_event,
                     ],
-                        # 384 ToT
+                    # 384 ToT
                     [
                      :check_add_duck_apple_feat_event,
                      :check_remove_duck_apple_feat_event,
                      :check_rotate_duck_apple_feat_event,
                      :finish_duck_apple_feat_event,
                     ],
-                        # 385 ダックアップル
+                    # 385 ダックアップル
                     [
                      :check_add_rampage_feat_event,
                      :check_remove_rampage_feat_event,
@@ -6532,7 +6532,7 @@ module Unlight
                      :use_rampage_feat_damage_event,
                      :finish_rampage_feat_event,
                     ],
-                        # 386 ランページ
+                    # 386 ランページ
                     [
                      :check_add_scratch_fire_feat_event,
                      :check_remove_scratch_fire_feat_event,
@@ -6541,7 +6541,7 @@ module Unlight
                      :use_scratch_fire_feat_damage_event,
                      :finish_scratch_fire_feat_event,
                     ],
-                        # 387 スクラッチファイア
+                    # 387 スクラッチファイア
                     [
                      :check_add_blue_ruin_feat_event,
                      :check_remove_blue_ruin_feat_event,
@@ -6549,7 +6549,7 @@ module Unlight
                      :use_blue_ruin_feat_event,
                      :finish_blue_ruin_feat_event,
                     ],
-                        # 388 ブルールーイン
+                    # 388 ブルールーイン
                     [
                      :check_add_third_step_feat_event,
                      :check_remove_third_step_feat_event,
@@ -6558,7 +6558,7 @@ module Unlight
                      :use_third_step_feat_damage_event,
                      :finish_third_step_feat_event,
                     ],
-                        # 389 サードステップ
+                    # 389 サードステップ
                     [
                      :check_add_metal_shield_feat_event,
                      :check_remove_metal_shield_feat_event,
@@ -6566,7 +6566,7 @@ module Unlight
                      :use_metal_shield_feat_event,
                      :finish_metal_shield_feat_event,
                     ],
-                        # 390 メタルシールド
+                    # 390 メタルシールド
                     [
                      :check_add_magnetic_field_feat_event,
                      :check_remove_magnetic_field_feat_event,
@@ -6575,7 +6575,7 @@ module Unlight
                      :finish_magnetic_field_feat_event,
                      :final_magnetic_field_feat_event,
                     ],
-                        # 391 滞留する光波
+                    # 391 滞留する光波
                     [
                      :check_add_afterglow_feat_event,
                      :check_remove_afterglow_feat_event,
@@ -6584,7 +6584,7 @@ module Unlight
                      :use_afterglow_feat_damage_event,
                      :finish_afterglow_feat_event,
                     ],
-                        # 392 拒絶の余光
+                    # 392 拒絶の余光
                     [
                      :check_add_keeper_feat_event,
                      :check_remove_keeper_feat_event,
@@ -6592,7 +6592,7 @@ module Unlight
                      :use_keeper_feat_event,
                      :finish_keeper_feat_event,
                     ],
-                        # 393 夕暉の番人
+                    # 393 夕暉の番人
                     [
                      :check_add_healing_schock_feat_event,
                      :check_remove_healing_schock_feat_event,
@@ -6600,14 +6600,14 @@ module Unlight
                      :use_healing_schock_feat_event,
                      :finish_healing_schock_feat_event,
                     ],
-                        # 394 ヒーリングショック
+                    # 394 ヒーリングショック
                     [
                      :check_add_claymore_feat_event,
                      :check_remove_claymore_feat_event,
                      :check_rotate_claymore_feat_event,
                      :finish_claymore_feat_event,
                     ],
-                        # 395 クレイモア
+                    # 395 クレイモア
                     [
                      :check_add_trap_chase_feat_event,
                      :check_remove_trap_chase_feat_event,
@@ -6616,7 +6616,7 @@ module Unlight
                      :use_trap_chase_feat_damage_event,
                      :finish_trap_chase_feat_event,
                     ],
-                        # 396トラップチェイス
+                    # 396トラップチェイス
                     [
                      :check_add_panic_feat_event,
                      :check_remove_panic_feat_event,
@@ -6625,7 +6625,7 @@ module Unlight
                      :use_panic_feat_damage_event,
                      :finish_panic_feat_event,
                     ],
-                        # 397 パニックグレネード
+                    # 397 パニックグレネード
                     [
                      :check_add_bullet_counter_feat_event,
                      :check_remove_bullet_counter_feat_event,
@@ -6633,7 +6633,7 @@ module Unlight
                      :use_bullet_counter_feat_event,
                      :finish_bullet_counter_feat_event,
                     ],
-                        # 398 バレットカウンター
+                    # 398 バレットカウンター
                     [
                      :check_add_bean_storm_feat_event,
                      :check_remove_bean_storm_feat_event,
@@ -6641,14 +6641,14 @@ module Unlight
                      :use_bean_storm_feat_event,
                      :finish_bean_storm_feat_event,
                     ],
-                        # 399 大菽嵐
+                    # 399 大菽嵐
                     [
                      :check_add_joker_feat_event,
                      :check_remove_joker_feat_event,
                      :check_rotate_joker_feat_event,
                      :finish_joker_feat_event,
                     ],
-                        # 400 ジョーカー
+                    # 400 ジョーカー
                     [
                      :check_add_familiar_feat_event,
                      :check_remove_familiar_feat_event,
@@ -6656,7 +6656,7 @@ module Unlight
                      :use_familiar_feat_event,
                      :finish_familiar_feat_event,
                     ],
-                        # 401 ファミリア
+                    # 401 ファミリア
                     [
                      :check_add_crown_crown_feat_event,
                      :check_remove_crown_crown_feat_event,
@@ -6666,7 +6666,7 @@ module Unlight
                      :finish_crown_crown_feat_event,
 
                     ],
-                        # 402 クラウンクラウン
+                    # 402 クラウンクラウン
                     [
                      :check_add_riddle_box_feat_event,
                      :check_remove_riddle_box_feat_event,
@@ -6675,14 +6675,14 @@ module Unlight
                      :use_riddle_box_feat_damage_event,
                      :finish_riddle_box_feat_event,
                     ],
-                        # 403 リドルボックス
+                    # 403 リドルボックス
                     [
                      :check_add_flutter_sword_dance_feat_event,
                      :check_remove_flutter_sword_dance_feat_event,
                      :check_rotate_flutter_sword_dance_feat_event,
                      :finish_flutter_sword_dance_feat_event,
                     ],
-                        # 404 翻る剣舞
+                    # 404 翻る剣舞
                     [
                      :check_add_ritual_of_bravery_feat_event,
                      :check_remove_ritual_of_bravery_feat_event,
@@ -6690,7 +6690,7 @@ module Unlight
                      :use_ritual_of_bravery_feat_event,
                      :finish_ritual_of_bravery_feat_event,
                     ],
-                        # 405 勇猛の儀
+                    # 405 勇猛の儀
                     [
                      :check_add_hunting_cheetah_feat_event,
                      :check_remove_hunting_cheetah_feat_event,
@@ -6699,7 +6699,7 @@ module Unlight
                      :use_hunting_cheetah_feat_damage_event,
                      :finish_hunting_cheetah_feat_event,
                     ],
-                        # 406 狩猟豹の剣
+                    # 406 狩猟豹の剣
                     [
                      :check_add_probe_feat_event,
                      :check_remove_probe_feat_event,
@@ -6708,7 +6708,7 @@ module Unlight
                      :use_probe_feat_event,
                      :finish_probe_feat_event,
                     ],
-                        # 407 探りの一手
+                    # 407 探りの一手
                     [
                      :check_add_tailoring_feat_event,
                      :check_remove_tailoring_feat_event,
@@ -6717,7 +6717,7 @@ module Unlight
                      :use_tailoring_feat_damage_event,
                      :finish_tailoring_feat_event,
                     ],
-                        # 408 仕立
+                    # 408 仕立
                     [
                      :check_add_cut_feat_event,
                      :check_remove_cut_feat_event,
@@ -6725,7 +6725,7 @@ module Unlight
                      :use_cut_feat_event,
                      :finish_cut_feat_event,
                     ],
-                        # 409 裁断
+                    # 409 裁断
                     [
                      :check_add_sewing_feat_event,
                      :check_remove_sewing_feat_event,
@@ -6733,14 +6733,14 @@ module Unlight
                      :use_sewing_feat_event,
                      :finish_sewing_feat_event,
                     ],
-                        # 410 縫製
+                    # 410 縫製
                     [
                      :check_add_cancellation_feat_event,
                      :check_remove_cancellation_feat_event,
                      :check_rotate_cancellation_feat_event,
                      :finish_cancellation_feat_event,
                     ],
-                        # 411 DofD
+                    # 411 DofD
                     [
                      :check_add_seiho_feat_event,
                      :check_remove_seiho_feat_event,
@@ -6748,7 +6748,7 @@ module Unlight
                      :use_seiho_feat_event,
                      :finish_seiho_feat_event,
                     ],
-                        # 412 整法
+                    # 412 整法
                     [
                      :check_add_dokko_feat_event,
                      :check_remove_dokko_feat_event,
@@ -6773,14 +6773,14 @@ module Unlight
                      :use_kongo_feat_damage_event,
                      :finish_kongo_feat_event,
                     ],
-                        # 415 金剛
+                    # 415 金剛
                     [
                      :check_add_carp_quake_feat_event,
                      :check_remove_carp_quake_feat_event,
                      :check_rotate_carp_quake_feat_event,
                      :finish_carp_quake_feat_event,
                     ],
-                        # 416 鯉震
+                    # 416 鯉震
                     [
                      :check_add_carp_lightning_feat_event,
                      :check_remove_carp_lightning_feat_event,
@@ -6789,14 +6789,14 @@ module Unlight
                      :use_carp_lightning_feat_damage_event,
                      :finish_carp_lightning_feat_event,
                     ],
-                        # 417 鯉光
+                    # 417 鯉光
                     [
                      :check_add_field_lock_feat_event,
                      :check_remove_field_lock_feat_event,
                      :check_rotate_field_lock_feat_event,
                      :use_field_lock_feat_event,
                     ],
-                        # 418 フィールドロック
+                    # 418 フィールドロック
                     [
                      :check_add_arrest_feat_event,
                      :check_remove_arrest_feat_event,
@@ -6805,7 +6805,7 @@ module Unlight
                      :use_arrest_feat_damage_event,
                      :finish_arrest_feat_event,
                     ],
-                        # 419 捕縛
+                    # 419 捕縛
                     [
                      :check_add_quick_draw_feat_event,
                      :check_remove_quick_draw_feat_event,
@@ -6813,7 +6813,7 @@ module Unlight
                      :use_quick_draw_feat_event,
                      :finish_quick_draw_feat_event,
                     ],
-                        # 420 クイックドロー
+                    # 420 クイックドロー
                     [
                      :check_add_gaze_feat_event,
                      :check_remove_gaze_feat_event,
@@ -6823,7 +6823,7 @@ module Unlight
                      :finish_chara_change_gaze_feat_event,
                      :finish_foe_chara_change_karmic_time_feat_event,
                     ],
-                        # 421 ゲイズ
+                    # 421 ゲイズ
                     [
                      :check_add_monitoring_feat_event,
                      :check_remove_monitoring_feat_event,
@@ -6832,7 +6832,7 @@ module Unlight
                      :use_monitoring_feat_damage_event,
                      :finish_monitoring_feat_event,
                     ],
-                        # 422 監視
+                    # 422 監視
                     [
                      :check_add_time_lag_draw_feat_event,
                      :check_remove_time_lag_draw_feat_event,
@@ -6840,7 +6840,7 @@ module Unlight
                      :use_time_lag_draw_feat_event,
                      :finish_time_lag_draw_feat_event,
                     ],
-                        # 423 時差ドロー
+                    # 423 時差ドロー
                     [
                      :check_add_time_lag_buff_feat_event,
                      :check_remove_time_lag_buff_feat_event,
@@ -6848,7 +6848,7 @@ module Unlight
                      :use_time_lag_buff_feat_event,
                      :finish_time_lag_buff_feat_event,
                     ],
-                        # 424 時差バフ
+                    # 424 時差バフ
                     [
                      :check_add_damage_transfer_feat_event,
                      :check_remove_damage_transfer_feat_event,
@@ -6856,7 +6856,7 @@ module Unlight
                      :use_damage_transfer_feat_event,
                      :finish_damage_transfer_feat_event,
                     ],
-                        # 425 移転
+                    # 425 移転
                     [
                      :check_add_cigarette_feat_event,
                      :check_remove_cigarette_feat_event,
@@ -6864,7 +6864,7 @@ module Unlight
                      :use_cigarette_feat_event,
                      :finish_cigarette_feat_event,
                     ],
-                        # 426 シガレット
+                    # 426 シガレット
                     [
                      :check_add_three_card_feat_event,
                      :check_remove_three_card_feat_event,
@@ -6872,14 +6872,14 @@ module Unlight
                      :use_three_card_feat_event,
                      :finish_three_card_feat_event,
                     ],
-                        # 427 スリーカード
+                    # 427 スリーカード
                     [
                      :check_add_card_search_feat_event,
                      :check_remove_card_search_feat_event,
                      :check_rotate_card_search_feat_event,
                      :finish_card_search_feat_event,
                     ],
-                        # 428 カードサーチ
+                    # 428 カードサーチ
                     [
                      :check_add_all_in_one_feat_event,
                      :check_remove_all_in_one_feat_event,
@@ -6888,7 +6888,7 @@ module Unlight
                      :use_all_in_one_feat_event,
                      :finish_all_in_one_feat_event,
                     ],
-                        # 429 オールインワン
+                    # 429 オールインワン
                     [
                      :check_add_fire_bird_feat_event,
                      :check_remove_fire_bird_feat_event,
@@ -6897,7 +6897,7 @@ module Unlight
                      :use_after_fire_bird_feat_event,
                      :finish_fire_bird_feat_event,
                     ],
-                        # 430 焼鳥
+                    # 430 焼鳥
                     [
                      :check_add_brambles_feat_event,
                      :check_remove_brambles_feat_event,
@@ -6907,7 +6907,7 @@ module Unlight
                      :use_brambles_feat_move_after_event,
                      :finish_brambles_feat_event,
                     ],
-                        # 431 苔蔦
+                    # 431 苔蔦
                     [
                      :check_add_franken_tackle_feat_event,
                      :check_remove_franken_tackle_feat_event,
@@ -6917,7 +6917,7 @@ module Unlight
                      :use_franken_tackle_feat_dice_attr_event,
                      :finish_franken_tackle_feat_event,
                     ],
-                        # 432 フランケンタックル
+                    # 432 フランケンタックル
                     [
                      :check_add_franken_charging_feat_event,
                      :check_remove_franken_charging_feat_event,
@@ -6926,7 +6926,7 @@ module Unlight
                      :use_franken_charging_feat_damage_event,
                      :finish_franken_charging_feat_event,
                     ],
-                        # 433 フランケン充電
+                    # 433 フランケン充電
                     [
                      :check_add_moving_one_r_feat_event,
                      :check_remove_moving_one_r_feat_event,
@@ -6937,7 +6937,7 @@ module Unlight
                      :finish_moving_one_r_feat_event,
                      :finish_turn_moving_one_r_feat_event,
                     ],
-                        # 434 挑みかかるものR
+                    # 434 挑みかかるものR
                     [
                      :check_add_arrogant_one_r_feat_event,
                      :check_remove_arrogant_one_r_feat_event,
@@ -6945,7 +6945,7 @@ module Unlight
                      :use_arrogant_one_r_feat_event,
                      :finish_arrogant_one_r_feat_event,
                     ],
-                        # 435 驕りたかぶるものR
+                    # 435 驕りたかぶるものR
                     [
                      :check_add_eating_one_r_feat_event,
                      :check_remove_eating_one_r_feat_event,
@@ -6953,7 +6953,7 @@ module Unlight
                      :use_eating_one_r_feat_event,
                      :finish_eating_one_r_feat_event,
                     ],
-                        # 436 貪り食うものR
+                    # 436 貪り食うものR
                     [
                      :check_add_harf_dead_feat_event,
                      :check_remove_harf_dead_feat_event,
@@ -6961,14 +6961,14 @@ module Unlight
                      :use_harf_dead_feat_event,
                      :finish_harf_dead_feat_event,
                     ],
-                        # 437 ハーフデッド
+                    # 437 ハーフデッド
                     [
                      :check_add_machine_cell_feat_event,
                      :check_remove_machine_cell_feat_event,
                      :check_rotate_machine_cell_feat_event,
                      :finish_machine_cell_feat_event,
                     ],
-                        # 438 マシンセル
+                    # 438 マシンセル
                     [
                      :check_add_heat_seeker_r_feat_event,
                      :check_remove_heat_seeker_r_feat_event,
@@ -6976,7 +6976,7 @@ module Unlight
                      :use_heat_seeker_r_feat_damage_event,
                      :finish_heat_seeker_r_feat_damage_event,
                     ],
-                        # 439 ヒートシーカー
+                    # 439 ヒートシーカー
                     [
                      :check_add_directional_beam_feat_event,
                      :check_remove_directional_beam_feat_event,
@@ -6985,7 +6985,7 @@ module Unlight
                      :use_directional_beam_feat_damage_event,
                      :finish_directional_beam_feat_event,
                     ],
-                        # 440 指向性エネルギー兵器
+                    # 440 指向性エネルギー兵器
                     [
                      :check_add_delta_feat_event,
                      :check_remove_delta_feat_event,
@@ -6993,7 +6993,7 @@ module Unlight
                      :use_delta_feat_event,
                      :finish_delta_feat_event,
                     ],
-                        # 441 デルタ
+                    # 441 デルタ
                     [
                      :check_add_sigma_feat_event,
                      :check_remove_sigma_feat_event,
@@ -7003,7 +7003,7 @@ module Unlight
                      :ex_sigma_feat_event,
                      :finish_sigma_feat_event,
                     ],
-                        # 442 シグマ
+                    # 442 シグマ
                     [
                      :check_add_stamp_feat_event,
                      :check_remove_stamp_feat_event,
@@ -7011,7 +7011,7 @@ module Unlight
                      :use_stamp_feat_event,
                      :finish_stamp_feat_event,
                     ],
-                        # 443 スタンプ
+                    # 443 スタンプ
                     [
                      :check_add_acceleration_feat_event,
                      :check_remove_acceleration_feat_event,
@@ -7019,14 +7019,14 @@ module Unlight
                      :use_acceleration_feat_event,
                      :finish_acceleration_feat_event,
                     ],
-                        # 444 アクセラレーション
+                    # 444 アクセラレーション
                     [
                      :check_add_foab_feat_event,
                      :check_remove_foab_feat_event,
                      :check_rotate_foab_feat_event,
                      :finish_foab_feat_event,
                     ],
-                        # 445 FOAB
+                    # 445 FOAB
                     [
                      :check_add_white_moon_feat_event,
                      :check_remove_white_moon_feat_event,
@@ -7036,7 +7036,7 @@ module Unlight
                      :use_white_moon_feat_damage_event,
                      :finish_white_moon_feat_event,
                     ],
-                        # 446 白き玉桂
+                    # 446 白き玉桂
                     [
                      :check_add_anger_back_feat_event,
                      :check_remove_anger_back_feat_event,
@@ -7045,11 +7045,11 @@ module Unlight
                      :use_anger_back_feat_damage_event,
                      :finish_anger_back_feat_event,
                     ],
-                        # 447 憤怒の背中
+                         # 447 憤怒の背中
                        ]
 
-#---------------------------------------------------------------------------------------------
-# 強打
+  #---------------------------------------------------------------------------------------------
+  # 強打
 
   class CheckAddSmashFeatEvent < EventRule
     dsc        "強打が可能か"
@@ -7086,8 +7086,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ブラッディハウル
+  #---------------------------------------------------------------------------------------------
+  # ブラッディハウル
 
   class CheckAddBloodyHowlFeatEvent < EventRule
     dsc        "強打が可能か"
@@ -7131,8 +7131,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 精密射撃
+  #---------------------------------------------------------------------------------------------
+  # 精密射撃
 
   class CheckAddAimingFeatEvent < EventRule
     dsc        "精密射撃が可能か"
@@ -7169,8 +7169,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 精密射撃(復活)
+  #---------------------------------------------------------------------------------------------
+  # 精密射撃(復活)
 
   class CheckAddPrecisionFireFeatEvent < EventRule
     dsc        "精密射撃が可能か"
@@ -7214,8 +7214,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 雷撃
+  #---------------------------------------------------------------------------------------------
+  # 雷撃
 
   class CheckAddStrikeFeatEvent < EventRule
     dsc        "雷撃が可能か"
@@ -7259,8 +7259,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 紫電
+  #---------------------------------------------------------------------------------------------
+  # 紫電
 
   class CheckAddPurpleLightningFeatEvent < EventRule
     dsc        "雷撃が可能か"
@@ -7304,8 +7304,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 連続技
+  #---------------------------------------------------------------------------------------------
+  # 連続技
 
   class CheckAddComboFeatEvent < EventRule
     dsc        "連続技が可能か"
@@ -7342,8 +7342,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ソードダンス(復活)
+  #---------------------------------------------------------------------------------------------
+  # ソードダンス(復活)
 
   class CheckAddSwordDanceFeatEvent < EventRule
     dsc        "ソードダンスが可能か"
@@ -7387,8 +7387,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 茨の森
+  #---------------------------------------------------------------------------------------------
+  # 茨の森
 
   class CheckAddThornFeatEvent < EventRule
     dsc        "茨の森が可能か"
@@ -7432,8 +7432,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 突撃
+  #---------------------------------------------------------------------------------------------
+  # 突撃
 
   class CheckAddChargeFeatEvent < EventRule
     dsc        "突撃が可能か"
@@ -7470,8 +7470,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# チャージドスラスト(復活)
+  #---------------------------------------------------------------------------------------------
+  # チャージドスラスト(復活)
 
   class CheckAddChargedThrustFeatEvent < EventRule
     dsc        "チャージドスラストが可能か"
@@ -7508,8 +7508,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 砂漠の蜃気楼
+  #---------------------------------------------------------------------------------------------
+  # 砂漠の蜃気楼
 
   class CheckAddMirageFeatEvent < EventRule
     dsc        "砂漠の蜃気楼が可能か"
@@ -7553,8 +7553,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 狂気の眼窩
+  #---------------------------------------------------------------------------------------------
+  # 狂気の眼窩
 
   class CheckAddFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩が可能か"
@@ -7598,8 +7598,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 深淵
+  #---------------------------------------------------------------------------------------------
+  # 深淵
 
   class CheckAddAbyssFeatEvent < EventRule
     dsc        "深淵が可能か"
@@ -7636,8 +7636,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 神速の剣
+  #---------------------------------------------------------------------------------------------
+  # 神速の剣
 
   class CheckAddRapidSwordFeatEvent < EventRule
     dsc        "神速の剣が可能か"
@@ -7674,8 +7674,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 怒りの一撃
+  #---------------------------------------------------------------------------------------------
+  # 怒りの一撃
 
   class CheckAddAngerFeatEvent < EventRule
     dsc        "怒りの一撃が可能か"
@@ -7712,8 +7712,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 必殺の構え
+  #---------------------------------------------------------------------------------------------
+  # 必殺の構え
 
   class CheckAddPowerStockFeatEvent < EventRule
     dsc        "必殺の構えが可能か"
@@ -7743,8 +7743,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 必殺の構え(復活)
+  #---------------------------------------------------------------------------------------------
+  # 必殺の構え(復活)
 
   class CheckAddMortalStyleFeatEvent < EventRule
     dsc        "必殺の構えが可能か"
@@ -7774,8 +7774,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 影撃ち
+  #---------------------------------------------------------------------------------------------
+  # 影撃ち
 
   class CheckAddShadowShotFeatEvent < EventRule
     dsc        "影撃ちが可能か"
@@ -7819,8 +7819,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 赫い牙/呪剣
+  #---------------------------------------------------------------------------------------------
+  # 赫い牙/呪剣
 
   class CheckAddRedFangFeatEvent < EventRule
     dsc        "赫い牙が可能か"
@@ -7864,8 +7864,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 血の恵み
+  #---------------------------------------------------------------------------------------------
+  # 血の恵み
 
   class CheckAddBlessingBloodFeatEvent < EventRule
     dsc        "血の恵みが可能か"
@@ -7909,8 +7909,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 反撃の狼煙
+  #---------------------------------------------------------------------------------------------
+  # 反撃の狼煙
 
   class CheckAddCounterPreparationFeatEvent < EventRule
     dsc        "反撃の狼煙が可能か"
@@ -7947,8 +7947,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 因果の刻
+  #---------------------------------------------------------------------------------------------
+  # 因果の刻
 
   class CheckAddKarmicTimeFeatEvent < EventRule
     dsc        "因果の刻が可能か"
@@ -7992,8 +7992,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 因果の輪
+  #---------------------------------------------------------------------------------------------
+  # 因果の輪
 
   class CheckAddKarmicRingFeatEvent < EventRule
     dsc        "因果の輪が可能か"
@@ -8030,8 +8030,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 因果の糸
+  #---------------------------------------------------------------------------------------------
+  # 因果の糸
 
   class CheckAddKarmicStringFeatEvent < EventRule
     dsc        "因果の糸が可能か"
@@ -8061,8 +8061,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ハイスマッシュ
+  #---------------------------------------------------------------------------------------------
+  # ハイスマッシュ
 
   class CheckAddHiSmashFeatEvent < EventRule
     dsc        "強打2が可能か"
@@ -8099,8 +8099,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 必殺の構え2
+  #---------------------------------------------------------------------------------------------
+  # 必殺の構え2
 
   class CheckAddHiPowerStockFeatEvent < EventRule
     dsc        "必殺の構え2が可能か"
@@ -8130,8 +8130,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 精密射撃2
+  #---------------------------------------------------------------------------------------------
+  # 精密射撃2
 
   class CheckAddHiAimingFeatEvent < EventRule
     dsc        "精密射撃2が可能か"
@@ -8168,8 +8168,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 神速の剣2
+  #---------------------------------------------------------------------------------------------
+  # 神速の剣2
 
   class CheckAddHiRapidSwordFeatEvent < EventRule
     dsc        "神速の剣2が可能か"
@@ -8206,8 +8206,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 因果の糸2
+  #---------------------------------------------------------------------------------------------
+  # 因果の糸2
 
   class CheckAddHiKarmicStringFeatEvent < EventRule
     dsc        "因果の糸2が可能か"
@@ -8237,8 +8237,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 狂気の眼窩2
+  #---------------------------------------------------------------------------------------------
+  # 狂気の眼窩2
 
   class CheckAddHiFrenzyEyesFeatEvent < EventRule
     dsc        "狂気の眼窩2が可能か"
@@ -8282,8 +8282,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 影撃ち2
+  #---------------------------------------------------------------------------------------------
+  # 影撃ち2
 
   class CheckAddHiShadowShotFeatEvent < EventRule
     dsc        "影撃ち2が可能か"
@@ -8327,8 +8327,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 地雷
+  #---------------------------------------------------------------------------------------------
+  # 地雷
 
   class CheckAddLandMineFeatEvent < EventRule
     dsc        "地雷が可能か"
@@ -8358,8 +8358,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# デスペラード
+  #---------------------------------------------------------------------------------------------
+  # デスペラード
 
   class CheckAddDesperadoFeatEvent < EventRule
     dsc        "デスペラードが可能か"
@@ -8396,8 +8396,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# リジェクトソード
+  #---------------------------------------------------------------------------------------------
+  # リジェクトソード
 
   class CheckAddRejectSwordFeatEvent < EventRule
     dsc        "リジェクトソードが可能か"
@@ -8434,8 +8434,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# カウンターガード
+  #---------------------------------------------------------------------------------------------
+  # カウンターガード
 
   class CheckAddCounterGuardFeatEvent < EventRule
     dsc        "カウンターガードが可能か"
@@ -8479,8 +8479,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# Exカウンターガード
+  #---------------------------------------------------------------------------------------------
+  # Exカウンターガード
 
   class UseExCounterGuardFeatEvent < EventRule
     dsc        "カウンターガードの使用が終了"
@@ -8496,8 +8496,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ペインフリー
+  #---------------------------------------------------------------------------------------------
+  # ペインフリー
 
   class CheckAddPainFleeFeatEvent < EventRule
     dsc        "ペインフリーが可能か"
@@ -8527,8 +8527,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 光の映し身
+  #---------------------------------------------------------------------------------------------
+  # 光の映し身
 
   class CheckAddBodyOfLightFeatEvent < EventRule
     dsc        "光の映し身が可能か"
@@ -8565,8 +8565,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 封印の鎖
+  #---------------------------------------------------------------------------------------------
+  # 封印の鎖
 
   class CheckAddSealChainFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -8610,8 +8610,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 降魔の光
+  #---------------------------------------------------------------------------------------------
+  # 降魔の光
 
   class CheckAddPurificationLightFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -8655,8 +8655,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 知略
+  #---------------------------------------------------------------------------------------------
+  # 知略
 
   class CheckAddCraftinessFeatEvent < EventRule
     dsc        "知略が可能か"
@@ -8686,8 +8686,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 地雷2
+  #---------------------------------------------------------------------------------------------
+  # 地雷2
 
   class CheckAddLandBombFeatEvent < EventRule
     dsc        "地雷が可能か"
@@ -8717,8 +8717,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# リジェクトブレイド
+  #---------------------------------------------------------------------------------------------
+  # リジェクトブレイド
 
   class CheckAddRejectBladeFeatEvent < EventRule
     dsc        "リジェクトソードが可能か"
@@ -8755,8 +8755,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 呪縛の鎖
+  #---------------------------------------------------------------------------------------------
+  # 呪縛の鎖
 
   class CheckAddSpellChainFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -8800,8 +8800,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 不屈の心
+  #---------------------------------------------------------------------------------------------
+  # 不屈の心
 
   class CheckAddIndomitableMindFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -8852,8 +8852,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 精神力吸収
+  #---------------------------------------------------------------------------------------------
+  # 精神力吸収
 
   class CheckAddDrainSoulFeatEvent < EventRule
     dsc        "精神力吸収が可能か"
@@ -8883,8 +8883,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# バックスタブ
+  #---------------------------------------------------------------------------------------------
+  # バックスタブ
 
   class CheckAddBackStabFeatEvent < EventRule
     dsc        "バックスタブが可能か"
@@ -8921,8 +8921,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 見切り
+  #---------------------------------------------------------------------------------------------
+  # 見切り
 
   class CheckAddEnlightenedFeatEvent < EventRule
     dsc        "精神力吸収が可能か"
@@ -8952,8 +8952,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 暗黒の渦
+  #---------------------------------------------------------------------------------------------
+  # 暗黒の渦
 
   class CheckAddDarkWhirlpoolFeatEvent < EventRule
     dsc        "暗黒の渦が可能か"
@@ -8990,8 +8990,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 因果の幻
+  #---------------------------------------------------------------------------------------------
+  # 因果の幻
 
   class CheckAddKarmicPhantomFeatEvent < EventRule
     dsc        "因果の幻が可能か"
@@ -9028,8 +9028,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 治癒の波動
+  #---------------------------------------------------------------------------------------------
+  # 治癒の波動
 
   class CheckAddRecoveryWaveFeatEvent < EventRule
     dsc        "治癒の波動が可能か"
@@ -9059,8 +9059,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 自爆
+  #---------------------------------------------------------------------------------------------
+  # 自爆
 
   class CheckAddSelfDestructionFeatEvent < EventRule
     dsc        "自爆が可能か"
@@ -9090,8 +9090,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 防護射撃
+  #---------------------------------------------------------------------------------------------
+  # 防護射撃
 
   class CheckAddDeffenceShootingFeatEvent < EventRule
     dsc        "防護射撃が可能か"
@@ -9128,8 +9128,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 再生
+  #---------------------------------------------------------------------------------------------
+  # 再生
 
   class CheckAddRecoveryFeatEvent < EventRule
     dsc        "再生が可能か"
@@ -9159,8 +9159,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 幻影
+  #---------------------------------------------------------------------------------------------
+  # 幻影
 
   class CheckAddShadowAttackFeatEvent < EventRule
     dsc        "幻影が可能か"
@@ -9197,8 +9197,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# スーサイダルテンデンシー
+  #---------------------------------------------------------------------------------------------
+  # スーサイダルテンデンシー
 
   class CheckAddSuicidalTendenciesFeatEvent < EventRule
     dsc        "スーサイダルテンデンシーが可能か"
@@ -9235,8 +9235,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ミスフィット
+  #---------------------------------------------------------------------------------------------
+  # ミスフィット
 
   class CheckAddMisfitFeatEvent < EventRule
     dsc        "ミスフィットが可能か"
@@ -9280,8 +9280,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ビッグブラッグ
+  #---------------------------------------------------------------------------------------------
+  # ビッグブラッグ
 
   class CheckAddBigBraggFeatEvent < EventRule
     dsc        "ビッグブラッグが可能か"
@@ -9311,8 +9311,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# レッツナイフ
+  #---------------------------------------------------------------------------------------------
+  # レッツナイフ
 
   class CheckAddLetsKnifeFeatEvent < EventRule
     dsc        "レッツナイフが可能か"
@@ -9349,8 +9349,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 1つの心
+  #---------------------------------------------------------------------------------------------
+  # 1つの心
 
   class CheckAddSingleHeartFeatEvent < EventRule
     dsc        "1つの心が可能か"
@@ -9380,8 +9380,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 2つの身体
+  #---------------------------------------------------------------------------------------------
+  # 2つの身体
 
   class CheckAddDoubleBodyFeatEvent < EventRule
     dsc        "2つの身体が可能か"
@@ -9425,8 +9425,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 9の魂
+  #---------------------------------------------------------------------------------------------
+  # 9の魂
 
   class CheckAddNineSoulFeatEvent < EventRule
     dsc        "9の魂が可能か"
@@ -9463,8 +9463,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 13の眼
+  #---------------------------------------------------------------------------------------------
+  # 13の眼
 
   class CheckAddThirteenEyesFeatEvent < EventRule
     dsc        "13の眼が可能か"
@@ -9515,8 +9515,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# Ex13の眼
+  #---------------------------------------------------------------------------------------------
+  # Ex13の眼
 
   class UseFoeExThirteenEyesFeatEvent < EventRule
     dsc        "13の眼を使用"
@@ -9532,8 +9532,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ライフドレイン/ドレインエナジー/吸血
+  #---------------------------------------------------------------------------------------------
+  # ライフドレイン/ドレインエナジー/吸血
 
   class CheckAddLifeDrainFeatEvent < EventRule
     dsc        "ライフドレインが可能か"
@@ -9577,8 +9577,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ランダムカース/呪いの手/サークルオブ・T
+  #---------------------------------------------------------------------------------------------
+  # ランダムカース/呪いの手/サークルオブ・T
 
   class CheckAddRandomCurseFeatEvent < EventRule
     dsc        "ランダムカースが可能か"
@@ -9622,8 +9622,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 癒しの声
+  #---------------------------------------------------------------------------------------------
+  # 癒しの声
 
   class CheckAddHealVoiceFeatEvent < EventRule
     dsc        "癒しの声が可能か"
@@ -9660,8 +9660,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ダブルアタック
+  #---------------------------------------------------------------------------------------------
+  # ダブルアタック
 
   class CheckAddDoubleAttackFeatEvent < EventRule
     dsc        "ダブルアタックが可能か"
@@ -9698,8 +9698,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 全体攻撃
+  #---------------------------------------------------------------------------------------------
+  # 全体攻撃
 
   class CheckAddPartyDamageFeatEvent < EventRule
     dsc        "全体攻撃が可能か"
@@ -9736,8 +9736,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ダメージ軽減
+  #---------------------------------------------------------------------------------------------
+  # ダメージ軽減
 
   class CheckAddGuardFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -9781,8 +9781,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 自壊攻撃/血統汚染/D・コントロール
+  #---------------------------------------------------------------------------------------------
+  # 自壊攻撃/血統汚染/D・コントロール
 
   class CheckAddDeathControlFeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
@@ -9826,8 +9826,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 移動上昇
+  #---------------------------------------------------------------------------------------------
+  # 移動上昇
 
   class CheckAddWitFeatEvent < EventRule
     dsc        "移動上昇が可能か"
@@ -9864,8 +9864,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 茨の構え
+  #---------------------------------------------------------------------------------------------
+  # 茨の構え
 
   class CheckAddThornCareFeatEvent < EventRule
     dsc        "茨の構えが可能か"
@@ -9909,8 +9909,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 解放剣
+  #---------------------------------------------------------------------------------------------
+  # 解放剣
 
   class CheckAddLiberatingSwordFeatEvent < EventRule
     dsc        "解放剣が可能か"
@@ -9954,8 +9954,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 一閃
+  #---------------------------------------------------------------------------------------------
+  # 一閃
 
   class CheckAddOneSlashFeatEvent < EventRule
     dsc        "一閃が可能か"
@@ -9999,8 +9999,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 十閃
+  #---------------------------------------------------------------------------------------------
+  # 十閃
 
   class CheckAddTenSlashFeatEvent < EventRule
     dsc        "十閃が可能か"
@@ -10037,8 +10037,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 八閃
+  #---------------------------------------------------------------------------------------------
+  # 八閃
 
   class CheckAddHassenFeatEvent < EventRule
     dsc        "八閃が可能か"
@@ -10075,8 +10075,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 百閃
+  #---------------------------------------------------------------------------------------------
+  # 百閃
 
   class CheckAddHandledSlashFeatEvent < EventRule
     dsc        "百閃が可能か"
@@ -10120,8 +10120,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 百閃(R)
+  #---------------------------------------------------------------------------------------------
+  # 百閃(R)
 
   class CheckAddHandledSlashRFeatEvent < EventRule
     dsc        "百閃が可能か"
@@ -10165,8 +10165,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 修羅の構え
+  #---------------------------------------------------------------------------------------------
+  # 修羅の構え
 
   class CheckAddCurseCareFeatEvent < EventRule
     dsc        "修羅の構えが可能か"
@@ -10231,8 +10231,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ムーンシャイン
+  #---------------------------------------------------------------------------------------------
+  # ムーンシャイン
 
   class CheckAddMoonShineFeatEvent < EventRule
     dsc        "ムーンシャインが可能か"
@@ -10269,8 +10269,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ラプチュア
+  #---------------------------------------------------------------------------------------------
+  # ラプチュア
 
   class CheckAddRaptureFeatEvent < EventRule
     dsc        "ラプチュアが可能か"
@@ -10314,8 +10314,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ドゥームスデイ
+  #---------------------------------------------------------------------------------------------
+  # ドゥームスデイ
 
   class CheckAddDoomsdayFeatEvent < EventRule
     dsc        "ドゥームスデイが可能か"
@@ -10345,8 +10345,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# hellboundheart
+  #---------------------------------------------------------------------------------------------
+  # hellboundheart
 
   class CheckAddHellFeatEvent < EventRule
     dsc        "深淵が可能か"
@@ -10383,8 +10383,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# スーパーヒロイン
+  #---------------------------------------------------------------------------------------------
+  # スーパーヒロイン
 
   class CheckAddAwakingFeatEvent < EventRule
     dsc        "スーパーヒロインが可能か"
@@ -10414,8 +10414,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 近距離移動
+  #---------------------------------------------------------------------------------------------
+  # 近距離移動
 
   class CheckAddMovingOneFeatEvent < EventRule
     dsc        "移動上昇が可能か"
@@ -10452,8 +10452,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 下位防御
+  #---------------------------------------------------------------------------------------------
+  # 下位防御
 
   class CheckAddArrogantOneFeatEvent < EventRule
     dsc        "下位防御が可能か"
@@ -10490,8 +10490,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 食らうもの
+  #---------------------------------------------------------------------------------------------
+  # 食らうもの
 
   class CheckAddEatingOneFeatEvent < EventRule
     dsc        "食らうものが可能か"
@@ -10528,8 +10528,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 蘇るもの
+  #---------------------------------------------------------------------------------------------
+  # 蘇るもの
 
   class CheckAddRevivingOneFeatEvent < EventRule
     dsc        "蘇るものが可能か"
@@ -10559,8 +10559,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ホワイトライト
+  #---------------------------------------------------------------------------------------------
+  # ホワイトライト
 
   class CheckAddWhiteLightFeatEvent < EventRule
     dsc        "ホワイトライトが可能か"
@@ -10590,8 +10590,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# クリスタル・M
+  #---------------------------------------------------------------------------------------------
+  # クリスタル・M
 
   class CheckAddCrystalShieldFeatEvent < EventRule
     dsc        "クリスタル・Mが可能か"
@@ -10635,8 +10635,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# スノーボーリング
+  #---------------------------------------------------------------------------------------------
+  # スノーボーリング
 
   class CheckAddSnowBallingFeatEvent < EventRule
     dsc        "スノーボーリングが可能か"
@@ -10687,8 +10687,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# オビチュアリ
+  #---------------------------------------------------------------------------------------------
+  # オビチュアリ
 
   class CheckAddObituaryFeatEvent < EventRule
     dsc        "オビチュアリーが可能か"
@@ -10732,8 +10732,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ソルベントレイン
+  #---------------------------------------------------------------------------------------------
+  # ソルベントレイン
 
   class CheckAddSolventRainFeatEvent < EventRule
     dsc        "ソルベントレインが可能か"
@@ -10770,8 +10770,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ソルベントレインR
+  #---------------------------------------------------------------------------------------------
+  # ソルベントレインR
 
   class CheckAddSolventRainRFeatEvent < EventRule
     dsc        "ソルベントレインが可能か"
@@ -10808,8 +10808,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 知覚の扉
+  #---------------------------------------------------------------------------------------------
+  # 知覚の扉
 
   class CheckAddAwakingDoorFeatEvent < EventRule
     dsc        "知覚の扉が可能か"
@@ -10839,8 +10839,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# オーバードウズ
+  #---------------------------------------------------------------------------------------------
+  # オーバードウズ
 
   class CheckAddOverDoseFeatEvent < EventRule
     dsc        "オーバードウズが可能か"
@@ -10877,8 +10877,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# レイザーズエッジ
+  #---------------------------------------------------------------------------------------------
+  # レイザーズエッジ
 
   class CheckAddRazorsEdgeFeatEvent < EventRule
     dsc        "レイザーズエッジが可能か"
@@ -10929,8 +10929,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# レイザーズエッジ
+  #---------------------------------------------------------------------------------------------
+  # レイザーズエッジ
   class UseFoeExRazorsEdgeFeatEvent < EventRule
     dsc        "レイザーズエッジを使用"
     type       type: :after, obj: "foe", hook: :dp_calc_resolve, priority: 70
@@ -10945,8 +10945,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ヘルズベル
+  #---------------------------------------------------------------------------------------------
+  # ヘルズベル
 
   class CheckAddHellsBellFeatEvent < EventRule
     dsc        "ヘルズベルが可能か"
@@ -10983,8 +10983,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ドレインシード
+  #---------------------------------------------------------------------------------------------
+  # ドレインシード
 
   class CheckAddDrainSeedFeatEvent < EventRule
     dsc        "ドレインシードが可能か"
@@ -11014,8 +11014,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 攻撃吸収
+  #---------------------------------------------------------------------------------------------
+  # 攻撃吸収
 
   class CheckAddAtkDrainFeatEvent < EventRule
     dsc        "攻撃吸収が可能か"
@@ -11052,8 +11052,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 防御吸収
+  #---------------------------------------------------------------------------------------------
+  # 防御吸収
 
   class CheckAddDefDrainFeatEvent < EventRule
     dsc        "防御吸収が可能か"
@@ -11090,8 +11090,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 混沌の翼
+  #---------------------------------------------------------------------------------------------
+  # 混沌の翼
 
   class CheckAddMovDrainFeatEvent < EventRule
     dsc        "混沌の翼が可能か"
@@ -11121,8 +11121,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 毒竜燐
+  #---------------------------------------------------------------------------------------------
+  # 毒竜燐
 
   class CheckAddPoisonSkinFeatEvent < EventRule
     dsc        "毒竜燐が可能か"
@@ -11166,8 +11166,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 咆哮
+  #---------------------------------------------------------------------------------------------
+  # 咆哮
 
   class CheckAddRoarFeatEvent < EventRule
     dsc        "咆哮が可能か"
@@ -11204,8 +11204,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 火炎のブレス
+  #---------------------------------------------------------------------------------------------
+  # 火炎のブレス
 
   class CheckAddFireBreathFeatEvent < EventRule
     dsc        "火炎のブレスが可能か"
@@ -11242,8 +11242,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ワールインド
+  #---------------------------------------------------------------------------------------------
+  # ワールインド
 
   class CheckAddWhirlWindFeatEvent < EventRule
     dsc        "ワールウインドが可能か"
@@ -11280,8 +11280,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# アクティブアーマ
+  #---------------------------------------------------------------------------------------------
+  # アクティブアーマ
 
   class CheckAddActiveArmorFeatEvent < EventRule
     dsc        "アクティブアーマが可能か"
@@ -11360,8 +11360,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# マシンガン
+  #---------------------------------------------------------------------------------------------
+  # マシンガン
 
   class CheckAddScolorAttackFeatEvent < EventRule
     dsc        "マシンガンが可能か"
@@ -11405,8 +11405,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ヒートシーカー
+  #---------------------------------------------------------------------------------------------
+  # ヒートシーカー
 
   class CheckAddHeatSeekerFeatEvent < EventRule
     dsc        "ヒートシーカーが可能か"
@@ -11450,8 +11450,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# パージ
+  #---------------------------------------------------------------------------------------------
+  # パージ
 
   class CheckAddPurgeFeatEvent < EventRule
     dsc        "パージが可能か"
@@ -11481,8 +11481,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ハイハンド
+  #---------------------------------------------------------------------------------------------
+  # ハイハンド
 
   class CheckAddHighHandFeatEvent < EventRule
     dsc        "ハイハンドが可能か"
@@ -11519,8 +11519,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ジャックポット
+  #---------------------------------------------------------------------------------------------
+  # ジャックポット
 
   class CheckAddJackPotFeatEvent < EventRule
     dsc        "ジャックポットが可能か"
@@ -11564,8 +11564,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ローボール
+  #---------------------------------------------------------------------------------------------
+  # ローボール
 
   class CheckAddLowBallFeatEvent < EventRule
     dsc        "ローボールが可能か"
@@ -11609,8 +11609,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ギャンブル
+  #---------------------------------------------------------------------------------------------
+  # ギャンブル
 
   class CheckAddGambleFeatEvent < EventRule
     dsc        "ギャンブルが可能か"
@@ -11654,8 +11654,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# バードケージ
+  #---------------------------------------------------------------------------------------------
+  # バードケージ
 
   class CheckAddBirdCageFeatEvent < EventRule
     dsc        "バードケージが可能か"
@@ -11685,8 +11685,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ハンギング
+  #---------------------------------------------------------------------------------------------
+  # ハンギング
 
   class CheckAddHangingFeatEvent < EventRule
     dsc        "ハンギングが可能か"
@@ -11723,8 +11723,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ブラストオフ
+  #---------------------------------------------------------------------------------------------
+  # ブラストオフ
 
   class CheckAddBlastOffFeatEvent < EventRule
     dsc        "ブラストオフが可能か"
@@ -11768,8 +11768,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# パペットマスター
+  #---------------------------------------------------------------------------------------------
+  # パペットマスター
 
   class CheckAddPuppetMasterFeatEvent < EventRule
     dsc        "パペットマスター可能か"
@@ -11806,8 +11806,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# C.T.L
+  #---------------------------------------------------------------------------------------------
+  # C.T.L
 
   class CheckAddCtlFeatEvent < EventRule
     dsc        "C.T.Lが可能か"
@@ -11844,8 +11844,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# B.P.A
+  #---------------------------------------------------------------------------------------------
+  # B.P.A
 
   class CheckAddBpaFeatEvent < EventRule
     dsc        "B.P.Aが可能か"
@@ -11882,8 +11882,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# L.A.R
+  #---------------------------------------------------------------------------------------------
+  # L.A.R
 
   class CheckAddLarFeatEvent < EventRule
     dsc        "L.A.Rが可能か"
@@ -11927,8 +11927,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# S.S.S
+  #---------------------------------------------------------------------------------------------
+  # S.S.S
 
   class CheckAddSssFeatEvent < EventRule
     dsc        "S.S.Sが可能か"
@@ -11958,8 +11958,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# カウンターラッシュ
+  #---------------------------------------------------------------------------------------------
+  # カウンターラッシュ
 
   class CheckAddCounterRushFeatEvent < EventRule
     dsc        "カウンターラッシュが可能か"
@@ -11996,8 +11996,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 劫火
+  #---------------------------------------------------------------------------------------------
+  # 劫火
 
   class CheckAddDisasterFlameFeatEvent < EventRule
     dsc        "劫火が可能か"
@@ -12034,8 +12034,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 煉獄
+  #---------------------------------------------------------------------------------------------
+  # 煉獄
 
   class CheckAddHellFireFeatEvent < EventRule
     dsc        "煉獄が可能か"
@@ -12086,8 +12086,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 眩彩
+  #---------------------------------------------------------------------------------------------
+  # 眩彩
 
   class CheckAddBlindnessFeatEvent < EventRule
     dsc        "眩彩が可能か"
@@ -12131,8 +12131,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 焼滅
+  #---------------------------------------------------------------------------------------------
+  # 焼滅
 
   class CheckAddFireDisappearFeatEvent < EventRule
     dsc        "焼滅が可能か"
@@ -12176,8 +12176,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ダークホール
+  #---------------------------------------------------------------------------------------------
+  # ダークホール
 
   class CheckAddDarkHoleFeatEvent < EventRule
     dsc        "眩彩が可能か"
@@ -12214,8 +12214,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# タンホイザーゲート
+  #---------------------------------------------------------------------------------------------
+  # タンホイザーゲート
 
   class CheckAddTannhauserGateFeatEvent < EventRule
     dsc        "タンホイザーゲートが可能か"
@@ -12252,8 +12252,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# シュバルトブリッツ
+  #---------------------------------------------------------------------------------------------
+  # シュバルトブリッツ
 
   class CheckAddSchwarBlitzFeatEvent < EventRule
     dsc        "シュバルトブリッツが可能か"
@@ -12297,8 +12297,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ハイランダー
+  #---------------------------------------------------------------------------------------------
+  # ハイランダー
 
   class CheckAddHiRounderFeatEvent < EventRule
     dsc        "ハイランダーが可能か"
@@ -12342,8 +12342,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ブラッドレッティング
+  #---------------------------------------------------------------------------------------------
+  # ブラッドレッティング
 
   class CheckAddBloodRettingFeatEvent < EventRule
     dsc        "ブラッドレッティングが可能か"
@@ -12387,8 +12387,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# アキュパンクチャー
+  #---------------------------------------------------------------------------------------------
+  # アキュパンクチャー
 
   class CheckAddAcupunctureFeatEvent < EventRule
     dsc        "アキュパンクチャーが可能か"
@@ -12418,8 +12418,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ディセクション
+  #---------------------------------------------------------------------------------------------
+  # ディセクション
 
   class CheckAddDissectionFeatEvent < EventRule
     dsc        "ディセクションが可能か"
@@ -12463,8 +12463,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ユーサネイジア
+  #---------------------------------------------------------------------------------------------
+  # ユーサネイジア
 
   class CheckAddEuthanasiaFeatEvent < EventRule
     dsc        "ユーサネイジアが可能か"
@@ -12508,8 +12508,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 憤怒の爪
+  #---------------------------------------------------------------------------------------------
+  # 憤怒の爪
 
   class CheckAddAngerNailFeatEvent < EventRule
     dsc        "憤怒の爪が可能か"
@@ -12539,8 +12539,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 静謐な背中
+  #---------------------------------------------------------------------------------------------
+  # 静謐な背中
 
   class CheckAddCalmBackFeatEvent < EventRule
     dsc        "静謐な背中が可能か"
@@ -12584,8 +12584,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 慈悲の青眼
+  #---------------------------------------------------------------------------------------------
+  # 慈悲の青眼
 
   class CheckAddBlueEyesFeatEvent < EventRule
     dsc        "慈悲の青眼が可能か"
@@ -12622,8 +12622,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 戦慄の狼牙
+  #---------------------------------------------------------------------------------------------
+  # 戦慄の狼牙
 
   class CheckAddWolfFangFeatEvent < EventRule
     dsc        "戦慄の狼牙が可能か"
@@ -12660,8 +12660,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 葉隠れ
+  #---------------------------------------------------------------------------------------------
+  # 葉隠れ
 
   class CheckAddHagakureFeatEvent < EventRule
     dsc        "葉隠れが可能か"
@@ -12705,8 +12705,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 烈風
+  #---------------------------------------------------------------------------------------------
+  # 烈風
 
   class CheckAddReppuFeatEvent < EventRule
     dsc        "烈風が可能か"
@@ -12771,8 +12771,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 燕飛
+  #---------------------------------------------------------------------------------------------
+  # 燕飛
 
   class CheckAddEnpiFeatEvent < EventRule
     dsc        "燕飛が可能か"
@@ -12816,8 +12816,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 三日月
+  #---------------------------------------------------------------------------------------------
+  # 三日月
 
   class CheckAddMikazukiFeatEvent < EventRule
     dsc        "三日月が可能か"
@@ -12854,8 +12854,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# カサブランカの風
+  #---------------------------------------------------------------------------------------------
+  # カサブランカの風
 
   class CheckAddCasablancaFeatEvent < EventRule
     dsc        "カサブランカの風が可能か"
@@ -12885,8 +12885,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ローデシアの海
+  #---------------------------------------------------------------------------------------------
+  # ローデシアの海
 
   class CheckAddRhodesiaFeatEvent < EventRule
     dsc        "ローデシアの海が可能か"
@@ -12930,8 +12930,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# マドリプールの雑踏
+  #---------------------------------------------------------------------------------------------
+  # マドリプールの雑踏
 
   class CheckAddMadripoolFeatEvent < EventRule
     dsc        "マドリプールの雑踏が可能か"
@@ -12968,8 +12968,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# エイジャの曙光
+  #---------------------------------------------------------------------------------------------
+  # エイジャの曙光
 
   class CheckAddAsiaFeatEvent < EventRule
     dsc        "エイジャの曙光が可能か"
@@ -13006,8 +13006,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# デモニック
+  #---------------------------------------------------------------------------------------------
+  # デモニック
 
   class CheckAddDemonicFeatEvent < EventRule
     dsc        "デモニックが可能か"
@@ -13051,8 +13051,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 残像剣
+  #---------------------------------------------------------------------------------------------
+  # 残像剣
 
   class CheckAddShadowSwordFeatEvent < EventRule
     dsc        "残像剣が可能か"
@@ -13089,8 +13089,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# パーフェクトデッド
+  #---------------------------------------------------------------------------------------------
+  # パーフェクトデッド
 
   class CheckAddPerfectDeadFeatEvent < EventRule
     dsc        "パーフェクトデッドが可能か"
@@ -13134,8 +13134,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 破壊の歯車
+  #---------------------------------------------------------------------------------------------
+  # 破壊の歯車
 
   class CheckAddDestructGearFeatEvent < EventRule
     dsc        "破壊の歯車が可能か"
@@ -13179,8 +13179,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# パワーシフト
+  #---------------------------------------------------------------------------------------------
+  # パワーシフト
 
   class CheckAddPowerShiftFeatEvent < EventRule
     dsc        "パワーシフトが可能か"
@@ -13224,8 +13224,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# キルショット
+  #---------------------------------------------------------------------------------------------
+  # キルショット
 
   class CheckAddKillShotFeatEvent < EventRule
     dsc        "キルショットが可能か"
@@ -13269,8 +13269,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ディフレクト
+  #---------------------------------------------------------------------------------------------
+  # ディフレクト
 
   class CheckAddDefrectFeatEvent < EventRule
     dsc        "ディフレクトが可能か"
@@ -13314,8 +13314,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 炎の供物
+  #---------------------------------------------------------------------------------------------
+  # 炎の供物
 
   class CheckAddFlameOfferingFeatEvent < EventRule
     dsc        "炎の供物が可能か"
@@ -13345,8 +13345,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 吸収の手
+  #---------------------------------------------------------------------------------------------
+  # 吸収の手
 
   class CheckAddDrainHandFeatEvent < EventRule
     dsc        "吸収の手が可能か"
@@ -13390,8 +13390,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 焔の監獄
+  #---------------------------------------------------------------------------------------------
+  # 焔の監獄
 
   class CheckAddFirePrizonFeatEvent < EventRule
     dsc        "焔の監獄が可能か"
@@ -13421,8 +13421,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 時間停止
+  #---------------------------------------------------------------------------------------------
+  # 時間停止
 
   class CheckAddTimeStopFeatEvent < EventRule
     dsc        "時間停止が可能か"
@@ -13452,8 +13452,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 即死防御
+  #---------------------------------------------------------------------------------------------
+  # 即死防御
 
   class CheckAddDeadGuardFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -13497,8 +13497,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 奇数即死
+  #---------------------------------------------------------------------------------------------
+  # 奇数即死
 
   class CheckAddDeadBlueFeatEvent < EventRule
     dsc        "奇数即死が可能か"
@@ -13542,8 +13542,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 善悪の彼岸
+  #---------------------------------------------------------------------------------------------
+  # 善悪の彼岸
 
   class CheckAddEvilGuardFeatEvent < EventRule
     dsc        "善悪の彼岸が可能か"
@@ -13587,8 +13587,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 道連れ
+  #---------------------------------------------------------------------------------------------
+  # 道連れ
 
   class CheckAddAbyssEyesFeatEvent < EventRule
     dsc        "道連れが可能か"
@@ -13632,8 +13632,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 偶数即死
+  #---------------------------------------------------------------------------------------------
+  # 偶数即死
 
   class CheckAddDeadRedFeatEvent < EventRule
     dsc        "偶数即死が可能か"
@@ -13670,8 +13670,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 幽冥の夜
+  #---------------------------------------------------------------------------------------------
+  # 幽冥の夜
 
   class CheckAddNightGhostFeatEvent < EventRule
     dsc        "幽冥の夜が可能か"
@@ -13715,8 +13715,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 人形の軍勢
+  #---------------------------------------------------------------------------------------------
+  # 人形の軍勢
 
   class CheckAddAvatarWarFeatEvent < EventRule
     dsc        "人形の軍勢が可能か"
@@ -13760,8 +13760,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 混沌の渦
+  #---------------------------------------------------------------------------------------------
+  # 混沌の渦
 
   class CheckAddConfusePoolFeatEvent < EventRule
     dsc        "混沌の渦が可能か"
@@ -13805,8 +13805,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# プロミネンス
+  #---------------------------------------------------------------------------------------------
+  # プロミネンス
 
   class CheckAddProminenceFeatEvent < EventRule
     dsc        "プロミネンスが可能か"
@@ -13843,8 +13843,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# バトルアックス
+  #---------------------------------------------------------------------------------------------
+  # バトルアックス
 
   class CheckAddBattleAxeFeatEvent < EventRule
     dsc        "バトルアックスが可能か"
@@ -13888,8 +13888,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# MOAB
+  #---------------------------------------------------------------------------------------------
+  # MOAB
 
   class CheckAddMoabFeatEvent < EventRule
     dsc        "MOABが可能か"
@@ -13926,8 +13926,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# オーバーヒート
+  #---------------------------------------------------------------------------------------------
+  # オーバーヒート
 
   class CheckAddOverHeatFeatEvent < EventRule
     dsc        "オーバーヒートが可能か"
@@ -13957,8 +13957,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 蒼き薔薇
+  #---------------------------------------------------------------------------------------------
+  # 蒼き薔薇
 
   class CheckAddBlueRoseFeatEvent < EventRule
     dsc        "蒼き薔薇が可能か"
@@ -14002,8 +14002,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 白鴉
+  #---------------------------------------------------------------------------------------------
+  # 白鴉
 
   class CheckAddWhiteCrowFeatEvent < EventRule
     dsc        "白鴉が可能か"
@@ -14033,8 +14033,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 深紅の月
+  #---------------------------------------------------------------------------------------------
+  # 深紅の月
 
   class CheckAddRedMoonFeatEvent < EventRule
     dsc        "深紅の月が可能か"
@@ -14085,8 +14085,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# Ex深紅の月
+  #---------------------------------------------------------------------------------------------
+  # Ex深紅の月
 
   class UseExRedMoonFeatDiceAttrEvent < EventRule
     dsc        "深紅の月を使用"
@@ -14095,8 +14095,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 黒い太陽
+  #---------------------------------------------------------------------------------------------
+  # 黒い太陽
 
   class CheckAddBlackSunFeatEvent < EventRule
     dsc        "黒い太陽が可能か"
@@ -14133,8 +14133,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ジラソーレ
+  #---------------------------------------------------------------------------------------------
+  # ジラソーレ
 
   class CheckAddGirasoleFeatEvent < EventRule
     dsc        "ジラソーレが可能か"
@@ -14185,8 +14185,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ビオレッタ
+  #---------------------------------------------------------------------------------------------
+  # ビオレッタ
 
   class CheckAddViolettaFeatEvent < EventRule
     dsc        "ビオレッタが可能か"
@@ -14216,8 +14216,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ディジタリス
+  #---------------------------------------------------------------------------------------------
+  # ディジタリス
 
   class CheckAddDigitaleFeatEvent < EventRule
     dsc        "ディジタリスが可能か"
@@ -14261,8 +14261,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ロスマリーノ
+  #---------------------------------------------------------------------------------------------
+  # ロスマリーノ
 
   class CheckAddRosmarinoFeatEvent < EventRule
     dsc        "ロスマリーノが可能か"
@@ -14299,8 +14299,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 八葉
+  #---------------------------------------------------------------------------------------------
+  # 八葉
 
   class CheckAddHachiyouFeatEvent < EventRule
     dsc        "八葉が可能か"
@@ -14330,8 +14330,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 鉄石の構え
+  #---------------------------------------------------------------------------------------------
+  # 鉄石の構え
 
   class CheckAddStoneCareFeatEvent < EventRule
     dsc        "鉄石の構えが可能か"
@@ -14368,8 +14368,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 絶塵剣
+  #---------------------------------------------------------------------------------------------
+  # 絶塵剣
 
   class CheckAddDustSwordFeatEvent < EventRule
     dsc        "絶塵剣が可能か"
@@ -14413,8 +14413,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 夢幻
+  #---------------------------------------------------------------------------------------------
+  # 夢幻
 
   class CheckAddIllusionFeatEvent < EventRule
     dsc        "夢幻が可能か"
@@ -14458,8 +14458,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 絶望の叫び
+  #---------------------------------------------------------------------------------------------
+  # 絶望の叫び
 
   class CheckAddDespairShoutFeatEvent < EventRule
     dsc        "絶望の叫びが可能か"
@@ -14489,8 +14489,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 暗黒神の歌
+  #---------------------------------------------------------------------------------------------
+  # 暗黒神の歌
 
   class CheckAddDarknessSongFeatEvent < EventRule
     dsc        "暗黒神の歌が可能か"
@@ -14527,8 +14527,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 守護霊の魂
+  #---------------------------------------------------------------------------------------------
+  # 守護霊の魂
 
   class CheckAddGuardSpiritFeatEvent < EventRule
     dsc        "守護霊の魂が可能か"
@@ -14558,8 +14558,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 殺戮器官
+  #---------------------------------------------------------------------------------------------
+  # 殺戮器官
 
   class CheckAddSlaughterOrganFeatEvent < EventRule
     dsc        "殺戮器官が可能か"
@@ -14603,8 +14603,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 愚者の手
+  #---------------------------------------------------------------------------------------------
+  # 愚者の手
 
   class CheckAddFoolsHandFeatEvent < EventRule
     dsc        "愚者の手が可能か"
@@ -14648,8 +14648,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 時の種子
+  #---------------------------------------------------------------------------------------------
+  # 時の種子
 
   class CheckAddTimeSeedFeatEvent < EventRule
     dsc        "時の種子が可能か"
@@ -14686,8 +14686,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 運命の鉄門
+  #---------------------------------------------------------------------------------------------
+  # 運命の鉄門
 
   class CheckAddIrongateOfFateFeatEvent < EventRule
     dsc        "運命の鉄門が可能か"
@@ -14731,8 +14731,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ザ・ギャザラー
+  #---------------------------------------------------------------------------------------------
+  # ザ・ギャザラー
 
   class CheckAddGathererFeatEvent < EventRule
     dsc        "ザ・ギャザラーが可能か"
@@ -14790,8 +14790,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ザ・ジャッジ
+  #---------------------------------------------------------------------------------------------
+  # ザ・ジャッジ
 
   class CheckAddJudgeFeatEvent < EventRule
     dsc        "ザ・ジャッジが可能か"
@@ -14835,8 +14835,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ザ・ドリーム
+  #---------------------------------------------------------------------------------------------
+  # ザ・ドリーム
 
   class CheckAddDreamFeatEvent < EventRule
     dsc        "ザ・ドリームが可能か"
@@ -14880,8 +14880,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ジ・ワン・アボヴ・オール
+  #---------------------------------------------------------------------------------------------
+  # ジ・ワン・アボヴ・オール
 
   class CheckAddOneAboveAllFeatEvent < EventRule
     dsc        "ジ・ワン・アボヴ・オールが可能か"
@@ -14911,8 +14911,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# アンチセプティック・F
+  #---------------------------------------------------------------------------------------------
+  # アンチセプティック・F
 
   class CheckAddAntisepticFeatEvent < EventRule
     dsc        "アンチセプティック・Fが可能か"
@@ -14977,8 +14977,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# シルバーマシン
+  #---------------------------------------------------------------------------------------------
+  # シルバーマシン
 
   class CheckAddSilverMachineFeatEvent < EventRule
     dsc        "シルバーマシンが可能か"
@@ -15022,8 +15022,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# アトムハート
+  #---------------------------------------------------------------------------------------------
+  # アトムハート
 
   class CheckAddAtomHeartFeatEvent < EventRule
     dsc        "アトムハートが可能か"
@@ -15095,8 +15095,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# エレクトロサージェリー
+  #---------------------------------------------------------------------------------------------
+  # エレクトロサージェリー
 
   class CheckAddElectricSurgeryFeatEvent < EventRule
     dsc        "エレクトロサージェリーが可能か"
@@ -15140,8 +15140,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# アシッドイーター
+  #---------------------------------------------------------------------------------------------
+  # アシッドイーター
 
   class CheckAddAcidEaterFeatEvent < EventRule
     dsc        "アシッドイーターが可能か"
@@ -15192,8 +15192,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# デッドロック
+  #---------------------------------------------------------------------------------------------
+  # デッドロック
 
   class CheckAddDeadLockFeatEvent < EventRule
     dsc        "デッドロックが可能か"
@@ -15237,8 +15237,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ベガーズバンケット
+  #---------------------------------------------------------------------------------------------
+  # ベガーズバンケット
 
   class CheckAddBeggarsBanquetFeatEvent < EventRule
     dsc        "ベガーズバンケットが可能か"
@@ -15296,8 +15296,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# スワンソング
+  #---------------------------------------------------------------------------------------------
+  # スワンソング
 
   class CheckAddSwanSongFeatEvent < EventRule
     dsc        "スワンソングが可能か"
@@ -15334,8 +15334,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 懶惰の墓標
+  #---------------------------------------------------------------------------------------------
+  # 懶惰の墓標
 
   class CheckAddIdleGraveFeatEvent < EventRule
     dsc        "懶惰の墓標が可能か"
@@ -15365,8 +15365,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 慟哭の歌
+  #---------------------------------------------------------------------------------------------
+  # 慟哭の歌
 
   class CheckAddSorrowSongFeatEvent < EventRule
     dsc        "慟哭の歌が可能か"
@@ -15410,8 +15410,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 紅蓮の車輪
+  #---------------------------------------------------------------------------------------------
+  # 紅蓮の車輪
 
   class CheckAddRedWheelFeatEvent < EventRule
     dsc        "紅蓮の車輪が可能か"
@@ -15455,8 +15455,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 赤い石榴
+  #---------------------------------------------------------------------------------------------
+  # 赤い石榴
 
   class CheckAddRedPomegranateFeatEvent < EventRule
     dsc        "赤い石榴が可能か"
@@ -15486,8 +15486,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# クロックワークス
+  #---------------------------------------------------------------------------------------------
+  # クロックワークス
 
   class CheckAddClockWorksFeatEvent < EventRule
     dsc        "クロックワークスが可能か"
@@ -15517,8 +15517,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# タイムハント
+  #---------------------------------------------------------------------------------------------
+  # タイムハント
 
   class CheckAddTimeHuntFeatEvent < EventRule
     dsc        "タイムハントが可能か"
@@ -15562,8 +15562,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# タイムボム
+  #---------------------------------------------------------------------------------------------
+  # タイムボム
 
   class CheckAddTimeBombFeatEvent < EventRule
     dsc        "タイムボムが可能か"
@@ -15600,8 +15600,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# インジイブニング
+  #---------------------------------------------------------------------------------------------
+  # インジイブニング
 
   class CheckAddInTheEveningFeatEvent < EventRule
     dsc        "インジイブニングが可能か"
@@ -15631,8 +15631,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 終局のワルツ
+  #---------------------------------------------------------------------------------------------
+  # 終局のワルツ
 
   class CheckAddFinalWaltzFeatEvent < EventRule
     dsc        "終局のワルツが可能か"
@@ -15676,8 +15676,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 自棄のソナタ
+  #---------------------------------------------------------------------------------------------
+  # 自棄のソナタ
 
   class CheckAddDesperateSonataFeatEvent < EventRule
     dsc        "自棄のソナタが可能か"
@@ -15721,8 +15721,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 剣闘士のマーチ
+  #---------------------------------------------------------------------------------------------
+  # 剣闘士のマーチ
 
   class CheckAddGladiatorMarchFeatEvent < EventRule
     dsc        "剣闘士のマーチが可能か"
@@ -15759,8 +15759,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 恩讐のレクイエム
+  #---------------------------------------------------------------------------------------------
+  # 恩讐のレクイエム
 
   class CheckAddRequiemOfRevengeFeatEvent < EventRule
     dsc        "恩讐のレクイエムが可能か"
@@ -15797,8 +15797,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# おいしいミルク
+  #---------------------------------------------------------------------------------------------
+  # おいしいミルク
 
   class CheckAddDeliciousMilkFeatEvent < EventRule
     dsc        "おいしいミルクが可能か"
@@ -15856,8 +15856,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# やさしいお注射
+  #---------------------------------------------------------------------------------------------
+  # やさしいお注射
 
   class CheckAddEasyInjectionFeatEvent < EventRule
     dsc        "やさしいお注射が可能か"
@@ -15894,8 +15894,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# たのしい採血
+  #---------------------------------------------------------------------------------------------
+  # たのしい採血
 
   class CheckAddBloodCollectingFeatEvent < EventRule
     dsc        "たのしい採血が可能か"
@@ -15932,8 +15932,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 秘密のお薬
+  #---------------------------------------------------------------------------------------------
+  # 秘密のお薬
 
   class CheckAddSecretMedicineFeatEvent < EventRule
     dsc        "秘密のお薬が可能か"
@@ -15970,8 +15970,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 氷の門
+  #---------------------------------------------------------------------------------------------
+  # 氷の門
 
   class CheckAddIceGateFeatEvent < EventRule
     dsc        "氷の門が可能か"
@@ -16008,8 +16008,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 炎の門
+  #---------------------------------------------------------------------------------------------
+  # 炎の門
 
   class CheckAddFireGateFeatEvent < EventRule
     dsc        "炎の門が可能か"
@@ -16046,8 +16046,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 崩れる門
+  #---------------------------------------------------------------------------------------------
+  # 崩れる門
 
   class CheckAddBreakGateFeatEvent < EventRule
     dsc        "崩れる門が可能か"
@@ -16084,8 +16084,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 叫ぶ門
+  #---------------------------------------------------------------------------------------------
+  # 叫ぶ門
 
   class CheckAddShoutOfGateFeatEvent < EventRule
     dsc        "叫ぶ門が可能か"
@@ -16129,8 +16129,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# フュリアスアンガー
+  #---------------------------------------------------------------------------------------------
+  # フュリアスアンガー
 
   class CheckAddFerreousAngerFeatEvent < EventRule
     dsc        "フュリアスアンガーが可能か"
@@ -16174,8 +16174,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ネームオブチャリティ
+  #---------------------------------------------------------------------------------------------
+  # ネームオブチャリティ
 
   class CheckAddNameOfCharityFeatEvent < EventRule
     dsc        "ネームオブチャリティが可能か"
@@ -16205,8 +16205,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# グッドウィル
+  #---------------------------------------------------------------------------------------------
+  # グッドウィル
 
   class CheckAddGoodWillFeatEvent < EventRule
     dsc        "グッドウィルが可能か"
@@ -16243,8 +16243,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# グレードベンジェンス
+  #---------------------------------------------------------------------------------------------
+  # グレードベンジェンス
 
   class CheckAddGreatVengeanceFeatEvent < EventRule
     dsc        "グレードベンジェンスが可能か"
@@ -16295,8 +16295,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 無辜の魂(無縫天衣)
+  #---------------------------------------------------------------------------------------------
+  # 無辜の魂(無縫天衣)
 
   class CheckAddInnocentSoulFeatEvent < EventRule
     dsc        "無辜の魂が可能か"
@@ -16326,8 +16326,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 無謬の行い(光彩陸離)
+  #---------------------------------------------------------------------------------------------
+  # 無謬の行い(光彩陸離)
 
   class CheckAddInfallibleDeedFeatEvent < EventRule
     dsc        "無謬の行いが可能か"
@@ -16406,8 +16406,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 無為の運命(転生輪廻)
+  #---------------------------------------------------------------------------------------------
+  # 無為の運命(転生輪廻)
 
   class CheckAddIdleFateFeatEvent < EventRule
     dsc        "無為の運命が可能か"
@@ -16451,8 +16451,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 無念の裁き(往生極楽)
+  #---------------------------------------------------------------------------------------------
+  # 無念の裁き(往生極楽)
 
   class CheckAddRegrettableJudgmentFeatEvent < EventRule
     dsc        "無念の裁きが可能か"
@@ -16496,8 +16496,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 罪業の蠢き
+  #---------------------------------------------------------------------------------------------
+  # 罪業の蠢き
 
   class CheckAddSinWriggleFeatEvent < EventRule
     dsc        "罪業の蠢きが可能か"
@@ -16541,8 +16541,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 懶惰の呻き
+  #---------------------------------------------------------------------------------------------
+  # 懶惰の呻き
 
   class CheckAddIdleGroanFeatEvent < EventRule
     dsc        "懶惰の呻きが可能か"
@@ -16593,8 +16593,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 汚濁の囁き
+  #---------------------------------------------------------------------------------------------
+  # 汚濁の囁き
 
   class CheckAddContaminationSorrowFeatEvent < EventRule
     dsc        "汚濁の囁きが可能か"
@@ -16624,8 +16624,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 蹉跌の犇めき
+  #---------------------------------------------------------------------------------------------
+  # 蹉跌の犇めき
 
   class CheckAddFailureGroanFeatEvent < EventRule
     dsc        "蹉跌の犇めきが可能か"
@@ -16662,8 +16662,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 大聖堂
+  #---------------------------------------------------------------------------------------------
+  # 大聖堂
 
   class CheckAddCathedralFeatEvent < EventRule
     dsc        "大聖堂が可能か"
@@ -16700,8 +16700,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 冬の夢
+  #---------------------------------------------------------------------------------------------
+  # 冬の夢
 
   class CheckAddWinterDreamFeatEvent < EventRule
     dsc        "冬の夢が可能か"
@@ -16745,8 +16745,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 夜はやさし
+  #---------------------------------------------------------------------------------------------
+  # 夜はやさし
 
   class CheckAddTenderNightFeatEvent < EventRule
     dsc        "夜はやさしが可能か"
@@ -16776,8 +16776,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# しあわせの理由
+  #---------------------------------------------------------------------------------------------
+  # しあわせの理由
 
   class CheckAddFortunateReasonFeatEvent < EventRule
     dsc        "しあわせの理由が可能か"
@@ -16807,8 +16807,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# RudNum
+  #---------------------------------------------------------------------------------------------
+  # RudNum
 
   class CheckAddRudNumFeatEvent < EventRule
     dsc        "RudNumが可能か"
@@ -16845,8 +16845,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# von541
+  #---------------------------------------------------------------------------------------------
+  # von541
 
   class CheckAddVonNumFeatEvent < EventRule
     dsc        "von541が可能か"
@@ -16890,8 +16890,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ChrNum
+  #---------------------------------------------------------------------------------------------
+  # ChrNum
 
   class CheckAddChrNumFeatEvent < EventRule
     dsc        "ChrNumが可能か"
@@ -16928,8 +16928,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# WilNum
+  #---------------------------------------------------------------------------------------------
+  # WilNum
 
   class CheckAddWilNumFeatEvent < EventRule
     dsc        "WilNumが可能か"
@@ -16966,8 +16966,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# クトネシリカ(フォイルニスゼーレ)
+  #---------------------------------------------------------------------------------------------
+  # クトネシリカ(フォイルニスゼーレ)
 
   class CheckAddKutunesirkaFeatEvent < EventRule
     dsc        "クトネシリカが可能か"
@@ -17011,8 +17011,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ヘルメスの靴(ドゥンケルハイト)
+  #---------------------------------------------------------------------------------------------
+  # ヘルメスの靴(ドゥンケルハイト)
 
   class CheckAddFeetOfHermesFeatEvent < EventRule
     dsc        "ヘルメスの靴が可能か"
@@ -17049,8 +17049,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# イージスの翼(シャッテンフリューゲル)
+  #---------------------------------------------------------------------------------------------
+  # イージスの翼(シャッテンフリューゲル)
 
   class CheckAddAegisWingFeatEvent < EventRule
     dsc        "イージスの翼が可能か"
@@ -17094,8 +17094,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# クラウ・ソラス(ヴィルベルリッテル)
+  #---------------------------------------------------------------------------------------------
+  # クラウ・ソラス(ヴィルベルリッテル)
 
   class CheckAddClaiomhSolaisFeatEvent < EventRule
     dsc        "クラウ・ソラスが可能か"
@@ -17132,8 +17132,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 細胞変異
+  #---------------------------------------------------------------------------------------------
+  # 細胞変異
 
   class CheckAddMutationFeatEvent < EventRule
     dsc        "細胞変異が可能か"
@@ -17177,8 +17177,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 指嗾する仔
+  #---------------------------------------------------------------------------------------------
+  # 指嗾する仔
 
   class CheckAddRampancyFeatEvent < EventRule
     dsc        "指嗾する仔"
@@ -17215,8 +17215,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 魂魄の贄
+  #---------------------------------------------------------------------------------------------
+  # 魂魄の贄
 
   class CheckAddSacrificeOfSoulFeatEvent < EventRule
     dsc        "魂魄の贄が可能か"
@@ -17260,8 +17260,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 銀の弾丸(哀切の残光)
+  #---------------------------------------------------------------------------------------------
+  # 銀の弾丸(哀切の残光)
 
   class CheckAddSilverBulletFeatEvent < EventRule
     dsc        "銀の弾丸が可能か"
@@ -17291,8 +17291,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# かぼちゃ落とし
+  #---------------------------------------------------------------------------------------------
+  # かぼちゃ落とし
 
   class CheckAddPumpkinDropFeatEvent < EventRule
     dsc        "かぼちゃ落としが可能か"
@@ -17343,8 +17343,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 彷徨う羽
+  #---------------------------------------------------------------------------------------------
+  # 彷徨う羽
 
   class CheckAddWanderingFeatherFeatEvent < EventRule
     dsc        "彷徨う羽が可能か"
@@ -17388,8 +17388,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ひつじ数え歌
+  #---------------------------------------------------------------------------------------------
+  # ひつじ数え歌
 
   class CheckAddSheepSongFeatEvent < EventRule
     dsc        "ひつじ数え歌が可能か"
@@ -17426,8 +17426,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# オヴェリャの夢
+  #---------------------------------------------------------------------------------------------
+  # オヴェリャの夢
 
   class CheckAddDreamOfOvueryaFeatEvent < EventRule
     dsc        "オヴェリャの夢が可能か"
@@ -17457,8 +17457,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# メリーズシープ
+  #---------------------------------------------------------------------------------------------
+  # メリーズシープ
 
   class CheckAddMarysSheepFeatEvent < EventRule
     dsc        "メリーズシープが可能か"
@@ -17502,8 +17502,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 光り輝く邪眼
+  #---------------------------------------------------------------------------------------------
+  # 光り輝く邪眼
 
   class CheckAddEvilEyeFeatEvent < EventRule
     dsc        "光り輝く邪眼が可能か"
@@ -17547,8 +17547,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 超越者の邪法を使用
+  #---------------------------------------------------------------------------------------------
+  # 超越者の邪法を使用
 
   class CheckAddBlackArtsFeatEvent < EventRule
     dsc        "超越者の邪法を使用が可能か"
@@ -17578,8 +17578,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 冒涜する呪詛
+  #---------------------------------------------------------------------------------------------
+  # 冒涜する呪詛
 
   class CheckAddBlasphemyCurseFeatEvent < EventRule
     dsc        "冒涜する呪詛が可能か"
@@ -17623,8 +17623,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 終焉の果て
+  #---------------------------------------------------------------------------------------------
+  # 終焉の果て
 
   class CheckAddEndOfEndFeatEvent < EventRule
     dsc        "終焉の果てが可能か"
@@ -17668,8 +17668,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 玉座の凱旋門
+  #---------------------------------------------------------------------------------------------
+  # 玉座の凱旋門
 
   class CheckAddThronesGateFeatEvent < EventRule
     dsc        "玉座の凱旋門が可能か"
@@ -17713,8 +17713,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 幽愁暗恨
+  #---------------------------------------------------------------------------------------------
+  # 幽愁暗恨
 
   class CheckAddGhostResentmentFeatEvent < EventRule
     dsc        "幽愁暗恨が可能か"
@@ -17758,8 +17758,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 受け流し
+  #---------------------------------------------------------------------------------------------
+  # 受け流し
 
   class CheckAddSwordAvoidFeatEvent < EventRule
     dsc        "受け流しが可能か"
@@ -17803,8 +17803,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# Ex呪剣
+  #---------------------------------------------------------------------------------------------
+  # Ex呪剣
 
   class CheckAddCurseSwordFeatEvent < EventRule
     dsc        "Ex呪剣が可能か"
@@ -17848,8 +17848,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 神速の剣(復活)
+  #---------------------------------------------------------------------------------------------
+  # 神速の剣(復活)
 
   class CheckAddRapidSwordR2FeatEvent < EventRule
     dsc        "神速の剣(復活)が可能か"
@@ -17886,8 +17886,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ヴォリションディフレクト
+  #---------------------------------------------------------------------------------------------
+  # ヴォリションディフレクト
 
   class CheckAddVolitionDeflectFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -17931,8 +17931,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 怒りの一撃(復活)
+  #---------------------------------------------------------------------------------------------
+  # 怒りの一撃(復活)
 
   class CheckAddAngerRFeatEvent < EventRule
     dsc        "怒りの一撃(復活)が可能か"
@@ -17969,8 +17969,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 影撃ち(復活)
+  #---------------------------------------------------------------------------------------------
+  # 影撃ち(復活)
 
   class CheckAddShadowShotRFeatEvent < EventRule
     dsc        "影撃ちが可能か"
@@ -18014,8 +18014,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 嚇灼の尾
+  #---------------------------------------------------------------------------------------------
+  # 嚇灼の尾
 
   class CheckAddBurningTailFeatEvent < EventRule
     dsc        "嚇灼の尾が可能か"
@@ -18052,8 +18052,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 震歩を使用
+  #---------------------------------------------------------------------------------------------
+  # 震歩を使用
 
   class CheckAddQuakeWalkFeatEvent < EventRule
     dsc        "震歩を使用が可能か"
@@ -18083,8 +18083,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ドレナージ
+  #---------------------------------------------------------------------------------------------
+  # ドレナージ
 
   class CheckAddDrainageFeatEvent < EventRule
     dsc        "ドレナージが可能か"
@@ -18135,8 +18135,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# やさしい微笑み
+  #---------------------------------------------------------------------------------------------
+  # やさしい微笑み
 
   class CheckAddSmileFeatEvent < EventRule
     dsc        "やさしい微笑みが可能か"
@@ -18180,8 +18180,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 血統汚染(レイド用) blutkontamina
+  #---------------------------------------------------------------------------------------------
+  # 血統汚染(レイド用) blutkontamina
 
   class CheckAddBlutkontaminaFeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
@@ -18225,8 +18225,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# つめたい視線
+  #---------------------------------------------------------------------------------------------
+  # つめたい視線
 
   class CheckAddColdEyesFeatEvent < EventRule
     dsc        "つめたい視線が可能か"
@@ -18263,8 +18263,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# Faet1
+  #---------------------------------------------------------------------------------------------
+  # Faet1
 
   class CheckAddFeat1FeatEvent < EventRule
     dsc        "Feat1が可能か"
@@ -18308,8 +18308,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# feat2
+  #---------------------------------------------------------------------------------------------
+  # feat2
 
   class CheckAddFeat2FeatEvent < EventRule
     dsc        "feat2が可能か"
@@ -18353,8 +18353,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# Faet3
+  #---------------------------------------------------------------------------------------------
+  # Faet3
 
   class CheckAddFeat3FeatEvent < EventRule
     dsc        "Feat3が可能か"
@@ -18391,8 +18391,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# Faet4
+  #---------------------------------------------------------------------------------------------
+  # Faet4
 
   class CheckAddFeat4FeatEvent < EventRule
     dsc        "Feat4が可能か"
@@ -18457,8 +18457,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 見えざる白群の鼬
+  #---------------------------------------------------------------------------------------------
+  # 見えざる白群の鼬
 
   class CheckAddWeaselFeatEvent < EventRule
     dsc        "見えざる白群の鼬が可能か"
@@ -18530,8 +18530,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 暗黒の渦(復活)
+  #---------------------------------------------------------------------------------------------
+  # 暗黒の渦(復活)
 
   class CheckAddDarkProfoundFeatEvent < EventRule
     dsc        "DarkProfoundが可能か"
@@ -18575,8 +18575,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 因果の扉
+  #---------------------------------------------------------------------------------------------
+  # 因果の扉
 
   class CheckAddKarmicDorFeatEvent < EventRule
     dsc        "因果の扉が可能か"
@@ -18634,8 +18634,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# batafly_mov
+  #---------------------------------------------------------------------------------------------
+  # batafly_mov
 
   class CheckAddBataflyMovFeatEvent < EventRule
     dsc        "batafly_movが可能か"
@@ -18672,8 +18672,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# batafly_atk
+  #---------------------------------------------------------------------------------------------
+  # batafly_atk
 
   class CheckAddBataflyAtkFeatEvent < EventRule
     dsc        "batafly_atkが可能か"
@@ -18710,8 +18710,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# batafly_def
+  #---------------------------------------------------------------------------------------------
+  # batafly_def
 
   class CheckAddBataflyDefFeatEvent < EventRule
     dsc        "batafly_defが可能か"
@@ -18748,8 +18748,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# batafly_sld
+  #---------------------------------------------------------------------------------------------
+  # batafly_sld
 
   class CheckAddBataflySldFeatEvent < EventRule
     dsc        "batafly_sldが可能か"
@@ -18786,8 +18786,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# グレイスカクテル
+  #---------------------------------------------------------------------------------------------
+  # グレイスカクテル
 
   class CheckAddGraceCocktailFeatEvent < EventRule
     dsc        "グレースカクテルが可能か"
@@ -18831,8 +18831,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ランドマイン(復活)
+  #---------------------------------------------------------------------------------------------
+  # ランドマイン(復活)
 
   class CheckAddLandMineRFeatEvent < EventRule
     dsc        "ランドマイン(復活)が可能か"
@@ -18862,8 +18862,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ナパーム・デス
+  #---------------------------------------------------------------------------------------------
+  # ナパーム・デス
 
   class CheckAddNapalmDeathFeatEvent < EventRule
     dsc        "ナパーム・デスが可能か"
@@ -18900,8 +18900,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# スーサイダイルフェイルア
+  #---------------------------------------------------------------------------------------------
+  # スーサイダイルフェイルア
 
   class CheckAddSuicidalFailureFeatEvent < EventRule
     dsc        "スーサイダルフェイルアが可能か"
@@ -18938,8 +18938,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ビッグブラッグ(復活)
+  #---------------------------------------------------------------------------------------------
+  # ビッグブラッグ(復活)
 
   class CheckAddBigBraggRFeatEvent < EventRule
     dsc        "ビッグブラッグが可能か"
@@ -18969,8 +18969,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# レッツナイフ(復活)
+  #---------------------------------------------------------------------------------------------
+  # レッツナイフ(復活)
 
   class CheckAddLetsKnifeRFeatEvent < EventRule
     dsc        "レッツナイフが可能か"
@@ -19007,8 +19007,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 捕食
+  #---------------------------------------------------------------------------------------------
+  # 捕食
 
   class CheckAddPreyFeatEvent < EventRule
     dsc        "捕食が可能か"
@@ -19038,8 +19038,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 反芻
+  #---------------------------------------------------------------------------------------------
+  # 反芻
 
   class CheckAddRuminationFeatEvent < EventRule
     dsc        "反芻が可能か"
@@ -19090,8 +19090,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ピルム
+  #---------------------------------------------------------------------------------------------
+  # ピルム
 
   class CheckAddPilumFeatEvent < EventRule
     dsc        "ピルムが可能か"
@@ -19135,8 +19135,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 地中の路
+  #---------------------------------------------------------------------------------------------
+  # 地中の路
 
   class CheckAddRoadOfUndergroundFeatEvent < EventRule
     dsc        "地中の路が可能か"
@@ -19180,8 +19180,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 狐分身
+  #---------------------------------------------------------------------------------------------
+  # 狐分身
 
   class CheckAddFoxShadowFeatEvent < EventRule
     dsc        "狐分身が可能か"
@@ -19218,8 +19218,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 狐シュート
+  #---------------------------------------------------------------------------------------------
+  # 狐シュート
 
   class CheckAddFoxShootFeatEvent < EventRule
     dsc        "狐シュートが可能か"
@@ -19263,8 +19263,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 狐空間
+  #---------------------------------------------------------------------------------------------
+  # 狐空間
 
   class CheckAddFoxZoneFeatEvent < EventRule
     dsc        "狐空間が可能か"
@@ -19322,8 +19322,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 墜下する流星
+  #---------------------------------------------------------------------------------------------
+  # 墜下する流星
 
   class CheckAddArrowRainFeatEvent < EventRule
     dsc        "墜下する流星が可能か"
@@ -19360,8 +19360,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 光輝強迫
+  #---------------------------------------------------------------------------------------------
+  # 光輝強迫
 
   class CheckAddAtemwendeFeatEvent < EventRule
     dsc        "光輝強迫が可能か"
@@ -19405,8 +19405,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 雪の重唱
+  #---------------------------------------------------------------------------------------------
+  # 雪の重唱
 
   class CheckAddFadensonnenFeatEvent < EventRule
     dsc        "雪の重唱が可能か"
@@ -19443,8 +19443,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 紡がれる陽
+  #---------------------------------------------------------------------------------------------
+  # 紡がれる陽
 
   class CheckAddLichtzwangFeatEvent < EventRule
     dsc        "紡がれる陽が可能か"
@@ -19488,8 +19488,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 溜息の転換
+  #---------------------------------------------------------------------------------------------
+  # 溜息の転換
 
   class CheckAddSchneepartFeatEvent < EventRule
     dsc        "溜息の転換が可能か"
@@ -19533,8 +19533,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ハイゲート
+  #---------------------------------------------------------------------------------------------
+  # ハイゲート
 
   class CheckAddHighgateFeatEvent < EventRule
     dsc        "ハイゲートが可能か"
@@ -19564,8 +19564,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ドルフルフト
+  #---------------------------------------------------------------------------------------------
+  # ドルフルフト
 
   class CheckAddDorfloftFeatEvent < EventRule
     dsc        "ドルフルフトが可能か"
@@ -19602,8 +19602,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ルミネセンス
+  #---------------------------------------------------------------------------------------------
+  # ルミネセンス
 
   class CheckAddLuminesFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -19646,8 +19646,8 @@ module Unlight
     func       :use_lumines_feat_damage
     goal       ["self", :use_end?]
   end
-#---------------------------------------------------------------------------------------------
-# スーパーヒロイン(復活)
+  #---------------------------------------------------------------------------------------------
+  # スーパーヒロイン(復活)
 
   class CheckAddSuperHeroineFeatEvent < EventRule
     dsc        "スーパーヒロインが可能か"
@@ -19677,8 +19677,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# T・スタンピード
+  #---------------------------------------------------------------------------------------------
+  # T・スタンピード
 
   class CheckAddStampedeFeatEvent < EventRule
     dsc        "スタンピードが可能か"
@@ -19722,8 +19722,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# D・コントロール(復活)
+  #---------------------------------------------------------------------------------------------
+  # D・コントロール(復活)
 
   class CheckAddDeathControl2FeatEvent < EventRule
     dsc        "自壊攻撃が可能か"
@@ -19767,8 +19767,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 俺様の剣技に見惚れろ
+  #---------------------------------------------------------------------------------------------
+  # 俺様の剣技に見惚れろ
 
   class CheckAddKengiFeatEvent < EventRule
     dsc        "俺様の剣技に見惚れろが可能か"
@@ -19819,8 +19819,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 何処をみてやがる
+  #---------------------------------------------------------------------------------------------
+  # 何処をみてやがる
 
   class CheckAddDokowoFeatEvent < EventRule
     dsc        "何処をみてやがるが可能か"
@@ -19850,8 +19850,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# お前の技は見切った
+  #---------------------------------------------------------------------------------------------
+  # お前の技は見切った
 
   class CheckAddMikittaFeatEvent < EventRule
     dsc        "お前の技は見切ったが可能か"
@@ -19881,8 +19881,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# これが俺様の本当の力だ
+  #---------------------------------------------------------------------------------------------
+  # これが俺様の本当の力だ
 
   class CheckAddHontouFeatEvent < EventRule
     dsc        "これが俺様の本当の力だが可能か"
@@ -19933,8 +19933,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 招かれしものども
+  #---------------------------------------------------------------------------------------------
+  # 招かれしものども
 
   class CheckAddInvitedFeatEvent < EventRule
     dsc        "招かれしものどもが可能か"
@@ -19964,8 +19964,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 透き通る手
+  #---------------------------------------------------------------------------------------------
+  # 透き通る手
 
   class CheckAddThroughHandFeatEvent < EventRule
     dsc        "透き通る手が可能か"
@@ -19995,8 +19995,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 深遠なる息
+  #---------------------------------------------------------------------------------------------
+  # 深遠なる息
 
   class CheckAddProfBreathFeatEvent < EventRule
     dsc        "深遠なる息が可能か"
@@ -20026,8 +20026,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 7つの願い
+  #---------------------------------------------------------------------------------------------
+  # 7つの願い
 
   class CheckAddSevenWishFeatEvent < EventRule
     dsc        "7つの願いが可能か"
@@ -20064,8 +20064,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 13の眼(復活)
+  #---------------------------------------------------------------------------------------------
+  # 13の眼(復活)
 
   class CheckAddThirteenEyesRFeatEvent < EventRule
     dsc        "13の眼(復活)が可能か"
@@ -20116,8 +20116,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 茨の構え(復活)
+  #---------------------------------------------------------------------------------------------
+  # 茨の構え(復活)
 
   class CheckAddThornCareRFeatEvent < EventRule
     dsc        "茨の構え(復活)が可能か"
@@ -20161,8 +20161,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 解放剣(復活)
+  #---------------------------------------------------------------------------------------------
+  # 解放剣(復活)
 
   class CheckAddLiberatingSwordRFeatEvent < EventRule
     dsc        "解放剣(復活)が可能か"
@@ -20206,8 +20206,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 呪剣(復活)
+  #---------------------------------------------------------------------------------------------
+  # 呪剣(復活)
 
   class CheckAddCurseSwordRFeatEvent < EventRule
     dsc        "呪剣(復活)が可能か"
@@ -20251,8 +20251,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 火の輪くぐり
+  #---------------------------------------------------------------------------------------------
+  # 火の輪くぐり
 
   class CheckAddFlameRingFeatEvent < EventRule
     dsc        "火の輪くぐりが可能か"
@@ -20289,8 +20289,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ピアノ
+  #---------------------------------------------------------------------------------------------
+  # ピアノ
 
   class CheckAddPianoFeatEvent < EventRule
     dsc        "ピアノが可能か"
@@ -20334,8 +20334,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 玉乗り
+  #---------------------------------------------------------------------------------------------
+  # 玉乗り
 
   class CheckAddOnaBallFeatEvent < EventRule
     dsc        "玉乗りが可能か"
@@ -20365,8 +20365,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 暴れる
+  #---------------------------------------------------------------------------------------------
+  # 暴れる
 
   class CheckAddViolentFeatEvent < EventRule
     dsc        "暴れるが可能か"
@@ -20403,8 +20403,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ライフタイムサウンド
+  #---------------------------------------------------------------------------------------------
+  # ライフタイムサウンド
 
   class CheckAddLifetimeSoundFeatEvent < EventRule
     dsc        "ライフタイムサウンドが可能か"
@@ -20448,8 +20448,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# バランスライフ
+  #---------------------------------------------------------------------------------------------
+  # バランスライフ
 
   class CheckAddBalanceLifeFeatEvent < EventRule
     dsc        "バランスライフが可能か"
@@ -20493,8 +20493,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# コマホワイト
+  #---------------------------------------------------------------------------------------------
+  # コマホワイト
 
   class CheckAddComaWhiteFeatEvent < EventRule
     dsc        "コマホワイトが可能か"
@@ -20531,8 +20531,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ゴーズトゥダーク
+  #---------------------------------------------------------------------------------------------
+  # ゴーズトゥダーク
 
   class CheckAddGoesToDarkFeatEvent < EventRule
     dsc        "ゴーズトゥダークが可能か"
@@ -20562,8 +20562,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 羅刹の構え
+  #---------------------------------------------------------------------------------------------
+  # 羅刹の構え
 
   class CheckAddRakshasaStanceFeatEvent < EventRule
     dsc        "羅刹の構えが可能か"
@@ -20627,8 +20627,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 霧隠れ
+  #---------------------------------------------------------------------------------------------
+  # 霧隠れ
 
   class CheckAddKirigakureFeatEvent < EventRule
     dsc        "霧隠れが可能か"
@@ -20763,8 +20763,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 水鏡
+  #---------------------------------------------------------------------------------------------
+  # 水鏡
 
   class CheckAddMikagamiFeatEvent < EventRule
     dsc        "水鏡が可能か"
@@ -20801,8 +20801,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 落花流水
+  #---------------------------------------------------------------------------------------------
+  # 落花流水
 
   class CheckAddMutualLoveFeatEvent < EventRule
     dsc        "落花流水が可能か"
@@ -20853,8 +20853,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 鏡花水月
+  #---------------------------------------------------------------------------------------------
+  # 鏡花水月
 
   class CheckAddMereShadowFeatEvent < EventRule
     dsc        "鏡花水月が可能か"
@@ -20898,8 +20898,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 亀占い
+  #---------------------------------------------------------------------------------------------
+  # 亀占い
 
   class CheckAddScapulimancyFeatEvent < EventRule
     dsc        "亀占いが可能か"
@@ -20929,8 +20929,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 土盾
+  #---------------------------------------------------------------------------------------------
+  # 土盾
 
   class CheckAddSoilGuardFeatEvent < EventRule
     dsc        "土盾が可能か"
@@ -20967,8 +20967,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 甲羅スピン
+  #---------------------------------------------------------------------------------------------
+  # 甲羅スピン
 
   class CheckAddCarapaceSpinFeatEvent < EventRule
     dsc        "甲羅スピンが可能か"
@@ -21005,8 +21005,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ヴェンデッタ
+  #---------------------------------------------------------------------------------------------
+  # ヴェンデッタ
 
   class CheckAddVendettaFeatEvent < EventRule
     dsc        "ヴェンデッタが可能か"
@@ -21043,8 +21043,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# アヴェンジャー
+  #---------------------------------------------------------------------------------------------
+  # アヴェンジャー
 
   class CheckAddAvengersFeatEvent < EventRule
     dsc        "アヴェンジャーが可能か"
@@ -21081,8 +21081,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# シャープンエッジ
+  #---------------------------------------------------------------------------------------------
+  # シャープンエッジ
 
   class CheckAddSharpenEdgeFeatEvent < EventRule
     dsc        "シャープンエッジが可能か"
@@ -21112,7 +21112,7 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-# 状態イベント
+  # 状態イベント
 
   class CheckSharpenEdgeStateChangeEvent < EventRule
     dsc        "シャープンエッジ状態が終了"
@@ -21140,8 +21140,8 @@ module Unlight
     func       :finish_sharpen_edge_state
   end
 
-#---------------------------------------------------------------------------------------------
-# ハックナイン
+  #---------------------------------------------------------------------------------------------
+  # ハックナイン
 
   class CheckAddHacknineFeatEvent < EventRule
     dsc        "ハックナインが可能か"
@@ -21178,8 +21178,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ブラックマゲイア
+  #---------------------------------------------------------------------------------------------
+  # ブラックマゲイア
 
   class CheckAddBlackMageiaFeatEvent < EventRule
     dsc        "ブラックマゲイアが可能か"
@@ -21209,8 +21209,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# コープスドレイン
+  #---------------------------------------------------------------------------------------------
+  # コープスドレイン
 
   class CheckAddCorpsDrainFeatEvent < EventRule
     dsc        "コープスドレインが可能か"
@@ -21247,8 +21247,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# インヴァート
+  #---------------------------------------------------------------------------------------------
+  # インヴァート
   class CheckAddInvertFeatEvent < EventRule
     dsc        "インヴァートが可能か"
     type       type: :after, obj: "owner", hook: :deffence_card_add_action
@@ -21277,8 +21277,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 追跡する夜鷹
+  #---------------------------------------------------------------------------------------------
+  # 追跡する夜鷹
 
   class CheckAddNightHawkFeatEvent < EventRule
     dsc        "追跡する夜鷹を使用が可能か"
@@ -21350,8 +21350,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 幽幻の剛弾
+  #---------------------------------------------------------------------------------------------
+  # 幽幻の剛弾
 
   class CheckAddPhantomBarrettFeatEvent < EventRule
     dsc        "幽幻の剛弾が可能か"
@@ -21388,8 +21388,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 惑わしの一幕
+  #---------------------------------------------------------------------------------------------
+  # 惑わしの一幕
 
   class CheckAddOneActFeatEvent < EventRule
     dsc        "惑わしの一幕が可能か"
@@ -21426,8 +21426,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 終極の烈弾
+  #---------------------------------------------------------------------------------------------
+  # 終極の烈弾
 
   class CheckAddFinalBarrettFeatEvent < EventRule
     dsc        "終極の烈弾が可能か"
@@ -21464,8 +21464,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# グリムデッド
+  #---------------------------------------------------------------------------------------------
+  # グリムデッド
 
   class CheckAddGrimmdeadFeatEvent < EventRule
     dsc        "グリムデッドが可能か"
@@ -21523,8 +21523,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ヴンダーカンマー
+  #---------------------------------------------------------------------------------------------
+  # ヴンダーカンマー
 
   class CheckAddWunderkammerFeatEvent < EventRule
     dsc        "ヴンダーカンマーが可能か"
@@ -21568,8 +21568,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# コンストレイント
+  #---------------------------------------------------------------------------------------------
+  # コンストレイント
 
   class CheckAddConstraintFeatEvent < EventRule
     dsc        "コンストレイントが可能か"
@@ -21613,8 +21613,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# リノベートアトランダム
+  #---------------------------------------------------------------------------------------------
+  # リノベートアトランダム
 
   class CheckAddRenovateAtrandomFeatEvent < EventRule
     dsc        "リノベートアトランダムが可能か"
@@ -21658,8 +21658,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 催眠術
+  #---------------------------------------------------------------------------------------------
+  # 催眠術
 
   class CheckAddBackbeardFeatEvent < EventRule
     dsc        "催眠術が可能か"
@@ -21696,8 +21696,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 影縫い
+  #---------------------------------------------------------------------------------------------
+  # 影縫い
 
   class CheckAddShadowStitchFeatEvent < EventRule
     dsc        "影縫いが可能か"
@@ -21741,8 +21741,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ミキストリ
+  #---------------------------------------------------------------------------------------------
+  # ミキストリ
 
   class CheckAddMextliFeatEvent < EventRule
     dsc        "ミキストリが可能か"
@@ -21772,7 +21772,7 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-# 状態イベント
+  # 状態イベント
 
   class CheckDamageInsuranceChangeEvent < EventRule
     dsc        "ダメージ追加状態チェック"
@@ -21794,8 +21794,8 @@ module Unlight
     func       :use_damage_insurance_damage
   end
 
-#---------------------------------------------------------------------------------------------
-# リベットアンドサージ
+  #---------------------------------------------------------------------------------------------
+  # リベットアンドサージ
 
   class CheckAddRivetAndSurgeFeatEvent < EventRule
     dsc        "リベットアンドサージが可能か"
@@ -21846,8 +21846,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ファントマ
+  #---------------------------------------------------------------------------------------------
+  # ファントマ
 
   class CheckAddPhantomasFeatEvent < EventRule
     dsc        "ファントマが可能か"
@@ -21884,8 +21884,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 危険ドラッグ
+  #---------------------------------------------------------------------------------------------
+  # 危険ドラッグ
 
   class CheckAddDangerDrugFeatEvent < EventRule
     dsc        "危険ドラッグが可能か"
@@ -21915,8 +21915,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# HP3サンダー
+  #---------------------------------------------------------------------------------------------
+  # HP3サンダー
 
   class CheckAddThreeThunderFeatEvent < EventRule
     dsc        "HP3サンダーが可能か"
@@ -21953,8 +21953,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 素数ヒール
+  #---------------------------------------------------------------------------------------------
+  # 素数ヒール
 
   class CheckAddPrimeHealFeatEvent < EventRule
     dsc        "素数ヒールが可能か"
@@ -21991,8 +21991,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# HP4コメット
+  #---------------------------------------------------------------------------------------------
+  # HP4コメット
 
   class CheckAddFourCometFeatEvent < EventRule
     dsc        "HP4コメットが可能か"
@@ -22029,8 +22029,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# クラブジャグ
+  #---------------------------------------------------------------------------------------------
+  # クラブジャグ
 
   class CheckAddClubJuggFeatEvent < EventRule
     dsc        "クラブジャグが可能か"
@@ -22074,8 +22074,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ナイフジャグ
+  #---------------------------------------------------------------------------------------------
+  # ナイフジャグ
 
   class CheckAddKnifeJuggFeatEvent < EventRule
     dsc        "ナイフジャグが可能か"
@@ -22119,8 +22119,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 火吹き
+  #---------------------------------------------------------------------------------------------
+  # 火吹き
 
   class CheckAddBlowingFireFeatEvent < EventRule
     dsc        "火吹きが可能か"
@@ -22157,8 +22157,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# バランスボール
+  #---------------------------------------------------------------------------------------------
+  # バランスボール
 
   class CheckAddBalanceBallFeatEvent < EventRule
     dsc        "バランスボールが可能か"
@@ -22195,8 +22195,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 劣化ミルク
+  #---------------------------------------------------------------------------------------------
+  # 劣化ミルク
 
   class CheckAddBadMilkFeatEvent < EventRule
     dsc        "劣化ミルクが可能か"
@@ -22261,8 +22261,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ミラHP
+  #---------------------------------------------------------------------------------------------
+  # ミラHP
 
   class CheckAddMiraHpFeatEvent < EventRule
     dsc        "ミラHPが可能か"
@@ -22306,8 +22306,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# スキルドレイン
+  #---------------------------------------------------------------------------------------------
+  # スキルドレイン
 
   class CheckAddSkillDrainFeatEvent < EventRule
     dsc        "スキルドレインが可能か"
@@ -22364,8 +22364,8 @@ module Unlight
     func       :finish_override_skill_state
   end
 
-#---------------------------------------------------------------------------------------------
-# コフィン
+  #---------------------------------------------------------------------------------------------
+  # コフィン
 
   class CheckAddCoffinFeatEvent < EventRule
     dsc        "コフィンが可能か"
@@ -22402,8 +22402,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 玄青眼
+  #---------------------------------------------------------------------------------------------
+  # 玄青眼
 
   class CheckAddDarkEyesFeatEvent < EventRule
     dsc        "玄青眼が可能か"
@@ -22447,8 +22447,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 烏爪一転
+  #---------------------------------------------------------------------------------------------
+  # 烏爪一転
 
   class CheckAddCrowsClawFeatEvent < EventRule
     dsc        "烏爪一転が可能か"
@@ -22485,8 +22485,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 土竜縛符
+  #---------------------------------------------------------------------------------------------
+  # 土竜縛符
 
   class CheckAddMoleFeatEvent < EventRule
     dsc        "土竜縛符が可能か"
@@ -22530,8 +22530,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 五彩晩霞
+  #---------------------------------------------------------------------------------------------
+  # 五彩晩霞
 
   class CheckAddSunsetFeatEvent < EventRule
     dsc        "五彩晩霞が可能か"
@@ -22582,8 +22582,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 蔓縛り
+  #---------------------------------------------------------------------------------------------
+  # 蔓縛り
 
   class CheckAddVineFeatEvent < EventRule
     dsc        "蔓縛りが可能か"
@@ -22634,8 +22634,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 吸収
+  #---------------------------------------------------------------------------------------------
+  # 吸収
 
   class CheckAddGrapeVineFeatEvent < EventRule
     dsc        "吸収が可能か"
@@ -22679,8 +22679,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# サンダーストラック
+  #---------------------------------------------------------------------------------------------
+  # サンダーストラック
 
   class CheckAddThunderStruckFeatEvent < EventRule
     dsc        "サンダーストラックが可能か"
@@ -22724,8 +22724,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ウィーヴワールド
+  #---------------------------------------------------------------------------------------------
+  # ウィーヴワールド
 
   class CheckAddWeaveWorldFeatEvent < EventRule
     dsc        "深淵が可能か"
@@ -22762,8 +22762,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# コレクション
+  #---------------------------------------------------------------------------------------------
+  # コレクション
 
   class CheckAddCollectionFeatEvent < EventRule
     dsc        "コレクションが可能か"
@@ -22828,8 +22828,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# Dリストリクション
+  #---------------------------------------------------------------------------------------------
+  # Dリストリクション
 
   class CheckAddRestrictionFeatEvent < EventRule
     dsc        "リストリクションが可能か"
@@ -22866,8 +22866,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# DABS
+  #---------------------------------------------------------------------------------------------
+  # DABS
 
   class CheckAddDabsFeatEvent < EventRule
     dsc        "DABSが可能か"
@@ -22904,8 +22904,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# VIBRATION
+  #---------------------------------------------------------------------------------------------
+  # VIBRATION
 
   class CheckAddVibrationFeatEvent < EventRule
     dsc        "VIBRATIONが可能か"
@@ -22942,8 +22942,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# Trick or Treat
+  #---------------------------------------------------------------------------------------------
+  # Trick or Treat
 
   class CheckAddTotFeatEvent < EventRule
     dsc        "ToTが可能か"
@@ -22987,8 +22987,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ダックアップル
+  #---------------------------------------------------------------------------------------------
+  # ダックアップル
 
   class CheckAddDuckAppleFeatEvent < EventRule
     dsc        "ダックアップルが可能か"
@@ -23018,8 +23018,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ランページ
+  #---------------------------------------------------------------------------------------------
+  # ランページ
 
   class CheckAddRampageFeatEvent < EventRule
     dsc        "ランページが可能か"
@@ -23063,8 +23063,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ランページ
+  #---------------------------------------------------------------------------------------------
+  # ランページ
 
   class CheckAddScratchFireFeatEvent < EventRule
     dsc        "ランページが可能か"
@@ -23108,8 +23108,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ブルールーイン
+  #---------------------------------------------------------------------------------------------
+  # ブルールーイン
 
   class CheckAddBlueRuinFeatEvent < EventRule
     dsc        "ブルールーインが可能か"
@@ -23146,8 +23146,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ダメージ軽減
+  #---------------------------------------------------------------------------------------------
+  # ダメージ軽減
 
   class CheckAddThirdStepFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -23191,8 +23191,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# メタルシールド
+  #---------------------------------------------------------------------------------------------
+  # メタルシールド
 
   class CheckAddMetalShieldFeatEvent < EventRule
     dsc        "メタルシールドが可能か"
@@ -23229,8 +23229,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 滞留する光波
+  #---------------------------------------------------------------------------------------------
+  # 滞留する光波
 
   class CheckAddMagneticFieldFeatEvent < EventRule
     dsc        "メタルシールドが可能か"
@@ -23274,8 +23274,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 拒絶の余光
+  #---------------------------------------------------------------------------------------------
+  # 拒絶の余光
 
   class CheckAddAfterglowFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -23319,8 +23319,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 夕暉の番人
+  #---------------------------------------------------------------------------------------------
+  # 夕暉の番人
 
   class CheckAddKeeperFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -23364,8 +23364,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ヒーリングショック
+  #---------------------------------------------------------------------------------------------
+  # ヒーリングショック
 
   class CheckAddHealingSchockFeatEvent < EventRule
     dsc        "ヒーリングショックが可能か"
@@ -23402,8 +23402,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# クレイモア
+  #---------------------------------------------------------------------------------------------
+  # クレイモア
 
   class CheckAddClaymoreFeatEvent < EventRule
     dsc        "クレイモアが可能か"
@@ -23433,8 +23433,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# トラップチェイス
+  #---------------------------------------------------------------------------------------------
+  # トラップチェイス
 
   class CheckAddTrapChaseFeatEvent < EventRule
     dsc        "トラップチェイスが可能か"
@@ -23478,8 +23478,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# パニックグレネード
+  #---------------------------------------------------------------------------------------------
+  # パニックグレネード
 
   class CheckAddPanicFeatEvent < EventRule
     dsc        "パニックグレネードが可能か"
@@ -23523,8 +23523,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# バレットカウンター
+  #---------------------------------------------------------------------------------------------
+  # バレットカウンター
 
   class CheckAddBulletCounterFeatEvent < EventRule
     dsc        "バレットカウンターが可能か"
@@ -23561,8 +23561,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 大菽嵐
+  #---------------------------------------------------------------------------------------------
+  # 大菽嵐
 
   class CheckAddBeanStormFeatEvent < EventRule
     dsc        "大菽嵐が可能か"
@@ -23599,8 +23599,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ジョーカー
+  #---------------------------------------------------------------------------------------------
+  # ジョーカー
 
   class CheckAddJokerFeatEvent < EventRule
     dsc        "ジョーカーが可能か"
@@ -23630,8 +23630,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ファミリア
+  #---------------------------------------------------------------------------------------------
+  # ファミリア
 
   class CheckAddFamiliarFeatEvent < EventRule
     dsc        "ファミリアが可能か"
@@ -23668,8 +23668,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# クラウンクラウン
+  #---------------------------------------------------------------------------------------------
+  # クラウンクラウン
 
   class CheckAddCrownCrownFeatEvent < EventRule
     dsc        "クラウンクラウンが可能か"
@@ -23713,8 +23713,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# リドルボックス
+  #---------------------------------------------------------------------------------------------
+  # リドルボックス
 
   class CheckAddRiddleBoxFeatEvent < EventRule
     dsc        "リドルボックスが可能か"
@@ -23758,8 +23758,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 翻る剣舞
+  #---------------------------------------------------------------------------------------------
+  # 翻る剣舞
 
   class CheckAddFlutterSwordDanceFeatEvent < EventRule
     dsc        "翻る剣舞が可能か"
@@ -23789,8 +23789,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 勇猛の儀
+  #---------------------------------------------------------------------------------------------
+  # 勇猛の儀
 
   class CheckAddRitualOfBraveryFeatEvent < EventRule
     dsc        "勇猛の儀が可能か"
@@ -23827,8 +23827,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 狩猟豹の剣
+  #---------------------------------------------------------------------------------------------
+  # 狩猟豹の剣
 
   class CheckAddHuntingCheetahFeatEvent < EventRule
     dsc        "狩猟豹の剣が可能か"
@@ -23872,8 +23872,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 探りの一手
+  #---------------------------------------------------------------------------------------------
+  # 探りの一手
 
   class CheckAddProbeFeatEvent < EventRule
     dsc        "探りの一手可能か"
@@ -23917,8 +23917,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 仕立
+  #---------------------------------------------------------------------------------------------
+  # 仕立
 
   class CheckAddTailoringFeatEvent < EventRule
     dsc        "仕立が可能か"
@@ -23962,8 +23962,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#----------------c-----------------------------------------------------------------------------
-# 裁断
+  #----------------c-----------------------------------------------------------------------------
+  # 裁断
 
   class CheckAddCutFeatEvent < EventRule
     dsc        "裁断が可能か"
@@ -24000,8 +24000,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 縫製
+  #---------------------------------------------------------------------------------------------
+  # 縫製
 
   class CheckAddSewingFeatEvent < EventRule
     dsc        "縫製が可能か"
@@ -24038,8 +24038,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 破棄
+  #---------------------------------------------------------------------------------------------
+  # 破棄
 
   class CheckAddCancellationFeatEvent < EventRule
     dsc        "破棄が可能か"
@@ -24076,8 +24076,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 整法
+  #---------------------------------------------------------------------------------------------
+  # 整法
 
   class CheckAddSeihoFeatEvent < EventRule
     dsc        "整法が可能か"
@@ -24114,8 +24114,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 独鈷
+  #---------------------------------------------------------------------------------------------
+  # 独鈷
 
   class CheckAddDokkoFeatEvent < EventRule
     dsc        "独鈷が可能か"
@@ -24159,8 +24159,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 如意
+  #---------------------------------------------------------------------------------------------
+  # 如意
 
   class CheckAddNyoiFeatEvent < EventRule
     dsc        "如意が可能か"
@@ -24204,8 +24204,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 金剛
+  #---------------------------------------------------------------------------------------------
+  # 金剛
 
   class CheckAddKongoFeatEvent < EventRule
     dsc        "必殺技が可能か"
@@ -24249,8 +24249,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 鯉震
+  #---------------------------------------------------------------------------------------------
+  # 鯉震
 
   class CheckAddCarpQuakeFeatEvent < EventRule
     dsc        "鯉震が可能か"
@@ -24280,8 +24280,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 如意
+  #---------------------------------------------------------------------------------------------
+  # 如意
 
   class CheckAddCarpLightningFeatEvent < EventRule
     dsc        "如意が可能か"
@@ -24325,8 +24325,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# フィールドロック
+  #---------------------------------------------------------------------------------------------
+  # フィールドロック
 
   class CheckAddFieldLockFeatEvent < EventRule
     dsc        "フィールドロックが可能か"
@@ -24356,8 +24356,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 捕縛
+  #---------------------------------------------------------------------------------------------
+  # 捕縛
 
   class CheckAddArrestFeatEvent < EventRule
     dsc        "捕縛が可能か"
@@ -24401,8 +24401,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# クイックドロー
+  #---------------------------------------------------------------------------------------------
+  # クイックドロー
 
   class CheckAddQuickDrawFeatEvent < EventRule
     dsc        "クイックドローが可能か"
@@ -24439,8 +24439,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ゲイズ
+  #---------------------------------------------------------------------------------------------
+  # ゲイズ
 
   class CheckAddGazeFeatEvent < EventRule
     dsc        "ゲイズが可能か"
@@ -24491,8 +24491,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 監視
+  #---------------------------------------------------------------------------------------------
+  # 監視
 
   class CheckAddMonitoringFeatEvent < EventRule
     dsc        "監視が可能か"
@@ -24536,8 +24536,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 時差ドロー
+  #---------------------------------------------------------------------------------------------
+  # 時差ドロー
 
   class CheckAddTimeLagDrawFeatEvent < EventRule
     dsc        "時差ドローが可能か"
@@ -24574,8 +24574,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 時差バフ
+  #---------------------------------------------------------------------------------------------
+  # 時差バフ
 
   class CheckAddTimeLagBuffFeatEvent < EventRule
     dsc        "時差バフが可能か"
@@ -24612,8 +24612,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 移転
+  #---------------------------------------------------------------------------------------------
+  # 移転
 
   class CheckAddDamageTransferFeatEvent < EventRule
     dsc        "移転が可能か"
@@ -24650,8 +24650,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# シガレット
+  #---------------------------------------------------------------------------------------------
+  # シガレット
 
   class CheckAddCigaretteFeatEvent < EventRule
     dsc        "シガレットが可能か"
@@ -24688,8 +24688,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# スリーカード
+  #---------------------------------------------------------------------------------------------
+  # スリーカード
 
   class CheckAddThreeCardFeatEvent < EventRule
     dsc        "スリーカードが可能か"
@@ -24726,8 +24726,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# カードサーチ
+  #---------------------------------------------------------------------------------------------
+  # カードサーチ
 
   class CheckAddCardSearchFeatEvent < EventRule
     dsc        "カードサーチが可能か"
@@ -24757,8 +24757,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# オールインワン
+  #---------------------------------------------------------------------------------------------
+  # オールインワン
 
   class CheckAddAllInOneFeatEvent < EventRule
     dsc        "オールインワンが可能か"
@@ -24802,8 +24802,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 2016,9イベント
+  #---------------------------------------------------------------------------------------------
+  # 2016,9イベント
 
   class CheckEv201609PassiveEvent < EventRule
     dsc        "2016,6イベントをチェック"
@@ -24841,8 +24841,8 @@ module Unlight
     func       :finish_ev201609_passive
   end
 
-#---------------------------------------------------------------------------------------------
-# 焼鳥
+  #---------------------------------------------------------------------------------------------
+  # 焼鳥
 
   class CheckAddFireBirdFeatEvent < EventRule
     dsc        "焼鳥が可能か"
@@ -24886,8 +24886,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 苔蔦
+  #---------------------------------------------------------------------------------------------
+  # 苔蔦
 
   class CheckAddBramblesFeatEvent < EventRule
     dsc        "苔蔦が可能か"
@@ -24938,8 +24938,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# フランケンタックル
+  #---------------------------------------------------------------------------------------------
+  # フランケンタックル
 
   class CheckAddFrankenTackleFeatEvent < EventRule
     dsc        "フランケンタックルが可能か"
@@ -24990,8 +24990,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# フランケン充電
+  #---------------------------------------------------------------------------------------------
+  # フランケン充電
 
   class CheckAddFrankenChargingFeatEvent < EventRule
     dsc        "フランケン充電が可能か"
@@ -25035,8 +25035,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 挑みかかるものR
+  #---------------------------------------------------------------------------------------------
+  # 挑みかかるものR
 
   class CheckAddMovingOneRFeatEvent < EventRule
     dsc        "移動上昇が可能か"
@@ -25094,8 +25094,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 驕りたかぶるものR
+  #---------------------------------------------------------------------------------------------
+  # 驕りたかぶるものR
 
   class CheckAddArrogantOneRFeatEvent < EventRule
     dsc        "驕りたかぶるものRが可能か"
@@ -25132,8 +25132,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 貪り食うものR
+  #---------------------------------------------------------------------------------------------
+  # 貪り食うものR
 
   class CheckAddEatingOneRFeatEvent < EventRule
     dsc        "貪り食うものRが可能か"
@@ -25170,8 +25170,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ハーフデッド
+  #---------------------------------------------------------------------------------------------
+  # ハーフデッド
   class CheckAddHarfDeadFeatEvent < EventRule
     dsc        "ハーフデッドが可能か"
     type       type: :after, obj: "owner", hook: :move_card_add_action
@@ -25207,8 +25207,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# マシンセル
+  #---------------------------------------------------------------------------------------------
+  # マシンセル
 
   class CheckAddMachineCellFeatEvent < EventRule
     dsc        "マシンセルが可能か"
@@ -25238,8 +25238,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# ヒートシーカー R
+  #---------------------------------------------------------------------------------------------
+  # ヒートシーカー R
 
   class CheckAddHeatSeekerRFeatEvent < EventRule
     dsc        "ヒートシーカーが可能か"
@@ -25276,8 +25276,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 指向性エネルギー兵器
+  #---------------------------------------------------------------------------------------------
+  # 指向性エネルギー兵器
 
   class CheckAddDirectionalBeamFeatEvent < EventRule
     dsc        "指向性エネルギー兵器が可能か"
@@ -25321,8 +25321,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# デルタ
+  #---------------------------------------------------------------------------------------------
+  # デルタ
 
   class CheckAddDeltaFeatEvent < EventRule
     dsc        "デルタが可能か"
@@ -25359,8 +25359,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# シグマ
+  #---------------------------------------------------------------------------------------------
+  # シグマ
 
   class CheckAddSigmaFeatEvent < EventRule
     dsc        "ブラストオフが可能か"
@@ -25411,8 +25411,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# スタンプ
+  #---------------------------------------------------------------------------------------------
+  # スタンプ
 
   class CheckAddStampFeatEvent < EventRule
     dsc        "スタンプが可能か"
@@ -25449,8 +25449,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# アクセラレーション
+  #---------------------------------------------------------------------------------------------
+  # アクセラレーション
 
   class CheckAddAccelerationFeatEvent < EventRule
     dsc        "移動上昇が可能か"
@@ -25487,8 +25487,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# FOAB
+  #---------------------------------------------------------------------------------------------
+  # FOAB
 
   class CheckAddFoabFeatEvent < EventRule
     dsc        "FOABが可能か"
@@ -25525,8 +25525,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 白き玉桂
+  #---------------------------------------------------------------------------------------------
+  # 白き玉桂
 
   class CheckAddWhiteMoonFeatEvent < EventRule
     dsc        "白き玉桂が可能か"
@@ -25577,8 +25577,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 憤怒の背中
+  #---------------------------------------------------------------------------------------------
+  # 憤怒の背中
 
   class CheckAddAngerBackFeatEvent < EventRule
     dsc        "静謐な背中が可能か"
@@ -25622,8 +25622,8 @@ module Unlight
     goal       ["self", :use_end?]
   end
 
-#---------------------------------------------------------------------------------------------
-# 汎用
+  #---------------------------------------------------------------------------------------------
+  # 汎用
 
   class UseFeatEvent < EventRule
     dsc        "必殺技が使用された"

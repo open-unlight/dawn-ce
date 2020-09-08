@@ -504,8 +504,8 @@ module Unlight
     end
     regist_event OccurPoisonEvent
 
-   # チャンスカード発動
-   # 返値:配られたカードとオーナー
+    # チャンスカード発動
+    # 返値:配られたカードとオーナー
     def chance(v)
       ret = @ac.duel.deck.draw_cards_event(v).each { |c| @owner.dealed_event(c) }
       @owner.use_action_card_event(@ac)
@@ -513,8 +513,8 @@ module Unlight
     end
     regist_event ChanceEvent
 
-   # カースカード発動
-   # 返値:配られたカードとオーナー
+    # カースカード発動
+    # 返値:配られたカードとオーナー
     def curse(v)
       # 手持ちのカードを複製してシャッフル
       aca = @owner.foe.cards.shuffle
@@ -525,8 +525,8 @@ module Unlight
     end
     regist_event CurseEvent
 
-   # HP回復イベント
-   # 返値:回復値
+    # HP回復イベント
+    # 返値:回復値
     def heal(v)
       ret = @owner.healed_event(v) if @owner.current_hit_point < @owner.current_hit_point_max
       @owner.use_action_card_event(@ac)
@@ -534,8 +534,8 @@ module Unlight
     end
     regist_event HealEvent
 
-   # ダメージイベント
-   # 返値:ダメージ値
+    # ダメージイベント
+    # 返値:ダメージ値
     def damage(v)
       if [71, 2171].include?(@owner.current_chara_card.charactor_id)
         ret = 0
@@ -547,8 +547,8 @@ module Unlight
     end
     regist_event DamageEvent
 
-   # ステータス状態回復
-   # 返値:成功
+    # ステータス状態回復
+    # 返値:成功
     def cure
       ret = @owner.cured_event()
       @owner.use_action_card_event(@ac)
@@ -556,15 +556,15 @@ module Unlight
     end
     regist_event CureEvent
 
-   # 聖杯イベント
-   # 返値:なし
+    # 聖杯イベント
+    # 返値:なし
     def chalice
       @owner.cured_event()
     end
     regist_event ChaliceEvent
 
-   # 毒杯イベント
-   # 返値:なし
+    # 毒杯イベント
+    # 返値:なし
     def poison
       @owner.foe.cured_event()
     end
