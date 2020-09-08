@@ -60,8 +60,8 @@ module Unlight
                                    chara_id: chara_id,
                                    other_chara_id: chara_id,
                                    weight: map_id,
-                                   level: land_id }).
-        first unless dw
+                                   level: land_id })
+        .first unless dw
       ret = Dialogue[dw.dialogue_id].content if dw
       ret
     end
@@ -84,10 +84,10 @@ module Unlight
     def DialogueWeight::get_dialogue_id(type, my_parent_id, my_chara_id, other_parent_id, other_chara_id, level)
       ret = []
       # oc = CharaCard[other_id]
-      ret = DialogueWeight.where([[:dialogue_type, type], [:chara_id, [my_parent_id, my_chara_id]], [:other_chara_id, [other_parent_id, other_chara_id]]]).
-        filter((Sequel.cast_string(:level) <= level)).
-        order(:chara_id).
-        order_more(:other_chara_id).all
+      ret = DialogueWeight.where([[:dialogue_type, type], [:chara_id, [my_parent_id, my_chara_id]], [:other_chara_id, [other_parent_id, other_chara_id]]])
+        .filter((Sequel.cast_string(:level) <= level))
+        .order(:chara_id)
+        .order_more(:other_chara_id).all
 
       if ret.empty?
         default_dialogue(my_parent_id, my_chara_id, type, level)
@@ -100,14 +100,14 @@ module Unlight
     def DialogueWeight::default_dialogue(parent_id, chara_id, type, level)
       ret = Array.new(level, 0)
       if parent_id != chara_id
-        DialogueWeight.filter({ chara_id: chara_id, other_chara_id: chara_id, dialogue_type: type }).
-          filter((Sequel.cast_string(:level) <= level)).all do |r|
+        DialogueWeight.filter({ chara_id: chara_id, other_chara_id: chara_id, dialogue_type: type })
+          .filter((Sequel.cast_string(:level) <= level)).all do |r|
           ret[r.level - 1] = r
         end
       end
 
-      DialogueWeight.filter({ chara_id: parent_id, other_chara_id: parent_id, dialogue_type: type }).
-        filter((Sequel.cast_string(:level) <= level)).all do |r|
+      DialogueWeight.filter({ chara_id: parent_id, other_chara_id: parent_id, dialogue_type: type })
+        .filter((Sequel.cast_string(:level) <= level)).all do |r|
         ret[r.level - 1] = r if ret[r.level - 1] == 0
       end
 
