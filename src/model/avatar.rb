@@ -805,7 +805,7 @@ module Unlight
       end
     end
 
-    # アバターパーツの使用フラグを返す
+   # アバターパーツの使用フラグを返す
    def part_used_list_str(r = true)
       ret = []
       refresh if r
@@ -1321,7 +1321,7 @@ module Unlight
       ret
     end
 
-    # デッキからカードを取り除いたときに残されたデッキ正しいポジションで返す
+     # デッキからカードを取り除いたときに残されたデッキ正しいポジションで返す
      def removed_deck_remain_card_update(old_deck)
        list = old_deck.position_list_card
        list.each_index do|i|
@@ -1375,7 +1375,7 @@ module Unlight
           # 目標デッキのスロットに入るかチェックする（バインダの場合はチェックしないでかならず更新）
           ret = 0
           ret = chara_card_decks[index].slot_check(kind, a.card_id, deck_position, a) if index != 0
-            # スロットのチェックがOKまたはバインダの場合は更新する
+          # スロットのチェックがOKまたはバインダの場合は更新する
           if ret == 0
             a.chara_card_deck = chara_card_decks[index]
             a.deck_position = deck_position

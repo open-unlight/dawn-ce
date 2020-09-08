@@ -35,7 +35,7 @@ module Unlight
       PartInventory.create_table
     end
 
-   # # テーブル内容のアップデート
+    # # テーブル内容のアップデート
     DB.alter_table :part_inventories do
       add_column :end_at, :datetime  unless Unlight::PartInventory.columns.include?(:end_at) # 新規追加2011/07/25
       add_column :before_avatar_id, :integer, default: 0 unless Unlight::PartInventory.columns.include?(:before_avatar_id) # 新規追加2011/07/25

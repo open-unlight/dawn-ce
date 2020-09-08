@@ -173,10 +173,10 @@ module Unlight
         ]
        ],
 
-#        # チャンネルリスト情報要求
-#        [:cs_request_channel_list_info,
+       #        # チャンネルリスト情報要求
+       #        [:cs_request_channel_list_info,
 
-#        ],
+       #        ],
 
        # リアルマネーアイテム情報の要求
        [:cs_request_real_money_item_info,
@@ -716,25 +716,25 @@ module Unlight
         ]
        ],
 
-#        # チャンネルリストの情報を送る
-#        [:sc_channel_list_info,
-#         [# Name, Type, Size
-#          ["id", :String, 0],
-#          ["name", :String, 0],
-#          ["rule", :String, 0],
-#          ["max", :String, 0],
-#          ["host", :String, 0],
-#          ["port", :String ,0],
-#          ["duel_host", :String, 0],
-#          ["duel_port", :String, 0],
-#          ["chat_host", :String, 0],
-#          ["chat_port", :String, 0],
-#          ["state", :String, 0],
-#          ["caption", :String, 0],
-#          ["count", :String, 0],
-#         ],
-#         true
-#        ],
+       #        # チャンネルリストの情報を送る
+       #        [:sc_channel_list_info,
+       #         [# Name, Type, Size
+       #          ["id", :String, 0],
+       #          ["name", :String, 0],
+       #          ["rule", :String, 0],
+       #          ["max", :String, 0],
+       #          ["host", :String, 0],
+       #          ["port", :String ,0],
+       #          ["duel_host", :String, 0],
+       #          ["duel_port", :String, 0],
+       #          ["chat_host", :String, 0],
+       #          ["chat_port", :String, 0],
+       #          ["state", :String, 0],
+       #          ["caption", :String, 0],
+       #          ["count", :String, 0],
+       #         ],
+       #         true
+       #        ],
 
        # リアルマネーアイテムの情報を送る
        [:sc_real_money_item_info,

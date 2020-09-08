@@ -173,11 +173,11 @@ module Unlight
                   27, 28, 29, 32, 33, 34, 37, 38, 39
                  ]
   # 初期から取得可能なキャラID
-#  REGIST_CARDS = [1,3,4]#旧版
+  #  REGIST_CARDS = [1,3,4]#旧版
   REGIST_CARDS = [1, 21, 31, 101, 111] # 新版
 
   # 初期から取得可能なイベントカードID
-#  REGIST_EVENT_CARDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38]
+  #  REGIST_EVENT_CARDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38]
   REGIST_EVENT_CARDS = []
 
   # デフォルトで着ている服
@@ -368,7 +368,7 @@ module Unlight
   # ============== DB関連定数 ==================
 
   # memcached server
-# CACHE = MemCache.new MEMCACHE_CONFIG, MEMCACHE_OPTIONS
+  # CACHE = MemCache.new MEMCACHE_CONFIG, MEMCACHE_OPTIONS
   CACHE = Dalli::Client.new MEMCACHE_CONFIG, MEMCACHE_OPTIONS
   # キャッシュを念のため全削除
   CACHE.flush_all
@@ -403,7 +403,7 @@ module Unlight
   # ログの出力先
   SERVER_LOG = Dawn.logger
   # ログレベル
-#  SERVER_LOG.level = Logger::DEBUG
+  #  SERVER_LOG.level = Logger::DEBUG
   SERVER_LOG.level = Logger::INFO
   #  puts"いまconstantsがDBを初期化"
   #  SERVER_LOG.debug("Avatar: [add_new_achievement] ID: #{a_id}")

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 module Unlight
-# AuthServeコマンド一覧
+  # AuthServeコマンド一覧
   class Command
-  # 受信コマンド一覧
+    # 受信コマンド一覧
     # 名称：型：サイズ（0は可変）
     RECEIVE_COMMANDS =
       [

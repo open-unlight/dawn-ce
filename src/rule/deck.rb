@@ -4,7 +4,7 @@
 # http://opensource.org/licenses/mit-license.php
 
 module Unlight
- # デッキクラス
+  # デッキクラス
   class Deck < BaseEvent
     attr_reader :deck_cards
 

@@ -6,7 +6,7 @@
 module Unlight
   # パーツのインベントリクラス
   class ItemInventory < Sequel::Model
-   # 他クラスのアソシエーション
+    # 他クラスのアソシエーション
     many_to_one :avatar         # アバターを持つ
     many_to_one :avatar_item    # アバターアイテムを持つ
 
@@ -26,11 +26,11 @@ module Unlight
       datetime    :updated_at
     end
 
-    # バリデーションの設定
+     # バリデーションの設定
      validates do
      end
 
-   # DBにテーブルをつくる
+    # DBにテーブルをつくる
     if !(ItemInventory.table_exists?)
       ItemInventory.create_table
     end

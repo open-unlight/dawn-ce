@@ -505,7 +505,7 @@ module Unlight
       sc_duel_chara_change_phase_start(args[0], args[1])
     end
 
-   # キャラ変更フェイズ終了
+    # キャラ変更フェイズ終了
     def duel_chara_change_phase_finish_handler(args)
       # フェイズ終了時に変更キャラが選択されてない場合は適当なキャラに変更する
       @duel.entrants.each { |e| e.chara_change_action if e.not_change_done? }

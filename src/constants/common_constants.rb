@@ -158,7 +158,7 @@ module Unlight
                        5641250,   # 149
                        5804950,   # 150
                        9999999999, # 151 # 2014/03/03 151にならないよう一時的処置 yamagishi
-                      #5971200,   # 151
+                       #5971200,   # 151
                      ]
 
   LEVEL_ENG_BOUNUS = [
@@ -764,8 +764,8 @@ module Unlight
 
   # ランダムセール時間
   RANDOM_SALE_TIME  = 60 * 60 * 2 # ２時間
-#  RANDOM_SALE_TIME  = 60*3  #3分
-  # ランダムセール発生確率 (1/14)
+   #  RANDOM_SALE_TIME  = 60*3  #3分
+   # ランダムセール発生確率 (1/14)
    RANDOM_SALE_PROBABILITY = 14
   # 1日セール時間
   ONE_DAY_SALE_TIME = 60 * 60 * 24 # 1日
@@ -989,11 +989,11 @@ module Unlight
   QE_CHRISTMAS2014_END_ID   = 20946
 
   # 2015/06イベント、プレゼント不可クエストIDリスト
-#  QUEST_EVENT_QUEST_LIST = Range.new(21064,21074,21088).to_a
-#  QUEST_EVENT_QUEST_LIST = [21125,21126,21127]
+  #  QUEST_EVENT_QUEST_LIST = Range.new(21064,21074,21088).to_a
+  #  QUEST_EVENT_QUEST_LIST = [21125,21126,21127]
 
   # 2015/12イベント、プレゼント不可クエストIDリスト
-#  QUEST_EVENT_QUEST_LIST = Range.new(21128,21159).to_a
+  #  QUEST_EVENT_QUEST_LIST = Range.new(21128,21159).to_a
 
   # プレゼント不可クエストIDリスト
   QUEST_EVENT_QUEST_LIST = [
@@ -1290,7 +1290,7 @@ module Unlight
   DAILY_ACHIEVEMENT_IDS = [890, 891, 892, 942, 983, 984, 985, 986, 1000, 1001, 1002, 1031, 1032, 1047, 1048, 1049, 1050, 1051, 1080, 1081, 1082, 1083, 1084, 1085, 1086, 1089, 1090, 1091, 1101, 1102, 1103, 1104, 1105, 1129, 1130, 1131, 1145, 1146, 1147, 1149, 1183, 1194, 1205]
   # 出現条件ありのデイリーアチーブメントID
   CONDITIONS_DAILY_ACHIEVEMENT_IDS = {
-#    1046 => [1047,1048,1049,1050,1051]
+    #    1046 => [1047,1048,1049,1050,1051]
     1145 => [1146, 1147]
   }
 

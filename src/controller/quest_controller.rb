@@ -543,7 +543,7 @@ module Unlight
         end
       end
 
-    # 終了時のハンドラ
+      # 終了時のハンドラ
       # 返値は[alpha, beta, reward]
       def duel_finish_handler(duel, ret)
         @duel = nil

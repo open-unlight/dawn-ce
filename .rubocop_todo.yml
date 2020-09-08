@@ -47,11 +47,6 @@ Layout/ClosingParenthesisIndentation:
     - 'src/controller/watch_controller.rb'
     - 'src/model/avatar.rb'
 
-# Offense count: 1338
-# Cop supports --auto-correct.
-Layout/CommentIndentation:
-  Enabled: false
-
 # Offense count: 5
 # Cop supports --auto-correct.
 Layout/ConditionPosition:

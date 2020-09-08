@@ -115,7 +115,7 @@ module Unlight
 
    # デュエルに対してイベントを登録する
    def regist_event
-     # 移動カード提出フェイズの開始
+      # 移動カード提出フェイズの開始
       @duel.add_start_listener_move_card_drop_phase(method(:duel_move_card_drop_handler))
       # 攻撃カード提出フェイズの開始
       @duel.add_start_listener_attack_card_drop_phase(method(:duel_attack_card_phase_handler))
@@ -401,14 +401,14 @@ module Unlight
      when 3
        if @move_p > 0
          if @swd_p > @arw_p
-         # 手札のポイントが剣の方多いとき、提出移動カードから剣を取り除く
+           # 手札のポイントが剣の方多いとき、提出移動カードから剣を取り除く
            @hand_move_value.each do |k, v|
              v[0] = v[0] - @hand_swd_value[k][0] if @hand_swd_value[k]
              # 進行方向を変えておく
              @entrant.set_direction_action(Entrant::DIRECTION_FORWARD)
            end
          else
-         # 手札のポイントが銃の方多いとき、提出移動カードから銃を取り除く
+           # 手札のポイントが銃の方多いとき、提出移動カードから銃を取り除く
            @hand_move_value.each do |k, v|
              v[0] = v[0] - @hand_arw_value[k][0] if @hand_arw_value[k]
              # 進行方向を変えておく

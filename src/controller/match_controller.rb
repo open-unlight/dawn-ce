@@ -159,7 +159,7 @@ module Unlight
        end
      end
 
-    # マッチングチェック用の関数
+     # マッチングチェック用の関数
      def self::radder_matching_check(list)
        # リストをBP、コストの順でソートしてArrayに変換
        tmp_list = list.sort { |a, b|
@@ -256,7 +256,7 @@ module Unlight
       end
     end
 
-    # CPUマッチングチェック用の関数
+     # CPUマッチングチェック用の関数
      def self::cpu_radder_matching_check(list)
        # リストをBP、コストの順でソートしてArrayに変換
        tmp_list = list.sort { |a, b|

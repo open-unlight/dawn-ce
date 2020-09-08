@@ -137,16 +137,16 @@ module Unlight
        # ロビーコマンド
        # =========================================
        #
-#        # チャンネルリストの情報を送る
-#        [:sc_channel_list_info,
-#         [# Name, Type, Size
-#          ["id", :String, 0],
-#          ["name", :String, 0],
-#          ["rule", :String, 0],
-#          ["max", :String, 0],
-#          ["caption", :String, 0],
-#         ]
-#        ],
+       #        # チャンネルリストの情報を送る
+       #        [:sc_channel_list_info,
+       #         [# Name, Type, Size
+       #          ["id", :String, 0],
+       #          ["name", :String, 0],
+       #          ["rule", :String, 0],
+       #          ["max", :String, 0],
+       #          ["caption", :String, 0],
+       #         ]
+       #        ],
        # チャンネルから退出成功
 
        [:sc_channel_join_success,
@@ -164,18 +164,18 @@ module Unlight
        [:sc_matching_info,
         [ # Name, Type, Size
          ["info", :String, 0],
-#          ["name", :String, 0],
-#          ["stage", :String, 0],
-#          ["rule", :String, 0],
-#          ["avatar_name", :String, 0],
-#          ["avatar_level", :String, 0],
-#          ["avatar_cc", :String, 0],
-#          ["avatar_id", :String, 0],
-#          ["avatar_comment", :String, 0],
-#          ["avatar_point", :String, 0],
-#          ["avatar_win", :String, 0],
-#          ["avatar_lose", :String, 0],
-#          ["avatar_draw", :String, 0]
+          #          ["name", :String, 0],
+          #          ["stage", :String, 0],
+          #          ["rule", :String, 0],
+          #          ["avatar_name", :String, 0],
+          #          ["avatar_level", :String, 0],
+          #          ["avatar_cc", :String, 0],
+          #          ["avatar_id", :String, 0],
+          #          ["avatar_comment", :String, 0],
+          #          ["avatar_point", :String, 0],
+          #          ["avatar_win", :String, 0],
+          #          ["avatar_lose", :String, 0],
+          #          ["avatar_draw", :String, 0]
         ],
         true
        ],
@@ -184,18 +184,18 @@ module Unlight
        [:sc_matching_info_update,
         [ # Name, Type, Size
          ["info", :String, 0],
-#          ["name", :String, 0],
-#          ["stage", :int, 4],
-#          ["rule", :int, 4],
-#          ["avatar_name", :String, 0],
-#          ["avatar_level", :String, 0],
-#          ["avatar_cc", :String, 0],
-#          ["avatar_id", :String, 0],
-#          ["avatar_comment", :String, 0],
-#          ["avatar_point", :String, 0],
-#          ["avatar_win", :String, 0],
-#          ["avatar_lose", :String, 0],
-#          ["avatar_draw", :String, 0],
+          #          ["name", :String, 0],
+          #          ["stage", :int, 4],
+          #          ["rule", :int, 4],
+          #          ["avatar_name", :String, 0],
+          #          ["avatar_level", :String, 0],
+          #          ["avatar_cc", :String, 0],
+          #          ["avatar_id", :String, 0],
+          #          ["avatar_comment", :String, 0],
+          #          ["avatar_point", :String, 0],
+          #          ["avatar_win", :String, 0],
+          #          ["avatar_lose", :String, 0],
+          #          ["avatar_draw", :String, 0],
         ]
        ],
 

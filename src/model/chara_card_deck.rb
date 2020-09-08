@@ -33,7 +33,7 @@ module Unlight
       CharaCardDeck.create_table
     end
 
-#    テーブルを変更する（履歴を残せ）
+    #    テーブルを変更する（履歴を残せ）
     DB.alter_table :chara_card_decks do
       add_column :level, :integer, default: 1 unless Unlight::CharaCardDeck.columns.include?(:level) # 新規追加2012/06/15
       add_column :exp, :integer, default: 0 unless Unlight::CharaCardDeck.columns.include?(:exp) # 新規追加2012/06/15
@@ -237,7 +237,7 @@ module Unlight
 
     # CPU戦用のキャラカードデッキを返す
     def CharaCardDeck::get_cpu_deck(no, player = nil)
-    # CPUのアバターが持っているデッキを探す
+      # CPUのアバターが持っているデッキを探す
       ccd = CpuCardData[no]
       ccd_id = ccd && player ? ccd.get_allocation_id(player) : no
       if @@CPU_DECK[ccd_id] && @@CPU_DECK[ccd_id].card_inventories.length > 0
@@ -292,7 +292,7 @@ module Unlight
       end
     end
 
-    # デッキ内のポジション配列を返す
+     # デッキ内のポジション配列を返す
      def position_list_card()
        ret = []
        self.refresh
@@ -302,7 +302,7 @@ module Unlight
       ret
      end
 
-     # 引数のカードインベントリと同じキャラがすでにデッキにある
+    # 引数のカードインベントリと同じキャラがすでにデッキにある
     def chara_card_check(cci)
       ret = 0
       c = CharaCard[cci.chara_card_id]
@@ -356,7 +356,7 @@ module Unlight
           ret = ERROR_SLOT_MAX if e_cards[pos].length >= (SLOT_MAX_EQUIP * 2)
           # MAX数ぴったりの場合でかつすでに装備されている場合エラーを無効にする
           if e_cards[pos][pos].length == (SLOT_MAX_EQUIP * 2)
-          # # MAX数ぴったりの場合でかつすでに装備されている場合エラーを無効にする
+            # # MAX数ぴったりの場合でかつすでに装備されている場合エラーを無効にする
             c_ids = self.slot_inventories_id_list
             ret = 0 if c_ids.include?(inv.id)
           end
@@ -375,8 +375,8 @@ module Unlight
           ret = ERROR_SLOT_MAX if ev_cards[pos].length >= (SLOT_MAX_EVENT * 3)
           # MAX数ぴったりの場合でかつすでに装備されている場合エラーを無効にする
           if ev_cards[pos].length == (SLOT_MAX_EVENT * 3)
-          # # MAX数ぴったりの場合でかつすでに装備されている場合エラーを無効にする
-          # if ev_cards[pos].length == SLOT_MAX_EVENT
+            # # MAX数ぴったりの場合でかつすでに装備されている場合エラーを無効にする
+            # if ev_cards[pos].length == SLOT_MAX_EVENT
             c_ids = self.slot_inventories_id_list
             ret = 0 if c_ids.include?(inv.id)
           end

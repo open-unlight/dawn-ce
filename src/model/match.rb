@@ -147,7 +147,7 @@ module Unlight
       channel.room_list[room_id].player_array if channel.room_list[room_id]
     end
 
-   # 指定したプレイヤーが存在する場合すでにある部屋を返す
+    # 指定したプレイヤーが存在する場合すでにある部屋を返す
     def Match::room_from_player_id(player_id, ch)
       ret = nil
       room = Channel.channel_list[ch].player_exist?(player_id)

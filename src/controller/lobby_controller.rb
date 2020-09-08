@@ -9,7 +9,7 @@ module Unlight
       # 受信コマンド
       # =====================================
 
-     # デッキ情報を設定
+      # デッキ情報を設定
       def cs_update_deck_info(index, inv_id_0, inv_id_1, inv_id_2)
         erro_no = 0
         if @avatar

@@ -19,7 +19,7 @@ module Unlight
   # アバター基本回復秒
   # AVATAR_RECOVERY_SEC = 900
   AVATAR_RECOVERY_SEC = 1800
- #ボーナス設定
+  #ボーナス設定
   EXP_POW = 5
   GEM_POW = 10
   DUEL_BONUS_POW = 10
@@ -41,10 +41,10 @@ module Unlight
   COMEBACK_SEND_PRESENTS  = [9] # カムバックした人のフレンドの報酬
   COMEBACKED_PRESENTS     = [ # カムバック側の報酬
     { type: TG_AVATAR_ITEM, id: 9, num: 5, sct_type: SCT_WEAPON }, # チケット*5
-#    { :type => TG_AVATAR_PART, :id => 325,  :num => 1, :sct_type => SCT_WEAPON }, # 不思議なティアラ III
-#    { :type => TG_AVATAR_PART, :id => 328,  :num => 1, :sct_type => SCT_WEAPON }, # 気まぐれフェアリー III
-#    { :type => TG_AVATAR_PART, :id => 331,  :num => 1, :sct_type => SCT_WEAPON }, # 怪しいイヤリング III
-#    { :type => TG_AVATAR_PART, :id => 334,  :num => 1, :sct_type => SCT_WEAPON }, # 儚きワンド III
+    #    { :type => TG_AVATAR_PART, :id => 325,  :num => 1, :sct_type => SCT_WEAPON }, # 不思議なティアラ III
+    #    { :type => TG_AVATAR_PART, :id => 328,  :num => 1, :sct_type => SCT_WEAPON }, # 気まぐれフェアリー III
+    #    { :type => TG_AVATAR_PART, :id => 331,  :num => 1, :sct_type => SCT_WEAPON }, # 怪しいイヤリング III
+    #    { :type => TG_AVATAR_PART, :id => 334,  :num => 1, :sct_type => SCT_WEAPON }, # 儚きワンド III
     { type: TG_SLOT_CARD,   id: 5000, num: 2, sct_type: SCT_WEAPON }, # オルタサイト
     { type: TG_SLOT_CARD,   id: 5026, num: 1, sct_type: SCT_WEAPON }, # 銀の妖精のレリーフ
     { type: TG_SLOT_CARD,   id: 6002, num: 1, sct_type: SCT_WEAPON }, # クロリスクレスト
@@ -109,7 +109,7 @@ module Unlight
   # 自動発生渦の救援送信インターバル
   PRF_AUTO_HELP_INTERVAL = 60 * 3 # 3分
 
-#  INVITE_PRESENTS  = [3,12]
+  #  INVITE_PRESENTS  = [3,12]
   DUEL_IP_CHECK = false
   CHAT_START_DLG_1 = ':****** チャンネル'
   CHAT_START_DLG_2 = "にログイン"
@@ -147,7 +147,7 @@ module Unlight
   # DB接続チェックを行うか
   DB_CONNECT_CHECK = false
 
- # DuelDialogue
+  # DuelDialogue
   DUEL_NAME_PL = "あなた"
   DUEL_NAME_FOE = "相手"
   DUEL_NAME_WATCH = "__NAME__さん"
@@ -204,7 +204,7 @@ module Unlight
 
   # ============== ログインボーナス関連定数 ==================
   LOGIN_BONUS_ITEM = [
-##通常時用のログインボーナス
+                      ##通常時用のログインボーナス
                       [TG_GEM, 0, 50, 1],
                       [TG_GEM, 0, 50, 1],
                       [TG_GEM, 0, 50, 1],
@@ -245,7 +245,7 @@ module Unlight
                       [TG_AVATAR_ITEM, 0, 9, 1],
                       [TG_AVATAR_ITEM, 0, 17, 1],
 
-##レイドアイテム用にテーブルを追加(β型渦探知機 I)
+                      ##レイドアイテム用にテーブルを追加(β型渦探知機 I)
 
                       [TG_GEM, 0, 50, 1],
                       [TG_GEM, 0, 50, 1],
@@ -287,7 +287,7 @@ module Unlight
                       [TG_AVATAR_ITEM, 0, 366, 1],
                       [TG_AVATAR_ITEM, 0, 17, 1],
 
-##2セット目(β型渦探知機 I)
+                      ##2セット目(β型渦探知機 I)
 
                       [TG_GEM, 0, 50, 1],
                       [TG_GEM, 0, 50, 1],
@@ -329,7 +329,7 @@ module Unlight
                       [TG_AVATAR_ITEM, 0, 9, 1],
                       [TG_AVATAR_ITEM, 0, 366, 1],
 
-##3セット目(β型渦探知機 II)
+                      ##3セット目(β型渦探知機 II)
 
                       [TG_GEM, 0, 50, 1],
                       [TG_GEM, 0, 50, 1],
@@ -371,36 +371,36 @@ module Unlight
                       [TG_AVATAR_ITEM, 0, 9, 1],
                       [TG_AVATAR_ITEM, 0, 367, 1],
 
-#2012クリスマスイベント用のログインボーナス
-#                      [TG_AVATAR_ITEM, 0, 69, 1],
+                       #2012クリスマスイベント用のログインボーナス
+                       #                      [TG_AVATAR_ITEM, 0, 69, 1],
 
-#Unlight5周年記念&2016新春キャンペーン用ログインボーナス
-#                      [TG_CHARA_CARD, 0, 10006, 1],
-#                      [TG_CHARA_CARD, 0, 10007, 1],
-#                      [TG_CHARA_CARD, 0, 10008, 1],
-#                      [TG_CHARA_CARD, 0, 10009, 1],
-#                      [TG_CHARA_CARD, 0, 10010, 1],
+                       #Unlight5周年記念&2016新春キャンペーン用ログインボーナス
+                       #                      [TG_CHARA_CARD, 0, 10006, 1],
+                       #                      [TG_CHARA_CARD, 0, 10007, 1],
+                       #                      [TG_CHARA_CARD, 0, 10008, 1],
+                       #                      [TG_CHARA_CARD, 0, 10009, 1],
+                       #                      [TG_CHARA_CARD, 0, 10010, 1],
 
-#                      [TG_SLOT_CARD, 0, 5000, 1],
-#                      [TG_SLOT_CARD, 0, 5009, 1],
-#                      [TG_SLOT_CARD, 0, 5010, 1],
-#                      [TG_SLOT_CARD, 0, 5011, 1],
-#                      [TG_SLOT_CARD, 0, 5012, 1],
+                       #                      [TG_SLOT_CARD, 0, 5000, 1],
+                       #                      [TG_SLOT_CARD, 0, 5009, 1],
+                       #                      [TG_SLOT_CARD, 0, 5010, 1],
+                       #                      [TG_SLOT_CARD, 0, 5011, 1],
+                       #                      [TG_SLOT_CARD, 0, 5012, 1],
 
-#                      [TG_AVATAR_ITEM, 0, 3, 1],
-#                      [TG_AVATAR_ITEM, 0, 4, 1],
-#                      [TG_AVATAR_ITEM, 0, 12, 1],
-#                      [TG_AVATAR_ITEM, 0, 29, 1],
-#                      [TG_AVATAR_ITEM, 0, 50, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 3, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 4, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 12, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 29, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 50, 1],
 
-#                      [TG_AVATAR_ITEM, 0, 9, 1],
-#                      [TG_AVATAR_ITEM, 0, 9, 1],
-#                      [TG_AVATAR_ITEM, 0, 9, 1],
-#                      [TG_AVATAR_ITEM, 0, 9, 1],
-#                      [TG_AVATAR_ITEM, 0, 9, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 9, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 9, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 9, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 9, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 9, 1],
 
-#                      [TG_AVATAR_ITEM, 0, 366, 1],
-#                      [TG_AVATAR_ITEM, 0, 367, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 366, 1],
+                       #                      [TG_AVATAR_ITEM, 0, 367, 1],
 
                      ]
 

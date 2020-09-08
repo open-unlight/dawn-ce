@@ -82,7 +82,7 @@ module Unlight
 		  @chara_cards[s].hp += hp_up;
 		  @chara_cards[s].ap += ap_up;
 		  @chara_cards[s].dp += dp_up;
-		  # By_K2 END
+		        # By_K2 END
 
           @hit_points << (@chara_cards[s].hp - (d_set[s] ? d_set[s] : 0)) # 現在のヒットポイントを格納
           @hit_points_max << @chara_cards[s].hp                                 # 最大のヒットポイントを格納
@@ -428,7 +428,7 @@ module Unlight
 
       # 方向が決定していない場合失敗する
       if direction_set?
-      # 移動カードテーブルにカードを移動する
+        # 移動カードテーブルにカードを移動する
         if card_replace(cards, @cards, @table)
           # 移動ができていたらイベントを発行する
           cards.each_index { |i| move_card_rotate(cards[i], dir[i]) }
@@ -485,7 +485,7 @@ module Unlight
     # 返値:戻したカードのインデックス
     def battle_card_remove(cards, index = 0)
       if card_replace(cards, @table, @cards)
-      # ポイントに変化があったか再計算
+        # ポイントに変化があったか再計算
         point_check(POINT_CHECK_BATTLE)
         [index, cards[0]]
       else
@@ -681,7 +681,7 @@ module Unlight
     end
     regist_event AttackDoneAction
 
-   # 戦闘フェイズの完了
+    # 戦闘フェイズの完了
     def deffence_done
       @deffence_done = true
       # 必殺技のONリストをすべて初期化する
@@ -689,7 +689,7 @@ module Unlight
     end
     regist_event DeffenceDoneAction
 
-   # キャラチェンジフェイズの完了
+    # キャラチェンジフェイズの完了
     def change_done
       @change_done = true
       # 必殺技のONリストをすべて初期化する
@@ -1226,7 +1226,7 @@ module Unlight
       else
         mp_calc
       end
-      # 有効カードの内容、ポイント、テーブルのサイズが変わっていた場合にポイントをアップデートする
+       # 有効カードの内容、ポイント、テーブルのサイズが変わっていた場合にポイントをアップデートする
        if (@before_on_cards != self.current_on_card_value) || (@before_point != self.tmp_power)
          point_update_event unless update_skip
        end

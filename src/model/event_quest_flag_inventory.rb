@@ -23,11 +23,11 @@ module Unlight
       datetime  :updated_at
     end
 
-    # バリデーションの設定
+     # バリデーションの設定
      validates do
      end
 
-   # DBにテーブルをつくる
+    # DBにテーブルをつくる
     if !(EventQuestFlagInventory.table_exists?)
       EventQuestFlagInventory.create_table
     end
