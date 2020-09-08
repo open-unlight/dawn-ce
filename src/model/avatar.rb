@@ -175,7 +175,7 @@ module Unlight
         avatar.gems = 100
         avatar.current_deck = 1
         avatar.server_type = server_type
-        avatar.favorite_chara_id = CharaCard[cards[0]].charactor_id # 選択キャラをお気に入りに設定
+        avatar.favorite_chara_id = CharaCard[cards[0]]&.charactor_id # 選択キャラをお気に入りに設定
         # パーツ所持数が指定と合ってない場合、指定数に変更
         if avatar.part_inventory_max != Unlight::AP_INV_MAX
           avatar.part_inventory_max = Unlight::AP_INV_MAX
