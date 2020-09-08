@@ -26144,7 +26144,7 @@ module Unlight
 
     # 既定条件の値をnumだけ変動させた技条件文字列を返す
     COND_PTN = /([ASDMEW]|\[.*\])(\d?)([+=-]?)(?:\*(\d))?/
-    REDUCTION_TYPE_PRIORITY = ["D", "M", "S", "A", "E", "W"]
+    REDUCTION_TYPE_PRIORITY = %w[D M S A E W]
     def easing_condition_all_type(condition, num = -1)
       return "" if condition == ""
 

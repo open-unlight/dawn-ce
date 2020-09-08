@@ -510,13 +510,13 @@ module Unlight
     end
 
     def set_combine_cnt(n, idx = 0)
-      list = ["combine_cnt_a", "combine_cnt_b"]
+      list = %w[combine_cnt_a combine_cnt_b]
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
       send(list[idx] + "=", n)
     end
 
     def combine_cnt(idx = 0)
-      list = ["combine_cnt_a", "combine_cnt_b"]
+      list = %w[combine_cnt_a combine_cnt_b]
       puts "#{__method__} idx:#{idx}"
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])}"
       send(list[idx])
@@ -527,13 +527,13 @@ module Unlight
     end
 
     def set_combine_cnt_max(n, idx = 0)
-      list = ["combine_cnt_a_max", "combine_cnt_b_max"]
+      list = %w[combine_cnt_a_max combine_cnt_b_max]
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
       send(list[idx] + "=", n)
     end
 
     def combine_cnt_max(idx = 0)
-      list = ["combine_cnt_a_max", "combine_cnt_b_max"]
+      list = %w[combine_cnt_a_max combine_cnt_b_max]
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])}"
       send(list[idx])
     end
@@ -593,13 +593,13 @@ module Unlight
     end
 
     def set_combine_pass(n, idx = 0)
-      list = ["combine_pass_a", "combine_pass_b"]
+      list = %w[combine_pass_a combine_pass_b]
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
       send(list[idx] + "=", n)
     end
 
     def combine_pass(idx = 0)
-      list = ["combine_pass_a", "combine_pass_b"]
+      list = %w[combine_pass_a combine_pass_b]
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])}"
       send(list[idx])
     end
@@ -898,10 +898,10 @@ module Unlight
     def over_check(keys)
       base_total = combine_base_sap + combine_base_sdp + combine_base_aap + combine_base_adp
       if base_total > combine_base_max
-        l = ["combine_base_sap", "combine_base_sdp", "combine_base_aap", "combine_base_adp"]
+        l = %w[combine_base_sap combine_base_sdp combine_base_aap combine_base_adp]
         decre_num = base_total - combine_base_max
         keys.each { |k| l.delete(k) } # 加算したパラメータは省く
-        l = ["combine_base_sap", "combine_base_sdp", "combine_base_aap", "combine_base_adp"] if l.size <= 0 # 全て加算されているなら、全部から参照
+        l = %w[combine_base_sap combine_base_sdp combine_base_aap combine_base_adp] if l.size <= 0 # 全て加算されているなら、全部から参照
         while decre_num != 0
           r = rand(l.size)
           if send(l[r]) > COMB_BASE_PARAM_MIN
@@ -910,7 +910,7 @@ module Unlight
           else
             # これ以上マイナスできないので、リストから省く
             l.delete(l[r])
-            l = ["combine_base_sap", "combine_base_sdp", "combine_base_aap", "combine_base_adp"] if l.size <= 0 # リストがなくなってしまったなら、全て同条件に変更
+            l = %w[combine_base_sap combine_base_sdp combine_base_aap combine_base_adp] if l.size <= 0 # リストがなくなってしまったなら、全て同条件に変更
           end
         end
       end

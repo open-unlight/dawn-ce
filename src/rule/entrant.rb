@@ -1800,7 +1800,7 @@ module Unlight
       value_list = []
       type_list = []
 
-      sign_all = ["S", "A", "E", "D", "M"]
+      sign_all = %w[S A E D M]
       type_all = [ActionCard::SWD, ActionCard::ARW, ActionCard::SPC, ActionCard::DEF, ActionCard::MOVE]
 
       total_value = 0
