@@ -2,5 +2,6 @@
 
 FactoryBot.define do
   factory :player, class: 'Unlight::Player' do
+    salt { Faker::Crypto.sha1 }
   end
 end
