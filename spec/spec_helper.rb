@@ -25,9 +25,6 @@ require_relative '../src/unlight'
 
 Dir[Bundler.root.join('spec/support/**/*.rb')].sort.each { |support| require support }
 
-# TODO: Put logger to logs/test.log
-Dawn::Database.current.logger = nil
-
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

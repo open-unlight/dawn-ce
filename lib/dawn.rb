@@ -15,6 +15,11 @@ module Dawn
 
   # @return [Logger] the game logger
   def logger
-    @logger = Logger.new(STDOUT)
+    if ENV['DAWN_LOG_TO_STDOUT']
+      $stdout.sync = true
+      @logger ||= Logger.new(STDOUT)
+    else
+      @logger ||= Logger.new(root.join("log/#{env}.log"))
+    end
   end
 end
