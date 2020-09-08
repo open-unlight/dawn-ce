@@ -11,7 +11,7 @@ config/database.yml
 /tmp/*
 /log/*
 /bin/pids/
-!/log/.keep
+!/log/.gitkeep
 !/tmp/.keep
 *.orig
 .DS_Store

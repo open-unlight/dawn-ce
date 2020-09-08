@@ -65,6 +65,7 @@ COPY --chown=unlight:unlight --from=gem /${UNLIGHT_HOME}/vendor/bundle /${UNLIGH
 # Add Source Files
 COPY --chown=unlight:unlight . $UNLIGHT_HOME
 
+ENV DAWN_LOG_TO_STDOUT=true
 ENV PATH $UNLIGHT_HOME/bin:$PATH
 
 USER unlight
