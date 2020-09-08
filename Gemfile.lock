@@ -117,6 +117,8 @@ GEM
       rubocop (>= 0.82.0)
     rubocop-rspec (1.40.0)
       rubocop (>= 0.68.1)
+    rubocop-thread_safety (0.4.1)
+      rubocop (>= 0.51.0)
     ruby-progressbar (1.10.1)
     sequel (4.49.0)
     simplecov (0.17.1)
@@ -157,6 +159,7 @@ DEPENDENCIES
   rubocop (~> 0.90)
   rubocop-performance
   rubocop-rspec
+  rubocop-thread_safety
   sequel (~> 4.0)
   simplecov (~> 0.17.1)
   sqlite3
