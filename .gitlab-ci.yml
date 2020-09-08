@@ -12,6 +12,8 @@ variables:
   MYSQL_DATABASE: unlight_db
   MYSQL_ROOT_PASSWORD: unlight
   MEMCACHED_HOST: memcached:11211
+  # Testing
+  DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
 
 .install_ruby_gems: &install_ruby_gems
   - gem install bundler -v ${BUNDLER_VERSION}

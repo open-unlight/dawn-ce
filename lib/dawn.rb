@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'dawn/version'
+
 module Dawn
   module_function
 

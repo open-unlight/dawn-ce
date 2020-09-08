@@ -41,4 +41,6 @@ group :test do
   gem 'cucumber', require: false
 
   gem 'simplecov', '~> 0.17.1', require: false
+
+  gem 'database_cleaner-sequel', require: false
 end
