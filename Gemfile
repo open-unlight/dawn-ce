@@ -39,8 +39,7 @@ group :test do
   gem 'rspec_junit_formatter', require: false
 
   gem 'cucumber', require: false
-
-  gem 'simplecov', '~> 0.17.1', require: false
-
   gem 'database_cleaner-sequel', require: false
+  gem 'factory_bot', require: false
+  gem 'simplecov', '~> 0.17.1', require: false
 end
