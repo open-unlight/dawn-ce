@@ -90,6 +90,62 @@ RSpec.describe Unlight::Player do
 
     before(:each) { create_list(:player, 5, state: Unlight::ST_LOGIN_AUTH) }
 
-    it { expect { auth_off_all }.to change { described_class.filter("state >= #{Unlight::ST_AUTH}").count }.by(-5) }
+    it { expect { auth_off_all }.to change { described_class.filter(Sequel.lit("state >= #{Unlight::ST_AUTH}")).count }.by(-5) }
+  end
+
+  describe '#login' do
+    subject(:login) { player.login(ip, session_key) }
+
+    let(:player) { create(:player, state: Unlight::ST_AUTH) }
+    let(:ip) { Faker::Internet.ip_v4_address }
+    let(:session_key) { Faker::Crypto.sha1 }
+
+    it { is_expected.to be_truthy }
+    it { expect { login }.to(change { player.reload.last_ip }) }
+    it { expect { login }.to(change { player.reload.session_key }) }
+
+    context 'when pushout' do
+      let(:player) { create(:player, state: Unlight::ST_LOGIN_AUTH) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when comeback' do
+      pending 'presents for player if not login in recent days'
+    end
+
+    context 'when random sale' do
+      pending
+    end
+
+    context 'when not under auth state' do
+      let(:player) { create(:player) }
+
+      it { is_expected.to be_falsy }
+    end
+  end
+
+  describe '#logout' do
+    subject(:logout) { player.logout }
+
+    let(:player) { create(:player, state: Unlight::ST_LOGIN, login_at: (Time.now - 3600)) }
+
+    it { is_expected.to be_truthy }
+    it { expect { logout }.to(change { player.reload.state }) }
+    it { expect { logout }.to(change { player.reload.total_time }) }
+
+    context 'when pushout' do
+      subject(:pushout) { player.logout(true) }
+
+      it { is_expected.to be_truthy }
+      it { expect { pushout }.not_to(change { player.reload.state }) }
+      it { expect { pushout }.to(change { player.reload.total_time }) }
+    end
+
+    context 'when not login' do
+      let(:player) { create(:player, state: Unlight::ST_LOGOUT) }
+
+      it { is_expected.to be_falsy }
+    end
   end
 end
