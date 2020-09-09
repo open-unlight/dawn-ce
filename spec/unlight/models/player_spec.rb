@@ -148,4 +148,161 @@ RSpec.describe Unlight::Player do
       it { is_expected.to be_falsy }
     end
   end
+
+  describe '#login_bonus_set' do
+    subject { player.login_bonus_set }
+
+    let(:player) { create(:player, login_at: login_at) }
+    let(:login_at) { Time.now }
+
+    it { is_expected.to be_falsy }
+
+    context 'when fit offset time' do
+      let(:login_at) { Time.now.utc - 60 * 60 * 24 }
+
+      it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#update_login_at' do
+    subject(:update) { player.update_login_at }
+
+    let(:player) { create(:player) }
+
+    it { expect { update }.to change(player, :login_at) }
+  end
+
+  describe '#count_total_time' do
+    subject(:count) { player.count_total_time }
+
+    let(:player) { create(:player, logout_at: logout_at, login_at: login_at) }
+    let(:logout_at) { nil }
+    let(:login_at) { Time.now - 60 * 60 }
+
+    it { expect { count }.to change(player, :total_time) }
+  end
+
+  describe '#auth_on' do
+    subject(:auth_on) { player.auth_on }
+
+    let(:player) { create(:player) }
+
+    it { expect { auth_on }.to change { player.reload.state }.to(Unlight::ST_AUTH) }
+  end
+
+  describe '#auth_off' do
+    subject(:auth_off) { player.auth_off }
+
+    let(:player) { create(:player, state: Unlight::ST_AUTH) }
+
+    it { expect { auth_off }.to change { player.reload.state }.to(0) }
+  end
+
+  describe '#login?' do
+    subject { player.login? }
+
+    let(:player) { create(:player, state: state) }
+    let(:state) { 0 }
+
+    it { is_expected.to be_falsy }
+
+    context 'when state is Unlight::ST_LOGIN' do
+      let(:state) { Unlight::ST_LOGIN }
+
+      it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#auth?' do
+    subject { player.auth? }
+
+    let(:player) { create(:player, state: state) }
+    let(:state) { 0 }
+
+    it { is_expected.to be_falsy }
+
+    context 'when state is Unlight::ST_AUTH' do
+      let(:state) { Unlight::ST_AUTH }
+
+      it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#lock' do
+    subject(:lock) { player.lock }
+
+    let(:player) { create(:player) }
+
+    it { expect { lock }.to change { player.reload.penalty }.to(Unlight::PN_LOCK) }
+  end
+
+  describe '#pass_failed' do
+    subject(:lock) { player.pass_failed }
+
+    let(:player) { create(:player) }
+
+    it { expect { lock }.to change { player.reload.penalty }.to(Unlight::PN_PASS_FAIL) }
+  end
+
+  describe '#auth_failed' do
+    pending
+  end
+
+  describe '#same_ip_check' do
+    subject(:lock) { player.same_ip_check }
+
+    let(:player) { create(:player) }
+
+    it { expect { lock }.to change { player.reload.penalty }.to(Unlight::PN_SAME_IP) }
+  end
+
+  describe '#comeback' do
+    subject(:lock) { player.comeback }
+
+    let(:player) { create(:player) }
+
+    it { expect { lock }.to change { player.reload.penalty }.to(Unlight::PN_COMEBACK) }
+  end
+
+  describe '#penalty?' do
+    subject { player.penalty? }
+
+    let(:player) { create(:player) }
+
+    it { is_expected.to be_falsy }
+
+    context 'when player lock' do
+      before(:each) { player.lock }
+
+      it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#comeback?' do
+    subject { player.comeback? }
+
+    let(:player) { create(:player) }
+
+    it { is_expected.to be_falsy }
+
+    context 'when player comeback' do
+      before(:each) { player.comeback }
+
+      it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#current_avatar' do
+    subject(:current_avatar) { player.current_avatar }
+
+    let(:player) { create(:player) }
+
+    it { is_expected.to be_a(Unlight::Avatar) }
+
+    context 'when avatar exists' do
+      let!(:avatar) { create(:avatar, player_id: player.id) }
+
+      it { is_expected.to eq(avatar) }
+    end
+  end
 end
