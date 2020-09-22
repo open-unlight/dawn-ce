@@ -71,7 +71,7 @@ GEM
     middleware (0.1.0)
     minitest (5.14.2)
     multi_test (0.1.2)
-    mysql2 (0.5.2)
+    mysql2 (0.5.3)
     overcommit (0.55.0)
       childprocess (>= 0.6.3, < 5)
       iniparse (~> 1.4)
