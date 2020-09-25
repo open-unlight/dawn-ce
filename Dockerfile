@@ -42,11 +42,9 @@ RUN apk --update \
         gcc=~9.3.0 \
         libc-dev=~0.7.2 \
         ca-certificates=~20191127 \
-        zlib-dev=~1.2.11 \
-        libressl-dev=~3.1.2 \
-        mariadb-connector-c=~3.1.8 \
-        mariadb-client=~10.4.13 \
-        sqlite=~3.32.1
+        zlib=~1.2.11 \
+        libressl=~3.1.2 \
+        mariadb-connector-c=~3.1.8
 
 ARG UNLIGHT_HOME
 ENV UNLIGHT_HOME=${UNLIGHT_HOME}
