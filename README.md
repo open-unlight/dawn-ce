@@ -103,7 +103,7 @@ bundler install
 If you got the error message for `mysql2` gem, you need extra configure it to install it.
 
 ```bash
-export LIBRARY_PATH=$LIBRARY_PATH:$(brew --prefix openssl@1.1)
+export LIBRARY_PATH=$(brew --prefix openssl@1.1)/lib:$LIBRARY_PATH
 gem install mysql2 -v 0.5.3 -- --with-mysql-config=/usr/local/opt/mysql@5.7/bin/mysql_config
 ```
 
