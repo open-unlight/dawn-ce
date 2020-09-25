@@ -68,6 +68,15 @@ bundler-audit:
     - bundle audit
   allow_failure: true
 
+bundler-leak:
+  stage: lint
+  before_script:
+    - gem install bundler-leak
+    - bundle leak check --update
+  script:
+    - bundle leak
+  allow_failure: true
+
 rspec:
   <<: *base_test
   script:
@@ -79,12 +88,16 @@ rspec:
       - coverage
     reports:
       junit: rspec.xml
+  needs:
+    - rubocop
 
 cucumber:
   <<: *base_test
   script:
     # TODO: Run database migration
     - bundle exec cucumber
+  needs:
+    - rubocop
 
 sonarqube:
   stage: analytics
@@ -106,7 +119,8 @@ sonarqube:
   allow_failure: true
   only:
     - master
-  needs: ["rspec"]
+  needs:
+    - rspec
 
 build:
   stage: build
@@ -134,7 +148,12 @@ build:
     # Prepare for Upload
     - docker tag dawn-gem $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem
     - docker tag dawn $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
-    # Security Check
+    # Upload to AWS
+    - docker push $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem
+    - docker push $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
+    - if [ "$CI_COMMIT_REF_NAME" == "master" ]; then docker tag $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_IMAGE:latest; fi
+    - if [ "$CI_COMMIT_REF_NAME" == "master" ]; then docker push $DOCKER_IMAGE:latest; fi
+      # Security Check
     - |
       VERSION=$(
       curl --silent "https://api.github.com/repos/goodwithtech/dockle/releases/latest" | \
@@ -143,13 +162,9 @@ build:
       ) && curl -L -o dockle.tar.gz https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.tar.gz &&  \
       tar zxvf dockle.tar.gz
     - ./dockle --exit-code 1 $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
-    # Upload to AWS
-    - docker push $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem
-    - docker push $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
-    - if [ "$CI_COMMIT_REF_NAME" == "master" ]; then docker tag $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_IMAGE:latest; fi
-    - if [ "$CI_COMMIT_REF_NAME" == "master" ]; then docker push $DOCKER_IMAGE:latest; fi
   only:
     - /^release\/.*$/
     - master
     - tags
-  needs: ["rspec"]
+  needs:
+    - rspec

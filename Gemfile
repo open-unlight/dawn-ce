@@ -28,6 +28,7 @@ group :development, :test do
   gem 'rubocop-thread_safety', require: false
 
   gem 'bundler-audit', require: false
+  gem 'bundler-leak', require: false
 end
 
 group :development do
