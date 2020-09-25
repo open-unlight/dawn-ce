@@ -6,12 +6,12 @@ FROM ruby:${RUBY_VERSION}-alpine AS gem
 
 RUN apk --update \
         add --no-cache \
-        build-base \
-        ca-certificates \
-        zlib-dev \
-        libressl-dev \
-        mariadb-dev \
-        mariadb-client
+        build-base=~0.5 \
+        ca-certificates=~20191127 \
+        zlib-dev=~1.2.11 \
+        libressl-dev=~3.1.2 \
+        mariadb-dev=~10.4.13 \
+        mariadb-client=~10.4.13
 
 # Setup Application
 ARG UNLIGHT_HOME
@@ -27,7 +27,7 @@ RUN gem install bundler:2.1.4 \
     && bundle config --local no-cache 'true' \
     && bundle config --local system 'true' \
     && bundle config --local without 'build development test' \
-    && bundle install -j $(getconf _NPROCESSORS_ONLN) \
+    && bundle install -j "$(getconf _NPROCESSORS_ONLN)" \
     && find /${UNLIGHT_HOME}/vendor/bundle -type f -name '*.c' -delete \
     && find /${UNLIGHT_HOME}/vendor/bundle -type f -name '*.o' -delete \
     && find /usr/local/bundle -type f -name '*.c' -delete \
@@ -39,14 +39,12 @@ FROM ruby:${RUBY_VERSION}-alpine
 
 RUN apk --update \
         add --no-cache \
-        gcc \
-        libc-dev \
-        ca-certificates \
-        zlib-dev \
-        libressl-dev \
-        mariadb-connector-c \
-        mariadb-client \
-        sqlite
+        gcc=~9.3.0 \
+        libc-dev=~0.7.2 \
+        ca-certificates=~20191127 \
+        zlib=~1.2.11 \
+        libressl=~3.1.2 \
+        mariadb-connector-c=~3.1.8
 
 ARG UNLIGHT_HOME
 ENV UNLIGHT_HOME=${UNLIGHT_HOME}
