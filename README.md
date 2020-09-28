@@ -1,5 +1,6 @@
 Dawn Server
 ===
+[![Build Status](https://travis-ci.com/open-unlight/dawn-ce.svg?token=sVXxZVx3tpMDzXpPkwjf&branch=master)](https://travis-ci.com/open-unlight/dawn-ce)
 
 This is the Unlight server maintenance by [Open Unlight](https://unlight.app) and based the CPA's [Unlight](https://github.com/unlightcpa/Unlight/) server.
 
