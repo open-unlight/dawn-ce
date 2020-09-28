@@ -4,6 +4,8 @@ Dawn Server
 
 This is the Unlight server maintenance by [Open Unlight](https://unlight.app) and based the CPA's [Unlight](https://github.com/unlightcpa/Unlight/) server.
 
+More information please reference ours [developer document](https://docs.unlight.dev/).
+
 ## Requirement
 
 * Ruby 2.6.6
@@ -110,7 +112,7 @@ gem install mysql2 -v 0.5.3 -- --with-mysql-config=/usr/local/opt/mysql@5.7/bin/
 
 ## Development
 
-    TBD
+We attach importance to the code quality, all codes should pass our static analysis and tests eg. Rubocop, RSpec, etc.
 
 ### RSpec
 
@@ -126,7 +128,7 @@ To keep we have a stable codebase, the coverage should be above 80%. Please add 
 
 ### Cucumber
 
-    TBD
+Currently, we are focus on the unit-test we will start working on the feature test after our refactor.
 
 ## Contributing
 
