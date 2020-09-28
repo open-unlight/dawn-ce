@@ -89,7 +89,7 @@ brew install memcached
 brew services start memcached
 ```
 
-# SQLite
+### SQLite
 
 ```bash
 brew install sqlite3
