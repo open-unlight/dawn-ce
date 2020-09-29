@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 RSpec.describe Unlight::Player do
   describe '.logout_all' do
     subject(:logout_all) { described_class.logout_all }
