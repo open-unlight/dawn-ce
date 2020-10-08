@@ -1,6 +1,7 @@
 Dawn Server
 ===
 [![Build Status](https://travis-ci.com/open-unlight/dawn-ce.svg?token=sVXxZVx3tpMDzXpPkwjf&branch=master)](https://travis-ci.com/open-unlight/dawn-ce)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopen-unlight%2Fdawn-ce.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fopen-unlight%2Fdawn-ce?ref=badge_shield)
 
 This is the Unlight server maintenance by [Open Unlight](https://unlight.app) and based the CPA's [Unlight](https://github.com/unlightcpa/Unlight/) server.
 
@@ -137,3 +138,6 @@ If you are interested to contribute to this project, we are welcome to see you [
 ## License
 
 This server is available as open source under the terms of the [Apache 2.0 License](https://opensource.org/licenses/Apache2.0).
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopen-unlight%2Fdawn-ce.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fopen-unlight%2Fdawn-ce?ref=badge_large)
