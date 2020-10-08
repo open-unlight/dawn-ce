@@ -2,6 +2,8 @@ Dawn Server
 ===
 [![Build Status](https://travis-ci.com/open-unlight/dawn-ce.svg?token=sVXxZVx3tpMDzXpPkwjf&branch=master)](https://travis-ci.com/open-unlight/dawn-ce)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopen-unlight%2Fdawn-ce.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fopen-unlight%2Fdawn-ce?ref=badge_shield)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3e1d368e98780957e572/maintainability)](https://codeclimate.com/github/open-unlight/dawn-ce/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3e1d368e98780957e572/test_coverage)](https://codeclimate.com/github/open-unlight/dawn-ce/test_coverage)
 
 This is the Unlight server maintenance by [Open Unlight](https://unlight.app) and based the CPA's [Unlight](https://github.com/unlightcpa/Unlight/) server.
 
