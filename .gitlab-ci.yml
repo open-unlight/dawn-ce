@@ -2,6 +2,7 @@ image: ruby:2.6.6
 
 variables:
   BUNDLER_VERSION: 2.1.4
+  LICENSED_VERSION: 2.14.1
   # Rubocop Cache for Large Project
   XDG_CACHE_HOME: $CI_PROJECT_DIR/.cache
   CUCUMBER_PUBLISH_QUIET: 'true'
@@ -43,6 +44,7 @@ cache:
   paths:
     - vendor/ruby
     - .cache
+    - .licenses
 
 before_script:
   - export LANG=C.UTF-8
@@ -67,6 +69,17 @@ rubocop:
       - rubocop.json
   except:
     - schedules
+
+licensed:
+  stage: lint
+  before_script:
+    - apt-get update
+    - apt-get install -y cmake pkg-config
+    - curl -sSLO https://github.com/github/licensed/releases/download/${LICENSED_VERSION}/licensed-${LICENSED_VERSION}-linux-x64.tar.gz && tar -xzf licensed-${LICENSED_VERSION}-linux-x64.tar.gz -C /usr/local/bin --strip-components=1;
+    - *install_ruby_gems
+  script:
+    - licensed cache
+    - licensed status
 
 bundler-audit:
   stage: lint

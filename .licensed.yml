@@ -1,0 +1,14 @@
+name: 'Dawn'
+
+allowed:
+  - mit
+  - apache-2.0
+  - bsd-2-clause
+  - bsd-3-clause
+  - cc0-1.0
+  - isc
+
+reviewed:
+  bundler:
+    - eventmachine # Rplace with Ractor
+    - sqlite3 # BSD-3
