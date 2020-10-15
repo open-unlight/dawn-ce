@@ -10,8 +10,8 @@ RUN apk --update \
         ca-certificates=~20191127 \
         zlib-dev=~1.2.11 \
         libressl-dev=~3.1.2 \
-        mariadb-dev=~10.4.13 \
-        mariadb-client=~10.4.13
+        mariadb-dev=~10.4 \
+        mariadb-client=~10.4
 
 # Setup Application
 ARG UNLIGHT_HOME
