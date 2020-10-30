@@ -17,7 +17,7 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer   :chara_card_deck_id #, :table => :chara_card_decks
+      integer   :chara_card_deck_id, index: true #, :table => :chara_card_decks
       integer   :chara_card_id #, :table => :chara_cards
       integer   :position, default: 0, null: false
       integer   :before_deck_id #, :table => :chara_card_decks
