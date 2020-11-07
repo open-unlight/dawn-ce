@@ -1,0 +1,11 @@
+plugins:
+  rubocop:
+    enabled: true
+    # TODO: Upgrade to rubocop-1-0
+    channel: rubocop-0-92
+    config:
+      file: .rubocop.yml
+  bundler-audit:
+    enabled: true
+  fixme:
+    enabled: true
