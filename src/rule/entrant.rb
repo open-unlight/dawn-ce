@@ -6,8 +6,8 @@
 # -*- coding: utf-8 -*-
 
 module Unlight
-    POINT_CHECK_MOVE = 1
-    POINT_CHECK_BATTLE = 0
+  POINT_CHECK_MOVE = 1
+  POINT_CHECK_BATTLE = 0
 
   # 参加者クラス
   class Entrant < BaseEvent
@@ -78,11 +78,11 @@ module Unlight
       @chara_cards.each_index do |s|
         if @chara_cards[s] # 念のためのチェック
 
-		  # By_K2 START (무한의탑 몬스터인 경우 층수만큼 POWER 증가)
-		  @chara_cards[s].hp += hp_up;
-		  @chara_cards[s].ap += ap_up;
-		  @chara_cards[s].dp += dp_up;
-		        # By_K2 END
+          # By_K2 START (무한의탑 몬스터인 경우 층수만큼 POWER 증가)
+          @chara_cards[s].hp += hp_up;
+      @chara_cards[s].ap += ap_up;
+      @chara_cards[s].dp += dp_up;
+          # By_K2 END
 
           @hit_points << (@chara_cards[s].hp - (d_set[s] ? d_set[s] : 0)) # 現在のヒットポイントを格納
           @hit_points_max << @chara_cards[s].hp                                 # 最大のヒットポイントを格納
@@ -107,7 +107,7 @@ module Unlight
             @weapon_cards[s].each { |w| @arrow_deffence_dice_bonus[s] += w.arrow_deffence_dice_bonus(ai) }
 
             @weapon_cards[s].each { |w|
-              @weapon_passives[s] = w.get_passive_id(ai)
+  @weapon_passives[s] = w.get_passive_id(ai)
 }
             @chara_cards[s].weapon_passive = (@weapon_passives[s])
           end
@@ -295,9 +295,9 @@ module Unlight
       ret = false
       unless @weapon_cards[@current_chara_card_no].blank?
         if @sword_ap[@current_chara_card_no] != 0 ||
-            @sword_dp[@current_chara_card_no] != 0 ||
-            @arrow_ap[@current_chara_card_no] != 0 ||
-            @arrow_dp[@current_chara_card_no] != 0
+           @sword_dp[@current_chara_card_no] != 0 ||
+           @arrow_ap[@current_chara_card_no] != 0 ||
+           @arrow_dp[@current_chara_card_no] != 0
           ret = true
         end
       end
@@ -323,7 +323,7 @@ module Unlight
 
     # 使用中のキャラの初期化直後の装備補正を返す
     def current_default_weapon_bonus
-     @default_weapon_bonus[@current_chara_card_no]
+      @default_weapon_bonus[@current_chara_card_no]
     end
 
     # 使用中の装備補正の各要素を返す
@@ -440,7 +440,7 @@ module Unlight
           move_card_add_succes_event(-1, 0)
         end
       else
-          move_card_add_succes_event(-1, 0)
+        move_card_add_succes_event(-1, 0)
       end
       index
     end
@@ -474,7 +474,7 @@ module Unlight
         # ポイントに変化があったか再計算
         point_check(POINT_CHECK_BATTLE)
       else
-          battle_card_add_succes_event(-1, 0)
+        battle_card_add_succes_event(-1, 0)
       end
       index
     end
@@ -496,7 +496,7 @@ module Unlight
     regist_event DeffenceCardRemoveAction
 
     # 攻撃カードを回転させる
-    def battle_card_rotate (id, dir)
+    def battle_card_rotate(id, dir)
       @table.each do |c|
         if c.id == id
           c.up(dir)
@@ -509,7 +509,7 @@ module Unlight
     regist_event DeffenceCardRotateAction
 
     # カード回転させる。チェックはしない。
-    def battle_card_rotate_silence (id, dir)
+    def battle_card_rotate_silence(id, dir)
       @table.each do |c|
         if c.id == id
           c.up(dir)
@@ -518,7 +518,7 @@ module Unlight
     end
 
     # 移動カードを回転させる
-    def move_card_rotate (id, dir)
+    def move_card_rotate(id, dir)
       @table.each do |c|
         if c.id == id
           c.up(dir)
@@ -530,7 +530,7 @@ module Unlight
 
     # カードを回転させる
     # 返値:戻したカードのテーブル位置とインデックスとIDの配列
-    def card_rotate (id, table, index, dir)
+    def card_rotate(id, table, index, dir)
       return false unless card_is_enabled?(id)
 
       case table
@@ -606,7 +606,7 @@ module Unlight
       ret = 0
 
       if (@field_status[FIELD_STATUS["FOG"]][1] == 0 && @foe.field_status[FIELD_STATUS["FOG"]][1] == 0) ||
-          hiding_was_finished || foe.hiding_was_finished
+         hiding_was_finished || foe.hiding_was_finished
         ret = @distance
       elsif current_chara_card.hiding?
         hide_move_action(@distance)
@@ -716,7 +716,7 @@ module Unlight
 
     # ダメージ
     # 返値:ダメージポイント
-    def damaged (d, is_not_hostile = false, set_log = true)
+    def damaged(d, is_not_hostile = false, set_log = true)
       val = d
       if @hit_points[@current_chara_card_no] > 0
         @foe.damaged_event(d) if @monitoring && is_not_hostile
@@ -819,7 +819,7 @@ module Unlight
 
     # 回復
     # 返値:回復ポイント
-    def healed (d, set_log = true)
+    def healed(d, set_log = true)
       return [0, set_log] if is_dark?(@current_chara_card_no) # 回復禁止状態をチェックする
 
       ret = d
@@ -853,7 +853,7 @@ module Unlight
 
     # 指定した位置のカードのHPを回復
     # 返値:カード位置,回復ポイント
-    def party_healed (idx, d, set_log = true)
+    def party_healed(idx, d, set_log = true)
       return [idx, 0, set_log] if is_dark?(idx) # 回復禁止状態をチェックする
 
       val = 0
@@ -874,14 +874,14 @@ module Unlight
 
     # 全ての状態を回復
     # 返値:回復ポイント
-    def cured ()
+    def cured()
       current_chara_card.cure_status()
     end
     regist_event CuredEvent
 
     # 全ての必殺技を解除
     # 返値:Boolean
-    def sealed ()
+    def sealed()
       current_chara_card.reset_feats()
       current_chara_card.off_feat_all()
     end
@@ -1491,9 +1491,9 @@ module Unlight
     def get_type_table_count(type)
       ret = 0
       @table.each do |a|
-        tmp = a.battle_point(type)
+         tmp = a.battle_point(type)
         unless tmp == 0
-            ret += 1
+          ret += 1
         end
        end
       ret
@@ -1503,7 +1503,7 @@ module Unlight
     def get_type_table_count_both_faces(type)
       ret = 0
       @table.each do |a|
-        ret += 1 if a.u_type == type || a.b_type == type
+         ret += 1 if a.u_type == type || a.b_type == type
        end
       ret
     end
@@ -1570,7 +1570,7 @@ module Unlight
     def get_type_cards_count_both_faces(type)
       ret = 0
       @cards.each do |a|
-        ret += 1 if a.u_type == type || a.b_type == type
+         ret += 1 if a.u_type == type || a.b_type == type
        end
       ret
     end
@@ -1579,11 +1579,11 @@ module Unlight
     def get_type_point_cards_both_faces(type)
       ret = 0
       @cards.each do |a|
-        if  a.u_type == type
-          ret += a.u_value
-        elsif a.b_type == type
-          ret += a.b_value
-        end
+         if  a.u_type == type
+           ret += a.u_value
+         elsif a.b_type == type
+           ret += a.b_value
+         end
        end
       ret
     end
@@ -1868,7 +1868,7 @@ module Unlight
 
     # 特定タイプのカードを全てONにする
     def on_card_by_type(feat_no, type)
-    counter = 0
+      counter = 0
       @table.each do |a|
         @feat_battle_table_on_list[feat_no] |= (1 << counter) if a.battle_point(type) > 0
         counter += 1
@@ -1878,7 +1878,7 @@ module Unlight
     # 現在のONになっているIDを送る
     def current_on_cards
       ids = []
-      @table.each { |c|ids << c.id }
+      @table.each { |c| ids << c.id }
       [ids.join(","), current_on_card_value]
     end
 
@@ -1993,7 +1993,7 @@ module Unlight
     elsif result == RESULT_LOSE
       (@result_gems * 0.3 * (0.4 + dice(0.3, 4)) * @special_gem_bonus_multi).truncate
     elsif result == RESULT_DRAW
-       (@result_gems * 0.5 * (0.4 + dice(0.3, 4)) * @special_gem_bonus_multi).round
+      (@result_gems * 0.5 * (0.4 + dice(0.3, 4)) * @special_gem_bonus_multi).round
     end
   end
 

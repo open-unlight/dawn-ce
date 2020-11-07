@@ -85,7 +85,7 @@ module Unlight
 
     # 部屋から出る
     def delete_player(player_id)
-      d = @player_array.reject! { |pl|pl.id == player_id }
+      d = @player_array.reject! { |pl| pl.id == player_id }
       # 人間が残っているかチェックする
       # 一人でも削除されていたら問答無用で全部削除
       # 削除が走ったがJOIN済みがおらずに、残ったプレイヤーがいるならば削除しない（作られた部屋なので）

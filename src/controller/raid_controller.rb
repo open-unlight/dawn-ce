@@ -58,7 +58,7 @@ module Unlight
                                 0,
                                 0,
                                 turn
-                                )
+                               )
           # 相手のカードの状態異常をターン制から、時間制に変更
           @duel.beta.chara_cards.each { |c| c.status_update = false }
           do_determine_session(-1,
@@ -68,7 +68,7 @@ module Unlight
                                stage,
                                deck_damages,
                                boss_damage,
-                               )
+                              )
           @duel.profound_id = @prf_inv.profound_id
           set_duel_handler(0, RULE_3VS3)
           regist_raid_event
@@ -109,7 +109,7 @@ module Unlight
                            beta_damege_set[0],
                            beta_damege_set[1],
                            beta_damege_set[2],
-                           )
+                          )
     end
 
     def cs_request_notice
@@ -451,7 +451,7 @@ module Unlight
         SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] prf_id:#{@prf_inv.profound_id}")
         # 撃破したか
         now_all_damage = ProfoundLog::get_all_damage(@prf_inv.profound_id)
-        if ! @prf_inv.profound.is_defeat? && now_all_damage + ret >= @duel.beta.current_chara_card.hp
+        if !@prf_inv.profound.is_defeat? && now_all_damage + ret >= @duel.beta.current_chara_card.hp
           SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] defeat_update!!!!!!!")
           # 渦を終了状態に 先に変更
           @prf_inv.profound.finish
@@ -563,7 +563,7 @@ module Unlight
         when PRF_FINISHED_NONE
           if duel.beta.total_hit_point <= 0
             # 死んでいるのに撃破が着いていない場合、ここでつける（同時にダメージを与えた場合ここにくるのは運になる）
-            if ! @prf_inv.profound.is_defeat?
+            if !@prf_inv.profound.is_defeat?
               # 渦を終了状態に 先に変更
               @prf_inv.profound.finish
               # 撃破を記録

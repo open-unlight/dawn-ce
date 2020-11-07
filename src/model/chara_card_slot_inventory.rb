@@ -1022,7 +1022,7 @@ module Unlight
       return false if base_sci.card.weapon_type == WEAPON_TYPE_MATERIAL
 
       # ベースの武器が未合成武器なら、素材がオルタサイトでないといけない
-      if ! base_sci.combined?
+      if !base_sci.combined?
         first_mat_sci = use_sci_list.first
         return false if first_mat_sci.card_id != CMB_BASE_WC_CHANGE_ID
       else

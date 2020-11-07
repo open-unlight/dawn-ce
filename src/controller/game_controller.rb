@@ -169,7 +169,7 @@ module Unlight
                                   tmp_exp.truncate,
                                   true)
         use_ap = DUEL_AP[duel.rule]
-        use_ap = @match_log.match_option == DUEL_OPTION_FRIEND ? FRIEND_DUEL_AP[duel.rule] : DUEL_AP[duel.rule]if @match_log
+        use_ap = @match_log.match_option == DUEL_OPTION_FRIEND ? FRIEND_DUEL_AP[duel.rule] : DUEL_AP[duel.rule] if @match_log
         # ラダーマッチの時のAP消費量
         use_ap = RADDER_DUEL_AP[duel.rule] if duel.is_get_bp == 1 || @match_log.cpu_card_data_id != PLAYER_MATCH if @match_log
 
@@ -357,7 +357,7 @@ module Unlight
             # 一時的にペナルティは、部屋が作れなくなるのみに
             # APを減らす
             use_ap = DUEL_AP[@duel.rule]
-            use_ap = @match_log.match_option == DUEL_OPTION_FRIEND ? FRIEND_DUEL_AP[duel.rule] : DUEL_AP[duel.rule]if @match_log
+            use_ap = @match_log.match_option == DUEL_OPTION_FRIEND ? FRIEND_DUEL_AP[duel.rule] : DUEL_AP[duel.rule] if @match_log
             # ラダーマッチの時のAP消費量
             use_ap = RADDER_DUEL_AP[@duel.rule] if @duel.is_get_bp == 1
             @player.current_avatar.duel_energy_use(use_ap)
@@ -392,7 +392,7 @@ module Unlight
     end
 
     # 0ターン切断をした回数をチェック
-    def check_zero_turn_cut(cnt=0)
+    def check_zero_turn_cut(cnt = 0)
       cnt = CACHE.get("zero_turn_cut_cnt_player_id:#{@uid}")
       cnt = 0 unless cnt
       cnt += 1
@@ -405,7 +405,7 @@ module Unlight
     end
 
     # 自分のEntrantのイベントをはずす
-    def oppnent_event_destructor(e=ERROR_GAME_ABORT)
+    def oppnent_event_destructor(e = ERROR_GAME_ABORT)
       if @duel
         SERVER_LOG.info("<UID:#{@uid}>GameServer: [Opponent event destrubtor] start(remain_duel) e:#{e}")
         @duel.entrants[@no].exit_game if @duel.entrants && @duel.entrants[@no]

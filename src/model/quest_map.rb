@@ -28,9 +28,9 @@ module Unlight
       datetime    :updated_at
     end
 
-     # バリデーションの設定
-     validates do
-    end
+    # バリデーションの設定
+    validates do
+   end
 
     # DBにテーブルをつくる
     if !(QuestMap.table_exists?)
@@ -65,12 +65,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # ランダムにクエストのIDを1つ返す(クリアNumがマップの難易度を超えていたらボスが出るのを許す)

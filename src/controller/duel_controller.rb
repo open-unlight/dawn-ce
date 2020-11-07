@@ -1126,7 +1126,7 @@ module Unlight
     def plEntrant_duel_bonus_event_handler(target, ret)
       sc_duel_bonus_event(ret[0], ret[1])
       set_cache_act_command(ret[0], ret[1])
-     end
+    end
 
     # プレイヤーの特殊メッセージのイベント
     def plEntrant_special_message_event_handler(target, ret)
@@ -1276,7 +1276,7 @@ module Unlight
 
     # デッキの初期化のハンドラ
     def deck_init_handler(target, ret)
-     sc_deck_init_event(ret)
+      sc_deck_init_event(ret)
      set_cache_act_command(ret)
     end
 

@@ -24,11 +24,11 @@ module Protocol
     def unbind
       # 例外をrescueしないのAbortするので注意
       begin
-          if @player
-            logout
-          end
+        if @player
+          logout
+        end
       rescue => e
-          puts e.message
+        puts e.message
       end
       SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")
     end

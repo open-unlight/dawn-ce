@@ -87,12 +87,12 @@ module Unlight
     end
 
     # イベント定義の名前を登録
-    def EventRule::dsc (name)
+    def EventRule::dsc(name)
       instance.dsc = name
     end
 
     # イベントとしてHookするメインの関数
-    def EventRule::func (f)
+    def EventRule::func(f)
       instance.func = f
     end
 
@@ -111,7 +111,7 @@ module Unlight
     end
 
     # 許可するコンテキストを登録
-    def EventRule::context (*cont)
+    def EventRule::context(*cont)
       s = []
       cont.each do |a|
         s << "Unlight::" + a[0] + "::" + a[1].to_s
@@ -121,7 +121,7 @@ module Unlight
 
     # タイプの登録
     def EventRule::type(t)
-      t = { type: t, obj: nil, hook: nil, priority: 0 } if t.class == Symbol
+      t = { type: t, obj: nil, hook: nil, priority: 0 } if t.instance_of?(Symbol)
       pri = t[:priority] || 0
       instance.type = t[:type]
       instance.hook_func = [t[:obj], t[:hook], pri]
@@ -129,7 +129,7 @@ module Unlight
 
     # タイムアウトの登録
     def EventRule::duration(t)
-      t = { type: t, value: 0 } if t.class == Symbol
+      t = { type: t, value: 0 } if t.instance_of?(Symbol)
       instance.duration_type = t[:type]
       instance.duration_value = t[:value]
     end
@@ -199,7 +199,7 @@ module Unlight
 
     def initialize(*args)
       # フックするイベントの初期化
-      @@init_list[self.class.name].each { |a| self.send(a) }if @@init_list[self.class.name]
+      @@init_list[self.class.name].each { |a| self.send(a) } if @@init_list[self.class.name]
     end
 
     # フックされた関数を実行する
@@ -236,12 +236,12 @@ module Unlight
 
     # 登録されたすべてのイベントをリムーブする
     def remove_all_event_listener
-      @@event_removers[self.class.name].each { |a| self.send(a) }if @@event_removers[self.class.name]
+      @@event_removers[self.class.name].each { |a| self.send(a) } if @@event_removers[self.class.name]
     end
 
     # 登録されたすべてのイベントをフックをリムーブする
     def remove_all_hook
-      @@hook_removers[self.class.name].each { |a| self.send(a) }if @@hook_removers[self.class.name]
+      @@hook_removers[self.class.name].each { |a| self.send(a) } if @@hook_removers[self.class.name]
     end
 
     # ゴールしたかをしらべる
@@ -397,7 +397,7 @@ END
         END
 
         else
-        <<-END
+          <<-END
         if (@#{@f}_context[0] == :active||@#{@f}_context.first == :return)&&(@#{@f}_context.last == nil ||@#{@f}_context.last.last == :#{@f})
             #{finish_event_gen}
             event_finish(@#{@f}_context,:#{@f}_init)
@@ -441,7 +441,7 @@ END
 
     # メイン実行部分を返す
     def self::instant_main_gen
-        <<-END
+      <<-END
           @#{@f}_context = event_start(:#{@f}) if @#{@f}_context == []
           if @#{@f}_context.first == :active
             #{start_event_gen}
@@ -463,8 +463,8 @@ END
       ret = []
       ret << " "
       ret << "      if @#{@f}_context.first == :active||@#{@f}_context.first == :return"
-       @event_rule.act_list.each_index do|i|
-         ret << "          if @#{@f}_act_counter == #{i}"
+       @event_rule.act_list.each_index do |i|
+        ret << "          if @#{@f}_act_counter == #{i}"
          ret << "            self.send(:#{@event_rule.act_list[i]})"
          ret << "            @#{@f}_act_counter +=1 if @#{@f}_context.first == :active"
          ret << "          end"
@@ -521,7 +521,7 @@ END
       if @event_rule.goal_list.size > 0
         case @event_rule.type
         when :before
-        <<-END
+          <<-END
         #{h[0]}.#{h[1]}_before_hook_func.unshift([method(:remove_before_hook_#{@f}),-1])
         END
       when :after
@@ -579,7 +579,7 @@ END
           end
         end
         END
-   end
+    end
 
     def self::proxy_remove_gen
       h = @event_rule.hook_func
@@ -643,12 +643,12 @@ END
       EventRule::dispose
     end
 
-  def self::underscore(camel_cased_word)
-    camel_cased_word
-      .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
-      .gsub(/([a-z\d])([A-Z])/, '\1_\2')
-      .downcase
-  end
+    def self::underscore(camel_cased_word)
+      camel_cased_word
+        .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+        .gsub(/([a-z\d])([A-Z])/, '\1_\2')
+        .downcase
+    end
   end
 end
 

@@ -48,7 +48,7 @@ def print_file_list
   cnt = 1
   @file_list = {}
   search_dir = "./data/csv/#{$arg}/"
-  for i in 0..1 do
+  (0..1).each do |i|
     Find.find(search_dir) do |file|
       next unless file =~ /.*\.csv$/
 

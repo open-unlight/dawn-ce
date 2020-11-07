@@ -33,8 +33,8 @@ module Unlight
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-     validates do
-    end
+    validates do
+   end
 
     # DBにテーブルをつくる
     if !(WeeklyQuestRanking.table_exists?)
@@ -47,12 +47,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # 指定したアバターのランキングを取得する
@@ -73,7 +73,7 @@ module Unlight
     end
 
     # ソート済みのランキングを取得する
-    def WeeklyQuestRanking::get_order_ranking(server_type, st_i = 0, end_i= 99)
+    def WeeklyQuestRanking::get_order_ranking(server_type, st_i = 0, end_i = 99)
       ret = cache_store.get("weekly_quest_ranking:all_#{server_type}")
       unless ret
         ret = WeeklyQuestRanking.filter(server_type: server_type).filter { id <= 100 }.all
@@ -228,7 +228,7 @@ module Unlight
     end
 
     # ランキングを文字列で返す（キャッシュつき）
-    def WeeklyQuestRanking::get_ranking_str(server_type, st_i = 0, end_i= 99)
+    def WeeklyQuestRanking::get_ranking_str(server_type, st_i = 0, end_i = 99)
       ret = cache_store.get("weekly_quest_ranking:#{st_i}_#{end_i}_#{server_type}_str")
       unless  ret
         set = WeeklyQuestRanking::get_order_ranking(server_type, st_i, end_i)

@@ -19,10 +19,10 @@ module Unlight
       datetime    :updated_at
     end
 
-     # バリデーションの設定
-     #    include Validation
-     validates do
-     end
+    # バリデーションの設定
+    #    include Validation
+    validates do
+    end
 
     # DBにテーブルをつくる
     if !(Dialogue.table_exists?)
@@ -31,7 +31,7 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理

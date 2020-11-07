@@ -35,8 +35,8 @@ module Unlight
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-     validates do
-    end
+    validates do
+   end
 
     # DBにテーブルをつくる
     if !(CpuCardData.table_exists?)
@@ -45,18 +45,18 @@ module Unlight
 
     # テーブルを変更する（履歴を残せ）
     DB.alter_table :cpu_card_datas do
-     add_column :ai_rank, :integer, default: CPU_AI_OLD unless Unlight::CpuCardData.columns.include?(:ai_rank) # 新規追加 2013/04/01
+      add_column :ai_rank, :integer, default: CPU_AI_OLD unless Unlight::CpuCardData.columns.include?(:ai_rank) # 新規追加 2013/04/01
      add_column :allocation_type, :integer, default: QUEST_ALLOC_TYPE_NONE unless Unlight::CpuCardData.columns.include?(:allocation_type) # 新規追加 2015/2/12
     end
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # アップデート後の後理処
@@ -124,7 +124,7 @@ module Unlight
     # キャラカードのIDをかえす
     def chara_cards_id
       if self.chara_card_id != ""
-        self.chara_card_id.split(/\+/).map! { |s|s.to_i }
+        self.chara_card_id.split(/\+/).map! { |s| s.to_i }
       else
         1001
       end
@@ -146,7 +146,7 @@ module Unlight
       ret = [[], [], []]
       wcs = self.weapon_card_id.split(/\+/)
       wcs.each_index do |i|
-        wcs[i].split(/\//).map! { |s|s.to_i }.each do |c|
+        wcs[i].split(/\//).map! { |s| s.to_i }.each do |c|
           ret[i] << c if c != 0
         end
       end
@@ -158,7 +158,7 @@ module Unlight
       ret = [[], [], []]
       ecs = self.equip_card_id.split(/\+/)
       ecs.each_index do |i|
-        ecs[i].split(/\//).map! { |s|s.to_i }.each do |c|
+        ecs[i].split(/\//).map! { |s| s.to_i }.each do |c|
           ret[i] << c if c != 0
         end
       end
@@ -170,7 +170,7 @@ module Unlight
       ret = [[], [], []]
       ecs = self.event_card_id.split(/\+/)
       ecs.each_index do |i|
-        ecs[i].split(/\//).map! { |s|s.to_i }.each do |c|
+        ecs[i].split(/\//).map! { |s| s.to_i }.each do |c|
           ret[i] << c if c != 0
         end
       end

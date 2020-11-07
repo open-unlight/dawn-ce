@@ -7625,7 +7625,7 @@ module Unlight
   class UseAbyssFeatEvent < EventRule
     dsc        "深淵を使用 威力ボーナスをリセット"
     type       type: :before, obj: "duel", hook: :determine_battle_point_phase
-     func :use_abyss_feat
+    func :use_abyss_feat
     goal       ["self", :use_end?]
   end
 

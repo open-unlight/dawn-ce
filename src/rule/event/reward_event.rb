@@ -55,37 +55,37 @@ module Unlight
   # ===========================
 
   class InitPhase < EventRule
-      dsc        "初期化フェイズ"
-      func       :init
-      event      :finish
+    dsc        "初期化フェイズ"
+    func       :init
+    event      :finish
   end
 
   class CandidateCardsListPhase < EventRule
-      dsc        "報酬のスタート"
-      guard      ["self", :not_win_skip], ["self", :not_reroll?]
-      func       :candidate_cards_list
-      event      :finish
+    dsc        "報酬のスタート"
+    guard      ["self", :not_win_skip], ["self", :not_reroll?]
+    func       :candidate_cards_list
+    event      :finish
   end
 
   class BottomDiceNumPhase < EventRule
     dsc        "基本ダイス数フェイズ"
-      func       :bottom_dice_num
-      event      :finish
+    func       :bottom_dice_num
+    event      :finish
   end
 
   class HighLowPhase < EventRule
-      dsc        "ハイロー待ちフェイズ"
-      func       :high_low
-      event      :finish
-      goal       ["self", :challenged]
-      goal       ["self", :first?]
+    dsc        "ハイロー待ちフェイズ"
+    func       :high_low
+    event      :finish
+    goal       ["self", :challenged]
+    goal       ["self", :first?]
   end
 
   class ExitPhase < EventRule
-      dsc        "カード決定待ちフェイズ"
-      func       :exit
-      event      :finish
-      goal       ["self", :exited?]
+    dsc        "カード決定待ちフェイズ"
+    func       :exit
+    event      :finish
+    goal       ["self", :exited?]
   end
 
   # ===========================

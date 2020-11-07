@@ -128,28 +128,28 @@ module Unlight
     end
   end
 
-class ContextValue < Array
-  attr_accessor :check_list
+  class ContextValue < Array
+    attr_accessor :check_list
 
-  # コンテキストのチェック用文字列リストを更新する
-  def check_list_update()
-    @check_list = ""
-    self.each do |c|
-      a = []
-      c[1..-1].each do |f|
-        s = ""
-        s << f[1].to_s << "::" << f.last.to_s
-          a << s
+    # コンテキストのチェック用文字列リストを更新する
+    def check_list_update()
+      @check_list = ""
+      self.each do |c|
+          a = []
+        c[1..-1].each do |f|
+            s = ""
+          s << f[1].to_s << "::" << f.last.to_s
+            a << s
+          end
+         @check_list << a.join("->")
+         @check_list << "\n"
         end
-       @check_list << a.join("->")
-       @check_list << "\n"
-      end
-     @check_list
- end
+       @check_list
+    end
 
- def to_s
-   check_list_update()
-   @check_list
- end
-end
+    def to_s
+      check_list_update()
+      @check_list
+    end
+  end
 end

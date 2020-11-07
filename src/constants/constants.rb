@@ -449,15 +449,15 @@ end
 
 module Sequel
   def self.string_to_datetime(string)
-      if datetime_class == DateTime
-        DateTime.parse(string, convert_two_digit_years)
-      elsif datetime_class.respond_to?(:relaxed_rfc3339)
-        datetime_class.relaxed_rfc3339(string) || datetime_class.parse(string)
-      else
-        datetime_class.parse(string)
-      end
+    if datetime_class == DateTime
+      DateTime.parse(string, convert_two_digit_years)
+    elsif datetime_class.respond_to?(:relaxed_rfc3339)
+      datetime_class.relaxed_rfc3339(string) || datetime_class.parse(string)
+    else
+      datetime_class.parse(string)
+    end
   rescue => e
-      raise convert_exception_class(e, InvalidValue)
+    raise convert_exception_class(e, InvalidValue)
   end
 end
 
@@ -509,7 +509,7 @@ class OrderHash < Hash
   def reject!(&block)
     del = ""
      @keys.each { |k|
-             del = k if yield(k, self[k])
+       del = k if yield(k, self[k])
      }
     @keys.delete(del)
     super(&block)

@@ -32,9 +32,9 @@ module Unlight
       datetime    :updated_at
     end
 
-     # バリデーションの設定
-     validates do
-     end
+    # バリデーションの設定
+    validates do
+    end
 
     # DBにテーブルをつくる
     if !(CombineWeaponCardInventory.table_exists?)
@@ -43,12 +43,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     def CombineWeaponCardInventory::create_data(base_sap, base_sdp, base_aap, base_adp, sap, sdp, aap, adp, cost, passive_id = "", restriction = "")

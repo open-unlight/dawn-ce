@@ -41,7 +41,7 @@ module Unlight
     end
 
     DB.alter_table :avatar_quest_inventories do
-     add_column :before_avatar_id, :integer, default: 0 unless Unlight::AvatarQuestInventory.columns.include?(:before_avatar_id) # 新規追加2012/01/13
+      add_column :before_avatar_id, :integer, default: 0 unless Unlight::AvatarQuestInventory.columns.include?(:before_avatar_id) # 新規追加2012/01/13
     end
 
     def clear_land(no)
@@ -84,10 +84,10 @@ module Unlight
 
     # キャラクタの回復量をセットする
     def damage_heal(set)
-        if set[0]
-          self.hp0 = self.hp0 - set[0]
-          self.hp0 = 0 if self.hp0 < 0
-        end
+      if set[0]
+        self.hp0 = self.hp0 - set[0]
+        self.hp0 = 0 if self.hp0 < 0
+      end
         if set[1]
           self.hp1 = self.hp1 - set[1]
           self.hp1 = 0 if self.hp1 < 0
@@ -126,7 +126,7 @@ module Unlight
 
     # 発見時間を分単位で進める（目標時間を縮める）
     def shorten_find_time(min)
-        self.find_at = self.find_at - (min * 60)
+      self.find_at = self.find_at - (min * 60)
         self.save_changes
     end
 
@@ -148,12 +148,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
   end
 end

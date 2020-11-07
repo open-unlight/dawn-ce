@@ -68,7 +68,7 @@ module Unlight
                                   match_log.match_stage,
                                   watch_r_duel.pl_damege,
                                   watch_r_duel.foe_damege
-                                  )
+                                 )
             do_determine_session(player_b.id,
                                  a_avatar.name,
                                  b_avatar.name,
@@ -77,7 +77,7 @@ module Unlight
                                  match_log.match_stage,
                                  watch_r_duel.pl_damege.join(","),
                                  watch_r_duel.foe_damege.join(",")
-                                 )
+                                )
             set_duel_handler(0, RULE_1VS1)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, false)
             @duel.three_to_three_duel
@@ -93,7 +93,7 @@ module Unlight
                                   match_log.match_stage,
                                   watch_r_duel.pl_damege,
                                   watch_r_duel.foe_damege
-                                  )
+                                 )
             do_determine_session(player_b.id,
                                  a_avatar.name,
                                  b_avatar.name,
@@ -102,7 +102,7 @@ module Unlight
                                  match_log.match_stage,
                                  watch_r_duel.pl_damege.join(","),
                                  watch_r_duel.foe_damege.join(",")
-                                 )
+                                )
             set_duel_handler(0, RULE_3VS3)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, true)
             @duel.three_to_three_duel
@@ -126,7 +126,7 @@ module Unlight
                                   match_log.match_stage,
                                   watch_r_duel.pl_damege,
                                   watch_r_duel.foe_damege
-                                  )
+                                 )
             do_determine_session(player_b.id,
                                  a_avatar.name,
                                  b_avatar.name,
@@ -135,7 +135,7 @@ module Unlight
                                  match_log.match_stage,
                                  watch_r_duel.pl_damege.join(","),
                                  watch_r_duel.foe_damege.join(",")
-                                 )
+                                )
             set_duel_handler(0, RULE_1VS1)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, false)
             @duel.three_to_three_duel
@@ -152,7 +152,7 @@ module Unlight
                                   match_log.match_stage,
                                   watch_r_duel.pl_damege,
                                   watch_r_duel.foe_damege
-                                  )
+                                 )
             do_determine_session(player_b.id,
                                  a_avatar.name,
                                  b_avatar.name,
@@ -161,7 +161,7 @@ module Unlight
                                  match_log.match_stage,
                                  watch_r_duel.pl_damege.join(","),
                                  watch_r_duel.foe_damege.join(",")
-                                 )
+                                )
             set_duel_handler(0, RULE_3VS3)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, true)
             @duel.three_to_three_duel
@@ -1017,7 +1017,7 @@ module Unlight
     def pl_entrant_buff_on_event_handler(args)
       sc_buff_on_event(args[0][0], args[0][1], args[0][2], args[0][3], args[0][4])
       set_message_str_data(args[1][0], args[1][1], args[1][2]) if duel.entrants[@no].current_chara_card_no == args[0][1]
-     end
+    end
 
     # 状態付加ON時の敵側側ハンドラ
     def foe_entrant_buff_on_event_handler(args)

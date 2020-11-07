@@ -25,9 +25,9 @@ module Unlight
       datetime  :updated_at
     end
 
-     # バリデーションの設定
-     validates do
-     end
+    # バリデーションの設定
+    validates do
+    end
 
     # DBにテーブルをつくる
     if !(CardInventory.table_exists?)
@@ -35,17 +35,17 @@ module Unlight
     end
 
     DB.alter_table :card_inventories do
-     add_column :before_deck_id, :integer, default: 0 unless Unlight::CardInventory.columns.include?(:before_deck_id) # 新規追加2011/07/25
+      add_column :before_deck_id, :integer, default: 0 unless Unlight::CardInventory.columns.include?(:before_deck_id) # 新規追加2011/07/25
     end
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     def delete_from_deck

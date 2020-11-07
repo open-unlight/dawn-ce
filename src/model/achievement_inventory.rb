@@ -39,18 +39,18 @@ module Unlight
       add_column :code, String, default: "" unless Unlight::AchievementInventory.columns.include?(:code) # 新規追加2015/04/13
     end
 
-     # バリデーションの設定
-     validates do
-     end
+    # バリデーションの設定
+    validates do
+    end
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     def restart

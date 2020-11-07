@@ -52,7 +52,7 @@ module Unlight
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
   end
 end

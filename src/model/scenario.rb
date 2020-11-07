@@ -12,6 +12,7 @@ module Unlight
     plugin :caching, CACHE, ignore_exceptions: true
 
     attr_reader :command_set, :jump_set
+
     # スキーマの設定
     set_schema do
       primary_key :id
@@ -28,9 +29,9 @@ module Unlight
     @@script_str_set = []
     @@script_set = []
 
-     # バリデーションの設定
-     validates do
-     end
+    # バリデーションの設定
+    validates do
+    end
 
     # DBにテーブルをつくる
     if !(Scenario.table_exists?)
@@ -39,7 +40,7 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
@@ -159,7 +160,7 @@ module Unlight
     def self::get_scenarios(favorite_chara_id)
       ret = []
       Scenario.filter(chara_id: favorite_chara_id).all do |s|
-          t = Time.now
+        t = Time.now
         if (s.event_start_at == nil) || s.event_start_at < t && s.event_end_at > t
           ret << s if s.count > 0
         end

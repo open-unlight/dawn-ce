@@ -26,9 +26,9 @@ module Unlight
       datetime    :updated_at
     end
 
-     # バリデーションの設定
-     validates do
-     end
+    # バリデーションの設定
+    validates do
+    end
 
     # DBにテーブルをつくる
     if !(QuestLand.table_exists?)
@@ -74,7 +74,7 @@ module Unlight
     def treasure_genre
       ret = self.treasure_no
       if ret > 0
-         t = TreasureData[ret]
+        t = TreasureData[ret]
         if t
           ret = t.treasure_type
         end
@@ -86,7 +86,7 @@ module Unlight
     def treasure_bonus_level
       ret = self.treasure_no
       if ret > 0
-         t = TreasureData[ret]
+        t = TreasureData[ret]
         if t
           ret = t.value
         end
@@ -96,24 +96,24 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
-   def get_data_csv_str
-     ret = ""
-     ret << self.id.to_s << ","
-     ret << '"' << (self.name || "") << '",'
-     ret << (self.monstar_no || 0).to_s << ","
-     ret << (self.treasure_genre || 0).to_s << ","
-     ret << (self.event_no || 0).to_s << ","
-     ret << (self.stage || 0).to_s << ","
-     ret << '"' << (self.caption || "") << '"'
-     ret
-   end
+    def get_data_csv_str
+      ret = ""
+      ret << self.id.to_s << ","
+      ret << '"' << (self.name || "") << '",'
+      ret << (self.monstar_no || 0).to_s << ","
+      ret << (self.treasure_genre || 0).to_s << ","
+      ret << (self.event_no || 0).to_s << ","
+      ret << (self.stage || 0).to_s << ","
+      ret << '"' << (self.caption || "") << '"'
+      ret
+    end
   end
 end
