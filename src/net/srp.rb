@@ -47,7 +47,7 @@ class SRP
   # ストロングセッション鍵を取得（hex)
   def get_strong_key(session_key)
     sha1_hash_hex(session_key)
- end
+  end
 
   # 認証
   def get_matcher(c_p_key, s_p_key, username, salt, strong_key)
@@ -56,7 +56,7 @@ class SRP
 
   # 証明
   def get_cert(c_p_key, matcher, strong_key)
-     sha1_hash_hex(c_p_key + matcher + strong_key)
+    sha1_hash_hex(c_p_key + matcher + strong_key)
   end
 
   def rand_hex
@@ -78,39 +78,39 @@ class SRP
     end
   end
 
-   def srp_compute_u(ahex, bhex)
-     hashin = ''
-     if @proto != :'SPR3'
-       if @proto == :'SPR6'
-         if ((ahex.length & 1) == 0)
-           hashin += ahex
-         else
-           hashin += "0" + ahex
-         end
-       else
-         nlen = 2 * ((@N.to_s(2).length + 7) >> 3)
-         hashin += nzero(nlen - ahex.length) + ahex
-       end
-     end
-     if (@proto == :'SPR3' || @proto == :'SPR6')
-       if((bhex.length & 1) == 0)
-         hashin += bhex
-       else
-         hashin += "0" + bhex
-       end
-     else
-       hashin += nzero(nlen - bhex.length) + bhex
-     end
-    if(@proto == :"SPR3")
-       utmp = sha1_hash_hex(hashin)[0, 8]
-    else
-       utmp = sha1_hash_hex(hashin)
+  def srp_compute_u(ahex, bhex)
+    hashin = ''
+    if @proto != :'SPR3'
+      if @proto == :'SPR6'
+        if ((ahex.length & 1) == 0)
+          hashin += ahex
+        else
+          hashin += "0" + ahex
+        end
+      else
+        nlen = 2 * ((@N.to_s(2).length + 7) >> 3)
+        hashin += nzero(nlen - ahex.length) + ahex
+      end
     end
-    if utmp.hex < @N
-      utmp
+    if (@proto == :'SPR3' || @proto == :'SPR6')
+      if ((bhex.length & 1) == 0)
+        hashin += bhex
+      else
+        hashin += "0" + bhex
+      end
     else
-      utmp.hex % (@N - 1)
+      hashin += nzero(nlen - bhex.length) + bhex
     end
+   if (@proto == :"SPR3")
+     utmp = sha1_hash_hex(hashin)[0, 8]
+   else
+     utmp = sha1_hash_hex(hashin)
+   end
+   if utmp.hex < @N
+     utmp
+   else
+     utmp.hex % (@N - 1)
+   end
   end
 
   def srp_compute_k(n, g)
@@ -121,7 +121,7 @@ class SRP
       3
     else
       nhex = n.to_s(16)
-      if((nhex.length & 1) == 0)
+      if ((nhex.length & 1) == 0)
         hashin += nhex
       else
         hashin += "0" + nhex
@@ -152,13 +152,13 @@ class SRP
   end
 
   # S = (B - kg^x) ^ (a + ux) (mod N)
-  def srp_compute_client_S (bb, x, u, a, k)
+  def srp_compute_client_S(bb, x, u, a, k)
     bx = power_modulo(@g, x, @N)
     btmp = bb + @N * k - bx * k % @N
     power_modulo(btmp, (x * u + a), @N)
   end
 
-  def srp_compute_server_S (aa, v, u, b)
+  def srp_compute_server_S(aa, v, u, b)
     xtmp = power_modulo(v, u, @N)
     ytmp = xtmp * aa % @N
     power_modulo(ytmp, b, @N)
@@ -166,7 +166,7 @@ class SRP
 
   # Calculate ((b**p) % m) assuming that b and m are large integers.
   def power_modulo(b, p, m)
-       z = GMP::Z.new(b)
+    z = GMP::Z.new(b)
        z.powmod(p, m).to_i
   end
 
@@ -202,7 +202,7 @@ class SRP
   # ゼロをn個並べた文字列を返す
   def nzero(n)
     c = ''
-    n.times { |i|c += '0' }
+    n.times { |i| c += '0' }
     c
   end
 

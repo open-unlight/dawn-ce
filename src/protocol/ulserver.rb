@@ -16,6 +16,7 @@ module Unlight
       COMMAND_ERROR_MAX = 3 #
 
       attr_accessor :player, :last_connect
+
       # クラスの初期化
       def self.setup
         @@class_name = self.name[19..-1] # 最後のクラス名だけにしている
@@ -52,7 +53,7 @@ module Unlight
       end
 
       # データの受信
-      def receive_data data
+      def receive_data(data)
         a = data2command(data)
         @command_list += a unless a.empty?
         do_command
@@ -140,7 +141,7 @@ module Unlight
       end
 
       def method_missing(msg, *arg)
-         SERVER_LOG.warn("#{@@class_name}:Command [#{msg}] is Undefined")
+        SERVER_LOG.warn("#{@@class_name}:Command [#{msg}] is Undefined")
       end
 
       # 子クラスが使用する汎用関数

@@ -51,11 +51,11 @@ module Protocol
     end
 
     def self::radder_match_update
-     MatchController::radder_match_update
+      MatchController::radder_match_update
     end
 
     def self::check_boot
-     MatchController::check_boot(server_channel)
+      MatchController::check_boot(server_channel)
     end
 
     # サーバを終了する
@@ -78,7 +78,7 @@ module Protocol
     end
 
     def self::match_channel
-     @@server_channel
+      @@server_channel
     end
 
     def self::update_login_count

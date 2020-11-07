@@ -62,12 +62,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # クリアしたIDをもらって新しいアチーブメントのリストを返す
@@ -76,9 +76,9 @@ module Unlight
       unless ret
         ret = []
         Achievement.all.each { |a|
-        if a.check_expiration && (a.prerequisite == 0 || clear_id == a.prerequisite)
-          ret.push(a)
-        end
+          if a.check_expiration && (a.prerequisite == 0 || clear_id == a.prerequisite)
+            ret.push(a)
+          end
         }
         CACHE.set("achi_new_list#{clear_id}", ret)
       end
@@ -147,9 +147,9 @@ module Unlight
       unless ret
         ret = []
         Achievement.all.each { |a|
-        if a.set_end_type != "0"
-          ret.push(a)
-        end
+          if a.set_end_type != "0"
+            ret.push(a)
+          end
         }
         CACHE.set("achi_end_at_list", ret)
       end
@@ -219,10 +219,10 @@ module Unlight
       type, val = self.set_end_type.split(":")
       case type.to_i
         when ACHIEVEMENT_END_AT_TYPE_DAY
-        d_time = DateTime.new(now.year, now.month, now.day) + val.to_i
+          d_time = DateTime.new(now.year, now.month, now.day) + val.to_i
         ret = Time.gm(d_time.year, d_time.month, d_time.day) + LOGIN_BONUS_OFFSET_TIME
         when ACHIEVEMENT_END_AT_TYPE_HOUR
-        ret = now + val.to_i * 60
+          ret = now + val.to_i * 60
         when ACHIEVEMENT_END_AT_TYPE_NONE
       end
       ret

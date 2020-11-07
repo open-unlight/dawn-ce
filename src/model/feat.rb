@@ -39,15 +39,15 @@ module Unlight
                  [/(\[([SAEDM]+)\])([1-9])[+]/, 'owner.greater_check_type_set(__FEAT__,"\2",\3)', '\1\3+', "greater_card_set,\\1,\\3"],
 
                  # 近距離攻撃で以上
-                 [/S([1-9])[-]/, 'owner.below_check(__FEAT__,ActionCard::SWD,\1)', '近\1-', "below_card,#{ActionCard::SWD},\\1"],
+                 [/S([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::SWD,\1)', '近\1-', "below_card,#{ActionCard::SWD},\\1"],
                  # 遠距離攻撃で以上
-                 [/A([1-9])[-]/, 'owner.below_check(__FEAT__,ActionCard::ARW,\1)', '遠\1-', "below_card,#{ActionCard::ARW},\\1"],
+                 [/A([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::ARW,\1)', '遠\1-', "below_card,#{ActionCard::ARW},\\1"],
                  # 特殊で以上
-                 [/E([1-9])[-]/, 'owner.below_check(__FEAT__,ActionCard::SPC,\1)', '特\1-', "below_card,#{ActionCard::SPC},\\1"],
+                 [/E([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::SPC,\1)', '特\1-', "below_card,#{ActionCard::SPC},\\1"],
                  # 防御で以上
-                 [/D([1-9])[-]/, 'owner.below_check(__FEAT__,ActionCard::DEF,\1)', '防\1-', "below_card,#{ActionCard::DEF},\\1"],
+                 [/D([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::DEF,\1)', '防\1-', "below_card,#{ActionCard::DEF},\\1"],
                  # 移動で以上
-                 [/M([1-9])[-]/, 'owner.below_check(__FEAT__,ActionCard::MOVE,\1)', '移\1-', "below_card,#{ActionCard::MOVE},\\1"],
+                 [/M([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::MOVE,\1)', '移\1-', "below_card,#{ActionCard::MOVE},\\1"],
 
                  # 近距離攻撃で特定
                  [/S([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::SWD,\1)', '近\1', "search_card,#{ActionCard::SWD},\\1"],
@@ -78,15 +78,15 @@ module Unlight
                  [/W[*]([1-9])/, 'owner.table_count >= \1', '無1+ *\1', "wild_card,\\1"],
 
                  # 近距離攻撃で０
-                 [/S([0])/, '!(owner.greater_check(__FEAT__,ActionCard::SWD,1))', '近0', ""],
+                 [/S(0)/, '!(owner.greater_check(__FEAT__,ActionCard::SWD,1))', '近0', ""],
                  # 遠距離攻撃で０
-                 [/A([0])/, '!(owner.greater_check(__FEAT__,ActionCard::ARW,1))', '遠0', ""],
+                 [/A(0)/, '!(owner.greater_check(__FEAT__,ActionCard::ARW,1))', '遠0', ""],
                  # 特殊で０
-                 [/E([0])/, '!(owner.greater_check(__FEAT__,ActionCard::SPC,1))', '特0', ""],
+                 [/E(0)/, '!(owner.greater_check(__FEAT__,ActionCard::SPC,1))', '特0', ""],
                  # 防御で０
-                 [/D([0])/, '!(owner.greater_check(__FEAT__,ActionCard::DEF,1))', '防0', ""],
+                 [/D(0)/, '!(owner.greater_check(__FEAT__,ActionCard::DEF,1))', '防0', ""],
                  # 移動で０
-                 [/M([0])/, '!(owner.greater_check(__FEAT__,ActionCard::MOVE,1))', '移0', ""],
+                 [/M(0)/, '!(owner.greater_check(__FEAT__,ActionCard::MOVE,1))', '移0', ""],
 
                 ]
 

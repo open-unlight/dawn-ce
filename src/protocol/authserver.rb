@@ -192,14 +192,14 @@ module Unlight
       def unbind
         # 例外をrescueしないのAbortするので注意
         begin
-           if @player
-             @player.auth_off
-             @player.logout
-             delete_connection
-             SERVER_LOG.info("#{@@class_name}: [online num] #{@@online_list.size}")
-           end
+          if @player
+            @player.auth_off
+            @player.logout
+            delete_connection
+            SERVER_LOG.info("#{@@class_name}: [online num] #{@@online_list.size}")
+          end
         rescue => e
-            puts e.message
+          puts e.message
         end
        SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")
       end

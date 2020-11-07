@@ -40,12 +40,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # ダメージ取得済みチェックIDキャッシュ保存時間(2時間)
@@ -90,10 +90,10 @@ module Unlight
     # 総ダメージを取得
     def ProfoundLog::get_all_damage(prf_id)
       dmg = ProfoundLog.filter([profound_id: prf_id])
-        .select_append { sum(damage).as(sum_damage) }
-        .filter { avatar_id > 0 }.all.first
+                       .select_append { sum(damage).as(sum_damage) }
+                       .filter { avatar_id > 0 }.all.first
       heal = ProfoundLog.filter([profound_id: prf_id, avatar_id: 0])
-        .select_append { sum(damage).as(sum_damage) }.all.first
+                        .select_append { sum(damage).as(sum_damage) }.all.first
       add_dmg = (dmg && dmg[:sum_damage]) ? dmg[:sum_damage] : 0
       add_heal = (heal && heal[:sum_damage]) ? heal[:sum_damage] : 0
       add_dmg - add_heal
@@ -138,12 +138,12 @@ module Unlight
       ret = CACHE.get("prf_log_chara_ranking_#{prf_id}")
       unless ret
         ret = ProfoundLog.filter([profound_id: prf_id])
-        .filter { avatar_id > 0 }
-        .select_group(:atk_charactor)
-        .select_append { sum(damage).as(sum_damage) }
-        .order(Sequel.desc(:sum_damage))
-        .limit(rank_limit)
-        .all
+                         .filter { avatar_id > 0 }
+                         .select_group(:atk_charactor)
+                         .select_append { sum(damage).as(sum_damage) }
+                         .order(Sequel.desc(:sum_damage))
+                         .limit(rank_limit)
+                         .all
         CACHE.set("prf_log_chara_ranking_#{prf_id}", ret, NOW_DMG_CHECKED_LAST_ID_CACHE_TIME)
       end
       ret

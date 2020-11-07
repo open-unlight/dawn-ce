@@ -38,7 +38,7 @@ module Unlight
     # カムバック依頼をする
     def ComebackLog::comeback(pid, uid)
       if check_already_exist?(pid, uid)
-          ret = false
+        ret = false
       else
         f_l = ComebackLog.new do |f|
           f.send_player_id = pid
@@ -76,12 +76,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
   end
 end

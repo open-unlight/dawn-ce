@@ -51,12 +51,12 @@ module Unlight
 
     #時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     def QuestClearLog::create_log(a_id, q_iv, f_p, r, server_type, floor_count = 0) # By_K2 (무한의탑인 경우 층수 기록)

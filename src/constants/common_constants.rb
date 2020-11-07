@@ -764,9 +764,9 @@ module Unlight
 
   # ランダムセール時間
   RANDOM_SALE_TIME  = 60 * 60 * 2 # ２時間
-   #  RANDOM_SALE_TIME  = 60*3  #3分
-   # ランダムセール発生確率 (1/14)
-   RANDOM_SALE_PROBABILITY = 14
+  #  RANDOM_SALE_TIME  = 60*3  #3分
+  # ランダムセール発生確率 (1/14)
+  RANDOM_SALE_PROBABILITY = 14
   # 1日セール時間
   ONE_DAY_SALE_TIME = 60 * 60 * 24 # 1日
 
