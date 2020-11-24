@@ -101,7 +101,7 @@ module Unlight
             ics.serial = set_serial
             ics.player_id = player_id
             ics.server_type = server_type
-            ics.save
+            ics.save_changes
           end
         end
       end

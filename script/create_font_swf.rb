@@ -85,9 +85,9 @@ File.open("./data/backup/string_constants.txt") do |file|
       if skip || bracket_skip > 0
         if line.force_encoding('UTF-8') =~ end_reg
           skip = false
-        elsif bracket_check && line.force_encoding('UTF-8') =~ /\{/
+        elsif bracket_check && line.force_encoding('UTF-8').include?('{')
           bracket_skip = +1
-        elsif line.force_encoding('UTF-8') =~ /\}/ && bracket_skip > 0
+        elsif line.force_encoding('UTF-8').include?('}') && bracket_skip > 0
           bracket_skip = -1
         end
         bracket_check = false

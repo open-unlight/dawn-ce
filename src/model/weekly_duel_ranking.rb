@@ -146,7 +146,7 @@ module Unlight
             w.point = ranking[i][1]
             w.arrow = create_arrow(before_rank_id_set, w.avatar_id, i)
             w.server_type = server_type
-            w.save
+            w.save_changes
           else
             WeeklyDuelRanking.new do |w|
               w.avatar_id = ranking[i][0]
@@ -154,7 +154,7 @@ module Unlight
               w.point = ranking[i][1]
               w.arrow = create_arrow(before_rank_id_set, w.avatar_id, i)
               w.server_type = server_type
-              w.save
+              w.save_changes
             end
           end
         else
@@ -164,7 +164,7 @@ module Unlight
             w.name = ""
             w.point = 0
             w.arrow = 0
-            w.save
+            w.save_changes
           else
             WeeklyDuelRanking.new do |w|
               w.avatar_id = 0
@@ -172,7 +172,7 @@ module Unlight
               w.point = 0
               w.arrow = 0
               w.server_type = server_type
-              w.save
+              w.save_changes
             end
           end
 
@@ -188,13 +188,13 @@ module Unlight
             w.avatar_id = ranking[i + 100][0]
             w.point = ranking[i + 100][1]
             w.server_type = server_type
-            w.save
+            w.save_changes
           else
             WeeklyDuelRanking.new do |w|
               w.avatar_id = ranking[i + 100][0]
               w.point = ranking[i + 100][1]
               w.server_type = server_type
-              w.save
+              w.save_changes
             end
           end
           sleep RANK_OUT_SLEEP

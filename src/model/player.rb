@@ -126,7 +126,7 @@ module Unlight
           ret = Player.create(name: "CPU", role: ROLE_CPU, email: "auto_create_mska@be.to", salt: "6600342d86408afb5b82")
           # CPU用のアバターを作る
           Avatar.regist("CPU", ret.id, [], [], ret.server_type)
-          ret.save
+          ret.save_changes
         end
         CACHE.set("cpu_player", ret)
       end
@@ -143,7 +143,7 @@ module Unlight
           ret = Player.create(name: "prf_owner", role: ROLE_ADMIN, email: "auto_create_mska@be.to", salt: "6600342d86408afb5b82")
           # CPU用のアバターを作る
           Avatar.regist("prf_owner", ret.id, [1], [1], ret.server_type)
-          ret.save
+          ret.save_changes
         end
         CACHE.set("prf_owner", ret)
       end

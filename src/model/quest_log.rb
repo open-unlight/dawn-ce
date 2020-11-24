@@ -89,7 +89,7 @@ module Unlight
         d.type_id = t_id
         d.name = n
         d.body = b
-        d.save
+        d.save_changes
         ret = d.id
       end
       ret

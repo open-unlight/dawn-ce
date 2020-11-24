@@ -77,7 +77,7 @@ module Unlight
         AvatarNotice.new do |d|
           d.avatar_id = a_id
           d.body = "#{b}".force_encoding("UTF-8")
-          d.save
+          d.save_changes
         end
       end
     end

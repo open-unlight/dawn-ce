@@ -51,7 +51,7 @@ module Unlight
         pc.avatar_id   = a_id
         pc.name        = a_name
         pc.comment     = comment.force_encoding("UTF-8")
-        pc.save
+        pc.save_changes
       end
       cache_key = "prf_comment_#{prf_id}"
       list = CACHE.get(cache_key)

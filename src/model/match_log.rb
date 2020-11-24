@@ -97,7 +97,7 @@ module Unlight
         d.get_bp = get_bp
         d.channel_set_rule = channel_rule
         d.server_type = server_type
-        d.save
+        d.save_changes
         d.set_cache(uid)
       end
     end

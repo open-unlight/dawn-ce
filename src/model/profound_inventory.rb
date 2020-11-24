@@ -70,7 +70,7 @@ module Unlight
         i.found = owner
         i.state = set_state
         i.score = start_score # 参加時のスコア加算
-        i.save
+        i.save_changes
       end
       ret
     end

@@ -109,7 +109,7 @@ module Unlight
         CharaCardDeck.new do |d|
           d.name = "Binder"
           d.avatar_id = self.id
-          d.save
+          d.save_changes
         end
       end
     end
@@ -192,19 +192,19 @@ module Unlight
         deck = CharaCardDeck.new do |d|
           d.name = "Deck 1"
           d.avatar_id = avatar.id
-          d.save
+          d.save_changes
         end
 
         CharaCardDeck.new do |d|
           d.name = "Deck 2"
           d.avatar_id = avatar.id
-          d.save
+          d.save_changes
         end
 
        CharaCardDeck.new do |d|
           d.name = "Deck 3"
           d.avatar_id = avatar.id
-          d.save
+          d.save_changes
         end
 
         # カードインベントリを作成
@@ -212,7 +212,7 @@ module Unlight
           i.chara_card_deck_id = deck.id
           i.chara_card_id = cards[0]
           i.position = 0
-          i.save
+          i.save_changes
         end
 
         # パーツインベントリを作成して装備する
@@ -239,7 +239,7 @@ module Unlight
             i.card_position = idx
             i.kind = SCT_EVENT
             i.card_id = REGIST_EVENT_CARDS[idx]
-            i.save
+            i.save_changes
           end
         end
 
@@ -466,7 +466,7 @@ module Unlight
         CardInventory.new do |c|
           c.chara_card_deck_id = binder.id
           c.chara_card_id = id
-          c.save
+          c.save_changes
           inv_id = c.id
         end
         # 取得したカードに関係しているもののみ、更新チェック 2013/01/18 yamagishi
@@ -1737,7 +1737,7 @@ module Unlight
         inv = PartInventory.new do |i|
             i.avatar_id = self.id
             i.avatar_part_id = part_id
-            i.save
+            i.save_changes
           end
         @event.part_get_event(inv.id, part_id) if @event
         ret = true
@@ -1767,7 +1767,7 @@ module Unlight
           i.avatar_item_id = AvatarItem[item_id].id
           i.state = ITEM_STATE_NOT_USE
           i.server_type = self.server_type
-          i.save
+          i.save_changes
         end
         @event.item_get_event(inv.id, item_id) if @event
         ret = true
@@ -1809,7 +1809,7 @@ module Unlight
           i.card_position = 0
           i.kind = sct_type # サーバー側はtyoe0から開始なので
           i.card_id = card_id
-          i.save
+          i.save_changes
         end
 
         @event.slot_card_get_event(inv.id, inv.kind, card_id) if @event
@@ -1833,7 +1833,7 @@ module Unlight
           i.chara_card_deck_id = binder.id
           i.chara_card_id = card_id
           i.position = 0
-          i.save
+          i.save_changes
         end
         # 取得したカードに関係しているもののみ、更新チェック
         achievement_check(Achievement::get_card_check_achievement_ids([card_id]), { is_update: true, list: [card_id] })
@@ -2831,14 +2831,14 @@ module Unlight
           i.avatar_id = self.id
           i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num, 0, is_cleared_map)
           i.status = QS_NEW
-          i.save
+          i.save_changes
         end
         unless inv
           inv = AvatarQuestInventory.new do |i|
             i.avatar_id = self.id
             i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num, 0, is_cleared_map)
             i.status = QS_NEW
-            i.save
+            i.save_changes
           end
         end
         energy_use(QuestMap[quest_map_id].ap)
@@ -2851,7 +2851,7 @@ module Unlight
           i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num, timer, is_cleared_map)
           i.set_find_time(timer, f_pow)
           i.status = QS_PENDING
-          i.save
+          i.save_changes
         end
         # 気持ち悪いがなぜかとれない時があるので。ループにしないのは怖いから
         unless inv
@@ -2860,7 +2860,7 @@ module Unlight
             i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num, timer, is_cleared_map)
             i.set_find_time(timer, f_pow)
             i.status = QS_PENDING
-            i.save
+            i.save_changes
           end
         end
         @event.quest_get_event(inv.id, 0, timer, f_pow, QS_NEW, QUEST_PRESENT_AVATAR_NAME_NIL) if @event
@@ -2880,7 +2880,7 @@ module Unlight
           i.avatar_id = self.id
           i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num)
           i.status = QS_NEW
-          i.save
+          i.save_changes
         end
         @event.quest_get_event(inv.id, inv.quest_id, 0) if @event
       else
@@ -2891,7 +2891,7 @@ module Unlight
           i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num, timer)
           i.set_find_time(timer, f_pow)
           i.status = QS_PENDING
-          i.save
+          i.save_changes
         end
         @event.quest_get_event(inv.id, 0, timer, f_pow, QS_NEW, QUEST_PRESENT_AVATAR_NAME_NIL) if @event
       end
@@ -2940,7 +2940,7 @@ module Unlight
             i.avatar_id = self.id
             i.quest_id = boss_quest_id
             i.status = QS_NEW
-            i.save
+            i.save_changes
           end
           @event.quest_get_event(inv.id, inv.quest_id, 0) if @event
         end
@@ -4807,7 +4807,7 @@ module Unlight
       # 特別なアイテムを装備していたときに別のクエストを差し替える 2014クリスマスイベント
       if self.setted_parts_id_list.include?(QEV_XMAS_PART_ID) && ai.quest.rarity >= QEV_RARITY
         ai.quest_id = QuestMap[QM_EV_XMAS2014_LAND].get_quest_id
-        ai.save
+        ai.save_changes
       end
 
       # イベントクエストプレゼント用チェック

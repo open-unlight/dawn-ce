@@ -86,7 +86,7 @@ module Unlight
           pr.copy_type = PRF_COPY_TYPE_OWNER
           pr.found_avatar_id = found_avatar_id
           pr.server_type = server_type
-          pr.save
+          pr.save_changes
           # 状態異常を作成
           pr.set_boss_buff()
         end
@@ -109,7 +109,7 @@ module Unlight
           pr.copy_type = PRF_COPY_TYPE_OWNER
           pr.found_avatar_id = found_avatar_id
           pr.server_type = server_type
-          pr.save
+          pr.save_changes
           # 状態異常を作成
           pr.set_boss_buff()
         end

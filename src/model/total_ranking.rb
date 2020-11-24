@@ -117,12 +117,12 @@ module Unlight
         r.name = a_name
         r.point = a_point
         r.server_type = server_type
-        r.save
+        r.save_changes
         all_cache_delete(server_type)
       elsif r # すでにあるものがランキング外に落ちるときはポイントをいれるだけ
         r.point = a_point
         r.server_type = server_type
-        r.save
+        r.save_changes
         all_cache_delete(server_type)
       end
       ranking_data.get_ranking(a_id, server_type, a_point)

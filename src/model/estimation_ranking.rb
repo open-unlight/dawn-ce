@@ -68,7 +68,7 @@ module Unlight
             EstimationRanking.new do |e|
               e.rank_type = RANK_TYPE_TD
               e.server_type = server_type
-              e.save
+              e.save_changes
             end
           end
           cnt += 1
@@ -79,7 +79,7 @@ module Unlight
             EstimationRanking.new do |e|
               e.rank_type = RANK_TYPE_TQ
               e.server_type = server_type
-              e.save
+              e.save_changes
             end
           end
           cnt += 1
@@ -90,7 +90,7 @@ module Unlight
             EstimationRanking.new do |e|
               e.rank_type = RANK_TYPE_TE
               e.server_type = server_type
-              e.save
+              e.save_changes
             end
           end
           cnt += 1

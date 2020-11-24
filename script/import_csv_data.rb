@@ -79,7 +79,7 @@ end
 def csv_import(dir, local)
   Find.find('./data/csv') do |f|
     next if File.directory?(f)
-    next if f =~ /svn/
+    next if f.include?('svn')
     next unless f =~ /\/#{dir}\//;
 
     m = f.match(/([^\/]+)\.csv/)[1].singularize

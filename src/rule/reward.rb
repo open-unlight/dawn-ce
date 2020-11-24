@@ -234,7 +234,7 @@ module Unlight
               CardInventory.new do |c|
                 c.chara_card_deck_id = @avatar.binder.id
                 c.chara_card_id = cc[1]
-                c.save
+                c.save_changes
                 inv_id << c.id
               end
               add_cards.push(cc[1])

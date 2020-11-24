@@ -4,7 +4,7 @@ require 'factory_bot'
 
 FactoryBot.define do
   # For Sequel
-  to_create { |instance| instance.save }
+  to_create { |instance| instance.save_changes }
 end
 
 RSpec.configure do |config|
