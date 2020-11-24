@@ -125,7 +125,7 @@ module Unlight
           f.relating_player_id = p_a
           f.related_player_id = p_b
           f.server_type = server_type
-          f.save
+          f.save_changes
         end
         CACHE.delete("friend_link_get:#{p_a}")
         CACHE.delete("friend_link_get:#{p_b}")
@@ -155,7 +155,7 @@ module Unlight
         f.related_player_id = p_b
         f.friend_type = TYPE_BLOCK
         f.server_type = server_type
-        f.save
+        f.save_changes
       end
       CACHE.delete("friend_link_get:#{p_a}")
       CACHE.delete("friend_link_get:#{p_b}")

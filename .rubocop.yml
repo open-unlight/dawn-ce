@@ -4,11 +4,13 @@ require:
   - rubocop-performance
   - rubocop-rspec
   - rubocop-thread_safety
+  - rubocop-sequel
 
 AllCops:
   # The Ruby 2.7 changes may breaks UL server
   TargetRubyVersion: 2.6.6
   DisplayCopNames: true
+  NewCops: enable
 
 Layout/LineLength:
   Exclude:

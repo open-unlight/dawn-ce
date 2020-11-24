@@ -67,7 +67,7 @@ module Unlight
         r.email = email
         r.player_id = player_id
         r.limit_at = Time.now.utc + NEXT_LIMIT_TIME
-        r.save
+        r.save_changes
       end
       rreq
     end

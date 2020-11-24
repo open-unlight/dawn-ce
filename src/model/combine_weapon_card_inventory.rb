@@ -65,7 +65,7 @@ module Unlight
         d.card_cost = cost
         d.passive_id = passive_id
         d.restriction = restriction
-        d.save
+        d.save_changes
       end
       SERVER_LOG.info("CombineWeaponCardInventory: [#{__method__}] create id:#{ret.id}")
       ret

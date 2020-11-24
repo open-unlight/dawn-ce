@@ -63,7 +63,7 @@ module Unlight
             c.chara_card_deck_id = deck_id
             c.chara_card_id = CpuCardData[no].chara_cards_id[i]
             c.position = i
-            c.save
+            c.save_changes
           end
         end
       end
@@ -78,7 +78,7 @@ module Unlight
             c.chara_card_deck_id = deck_id
             c.chara_card_id = CpuCardData[no].chara_cards_id[i]
             c.position = i
-            c.save
+            c.save_changes
           end
         end
       end

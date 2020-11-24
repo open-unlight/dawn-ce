@@ -61,7 +61,7 @@ module Unlight
         pl.boss_name     = b_name
         pl.damage        = dmg
         pl.atk_charactor = atk_chara
-        pl.save
+        pl.save_changes
       end
       CACHE.set("prf_log_nowdmg_#{a_id}_#{prf_id}", ret.id, NOW_DMG_CHECKED_LAST_ID_CACHE_TIME)
       CACHE.delete("prf_log_chara_ranking_#{prf_id}") # キャラランキングのキャッシュを消す

@@ -265,7 +265,7 @@ module Unlight
         end
         unless ret
           ret = CharaCardDeck.create(name: "Monster: #{ccd.id}", avatar_id: Unlight::Player.get_cpu_player.current_avatar.id)
-          ret.save
+          ret.save_changes
           CardInventory.create_cpu_card(ccd.id, ret.id)
           CharaCardSlotInventory.create_cpu_card(ccd.id, ret.id)
         end

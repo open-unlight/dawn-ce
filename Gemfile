@@ -25,6 +25,7 @@ group :development, :test do
   gem 'rubocop', '~> 1.0.0', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rspec', require: false
+  gem 'rubocop-sequel', require: false
   gem 'rubocop-thread_safety', require: false
 
   gem 'bundler-audit', require: false

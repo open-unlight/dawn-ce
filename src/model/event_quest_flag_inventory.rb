@@ -41,7 +41,7 @@ module Unlight
         d.avatar_id = avatar_id
         d.event_id = event_id
         d.quest_flag = map_start
-        d.save
+        d.save_changes
       end
       inv
     end

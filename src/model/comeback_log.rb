@@ -43,7 +43,7 @@ module Unlight
         f_l = ComebackLog.new do |f|
           f.send_player_id = pid
           f.comebacked_player_id = uid
-          f.save
+          f.save_changes
         end
         ret = f_l
       end
