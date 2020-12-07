@@ -10,6 +10,10 @@ gem 'eventmachine'
 gem 'mysql2', '~> 0.5.2'
 gem 'sequel', '~> 4.0'
 
+# API Server
+gem 'puma'
+gem 'rack'
+
 # Utils
 gem 'dalli'
 gem 'gmp'

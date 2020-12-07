@@ -76,6 +76,7 @@ GEM
     minitest (5.14.2)
     multi_test (0.1.2)
     mysql2 (0.5.3)
+    nio4r (2.5.4)
     overcommit (0.57.0)
       childprocess (>= 0.6.3, < 5)
       iniparse (~> 1.4)
@@ -89,6 +90,9 @@ GEM
       middleware
       thor
       thread_safe
+    puma (5.0.4)
+      nio4r (~> 2.0)
+    rack (2.2.3)
     rainbow (3.0.0)
     rake (13.0.1)
     regexp_parser (2.0.0)
@@ -169,6 +173,8 @@ DEPENDENCIES
   gmp
   mysql2 (~> 0.5.2)
   overcommit
+  puma
+  rack
   rake
   rspec
   rspec_junit_formatter
