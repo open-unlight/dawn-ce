@@ -23,7 +23,7 @@ def ensure_connection
     sleep 1
     retry
   end
-rescue Timeout::TimeoutError
+rescue Timeout::Error
   puts 'Unable connect to database'
   exit 1
 end
