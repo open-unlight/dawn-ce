@@ -32,4 +32,10 @@ services:
     command: authentication -p 12001
     ports:
       - '12001:12001'
+  game:
+    <<: *image
+    hostname: auth.lvh.me
+    command: game -p 12008
+    ports:
+      - '12008:12008'
   # TODO: Add servers
