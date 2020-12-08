@@ -46,6 +46,13 @@ module Dawn
       @model ||= Kernel.const_get("Unlight::#{model_name}")
     end
 
+    # @return [Hash] table schema
+    #
+    # @since 0.1.0
+    def schema
+      @schema ||= Unlight::DB.schema(model.table_name).to_h
+    end
+
     # Import data to database
     #
     # @param block [Proc] the block post process imported rows
@@ -83,6 +90,8 @@ module Dawn
       row
         .yield_self(&method(:localize_column))
         .yield_self(&method(:format_datetime))
+        .yield_self(&method(:set_updated_time))
+        .yield_self(&method(:fill_empty_data))
     end
 
     # Pick current locale column
@@ -117,6 +126,34 @@ module Dawn
         next [key, value] unless key.end_with?('_at')
 
         [key, DateTime.parse(value)]
+      end.to_h
+    end
+
+    # Set Update At column
+    #
+    # @param data [Hash] the data to update
+    #
+    # @return [Hash] the updated data
+    #
+    # @since 0.1.0
+    def set_updated_time(row)
+      row['updated_at'] = Time.now
+      row
+    end
+
+    # Fill empty data
+    #
+    # @param data [Hash] the data to update
+    #
+    # @return [Hash] the updated data
+    #
+    # @since 0.1.0
+    def fill_empty_data(row)
+      row.map do |key, value|
+        next [key, value] if key.end_with?('_at')
+        next [key, ''] if schema[key.to_sym][:type] == :string && value.nil?
+
+        [key, value]
       end.to_h
     end
   end
