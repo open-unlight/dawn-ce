@@ -18,7 +18,7 @@ module Protocol
       super
       # コマンドクラスをつくる
       @@receive_cmd = Command.new(self, :Quest)
-      CharaCardDeck::initialize_CPU_deck
+      CharaCardDeck::preload_CPU_deck
     end
 
     # 切断時
