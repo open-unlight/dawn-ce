@@ -248,7 +248,6 @@ module Unlight
     end
 
     def CharaCardDeck::initialize_CPU_deck
-      @@CPU_DECK = []
       # 登録されているCPUデータを全部なめる
       CpuCardData.all.each do |ccd|
         # データのデッキがあるか確認する
@@ -269,7 +268,20 @@ module Unlight
           CardInventory.create_cpu_card(ccd.id, ret.id)
           CharaCardSlotInventory.create_cpu_card(ccd.id, ret.id)
         end
-        @@CPU_DECK[ccd.id] = ret
+      end
+    end
+
+    def CharaCardDeck::preload_CPU_deck
+      @@CPU_DECK = []
+      # 登録されているCPUデータを全部なめる
+      CpuCardData.all.each do |ccd|
+        # データのデッキがあるか確認する
+        decks = CharaCardDeck.filter({ avatar_id: Unlight::Player.get_cpu_player.current_avatar.id, name: "Monster: #{ccd.id}" }).all
+        # デッキが存在した
+        if decks
+          # CPUDATAと同じか？
+          @@CPU_DECK[ccd.id] = decks.first if check_CPU_deck(decks.first, ccd)
+        end
       end
     end
 
