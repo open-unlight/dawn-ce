@@ -18,7 +18,7 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer     :avatar_id, index: true #, :table => :avatars
+      integer     :avatar_id, index: true, unique: true #, :table => :avatars
       String      :body, text: true, default: ""
       datetime    :created_at
       datetime    :updated_at
