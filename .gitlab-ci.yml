@@ -206,8 +206,5 @@ build:
     - /^release\/.*$/
     - master
     - tags
-  needs:
-    - hadolint
-    - rspec
   except:
     - schedules
