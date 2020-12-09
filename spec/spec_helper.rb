@@ -3,7 +3,10 @@
 require 'bundler/setup'
 require 'super_diff/rspec'
 require 'simplecov'
+require 'simplecov-cobertura'
 require 'faker'
+
+SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter if ENV.fetch('GITLAB_CI', false)
 
 SimpleCov.start do
   load_profile "test_frameworks"

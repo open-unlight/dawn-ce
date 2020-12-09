@@ -110,6 +110,7 @@ rspec:
       - coverage
     reports:
       junit: rspec.xml
+      cobertura: coverage/coverage.xml
   needs:
     - rubocop
 

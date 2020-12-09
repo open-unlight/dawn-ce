@@ -51,6 +51,7 @@ group :test do
   gem 'factory_bot', require: false
   gem 'faker', require: false
   gem 'simplecov', '~> 0.17.1', require: false
+  gem 'simplecov-cobertura', require: false
 
   gem 'super_diff', require: false
 end
