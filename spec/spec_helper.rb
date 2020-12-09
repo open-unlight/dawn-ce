@@ -6,8 +6,6 @@ require 'simplecov'
 require 'simplecov-cobertura'
 require 'faker'
 
-SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter if ENV.fetch('GITLAB_CI', false)
-
 SimpleCov.start do
   load_profile "test_frameworks"
 
@@ -24,6 +22,14 @@ SimpleCov.start do
   add_group "Commands", "src/protocol/command"
   add_group "Rules", "src/rule"
   add_group "Libraries", "lib/"
+
+  if ENV.fetch('GITLAB_CI', false)
+    formatter SimpleCov::Formatter::MultiFormatter.new([
+      SimpleCov::Formatter::SimpleFormatter,
+      SimpleCov::Formatter::CoberturaFormatter,
+      SimpleCov::Formatter::HTMLFormatter
+    ])
+  end
 end
 
 require_relative '../src/unlight'
