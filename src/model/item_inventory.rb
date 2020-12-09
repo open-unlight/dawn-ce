@@ -26,9 +26,9 @@ module Unlight
       datetime    :updated_at
     end
 
-     # バリデーションの設定
-     validates do
-     end
+    # バリデーションの設定
+    validates do
+    end
 
     # DBにテーブルをつくる
     if !(ItemInventory.table_exists?)
@@ -42,12 +42,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # アイテム使用時の処理

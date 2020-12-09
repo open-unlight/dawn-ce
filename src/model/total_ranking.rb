@@ -30,7 +30,7 @@ module Unlight
     end
 
     # ソート済みのランキングを取得する
-    def get_order_ranking(server_type = SERVER_SB, st_i = 0, end_i= 99, cache = true)
+    def get_order_ranking(server_type = SERVER_SB, st_i = 0, end_i = 99, cache = true)
       ret = nil
       ret = CACHE.get("#{@ranking_all}_#{server_type}")
       unless ret
@@ -117,12 +117,12 @@ module Unlight
         r.name = a_name
         r.point = a_point
         r.server_type = server_type
-        r.save
+        r.save_changes
         all_cache_delete(server_type)
       elsif r # すでにあるものがランキング外に落ちるときはポイントをいれるだけ
         r.point = a_point
         r.server_type = server_type
-        r.save
+        r.save_changes
         all_cache_delete(server_type)
       end
       ranking_data.get_ranking(a_id, server_type, a_point)
@@ -151,7 +151,7 @@ module Unlight
     end
 
     # ランキングを文字列で返す（キャッシュつき）
-    def get_ranking_str(server_type=SERVER_SB, st_i = 0, end_i= 99, cache = true)
+    def get_ranking_str(server_type = SERVER_SB, st_i = 0, end_i = 99, cache = true)
       ret = nil
       if cache
         ret = CACHE.get("total_#{data_type}_ranking:#{st_i}_#{end_i}_#{server_type}_str")

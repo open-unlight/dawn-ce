@@ -36,8 +36,8 @@ module Unlight
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-     validates do
-    end
+    validates do
+   end
     # DBにテーブルをつくる
     if !(EstimationRanking.table_exists?)
       EstimationRanking.create_table
@@ -49,12 +49,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     BASE_RANKING_NUM = 100
@@ -68,7 +68,7 @@ module Unlight
             EstimationRanking.new do |e|
               e.rank_type = RANK_TYPE_TD
               e.server_type = server_type
-              e.save
+              e.save_changes
             end
           end
           cnt += 1
@@ -79,7 +79,7 @@ module Unlight
             EstimationRanking.new do |e|
               e.rank_type = RANK_TYPE_TQ
               e.server_type = server_type
-              e.save
+              e.save_changes
             end
           end
           cnt += 1
@@ -90,7 +90,7 @@ module Unlight
             EstimationRanking.new do |e|
               e.rank_type = RANK_TYPE_TE
               e.server_type = server_type
-              e.save
+              e.save_changes
             end
           end
           cnt += 1
@@ -117,7 +117,7 @@ module Unlight
             r = er.ranking + er.user_num
             ret = (r - pt * er.user_num / (before.point - er.point)).to_i
           else
-          ret = 101
+            ret = 101
           end
         elsif er && er.rank_index == 1
           ret = 101

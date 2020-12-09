@@ -48,7 +48,7 @@ def print_file_list
   cnt = 1
   @file_list = {}
   search_dir = "./data/csv/#{$arg}/"
-  for i in 0..1 do
+  (0..1).each do |i|
     Find.find(search_dir) do |file|
       next unless file =~ /.*\.csv$/
 
@@ -79,7 +79,7 @@ end
 def csv_import(dir, local)
   Find.find('./data/csv') do |f|
     next if File.directory?(f)
-    next if f =~ /svn/
+    next if f.include?('svn')
     next unless f =~ /\/#{dir}\//;
 
     m = f.match(/([^\/]+)\.csv/)[1].singularize

@@ -7,6 +7,7 @@ module Unlight
   class Command
     OUTPUT_EVAL = false # Evalの内容を出力する
     attr_reader :method_list
+
     # コンストラクタ（Cはコマンドを追加するクラス）
     def initialize(c, type)
       @klass = c
@@ -60,7 +61,7 @@ module Unlight
       puts ret if OUTPUT_EVAL
        @klass.class_eval(ret)
       end
-   end
+    end
 
     # 受信コマンドの中身の文字列を生成する
     def gen_receve_cmd(val, name)
@@ -69,7 +70,7 @@ module Unlight
       s = ''
       q = ''
       if val
-        val.each do|i|
+        val.each do |i|
           c = @cmd_val.new(i[0], i[1], i[2])
           if c.size == 0
             ret << "            #{c.name}_len = data[#{s unless s == ""}#{pos},2].unpack('n*')[0]\n"
@@ -146,7 +147,7 @@ module Unlight
       end
 
       if val
-        val.each do|i|
+        val.each do |i|
           c = @cmd_val.new(i[0], i[1], i[2])
           if c.size == 0 && c.type != :int
             ret << "            #{d} << [#{c.name}.bytesize].pack('N')\n"

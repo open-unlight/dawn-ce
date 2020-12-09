@@ -32,12 +32,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # コメントのキャッシュ保存時間
@@ -51,7 +51,7 @@ module Unlight
         pc.avatar_id   = a_id
         pc.name        = a_name
         pc.comment     = comment.force_encoding("UTF-8")
-        pc.save
+        pc.save_changes
       end
       cache_key = "prf_comment_#{prf_id}"
       list = CACHE.get(cache_key)

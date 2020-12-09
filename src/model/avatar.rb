@@ -75,7 +75,7 @@ module Unlight
 
     # バリデーションの設定
     validates do
-       uniqueness_of :name, minimum: 1
+      uniqueness_of :name, minimum: 1
     end
 
     # DBにテーブルをつくる
@@ -100,7 +100,7 @@ module Unlight
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # インサート時の後処理
@@ -109,7 +109,7 @@ module Unlight
         CharaCardDeck.new do |d|
           d.name = "Binder"
           d.avatar_id = self.id
-          d.save
+          d.save_changes
         end
       end
     end
@@ -160,7 +160,7 @@ module Unlight
     end
 
     # アバターを登録
-    def Avatar.regist(name, pid, parts, cards, server_type=SERVER_SB)
+    def Avatar.regist(name, pid, parts, cards, server_type = SERVER_SB)
       parts.map! { |i| i.to_i }
       cards.map! { |i| i.to_i }
       ret = false
@@ -192,19 +192,19 @@ module Unlight
         deck = CharaCardDeck.new do |d|
           d.name = "Deck 1"
           d.avatar_id = avatar.id
-          d.save
+          d.save_changes
         end
 
         CharaCardDeck.new do |d|
           d.name = "Deck 2"
           d.avatar_id = avatar.id
-          d.save
+          d.save_changes
         end
 
        CharaCardDeck.new do |d|
           d.name = "Deck 3"
           d.avatar_id = avatar.id
-          d.save
+          d.save_changes
         end
 
         # カードインベントリを作成
@@ -212,7 +212,7 @@ module Unlight
           i.chara_card_deck_id = deck.id
           i.chara_card_id = cards[0]
           i.position = 0
-          i.save
+          i.save_changes
         end
 
         # パーツインベントリを作成して装備する
@@ -239,7 +239,7 @@ module Unlight
             i.card_position = idx
             i.kind = SCT_EVENT
             i.card_id = REGIST_EVENT_CARDS[idx]
-            i.save
+            i.save_changes
           end
         end
 
@@ -417,7 +417,7 @@ module Unlight
     end
 
     # 特定の武器リストのインベントリを返す
-    def get_some_weapon_list(list, r=true)
+    def get_some_weapon_list(list, r = true)
       refresh if r
       return nil unless list && list.length > 0
 
@@ -466,7 +466,7 @@ module Unlight
         CardInventory.new do |c|
           c.chara_card_deck_id = binder.id
           c.chara_card_id = id
-          c.save
+          c.save_changes
           inv_id = c.id
         end
         # 取得したカードに関係しているもののみ、更新チェック 2013/01/18 yamagishi
@@ -553,27 +553,27 @@ module Unlight
 
         # 更新内容をクライアントに通知
         @event.update_combine_weapon_data_event(
-                                                base_sci.id, # inv_id
-                                                base_sci.card_id, # card_id
-                                                base_sci.combine_base_sap, # base_sap
-                                                base_sci.combine_base_sdp, # base_sdp
-                                                base_sci.combine_base_aap, # base_aap
-                                                base_sci.combine_base_adp, # base_adp
-                                                base_sci.combine_base_max, # base_max
-                                                base_sci.combine_add_sap, # add_sap
-                                                base_sci.combine_add_sdp, # add_sdp
-                                                base_sci.combine_add_aap, # add_aap
-                                                base_sci.combine_add_adp, # add_adp
-                                                base_sci.combine_add_max, # add_max
-                                                base_sci.get_all_passive_id.join("|"), # passive_id
-                                                base_sci.card.restriction, # restriction
-                                                base_sci.combine_cnt_str, # cnt
-                                                base_sci.combine_cnt_max_str, # cnt_max
-                                                base_sci.level, # level
-                                                base_sci.exp, # exp
-                                                base_sci.combine_passive_num_max, # passive_num_max
-                                                base_sci.combine_passive_pass_set.join("|"), # passive_pass_set
-                                                ) if @event
+          base_sci.id, # inv_id
+          base_sci.card_id, # card_id
+          base_sci.combine_base_sap, # base_sap
+          base_sci.combine_base_sdp, # base_sdp
+          base_sci.combine_base_aap, # base_aap
+          base_sci.combine_base_adp, # base_adp
+          base_sci.combine_base_max, # base_max
+          base_sci.combine_add_sap, # add_sap
+          base_sci.combine_add_sdp, # add_sdp
+          base_sci.combine_add_aap, # add_aap
+          base_sci.combine_add_adp, # add_adp
+          base_sci.combine_add_max, # add_max
+          base_sci.get_all_passive_id.join("|"), # passive_id
+          base_sci.card.restriction, # restriction
+          base_sci.combine_cnt_str, # cnt
+          base_sci.combine_cnt_max_str, # cnt_max
+          base_sci.level, # level
+          base_sci.exp, # exp
+          base_sci.combine_passive_num_max, # passive_num_max
+          base_sci.combine_passive_pass_set.join("|"), # passive_pass_set
+        ) if @event
       end
 
       [success, base_sci.card_id, base_sci.id]
@@ -584,14 +584,14 @@ module Unlight
       self.part_inventories.size
     end
 
-    def item_inventories(r=true)
+    def item_inventories(r = true)
       @item_inventories = nil if r
       @item_inventories = ItemInventory.filter(avatar_id: self.id).and(state: ITEM_STATE_NOT_USE).all unless @item_inventories
       @item_inventories
     end
 
     # 使用、未使用問わず取得数を調べる
-    def full_item_inventories(r=true)
+    def full_item_inventories(r = true)
       @full_item_inventories = nil if r
       @full_item_inventories = ItemInventory.filter(avatar_id: self.id).all unless @full_item_inventories
       @full_item_inventories
@@ -718,7 +718,7 @@ module Unlight
     end
 
     # クエストインベントリのIDのリストを文字列で返す
-    def quest_inventories_list_str(r= true)
+    def quest_inventories_list_str(r = true)
       quest_inventories_list(r).join(",")
     end
 
@@ -805,14 +805,14 @@ module Unlight
       end
     end
 
-   # アバターパーツの使用フラグを返す
-   def part_used_list_str(r = true)
+    # アバターパーツの使用フラグを返す
+    def part_used_list_str(r = true)
       ret = []
-      refresh if r
-      part_inventories.each do |p|
-        ret << p.used
-      end
-      ret.join(",")
+       refresh if r
+       part_inventories.each do |p|
+         ret << p.used
+       end
+       ret.join(",")
     end
 
     # アバターパーツを装備する(同じインベントリを装備しようとすると外れる)
@@ -917,7 +917,7 @@ module Unlight
     end
 
     # カードのIDのリストを返す
-    def cards_list_str(r = true, cards_arr=nil)
+    def cards_list_str(r = true, cards_arr = nil)
       if cards_arr != nil
         cards_arr.join(",")
       else
@@ -991,7 +991,7 @@ module Unlight
     end
 
     # カードスロットのインベントリIDのリストを返す
-    def slot_inventories_list_str(r= true)
+    def slot_inventories_list_str(r = true)
       slot_inventories_list(r).join(",")
     end
 
@@ -1030,7 +1030,7 @@ module Unlight
     end
 
     # カードスロットのインベントリの合成データリストを返す
-    def slot_combine_data_list(r=true)
+    def slot_combine_data_list(r = true)
       ret = []
       refresh if r
       chara_card_decks.each do |d|
@@ -1267,7 +1267,7 @@ module Unlight
     end
 
     # 新規にデッキを作る
-    def create_deck(exp = 0, list=[])
+    def create_deck(exp = 0, list = [])
       CharaCardDeck.new do |d|
         d.name = "Deck #{self.decks_num}" # Binderを含む個数の為、一つ分増加しなくても1増えた数字になる
         d.avatar_id = self.id
@@ -1321,20 +1321,20 @@ module Unlight
       ret
     end
 
-     # デッキからカードを取り除いたときに残されたデッキ正しいポジションで返す
-     def removed_deck_remain_card_update(old_deck)
-       list = old_deck.position_list_card
-       list.each_index do|i|
-         update_chara_card_deck(list[i], chara_card_decks.index(old_deck), i)
-       end
-     end
+    # デッキからカードを取り除いたときに残されたデッキ正しいポジションで返す
+    def removed_deck_remain_card_update(old_deck)
+      list = old_deck.position_list_card
+      list.each_index do |i|
+        update_chara_card_deck(list[i], chara_card_decks.index(old_deck), i)
+      end
+    end
 
     # 所持キャラカードの情報を更新する
     def update_chara_card_deck(inv_id, index, position)
       if chara_card_decks[index]
-         if (chara_card_decks[index].card_inventories.size > CHARA_CARD_DECK_MAX) && (index > 0)
-             return ERROR_DECK_MAX
-         end
+        if (chara_card_decks[index].card_inventories.size > CHARA_CARD_DECK_MAX) && (index > 0)
+          return ERROR_DECK_MAX
+        end
 
         # インベントリが存在して、かつそれが自分のインベントリそして目標のデッキが存在する場合に進む
         a = CardInventory[inv_id]
@@ -1457,7 +1457,7 @@ module Unlight
     end
 
     # 更新されたデータをチェックする
-    def update_check(r=true)
+    def update_check(r = true)
       tmp_exp = self.exp
       tmp_gems = self.gems
       tmp_energy = self.energy
@@ -1555,16 +1555,16 @@ module Unlight
       refresh
       # 勝敗を保存
       if result == RESULT_WIN
-          self.win += 1
+        self.win += 1
           self.point += point_calc if is_get_bp == 1
           self.save_changes # チェックの前に保存する
       elsif result == RESULT_LOSE
-          self.lose += 1
+        self.lose += 1
           self.point -= point_calc if is_get_bp == 1
           self.point = 0 if self.point < 0 if is_get_bp == 1
           self.save_changes
       elsif result == RESULT_DRAW
-          self.draw += 1
+        self.draw += 1
           self.save_changes
       end
       Unlight::TotalDuelRanking::update_ranking(self.id, self.name, self.point, self.server_type)
@@ -1653,7 +1653,7 @@ module Unlight
     end
 
     # 行動力を回復
-    def recovery_energy(x, r=true)
+    def recovery_energy(x, r = true)
       refresh if r
       if self.energy_max > self.energy
         self.energy += x
@@ -1667,7 +1667,7 @@ module Unlight
     end
 
     # 行動力を回復
-    def recovery_energy_force(x, r=true)
+    def recovery_energy_force(x, r = true)
       refresh if r
       self.energy += x
       self.save_changes
@@ -1737,7 +1737,7 @@ module Unlight
         inv = PartInventory.new do |i|
             i.avatar_id = self.id
             i.avatar_part_id = part_id
-            i.save
+            i.save_changes
           end
         @event.part_get_event(inv.id, part_id) if @event
         ret = true
@@ -1767,7 +1767,7 @@ module Unlight
           i.avatar_item_id = AvatarItem[item_id].id
           i.state = ITEM_STATE_NOT_USE
           i.server_type = self.server_type
-          i.save
+          i.save_changes
         end
         @event.item_get_event(inv.id, item_id) if @event
         ret = true
@@ -1809,7 +1809,7 @@ module Unlight
           i.card_position = 0
           i.kind = sct_type # サーバー側はtyoe0から開始なので
           i.card_id = card_id
-          i.save
+          i.save_changes
         end
 
         @event.slot_card_get_event(inv.id, inv.kind, card_id) if @event
@@ -1833,7 +1833,7 @@ module Unlight
           i.chara_card_deck_id = binder.id
           i.chara_card_id = card_id
           i.position = 0
-          i.save
+          i.save_changes
         end
         # 取得したカードに関係しているもののみ、更新チェック
         achievement_check(Achievement::get_card_check_achievement_ids([card_id]), { is_update: true, list: [card_id] })
@@ -1846,7 +1846,7 @@ module Unlight
     end
 
     # 指定した効果のアイテムを使用する
-    def use_item(inv_id, quest_map_no=0)
+    def use_item(inv_id, quest_map_no = 0)
       # インベントリにあるか調べる
       ret = ERROR_ITEM_NOT_EXIST
       i = nil
@@ -1862,7 +1862,7 @@ module Unlight
     end
 
     # 渦情報送信
-    def send_prf_info(inv, r=true)
+    def send_prf_info(inv, r = true)
       refresh if r
       if inv
         close_at_str = (inv.profound.close_at != nil) ? inv.profound.close_at.strftime("%a %b %d %H:%M:%S %Z %Y") : ""
@@ -1921,7 +1921,7 @@ module Unlight
     end
 
     # 消滅しているかチェック
-    def is_vanished_profound(pi, lt=0)
+    def is_vanished_profound(pi, lt = 0)
       ret = false
       if pi
         if pi.is_not_end?
@@ -1986,7 +1986,7 @@ module Unlight
           owner_black_list = FriendLink::get_black_list(found_avatar.player_id, found_avatar.server_type)
           # SERVER_LOG.info("<UID:#{self.player_id}>DataServer: [#{__method__}] black_list:#{owner_black_list.size > 0}");
           # 発見者のBlackListに入っていたら、取得出来ない
-          if ! FriendLink::is_blocked(found_avatar.player_id, self.player_id, self.server_type)
+          if !FriendLink::is_blocked(found_avatar.player_id, self.player_id, self.server_type)
             owner_name = found_avatar.name
             ret = self.get_profound(prf, false, owner_name)
           else
@@ -2225,7 +2225,7 @@ module Unlight
     end
 
     # 渦戦闘終了
-    def profound_duel_finish(inv, give_up=false)
+    def profound_duel_finish(inv, give_up = false)
       ret = 0
 
       # 渦インベントリが存在するか？
@@ -2241,7 +2241,7 @@ module Unlight
       ret
     end
 
-    def get_treasures(genr, id, type=0, num=1, weapon_record_check=true)
+    def get_treasures(genr, id, type = 0, num = 1, weapon_record_check = true)
       # By_K2 (achievement/profound GEM支給の不具合の修正)
       if (genr == TG_GEM && id == 0)
         id = num
@@ -2283,7 +2283,7 @@ module Unlight
 
     # By_K2 (BP 1600 이상시 무한의탑 기간제 티켓 지급)
     def get_login_tower_bonus()
-        trs = TOWER_LOGIN_BONUS
+      trs = TOWER_LOGIN_BONUS
       get_treasures(trs[0], trs[2], trs[1])
         trs
     end
@@ -2374,7 +2374,7 @@ module Unlight
           c_lot = RareCardLot::draw_lot(kind)
           # もしアタリがパーツでかつ所持済みならば弾き直す
           while a_lot.article_kind == SHOP_PART && self.parts_dupe_check(a_lot.article_id)
-              a_lot = RareCardLot::draw_lot(kind)
+            a_lot = RareCardLot::draw_lot(kind)
           end
           num = 1
           num = a_lot.num if a_lot.num
@@ -2467,7 +2467,7 @@ module Unlight
     end
 
     # 指定したアイテムを購入する
-    def buy_item(shop_id, item_id, amount=1)
+    def buy_item(shop_id, item_id, amount = 1)
       ret = [false, []]
       refresh
       ret = Shop.buy_article(shop_id, SHOP_ITEM, item_id, self.gems, self.coins, amount)
@@ -2726,7 +2726,7 @@ module Unlight
       ret
     end
 
-    def resend_profound_inventory(check_list=nil, r=true)
+    def resend_profound_inventory(check_list = nil, r = true)
       self.get_check_profound_inventory_list.each do |pi|
         vanished = is_vanished_profound(pi)
         check_profound_reward(pi, r)
@@ -2739,7 +2739,7 @@ module Unlight
     end
 
     # 渦報酬取得
-    def check_profound_reward(inv, r=true)
+    def check_profound_reward(inv, r = true)
       ret = false # 報酬配布を行ったか
       if inv
         # 報酬取得可能か判定
@@ -2793,7 +2793,7 @@ module Unlight
     end
 
     # 指定した場所のクエストを取得する
-    def get_quest(quest_map_id, timer=0)
+    def get_quest(quest_map_id, timer = 0)
       ret = 0
       # クエストマップが存在するか？
       unless QuestMap[quest_map_id]
@@ -2820,7 +2820,7 @@ module Unlight
 
       # クエストの進捗をチェックする
       if flag + 1 < quest_map_id
-         ret = ERROR_NOT_ENOUGH_LEVEL
+        ret = ERROR_NOT_ENOUGH_LEVEL
          return ret
       end
 
@@ -2831,14 +2831,14 @@ module Unlight
           i.avatar_id = self.id
           i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num, 0, is_cleared_map)
           i.status = QS_NEW
-          i.save
+          i.save_changes
         end
         unless inv
           inv = AvatarQuestInventory.new do |i|
             i.avatar_id = self.id
             i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num, 0, is_cleared_map)
             i.status = QS_NEW
-            i.save
+            i.save_changes
           end
         end
         energy_use(QuestMap[quest_map_id].ap)
@@ -2851,7 +2851,7 @@ module Unlight
           i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num, timer, is_cleared_map)
           i.set_find_time(timer, f_pow)
           i.status = QS_PENDING
-          i.save
+          i.save_changes
         end
         # 気持ち悪いがなぜかとれない時があるので。ループにしないのは怖いから
         unless inv
@@ -2860,7 +2860,7 @@ module Unlight
             i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num, timer, is_cleared_map)
             i.set_find_time(timer, f_pow)
             i.status = QS_PENDING
-            i.save
+            i.save_changes
           end
         end
         @event.quest_get_event(inv.id, 0, timer, f_pow, QS_NEW, QUEST_PRESENT_AVATAR_NAME_NIL) if @event
@@ -2870,7 +2870,7 @@ module Unlight
     end
 
     # 指定した場所のEXクエストを取得する
-    def get_ex_quest(quest_map_id, timer=0)
+    def get_ex_quest(quest_map_id, timer = 0)
       ret = 0
       # クエストマップに合わせた進行度を取得
       clear_num = self.get_quest_clear_num(quest_map_id)
@@ -2880,7 +2880,7 @@ module Unlight
           i.avatar_id = self.id
           i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num)
           i.status = QS_NEW
-          i.save
+          i.save_changes
         end
         @event.quest_get_event(inv.id, inv.quest_id, 0) if @event
       else
@@ -2891,7 +2891,7 @@ module Unlight
           i.quest_id = QuestMap[quest_map_id].get_quest_id(clear_num, timer)
           i.set_find_time(timer, f_pow)
           i.status = QS_PENDING
-          i.save
+          i.save_changes
         end
         @event.quest_get_event(inv.id, 0, timer, f_pow, QS_NEW, QUEST_PRESENT_AVATAR_NAME_NIL) if @event
       end
@@ -2940,7 +2940,7 @@ module Unlight
             i.avatar_id = self.id
             i.quest_id = boss_quest_id
             i.status = QS_NEW
-            i.save
+            i.save_changes
           end
           @event.quest_get_event(inv.id, inv.quest_id, 0) if @event
         end
@@ -2957,7 +2957,7 @@ module Unlight
           @event.quest_state_update_event(quest_inv_id, inv.status, inv.quest_id) if @event
         end
       end
-   end
+    end
 
     # 探索中のクエストがありますか？
     def quest_pending?
@@ -3044,11 +3044,11 @@ module Unlight
             end
             record_check = true
           # クリア済みなら
-          elsif ! self.quest_flag_capaciry?(inv.quest.quest_map_id)
+          elsif !self.quest_flag_capaciry?(inv.quest.quest_map_id)
             # 通常マップならそのまま、特殊マップなら通常マップがクリア済みか判定
             if QUEST_TUTORIAL_MAP_START > inv.quest.quest_map_id
               record_check = true
-            elsif ! self.quest_flag_capaciry?(QUEST_CAP)
+            elsif !self.quest_flag_capaciry?(QUEST_CAP)
               record_check = true
             end
           end
@@ -3226,25 +3226,25 @@ module Unlight
           if td
             # By_K2 (무한의탑 10층 단위로 층별 변경보상)
             if inv.quest.quest_map_id == QM_EV_INFINITE_TOWER
-                if self.floor_count == 71
-                    trs = TOWER_FLOOR_71_REWARD
-                elsif self.floor_count == 61
-                    trs = TOWER_FLOOR_61_REWARD
-                elsif self.floor_count == 51
-                    trs = TOWER_FLOOR_51_REWARD
-                elsif self.floor_count == 41
-                    trs = TOWER_FLOOR_41_REWARD
-                elsif self.floor_count == 31
-                    trs = TOWER_FLOOR_31_REWARD
-                elsif self.floor_count == 21
-                    trs = TOWER_FLOOR_21_REWARD
-                elsif self.floor_count == 11
-                    trs = TOWER_FLOOR_11_REWARD
-                else
-                    trs = td.get_treasure(self.player)
-                end
-            else
+              if self.floor_count == 71
+                trs = TOWER_FLOOR_71_REWARD
+              elsif self.floor_count == 61
+                trs = TOWER_FLOOR_61_REWARD
+              elsif self.floor_count == 51
+                trs = TOWER_FLOOR_51_REWARD
+              elsif self.floor_count == 41
+                trs = TOWER_FLOOR_41_REWARD
+              elsif self.floor_count == 31
+                trs = TOWER_FLOOR_31_REWARD
+              elsif self.floor_count == 21
+                trs = TOWER_FLOOR_21_REWARD
+              elsif self.floor_count == 11
+                trs = TOWER_FLOOR_11_REWARD
+              else
                 trs = td.get_treasure(self.player)
+              end
+            else
+              trs = td.get_treasure(self.player)
             end
 
             get_treasures(trs[0], trs[2], trs[1])
@@ -3547,7 +3547,7 @@ module Unlight
     end
 
     # クエスト進行度を増やす
-    def inc_quest_clear_num(i, save=true)
+    def inc_quest_clear_num(i, save = true)
       self.quest_clear_num = self.quest_clear_num + i
       @event.quest_clear_num_update_event(self.quest_clear_num) if @event
       self.save_changes if save
@@ -3622,7 +3622,7 @@ module Unlight
     end
 
     # クエストの進行度が最大か？
-    def quest_flag_capaciry?(map_id=0)
+    def quest_flag_capaciry?(map_id = 0)
       cap = QUEST_CAP
       if map_id < QUEST_TUTORIAL_MAP_START
         cap = QUEST_CAP
@@ -3641,7 +3641,7 @@ module Unlight
     end
 
     # クエストの進行度が最大か？
-    def quest_clear_capaciry?(quest_map_id=0)
+    def quest_clear_capaciry?(quest_map_id = 0)
       flag = 0
       clear_num = 0
       if quest_map_id < QUEST_TUTORIAL_MAP_START
@@ -3702,7 +3702,7 @@ module Unlight
       ret
     end
 
-    def update_quest_clear_num(i, map_id=0)
+    def update_quest_clear_num(i, map_id = 0)
       clear_num = 0
       if map_id < QUEST_TUTORIAL_MAP_START
         self.quest_clear_num = self.quest_clear_num + i
@@ -3821,28 +3821,28 @@ module Unlight
         inv = data[:inv]
         # 更新内容をクライアントに通知
         @event.update_combine_weapon_data_event(
-                                                inv.id, # inv_id
-                                                inv.card_id, # card_id
-                                                inv.combine_base_sap, # base_sap
-                                                inv.combine_base_sdp, # base_sdp
-                                                inv.combine_base_aap, # base_aap
-                                                inv.combine_base_adp, # base_adp
-                                                inv.combine_base_max, # base_max
-                                                inv.combine_add_sap, # add_sap
-                                                inv.combine_add_sdp, # add_sdp
-                                                inv.combine_add_aap, # add_aap
-                                                inv.combine_add_adp, # add_adp
-                                                inv.combine_add_max, # add_max
-                                                inv.get_all_passive_id.join("|"), # passive_id
-                                                inv.card.restriction, # restriction
-                                                inv.combine_cnt_str, # cnt
-                                                inv.combine_cnt_max_str, # cnt_max
-                                                inv.level, # level
-                                                inv.exp, # exp
-                                                inv.combine_passive_num_max, # passive_num_max
-                                                inv.combine_passive_pass_set.join("|"), # passive_pass_set
-                                                data[:vani_psv_ids].join("|") # vanish_passive_ids
-                                                ) if @event
+          inv.id, # inv_id
+          inv.card_id, # card_id
+          inv.combine_base_sap, # base_sap
+          inv.combine_base_sdp, # base_sdp
+          inv.combine_base_aap, # base_aap
+          inv.combine_base_adp, # base_adp
+          inv.combine_base_max, # base_max
+          inv.combine_add_sap, # add_sap
+          inv.combine_add_sdp, # add_sdp
+          inv.combine_add_aap, # add_aap
+          inv.combine_add_adp, # add_adp
+          inv.combine_add_max, # add_max
+          inv.get_all_passive_id.join("|"), # passive_id
+          inv.card.restriction, # restriction
+          inv.combine_cnt_str, # cnt
+          inv.combine_cnt_max_str, # cnt_max
+          inv.level, # level
+          inv.exp, # exp
+          inv.combine_passive_num_max, # passive_num_max
+          inv.combine_passive_pass_set.join("|"), # passive_pass_set
+          data[:vani_psv_ids].join("|") # vanish_passive_ids
+        ) if @event
       end
     end
 
@@ -4229,7 +4229,7 @@ module Unlight
     end
 
     # アチーブメントチェック（noがある場合はそのナンバーだけをチェック）
-    def achievement_check(no = false, card_list = nil, point = 0, zero_check=true, loop_stop = false)
+    def achievement_check(no = false, card_list = nil, point = 0, zero_check = true, loop_stop = false)
       # 更新情報送信の為、ID、State、Progressを保持
       id_list = []
       state_list = []
@@ -4351,7 +4351,7 @@ module Unlight
       end
 
       # アチーブメントの情報を送る
-      @event.update_achievement_info_event(id_list.join(","), state_list.join(","), progress_list.join("_"), end_at_list.join(","), code_list.join(","))if @event
+      @event.update_achievement_info_event(id_list.join(","), state_list.join(","), progress_list.join("_"), end_at_list.join(","), code_list.join(",")) if @event
     end
 
     # クリアしたアチーブメントによって新しいアチーブメント追加されるかチェック
@@ -4389,7 +4389,7 @@ module Unlight
           # 必要ならprogressの引継ぎ
           new_ai.progress_inheriting
           # アチーブメント追加イベントを送る
-          @event.add_new_achievement_event(a.id)if @event && set_state == ACHIEVEMENT_STATE_START
+          @event.add_new_achievement_event(a.id) if @event && set_state == ACHIEVEMENT_STATE_START
           refresh
           if a.is_any_time_check
             if Achievement::is_chara_card_check(a.id)
@@ -4411,18 +4411,18 @@ module Unlight
       end
 
       # アチーブメントの情報を送る
-      @event.update_achievement_info_event(id_list.join(","), state_list.join(","), progress_list.join("_"), end_at_list.join(","), code_list.join(","))if @event
+      @event.update_achievement_info_event(id_list.join(","), state_list.join(","), progress_list.join("_"), end_at_list.join(","), code_list.join(",")) if @event
     end
 
     # クリアしたアチーブメントによってアチーブメントが消されるかチェック
-    def check_exclusion_achievement(a_set, card_list=nil)
+    def check_exclusion_achievement(a_set, card_list = nil)
       # SERVER_LOG.info("<UID:#{self.player_id}>Avatar: [check_exclu_adhi]")
       if a_set.size > 0
         # 消されるであろうアチーブメント列挙
         self.achievement_inventories.each do |a|
           if a_set.include?(a.achievement_id.to_s)
             a.failed
-            @event.delete_achievement_event(a.achievement_id)if @event
+            @event.delete_achievement_event(a.achievement_id) if @event
             refresh
             if Achievement::is_chara_card_check(a.achievement_id)
               achievement_check([a.achievement_id], card_list)
@@ -4440,7 +4440,7 @@ module Unlight
         # 初期値に戻す
         ai.restart
         # アチーブメント追加イベントを送る
-        @event.add_new_achievement_event(ai.achievement.id)if @event
+        @event.add_new_achievement_event(ai.achievement.id) if @event
         # refresh
         # achievement_check ループレコードが発生するで新しいレコードが毎回べつに発生するのはありえるのか？
       end
@@ -4452,19 +4452,19 @@ module Unlight
         # 失敗に変更する
         ai.failed
         # アチーブメント削除イベントを送る
-        @event.delete_achievement_event(ai.achievement.id)if @event
+        @event.delete_achievement_event(ai.achievement.id) if @event
       end
     end
 
     # 複数セットのアチーブメントでループするアチーブメントかチェック
-    def check_set_loop_achievement(a_set, card_list=nil)
+    def check_set_loop_achievement(a_set, card_list = nil)
       # SERVER_LOG.info("<UID:#{self.player_id}>Avatar: [#{__method__}]")
       if a_set.size > 0
         # 消されるであろうアチーブメント列挙
         self.achievement_inventories.each do |a|
           if a_set.include?(a.achievement_id.to_s)
             a.finish_delete
-            @event.drop_achievement_event(a.achievement_id)if @event
+            @event.drop_achievement_event(a.achievement_id) if @event
           end
         end
         # ループするリストの先端のものを新規追加
@@ -4477,7 +4477,7 @@ module Unlight
         # 必要ならprogressの引継ぎ
         new_ai.progress_inheriting
         # アチーブメント追加イベントを送る
-        @event.add_new_achievement_event(new_ac_id)if @event
+        @event.add_new_achievement_event(new_ac_id) if @event
         refresh
         if Achievement::is_chara_card_check(new_ac_id)
           achievement_check([new_ac_id], card_list)
@@ -4506,7 +4506,7 @@ module Unlight
         self.achievement_inventories.each do |a|
           if a_set.include?(a.achievement_id) && a.state == ACHIEVEMENT_STATE_START
             a.failed
-            @event.delete_achievement_event(a.achievement_id)if @event
+            @event.delete_achievement_event(a.achievement_id) if @event
           end
         end
       end
@@ -4807,7 +4807,7 @@ module Unlight
       # 特別なアイテムを装備していたときに別のクエストを差し替える 2014クリスマスイベント
       if self.setted_parts_id_list.include?(QEV_XMAS_PART_ID) && ai.quest.rarity >= QEV_RARITY
         ai.quest_id = QuestMap[QM_EV_XMAS2014_LAND].get_quest_id
-        ai.save
+        ai.save_changes
       end
 
       # イベントクエストプレゼント用チェック
@@ -4851,7 +4851,7 @@ module Unlight
     end
 
     # 個人のセール終了までの残り時間を返す
-    def get_sale_limit_rest_time(r=true)
+    def get_sale_limit_rest_time(r = true)
       ret = 0
       refresh if r
       # nilならセールしていない
@@ -4866,7 +4866,7 @@ module Unlight
     end
 
     # セール時間を設定する
-    def set_sale_limit(set_time, type=SALE_TYPE_ROOKIE)
+    def set_sale_limit(set_time, type = SALE_TYPE_ROOKIE)
       # 現在セール中の場合上書きしない。が、初心者セールだけは上書きする（本来は大きいセールを上書きしない）
       if !is_sale_time || type == SALE_TYPE_ROOKIE
         self.sale_type = type
@@ -4878,7 +4878,7 @@ module Unlight
     end
 
     # セール中かどうかBooleanで返す
-    def is_sale_time(add_time=0)
+    def is_sale_time(add_time = 0)
       ret = false
       if self.sale_limit_at != nil
         now = Time.now.utc
@@ -4918,7 +4918,7 @@ module Unlight
 
     # By_K2 (무한의탑 층수 체크)
     def floor_count_check
-        self.floor_count
+      self.floor_count
     end
 
     # By_K2 (무한의탑 층수 UP)
@@ -4966,7 +4966,7 @@ module Unlight
       if @lobby_chara_script_list == nil
         [:stop]
       elsif @lobby_chara_script_list[@lobby_chara_scr_i].first == :stop
-         @lobby_chara_script_list[@lobby_chara_scr_i]
+        @lobby_chara_script_list[@lobby_chara_scr_i]
       else
         @lobby_chara_scr_i += 1
         SERVER_LOG.info("<UID:#{self.id}>#{$SERVER_NAME}: [run_lobby_chara_scr]scr_list[#{@lobby_chara_scr_i - 1}]:#{@lobby_chara_script_list[@lobby_chara_scr_i - 1]}")
@@ -4986,10 +4986,10 @@ module Unlight
         if s
           @lobby_chara_flags = s.get_flag
         else
-           @lobby_chara_flags = {}
+          @lobby_chara_flags = {}
          end
        end
-     end
+    end
 
     # シナリオでジャンプ処理
     def jump_lobby_chara(j)
@@ -4997,7 +4997,7 @@ module Unlight
     end
 
     # シナリオでアイテムを渡す処理
-    def give_item_lobby_chara(genr, id, num =1, sct = 0)
+    def give_item_lobby_chara(genr, id, num = 1, sct = 0)
       get_treasures(genr, id, sct, num)
     end
 
@@ -5042,7 +5042,7 @@ module Unlight
     end
 
     # イベントクエストフラグインベントリを取得
-    def get_event_quest_flag_inventory(event_id=QUEST_EVENT_ID)
+    def get_event_quest_flag_inventory(event_id = QUEST_EVENT_ID)
       ret = nil
       EventQuestFlagInventory::get_avatar_event(self.id).each do |eqfi|
         ret = eqfi if eqfi.event_id == event_id
@@ -5057,13 +5057,13 @@ module Unlight
     end
 
     # イベントフラグを取得
-    def get_event_quest_flag(event_id=QUEST_EVENT_ID)
+    def get_event_quest_flag(event_id = QUEST_EVENT_ID)
       inv = get_event_quest_flag_inventory(event_id)
       (inv) ? inv.quest_flag : 0
     end
 
     # イベント進行度を取得
-    def get_event_quest_clear_num(event_id=QUEST_EVENT_ID)
+    def get_event_quest_clear_num(event_id = QUEST_EVENT_ID)
       inv = get_event_quest_flag_inventory(event_id)
       (inv) ? inv.quest_clear_num : 0
     end
@@ -5110,14 +5110,14 @@ module Unlight
     regist_event UseFreeDuelCountEvent
 
     # 残り時間の更新
-    def update_remain_time(i, r =true)
+    def update_remain_time(i, r = true)
       @avatar.refresh if r
       [@avatar.energy, i.to_i]
     end
     regist_event UpdateRemainTimeEvent
 
     def update_energy_max
-     @avatar.energy_max
+      @avatar.energy_max
     end
     regist_event UpdateEnergyMaxEvent
 
@@ -5159,25 +5159,25 @@ module Unlight
 
     # AP回復間隔の更新
     def update_recovery_interval
-     @avatar.recovery_interval
+      @avatar.recovery_interval
     end
     regist_event UpdateRecoveryIntervalEvent
 
     # クエスト所持数MAXの更新
     def update_quest_inventory_max
-     @avatar.quest_inventory_max
+      @avatar.quest_inventory_max
     end
     regist_event UpdateQuestInventoryMaxEvent
 
     # クエスト所持数MAXの更新
     def update_exp_pow
-     @avatar.exp_pow
+      @avatar.exp_pow
     end
     regist_event UpdateExpPowEvent
 
     # クエスト所持数MAXの更新
     def update_gem_pow
-     @avatar.gem_pow
+      @avatar.gem_pow
     end
     regist_event UpdateGemPowEvent
 
@@ -5194,7 +5194,7 @@ module Unlight
     regist_event UpdateQuestPointEvent
 
     # パーツが捨てられた
-    def vanish_part(inv_id, alert=true)
+    def vanish_part(inv_id, alert = true)
       [inv_id, alert]
     end
     regist_event VanishPartEvent
@@ -5388,7 +5388,7 @@ module Unlight
     regist_event ChangeFavoriteCharaIdEvent
 
     # 合成武器情報を更新
-    def update_combine_weapon_data(inv_id, card_id, base_sap, base_sdp, base_aap, base_adp, base_max, add_sap, add_sdp, add_aap, add_adp, add_max, passive_id, restriction, cnt_str, cnt_max_str, level, exp, psv_num_max, passive_pass, vani_psv_ids="")
+    def update_combine_weapon_data(inv_id, card_id, base_sap, base_sdp, base_aap, base_adp, base_max, add_sap, add_sdp, add_aap, add_adp, add_max, passive_id, restriction, cnt_str, cnt_max_str, level, exp, psv_num_max, passive_pass, vani_psv_ids = "")
       SERVER_LOG.info("<UID:#{@avatar.player_id}>#{$SERVER_NAME}: [#{__method__}] id:#{inv_id} card_id:#{card_id}")
       [inv_id, card_id, base_sap, base_sdp, base_aap, base_adp, base_max, add_sap, add_sdp, add_aap, add_adp, add_max, passive_id, restriction, cnt_str, cnt_max_str, level, exp, psv_num_max, passive_pass, vani_psv_ids]
     end

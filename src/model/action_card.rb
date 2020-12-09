@@ -156,7 +156,7 @@ module Unlight
           ret = self.u_value
         end
       elsif self.b_type == type
-          ret = self.b_value
+        ret = self.b_value
       end
       ret
     end
@@ -322,15 +322,15 @@ module Unlight
       ret
     end
 
-  def ActionCard::get_joker_card(num, ctxt, dk)
-    ret = false
-    j = EventCard[JOKER_EVENT_CARD]
-    if(num < j.max_in_deck)
-      ret = ActionCard[j.event_no + num]
-      ret.init_card(dk, ctxt)
-     end
-    ret
-  end
+    def ActionCard::get_joker_card(num, ctxt, dk)
+      ret = false
+      j = EventCard[JOKER_EVENT_CARD]
+      if num < j.max_in_deck
+        ret = ActionCard[j.event_no + num]
+        ret.init_card(dk, ctxt)
+       end
+      ret
+    end
 
     # デッキカードのインスタンスを初期化してから配列で返す
     def ActionCard::event_deck_with_context(ctxt, dk, duel, cards)

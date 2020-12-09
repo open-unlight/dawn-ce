@@ -190,7 +190,7 @@ module Unlight
               c.kind = SCT_WEAPON
               c.deck_position = i
               c.card_position = j
-              c.save
+              c.save_changes
             end
           end
         end
@@ -204,7 +204,7 @@ module Unlight
               c.kind = SCT_EQUIP
               c.deck_position = i
               c.card_position = j
-              c.save
+              c.save_changes
             end
           end
         end
@@ -218,7 +218,7 @@ module Unlight
               c.kind = SCT_EVENT
               c.deck_position = i
               c.card_position = j
-              c.save
+              c.save_changes
             end
           end
         end
@@ -1022,7 +1022,7 @@ module Unlight
       return false if base_sci.card.weapon_type == WEAPON_TYPE_MATERIAL
 
       # ベースの武器が未合成武器なら、素材がオルタサイトでないといけない
-      if ! base_sci.combined?
+      if !base_sci.combined?
         first_mat_sci = use_sci_list.first
         return false if first_mat_sci.card_id != CMB_BASE_WC_CHANGE_ID
       else
@@ -1084,7 +1084,7 @@ module Unlight
         add_params[1] += base_sci.combine_add_sdp
         add_params[2] += base_sci.combine_add_aap
         add_params[3] += base_sci.combine_add_adp
-        base_total = base_params.inject(:+)
+        base_total = base_params.sum
         add_max = base_sci.level + base_sci.restriction_add_param
         change_params = [0, 0, 0, 0]
         CMB_BASE_PARAM_UP_IDS.each_with_index do |id, idx|

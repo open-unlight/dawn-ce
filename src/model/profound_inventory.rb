@@ -44,19 +44,19 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # 表示するランキングリストの数
     FIN_VIEW_RANKING_NUM = 100
 
     # インベントリ作成
-    def self::get_new_profound_inventory(avatar_id, prf_id, owner, start_score=PRF_JOIN_ADD_SCORE)
+    def self::get_new_profound_inventory(avatar_id, prf_id, owner, start_score = PRF_JOIN_ADD_SCORE)
       ret = nil
       if owner
         set_state = PRF_INV_ST_INPROGRESS
@@ -70,7 +70,7 @@ module Unlight
         i.found = owner
         i.state = set_state
         i.score = start_score # 参加時のスコア加算
-        i.save
+        i.save_changes
       end
       ret
     end
@@ -90,13 +90,13 @@ module Unlight
     end
 
     # 撃破者のインベントリ取得
-    def self::get_defeat_user_data(prf_id, r=true)
+    def self::get_defeat_user_data(prf_id, r = true)
       inv_list = ProfoundInventory.filter([profound_id: prf_id, defeat: true]).all
       inv_list.first if inv_list
     end
 
     # 撃破判定
-    def self::is_defeat_boss(prf_id, inv_id, r=true)
+    def self::is_defeat_boss(prf_id, inv_id, r = true)
       cnt = ProfoundInventory.filter([profound_id: prf_id, defeat: true]).count
       (cnt > 0)
     end
@@ -165,13 +165,13 @@ module Unlight
     end
 
     # 消滅しているか
-    def is_vanished?(lt=0)
+    def is_vanished?(lt = 0)
       return true unless self.profound
 
       ret = self.profound.is_vanished?(lt)
 
       # 渦は消えてないが、ギブアップなどをしている場合
-      if ! ret
+      if !ret
         ret = (self.state == PRF_INV_ST_FAILED || self.state == PRF_INV_ST_GIVE_UP)
       end
       ret
@@ -259,14 +259,14 @@ module Unlight
     end
 
     # デッキID設定
-    def set_deck_idx(deck_idx, r=true)
+    def set_deck_idx(deck_idx, r = true)
       refresh if r
       self.deck_idx = deck_idx
       self.save_changes
     end
 
     # 戦闘回数を更新
-    def update_battle_count(c=1, r=true)
+    def update_battle_count(c = 1, r = true)
       refresh if r
       self.btl_count += c
       self.state = PRF_INV_ST_INPROGRESS if self.state == PRF_INV_ST_NEW
@@ -274,7 +274,7 @@ module Unlight
     end
 
     # スコアを追加する
-    def update_score(s, r=true)
+    def update_score(s, r = true)
       refresh if r
       add_score = 0
       if s > 0
@@ -289,7 +289,7 @@ module Unlight
     end
 
     # 与えたダメージを更新
-    def update_damage_count(d=0, turn=1, r=true)
+    def update_damage_count(d = 0, turn = 1, r = true)
       refresh if r
       self.damage_count += d
       self.save_changes
@@ -299,7 +299,7 @@ module Unlight
     end
 
     # 撃破記録
-    def update_defeat(d=0, turn=1, r=true)
+    def update_defeat(d = 0, turn = 1, r = true)
       refresh if r
       self.defeat = true
       self.state = PRF_INV_ST_SOLVED
@@ -308,7 +308,7 @@ module Unlight
     end
 
     # キャラのダメージを保持
-    def update_chara_damage(damage_set, r=true)
+    def update_chara_damage(damage_set, r = true)
       refresh if r
       self.chara_card_dmg_1 = damage_set[0] if damage_set[0]
       self.chara_card_dmg_2 = damage_set[1] if damage_set[1]
@@ -317,7 +317,7 @@ module Unlight
     end
 
     # 終了時ランキング情報を取得
-    def get_finish_ranking_notice_str(defeat_avatar, r=true)
+    def get_finish_ranking_notice_str(defeat_avatar, r = true)
       ranking_str_list = []
       self_rank = ""
 
@@ -365,7 +365,7 @@ module Unlight
     end
 
     # 報酬取得可能か判定
-    def check_get_reward(r=true)
+    def check_get_reward(r = true)
       refresh if r
       ret = self.reward_ready?
       if ret == false && self.reward_state == PRF_INV_REWARD_ST_STILL
@@ -394,7 +394,7 @@ module Unlight
     end
 
     # 報酬の取得
-    def get_reward(avatar, r=true)
+    def get_reward(avatar, r = true)
       refresh if r
       if self.reward_state == PRF_INV_REWARD_ST_READY
         boss_data = self.profound.p_data.get_boss_data
@@ -474,7 +474,7 @@ module Unlight
     end
 
     # ランキング関連初期化
-    def init_ranking(full_clear=false)
+    def init_ranking(full_clear = false)
       inited = false
       @ranking_all = "prf_#{self.profound_id}_ranking:all" unless @ranking_all
       @ranking_all_id = "prf_#{self.profound_id}_ranking:all_id" unless @ranking_all_id
@@ -501,7 +501,7 @@ module Unlight
     end
 
     # ランキング取得
-    def get_dmg_ranking(st_i=0, end_i=99, cache=true)
+    def get_dmg_ranking(st_i = 0, end_i = 99, cache = true)
       ret = nil
       ret = rank_cache_get(@ranking_all) if cache
       unless ret
@@ -530,7 +530,7 @@ module Unlight
     end
 
     # AvatarIdのみランキング取得
-    def get_order_ranking_id(end_i=0, st_i=0)
+    def get_order_ranking_id(end_i = 0, st_i = 0)
       ret = rank_cache_get(@ranking_all_id)
       unless ret
         ret = get_score_filter(self.profound_id).all.map { |r| r.avatar_id }
@@ -549,7 +549,7 @@ module Unlight
       # 前回の記録があるならばARROWを作る
       before = rank_cache_get(@ranking_all_id_before)
       if before
-       arrow_set = []
+        arrow_set = []
         a_id_set = rank_cache_get(@ranking_all_id)
         a_id_set = get_score_filter(self.profound_id).all.map { |r| r.avatar_id } unless a_id_set
         a_id_set.each_index { |i|
@@ -582,7 +582,7 @@ module Unlight
     end
 
     # キャッシュを削除（矢印作成のために前のランキングを残す）
-    def all_cache_delete(full_clear=false)
+    def all_cache_delete(full_clear = false)
       if full_clear
         # 完全削除の場合、前のランキングも削除
         rank_cache_delete(@ranking_all_id_before)
@@ -601,7 +601,7 @@ module Unlight
     end
 
     # ランキングを文字列で返す（キャッシュつき）
-    def get_ranking_str(st_i = 0, end_i= 99, cache = true)
+    def get_ranking_str(st_i = 0, end_i = 99, cache = true)
       ret = nil
       if cache
         ret = rank_cache_get("prf_#{self.profound_id}_ranking:#{st_i}_#{end_i}_str")
@@ -657,7 +657,7 @@ module Unlight
     end
 
     # 報酬配布用ランキングを取得
-    def get_treasure_rank(cache=true)
+    def get_treasure_rank(cache = true)
       ret = rank_cache_get("profound_get_treasure_rank_#{self.profound_id}") if cache
       unless ret
         init_ranking
@@ -685,7 +685,7 @@ module Unlight
     end
 
     # 報酬配布用ランキングアバターIDを基準としたものを取得
-    def get_avatar_treasure_rank(cache=true, avatar_id=0)
+    def get_avatar_treasure_rank(cache = true, avatar_id = 0)
       ret = rank_cache_get("profound_get_treasure_rank_#{self.profound_id}_avatar_id") if cache
       unless ret
         init_ranking

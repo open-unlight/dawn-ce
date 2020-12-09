@@ -26,9 +26,9 @@ module Unlight
       datetime    :updated_at
     end
 
-     # バリデーションの設定
-     validates do
-     end
+    # バリデーションの設定
+    validates do
+    end
 
     # DBにテーブルをつくる
     if !(CharaCardStory.table_exists?)
@@ -36,12 +36,12 @@ module Unlight
     end
 
     DB.alter_table :chara_card_stories do
-     add_column :age_no, String, default: "" unless Unlight::CharaCardStory.columns.include?(:age_no) # 新規追加 2012/06/14
+      add_column :age_no, String, default: "" unless Unlight::CharaCardStory.columns.include?(:age_no) # 新規追加 2012/06/14
     end
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理

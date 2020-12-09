@@ -8,6 +8,7 @@ module Unlight
   class CharaCard < Sequel::Model
     attr_accessor :owner, :foe, :duel, :deck, :status, :special_status, :using, :index, :status_update
     attr_reader :event
+
     # プラグインの設定
     plugin :schema
     plugin :validation_class_methods
@@ -90,7 +91,7 @@ module Unlight
         if FeatInventory::data_version
           cache_store.set("CharaCardVersion", [m.version, FeatInventory::data_version].max)
           else
-          cache_store.set("CharaCardVersion", m.version)
+            cache_store.set("CharaCardVersion", m.version)
         end
         m.version
       else
@@ -119,8 +120,8 @@ module Unlight
     def same_person?(cc)
       ret = false
       if (cc.charactor_id == self.charactor_id) ||
-          (cc.unlight_charactor_id == self.unlight_charactor_id) ||
-          (cc.parent_id == self.parent_id)
+         (cc.unlight_charactor_id == self.unlight_charactor_id) ||
+         (cc.parent_id == self.parent_id)
         ret = true
       end
       ret
@@ -168,9 +169,9 @@ module Unlight
     def feats_id
       ret = []
       if feat_inventories.size > 0
-          feat_inventories.each do |f|
-          ret << f.feat_id
-        end
+        feat_inventories.each do |f|
+        ret << f.feat_id
+      end
       end
       ret.join(",")
     end
@@ -221,18 +222,18 @@ module Unlight
       ret
     end
 
-   # 所有されている参加者の登録
-   def owner=(entrant)
+    # 所有されている参加者の登録
+    def owner=(entrant)
       @owner = entrant
     end
 
-   def weapon_passive=(wp)
-     @weapon_passive = wp
-   end
+    def weapon_passive=(wp)
+      @weapon_passive = wp
+    end
 
-   def weapon_passive
-     @weapon_passive
-   end
+    def weapon_passive
+      @weapon_passive
+    end
 
     # カードの初期化
     def init_card(ctxt, entrant, foe, duel, index)
@@ -816,9 +817,9 @@ module Unlight
         # TYPE_ALL を除き、庇う効果
       else
         if target.hit_point > 0 &&
-            target.current_chara_card.event.passives_enable[PASSIVE_LOYALTY] &&
-            index == get_last_index(target) &&
-            !is_not_hostile
+           target.current_chara_card.event.passives_enable[PASSIVE_LOYALTY] &&
+           index == get_last_index(target) &&
+           !is_not_hostile
 
           index = target.current_chara_card_no
         end
@@ -914,8 +915,8 @@ module Unlight
         drain_cond = false  # 吸収発動するか
         pow = 0             # 枚数
         if foe.current_chara_card.kind == CC_KIND_MONSTAR ||
-            foe.current_chara_card.kind == CC_KIND_BOSS_MONSTAR ||
-            foe.current_chara_card.kind == CC_KIND_PROFOUND_BOSS
+           foe.current_chara_card.kind == CC_KIND_BOSS_MONSTAR ||
+           foe.current_chara_card.kind == CC_KIND_PROFOUND_BOSS
           drain_cond = true
           pow = PassiveSkill.pow(@passives[PASSIVE_DRAIN_SOUL]) + 2
         else
@@ -1023,7 +1024,7 @@ module Unlight
     # レイジを発動チェック。（最初のターンだけ1回だけチェックする。毎ターンしないのは重いから）
     def check_rage_against_only_first_turn_passive
       if duel.turn == 0
-          check_rage_against_passive
+        check_rage_against_passive
       end
     end
     regist_event CheckRageAgainstPassiveStartEvent
@@ -2211,7 +2212,7 @@ module Unlight
         aca = []
         # 特殊カードのみにする
         foe.cards.shuffle.each do |c|
-           aca << c if c.u_type == ActionCard::SPC || c.b_type == ActionCard::SPC
+          aca << c if c.u_type == ActionCard::SPC || c.b_type == ActionCard::SPC
         end
         PassiveSkill.pow(@passives[PASSIVE_MOON_SHINE]).times do |a|
           if aca[a]
@@ -2661,7 +2662,7 @@ module Unlight
         aca = []
         # カードをシャッフルする
         foe.cards.shuffle.each do |c|
-           aca << c
+          aca << c
         end
         PassiveSkill.pow(@passives[PASSIVE_DISASTER_FLAME]).times do |a|
           if aca[a]
@@ -3079,12 +3080,12 @@ module Unlight
     regist_event FinishGuardianOfLifePassiveEvent
     regist_event FinishGuardianOfLifePassiveDeadCharaChangeEvent
 
-   # バウンスバック
-   # ===========================================
-   # ステータス関連の汎用イベント
-   # ===========================================
-   # パッシブが有効になったときのイベント
-   def on_passive(player, id)
+    # バウンスバック
+    # ===========================================
+    # ステータス関連の汎用イベント
+    # ===========================================
+    # パッシブが有効になったときのイベント
+    def on_passive(player, id)
       [player, id]
     end
     regist_event OnPassiveEvent
@@ -3276,7 +3277,7 @@ module Unlight
           owner.tmp_power -= @cc.status[STATE_MOVE_DOWN][0]
           owner.tmp_power = 0 if owner.tmp_power < 0
        elsif owner.tmp_power < 0
-          owner.tmp_power += @cc.status[STATE_MOVE_DOWN][0]
+         owner.tmp_power += @cc.status[STATE_MOVE_DOWN][0]
           owner.tmp_power = 0 if owner.tmp_power > 0
         end
       end
@@ -3395,7 +3396,7 @@ module Unlight
 
     # 操想が終了される
     def finish_control_state
-      if @cc && @cc.status[STATE_CONTROL][1] > 0 && ! Charactor.attribute(@cc.charactor_id).include?("revisers")
+      if @cc && @cc.status[STATE_CONTROL][1] > 0 && !Charactor.attribute(@cc.charactor_id).include?("revisers")
         @cc.status[STATE_CONTROL][1] -= 1 if @cc.status_update
         attribute_party_damage(owner, @cc.index, 99, ATTRIBUTE_DEATH, TARGET_TYPE_SINGLE, 1, IS_NOT_HOSTILE_DAMAGE) if @cc.status[STATE_CONTROL][1] <= 0
 
@@ -3458,7 +3459,7 @@ module Unlight
     def check_stone_state
       if @cc && @cc.index == owner.current_chara_card_no && @cc.status[STATE_STONE][1] > 0
         if foe.current_chara_card.event.passives_enable[PASSIVE_AWAKENING_ONE] && !owner.initiative ||
-          owner.current_chara_card.event.passives_enable[PASSIVE_AWAKENING_ONE] && owner.initiative
+           owner.current_chara_card.event.passives_enable[PASSIVE_AWAKENING_ONE] && owner.initiative
 
           return
         end
@@ -3771,8 +3772,8 @@ module Unlight
     # シャープンエッジ使用時
     def use_sharpen_edge_state_damage
       if @cc && @cc.index == owner.current_chara_card_no && !owner.initiative &&
-          @cc.special_status[SPECIAL_STATE_SHARPEN_EDGE][1] > 0 &&
-          @feats_enable[FEAT_SHARPEN_EDGE]
+         @cc.special_status[SPECIAL_STATE_SHARPEN_EDGE][1] > 0 &&
+         @feats_enable[FEAT_SHARPEN_EDGE]
 
         if duel.tmp_damage > 0
           owner.duel_message_event(DUEL_MSGDLG_AVOID_DAMAGE, duel.tmp_damage)
@@ -3873,8 +3874,8 @@ module Unlight
     # ダメージないとき
     def use_damage_insurance_damage
       if @cc && @cc.index == owner.current_chara_card_no && owner.initiative &&
-          @cc.special_status[SPECIAL_STATE_DAMAGE_INSURANCE][1] > 0 &&
-          @feats_enable[FEAT_MEXTLI]
+         @cc.special_status[SPECIAL_STATE_DAMAGE_INSURANCE][1] > 0 &&
+         @feats_enable[FEAT_MEXTLI]
 
         if owner.tmp_power > 0 && duel.tmp_damage <= 0
           dmg = 0
@@ -4263,8 +4264,8 @@ module Unlight
     # ------------------
     # 精密射撃が使用されたかのチェック
     def check_aiming_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_AIMING)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_AIMING)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_AIMING)
       # ポイントの変更をチェック
@@ -4296,8 +4297,8 @@ module Unlight
     # ------------------
     # 精密射撃が使用されたかのチェック
     def check_precision_fire_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_PRECISION_FIRE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_PRECISION_FIRE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_PRECISION_FIRE)
       # ポイントの変更をチェック
@@ -4388,8 +4389,8 @@ module Unlight
     # ------------------
     # 連続技が使用されたかのチェック
     def check_combo_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_COMBO)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_COMBO)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_COMBO)
       # ポイントの変更をチェック
@@ -4422,8 +4423,8 @@ module Unlight
     # ------------------
     # ソードダンスが使用されたかのチェック
     def check_sword_dance_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_SWORD_DANCE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_SWORD_DANCE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_SWORD_DANCE)
       # ポイントの変更をチェック
@@ -4477,8 +4478,8 @@ module Unlight
     # ------------------
     # 茨の森が使用されたかのチェック
     def check_thorn_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_THORN)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_THORN)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_THORN)
       # ポイントの変更をチェック
@@ -4563,8 +4564,8 @@ module Unlight
           duel.tmp_damage.times { |a| discard(foe, aca[a]) if aca[a] }
           deal_count = duel.tmp_damage
           if foe.current_chara_card.kind != CC_KIND_MONSTAR &&
-              foe.current_chara_card.kind != CC_KIND_BOSS_MONSTAR &&
-              foe.current_chara_card.kind != CC_KIND_PROFOUND_BOSS
+             foe.current_chara_card.kind != CC_KIND_BOSS_MONSTAR &&
+             foe.current_chara_card.kind != CC_KIND_PROFOUND_BOSS
             deal_count = foe_cards_cnt if duel.tmp_damage > foe_cards_cnt
           end
           @cc.owner.special_dealed_event(duel.deck.draw_cards_event(deal_count).each { |c| @cc.owner.dealed_event(c) })
@@ -4714,7 +4715,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_frenzy_eyes_feat()
       if @feats_enable[FEAT_FRENZY_EYES]
-         @cc.owner.tmp_power += 3
+        @cc.owner.tmp_power += 3
       end
     end
     regist_event UseFrenzyEyesFeatEvent
@@ -5287,7 +5288,7 @@ module Unlight
       check_feat(FEAT_HI_SMASH)
       # ポイントの変更をチェック
       @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
-     end
+    end
     regist_event CheckRemoveHiSmashFeatEvent
     regist_event CheckAddHiSmashFeatEvent
     regist_event CheckRotateHiSmashFeatEvent
@@ -5602,7 +5603,7 @@ module Unlight
       check_feat(FEAT_REJECT_SWORD)
       # ポイントの変更をチェック
       @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
-     end
+    end
     regist_event CheckRemoveRejectSwordFeatEvent
     regist_event CheckAddRejectSwordFeatEvent
     regist_event CheckRotateRejectSwordFeatEvent
@@ -5902,7 +5903,7 @@ module Unlight
       check_feat(FEAT_REJECT_BLADE)
       # ポイントの変更をチェック
       @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
-     end
+    end
     regist_event CheckRemoveRejectBladeFeatEvent
     regist_event CheckAddRejectBladeFeatEvent
     regist_event CheckRotateRejectBladeFeatEvent
@@ -5975,8 +5976,8 @@ module Unlight
     # ------------------
     # 必殺技が使用されたかのチェック
     def check_indomitable_mind_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_INDOMITABLE_MIND)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_INDOMITABLE_MIND)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_INDOMITABLE_MIND)
       # ポイントの変更をチェック
@@ -6073,7 +6074,7 @@ module Unlight
         # ポイントの変更をチェック
         @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
       end
-     end
+    end
     regist_event CheckRemoveBackStabFeatEvent
     regist_event CheckAddBackStabFeatEvent
     regist_event CheckRotateBackStabFeatEvent
@@ -6171,7 +6172,7 @@ module Unlight
       check_feat(FEAT_KARMIC_PHANTOM)
       # ポイントの変更をチェック
       @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
-     end
+    end
     regist_event CheckRemoveKarmicPhantomFeatEvent
     regist_event CheckAddKarmicPhantomFeatEvent
     regist_event CheckRotateKarmicPhantomFeatEvent
@@ -6405,8 +6406,8 @@ module Unlight
     # ------------------
     # ミスフィットが使用されたかのチェック
     def check_misfit_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_MISFIT)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_MISFIT)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_MISFIT)
       # ポイントの変更をチェック
@@ -6554,8 +6555,8 @@ module Unlight
     # ------------------
     # ２つの身体が使用されたかのチェック
     def check_double_body_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_DOUBLE_BODY)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_DOUBLE_BODY)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_DOUBLE_BODY)
       # ポイントの変更をチェック
@@ -6837,7 +6838,7 @@ module Unlight
       check_feat(FEAT_DOUBLE_ATTACK)
       # ポイントの変更をチェック
       @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
-     end
+    end
     regist_event CheckRemoveDoubleAttackFeatEvent
     regist_event CheckAddDoubleAttackFeatEvent
     regist_event CheckRotateDoubleAttackFeatEvent
@@ -6913,8 +6914,8 @@ module Unlight
     # ------------------
     # 必殺技が使用されたかのチェック
     def check_guard_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_GUARD)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_GUARD)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_GUARD)
       # ポイントの変更をチェック
@@ -7413,9 +7414,9 @@ module Unlight
       feat_no = FEAT_HANDLED_SLASH_R
       if @cc.using
         if (@check_feat_range_free || owner.distance == 1) &&
-            @cc.status[STATE_SEAL][1] <= 0 &&
-            @cc.special_status[SPECIAL_STATE_CAT][1] <= 0 &&
-            owner.greater_check(feat_no, ActionCard::SWD, 6)
+           @cc.status[STATE_SEAL][1] <= 0 &&
+           @cc.special_status[SPECIAL_STATE_CAT][1] <= 0 &&
+           owner.greater_check(feat_no, ActionCard::SWD, 6)
 
           unless @feats_enable[feat_no]
             @feats_enable[feat_no] = true
@@ -7438,8 +7439,8 @@ module Unlight
     # ------------------
     # 修羅の構えが使用されたかのチェック
     def check_curse_care_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_CURSE_CARE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_CURSE_CARE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_CURSE_CARE)
       # ポイントの変更をチェック
@@ -7497,13 +7498,13 @@ module Unlight
 
     # 全て終わった後、再チェック
     def use_curse_care_feat_heal3()
-        if @feats_enable[FEAT_CURSE_CARE]
+      if @feats_enable[FEAT_CURSE_CARE]
         if @curse_care_actuate_ex || curse_care_hp_check
           curse_care_debuffaring
           curse_care_healing if @curse_care_is_ex
         end
-        @feats_enable[FEAT_CURSE_CARE] = false
-      end
+      @feats_enable[FEAT_CURSE_CARE] = false
+    end
     end
     regist_event UseCurseCareFeatHeal3Event
 
@@ -7590,8 +7591,8 @@ module Unlight
     # 羅刹が使用されたかのチェック
     def use_rakshasa_stance_feat_result
       if @cc && @cc.using &&
-          owner.initiative? &&
-          @feats_enable[FEAT_RAKSHASA_STANCE]
+         owner.initiative? &&
+         @feats_enable[FEAT_RAKSHASA_STANCE]
 
         duel.tmp_damage = duel.tmp_damage * 2
       end
@@ -7714,7 +7715,7 @@ module Unlight
         aca = []
         # 特殊カードのみにする
         foe.cards.shuffle.each do |c|
-           aca << c if c.u_type == ActionCard::SPC || c.b_type == ActionCard::SPC
+          aca << c if c.u_type == ActionCard::SPC || c.b_type == ActionCard::SPC
         end
         # ダメージの分だけカードを捨てる
         Feat.pow(@feats[FEAT_MOON_SHINE]).times do |a|
@@ -9545,7 +9546,7 @@ module Unlight
         aca = []
         # カードをシャッフルする
         foe.cards.shuffle.each do |c|
-           aca << c
+          aca << c
         end
         # ダメージの分だけカードを捨てる
         Feat.pow(@feats[FEAT_DISASTER_FLAME]).times do |a|
@@ -9903,8 +9904,8 @@ module Unlight
     # ------------------
     # ブラッドレッティングが使用されたかのチェック
     def check_blood_retting_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_BLOOD_RETTING)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_BLOOD_RETTING)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_BLOOD_RETTING)
       # ポイントの変更をチェック
@@ -9983,8 +9984,8 @@ module Unlight
     # ------------------
     # ディセクションが使用されたかのチェック
     def check_dissection_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_DISSECTION)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_DISSECTION)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_DISSECTION)
       # ポイントの変更をチェック
@@ -10253,8 +10254,8 @@ module Unlight
     # ------------------
     # 葉隠れが使用されたかのチェック
     def check_hagakure_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_HAGAKURE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_HAGAKURE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_HAGAKURE)
       # ポイントの変更をチェック
@@ -10402,7 +10403,7 @@ module Unlight
     def use_enpi_feat_damage()
       if @feats_enable[FEAT_ENPI]
         if (foe.current_chara_card.hp == foe.hit_point && Feat.pow(@feats[FEAT_ENPI]) < 7) ||
-          (foe.current_chara_card.hp - 3 <= foe.hit_point && Feat.pow(@feats[FEAT_ENPI]) >= 7)
+           (foe.current_chara_card.hp - 3 <= foe.hit_point && Feat.pow(@feats[FEAT_ENPI]) >= 7)
           # １回目のダイスを振ってダメージを保存
           rec_damage = duel.tmp_damage
           rec_dice_heads_atk = duel.tmp_dice_heads_atk
@@ -10526,8 +10527,8 @@ module Unlight
     # ------------------
     # ローデシアの海が使用されたかのチェック
     def check_rhodesia_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_RHODESIA)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_RHODESIA)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_RHODESIA)
       # ポイントの変更をチェック
@@ -10738,8 +10739,8 @@ module Unlight
     # ------------------
     # パーフェクトデッドが使用されたかのチェック
     def check_perfect_dead_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_PERFECT_DEAD)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_PERFECT_DEAD)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_PERFECT_DEAD)
       # ポイントの変更をチェック
@@ -10824,8 +10825,8 @@ module Unlight
     # ------------------
     # パワーシフトが使用されたかのチェック
     def check_power_shift_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_POWER_SHIFT)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_POWER_SHIFT)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_POWER_SHIFT)
       # ポイントの変更をチェック
@@ -10921,8 +10922,8 @@ module Unlight
     # ------------------
     # ディフレクトが使用されたかのチェック
     def check_defrect_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_DEFRECT)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_DEFRECT)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_DEFRECT)
       # ポイントの変更をチェック
@@ -11113,8 +11114,8 @@ module Unlight
     # ------------------
     # 必殺技が使用されたかのチェック
     def check_dead_guard_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_DEAD_GUARD)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_DEAD_GUARD)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_DEAD_GUARD)
       # ポイントの変更をチェック
@@ -11157,8 +11158,8 @@ module Unlight
     # ------------------
     # 奇数即死が使用されたかのチェック
     def check_dead_blue_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_DEAD_BLUE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_DEAD_BLUE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_DEAD_BLUE)
       # ポイントの変更をチェック
@@ -11200,8 +11201,8 @@ module Unlight
     # ------------------
     # 善悪の彼岸が使用されたかのチェック
     def check_evil_guard_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_EVIL_GUARD)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_EVIL_GUARD)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_EVIL_GUARD)
       # ポイントの変更をチェック
@@ -11250,8 +11251,8 @@ module Unlight
     # ------------------
     # 道連れが使用されたかのチェック
     def check_abyss_eyes_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_ABYSS_EYES)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_ABYSS_EYES)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_ABYSS_EYES)
       # ポイントの変更をチェック
@@ -11617,8 +11618,8 @@ module Unlight
     # ------------------
     # 蒼き薔薇が使用されたかのチェック
     def check_blue_rose_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_BLUE_ROSE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_BLUE_ROSE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_BLUE_ROSE)
       # ポイントの変更をチェック
@@ -12519,11 +12520,11 @@ module Unlight
 
     # ザ・ギャザラーが使用される
     def use_gatherer_feat()
-        if @feats_enable[FEAT_GATHERER]
+      if @feats_enable[FEAT_GATHERER]
         use_feat_event(@feats[FEAT_GATHERER])
-        owner.healed_event(Feat.pow(@feats[FEAT_GATHERER])) if owner.hit_point > 0
-        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_GATHERER])))
-      end
+      owner.healed_event(Feat.pow(@feats[FEAT_GATHERER])) if owner.hit_point > 0
+      foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_GATHERER])))
+    end
     end
     regist_event UseGathererFeatEvent
 
@@ -12566,8 +12567,8 @@ module Unlight
     # ------------------
     # ザ・ジャッジが使用されたかのチェック
     def check_judge_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_JUDGE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_JUDGE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_JUDGE)
       # ポイントの変更をチェック
@@ -12789,8 +12790,8 @@ module Unlight
     # ------------------
     # アトムハートが使用されたかのチェック
     def check_atom_heart_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_ATOM_HEART)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_ATOM_HEART)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_ATOM_HEART)
       # ポイントの変更をチェック
@@ -13500,7 +13501,7 @@ module Unlight
     def use_time_bomb_feat()
       if @feats_enable[FEAT_TIME_BOMB]
         if Feat.pow(@feats[FEAT_TIME_BOMB]) == 11 && ![2, 3, 5, 7, 11, 13, 17].include?(duel.turn)
-            @cc.owner.tmp_power += 7
+          @cc.owner.tmp_power += 7
         else
           @cc.owner.tmp_power += Feat.pow(@feats[FEAT_TIME_BOMB])
         end
@@ -14072,8 +14073,8 @@ module Unlight
     # ------------------
     # 叫ぶ門が使用されたかのチェック
     def check_shout_of_gate_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_SHOUT_OF_GATE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_SHOUT_OF_GATE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_SHOUT_OF_GATE)
       # ポイントの変更をチェック
@@ -14152,7 +14153,7 @@ module Unlight
             foe.cured_event()
           elsif Feat.pow(@feats[FEAT_FERREOUS_ANGER]) == 10 && @cc.status[STATE_STICK][0] == 2
             @cc.status.each_with_index do |s, i|
-              if s[1] > 0 && i != STATE_STICK && (! CharaCard::IRREMEDIABLE_STATE.include?(i))
+              if s[1] > 0 && i != STATE_STICK && (!CharaCard::IRREMEDIABLE_STATE.include?(i))
                 s[1] = 0
                 off_buff_event(true, owner.current_chara_card_no, i, s[0])
               end
@@ -14187,10 +14188,10 @@ module Unlight
       if @feats_enable[FEAT_NAME_OF_CHARITY]
         use_feat_event(@feats[FEAT_NAME_OF_CHARITY])
         if foe.current_chara_card.kind == CC_KIND_MONSTAR ||
-            foe.current_chara_card.kind == CC_KIND_BOSS_MONSTAR ||
-            foe.current_chara_card.kind == CC_KIND_PROFOUND_BOSS ||
-            foe.current_chara_card.kind == CC_KIND_RARE_MONSTER ||
-            foe.current_chara_card.special_status[SPECIAL_STATE_CAT][1] > 0
+           foe.current_chara_card.kind == CC_KIND_BOSS_MONSTAR ||
+           foe.current_chara_card.kind == CC_KIND_PROFOUND_BOSS ||
+           foe.current_chara_card.kind == CC_KIND_RARE_MONSTER ||
+           foe.current_chara_card.special_status[SPECIAL_STATE_CAT][1] > 0
 
           buffed = set_state(foe.current_chara_card.status[STATE_SEAL], 1, Feat.pow(@feats[FEAT_NAME_OF_CHARITY]))
           on_buff_event(false, foe.current_chara_card_no, STATE_SEAL, foe.current_chara_card.status[STATE_SEAL][0], foe.current_chara_card.status[STATE_SEAL][1]) if buffed
@@ -14467,8 +14468,8 @@ module Unlight
     # ------------------
     # 無念の裁きが使用されたかのチェック
     def check_regrettable_judgment_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_REGRETTABLE_JUDGMENT)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_REGRETTABLE_JUDGMENT)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_REGRETTABLE_JUDGMENT)
       # ポイントの変更をチェック
@@ -14511,8 +14512,8 @@ module Unlight
     # ------------------
     # 罪業の蠢きが使用されたかのチェック
     def check_sin_wriggle_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_SIN_WRIGGLE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_SIN_WRIGGLE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_SIN_WRIGGLE)
       # ポイントの変更をチェック
@@ -14869,8 +14870,8 @@ module Unlight
     # ------------------
     # von541が使用されたかのチェック
     def check_von_num_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_VON_NUM)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_VON_NUM)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_VON_NUM)
       # ポイントの変更をチェック
@@ -15048,17 +15049,17 @@ module Unlight
     end
     regist_event UseKutunesirkaFeatDamageEvent
 
-  # ------------------
-  # ヘルメスの靴(ドゥンケルハイト)
-  # ------------------
-  # ヘルメスの靴が使用されたかのチェック
-  def check_feet_of_hermes_feat
+    # ------------------
+    # ヘルメスの靴(ドゥンケルハイト)
+    # ------------------
+    # ヘルメスの靴が使用されたかのチェック
+    def check_feet_of_hermes_feat
       # カードをON情報をリセットしてから
       @cc.owner.reset_feat_on_cards(FEAT_FEET_OF_HERMES)
-      # テーブルにアクションカードがおかれていてかつ、距離が中・遠距離の時
-      check_feat(FEAT_FEET_OF_HERMES)
-      # ポイントの変更をチェック
-      @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
+        # テーブルにアクションカードがおかれていてかつ、距離が中・遠距離の時
+        check_feat(FEAT_FEET_OF_HERMES)
+        # ポイントの変更をチェック
+        @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
     end
     regist_event CheckRemoveFeetOfHermesFeatEvent
     regist_event CheckAddFeetOfHermesFeatEvent
@@ -15238,8 +15239,8 @@ module Unlight
     # ------------------
     # 指嗾する仔が使用されたかのチェック
     def check_rampancy_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_RAMPANCY)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_RAMPANCY)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_RAMPANCY)
       # ポイントの変更をチェック
@@ -15293,7 +15294,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_sacrifice_of_soul_feat()
       if @feats_enable[FEAT_SACRIFICE_OF_SOUL]
-         @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SACRIFICE_OF_SOUL])
+        @cc.owner.tmp_power += Feat.pow(@feats[FEAT_SACRIFICE_OF_SOUL])
       end
     end
     regist_event UseSacrificeOfSoulFeatEvent
@@ -15491,8 +15492,8 @@ module Unlight
     # ------------------
     # ひつじ数え歌が使用されたかのチェック
     def check_sheep_song_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_SHEEP_SONG)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_SHEEP_SONG)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_SHEEP_SONG)
       # ポイントの変更をチェック
@@ -15942,8 +15943,8 @@ module Unlight
     # ------------------
     # 受け流しが使用されたかのチェック
     def check_sword_avoid_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_SWORD_AVOID)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_SWORD_AVOID)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_SWORD_AVOID)
       # ポイントの変更をチェック
@@ -16080,8 +16081,8 @@ module Unlight
     # ------------------
     # 必殺技が使用されたかのチェック
     def check_volition_deflect_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_VOLITION_DEFLECT)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_VOLITION_DEFLECT)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_VOLITION_DEFLECT)
       # ポイントの変更をチェック
@@ -16103,7 +16104,7 @@ module Unlight
 
     # attribute_damageが任意のタイミングで使う
     def use_volition_deflect_feat_damage(d)
-        rand_num = rand(100)
+      rand_num = rand(100)
         if rand_num < 33
           owner.damaged_event(attribute_damage(ATTRIBUTE_REFLECTION, owner, d))
         end
@@ -16466,7 +16467,7 @@ module Unlight
     # 血統汚染が使用される
     def finish_blutkontamina_feat()
       if @feats_enable[FEAT_BLUTKONTAMINA]
-         use_feat_event(@feats[FEAT_BLUTKONTAMINA])
+        use_feat_event(@feats[FEAT_BLUTKONTAMINA])
       end
     end
     regist_event FinishBlutkontaminaFeatEvent
@@ -16823,7 +16824,7 @@ module Unlight
     regist_event FinishFeat4FeatEvent
 
     def start_feat4_feat()
-        @over_drive_five = false
+      @over_drive_five = false
         @over_drive = false
     end
     regist_event StartFeat4FeatEvent
@@ -16948,7 +16949,7 @@ module Unlight
     regist_event CheckEndingWeaselFeatEvent
 
     def init_weasel
-        @feat_weasel_deff_card_list = {}
+      @feat_weasel_deff_card_list = {}
     end
 
     # ------------------
@@ -18753,8 +18754,8 @@ module Unlight
     # ------------------
     # 7つの願いが使用されたかのチェック
     def check_seven_wish_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_SEVEN_WISH)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_SEVEN_WISH)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_SEVEN_WISH)
       # ポイントの変更をチェック
@@ -18777,8 +18778,8 @@ module Unlight
       if @feats_enable[FEAT_SEVEN_WISH]
         # HPがマイナスで1度だけ発動, レイドボス・ボスに無効
         if owner.hit_point <= Feat.pow(@feats[FEAT_SEVEN_WISH]) &&
-            foe.current_chara_card.kind != CC_KIND_BOSS_MONSTAR &&
-            foe.current_chara_card.kind != CC_KIND_PROFOUND_BOSS
+           foe.current_chara_card.kind != CC_KIND_BOSS_MONSTAR &&
+           foe.current_chara_card.kind != CC_KIND_PROFOUND_BOSS
 
           set_state(foe.current_chara_card.special_status[SPECIAL_STATE_CAT], 1, @seven_wish_feat_pow)
           on_transform_sequence(false, TRANSFORM_TYPE_CAT)
@@ -19211,8 +19212,8 @@ module Unlight
     # ------------------
     # バランスライフが使用されたかのチェック
     def check_balance_life_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_BALANCE_LIFE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_BALANCE_LIFE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_BALANCE_LIFE)
       # ポイントの変更をチェック
@@ -19700,7 +19701,7 @@ module Unlight
       (pac.u_type == fac.u_type && pac.b_type == fac.b_type) &&
         (pac.u_value == fac.u_value && pac.b_value == fac.b_value) ||
         (pac.u_type == fac.b_type && pac.b_type == fac.u_type) &&
-        (pac.u_value == fac.b_value && pac.b_value == fac.u_value)
+          (pac.u_value == fac.b_value && pac.b_value == fac.u_value)
     end
 
     # 水鏡が使用される
@@ -19796,7 +19797,7 @@ module Unlight
       check_feat(FEAT_MERE_SHADOW)
       # ポイントの変更をチェック
       @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
-     end
+    end
     regist_event CheckRemoveMereShadowFeatEvent
     regist_event CheckAddMereShadowFeatEvent
     regist_event CheckRotateMereShadowFeatEvent
@@ -19977,8 +19978,8 @@ module Unlight
     # ------------------
     # マリスデザイアが使用されたかのチェック
     def check_avengers_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_AVENGERS)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_AVENGERS)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_AVENGERS)
       # ポイントの変更をチェック
@@ -20308,8 +20309,8 @@ module Unlight
     # ------------------
     # 幽幻の剛弾が使用されたかのチェック
     def check_phantom_barrett_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_PHANTOM_BARRETT)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_PHANTOM_BARRETT)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_PHANTOM_BARRETT)
       # ポイントの変更をチェック
@@ -20586,8 +20587,8 @@ module Unlight
     # ------------------
     # コンストレイントが使用されたかのチェック
     def check_constraint_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_CONSTRAINT)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_CONSTRAINT)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_CONSTRAINT)
       # ポイントの変更をチェック
@@ -20777,8 +20778,8 @@ module Unlight
     # ------------------
     # 催眠術が使用されたかのチェック
     def check_backbeard_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_BACKBEARD)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_BACKBEARD)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_BACKBEARD)
       # ポイントの変更をチェック
@@ -20896,8 +20897,8 @@ module Unlight
     # ------------------
     # リベットアンドサージが使用されたかのチェック
     def check_rivet_and_surge_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_RIVET_AND_SURGE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_RIVET_AND_SURGE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_RIVET_AND_SURGE)
       # ポイントの変更をチェック
@@ -21380,7 +21381,7 @@ module Unlight
         aca = []
         # 剣カードのみにする
         foe.cards.shuffle.each do |c|
-           aca << c if c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD
+          aca << c if c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD
         end
 
         discard_num = Feat.pow(@feats[FEAT_BLOWING_FIRE]) > 6 ? 2 : 1
@@ -21579,8 +21580,8 @@ module Unlight
     # ------------------
     # スキルドレインが使用されたかのチェック
     def check_skill_drain_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_SKILL_DRAIN)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_SKILL_DRAIN)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_SKILL_DRAIN)
       # ポイントの変更をチェック
@@ -21878,8 +21879,8 @@ module Unlight
     # ------------------
     # 烏爪一転が使用されたかのチェック
     def check_crows_claw_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_CROWS_CLAW)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_CROWS_CLAW)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_CROWS_CLAW)
       # ポイントの変更をチェック
@@ -21932,8 +21933,8 @@ module Unlight
     # ------------------
     # 土竜縛符が使用されたかのチェック
     def check_mole_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_MOLE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_MOLE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_MOLE)
       # ポイントの変更をチェック
@@ -22092,8 +22093,8 @@ module Unlight
     # ------------------
     # 吸収が使用されたかのチェック
     def check_grape_vine_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_GRAPE_VINE)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_GRAPE_VINE)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_GRAPE_VINE)
       # ポイントの変更をチェック
@@ -22303,7 +22304,7 @@ module Unlight
     regist_event CheckEndingCollectionFeatEvent
 
     def init_collection
-        @feat_collection_card_list = {}
+      @feat_collection_card_list = {}
     end
 
     # ------------------
@@ -22824,8 +22825,8 @@ module Unlight
     # ------------------
     # 必殺技が使用されたかのチェック
     def check_afterglow_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_AFTERGLOW)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_AFTERGLOW)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_AFTERGLOW)
       # ポイントの変更をチェック
@@ -22870,8 +22871,8 @@ module Unlight
     # ------------------
     # 必殺技が使用されたかのチェック
     def check_keeper_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_KEEPER)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_KEEPER)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_KEEPER)
       # ポイントの変更をチェック
@@ -24021,7 +24022,7 @@ module Unlight
         # 数値をpow分増やす
         if duel.tmp_damage < 5
           foe.cards.shuffle.each do |c|
-             break if cnt >= max_num
+            break if cnt >= max_num
 
             if (1..60).include?(c.id)
               rewrite_count = false
@@ -24042,7 +24043,7 @@ module Unlight
           end
         else
           foe.cards.shuffle.each do |c|
-             break if cnt >= max_num
+            break if cnt >= max_num
 
             if (1..60).include?(c.id)
               rewrite_count = false
@@ -24098,8 +24099,8 @@ module Unlight
     # ------------------
     # 捕縛が使用されたかのチェック
     def check_arrest_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_ARREST)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_ARREST)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_ARREST)
       # ポイントの変更をチェック
@@ -24148,8 +24149,8 @@ module Unlight
     # ------------------
     # クイックドローが使用されたかのチェック
     def check_quick_draw_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_QUICK_DRAW)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_QUICK_DRAW)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_QUICK_DRAW)
       # ポイントの変更をチェック
@@ -25167,8 +25168,8 @@ module Unlight
     # ------------------
     # スタンプが使用されたかのチェック
     def check_stamp_feat
-        # カードをON情報をリセットしてから
-        @cc.owner.reset_feat_on_cards(FEAT_STAMP)
+      # カードをON情報をリセットしてから
+      @cc.owner.reset_feat_on_cards(FEAT_STAMP)
       # テーブルにアクションカードがおかれていてかつ、距離が近距離の時
       check_feat(FEAT_STAMP)
       # ポイントの変更をチェック
@@ -25793,7 +25794,7 @@ module Unlight
       case feat_no
       when FEAT_CARAPACE_SPIN
         # パッシブ中でない場合
-        ! @passives_enable[PASSIVE_CARAPACE]
+        !@passives_enable[PASSIVE_CARAPACE]
 
       when FEAT_ASIA
         # ターンがPOWの倍数でないとき
@@ -25801,11 +25802,11 @@ module Unlight
 
       when FEAT_SMILE
         # 相手が女性ではない
-        ! Charactor.attribute(foe.current_chara_card.charactor_id).include?("female")
+        !Charactor.attribute(foe.current_chara_card.charactor_id).include?("female")
 
       when FEAT_COLD_EYES
         # 相手が男性ではない
-        ! Charactor.attribute(foe.current_chara_card.charactor_id).include?("male")
+        !Charactor.attribute(foe.current_chara_card.charactor_id).include?("male")
 
       when FEAT_INVERT
         # hpが1/2以上

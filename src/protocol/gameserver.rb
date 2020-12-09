@@ -19,7 +19,7 @@ module Protocol
       # コマンドクラスをつくる
       @@receive_cmd = Command.new(self, :Game)
       # CPUDECKを初期化
-      CharaCardDeck::initialize_CPU_deck
+      CharaCardDeck::preload_CPU_deck
       # コネクションチェック時の分割リスト
       set_check_split_list
     end

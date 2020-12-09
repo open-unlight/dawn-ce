@@ -47,7 +47,7 @@ module Unlight
         f_l = InviteLog.new do |f|
           f.invite_player_id = pid
           f.invited_user_id = uid
-          f.save
+          f.save_changes
         end
         ret = f_l
       end
@@ -67,7 +67,7 @@ module Unlight
           f.invite_player_id = pid
           f.invited_user_id = uid
           f.sns_log_id = log_id
-          f.save
+          f.save_changes
         end
         ret = f_l
       end
@@ -102,12 +102,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
   end
 end

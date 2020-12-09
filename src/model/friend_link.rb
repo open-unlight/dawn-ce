@@ -43,12 +43,12 @@ module Unlight
     end
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # リンクのキャッシュ
@@ -125,7 +125,7 @@ module Unlight
           f.relating_player_id = p_a
           f.related_player_id = p_b
           f.server_type = server_type
-          f.save
+          f.save_changes
         end
         CACHE.delete("friend_link_get:#{p_a}")
         CACHE.delete("friend_link_get:#{p_b}")
@@ -155,7 +155,7 @@ module Unlight
         f.related_player_id = p_b
         f.friend_type = TYPE_BLOCK
         f.server_type = server_type
-        f.save
+        f.save_changes
       end
       CACHE.delete("friend_link_get:#{p_a}")
       CACHE.delete("friend_link_get:#{p_b}")
@@ -179,7 +179,7 @@ module Unlight
 
     # リンクを削除
     def FriendLink::delete_link(p_a, p_b, server_type)
-        ret = false
+      ret = false
       if p_a != p_b
         links = check_already_exist?(p_a, p_b, server_type)
         if links && links.size > 0
@@ -256,7 +256,7 @@ module Unlight
         ret = self.relating_player_id
       end
      ret
-   end
+    end
 
     # p_idにother_p_idがBlockされてるか
     def FriendLink::is_blocked(p_id, other_p_id, server_type)

@@ -38,17 +38,17 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     def LotLog::create_log(p_id, l_type, l_no)
       LotLog.new do |i|
-        i.player_id = p_id
+          i.player_id = p_id
         i.lot_type = l_type
         i.geted_lot_no = l_no
         i.description = "[#{i.rare_card_lot.article_kind}:#{i.rare_card_lot.article_id}]" + i.rare_card_lot.description

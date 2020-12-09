@@ -42,12 +42,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # テーブルを変更する（履歴を残せ）
@@ -86,7 +86,7 @@ module Unlight
           pr.copy_type = PRF_COPY_TYPE_OWNER
           pr.found_avatar_id = found_avatar_id
           pr.server_type = server_type
-          pr.save
+          pr.save_changes
           # 状態異常を作成
           pr.set_boss_buff()
         end
@@ -109,7 +109,7 @@ module Unlight
           pr.copy_type = PRF_COPY_TYPE_OWNER
           pr.found_avatar_id = found_avatar_id
           pr.server_type = server_type
-          pr.save
+          pr.save_changes
           # 状態異常を作成
           pr.set_boss_buff()
         end

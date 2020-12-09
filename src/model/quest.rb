@@ -65,9 +65,9 @@ module Unlight
       datetime    :updated_at
     end
 
-     # バリデーションの設定
-     validates do
-     end
+    # バリデーションの設定
+    validates do
+    end
 
     # DBにテーブルをつくる
     if !(Quest.table_exists?)
@@ -324,28 +324,28 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
-   def get_data_csv_str
-     ret = ""
-     ret << self.id.to_s << ","
-     ret << '"' << (self.name || "") << '",'
-     ret << '"' << (self.caption || "") << '",'
-     ret << (self.ap || 0).to_s << ","
-     ret << (self.kind || 0).to_s << ","
-     ret << (self.difficulty || 0).to_s << ","
-     ret << (self.rarity || 0).to_s << ","
-     ret << '[' << (self.get_land_ids_str || "") << '],'
-     ret << '[' << (self.get_nexts_str || "") << '],'
-     ret << (self.quest_map_id || 0).to_s << ","
-     ret << (self.story_no || 0).to_s << ""
-     ret
-   end
+    def get_data_csv_str
+      ret = ""
+      ret << self.id.to_s << ","
+      ret << '"' << (self.name || "") << '",'
+      ret << '"' << (self.caption || "") << '",'
+      ret << (self.ap || 0).to_s << ","
+      ret << (self.kind || 0).to_s << ","
+      ret << (self.difficulty || 0).to_s << ","
+      ret << (self.rarity || 0).to_s << ","
+      ret << '[' << (self.get_land_ids_str || "") << '],'
+      ret << '[' << (self.get_nexts_str || "") << '],'
+      ret << (self.quest_map_id || 0).to_s << ","
+      ret << (self.story_no || 0).to_s << ""
+      ret
+    end
   end
 end

@@ -26,10 +26,10 @@ module Unlight
       datetime    :updated_at
     end
 
-     # バリデーションの設定
-     #    include Validation
-     validates do
-     end
+    # バリデーションの設定
+    #    include Validation
+    validates do
+    end
 
     # DBにテーブルをつくる
     if !(DialogueWeight.table_exists?)
@@ -38,12 +38,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # クエストバトル開始時のダイアログ
@@ -61,7 +61,7 @@ module Unlight
                                    other_chara_id: chara_id,
                                    weight: map_id,
                                    level: land_id })
-        .first unless dw
+                         .first unless dw
       ret = Dialogue[dw.dialogue_id].content if dw
       ret
     end
@@ -85,9 +85,9 @@ module Unlight
       ret = []
       # oc = CharaCard[other_id]
       ret = DialogueWeight.where([[:dialogue_type, type], [:chara_id, [my_parent_id, my_chara_id]], [:other_chara_id, [other_parent_id, other_chara_id]]])
-        .filter((Sequel.cast_string(:level) <= level))
-        .order(:chara_id)
-        .order_more(:other_chara_id).all
+                          .filter((Sequel.cast_string(:level) <= level))
+                          .order(:chara_id)
+                          .order_more(:other_chara_id).all
 
       if ret.empty?
         default_dialogue(my_parent_id, my_chara_id, type, level)
@@ -101,13 +101,13 @@ module Unlight
       ret = Array.new(level, 0)
       if parent_id != chara_id
         DialogueWeight.filter({ chara_id: chara_id, other_chara_id: chara_id, dialogue_type: type })
-          .filter((Sequel.cast_string(:level) <= level)).all do |r|
+                      .filter((Sequel.cast_string(:level) <= level)).all do |r|
           ret[r.level - 1] = r
         end
       end
 
       DialogueWeight.filter({ chara_id: parent_id, other_chara_id: parent_id, dialogue_type: type })
-        .filter((Sequel.cast_string(:level) <= level)).all do |r|
+                    .filter((Sequel.cast_string(:level) <= level)).all do |r|
         ret[r.level - 1] = r if ret[r.level - 1] == 0
       end
 

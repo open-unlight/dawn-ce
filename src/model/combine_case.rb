@@ -55,8 +55,8 @@ module Unlight
     @@combine_param = []
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-     validates do
-    end
+    validates do
+   end
 
     # DBにテーブルをつくる
     if !(CombineCase.table_exists?)
@@ -65,7 +65,7 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
@@ -194,7 +194,7 @@ module Unlight
       ret = base_cond.call(base_id)
       if ret
         add_cond.each do |ac|
-          add_id_list.each_with_index do |a_id, i |
+          add_id_list.each_with_index do |a_id, i|
             ret = false
             r = ac.call(a_id) unless add_list_used[i]
             if r
@@ -223,11 +223,11 @@ module Unlight
     end
 
     def get_range_judge_proc(c)
-        if c.class == Range
-          Proc.new { |base| c.include?(base) }
-        else
-          Proc.new { |base| c == base }
-        end
+      if c.instance_of?(Range)
+        Proc.new { |base| c.include?(base) }
+      else
+        Proc.new { |base| c == base }
+      end
     end
 
     # baseアイテムの条件を取り出すことが出来る

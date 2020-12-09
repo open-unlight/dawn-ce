@@ -114,7 +114,7 @@ module Unlight
           recipient = @@recipient_list[list_key]
           if recipient && recipient.player.server_type == owner.server_type
             # 発見者のBlackListに入っていたら、送信しない
-            if ! FriendLink::is_blocked(key.to_i, recipient.player.id, owner.server_type)
+            if !FriendLink::is_blocked(key.to_i, recipient.player.id, owner.server_type)
               recipient.sending_help(key, name, help) if recipient && recipient.player.id != key.to_i
             end
             cnt += 1

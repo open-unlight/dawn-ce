@@ -41,11 +41,11 @@ module Unlight
       datetime    :updated_at
     end
 
-     # バリデーションの設定
-     validates do
-       uniqueness_of :name
-       length_of :salt, minimum: 8
-     end
+    # バリデーションの設定
+    validates do
+      uniqueness_of :name
+      length_of :salt, minimum: 8
+    end
 
     # DBにテーブルをつくる
     if !(Player.table_exists?)
@@ -59,12 +59,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # ログインしていたプレイヤー全員をログアウト
@@ -126,7 +126,7 @@ module Unlight
           ret = Player.create(name: "CPU", role: ROLE_CPU, email: "auto_create_mska@be.to", salt: "6600342d86408afb5b82")
           # CPU用のアバターを作る
           Avatar.regist("CPU", ret.id, [], [], ret.server_type)
-          ret.save
+          ret.save_changes
         end
         CACHE.set("cpu_player", ret)
       end
@@ -143,7 +143,7 @@ module Unlight
           ret = Player.create(name: "prf_owner", role: ROLE_ADMIN, email: "auto_create_mska@be.to", salt: "6600342d86408afb5b82")
           # CPU用のアバターを作る
           Avatar.regist("prf_owner", ret.id, [1], [1], ret.server_type)
-          ret.save
+          ret.save_changes
         end
         CACHE.set("prf_owner", ret)
       end
@@ -199,7 +199,7 @@ module Unlight
 
             if RANDOM_SALE_FLAG
               # セール発生条件を満たす
-              if ! self.current_avatar.is_sale_time && (self.login_at == nil || self.login_at.yday != Time.now.utc.yday)
+              if !self.current_avatar.is_sale_time && (self.login_at == nil || self.login_at.yday != Time.now.utc.yday)
                 # ランダムで発生
                 r = rand(RANDOM_SALE_PROBABILITY)
                 if r == 0

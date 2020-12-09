@@ -13,7 +13,7 @@ module Unlight
         ret, new_last_id = ProfoundComment::get_comment(prf_id, last_id)
         set_comments = []
         ret.each do |pc|
-        set_comments << "#{pc[:a_name]}:#{pc[:comment]}"
+          set_comments << "#{pc[:a_name]}:#{pc[:comment]}"
         end
         sc_update_comment(prf_id, set_comments.join(",").force_encoding("UTF-8"), new_last_id) if set_comments.size > 0
       end

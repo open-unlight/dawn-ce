@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
+require 'super_diff/rspec'
 require 'simplecov'
+require 'simplecov-cobertura'
 require 'faker'
 
 SimpleCov.start do
@@ -20,6 +22,14 @@ SimpleCov.start do
   add_group "Commands", "src/protocol/command"
   add_group "Rules", "src/rule"
   add_group "Libraries", "lib/"
+
+  if ENV.fetch('GITLAB_CI', false)
+    formatter SimpleCov::Formatter::MultiFormatter.new([
+      SimpleCov::Formatter::SimpleFormatter,
+      SimpleCov::Formatter::CoberturaFormatter,
+      SimpleCov::Formatter::HTMLFormatter
+    ])
+  end
 end
 
 require_relative '../src/unlight'

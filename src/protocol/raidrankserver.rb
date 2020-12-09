@@ -29,10 +29,10 @@ module Unlight
       def unbind
         # 例外をrescueしないのAbortするので注意
         begin
-           if @player
-             logout
-             @player = nil
-           end
+          if @player
+            logout
+            @player = nil
+          end
         rescue => e
           puts e.message
         end

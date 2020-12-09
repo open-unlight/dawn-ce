@@ -18,7 +18,7 @@ all_griph = false
 
 # オプションがsの時sandbox用のURL
 #
-opt.on('-e', "--english", "英語用") do|v|
+opt.on('-e', "--english", "英語用") do |v|
   if v
     delete_mode = true;
     mode_reg = /LOCALE_TCN|LOCALE_SCN|LOCALE_JP|LOCALE_KR|LOCALE_FR/
@@ -54,7 +54,7 @@ opt.on('-kr', "--korean", "韓国語") do |v|
   end
 end
 
-opt.on('-fr', "--french", "フランス語用") do|v|
+opt.on('-fr', "--french", "フランス語用") do |v|
   if v
     delete_mode = true;
     mode_reg = /LOCALE_TCN|LOCALE_JP|LOCALE_SCN|LOCALE_KR|LOCALE_EN|LOCALE_ID|LOCALE_TH/
@@ -85,9 +85,9 @@ File.open("./data/backup/string_constants.txt") do |file|
       if skip || bracket_skip > 0
         if line.force_encoding('UTF-8') =~ end_reg
           skip = false
-        elsif bracket_check && line.force_encoding('UTF-8') =~ /\{/
+        elsif bracket_check && line.force_encoding('UTF-8').include?('{')
           bracket_skip = +1
-        elsif line.force_encoding('UTF-8') =~ /\}/ && bracket_skip > 0
+        elsif line.force_encoding('UTF-8').include?('}') && bracket_skip > 0
           bracket_skip = -1
         end
         bracket_check = false
@@ -118,7 +118,7 @@ end
 
 # 文字をカウント
 h = Hash.new()
-Find.find('./data/backup')do |f|
+Find.find('./data/backup') do |f|
   next if File.directory?(f)
 
   Find.prune if f.split("/").size > 4

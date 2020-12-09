@@ -33,8 +33,8 @@ module Unlight
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-     validates do
-    end
+    validates do
+   end
 
     # DBにテーブルをつくる
     if !(WeeklyQuestRanking.table_exists?)
@@ -47,12 +47,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # 指定したアバターのランキングを取得する
@@ -73,7 +73,7 @@ module Unlight
     end
 
     # ソート済みのランキングを取得する
-    def WeeklyQuestRanking::get_order_ranking(server_type, st_i = 0, end_i= 99)
+    def WeeklyQuestRanking::get_order_ranking(server_type, st_i = 0, end_i = 99)
       ret = cache_store.get("weekly_quest_ranking:all_#{server_type}")
       unless ret
         ret = WeeklyQuestRanking.filter(server_type: server_type).filter { id <= 100 }.all
@@ -148,7 +148,7 @@ module Unlight
             w.point = ranking[i][1]
             w.arrow = create_arrow(before_rank_id_set, w.avatar_id, i)
             w.server_type = server_type
-            w.save
+            w.save_changes
           else
             WeeklyQuestRanking.new do |w|
               w.avatar_id = ranking[i][0]
@@ -156,7 +156,7 @@ module Unlight
               w.point = ranking[i][1]
               w.arrow = create_arrow(before_rank_id_set, w.avatar_id, i)
               w.server_type = server_type
-              w.save
+              w.save_changes
             end
           end
         else
@@ -166,7 +166,7 @@ module Unlight
             w.name = ""
             w.point = 0
             w.arrow = 0
-            w.save
+            w.save_changes
           else
             WeeklyQuestRanking.new do |w|
               w.avatar_id = 0
@@ -174,7 +174,7 @@ module Unlight
               w.point = 0
               w.arrow = 0
               w.server_type = server_type
-              w.save
+              w.save_changes
             end
           end
 
@@ -189,14 +189,14 @@ module Unlight
             w = weekly_ranking[i + 100]
             w.avatar_id = ranking[i + 100][0]
             w.point = ranking[i + 100][1]
-            w.save
+            w.save_changes
           else
             WeeklyQuestRanking.new do |w|
               # w.id = i+101
               w.avatar_id = ranking[i + 100][0]
               w.point = ranking[i + 100][1]
               w.server_type = server_type
-              w.save
+              w.save_changes
             end
           end
           sleep RANK_OUT_SLEEP
@@ -228,7 +228,7 @@ module Unlight
     end
 
     # ランキングを文字列で返す（キャッシュつき）
-    def WeeklyQuestRanking::get_ranking_str(server_type, st_i = 0, end_i= 99)
+    def WeeklyQuestRanking::get_ranking_str(server_type, st_i = 0, end_i = 99)
       ret = cache_store.get("weekly_quest_ranking:#{st_i}_#{end_i}_#{server_type}_str")
       unless  ret
         set = WeeklyQuestRanking::get_order_ranking(server_type, st_i, end_i)

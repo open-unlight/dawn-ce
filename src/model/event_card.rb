@@ -33,8 +33,8 @@ module Unlight
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-     validates do
-    end
+    validates do
+   end
 
     # DBにテーブルをつくる
     if !(EventCard.table_exists?)
@@ -43,12 +43,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # アップデート後の後理処
@@ -112,8 +112,8 @@ module Unlight
       ret
     end
 
-   # ランダムで埋め草カードを返す
-   def self::get_random_filler_card()
+    # ランダムで埋め草カードを返す
+    def self::get_random_filler_card()
       @@filler_cards[rand(@@filler_cards.size)]
     end
 

@@ -23,7 +23,7 @@ def ensure_connection
     sleep 1
     retry
   end
-rescue Timeout::TimeoutError
+rescue Timeout::Error
   puts 'Unable connect to database'
   exit 1
 end
@@ -34,8 +34,12 @@ def run_console
   exec("irb -r bundler/setup -r ./src/unlight")
 end
 
+def run_web
+  exec("rackup src/#{ARGV[0]}.ru -o 0.0.0.0 -p #{ARGV[1]}")
+end
+
 case command
-when 'console', 'rake'
+when 'console', 'rake', 'web'
   ensure_connection
   return send("run_#{command}") if respond_to?("run_#{command}", true)
 

@@ -17,7 +17,7 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer   :chara_card_deck_id #, :table => :chara_card_decks
+      integer   :chara_card_deck_id, index: true #, :table => :chara_card_decks
       integer   :chara_card_id #, :table => :chara_cards
       integer   :position, default: 0, null: false
       integer   :before_deck_id #, :table => :chara_card_decks
@@ -25,9 +25,9 @@ module Unlight
       datetime  :updated_at
     end
 
-     # バリデーションの設定
-     validates do
-     end
+    # バリデーションの設定
+    validates do
+    end
 
     # DBにテーブルをつくる
     if !(CardInventory.table_exists?)
@@ -35,17 +35,17 @@ module Unlight
     end
 
     DB.alter_table :card_inventories do
-     add_column :before_deck_id, :integer, default: 0 unless Unlight::CardInventory.columns.include?(:before_deck_id) # 新規追加2011/07/25
+      add_column :before_deck_id, :integer, default: 0 unless Unlight::CardInventory.columns.include?(:before_deck_id) # 新規追加2011/07/25
     end
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     def delete_from_deck
@@ -63,7 +63,7 @@ module Unlight
             c.chara_card_deck_id = deck_id
             c.chara_card_id = CpuCardData[no].chara_cards_id[i]
             c.position = i
-            c.save
+            c.save_changes
           end
         end
       end
@@ -78,7 +78,7 @@ module Unlight
             c.chara_card_deck_id = deck_id
             c.chara_card_id = CpuCardData[no].chara_cards_id[i]
             c.position = i
-            c.save
+            c.save_changes
           end
         end
       end

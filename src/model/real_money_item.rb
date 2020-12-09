@@ -42,8 +42,8 @@ module Unlight
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-     validates do
-    end
+    validates do
+   end
 
     # DBにテーブルをつくる
     if !(RealMoneyItem.table_exists?)
@@ -51,7 +51,7 @@ module Unlight
     end
 
     DB.alter_table :real_money_items do
-       add_column :extra_id, :integer, default: 0 unless Unlight::RealMoneyItem.columns.include?(:extra_id) #new 2012/06/06
+      add_column :extra_id, :integer, default: 0 unless Unlight::RealMoneyItem.columns.include?(:extra_id) #new 2012/06/06
        add_column :view_frame, :integer, default: 0 unless Unlight::RealMoneyItem.columns.include?(:view_frame) #new 2012/06/20
        add_column :sale_type, :integer, default: 0  unless Unlight::RealMoneyItem.columns.include?(:sale_type) #new 2012/10/22
        add_column :deck_image_url, String, default: "" unless Unlight::RealMoneyItem.columns.include?(:deck_image_url) #new 2012/11/21
@@ -62,12 +62,12 @@ module Unlight
     end
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # アップデート後の後理処

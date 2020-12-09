@@ -59,8 +59,8 @@ module Unlight
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-     validates do
-    end
+    validates do
+   end
 
     # 現在の部屋リスト
     @@channel_list = {}
@@ -68,12 +68,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     def Channel::all_order
@@ -92,7 +92,7 @@ module Unlight
       # 現在の部屋リスト
       @@channel_list = {}
       Channel.all.each { |a|
-        @@channel_list[a.id] = a
+  @@channel_list[a.id] = a
 }
     end
 

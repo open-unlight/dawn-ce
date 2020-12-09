@@ -41,12 +41,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # 削除時の後処理
@@ -81,11 +81,11 @@ module Unlight
       }
 
       c_set.each do |i|
-          c = Unlight::CharaCard[i.chara_card_id]
-          ret << c if c
+        c = Unlight::CharaCard[i.chara_card_id]
+        ret << c if c
       rescue => e
-          SERVER_LOG.fatal("CharaCardDeck:#{self.id} #{e.message}")
-          ret << Unlight::CharaCard[i.chara_card_id]
+        SERVER_LOG.fatal("CharaCardDeck:#{self.id} #{e.message}")
+        ret << Unlight::CharaCard[i.chara_card_id]
       end
       ret
     end
@@ -248,7 +248,6 @@ module Unlight
     end
 
     def CharaCardDeck::initialize_CPU_deck
-        @@CPU_DECK = []
       # 登録されているCPUデータを全部なめる
       CpuCardData.all.each do |ccd|
         # データのデッキがあるか確認する
@@ -265,11 +264,24 @@ module Unlight
         end
         unless ret
           ret = CharaCardDeck.create(name: "Monster: #{ccd.id}", avatar_id: Unlight::Player.get_cpu_player.current_avatar.id)
-          ret.save
+          ret.save_changes
           CardInventory.create_cpu_card(ccd.id, ret.id)
           CharaCardSlotInventory.create_cpu_card(ccd.id, ret.id)
         end
-        @@CPU_DECK[ccd.id] = ret
+      end
+    end
+
+    def CharaCardDeck::preload_CPU_deck
+      @@CPU_DECK = []
+      # 登録されているCPUデータを全部なめる
+      CpuCardData.all.each do |ccd|
+        # データのデッキがあるか確認する
+        decks = CharaCardDeck.filter({ avatar_id: Unlight::Player.get_cpu_player.current_avatar.id, name: "Monster: #{ccd.id}" }).all
+        # デッキが存在した
+        if decks
+          # CPUDATAと同じか？
+          @@CPU_DECK[ccd.id] = decks.first if check_CPU_deck(decks.first, ccd)
+        end
       end
     end
 
@@ -283,7 +295,7 @@ module Unlight
 
     # 特定のデッキににいるSlotカードをすべてうつす
     def move_all_slot_inventory(to_deck, from_pos, to_pos)
-      chara_card_slot_inventories.clone.each do|c|
+      chara_card_slot_inventories.clone.each do |c|
         if c.deck_position == from_pos
           c.chara_card_deck = to_deck
           c.deck_position = to_pos
@@ -292,15 +304,15 @@ module Unlight
       end
     end
 
-     # デッキ内のポジション配列を返す
-     def position_list_card()
-       ret = []
-       self.refresh
-       self.card_inventories.sort { |a, b|(a.position <=> b.position)if a && b && a.position && b.position }.each do |i|
-        ret << i.id
-      end
-      ret
+    # デッキ内のポジション配列を返す
+    def position_list_card()
+      ret = []
+      self.refresh
+      self.card_inventories.sort { |a, b| (a.position <=> b.position) if a && b && a.position && b.position }.each do |i|
+       ret << i.id
      end
+     ret
+    end
 
     # 引数のカードインベントリと同じキャラがすでにデッキにある
     def chara_card_check(cci)

@@ -11,4 +11,10 @@ namespace :data do
       puts "Importing #{dataset.model_name}"
     end
   end
+
+  desc 'Initialize CPU Decks'
+  task initialize_cpu_decks: :environment do
+    # Unlight::DB.logger = nil
+    Unlight::CharaCardDeck::initialize_CPU_deck
+  end
 end

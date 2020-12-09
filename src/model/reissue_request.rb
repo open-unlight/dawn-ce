@@ -53,12 +53,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     def ReissueRequest::create_request(email, player_id = 0)
@@ -67,7 +67,7 @@ module Unlight
         r.email = email
         r.player_id = player_id
         r.limit_at = Time.now.utc + NEXT_LIMIT_TIME
-        r.save
+        r.save_changes
       end
       rreq
     end

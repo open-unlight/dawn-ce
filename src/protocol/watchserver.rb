@@ -19,7 +19,7 @@ module Protocol
       # コマンドクラスをつくる
       @@receive_cmd = Command.new(self, :Watch)
       WatchController::init
-      CharaCardDeck::initialize_CPU_deck
+      CharaCardDeck::preload_CPU_deck
     end
 
     # 切断時

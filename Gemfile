@@ -10,6 +10,10 @@ gem 'eventmachine'
 gem 'mysql2', '~> 0.5.2'
 gem 'sequel', '~> 4.0'
 
+# API Server
+gem 'puma'
+gem 'rack'
+
 # Utils
 gem 'dalli'
 gem 'gmp'
@@ -22,9 +26,10 @@ group :build do
 end
 
 group :development, :test do
-  gem 'rubocop', '~> 0.90', require: false
+  gem 'rubocop', '~> 1.0.0', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rspec', require: false
+  gem 'rubocop-sequel', require: false
   gem 'rubocop-thread_safety', require: false
 
   gem 'bundler-audit', require: false
@@ -46,4 +51,7 @@ group :test do
   gem 'factory_bot', require: false
   gem 'faker', require: false
   gem 'simplecov', '~> 0.17.1', require: false
+  gem 'simplecov-cobertura', require: false
+
+  gem 'super_diff', require: false
 end

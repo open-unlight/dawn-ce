@@ -74,12 +74,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # 部屋を作る
@@ -97,7 +97,7 @@ module Unlight
         d.get_bp = get_bp
         d.channel_set_rule = channel_rule
         d.server_type = server_type
-        d.save
+        d.save_changes
         d.set_cache(uid)
       end
     end

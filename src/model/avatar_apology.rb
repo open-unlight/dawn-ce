@@ -18,7 +18,7 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      integer     :avatar_id, index: true #, :table => :avatars
+      integer     :avatar_id, index: true, unique: true #, :table => :avatars
       String      :body, text: true, default: ""
       datetime    :created_at
       datetime    :updated_at
@@ -36,12 +36,12 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-       self.created_at = Time.now.utc
+      self.created_at = Time.now.utc
     end
 
     # インサートとアップデート時の前処理
     before_save do
-       self.updated_at = Time.now.utc
+      self.updated_at = Time.now.utc
     end
 
     # 内容をクリア
