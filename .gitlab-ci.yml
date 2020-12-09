@@ -80,6 +80,10 @@ licensed:
   script:
     - licensed cache
     - licensed status
+  only:
+    changes:
+      - Gemfile
+      - Gemfile.lock
 
 bundler-audit:
   stage: lint
@@ -88,6 +92,10 @@ bundler-audit:
     - bundle audit --update
   script:
     - bundle audit
+  only:
+    changes:
+      - Gemfile
+      - Gemfile.lock
   allow_failure: true
 
 bundler-leak:
@@ -97,6 +105,10 @@ bundler-leak:
     - bundle leak check --update
   script:
     - bundle leak
+  only:
+    changes:
+      - Gemfile
+      - Gemfile.lock
   allow_failure: true
 
 rspec:
