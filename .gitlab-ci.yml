@@ -57,6 +57,9 @@ hadolint:
   before_script: []
   script:
     - hadolint Dockerfile
+  only:
+    changes:
+      - Dockerfile
   except:
     - schedules
 
@@ -80,6 +83,12 @@ licensed:
   script:
     - licensed cache
     - licensed status
+  only:
+    changes:
+      - Gemfile
+      - Gemfile.lock
+  except:
+    - schedules
 
 bundler-audit:
   stage: lint
@@ -88,6 +97,10 @@ bundler-audit:
     - bundle audit --update
   script:
     - bundle audit
+  only:
+    changes:
+      - Gemfile
+      - Gemfile.lock
   allow_failure: true
 
 bundler-leak:
@@ -97,6 +110,10 @@ bundler-leak:
     - bundle leak check --update
   script:
     - bundle leak
+  only:
+    changes:
+      - Gemfile
+      - Gemfile.lock
   allow_failure: true
 
 rspec:
@@ -110,16 +127,15 @@ rspec:
       - coverage
     reports:
       junit: rspec.xml
-  needs:
-    - rubocop
+      cobertura: coverage/coverage.xml
+  needs: []
 
 cucumber:
   <<: *base_test
   script:
     # TODO: Run database migration
     - bundle exec cucumber
-  needs:
-    - rubocop
+  needs: []
 
 sonarqube:
   stage: analytics
@@ -143,6 +159,8 @@ sonarqube:
     - master
   needs:
     - rspec
+  except:
+    - schedules
 
 build:
   stage: build
@@ -191,3 +209,5 @@ build:
   needs:
     - hadolint
     - rspec
+  except:
+    - schedules

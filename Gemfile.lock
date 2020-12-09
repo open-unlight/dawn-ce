@@ -139,6 +139,8 @@ GEM
       docile (~> 1.1)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
+    simplecov-cobertura (1.4.2)
+      simplecov (~> 0.8)
     simplecov-html (0.10.2)
     sqlite3 (1.4.2)
     super_diff (0.5.2)
@@ -185,6 +187,7 @@ DEPENDENCIES
   rubocop-thread_safety
   sequel (~> 4.0)
   simplecov (~> 0.17.1)
+  simplecov-cobertura
   sqlite3
   super_diff
 
