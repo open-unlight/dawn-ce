@@ -188,7 +188,7 @@ module Unlight
           if @player
             regist_connection
             # TODO: Implement data encryption support
-            login_cert(ENV['DATA_ENCRYPTKEY'], ENV['IMAGE_HASHKEY'])
+            login_cert(ENV.fetch('DATA_ENCRYPTKEY', ''), ENV.fetch('IMAGE_HASHKEY', ''))
             do_login
           end
         else
