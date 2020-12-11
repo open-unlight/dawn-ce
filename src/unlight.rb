@@ -29,6 +29,9 @@ if File.exist?(File.dirname(__FILE__) + "/server_ip.rb")
   require 'server_ip'
 end
 
+# Monkey Patch
+require 'extension'
+
 # Dawn
 require 'dawn/database'
 
