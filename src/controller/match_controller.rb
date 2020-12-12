@@ -349,7 +349,9 @@ module Unlight
     def create_quickmatch_room(rule)
       # 部屋を作成
       if server_channel && @match == nil && server_channel.is_radder?
-        @match = Match.create_room(server_channel, @player.id, "QuickMatch", rand(STAGE_GATE), rule, 0, 0)
+        # 2020-10-25 - Configurable Random Stage
+        stage = ENV['QUICK_MATCH_STAGES']&.split(',')&.map(&:to_i)&.sample || rand(STAGE_GATE)
+        @match = Match.create_room(server_channel, @player.id, "QuickMatch", stage, rule, 0, 0)
         # 作った部屋のidを送る
         if @match
           sc_create_room_id(@match.id);
@@ -515,6 +517,8 @@ module Unlight
             return CpuRoomData[room_ids[rand(room_ids.size)]]
           end
         end
+        # FIXME: SHould not return array
+        return CpuRoomData[75]
       else
         o = Unlight::MatchServer::match_channel.order
         rs = CpuRoomData.filter([[:level, 1..99]])
