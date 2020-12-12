@@ -162,7 +162,7 @@ sonarqube:
 
 build:
   stage: build
-  image: awscli-in-docker:19.03.1
+  image: quay.io/open-unlight/ansible-in-docker:19.03.1
   services:
     - docker:19.03.1-dind
   variables:
