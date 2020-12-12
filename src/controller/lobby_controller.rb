@@ -432,12 +432,11 @@ module Unlight
     # ロビー会話のstart
     def cs_lobby_chara_dialogue_start
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}]")
-      if @avatar
-        c = @avatar.start_lobby_chara_script
-      end
-      unless c.first == :stop
-        self.send(c.first, *c.last)
-      end
+      return unless @avatar
+
+      c = @avatar.start_lobby_chara_script
+      return if c.nil?
+      return if c.first == :stop
     end
 
     # ロビー会話のupdate
@@ -466,6 +465,7 @@ module Unlight
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}]}")
       if @avatar
         @avatar.finish_lobby_chara_script
+        sc_lobby_chara_dialogue('@@FINISH@@')
       end
     end
 
