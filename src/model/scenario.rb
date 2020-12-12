@@ -77,7 +77,7 @@ module Unlight
           # ダイアログの場合
         when /^\s*"(.*)"\s*$/
           puts $1
-          @command_set << dialogue_to_proc($1.gsub("AVATAR_NAME", '@avatar.name if @avatar'))
+          @command_set << dialogue_to_proc($1)
           num += 1
           # パネルの場合
         when /^Panel:(.*)\n$/
@@ -106,6 +106,10 @@ module Unlight
         when /^Jump:(.*)\n$/
           set = $1.gsub("[", "").gsub("]", "")
           @command_set << jump_to_proc(set)
+          num += 1
+        when /^Rand:(.*)\n$/
+          set = eval($1)
+          @command_set << rand_to_proc(set)
           num += 1
         when /^GiveItem:(.*)\n$/
           set = eval($1)
@@ -151,6 +155,10 @@ module Unlight
 
     def jump_to_proc(flag)
       [:jump_lobby_chara, [flag]]
+    end
+
+    def rand_to_proc(flag)
+      [:jump_lobby_chara, [flag.sample]]
     end
 
     def give_item_proc(set)
