@@ -245,6 +245,7 @@ module Unlight
       @event = CharaCardEvent.new(ctxt, self)
       @status = []                    # [power, turn, resistance]
       @special_status = []
+      @event.singleton_class # NOTE: Create singleton class to ensure `method` get same object
       # ステータス状態を初期化
       CHARA_STATE_EVENT_NO.each_index do |i|
         @status << [1, 0, 0]
