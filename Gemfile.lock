@@ -66,6 +66,9 @@ GEM
       activesupport (>= 5.0.0)
     faker (2.14.0)
       i18n (>= 1.6, < 2)
+    faraday (1.1.0)
+      multipart-post (>= 1.2, < 3)
+      ruby2_keywords
     ffi (1.13.1)
     gmp (0.7.43)
     i18n (1.8.5)
@@ -75,6 +78,7 @@ GEM
     middleware (0.1.0)
     minitest (5.14.2)
     multi_test (0.1.2)
+    multipart-post (2.1.1)
     mysql2 (0.5.3)
     nio4r (2.5.4)
     overcommit (0.57.0)
@@ -134,6 +138,9 @@ GEM
     rubocop-thread_safety (0.4.2)
       rubocop (>= 0.53.0)
     ruby-progressbar (1.10.1)
+    ruby2_keywords (0.0.2)
+    sentry-raven (3.1.1)
+      faraday (>= 1.0)
     sequel (4.49.0)
     simplecov (0.17.1)
       docile (~> 1.1)
@@ -186,6 +193,7 @@ DEPENDENCIES
   rubocop-rspec
   rubocop-sequel
   rubocop-thread_safety
+  sentry-raven
   sequel (~> 4.0)
   simplecov (~> 0.17.1)
   simplecov-cobertura

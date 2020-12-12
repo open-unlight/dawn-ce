@@ -17,6 +17,9 @@ gem 'dalli'
 gem 'puma'
 gem 'rack'
 
+# Monitor
+gem 'sentry-raven'
+
 # Utils
 gem 'activesupport'
 gem 'gmp'
