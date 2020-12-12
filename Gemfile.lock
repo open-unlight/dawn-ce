@@ -163,6 +163,7 @@ PLATFORMS
 DEPENDENCIES
   RocketAMF (~> 0.2.1)
   RubyInline (~> 3.12.4)
+  activesupport
   bundler-audit
   bundler-leak
   cucumber

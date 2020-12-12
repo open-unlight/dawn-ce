@@ -10,12 +10,15 @@ gem 'eventmachine'
 gem 'mysql2', '~> 0.5.2'
 gem 'sequel', '~> 4.0'
 
+# Cache
+gem 'dalli'
+
 # API Server
 gem 'puma'
 gem 'rack'
 
 # Utils
-gem 'dalli'
+gem 'activesupport'
 gem 'gmp'
 gem 'rake'
 gem 'RubyInline', '~>3.12.4'
