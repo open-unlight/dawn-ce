@@ -13,6 +13,10 @@ require 'rubygems'
 require 'sequel'
 require 'logger'
 require 'dalli'
+
+require "active_support"
+require "active_support/core_ext/object/blank"
+
 Sequel::Model.require_valid_table = false
 
 # db_config.rb
@@ -28,9 +32,6 @@ end
 if File.exist?(File.dirname(__FILE__) + "/server_ip.rb")
   require 'server_ip'
 end
-
-# Monkey Patch
-require 'extension'
 
 # Dawn
 require 'dawn/database'
