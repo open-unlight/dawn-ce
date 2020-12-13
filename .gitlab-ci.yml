@@ -203,5 +203,7 @@ build:
     - /^release\/.*$/
     - master
     - tags
+  needs:
+    - rspec
   except:
     - schedules
