@@ -12,3 +12,5 @@ reviewed:
   bundler:
     - eventmachine # Rplace with Ractor
     - sqlite3 # BSD-3
+    - concurrent-ruby # MIT
+    - ruby2_keywords # Ruby builtin

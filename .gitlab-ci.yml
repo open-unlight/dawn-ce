@@ -29,11 +29,6 @@ variables:
       command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
     - memcached:alpine
 
-.aws-login: &aws-login
-  - apk add --no-cache curl jq python py-pip
-  - pip install awscli
-  - $(aws ecr get-login --no-include-email --region ap-northeast-1)
-
 stages:
   - lint
   - test
@@ -147,7 +142,7 @@ sonarqube:
   before_script: []
   script:
     - sonar-scanner
-      -Dsonar.projectKey=OpenUnlight-Dawn
+      -Dsonar.projectKey=$SONAR_PROJECT_KEY
       -Dsonar.sourceEncoding=UTF-8
       -Dsonar.qualitygate.wait=true
       -Dsonar.ruby.rubocop.reportPaths=rubocop.json
@@ -156,7 +151,10 @@ sonarqube:
       -Dsonar.sources=.
   allow_failure: true
   only:
-    - master
+    refs:
+      - master
+    variables:
+      - $SONAR_PROJECT_KEY
   needs:
     - rspec
   except:
@@ -164,14 +162,13 @@ sonarqube:
 
 build:
   stage: build
-  image: docker:19.03.1
+  image: quay.io/open-unlight/ansible-in-docker:19.03.1
   services:
     - docker:19.03.1-dind
   variables:
     DOCKER_HOST: tcp://docker:2376
   before_script:
-    - *aws-login
-    - apk -Uuv add bash git curl tar sed grep
+    - $(aws ecr get-login --no-include-email --region ap-northeast-1)
   script:
     - docker pull $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG || true
     - docker pull $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem || true

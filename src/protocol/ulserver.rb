@@ -76,6 +76,8 @@ module Unlight
 
       # コマンドの実行
       def do_command
+        track_user_context
+
         while cmd = @command_list.shift
           if cmd[0] > @func_list.size
             SERVER_LOG.error("#{@@class_name}: [invalid comanndNo.] >> #{cmd[0]}")
@@ -90,10 +92,21 @@ module Unlight
             begin
               @func_list[cmd[0]].call(cmd[1])
             rescue => e
+              Raven.capture_exception(e)
               SERVER_LOG.fatal("#{@@class_name}: [docommand:] fatal error #{e}:#{e.backtrace}")
             end
           end
         end
+      end
+
+      def track_user_context
+        return unless @player
+
+        Raven.user_context(
+          id: @player.id,
+          username: @player.name,
+          ip_address: @player.last_ip
+        )
       end
 
       # コマンドから受信メソッドの配列に登録する
@@ -188,7 +201,7 @@ module Unlight
           if @player
             regist_connection
             # TODO: Implement data encryption support
-            login_cert(ENV['DATA_ENCRYPTKEY'], ENV['IMAGE_HASHKEY'])
+            login_cert(ENV.fetch('DATA_ENCRYPTKEY', ''), ENV.fetch('IMAGE_HASHKEY', ''))
             do_login
           end
         else

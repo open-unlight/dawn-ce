@@ -13,6 +13,11 @@ require 'rubygems'
 require 'sequel'
 require 'logger'
 require 'dalli'
+require 'sentry-raven'
+
+require "active_support"
+require "active_support/core_ext/object/blank"
+
 Sequel::Model.require_valid_table = false
 
 # db_config.rb
