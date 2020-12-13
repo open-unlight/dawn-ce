@@ -437,6 +437,8 @@ module Unlight
       c = @avatar.start_lobby_chara_script
       return if c.nil?
       return if c.first == :stop
+
+      self.send(c.first, *c.last)
     end
 
     # ロビー会話のupdate
