@@ -1022,11 +1022,7 @@ module Unlight
       return false if base_sci.card.weapon_type == WEAPON_TYPE_MATERIAL
 
       # ベースの武器が未合成武器なら、素材がオルタサイトでないといけない
-      if !base_sci.combined?
-        first_mat_sci = use_sci_list.first
-        return false if first_mat_sci.card_id != CMB_BASE_WC_CHANGE_ID
-      else
-        # ベースが合成武器の場合、素材によって処置が変わってくる
+      if base_sci.combined?
         use_sci_id_list = {}
         use_sci_list.each do |sci|
           return false if sci.card_id == CMB_BASE_WC_CHANGE_ID # 合成武器にオルタサイトなら無効
@@ -1123,6 +1119,10 @@ module Unlight
             end
           end
         end
+      else
+        # ベースが合成武器の場合、素材によって処置が変わってくる
+        first_mat_sci = use_sci_list.first
+        return false if first_mat_sci.card_id != CMB_BASE_WC_CHANGE_ID
       end
       true
     end

@@ -8276,7 +8276,7 @@ module Unlight
           end
 
           # 自分にかかる確率は3/4
-          own_buff = rand(4) != 0 ? true : false
+          own_buff = rand(4) == 0 ? false : true
 
           if hps.size == 1 || own_buff
             hps = [[true, owner.current_chara_card_no]] + hps.shuffle
@@ -12046,10 +12046,10 @@ module Unlight
         owner.hit_points_max.each { |i| mhp += i }
 
         mhp_criteria = []
-        if Feat.pow(@feats[FEAT_HACHIYOU]) != 4
-          mhp_criteria = [20, 27, 34, 40]
-        else
+        if Feat.pow(@feats[FEAT_HACHIYOU]) == 4
           mhp_criteria = [1, 20, 27, 34, 40]
+        else
+          mhp_criteria = [20, 27, 34, 40]
         end
 
         updated_state = []
@@ -19528,10 +19528,10 @@ module Unlight
         # フィールドの状態を設定する
         @kirigakure_cc_selected = false
         owner.hiding_was_finished = false
-        if owner.direction != Entrant::DIRECTION_CHARA_CHANGE
-          owner.set_field_status_event(Entrant::FIELD_STATUS["FOG"], 1, 1)
-        else
+        if owner.direction == Entrant::DIRECTION_CHARA_CHANGE
           @kirigakure_cc_selected = true
+        else
+          owner.set_field_status_event(Entrant::FIELD_STATUS["FOG"], 1, 1)
         end
       end
     end
@@ -25746,11 +25746,11 @@ module Unlight
 
     # 霧を照らす
     def in_the_fog(player, range)
-      if @target_range != range
+      if @target_range == range
+        [player, nil]
+      else
         @target_range = range
         [player, range.join(",")]
-      else
-        [player, nil]
       end
     end
     regist_event InTheFogEvent

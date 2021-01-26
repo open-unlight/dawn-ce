@@ -328,7 +328,9 @@ module Unlight
     # 取得カード候補リスト
     def candidate_cards
       ret = []
-      if !@initialized
+      if @initialized
+        ret << get_candidate
+      else
         ret << get_candidate
         ret << get_candidate
         ret << get_candidate
@@ -345,8 +347,6 @@ module Unlight
           ret << get_candidate
         end
         @initialized = true
-      else
-        ret << get_candidate
       end
       @candidate_list += ret
       ret

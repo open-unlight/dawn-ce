@@ -81,10 +81,10 @@ module Unlight
 
     # CPUカードデータをかえす
     def cpu_card_data_id
-      if self.cpu_card_data_no != ""
-        self.cpu_card_data_no
-      else
+      if self.cpu_card_data_no == ""
         101
+      else
+        self.cpu_card_data_no
       end
     end
   end

@@ -918,10 +918,10 @@ module Unlight
 
     # カードのIDのリストを返す
     def cards_list_str(r = true, cards_arr = nil)
-      if cards_arr != nil
-        cards_arr.join(",")
-      else
+      if cards_arr == nil
         cards_list(r).join(",")
+      else
+        cards_arr.join(",")
       end
     end
 
@@ -1211,10 +1211,10 @@ module Unlight
 
     # 指定したデッキの名前を返す
     def deck_name(index)
-      if chara_card_decks[index] != nil
-        chara_card_decks[index].name
-      else
+      if chara_card_decks[index] == nil
         raise "undefined deck"
+      else
+        chara_card_decks[index].name
       end
     end
 
@@ -1826,7 +1826,7 @@ module Unlight
     # 指定したキャラカード取得する
     def get_chara_card(card_id)
       c = CharaCard[card_id]
-      c != nil ? ret = true : ret = false
+      c == nil ? ret = false : ret = true
       if ret
         # カードインベントリを作成
         inv = CardInventory.new do |i|
@@ -1980,21 +1980,21 @@ module Unlight
       ret = ERROR_PRF_DATA_NOT_EXIST
       prf = Profound::get_profound_for_hash(hash)
       if prf && prf.server_type == self.server_type
-        if !prf.is_vanished?
+        if prf.is_vanished?
+          ret = ERROR_PRF_FINISHED
+        else
+          # すでに渦は終了している
           owner_name = ""
           found_avatar = Avatar[prf.found_avatar_id]
           owner_black_list = FriendLink::get_black_list(found_avatar.player_id, found_avatar.server_type)
           # SERVER_LOG.info("<UID:#{self.player_id}>DataServer: [#{__method__}] black_list:#{owner_black_list.size > 0}");
           # 発見者のBlackListに入っていたら、取得出来ない
-          if !FriendLink::is_blocked(found_avatar.player_id, self.player_id, self.server_type)
-            owner_name = found_avatar.name
-            ret = self.get_profound(prf, false, owner_name)
+          if FriendLink::is_blocked(found_avatar.player_id, self.player_id, self.server_type)
+            SERVER_LOG.info("<UID:#{self.player_id}>DataServer: [#{__method__}] your blocked for profound owner!!! hash:#{hash}")
           else
-            SERVER_LOG.info("<UID:#{self.player_id}>DataServer: [#{__method__}] your blocked for profound owner!!! hash:#{hash}");
+            owner_name = found_avatar.name
+            ret = self.get_profound(prf, false, owner_name);
           end
-        else
-          # すでに渦は終了している
-          ret = ERROR_PRF_FINISHED
         end
       end
       ret
@@ -5089,6 +5089,7 @@ module Unlight
       end
     end
   end
+
   class AvatarEvent < BaseEvent
     def initialize(avatar)
       @avatar = avatar

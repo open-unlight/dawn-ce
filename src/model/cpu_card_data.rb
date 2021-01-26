@@ -123,10 +123,10 @@ module Unlight
 
     # キャラカードのIDをかえす
     def chara_cards_id
-      if self.chara_card_id != ""
-        self.chara_card_id.split(/\+/).map! { |s| s.to_i }
-      else
+      if self.chara_card_id == ""
         1001
+      else
+        self.chara_card_id.split(/\+/).map! { |s| s.to_i }
       end
     end
 

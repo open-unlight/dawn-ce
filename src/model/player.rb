@@ -325,19 +325,19 @@ module Unlight
     # ペナルティの状況を確認
     # （今は恒常的なロックのみ
     def penalty?
-      if self.penalty & Unlight::PN_LOCK != 0
-        true
-      else
+      if self.penalty & Unlight::PN_LOCK == 0
         false
+      else
+        true
       end
     end
 
     # カムバックして来たか
     def comeback?
-      if self.penalty & Unlight::PN_COMEBACK != 0
-        true
-      else
+      if self.penalty & Unlight::PN_COMEBACK == 0
         false
+      else
+        true
       end
     end
 

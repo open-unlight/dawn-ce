@@ -145,10 +145,10 @@ module Unlight
 
     def channel_all_out
       channel_list.each_index do |i|
-        if i != CHAT_CHANNEL_WATCH
-          channel_out(i)
-        else
+        if i == CHAT_CHANNEL_WATCH
           audience_channel_out(@watch_room_id) if @watch_room_id
+        else
+          channel_out(i)
         end
       end
     end

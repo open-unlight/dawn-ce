@@ -263,15 +263,15 @@ module Unlight
     def set_boss_buff(id = 0, value = 0, turn = 0, reset = false)
       buffs = CACHE.get("prf_#{self.id}_buffs")
       set_time = self.p_data.ttl.to_f * 60 * 60
-      if !reset
+      if reset
         # 新規作成
+        buffs = nil
+        set_time = 1
+      else
         buffs = {} unless buffs
         # 保存 limitはturn*1分
         now = Time.now.utc
         buffs[id] = { value: value, turn: turn, limit: Time.now.utc + turn * 60 } if id != 0
-      else
-        buffs = nil
-        set_time = 1
       end
       CACHE.set("prf_#{self.id}_buffs", buffs, set_time)
       (!reset) ? [id, buffs[id]] : nil

@@ -1840,24 +1840,24 @@ module Unlight
         else
           if CONDITION_SET[self.id][0] == :quest_no_clear_check
             q_ids = self.get_record_clear_quest_no
-            if q_ids != 0
-              ret << q_ids.join(",")
-            else
+            if q_ids == 0
               ret << q_ids.to_s
+            else
+              ret << q_ids.join(",")
             end
           elsif CONDITION_SET[self.id][0] == :raid_boss_defeat_check
             p_ids = self.get_record_clear_prf_no
-            if p_ids != 0
-              ret << p_ids.join(",")
-            else
+            if p_ids == 0
               ret << p_ids.to_s
+            else
+              ret << p_ids.join(",")
             end
           elsif CONDITION_SET[self.id][0] == :get_part_check
             p_ids = self.get_record_part
-            if p_ids != 0
-              ret << p_ids.join(",")
-            else
+            if p_ids == 0
               ret << p_ids.to_s
+            else
+              ret << p_ids.join(",")
             end
           else
             ret << CONDITION_SET[self.id][1].to_s

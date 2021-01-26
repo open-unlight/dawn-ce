@@ -1347,16 +1347,16 @@ module Unlight
         ret += point
         unless ignore_weapon_status
           if distance == 1
-            if type != ActionCard::DEF
-              ret += @sword_ap[@current_chara_card_no] if @sword_ap[@current_chara_card_no]
-            else
+            if type == ActionCard::DEF
               ret += @sword_dp[@current_chara_card_no] if @sword_dp[@current_chara_card_no]
+            else
+              ret += @sword_ap[@current_chara_card_no] if @sword_ap[@current_chara_card_no]
             end
           else
-            if type != ActionCard::DEF
-              ret += @arrow_ap[@current_chara_card_no] if @arrow_ap[@current_chara_card_no]
-            else
+            if type == ActionCard::DEF
               ret += @arrow_dp[@current_chara_card_no] if @arrow_dp[@current_chara_card_no]
+            else
+              ret += @arrow_ap[@current_chara_card_no] if @arrow_ap[@current_chara_card_no]
             end
           end
         end
@@ -1817,9 +1817,7 @@ module Unlight
       return [] if total_value < base_line
 
       result_value = 0
-      if !min
-        result_value = value_list.max
-      else
+      if min
         result_value = base_line
         while result_value <= value_list.max do
           if value_list.include?(result_value)
@@ -1828,6 +1826,8 @@ module Unlight
             result_value += 1
           end
         end
+      else
+        result_value = value_list.max
       end
       return [] if result_value == 0
 

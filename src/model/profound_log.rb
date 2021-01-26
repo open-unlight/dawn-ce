@@ -75,10 +75,10 @@ module Unlight
       id  = 0
       list = ProfoundLog.filter([profound_id: prf_id]).order(:id).all
       list.each do |log|
-        if log.avatar_id != 0
-          dmg[log.chara_no] += log.damage
-        else
+        if log.avatar_id == 0
           dmg[log.chara_no] -= log.damage
+        else
+          dmg[log.chara_no] += log.damage
         end
         id = log.id
       end
@@ -110,10 +110,10 @@ module Unlight
       list = ProfoundLog.filter([profound_id: prf_id]).filter { id > last_id }.order(:id).all
       list.each do |log|
         log_set = true if damage == now_dmg
-        if log.avatar_id != 0
-          damage += log.damage
-        else
+        if log.avatar_id == 0
           damage -= log.damage
+        else
+          damage += log.damage
         end
         name_view = true if name_view == false && damage > view_start_dmg
         if log.id > last_id && log_set && log.avatar_id != a_id

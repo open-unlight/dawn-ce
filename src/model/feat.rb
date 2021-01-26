@@ -580,7 +580,7 @@ module Unlight
       s.delete(nil)
       s.delete("")
       s.each_index do |i|
-        a = /([遠|近|防|移|特|無]\d[+\-]?).*(\d)/.match(s[i]).to_a
+        a = /([遠|近防移特無]\d[+\-]?).*(\d)/.match(s[i]).to_a
         if a && a[2]
           ar = []
           a[2].to_i.times { ar << a[1] }

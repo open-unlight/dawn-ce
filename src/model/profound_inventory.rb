@@ -708,10 +708,10 @@ module Unlight
         end
         rank_cache_set("profound_get_treasure_rank_#{self.profound_id}_avatar_id", ret, 60 * 60 * 24)
       end
-      if avatar_id != 0
-        ret[avatar_id]
-      else
+      if avatar_id == 0
         ret
+      else
+        ret[avatar_id]
       end
     end
   end

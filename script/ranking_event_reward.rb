@@ -66,10 +66,10 @@ module Unlight
       aid_list = []
       list.each { |l|
         puts "id:#{l.id} aid:#{l.achievement_id} state:#{l.state}, avatar_id:#{l.avatar_id} before_avatar_id:#{l.before_avatar_id}"
-        if l.avatar_id != 0
-          aid_list << l.avatar_id
-        else
+        if l.avatar_id == 0
           aid_list << l.before_avatar_id
+        else
+          aid_list << l.avatar_id
         end
       }
       p aid_list
