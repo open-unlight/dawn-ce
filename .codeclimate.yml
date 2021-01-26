@@ -1,8 +1,7 @@
 plugins:
   rubocop:
     enabled: true
-    # TODO: Upgrade to rubocop-1-0
-    channel: rubocop-0-92
+    channel: rubocop-1-8-1
     config:
       file: .rubocop.yml
   bundler-audit:
