@@ -11,6 +11,7 @@ AllCops:
   TargetRubyVersion: 2.6.6
   DisplayCopNames: true
   NewCops: enable
+  SuggestExtensions: false
 
 Layout/LineLength:
   Exclude:
