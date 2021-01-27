@@ -769,7 +769,7 @@ module Unlight
     end
 
     # パーティダメージ量を評価する
-    def attribute_party_damage(target, indexies, damage, attribute = ATTRIBUTE_CONSTANT, type = TARGET_TYPE_SINGLE, attack_times = 1, is_not_hostile = false)
+    def attribute_party_damage(target, indexies, damage, attribute = ATTRIBUTE_CONSTANT, type = TARGET_TYPE_SINGLE, attack_times = 1, is_not_hostile = false) # rubocop:disable Metrics/ParameterLists
       idxs = indexies.kind_of?(Array) ? indexies : [indexies]
 
       return if idxs.size == 0

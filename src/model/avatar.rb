@@ -4229,7 +4229,7 @@ module Unlight
     end
 
     # アチーブメントチェック（noがある場合はそのナンバーだけをチェック）
-    def achievement_check(no = false, card_list = nil, point = 0, zero_check = true, loop_stop = false)
+    def achievement_check(no = false, card_list = nil, point = 0, zero_check = true, loop_stop = false) # rubocop:disable Metrics/ParameterLists
       # 更新情報送信の為、ID、State、Progressを保持
       id_list = []
       state_list = []

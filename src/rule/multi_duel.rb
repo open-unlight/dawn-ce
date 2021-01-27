@@ -22,7 +22,8 @@ module Unlight
     end
 
     # コンストラクタ
-    def initialize(pl, foe, deck1, deck2, rule, is_get_bp, ai = :none, stage = 0, hp1_set = [0, 0, 0], hp2_set = [0, 0, 0], bonus_level = 0, wild_items_id = 0, timeout_turn = BATTLE_TIMEOUT_TURN, ai_rank = CPU_AI_OLD, hp_up = 0, ap_up = 0, dp_up = 0)	# By_K2
+    # By_K2
+    def initialize(pl, foe, deck1, deck2, rule, is_get_bp, ai = :none, stage = 0, hp1_set = [0, 0, 0], hp2_set = [0, 0, 0], bonus_level = 0, wild_items_id = 0, timeout_turn = BATTLE_TIMEOUT_TURN, ai_rank = CPU_AI_OLD, hp_up = 0, ap_up = 0, dp_up = 0) # rubocop:disable Metrics/ParameterLists
       super
       create_context                                                     # コンテクストの作成
       @rule = rule

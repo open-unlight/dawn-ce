@@ -40,7 +40,8 @@ module Unlight
                   :special_gem_bonus_multi, :monitoring
     attr_reader :reward_bonus, :base_exp, :exp_bonus, :before_damage, :damaged_times
 
-    def initialize(c, ccs, wcs, qcs, ecs, dist, d_set, hp_up = 0, ap_up = 0, dp_up = 0, ai = :none)	# By_K2
+    # By_K2
+    def initialize(c, ccs, wcs, qcs, ecs, dist, d_set, hp_up = 0, ap_up = 0, dp_up = 0, ai = :none)	# rubocop:disable Metrics/ParameterLists
       super
       share_context(c)
       @chara_cards = ccs                         # 戦闘に使用するキャラカードの配列

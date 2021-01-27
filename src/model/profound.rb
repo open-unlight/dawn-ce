@@ -260,7 +260,7 @@ module Unlight
     end
 
     # 状態異常を保存
-    def set_boss_buff(id = 0, value = 0, turn = 0, reset = false)
+    def set_boss_buff(id = 0, value = 0, turn = 0, reset = false) # rubocop:disable Metrics/ParameterLists
       buffs = CACHE.get("prf_#{self.id}_buffs")
       set_time = self.p_data.ttl.to_f * 60 * 60
       if reset

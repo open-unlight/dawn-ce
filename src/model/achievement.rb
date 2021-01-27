@@ -234,7 +234,7 @@ module Unlight
     end
 
     # 条件がクリアされているかのチェック(noがある場合はNOのみ検査する)
-    def cond_check(avatar, no = false, inv = nil, card_list = nil, add_point = 0)
+    def cond_check(avatar, no = false, inv = nil, card_list = nil, add_point = 0) # rubocop:disable Metrics/ParameterLists
       ret = false
       if avatar
         if CONDITION_SET[self.cond] && (CONDITION_SET[self.cond][2] || (no && no.include?(self.cond)))

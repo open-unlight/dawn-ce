@@ -30,7 +30,7 @@ module Unlight
     end
 
     # ソート済みのランキングを取得する
-    def get_order_ranking(server_type = SERVER_SB, st_i = 0, end_i = 99, cache = true)
+    def get_order_ranking(server_type = SERVER_SB, st_i = 0, end_i = 99, cache = true) # rubocop:disable Metrics/ParameterLists
       ret = nil
       ret = CACHE.get("#{@ranking_all}_#{server_type}")
       unless ret
@@ -151,7 +151,7 @@ module Unlight
     end
 
     # ランキングを文字列で返す（キャッシュつき）
-    def get_ranking_str(server_type = SERVER_SB, st_i = 0, end_i = 99, cache = true)
+    def get_ranking_str(server_type = SERVER_SB, st_i = 0, end_i = 99, cache = true) # rubocop:disable Metrics/ParameterLists
       ret = nil
       if cache
         ret = CACHE.get("total_#{data_type}_ranking:#{st_i}_#{end_i}_#{server_type}_str")
