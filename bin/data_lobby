@@ -29,7 +29,7 @@ module Unlight
 
   EM.run do
     DataServer.setup
-    EM.start_server "0.0.0.0", Dawn::Server.port, DataServer
+    EM.start_server '0.0.0.0', Dawn::Server.port, DataServer
     SERVER_LOG.info("DataServer Start: port[#{Dawn::Server.port}]")
     # タイマの制度を上げる
     EM.set_quantum(10)

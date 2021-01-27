@@ -64,10 +64,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def RewardData::data_version
-      ret = cache_store.get("RewardDataVersion")
+      ret = cache_store.get('RewardDataVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("RewardDataVersion", ret)
+        cache_store.set('RewardDataVersion', ret)
       end
       ret
     end
@@ -76,7 +76,7 @@ module Unlight
     def RewardData::refresh_data_version
       m = Unlight::RewardData.order(:updated_at).last
       if m
-        cache_store.set("RewardDataVersion", m.version)
+        cache_store.set('RewardDataVersion', m.version)
         m.version
       else
         0

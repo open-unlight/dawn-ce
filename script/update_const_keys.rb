@@ -5,14 +5,14 @@ require 'fileutils'
 OUTPUT = false
 opt = OptionParser.new
 
-filename = "../server/script/constdata_keys_jp.rb"
+filename = '../server/script/constdata_keys_jp.rb'
 
 opt.parse!(ARGV)
 
-STR = "0123456789abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ"
+STR = '0123456789abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ'
 
 def genSecret(len)
-  ret = ""
+  ret = ''
   len.times do
     ret += STR[rand(STR.size)]
   end

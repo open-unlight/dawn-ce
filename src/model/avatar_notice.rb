@@ -19,7 +19,7 @@ module Unlight
     set_schema do
       primary_key :id
       integer     :avatar_id, index: true #, :table => :avatars
-      String      :body, text: true, default: ""
+      String      :body, text: true, default: ''
       datetime    :created_at
       datetime    :updated_at
       datetime    :send_at
@@ -53,12 +53,12 @@ module Unlight
     def clear_body(n)
       refresh
       ret = []
-      s = self.body.split("|")
+      s = self.body.split('|')
       if n
         n.times do
           ret.push(s.pop)
         end
-        self.body = s.join("|").force_encoding("UTF-8")
+        self.body = s.join('|').force_encoding('UTF-8')
         self.save_changes
       end
       ret
@@ -67,16 +67,16 @@ module Unlight
     # ログを書く
     def AvatarNotice::write_notice(an, a_id, b)
       if an
-        if an.body == "".force_encoding("UTF-8")
-          an.body = "#{b}".force_encoding("UTF-8")
+        if an.body == ''.force_encoding('UTF-8')
+          an.body = "#{b}".force_encoding('UTF-8')
         else
-          an.body += "|#{b}".force_encoding("UTF-8")
+          an.body += "|#{b}".force_encoding('UTF-8')
         end
         an.save_changes
       else
         AvatarNotice.new do |d|
           d.avatar_id = a_id
-          d.body = "#{b}".force_encoding("UTF-8")
+          d.body = "#{b}".force_encoding('UTF-8')
           d.save_changes
         end
       end
@@ -84,7 +84,7 @@ module Unlight
 
     # スタックしている未送信のメッセージを配列で取得
     def AvatarNotice::get_massage_notice(time)
-      AvatarNotice.filter(Sequel.cast_string(:updated_at) > time).and(~{ body: "" }).all
+      AvatarNotice.filter(Sequel.cast_string(:updated_at) > time).and(~{ body: '' }).all
     end
 
     # 特定のタイプのノーティスを引き抜く
@@ -92,11 +92,11 @@ module Unlight
       refresh
       ret = []
       if types && types.size > 0
-        match_str = types.join("|")
-        body_arr = self.body.split("|")
+        match_str = types.join('|')
+        body_arr = self.body.split('|')
         leave_arr = []
         body_arr.each do |mes|
-          mes_arr = mes.split(":") if mes
+          mes_arr = mes.split(':') if mes
           if types.include?(mes_arr.first.to_i)
             ret << mes
           else
@@ -105,10 +105,10 @@ module Unlight
         end
         reset_arr = leave_arr + ret
         # 指定のものを引き抜いた分を再度Bodyに入れなおす
-        self.body = reset_arr.join("|").force_encoding("UTF-8")
+        self.body = reset_arr.join('|').force_encoding('UTF-8')
         self.save_changes
       end
-      ret.join("|")
+      ret.join('|')
     end
 
     # 指定したノーティス以外を取得
@@ -116,11 +116,11 @@ module Unlight
       refresh
       ret = []
       if types && types.size > 0
-        match_str = types.join("|")
-        body_arr = self.body.split("|")
+        match_str = types.join('|')
+        body_arr = self.body.split('|')
         leave_arr = []
         body_arr.each do |mes|
-          mes_arr = mes.split(":") if mes
+          mes_arr = mes.split(':') if mes
           if types.include?(mes_arr.first.to_i)
             leave_arr << mes
           else
@@ -129,10 +129,10 @@ module Unlight
         end
         reset_arr = leave_arr + ret
         # 指定のものを引き抜いた分を再度Bodyに入れなおす
-        self.body = reset_arr.join("|").force_encoding("UTF-8")
+        self.body = reset_arr.join('|').force_encoding('UTF-8')
         self.save_changes
       end
-      ret.join("|")
+      ret.join('|')
     end
   end
 end

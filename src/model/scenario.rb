@@ -17,7 +17,7 @@ module Unlight
     set_schema do
       primary_key :id
       integer     :chara_id
-      String      :script, text: true, default: ""
+      String      :script, text: true, default: ''
       integer     :count
       integer     :priority # 大きい方から出る。0ででない。
       datetime    :event_start_at
@@ -71,8 +71,8 @@ module Unlight
       @jump_set = {}
       num = 0
       self.script.each_line do |s|
-        s = s.force_encoding("utf-8")
-        s.gsub!("\r", "")
+        s = s.force_encoding('utf-8')
+        s.gsub!("\r", '')
         case s
           # ダイアログの場合
         when /^\s*"(.*)"\s*$/
@@ -81,7 +81,7 @@ module Unlight
           num += 1
           # パネルの場合
         when /^Panel:(.*)\n$/
-          set = eval("[" + $1 + "]")
+          set = eval('[' + $1 + ']')
           @command_set << panel_to_proc(set)
           num += 1
           @command_set << stop_to_proc(set)
@@ -96,7 +96,7 @@ module Unlight
             @jump_set[$1] = num
           end
         when /^FlagCheck:(.*)\n$/
-          set = eval("[" + $1 + "]")
+          set = eval('[' + $1 + ']')
           @command_set << flag_check_to_proc(set)
           num += 1
         when /^FlagSet:(.*)\n$/
@@ -104,7 +104,7 @@ module Unlight
           @command_set << flag_set_to_proc(set)
           num += 1
         when /^Jump:(.*)\n$/
-          set = $1.gsub("[", "").gsub("]", "")
+          set = $1.gsub('[', '').gsub(']', '')
           @command_set << jump_to_proc(set)
           num += 1
         when /^Rand:(.*)\n$/
@@ -130,7 +130,7 @@ module Unlight
       set.each do |s|
         str_set << s[1]
       end
-      [:sc_lobby_chara_select_panel, [str_set.join(",")]]
+      [:sc_lobby_chara_select_panel, [str_set.join(',')]]
     end
 
     def stop_to_proc(set)

@@ -19,14 +19,14 @@ module Unlight
     set_schema do
       primary_key :id
       String      :name
-      String      :image, text: true, default: ""
+      String      :image, text: true, default: ''
 
       integer     :parts_type, default: 0
 
       integer     :power_type, default: 0             # 装備したときの効果                     #new 2011/06/30
       integer     :power, default: 0                  # 効果の力                               #new 2011/06/30
       integer     :duration, default: 0               # 効果の持続時間（0の場合ずっと続く    ）#new 2011/06/30
-      String      :caption, text: true, default: "" # キャプション                           #new 2011/06/30
+      String      :caption, text: true, default: '' # キャプション                           #new 2011/06/30
 
       integer     :color, default: 0 # イメージに適用するカラー
       integer     :offset_x, default: 0              # アイコンのオフセット（未使用）
@@ -67,10 +67,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def AvatarPart::data_version
-      ret = cache_store.get("AvatarPartVersion")
+      ret = cache_store.get('AvatarPartVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("AvatarPartVersion", ret)
+        cache_store.set('AvatarPartVersion', ret)
       end
       ret
     end
@@ -79,7 +79,7 @@ module Unlight
     def AvatarPart::refresh_data_version
       m = Unlight::AvatarPart.order(:updated_at).last
       if m
-        cache_store.set("AvatarPartVersion", m.version)
+        cache_store.set('AvatarPartVersion', m.version)
       end
       if m
         m.version
@@ -95,24 +95,24 @@ module Unlight
 
     # パラメータをCSVのデータで返す
     def get_data_csv_str
-      ret = ""
-      ret << self.id.to_s << ","
-      ret << '"' << (self.name || "") << '",'
-      ret << '"' << (self.image_extract || "") << '",'
-      ret << (self.parts_type || 0).to_s << ","
-      ret << (self.color || 0).to_s << ","
-      ret << (self.offset_x || 0).to_s << ","
-      ret << (self.offset_y || 0).to_s << ","
-      ret << (self.offset_scale || 0).to_s << ","
-      ret << (self.power_type || 0).to_s << ","
-      ret << (self.power || 0).to_s << ","
-      ret << (self.duration || 0).to_s << ","
-      ret << '"' << (self.trans_caption || "") << '"'
+      ret = ''
+      ret << self.id.to_s << ','
+      ret << '"' << (self.name || '') << '",'
+      ret << '"' << (self.image_extract || '') << '",'
+      ret << (self.parts_type || 0).to_s << ','
+      ret << (self.color || 0).to_s << ','
+      ret << (self.offset_x || 0).to_s << ','
+      ret << (self.offset_y || 0).to_s << ','
+      ret << (self.offset_scale || 0).to_s << ','
+      ret << (self.power_type || 0).to_s << ','
+      ret << (self.power || 0).to_s << ','
+      ret << (self.duration || 0).to_s << ','
+      ret << '"' << (self.trans_caption || '') << '"'
       ret
     end
 
     def image_extract
-      self.image.gsub(/\+dummy_.{1,3}/, "")
+      self.image.gsub(/\+dummy_.{1,3}/, '')
     end
 
     # パーツを装備する
@@ -226,9 +226,9 @@ module Unlight
 
     def trans_caption
       if self.caption
-        self.caption.gsub("__POW__", self.power.to_s)
+        self.caption.gsub('__POW__', self.power.to_s)
       else
-        ""
+        ''
       end
     end
   end

@@ -45,10 +45,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def PassiveSkillInventory::data_version
-      ret = cache_store.get("PassiveSkillInventoryVersion")
+      ret = cache_store.get('PassiveSkillInventoryVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("PassiveSkillInventoryVersion", ret)
+        cache_store.set('PassiveSkillInventoryVersion', ret)
       end
       ret
     end
@@ -57,7 +57,7 @@ module Unlight
     def PassiveSkillInventory::refresh_data_version
       m = PassiveSkillInventory.order(:updated_at).last
       if m
-        cache_store.set("PassiveSkillInventoryVersion", m.version)
+        cache_store.set('PassiveSkillInventoryVersion', m.version)
         m.version
       else
         0

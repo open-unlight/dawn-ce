@@ -62,9 +62,9 @@ module Unlight
           # 相手のカードの状態異常をターン制から、時間制に変更
           @duel.beta.chara_cards.each { |c| c.status_update = false }
           do_determine_session(-1,
-                               "Boss",
-                               avatar_deck.cards_id.join(","),
-                               boss_deck.cards_id.join(","),
+                               'Boss',
+                               avatar_deck.cards_id.join(','),
+                               boss_deck.cards_id.join(','),
                                stage,
                                deck_damages,
                                boss_damage,
@@ -101,7 +101,7 @@ module Unlight
                            name,
                            player_chara_id,
                            foe_chara_id,
-                           "",
+                           '',
                            stage,
                            alpha_damege_set[0],
                            alpha_damege_set[1],
@@ -119,11 +119,11 @@ module Unlight
         @avatar.new_profound_inventory_check
         n = @avatar.get_profound_notice
       end
-      sc_add_notice(n) if n != "" && n != nil
+      sc_add_notice(n) if n != '' && n != nil
     end
 
     def cs_request_update_inventory(id_list_str)
-      str_list = id_list_str.split(",")
+      str_list = id_list_str.split(',')
       id_list = []
       str_list.each { |s| id_list << s.to_i }
       @avatar.resend_profound_inventory(id_list) if @avatar
@@ -252,7 +252,7 @@ module Unlight
 
     # パッシブスキル発動時のボス側ハンドラ
     def boss_on_rage_against_event_handler(target, ret)
-      sc_raid_rage_info(ret.join(","))
+      sc_raid_rage_info(ret.join(','))
     end
 
     # 渦情報イベント
@@ -352,9 +352,9 @@ module Unlight
           @duel.beta.current_hit_point = 0
           if @finished_duel_type == PRF_FINISHED_TIME_UP
             if @prf_inv
-              prf_name = @prf_inv.profound.p_data.name.force_encoding("UTF-8")
-              boss_name = @prf_inv.profound.p_data.get_boss_name.force_encoding("UTF-8")
-              @avatar.write_notice(NOTICE_TYPE_FIN_PRF_FAILED, [@prf_inv.profound.id, prf_name, boss_name].join(","))
+              prf_name = @prf_inv.profound.p_data.name.force_encoding('UTF-8')
+              boss_name = @prf_inv.profound.p_data.get_boss_name.force_encoding('UTF-8')
+              @avatar.write_notice(NOTICE_TYPE_FIN_PRF_FAILED, [@prf_inv.profound.id, prf_name, boss_name].join(','))
             end
           end
         end
@@ -384,15 +384,15 @@ module Unlight
         prf_log = ProfoundLog::get_profound_damage_log(@prf_inv.profound_id, @avatar.id, @get_log_id)
         if prf_log && prf_log.size > 0
           add_damage = 0
-          b_name = @boss_name[@duel.beta.current_chara_card_no].force_encoding("UTF-8")
+          b_name = @boss_name[@duel.beta.current_chara_card_no].force_encoding('UTF-8')
           prf_log.each do |pl|
             if pl.avatar_id > 0
-              a_name = pl.avatar_name.force_encoding("UTF-8")
-              dmg = pl.damage.to_s.force_encoding("UTF-8")
+              a_name = pl.avatar_name.force_encoding('UTF-8')
+              dmg = pl.damage.to_s.force_encoding('UTF-8')
               add_damage += pl.damage
             else
               if @set_heal_log_ids == nil || @set_heal_log_ids.index(pl.id) == nil
-                point = pl.damage.to_s.force_encoding("UTF-8")
+                point = pl.damage.to_s.force_encoding('UTF-8')
                 add_damage -= pl.damage
               end
             end

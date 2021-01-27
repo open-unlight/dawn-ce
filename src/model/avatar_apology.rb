@@ -19,7 +19,7 @@ module Unlight
     set_schema do
       primary_key :id
       integer     :avatar_id, index: true, unique: true #, :table => :avatars
-      String      :body, text: true, default: ""
+      String      :body, text: true, default: ''
       datetime    :created_at
       datetime    :updated_at
     end
@@ -48,12 +48,12 @@ module Unlight
     def clear_body(n)
       refresh
       ret = []
-      s = self.body.split("|")
+      s = self.body.split('|')
       if n
         n.times do
           ret.push(s.pop)
         end
-        self.body = s.join("|").force_encoding("UTF-8")
+        self.body = s.join('|').force_encoding('UTF-8')
         self.save_changes
       end
       ret
@@ -62,7 +62,7 @@ module Unlight
     # 内容全てをクリア
     def all_clear_body
       refresh
-      self.body = "".force_encoding("UTF-8")
+      self.body = ''.force_encoding('UTF-8')
       self.save_changes
     end
 
@@ -70,19 +70,19 @@ module Unlight
     def get_body
       refresh
       ret = {}
-      self.body.split("|").each do |str|
-        if str != ""
-          date_str, item_str = str.split("_")
-          y, m, d = date_str.split("-")
+      self.body.split('|').each do |str|
+        if str != ''
+          date_str, item_str = str.split('_')
+          y, m, d = date_str.split('-')
           date = Time.new(y, m, d)
           set_items = []
-          item_str.split("+").each do |i|
+          item_str.split('+').each do |i|
             set_items.push([])
-            i.split("/").each do |j|
+            i.split('/').each do |j|
               set_items.last.push(j.to_i)
             end
           end
-          ret[date] = { date: date_str.gsub("-", "/"), items: set_items }
+          ret[date] = { date: date_str.gsub('-', '/'), items: set_items }
         end
       end
       ret.sort

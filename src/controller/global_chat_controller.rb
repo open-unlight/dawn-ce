@@ -104,7 +104,7 @@ module Unlight
         # オーナーがいないなら処理しない
         return unless owner
 
-        name = owner.current_avatar.name.force_encoding("UTF-8")
+        name = owner.current_avatar.name.force_encoding('UTF-8')
 
         # 一定範囲に送信
         cnt = 0

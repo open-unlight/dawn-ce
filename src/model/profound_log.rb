@@ -52,7 +52,7 @@ module Unlight
     NOW_DMG_CHECKED_LAST_ID_CACHE_TIME = 60 * 60 * 2
 
     # ログの保存
-    def ProfoundLog::set_damage(prf_id, a_id, a_name, c_no, dmg, b_name = "", atk_chara = 0)
+    def ProfoundLog::set_damage(prf_id, a_id, a_name, c_no, dmg, b_name = '', atk_chara = 0)
       ret = ProfoundLog.new do |pl|
         pl.profound_id   = prf_id
         pl.avatar_id     = a_id

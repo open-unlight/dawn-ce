@@ -59,8 +59,8 @@ module Unlight
             # カレントのアバターが持つカレントデッキでデュエル開始
             @duel = MultiDuel.new(@player.current_avatar, @opponent_player.player.current_avatar, @player.current_avatar.duel_deck, @opponent_player.player.current_avatar.duel_deck, @match_log.match_rule, @match_log.get_bp, :none, @match_log.match_stage)
             @opponent_player.duel = @duel
-            do_determine_session(@opponent_player.player.id, @opponent_player.player.current_avatar.name, @player.current_avatar.duel_deck.cards_id.join(","), @opponent_player.player.current_avatar.duel_deck.mask_cards_id.join(","))
-            @opponent_player.do_determine_session(@player.id, @player.current_avatar.name, @opponent_player.player.current_avatar.duel_deck.cards_id.join(","), @player.current_avatar.duel_deck.mask_cards_id.join(","))
+            do_determine_session(@opponent_player.player.id, @opponent_player.player.current_avatar.name, @player.current_avatar.duel_deck.cards_id.join(','), @opponent_player.player.current_avatar.duel_deck.mask_cards_id.join(','))
+            @opponent_player.do_determine_session(@player.id, @player.current_avatar.name, @opponent_player.player.current_avatar.duel_deck.cards_id.join(','), @player.current_avatar.duel_deck.mask_cards_id.join(','))
             set_duel_handler(0, RULE_3VS3)
             @opponent_player.set_duel_handler(1, RULE_3VS3)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, @duel.entrants[@no].distance, true)
@@ -74,7 +74,7 @@ module Unlight
             # カレントのアバターが持つカレントカードでデュエル開始
             @duel = MultiDuel.new(AI, @opponent_player.player.current_avatar, AI.chara_card_deck(@match_log.cpu_card_data_id), @opponent_player.player.current_avatar.duel_deck, @match_log.match_rule, 0, :duel_ai, @match_log.match_stage, [0, 0, 0], [0, 0, 0], 0, @match_log.cpu_card_data_id)
             @opponent_player.duel = @duel
-            @opponent_player.do_determine_session(AI_PLAYER_ID, "CPU", @opponent_player.player.current_avatar.duel_deck_cards_id_str, AI.chara_card_deck(@match_log.cpu_card_data_id).mask_cards_id.join(","))
+            @opponent_player.do_determine_session(AI_PLAYER_ID, 'CPU', @opponent_player.player.current_avatar.duel_deck_cards_id_str, AI.chara_card_deck(@match_log.cpu_card_data_id).mask_cards_id.join(','))
             @opponent_player.set_duel_handler(1, RULE_1VS1)
             @opponent_player.sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@foe].size, @duel.event_decks[@no].size, @duel.entrants[@foe].distance, false)
             @match_log.start_match()
@@ -84,7 +84,7 @@ module Unlight
             # カレントのアバターが持つカレントデッキでデュエル開始
             @duel = MultiDuel.new(AI, @opponent_player.player.current_avatar, AI.chara_card_deck(@match_log.cpu_card_data_id), @opponent_player.player.current_avatar.duel_deck, @match_log.match_rule, 0, :duel_ai, @match_log.match_stage, [0, 0, 0], [0, 0, 0], 0, @match_log.cpu_card_data_id)
             @opponent_player.duel = @duel
-            @opponent_player.do_determine_session(AI_PLAYER_ID, "CPU", @opponent_player.player.current_avatar.duel_deck.cards_id.join(","), AI.chara_card_deck(@match_log.cpu_card_data_id).mask_cards_id.join(","))
+            @opponent_player.do_determine_session(AI_PLAYER_ID, 'CPU', @opponent_player.player.current_avatar.duel_deck.cards_id.join(','), AI.chara_card_deck(@match_log.cpu_card_data_id).mask_cards_id.join(','))
             @opponent_player.set_duel_handler(1, RULE_3VS3)
             @opponent_player.sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@foe].size, @duel.event_decks[@no].size, @duel.entrants[@foe].distance, true) if @duel && @foe
             @match_log.start_match()
@@ -105,7 +105,7 @@ module Unlight
     # アクションカードのデータのリクエスト
     def cs_request_actioncard_info(id)
       a = ActionCard[id] || ActionCard[1]
-      sc_actioncard_info(a.id, a.u_type, a.u_value, a.b_type, a.b_value, a.event_no, a.image || "", a.caption || "", a.version || 0)
+      sc_actioncard_info(a.id, a.u_type, a.u_value, a.b_type, a.b_value, a.event_no, a.image || '', a.caption || '', a.version || 0)
     end
 
     # アクションカードのバージョンデータのリクエスト
@@ -250,7 +250,7 @@ module Unlight
       # 勝者を観戦データに保存 0:player_a 1:player_b 2:引き分け
       if @watch_duel
         player_ids = @watch_duel.get_cache_duel_data
-        winner = ""
+        winner = ''
         if RESULT_WIN == duel.result[@no][:result]
           if @player
             winner = @player.current_avatar.name

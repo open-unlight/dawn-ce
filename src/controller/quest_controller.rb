@@ -33,7 +33,7 @@ module Unlight
     def cs_request_quest_map_info(region)
       list = QuestMap.get_quest_map_list(region)
       if list.size > 0
-        sc_quest_map_info(region, list.join(","))
+        sc_quest_map_info(region, list.join(','))
         SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_quest_map_info] #{list.join(",")}")
       end
     end
@@ -71,7 +71,7 @@ module Unlight
       if QuestLog[id]
         sc_quest_log_info(id, QuestLog[id].to_text)
       else
-        sc_quest_log_info(id, "")
+        sc_quest_log_info(id, '')
       end
     end
 
@@ -184,9 +184,9 @@ module Unlight
                                )
 
           do_determine_session(id,
-                               "CPU",
-                               @avatar.chara_card_decks[deck_index].cards_id.join(","),
-                               ai_chara_card_deck.cards_id.join(","),
+                               'CPU',
+                               @avatar.chara_card_decks[deck_index].cards_id.join(','),
+                               ai_chara_card_deck.cards_id.join(','),
                                @avatar.get_land_stage(current_inv, next_no),
                                @avatar.get_damage_set(current_inv),
                               )
@@ -238,14 +238,14 @@ module Unlight
     def do_determine_session(id, name, player_chara_id, foe_chara_id, stage, alpha_damege_set, beta_damege_set = [0, 0, 0])
       current_inv = AvatarQuestInventory[id]
 
-      pl_dialogue_content = ""
-      foe_dialogue_content = ""
+      pl_dialogue_content = ''
+      foe_dialogue_content = ''
       if current_inv
         map_id = current_inv.quest.quest_map_id
         land_id = current_inv.quest.get_land_id(@current_no)
 
-        pl_id = CharaCard[player_chara_id.split(",")[0]].parent_id
-        foe_id = CharaCard[foe_chara_id.split(",").last].parent_id
+        pl_id = CharaCard[player_chara_id.split(',')[0]].parent_id
+        foe_id = CharaCard[foe_chara_id.split(',').last].parent_id
         pl_dialogue_content = DialogueWeight::quest_start_dialogue(pl_id, foe_id, map_id, land_id)
         foe_dialogue_content = DialogueWeight::quest_start_dialogue(foe_id, pl_id, map_id, land_id)
       end

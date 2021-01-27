@@ -64,7 +64,7 @@ module Unlight
 
     def initialize
       # イベントの説明
-      @dsc = ""
+      @dsc = ''
       # 実行可能コンテキスト
       @allow_context = []
       # ガード節のリスト
@@ -78,7 +78,7 @@ module Unlight
       # フックする対象の関数名
       @hook_func = []
       # 関数
-      @func = ""
+      @func = ''
       # Goalしない場合どこまでのタイムアウト
       @duration_type = :none
       @duration_value = 0
@@ -103,7 +103,7 @@ module Unlight
 
     # hook_funcの名称
     def EventRule::hook_func_name
-      instance.hook_func[0] + "." + instance.hook_func[1].to_s + "_" + instance.type.to_s + "_hook_func"
+      instance.hook_func[0] + '.' + instance.hook_func[1].to_s + '_' + instance.type.to_s + '_hook_func'
     end
 
     def EventRule::dispose
@@ -114,9 +114,9 @@ module Unlight
     def EventRule::context(*cont)
       s = []
       cont.each do |a|
-        s << "Unlight::" + a[0] + "::" + a[1].to_s
+        s << 'Unlight::' + a[0] + '::' + a[1].to_s
       end
-      instance.allow_context << s.join("->")
+      instance.allow_context << s.join('->')
     end
 
     # タイプの登録
@@ -227,7 +227,7 @@ module Unlight
 
     # 文字列からレシーバを返す
     def dist_get(dist)
-      if dist == "self"
+      if dist == 'self'
         self
       else
         self.send(dist.to_sym)
@@ -348,11 +348,11 @@ END
     # コンテキストチェック部分を返す
     def self::context_check_gen(doc)
       if @event_rule.allow_context.size > 0
-        c = @event_rule.allow_context.map { |a| 'context_check("' + a + '")' }.join("||")
+        c = @event_rule.allow_context.map { |a| 'context_check("' + a + '")' }.join('||')
         st = "if #{c}\n"
-        en = ""
+        en = ''
          en = "\n          else\n"
-        en += "          end"
+        en += '          end'
         doc = st + doc + en
       end
       doc
@@ -360,9 +360,9 @@ END
 
     # 開始条件チェック部分を返す
     def self::guard_check_gen(doc)
-      st = ""
+      st = ''
       st += "guarded = false\n"
-      en = ""
+      en = ''
       if @event_rule.guard_list.size > 0
         c = @event_rule.guard_list.to_s
         st += "if list_check?(#{c})\n"
@@ -461,15 +461,15 @@ END
 
     def self::act_list_gen
       ret = []
-      ret << " "
+      ret << ' '
       ret << "      if @#{@f}_context.first == :active||@#{@f}_context.first == :return"
        @event_rule.act_list.each_index do |i|
         ret << "          if @#{@f}_act_counter == #{i}"
          ret << "            self.send(:#{@event_rule.act_list[i]})"
          ret << "            @#{@f}_act_counter +=1 if @#{@f}_context.first == :active"
-         ret << "          end"
+         ret << '          end'
       end
-      ret << "       end"
+      ret << '       end'
       ret = [] if @event_rule.act_list.size == 0
       ret.join("\n")
     end
@@ -626,7 +626,7 @@ END
 
     def self::regist_event(eventrule)
       @event_rule = eventrule.instance
-      @f = underscore(eventrule.to_s.gsub(/Unlight::|.*::/, ""))
+      @f = underscore(eventrule.to_s.gsub(/Unlight::|.*::/, ''))
       doc = <<-END
       #{init_gen}
 

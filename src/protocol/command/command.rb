@@ -2,7 +2,7 @@
 
 # 通信コマンド生成クラス
 # サーバごとの受信・送信コマンドを動的に生成する
-require "zlib"
+require 'zlib'
 module Unlight
   class Command
     OUTPUT_EVAL = false # Evalの内容を出力する
@@ -50,7 +50,7 @@ module Unlight
     # 受信コマンドの初期化
     def init_receive(cmd)
       cmd.each do |c|
-        n = c[0].id2name + "_r"
+        n = c[0].id2name + '_r'
         @method_list << n.intern
         ret = <<-EOF
           def #{n}(data)
@@ -83,7 +83,7 @@ module Unlight
             ret << "            #{c.name} = data[#{s unless s == ""}#{pos},#{c.size}]#{type_rec_res(c.type)}\n"
             pos += c.size
           end
-          q << c.name + ","
+          q << c.name + ','
         end
       end
       ret << "            #{name}(#{q.chop!})"
@@ -95,7 +95,7 @@ module Unlight
     def type_rec_res(t)
       case t
       when :String
-        ""
+        ''
       when :int
         ".unpack('N')[0]"
       when :char
@@ -130,7 +130,7 @@ module Unlight
       if val
         val.each do |v|
           ret << v[0]
-          ret << ","
+          ret << ','
         end
         ret.chop!
       end
@@ -140,9 +140,9 @@ module Unlight
     # 送信コマンドの中身の文字列を生成
     def gen_send_cmd(val, comp)
       ret = ''
-      d = "data"
+      d = 'data'
       if comp
-        d = "data2"
+        d = 'data2'
         ret << "            data2 = \"\"\n"
       end
 

@@ -17,10 +17,10 @@ module Unlight
       primary_key :id
       integer :chara_card_id #, :table => :chara_cards
       integer     :book_type
-      String      :title, text: true, default: ""
-      String      :content, text: true, default: ""
-      String      :image, default: ""
-      String      :age_no, default: ""
+      String      :title, text: true, default: ''
+      String      :content, text: true, default: ''
+      String      :image, default: ''
+      String      :age_no, default: ''
       integer     :text_id
       datetime    :created_at
       datetime    :updated_at
@@ -36,7 +36,7 @@ module Unlight
     end
 
     DB.alter_table :chara_card_stories do
-      add_column :age_no, String, default: "" unless Unlight::CharaCardStory.columns.include?(:age_no) # 新規追加 2012/06/14
+      add_column :age_no, String, default: '' unless Unlight::CharaCardStory.columns.include?(:age_no) # 新規追加 2012/06/14
     end
 
     # インサート時の前処理
@@ -56,10 +56,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def CharaCardStory::data_version
-      ret = cache_store.get("CharaCardStoryVersion")
+      ret = cache_store.get('CharaCardStoryVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("CharaCardStoryVersion", ret)
+        cache_store.set('CharaCardStoryVersion', ret)
       end
       ret
     end
@@ -68,7 +68,7 @@ module Unlight
     def CharaCardStory::refresh_data_version
       m = Unlight::CharaCardStory.order(:updated_at).last
       if m
-        cache_store.set("CharaCardStoryVersion", m.version)
+        cache_store.set('CharaCardStoryVersion', m.version)
         m.version
       else
         0
@@ -82,25 +82,25 @@ module Unlight
 
     # データを並べた文字列を返す
     def self::get_data_str(data)
-      ret = ""
-      ret << data.id.to_s << ","
-      ret << '"' << (data.title || "") << '",'
-      ret << '"' << (data.age_no || "") << '"'
+      ret = ''
+      ret << data.id.to_s << ','
+      ret << '"' << (data.title || '') << '",'
+      ret << '"' << (data.age_no || '') << '"'
       ret
     end
 
     # キャラIDからストーリー情報の一部を文字列で返す
     def self::get_data_csv_str(id)
-      ret = "["
+      ret = '['
       list = CharaCardStory.filter(chara_card_id: id).order(:id).all
       list.each { |ccs|
-        ret << CharaCardStory.get_data_str(ccs) << ","
+        ret << CharaCardStory.get_data_str(ccs) << ','
       }
       if list.length > 0
         ret.gsub!("\n", '')
         ret.chop! if ret
       end
-      ret << "]"
+      ret << ']'
     end
   end
 end

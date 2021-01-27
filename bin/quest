@@ -28,7 +28,7 @@ module Unlight
 
   EM.run do
     QuestServer.setup
-    EM.start_server "0.0.0.0", Dawn::Server.port, QuestServer
+    EM.start_server '0.0.0.0', Dawn::Server.port, QuestServer
     SERVER_LOG.info("QuestServer Start: port[#{Dawn::Server.port}]")
     # タイマの制度を上げる
     EM.set_quantum(10)

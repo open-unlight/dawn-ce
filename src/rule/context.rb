@@ -76,7 +76,7 @@ module Unlight
         else
           list[0] = :return
           self.send(init_method)
-          s = list[-1].last.to_s + "_action_increment"
+          s = list[-1].last.to_s + '_action_increment'
           list[-1].first.send(s.to_sym)
           list[-1].first.send(list[-1].last) if @resumed
         end
@@ -133,15 +133,15 @@ module Unlight
 
     # コンテキストのチェック用文字列リストを更新する
     def check_list_update()
-      @check_list = ""
+      @check_list = ''
       self.each do |c|
           a = []
         c[1..-1].each do |f|
-            s = ""
-          s << f[1].to_s << "::" << f.last.to_s
+            s = ''
+          s << f[1].to_s << '::' << f.last.to_s
             a << s
           end
-         @check_list << a.join("->")
+         @check_list << a.join('->')
          @check_list << "\n"
         end
        @check_list

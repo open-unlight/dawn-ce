@@ -68,7 +68,7 @@ module Unlight
     end
 
     def self::make_profound_hash
-      Digest::MD5.hexdigest(Time.now.to_s + "profound" + rand(1024).to_s)[0..10]
+      Digest::MD5.hexdigest(Time.now.to_s + 'profound' + rand(1024).to_s)[0..10]
     end
 
     def self::get_new_profound_for_map(found_avatar_id, map_id, server_type, pow = 0, type = PRF_TYPE_NORMAL)

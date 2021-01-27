@@ -45,10 +45,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def FeatInventory::data_version
-      ret = cache_store.get("FeatInventoryVersion")
+      ret = cache_store.get('FeatInventoryVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("FeatInventoryVersion", ret)
+        cache_store.set('FeatInventoryVersion', ret)
       end
       ret
     end
@@ -57,7 +57,7 @@ module Unlight
     def FeatInventory::refresh_data_version
       m = FeatInventory.order(:updated_at).last
       if m
-        cache_store.set("FeatInventoryVersion", m.version)
+        cache_store.set('FeatInventoryVersion', m.version)
         m.version
       else
         0

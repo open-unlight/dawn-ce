@@ -29,7 +29,7 @@ module Unlight
 
   EM.run do
     AuthServer.setup
-    EM.start_server "0.0.0.0", Dawn::Server.port, AuthServer
+    EM.start_server '0.0.0.0', Dawn::Server.port, AuthServer
     SERVER_LOG.info("AuthServer Start: ip[#{Dawn::Server.hostname}] port[#{Dawn::Server.port}]")
     EM.set_quantum(10) # タイマの制度を上げる
 

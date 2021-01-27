@@ -46,32 +46,32 @@ module Unlight
   # ===========================
 
   class DrawCardsEvent < EventRule
-    dsc       "カードをデッキから引く"
+    dsc       'カードをデッキから引く'
     func      :draw_cards
     event     :finish
   end
 
   class DrawLowCardsEvent < EventRule
-    dsc       "値の小さなカードをデッキから引く"
+    dsc       '値の小さなカードをデッキから引く'
     func      :draw_low_cards
     event     :finish
   end
 
   class DeckInitEvent < EventRule
-    dsc       "デッキの再シャッフル"
-    guard     ["self", :empty?]
+    dsc       'デッキの再シャッフル'
+    guard     ['self', :empty?]
     func      :deck_init
     event     :finish
   end
 
   class CreateChanceCardEvent < EventRule
-    dsc       "チャンスカードを新規作成する"
+    dsc       'チャンスカードを新規作成する'
     func      :create_chance_card
     event     :finish
   end
 
   class AppendJokerCardEvent < EventRule
-    dsc       "ジョーカーカードを追加"
+    dsc       'ジョーカーカードを追加'
     func      :append_joker_card
     event     :finish
   end

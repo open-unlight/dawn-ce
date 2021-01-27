@@ -1,14 +1,14 @@
-$:.unshift(File.join(File.expand_path("."), "src"))
+$:.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
-require File.expand_path(".") + '/script/sql_create.rb'
+require File.expand_path('.') + '/script/sql_create.rb'
 $arg = ARGV.shift
 
 module Unlight
-  puts "レンタルカードを削除しますか？(y/n)"
+  puts 'レンタルカードを削除しますか？(y/n)'
   answer = gets.chomp
-  if answer == "y"
-    puts "有効なレンタルカードを全て取得"
+  if answer == 'y'
+    puts '有効なレンタルカードを全て取得'
     rental_cards = CardInventory.filter { chara_card_id >= 50000 }.filter { chara_card_id < 60000 }.exclude([chara_card_deck_id: 0]).order(Sequel.asc(:chara_card_deck_id)).all
     puts "rental cards num:#{rental_cards.size}"
     deck_rental_cards = {}
@@ -18,13 +18,13 @@ module Unlight
     end
     deck_ids = deck_rental_cards.keys
     # バインダーじゃないデッキIDを吸出し
-    use_decks = CharaCardDeck.filter([[:id, deck_ids]]).exclude([name: "Binder"]).all
+    use_decks = CharaCardDeck.filter([[:id, deck_ids]]).exclude([name: 'Binder']).all
     deck_ava_ids = use_decks.map { |ccd| ccd.avatar_id }
     tmp_ava = Avatar.filter([[:id, deck_ava_ids]]).all
     avatars = {}
     tmp_ava.each { |ava| avatars[ava.id] = ava }
     puts "check deck num:#{use_decks.size}"
-    puts "デッキにセットされてるカードをバインダーに移す"
+    puts 'デッキにセットされてるカードをバインダーに移す'
     use_decks.each_with_index do |ccd, idx|
       if deck_rental_cards[ccd.id]
         deck_rental_cards[ccd.id].sort { |ci_a, ci_b| ci_b.position <=> ci_a.position }.each do |ci|
@@ -38,10 +38,10 @@ module Unlight
         end
       end
       if idx > 0 && idx % 50 == 0
-        puts "move to Binder ..."
+        puts 'move to Binder ...'
       end
     end
-    puts "レンタルカードを削除する"
+    puts 'レンタルカードを削除する'
     DB.transaction do
       CardInventory.where { chara_card_id >= 50000 }.where { chara_card_id < 60000 }.where { chara_card_deck_id > 1 }.update(before_deck_id: :chara_card_deck_id, chara_card_deck_id: 0)
     end

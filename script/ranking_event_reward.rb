@@ -1,4 +1,4 @@
-$:.unshift(File.join(File.expand_path("."), "src"))
+$:.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 $arg = ARGV.shift
@@ -8,9 +8,9 @@ module Unlight
   ##
   ## TOTAL_EVENT_RANKING_TYPE_PRF_ALL_DMG
   ##
-  puts "ミニレイドイベント報酬配付(y/n)"
+  puts 'ミニレイドイベント報酬配付(y/n)'
   answer = gets.chomp
-  if answer == "y"
+  if answer == 'y'
     st = Time.new(2016, 9, 14, 17).utc
     et = Time.new(2016, 9, 28, 13).utc
     prf_list = Profound.filter([[:state, [PRF_ST_FINISH, PRF_ST_VANISH]]]).filter { created_at > st }.filter { created_at < et }.all
@@ -30,7 +30,7 @@ module Unlight
     }
 
     puts "total_damage:#{total_damage}"
-    puts "reward list ====================="
+    puts 'reward list ====================='
     ITEM_SET_LIST.each do |val, set|
       break if val > total_damage
 
@@ -43,13 +43,13 @@ module Unlight
         puts "dmg:#{val} id:#{set[:id]} name:#{WeaponCard[set[:id]].name} num:#{set[:num]}"
       end
     end
-    puts "reward list ====================="
+    puts 'reward list ====================='
 
     exit()
 
-    puts "上記の内容を全アバターに配付しますか？(y/n)"
+    puts '上記の内容を全アバターに配付しますか？(y/n)'
     lanswer = gets.chomp
-    if lanswer == "y"
+    if lanswer == 'y'
 
       item_import_list = []
       item_set_list = []
@@ -137,15 +137,15 @@ module Unlight
       end
 
       DB.transaction do
-        puts "item import."
+        puts 'item import.'
         item_import_list.each do |import_set|
           ItemInventory.import(item_columns, import_set)
         end
-        puts "part import."
+        puts 'part import.'
         part_import_list.each do |import_set|
           PartInventory.import(part_columns, import_set)
         end
-        puts "weapon import."
+        puts 'weapon import.'
         weapon_import_list.each do |import_set|
           CharaCardSlotInventory.import(weapon_columns, import_set)
         end

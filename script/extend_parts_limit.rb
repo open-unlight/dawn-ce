@@ -1,14 +1,14 @@
-$:.unshift(File.join(File.expand_path("."), "src"))
+$:.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 $arg = ARGV.shift
 
 module Unlight
-  puts "すべての時限パーツの期限を一時間のばす(y/n)"
+  puts 'すべての時限パーツの期限を一時間のばす(y/n)'
   answer = gets.chomp
 
-  if answer == "y"
-    puts "何時間延ばしますか?（数字）"
+  if answer == 'y'
+    puts '何時間延ばしますか?（数字）'
     answer = gets.chomp
     if answer
       num = answer.to_i

@@ -75,8 +75,8 @@ module Unlight
                                  a_avatar.duel_deck_mask_cards_id_str,
                                  b_avatar.duel_deck_mask_cards_id_str,
                                  match_log.match_stage,
-                                 watch_r_duel.pl_damege.join(","),
-                                 watch_r_duel.foe_damege.join(",")
+                                 watch_r_duel.pl_damege.join(','),
+                                 watch_r_duel.foe_damege.join(',')
                                 )
             set_duel_handler(0, RULE_1VS1)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, false)
@@ -97,11 +97,11 @@ module Unlight
             do_determine_session(player_b.id,
                                  a_avatar.name,
                                  b_avatar.name,
-                                 a_deck.mask_cards_id.join(","),
-                                 b_deck.mask_cards_id.join(","),
+                                 a_deck.mask_cards_id.join(','),
+                                 b_deck.mask_cards_id.join(','),
                                  match_log.match_stage,
-                                 watch_r_duel.pl_damege.join(","),
-                                 watch_r_duel.foe_damege.join(",")
+                                 watch_r_duel.pl_damege.join(','),
+                                 watch_r_duel.foe_damege.join(',')
                                 )
             set_duel_handler(0, RULE_3VS3)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, true)
@@ -133,8 +133,8 @@ module Unlight
                                  a_avatar.duel_deck_mask_cards_id_str,
                                  b_avatar.duel_deck_mask_cards_id_str,
                                  match_log.match_stage,
-                                 watch_r_duel.pl_damege.join(","),
-                                 watch_r_duel.foe_damege.join(",")
+                                 watch_r_duel.pl_damege.join(','),
+                                 watch_r_duel.foe_damege.join(',')
                                 )
             set_duel_handler(0, RULE_1VS1)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, false)
@@ -156,11 +156,11 @@ module Unlight
             do_determine_session(player_b.id,
                                  a_avatar.name,
                                  b_avatar.name,
-                                 a_deck.mask_cards_id.join(","),
-                                 b_deck.mask_cards_id.join(","),
+                                 a_deck.mask_cards_id.join(','),
+                                 b_deck.mask_cards_id.join(','),
                                  match_log.match_stage,
-                                 watch_r_duel.pl_damege.join(","),
-                                 watch_r_duel.foe_damege.join(",")
+                                 watch_r_duel.pl_damege.join(','),
+                                 watch_r_duel.foe_damege.join(',')
                                 )
             set_duel_handler(0, RULE_3VS3)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, true)
@@ -214,7 +214,7 @@ module Unlight
     def do_determine_session(id, p_name, foe_name, player_chara_id, foe_chara_id, stage, pl_hp, foe_hp)
       dialogue_id, dialogue_content = CharaCard::duel_start_dialogue(player_chara_id, foe_chara_id)
       sc_determine_session(id, foe_name, player_chara_id, foe_chara_id, dialogue_content, dialogue_id, stage, pl_hp, foe_hp)
-      set_message_str_data(DUEL_MSGDLG_WATCH_START, p_name.force_encoding("UTF-8"), foe_name.force_encoding("UTF-8"))
+      set_message_str_data(DUEL_MSGDLG_WATCH_START, p_name.force_encoding('UTF-8'), foe_name.force_encoding('UTF-8'))
     end
 
     # デュエルのイベントハンドラをまとめて登録
@@ -901,29 +901,29 @@ module Unlight
 
     # プレイヤーの特殊メッセージのイベント
     def plEntrant_special_message_event_handler(args)
-      sc_message(args[0].force_encoding("UTF-8"))
+      sc_message(args[0].force_encoding('UTF-8'))
     end
 
     # プレイヤーの特殊メッセージのイベント
     def foeEntrant_special_message_event_handler(args)
-      sc_message(args[0].force_encoding("UTF-8"))
+      sc_message(args[0].force_encoding('UTF-8'))
     end
 
     # プレイヤーの属性抵抗メッセージのイベント
     def plEntrant_attribute_regist_message_event_handler(args)
-      sc_message(args[0].force_encoding("UTF-8"))
+      sc_message(args[0].force_encoding('UTF-8'))
     end
 
     # プレイヤーの属性抵抗メッセージのイベント
     def foeEntrant_attribute_regist_message_event_handler(args)
-      sc_message(args[0].force_encoding("UTF-8"))
+      sc_message(args[0].force_encoding('UTF-8'))
     end
 
     # デュエル中の汎用メッセージ
     def plEntrant_duel_message_event_handler(args)
       case args[0]
       when DUEL_MSGDLG_AVOID_DAMAGE
-        set_message_str_data(args[0], args[1], DUEL_NAME_WATCH.gsub("__NAME__", @duel.avatar_names[@no].force_encoding("UTF-8")))
+        set_message_str_data(args[0], args[1], DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[@no].force_encoding('UTF-8')))
       else
         set_message_str_data(args[0])
       end
@@ -933,7 +933,7 @@ module Unlight
     def foeEntrant_duel_message_event_handler(args)
       case args[0]
       when DUEL_MSGDLG_AVOID_DAMAGE
-        set_message_str_data(args[0], args[1], DUEL_NAME_WATCH.gsub("__NAME__", @duel.avatar_names[@foe].force_encoding("UTF-8")))
+        set_message_str_data(args[0], args[1], DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[@foe].force_encoding('UTF-8')))
       else
         set_message_str_data(args[0])
       end

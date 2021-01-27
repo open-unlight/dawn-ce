@@ -107,7 +107,7 @@ module Unlight
     after_create do
       if chara_card_decks.size == 0
         CharaCardDeck.new do |d|
-          d.name = "Binder"
+          d.name = 'Binder'
           d.avatar_id = self.id
           d.save_changes
         end
@@ -190,19 +190,19 @@ module Unlight
       if ret
         # 空のデッキを作成
         deck = CharaCardDeck.new do |d|
-          d.name = "Deck 1"
+          d.name = 'Deck 1'
           d.avatar_id = avatar.id
           d.save_changes
         end
 
         CharaCardDeck.new do |d|
-          d.name = "Deck 2"
+          d.name = 'Deck 2'
           d.avatar_id = avatar.id
           d.save_changes
         end
 
        CharaCardDeck.new do |d|
-          d.name = "Deck 3"
+          d.name = 'Deck 3'
           d.avatar_id = avatar.id
           d.save_changes
         end
@@ -254,7 +254,7 @@ module Unlight
               pl.invite_succeed(name)
             end
             # 自分にも追加する
-            notice_str = ""
+            notice_str = ''
             invited_item_set = {}
             INVITE_PRESENTS.each do |pre|
               avatar.get_item(pre)
@@ -265,7 +265,7 @@ module Unlight
             invited_item_set.each do |id, num|
               pre_no_set << "#{TG_AVATAR_ITEM}_#{id}_#{num}"
             end
-            notice_str += pre_no_set.join(",")
+            notice_str += pre_no_set.join(',')
             avatar.write_notice(NOTICE_TYPE_INVITED_SUCC, notice_str)
             # 招待特典ボーナス選択キャラ
             avatar.write_notice(NOTICE_TYPE_GET_SELECTABLE_ITEM, 695.to_s)
@@ -288,7 +288,7 @@ module Unlight
       # 初心者キャンペーンフラグ（2016年11月から恒常化）
       if ROOKIE_PRESENT_FLAG
         if self
-          notice_str = ""
+          notice_str = ''
           pre_no_set = []
           first_choice_card_id = cards[0].to_i
           ROOKIE_PRESENTS.each do |pre|
@@ -313,7 +313,7 @@ module Unlight
             end
             pre_no_set << "#{pre[:type]}_#{set_id}_#{pre[:num]}"
           end
-          notice_str += pre_no_set.join(",")
+          notice_str += pre_no_set.join(',')
           self.write_notice(NOTICE_TYPE_ROOKIE_START, notice_str)
         end
       end
@@ -505,7 +505,7 @@ module Unlight
 
       # CombineCaseが複数あり、既に専用武器の場合、現状の武器IDは排除する
       if combine_case_set.size > 1
-        if pre_weapon_restriction != "" && CHARA_GROUP_MEMBERS[pre_weapon_restriction] == nil
+        if pre_weapon_restriction != '' && CHARA_GROUP_MEMBERS[pre_weapon_restriction] == nil
           combine_case_set = combine_case_set.reject { |cc| cc.combined_w_id == base_sci.card_id }
         end
       end
@@ -545,7 +545,7 @@ module Unlight
         # バインダーから取得しても更新されているようリフレッシュ
         binder.refresh_inventory(base_sci.id)
         SERVER_LOG.info("<UID:#{self.player_id}>Avatar: [#{__method__}] aft_weapon_restriction#{base_sci.card.restriction}")
-        base_sci.change_restriction_act if pre_weapon_restriction == "" && base_sci.card.restriction != ""
+        base_sci.change_restriction_act if pre_weapon_restriction == '' && base_sci.card.restriction != ''
         # 使用した素材を削除
         sci_set.each do |c|
           c.delete_from_deck
@@ -565,14 +565,14 @@ module Unlight
           base_sci.combine_add_aap, # add_aap
           base_sci.combine_add_adp, # add_adp
           base_sci.combine_add_max, # add_max
-          base_sci.get_all_passive_id.join("|"), # passive_id
+          base_sci.get_all_passive_id.join('|'), # passive_id
           base_sci.card.restriction, # restriction
           base_sci.combine_cnt_str, # cnt
           base_sci.combine_cnt_max_str, # cnt_max
           base_sci.level, # level
           base_sci.exp, # exp
           base_sci.combine_passive_num_max, # passive_num_max
-          base_sci.combine_passive_pass_set.join("|"), # passive_pass_set
+          base_sci.combine_passive_pass_set.join('|'), # passive_pass_set
         ) if @event
       end
 
@@ -633,7 +633,7 @@ module Unlight
       unused_item_inventories(r).each do |p|
         ret << p.avatar_item_id
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # アバターアイテムのステートのリストを返す
@@ -643,7 +643,7 @@ module Unlight
       unused_item_inventories(r).each do |p|
         ret << p.state
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # アバターアイテムインベントリのIDのリストを返す
@@ -666,7 +666,7 @@ module Unlight
 
     # アバターアイテムインベントリのIDのリストを返す
     def item_inventories_list_str(r = true)
-      item_inventories_list(r).join(",")
+      item_inventories_list(r).join(',')
     end
 
     # アバターパーツのIDのリストを返す
@@ -676,7 +676,7 @@ module Unlight
       part_inventories.each do |p|
         ret << p.avatar_part_id
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # アバターパーツインベントリのIDのリストを返す
@@ -704,7 +704,7 @@ module Unlight
 
     # アバターパーツインベントリのIDのリストを返す
     def part_inventories_list_str(r = true)
-      part_inventories_list(r).join(",")
+      part_inventories_list(r).join(',')
     end
 
     # クエストインベントリのIDのリストを返す
@@ -719,7 +719,7 @@ module Unlight
 
     # クエストインベントリのIDのリストを文字列で返す
     def quest_inventories_list_str(r = true)
-      quest_inventories_list(r).join(",")
+      quest_inventories_list(r).join(',')
     end
 
     # クエストインベントリのリストのクエストIDを文字列で返す
@@ -738,7 +738,7 @@ module Unlight
           ret << p.quest_id
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # クエストインベントリのリストのステータスを文字列で返す
@@ -748,7 +748,7 @@ module Unlight
       avatar_quest_inventories.each do |p|
         ret << p.status
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # クエストインベントリのリストの発見時間をを文字列で返す
@@ -764,7 +764,7 @@ module Unlight
           ret << 0
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     def quest_ba_name_list_str(r = true)
@@ -779,7 +779,7 @@ module Unlight
           ret << QUEST_PRESENT_AVATAR_NAME_NIL
         end
       end
-      ret.join(",").force_encoding('UTF-8')
+      ret.join(',').force_encoding('UTF-8')
     end
 
     # クエストインベントリのリストの発見時間をを文字列で返す
@@ -790,7 +790,7 @@ module Unlight
       part_inventories.each do |p|
         ret << p.get_end_at(now)
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # タイムオーバーしたパーツを調べる
@@ -812,7 +812,7 @@ module Unlight
        part_inventories.each do |p|
          ret << p.used
        end
-       ret.join(",")
+       ret.join(',')
     end
 
     # アバターパーツを装備する(同じインベントリを装備しようとすると外れる)
@@ -843,12 +843,12 @@ module Unlight
           else
             # 装備しようとするインベントリからパーツ位置を取り出す
             str1 = []
-            i.avatar_part.image.split(/\+/).each { |e| str1 << e[e.rindex("_p") + 2..-1] }
+            i.avatar_part.image.split(/\+/).each { |e| str1 << e[e.rindex('_p') + 2..-1] }
             part_inventories.each do |p|
               # すべての使用中パーツに関してパーツの重複をしらべる（素体は除く）
               if p.equiped? && p.avatar_part && (p.avatar_part.parts_type != APT_B_BODY)
                 str2 = []
-                p.avatar_part.image.split(/\+/).each { |e| str2 << e[e.rindex("_p") + 2..-1] }
+                p.avatar_part.image.split(/\+/).each { |e| str2 << e[e.rindex('_p') + 2..-1] }
                 # 装備するアイテムと装備中のアイテムを比較し重複していたら外す
                 if (str1 & str2).count > 0
                   p.unequip
@@ -902,7 +902,7 @@ module Unlight
       part_inventories.each do |p|
         ret << p.avatar_part_id if p.equiped?
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # 装備済みのパーツリスト
@@ -919,9 +919,9 @@ module Unlight
     # カードのIDのリストを返す
     def cards_list_str(r = true, cards_arr = nil)
       if cards_arr == nil
-        cards_list(r).join(",")
+        cards_list(r).join(',')
       else
-        cards_arr.join(",")
+        cards_arr.join(',')
       end
     end
 
@@ -939,7 +939,7 @@ module Unlight
 
     # カードのインベントリIDのリストを返す
     def inventories_list_str(r = true)
-      inventories_list(r).join(",")
+      inventories_list(r).join(',')
     end
 
     # キャラカードのインベントリのリストを返す
@@ -963,7 +963,7 @@ module Unlight
           ret << chara_card_decks.index(c.chara_card_deck)
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # カードスロットのIDのリストを返す
@@ -975,7 +975,7 @@ module Unlight
           ret << c.card_id
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # カードスロットの種類のリストを返す
@@ -987,12 +987,12 @@ module Unlight
           ret << c.kind
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # カードスロットのインベントリIDのリストを返す
     def slot_inventories_list_str(r = true)
-      slot_inventories_list(r).join(",")
+      slot_inventories_list(r).join(',')
     end
 
     # カードスロットのインベントリのリストを返す
@@ -1009,7 +1009,7 @@ module Unlight
 
     # カードスロットのインベントリの合成かどうかリストの文字列を返す
     def slot_combined_list_str(r = true)
-      slot_combined_list(r).join(",")
+      slot_combined_list(r).join(',')
     end
 
     # カードスロットのインベントリの合成かどうかリストを返す
@@ -1026,7 +1026,7 @@ module Unlight
 
     # カードスロットのインベントリの合成データリストの文字列を返す
     def slot_combine_data_list_str(r = true)
-      slot_combine_data_list(r).join(",")
+      slot_combine_data_list(r).join(',')
     end
 
     # カードスロットのインベントリの合成データリストを返す
@@ -1043,7 +1043,7 @@ module Unlight
             set << c.combine_param1_lower
             set << c.combine_param2
             set << c.combine_param3
-            ret << set.join("|")
+            ret << set.join('|')
           end
         end
       end
@@ -1059,7 +1059,7 @@ module Unlight
           ret << c.deck_position
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # カードスロットのカード内インデックスを返す
@@ -1071,7 +1071,7 @@ module Unlight
           ret << c.card_position
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # 保有しているキャラカードで最大レベル,最大レアリティのカードを返す
@@ -1114,7 +1114,7 @@ module Unlight
           ret << chara_card_decks.index(c.chara_card_deck)
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # カードのデッキ内インデックスを返す
@@ -1126,7 +1126,7 @@ module Unlight
           ret << c.position
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # デッキの名前を更新する
@@ -1135,7 +1135,7 @@ module Unlight
         chara_card_decks[index].name = name
         self.chara_card_decks[index].save_changes
       else
-        raise "undefined deck"
+        raise 'undefined deck'
       end
     end
 
@@ -1146,7 +1146,7 @@ module Unlight
       chara_card_decks.each do |d|
         ret << d.name
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # デッキの種類のリストを返す
@@ -1156,7 +1156,7 @@ module Unlight
       chara_card_decks.each do |d|
         ret << d.kind.to_s
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # デッキのレベルリストを返す
@@ -1166,7 +1166,7 @@ module Unlight
       chara_card_decks.each do |d|
         ret << d.level.to_s
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # デッキの経験値リストを返す
@@ -1176,7 +1176,7 @@ module Unlight
       chara_card_decks.each do |d|
         ret << d.exp.to_s
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # デッキの現在のステータスのリストを返す
@@ -1186,7 +1186,7 @@ module Unlight
       chara_card_decks.each do |d|
         ret << d.status.to_s
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # デッキの現在のコストのリストを返す
@@ -1196,7 +1196,7 @@ module Unlight
       chara_card_decks.each do |d|
         ret << d.current_cost.to_s
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # デッキのマックスコストのリストを返す
@@ -1206,13 +1206,13 @@ module Unlight
       chara_card_decks.each do |d|
         ret << d.max_cost.to_s
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # 指定したデッキの名前を返す
     def deck_name(index)
       if chara_card_decks[index] == nil
-        raise "undefined deck"
+        raise 'undefined deck'
       else
         chara_card_decks[index].name
       end
@@ -1227,7 +1227,7 @@ module Unlight
           ret[i] = chara_card_decks[current_deck].card_inventories[i].chara_card_id
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # クエストログの特定ページをのログを返す
@@ -1243,18 +1243,18 @@ module Unlight
     # デュエルで使用するカードのIDをカンマ区切り文字列で返す
     def duel_deck_cards_id_str
       if duel_deck
-        duel_deck.cards_id.join(",")
+        duel_deck.cards_id.join(',')
       else
-        ""
+        ''
       end
     end
 
     # デュエルで使用するカードのIDをカンマ区切り文字列で返す
     def duel_deck_mask_cards_id_str
       if duel_deck
-        duel_deck.mask_cards_id.join(",")
+        duel_deck.mask_cards_id.join(',')
       else
-        ""
+        ''
       end
     end
 
@@ -1303,7 +1303,7 @@ module Unlight
           h[:inv].save_changes
         end
 
-        @event.deck_get_event(d.name, d.kind, d.level, d.exp, d.status, d.current_cost, d.max_cost, cards.join(",")) if @event
+        @event.deck_get_event(d.name, d.kind, d.level, d.exp, d.status, d.current_cost, d.max_cost, cards.join(',')) if @event
       end
       0
     end
@@ -1387,7 +1387,7 @@ module Unlight
           end
           return [ret, a]
         end
-        raise "wrong card inventory id"
+        raise 'wrong card inventory id'
       end
     end
 
@@ -1865,8 +1865,8 @@ module Unlight
     def send_prf_info(inv, r = true)
       refresh if r
       if inv
-        close_at_str = (inv.profound.close_at != nil) ? inv.profound.close_at.strftime("%a %b %d %H:%M:%S %Z %Y") : ""
-        created_at_str = inv.profound.created_at.strftime("%a %b %d %H:%M:%S %Z %Y")
+        close_at_str = (inv.profound.close_at != nil) ? inv.profound.close_at.strftime('%a %b %d %H:%M:%S %Z %Y') : ''
+        created_at_str = inv.profound.created_at.strftime('%a %b %d %H:%M:%S %Z %Y')
         now_damage, _ = ProfoundLog::get_now_damage(self.id, inv.profound.id)
         deck_status = (inv.deck_idx != 0) ? chara_card_decks[inv.deck_idx].status : CDS_NONE
         if inv.profound.state == PRF_ST_FINISH && deck_status != CDS_NONE
@@ -1877,10 +1877,10 @@ module Unlight
         finder = Avatar[inv.profound.found_avatar_id]
         if finder
           finder_id = finder.id
-          finder_name = finder.name.force_encoding("UTF-8")
+          finder_name = finder.name.force_encoding('UTF-8')
         else
           finder_id = 0
-          finder_name = ""
+          finder_name = ''
         end
 
         @event.send_profound_info_event(inv.profound.data_id,
@@ -1958,10 +1958,10 @@ module Unlight
         profound = pi.profound
         owner = Avatar[profound.found_avatar_id]
         if owner
-          prf_name = profound.p_data.name.force_encoding("UTF-8")
-          boss_name = profound.p_data.get_boss_name.force_encoding("UTF-8")
+          prf_name = profound.p_data.name.force_encoding('UTF-8')
+          boss_name = profound.p_data.get_boss_name.force_encoding('UTF-8')
           boss_hp = profound.p_data.get_boss_max_hp
-          self.write_notice(NOTICE_TYPE_GET_PROFOUND, [profound.id, owner.name.force_encoding("UTF-8"), prf_name, boss_name, boss_hp].join(","))
+          self.write_notice(NOTICE_TYPE_GET_PROFOUND, [profound.id, owner.name.force_encoding('UTF-8'), prf_name, boss_name, boss_hp].join(','))
         end
         pi.inprogress
       end
@@ -1984,7 +1984,7 @@ module Unlight
           ret = ERROR_PRF_FINISHED
         else
           # すでに渦は終了している
-          owner_name = ""
+          owner_name = ''
           found_avatar = Avatar[prf.found_avatar_id]
           owner_black_list = FriendLink::get_black_list(found_avatar.player_id, found_avatar.server_type)
           # SERVER_LOG.info("<UID:#{self.player_id}>DataServer: [#{__method__}] black_list:#{owner_black_list.size > 0}");
@@ -2053,10 +2053,10 @@ module Unlight
           achievement_check(FIND_PROFOUND_02[1])
         end
         # 現行渦IDHashに追加
-        @@playing_prf_hash = CACHE.get("playing_prf_hash")
+        @@playing_prf_hash = CACHE.get('playing_prf_hash')
         if @@playing_prf_hash
           playing_prf_hash[profound.id] = self.id
-          CACHE.set("playing_prf_hash", @@playing_prf_hash, PRF_PLAYING_HASH_CACHE_TTL)
+          CACHE.set('playing_prf_hash', @@playing_prf_hash, PRF_PLAYING_HASH_CACHE_TTL)
         end
       end
       ret
@@ -2104,9 +2104,9 @@ module Unlight
         unless vanished
           if prv_st != new_st && (prv_st != PRF_INV_ST_SOLVED && prv_st != PRF_INV_ST_FAILED) && (new_st == PRF_INV_ST_SOLVED || new_st == PRF_INV_ST_FAILED)
             if new_st == PRF_INV_ST_FAILED
-              prf_name = prf_inv.profound.p_data.name.force_encoding("UTF-8")
-              boss_name = prf_inv.profound.p_data.get_boss_name.force_encoding("UTF-8")
-              self.write_notice(NOTICE_TYPE_FIN_PRF_FAILED, [prf_inv.profound.id, prf_name, boss_name].join(","))
+              prf_name = prf_inv.profound.p_data.name.force_encoding('UTF-8')
+              boss_name = prf_inv.profound.p_data.get_boss_name.force_encoding('UTF-8')
+              self.write_notice(NOTICE_TYPE_FIN_PRF_FAILED, [prf_inv.profound.id, prf_name, boss_name].join(','))
             else
               self.send_prf_info(prf_inv)
             end
@@ -2711,10 +2711,10 @@ module Unlight
         end
       end
       # 先に削除リストから現行渦IDHashを更新する
-      @@playing_prf_hash = CACHE.get("playing_prf_hash") # 念のため再取得
+      @@playing_prf_hash = CACHE.get('playing_prf_hash') # 念のため再取得
       if @@playing_prf_hash
         @@playing_prf_hash.reject! { |key, val| delete_id_list.include?(key) }
-        CACHE.set("playing_prf_hash", @@playing_prf_hash, PRF_PLAYING_HASH_CACHE_TTL)
+        CACHE.set('playing_prf_hash', @@playing_prf_hash, PRF_PLAYING_HASH_CACHE_TTL)
       end
       # 発見者IDリストからAvatarを取得
       add_prf_list.each do |prf|
@@ -3074,7 +3074,7 @@ module Unlight
                   item_array << bonus[:TG_GEM]
                 end
                 # お知らせにも追記
-                ba.write_notice(NOTICE_TYPE_QUEST_SUCC, item_array.join(","))
+                ba.write_notice(NOTICE_TYPE_QUEST_SUCC, item_array.join(','))
               end
             end
           else
@@ -3833,15 +3833,15 @@ module Unlight
           inv.combine_add_aap, # add_aap
           inv.combine_add_adp, # add_adp
           inv.combine_add_max, # add_max
-          inv.get_all_passive_id.join("|"), # passive_id
+          inv.get_all_passive_id.join('|'), # passive_id
           inv.card.restriction, # restriction
           inv.combine_cnt_str, # cnt
           inv.combine_cnt_max_str, # cnt_max
           inv.level, # level
           inv.exp, # exp
           inv.combine_passive_num_max, # passive_num_max
-          inv.combine_passive_pass_set.join("|"), # passive_pass_set
-          data[:vani_psv_ids].join("|") # vanish_passive_ids
+          inv.combine_passive_pass_set.join('|'), # passive_pass_set
+          data[:vani_psv_ids].join('|') # vanish_passive_ids
         ) if @event
       end
     end
@@ -3868,7 +3868,7 @@ module Unlight
       cards_arr = self.cards_list(false)
       ret = [
        self.id || 0,
-       self.name || "",
+       self.name || '',
        self.gems || 0,
        self.exp || 0,
        self.level || 0,
@@ -3881,47 +3881,47 @@ module Unlight
        self.lose || 0,
        self.draw || 0,
        self.parts_num || 0,
-       self.part_inventories_list_str(false) || "",
-       self.part_list_str(false) || "",
-       self.part_used_list_str(false) || "",
-       self.parts_end_at_list_str(false) || "",
+       self.part_inventories_list_str(false) || '',
+       self.part_list_str(false) || '',
+       self.part_used_list_str(false) || '',
+       self.parts_end_at_list_str(false) || '',
        self.items_num || 0,
-       self.item_inventories_list_str(false) || "",
-       self.item_list_str(false) || "",
-       self.item_state_list_str(false) || "",
+       self.item_inventories_list_str(false) || '',
+       self.item_list_str(false) || '',
+       self.item_state_list_str(false) || '',
        self.decks_num || 0,
-       self.deck_name_list_str(false) || "",
-       self.deck_kind_list_str(false) || "",
+       self.deck_name_list_str(false) || '',
+       self.deck_kind_list_str(false) || '',
 
-       self.deck_level_list_str(false) || "",
-       self.deck_exp_list_str(false) || "",
+       self.deck_level_list_str(false) || '',
+       self.deck_exp_list_str(false) || '',
 
-       self.deck_status_list_str(false) || "",
-       self.deck_cost_list_str(false) || "",
-       self.deck_max_cost_list_str(false) || "",
+       self.deck_status_list_str(false) || '',
+       self.deck_cost_list_str(false) || '',
+       self.deck_max_cost_list_str(false) || '',
 
        self.cards_num || 0,
-       self.inventories_list_str(false) || "",
-       self.cards_list_str(false, cards_arr) || "",
-       self.deck_index_list_str(false) || "",
-       self.deck_position_list_str(false) || "",
+       self.inventories_list_str(false) || '',
+       self.cards_list_str(false, cards_arr) || '',
+       self.deck_index_list_str(false) || '',
+       self.deck_position_list_str(false) || '',
        self.slots_num || 0,
-       self.slot_inventories_list_str(false) || "",
-       self.slots_list_str(false) || "",
-       self.slot_type_list_str(false) || "",
-       self.slot_combined_list_str(false) || "",
-       self.slot_combine_data_list_str(false) || "",
-       self.slot_deck_index_list_str(false) || "",
-       self.slot_deck_position_list_str(false) || "",
-       self.slot_card_position_list_str(false) || "",
+       self.slot_inventories_list_str(false) || '',
+       self.slots_list_str(false) || '',
+       self.slot_type_list_str(false) || '',
+       self.slot_combined_list_str(false) || '',
+       self.slot_combine_data_list_str(false) || '',
+       self.slot_deck_index_list_str(false) || '',
+       self.slot_deck_position_list_str(false) || '',
+       self.slot_card_position_list_str(false) || '',
 
        self.quest_inventory_max || 0,
        self.quests_num || 0,
-       self.quest_inventories_list_str(false) || "",
-       self.quest_id_list_str(false) || "",
-       self.quest_status_list_str(false) || "",
-       self.quest_find_time_list_str(false) || "",
-       self.quest_ba_name_list_str(false) || "",
+       self.quest_inventories_list_str(false) || '',
+       self.quest_id_list_str(false) || '',
+       self.quest_status_list_str(false) || '',
+       self.quest_find_time_list_str(false) || '',
+       self.quest_ba_name_list_str(false) || '',
 
        self.quest_flag,
        self.quest_clear_num,
@@ -3974,15 +3974,15 @@ module Unlight
         set_val = ach.get_progress(self, p)
         set_val = p.progress unless set_val
         progress_list << set_val
-        end_at_str = (p && p.end_at != nil) ? p.end_at.strftime("%a %b %d %H:%M:%S %Z %Y") : ""
+        end_at_str = (p && p.end_at != nil) ? p.end_at.strftime('%a %b %d %H:%M:%S %Z %Y') : ''
         end_at_list << end_at_str
         code_list << p.code
       end
-      id_list_str = id_list.join(",")
-      state_list = state_list.join(",")
-      progress_list = progress_list.join("_")
-      end_at_list = end_at_list.join(",")
-      code_list = code_list.join(",")
+      id_list_str = id_list.join(',')
+      state_list = state_list.join(',')
+      progress_list = progress_list.join('_')
+      end_at_list = end_at_list.join(',')
+      code_list = code_list.join(',')
       [id_list_str, state_list, progress_list, end_at_list, code_list]
     end
 
@@ -3993,7 +3993,7 @@ module Unlight
       self.achievement_inventories.each do |p|
         ret << p.achievement_id
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # アチーブメントインベントリのstateのリストを文字列返す
@@ -4003,7 +4003,7 @@ module Unlight
       self.achievement_inventories.each do |p|
         ret << p.state
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # アチーブメントインベントリのprogressのリストを文字列返す
@@ -4016,7 +4016,7 @@ module Unlight
         set_val = p.progress unless set_val
         ret << set_val
       end
-      ret.join("_")
+      ret.join('_')
     end
 
     # アチーブメントインベントリのend_atのリストを文字列返す
@@ -4024,9 +4024,9 @@ module Unlight
       ret = []
       refresh if r
       self.achievement_inventories.each do |p|
-        ret << (p.end_at) ? p.end_at.strftime("%a %b %d %H:%M:%S %Z %Y") : ""
+        ret << (p.end_at) ? p.end_at.strftime('%a %b %d %H:%M:%S %Z %Y') : ''
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # アチーブメントのProgress更新(すでにクリア済みのもの)
@@ -4194,12 +4194,12 @@ module Unlight
             set_prog = r.achievement.get_progress(self, r)
             set_prog = r.progress.to_s unless set_prog
             progress_list << set_prog
-            end_at_str = (r && r.end_at != nil) ? r.end_at.strftime("%a %b %d %H:%M:%S %Z %Y") : ""
+            end_at_str = (r && r.end_at != nil) ? r.end_at.strftime('%a %b %d %H:%M:%S %Z %Y') : ''
             end_at_list << end_at_str
             code_list << r.code
           end
           # アチーブメントの情報を送る
-          @event.update_achievement_info_event(id_list.join(","), state_list.join(","), progress_list.join("_"), end_at_list.join(","), code_list.join(",")) if @event
+          @event.update_achievement_info_event(id_list.join(','), state_list.join(','), progress_list.join('_'), end_at_list.join(','), code_list.join(',')) if @event
         end
       end
     end
@@ -4293,12 +4293,12 @@ module Unlight
               # 成功イベントが送れない為、ノーティスに記録
               if notice_items.size > 0
                 notice_items.unshift(ai.achievement.id)
-                self.write_notice(NOTICE_TYPE_ACHI_SUCC, notice_items.join(","))
+                self.write_notice(NOTICE_TYPE_ACHI_SUCC, notice_items.join(','))
               end
 
               # 初心者レコードの最後をクリアして、条件を満たしている場合、Noticeを出す
               if ai.achievement_id == ROOKIE_SALE_CHECK_ACHEVEMENT_ID && self.can_sale_start
-                self.write_notice(NOTICE_TYPE_SALE_START, [SALE_TYPE_ROOKIE, ROOKIE_SALE_TIME].join(","))
+                self.write_notice(NOTICE_TYPE_SALE_START, [SALE_TYPE_ROOKIE, ROOKIE_SALE_TIME].join(','))
               end
 
               # アチーブメントの状態をクリアにする
@@ -4333,7 +4333,7 @@ module Unlight
             set_prog = ai.achievement.get_progress(self, ai)
             set_prog = ai.progress unless set_prog
             progress_list.push(set_prog)
-            end_at_str = (ai && ai.end_at != nil) ? ai.end_at.strftime("%a %b %d %H:%M:%S %Z %Y") : ""
+            end_at_str = (ai && ai.end_at != nil) ? ai.end_at.strftime('%a %b %d %H:%M:%S %Z %Y') : ''
             end_at_list << end_at_str
             code_list << ai.code
           else
@@ -4343,7 +4343,7 @@ module Unlight
             set_prog = ai.achievement.get_progress(self, ai)
             set_prog = ai.progress unless set_prog
             progress_list.push(set_prog)
-            end_at_str = (ai && ai.end_at != nil) ? ai.end_at.strftime("%a %b %d %H:%M:%S %Z %Y") : ""
+            end_at_str = (ai && ai.end_at != nil) ? ai.end_at.strftime('%a %b %d %H:%M:%S %Z %Y') : ''
             end_at_list << end_at_str
             code_list << ai.code
           end
@@ -4351,7 +4351,7 @@ module Unlight
       end
 
       # アチーブメントの情報を送る
-      @event.update_achievement_info_event(id_list.join(","), state_list.join(","), progress_list.join("_"), end_at_list.join(","), code_list.join(",")) if @event
+      @event.update_achievement_info_event(id_list.join(','), state_list.join(','), progress_list.join('_'), end_at_list.join(','), code_list.join(',')) if @event
     end
 
     # クリアしたアチーブメントによって新しいアチーブメント追加されるかチェック
@@ -4404,14 +4404,14 @@ module Unlight
           set_prog = new_ai.achievement.get_progress(self, new_ai)
           set_prog = new_ai.progress unless set_prog
           progress_list.push(set_prog)
-          end_at_str = (new_ai && new_ai.end_at != nil) ? new_ai.end_at.strftime("%a %b %d %H:%M:%S %Z %Y") : ""
+          end_at_str = (new_ai && new_ai.end_at != nil) ? new_ai.end_at.strftime('%a %b %d %H:%M:%S %Z %Y') : ''
           end_at_list << end_at_str
           code_list << new_ai.code
         end
       end
 
       # アチーブメントの情報を送る
-      @event.update_achievement_info_event(id_list.join(","), state_list.join(","), progress_list.join("_"), end_at_list.join(","), code_list.join(",")) if @event
+      @event.update_achievement_info_event(id_list.join(','), state_list.join(','), progress_list.join('_'), end_at_list.join(','), code_list.join(',')) if @event
     end
 
     # クリアしたアチーブメントによってアチーブメントが消されるかチェック
@@ -4658,10 +4658,10 @@ module Unlight
           param[:items].each do |i|
             r = get_treasures(i[0], i[1], i[3], i[2])
             if ERROR_PARTS_DUPE != r
-              notice_set.push(i.join("_"))
+              notice_set.push(i.join('_'))
             end
           end
-          self.write_notice(NOTICE_TYPE_APOLOGY, notice_set.join(","))
+          self.write_notice(NOTICE_TYPE_APOLOGY, notice_set.join(','))
           add_apology = true
         end
         self.avatar_apology.all_clear_body if add_apology
@@ -4669,7 +4669,7 @@ module Unlight
     end
 
     def get_notice
-      ret = ""
+      ret = ''
       if self.avatar_notice
         ret = self.avatar_notice.body
       end
@@ -4677,19 +4677,19 @@ module Unlight
     end
 
     def clear_notice(n, args)
-      arg_set = Hash[*(args.split(","))]
+      arg_set = Hash[*(args.split(','))]
       if self.avatar_notice
         # 渦と選択レコード関連以外を消すように調整
         noncheck_types = PRF_NOTICE_TYPES.clone.push(NOTICE_TYPE_GET_SELECTABLE_ITEM)
         self.avatar_notice.get_other_type_message(noncheck_types)
         cleared_notice_set = self.avatar_notice.clear_body(n)
         cleared_notice_set.each_with_index do |nc, i|
-          a = nc.split(":") if nc
+          a = nc.split(':') if nc
           if a
             case a.first.to_i
             when NOTICE_TYPE_SALE_START
               # セールのスタートチェック
-              p = a[-1].split(",")
+              p = a[-1].split(',')
               type = p.shift().to_i
               time = p.shift().to_i
               self.set_sale_limit(time, type)
@@ -4705,12 +4705,12 @@ module Unlight
     end
 
     def get_notice_selectable_item(args)
-      arg_set = Hash[*(args.split(","))]
-      cnt = self.avatar_notice.get_type_message([NOTICE_TYPE_GET_SELECTABLE_ITEM]).split("|").size
+      arg_set = Hash[*(args.split(','))]
+      cnt = self.avatar_notice.get_type_message([NOTICE_TYPE_GET_SELECTABLE_ITEM]).split('|').size
       if cnt > 0 && arg_set.keys.size > 0
         cleared_notice_set = self.avatar_notice.clear_body(cnt)
         cleared_notice_set.each_with_index do |nc, i|
-          a = nc.split(":") if nc
+          a = nc.split(':') if nc
           if a
             case a.first.to_i
             when NOTICE_TYPE_GET_SELECTABLE_ITEM
@@ -4734,7 +4734,7 @@ module Unlight
     end
 
     def get_profound_notice
-      ret = ""
+      ret = ''
       if self.avatar_notice
         ret = self.avatar_notice.get_type_message(PRF_NOTICE_TYPES)
       end
@@ -4846,7 +4846,7 @@ module Unlight
       notice_a << self.name
       notice_a << ai.quest_id
       # お知らせにも追記
-      a.write_notice(NOTICE_TYPE_QUEST_PRESENT, notice_a.join(","))
+      a.write_notice(NOTICE_TYPE_QUEST_PRESENT, notice_a.join(','))
       ret
     end
 
@@ -5008,13 +5008,13 @@ module Unlight
         if @lobby_chara_flags || get_lobby_chara_scenario_flags
           a[1] =~ /^\s*([=!><]=)\s*(.*)/
           case $1
-          when "=="
+          when '=='
             f = @lobby_chara_flags[a[0]] == $2
-          when "!="
+          when '!='
             f = @lobby_chara_flags[a[0]] != $2
-          when ">="
+          when '>='
             f = @lobby_chara_flags[a[0]].to_i >= $2.to_i
-          when "<="
+          when '<='
             f = @lobby_chara_flags[a[0]].to_i <= $2.to_i
           end
 
@@ -5036,7 +5036,7 @@ module Unlight
           s.avatar_id = self.id
           s.set_flag(flags[0], flags[1])
           s.save_changes
-          puts "save done"
+          puts 'save done'
         end
       end
     end
@@ -5083,7 +5083,7 @@ module Unlight
       SERVER_LOG.info("<UID:#{self.player_id}>DataServer: [#{__method__}] login_at:#{self.player.login_at} check at:#{ONE_DAY_SALE_CHECK_AT}")
       if ONE_DAY_SALE_FLAG
         # セールタイムが設定されてないなら
-        if self.sale_limit_at == nil || self.sale_limit_at == "" || self.sale_limit_at < ONE_DAY_SALE_CHECK_AT
+        if self.sale_limit_at == nil || self.sale_limit_at == '' || self.sale_limit_at < ONE_DAY_SALE_CHECK_AT
           self.set_sale_limit(ONE_DAY_SALE_TIME, SALE_TYPE_ROOKIE)
         end
       end
@@ -5389,7 +5389,7 @@ module Unlight
     regist_event ChangeFavoriteCharaIdEvent
 
     # 合成武器情報を更新
-    def update_combine_weapon_data(inv_id, card_id, base_sap, base_sdp, base_aap, base_adp, base_max, add_sap, add_sdp, add_aap, add_adp, add_max, passive_id, restriction, cnt_str, cnt_max_str, level, exp, psv_num_max, passive_pass, vani_psv_ids = "")
+    def update_combine_weapon_data(inv_id, card_id, base_sap, base_sdp, base_aap, base_adp, base_max, add_sap, add_sdp, add_aap, add_adp, add_max, passive_id, restriction, cnt_str, cnt_max_str, level, exp, psv_num_max, passive_pass, vani_psv_ids = '')
       SERVER_LOG.info("<UID:#{@avatar.player_id}>#{$SERVER_NAME}: [#{__method__}] id:#{inv_id} card_id:#{card_id}")
       [inv_id, card_id, base_sap, base_sdp, base_aap, base_adp, base_max, add_sap, add_sdp, add_aap, add_adp, add_max, passive_id, restriction, cnt_str, cnt_max_str, level, exp, psv_num_max, passive_pass, vani_psv_ids]
     end

@@ -100,19 +100,19 @@ module Unlight
   end
 
   def Shop::get_sale_list_str(type = 0)
-    ret = ""
-    ret += "["
+    ret = ''
+    ret += '['
     ret += "#{type},"
-    ret += "["
+    ret += '['
     Shop.filter({ shop_type: type }).all.each do |s|
-      ret += "["
+      ret += '['
       ret2 = []
       ret2 << [s.article_kind, s.article_id, s.price, s.coin_0, s.coin_1, s.coin_2, s.coin_3, s.coin_4, s.coin_ex, s.view_frame]
-      ret += ret2.join(",")
-      ret += "],"
+      ret += ret2.join(',')
+      ret += '],'
     end
     ret.chop!
-    ret += "]"
-    ret += "]"
+    ret += ']'
+    ret += ']'
   end
 end

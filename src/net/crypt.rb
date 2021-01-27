@@ -19,7 +19,7 @@ module Unlight
 
       # 暗号化（String->Array）
       def encrypt(data)
-        a = data.unpack("C*")
+        a = data.unpack('C*')
         alen = a.length
         des_a = []
         i = 0

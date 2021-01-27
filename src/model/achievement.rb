@@ -17,18 +17,18 @@ module Unlight
       primary_key :id
       integer     :kind, default: 0 # 種類
       integer     :cond # 条件
-      String      :items, default: "" # 報酬アイテム
+      String      :items, default: '' # 報酬アイテム
       integer     :prerequisite, default: 0  # 前提条件
-      String      :exclusion, default: ""    # 排他条件
+      String      :exclusion, default: ''    # 排他条件
       integer     :loop, default: 0          # 繰り返し可能か(1以上で無限)
-      String      :caption, default: ""      # キャプション
+      String      :caption, default: ''      # キャプション
 
       integer     :success_cond, default: 0  # 達成条件
-      String      :explanation, default: ""  # 説明
+      String      :explanation, default: ''  # 説明
 
-      String      :set_loop, default: ""     # セットループ条件
+      String      :set_loop, default: ''     # セットループ条件
 
-      String      :set_end_type, default: "0" # end_at設定タイプ
+      String      :set_end_type, default: '0' # end_at設定タイプ
 
       datetime    :event_start_at
       datetime    :event_end_at
@@ -52,12 +52,12 @@ module Unlight
 
     DB.alter_table :achievements do
       add_column :success_cond, :integer, default: 0 unless Unlight::Achievement.columns.include?(:success_cond)  # 新規追加2012/06/22
-      add_column :explanation, String, default: "" unless Unlight::Achievement.columns.include?(:explanation)     # 新規追加2012/10/16
+      add_column :explanation, String, default: '' unless Unlight::Achievement.columns.include?(:explanation)     # 新規追加2012/10/16
       add_column :loop, :integer, default: 0 unless Unlight::Achievement.columns.include?(:loop)                  # 新規追加2013/01/10
-      add_column :set_loop, String, default: "" unless Unlight::Achievement.columns.include?(:set_loop)           # 新規追加2014/06/13
+      add_column :set_loop, String, default: '' unless Unlight::Achievement.columns.include?(:set_loop)           # 新規追加2014/06/13
       add_column :clear_code_type, :integer, default: 0 unless Unlight::Achievement.columns.include?(:clear_code_type) # 新規追加2015/04/14
       add_column :clear_code_max, :integer, default: 0 unless Unlight::Achievement.columns.include?(:clear_code_max) # 新規追加2015/04/14
-      add_column :set_end_type, String, default: "0" unless Unlight::Achievement.columns.include?(:set_end_type) # 新規追加2015/11/13
+      add_column :set_end_type, String, default: '0' unless Unlight::Achievement.columns.include?(:set_end_type) # 新規追加2015/11/13
     end
 
     # インサート時の前処理
@@ -143,15 +143,15 @@ module Unlight
 
     # end_at指定の入るアチーブメントのリストを返す
     def Achievement::get_set_end_at_record()
-      ret = CACHE.get("achi_end_at_list")
+      ret = CACHE.get('achi_end_at_list')
       unless ret
         ret = []
         Achievement.all.each { |a|
-          if a.set_end_type != "0"
+          if a.set_end_type != '0'
             ret.push(a)
           end
         }
-        CACHE.set("achi_end_at_list", ret)
+        CACHE.set('achi_end_at_list', ret)
       end
       ret
     end
@@ -178,10 +178,10 @@ module Unlight
     # 0/10/1+1/1/20
     def get_items
       ret = []
-      self.items.split("+").each do |i|
-        if i[0] != "S"
+      self.items.split('+').each do |i|
+        if i[0] != 'S'
           ret.push(Array.new())
-          i.split("/").each do |j|
+          i.split('/').each do |j|
             ret.last.push(j.to_i)
           end
         end
@@ -190,18 +190,18 @@ module Unlight
     end
 
     def get_selectable_items
-      self.items.include?("S")
+      self.items.include?('S')
     end
 
     def get_selectable_array
       ret = CACHE.get("selectable_items#{self.id}")
       unless ret
         ret = []
-        self.items.split("+").each do |ii|
-          if ii[0] == "S"
-            ii[1..-1].split("|").each do |i|
+        self.items.split('+').each do |ii|
+          if ii[0] == 'S'
+            ii[1..-1].split('|').each do |i|
               ret.push(Array.new())
-              i.split("/").each do |j|
+              i.split('/').each do |j|
                 ret.last.push(j.to_i)
               end
             end
@@ -216,7 +216,7 @@ module Unlight
     def get_end_at
       ret = nil
       now = Time.now.utc
-      type, val = self.set_end_type.split(":")
+      type, val = self.set_end_type.split(':')
       case type.to_i
         when ACHIEVEMENT_END_AT_TYPE_DAY
           d_time = DateTime.new(now.year, now.month, now.day) + val.to_i
@@ -1731,88 +1731,88 @@ module Unlight
 
     # クリア条件データを文字列にして返す
     def get_cond_info_str()
-      ret = ""
+      ret = ''
       if CONDITION_SET[self.id]
         # CondType
         case CONDITION_SET[self.id][0]
         when :level_check
-          ret << ACHIEVEMENT_COND_TYPE_LEVEL.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_LEVEL.to_s << ':'
         when :duel_win_check
-          ret << ACHIEVEMENT_COND_TYPE_DUEL_WIN.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_DUEL_WIN.to_s << ':'
         when :quest_clear_check
-          ret << ACHIEVEMENT_COND_TYPE_QUEST_CLEAR.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_QUEST_CLEAR.to_s << ':'
         when :friend_num_check
-          ret << ACHIEVEMENT_COND_TYPE_FRIEND_NUM.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_FRIEND_NUM.to_s << ':'
         when :item_num_check
-          ret << ACHIEVEMENT_COND_TYPE_ITEM_NUM.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_ITEM_NUM.to_s << ':'
         when :halloween_check
-          ret << ACHIEVEMENT_COND_TYPE_HALLOWEEN.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_HALLOWEEN.to_s << ':'
         when :chara_card_check
-          ret << ACHIEVEMENT_COND_TYPE_CHARA_CARD.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_CHARA_CARD.to_s << ':'
         when :chara_card_deck_check
-          ret << ACHIEVEMENT_COND_TYPE_CHARA_CARD_DECK.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_CHARA_CARD_DECK.to_s << ':'
         when :quest_no_clear_check
-          ret << ACHIEVEMENT_COND_TYPE_QUEST_NO_CLEAR.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_QUEST_NO_CLEAR.to_s << ':'
         when :get_rare_card_check
-          ret << ACHIEVEMENT_COND_TYPE_GET_RARE_CARD.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_GET_RARE_CARD.to_s << ':'
         when :duel_clear_check
-          ret << ACHIEVEMENT_COND_TYPE_DUEL_CLEAR.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_DUEL_CLEAR.to_s << ':'
         when :quest_present_check
-          ret << ACHIEVEMENT_COND_TYPE_QUEST_PRESENT.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_QUEST_PRESENT.to_s << ':'
         when :record_clear_check
-          ret << ACHIEVEMENT_COND_TYPE_RECORD_CLEAR.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_RECORD_CLEAR.to_s << ':'
         when :item_check
-          ret << ACHIEVEMENT_COND_TYPE_ITEM.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_ITEM.to_s << ':'
         when :item_complete_check
-          ret << ACHIEVEMENT_COND_TYPE_ITEM_COMPLETE.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_ITEM_COMPLETE.to_s << ':'
         when :item_calc_check
-          ret << ACHIEVEMENT_COND_TYPE_ITEM_CALC.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_ITEM_CALC.to_s << ':'
         when :item_set_calc_check
-          ret << ACHIEVEMENT_COND_TYPE_ITEM_SET_CALC.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_ITEM_SET_CALC.to_s << ':'
         when :week_duel_clear_check
-          ret << ACHIEVEMENT_COND_TYPE_DUEL_CLEAR.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_DUEL_CLEAR.to_s << ':'
         when :quest_point_check
-          ret << ACHIEVEMENT_COND_TYPE_QUEST_POINT.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_QUEST_POINT.to_s << ':'
         when :get_weapon_check
-          ret << ACHIEVEMENT_COND_TYPE_GET_WEAPON.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_GET_WEAPON.to_s << ':'
         when :week_quest_clear_check
-          ret << ACHIEVEMENT_COND_TYPE_QUEST_ADVANCE.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_QUEST_ADVANCE.to_s << ':'
         when :find_raid_profound
-          ret << ACHIEVEMENT_COND_TYPE_FIND_PROFOUND.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_FIND_PROFOUND.to_s << ':'
         when :raid_btl_cnt
-          ret << ACHIEVEMENT_COND_TYPE_RAID_BATTLE_CNT.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_RAID_BATTLE_CNT.to_s << ':'
         when :multi_quest_clear_check
-          ret << ACHIEVEMENT_COND_TYPE_MULTI_QUEST_CLEAR.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_MULTI_QUEST_CLEAR.to_s << ':'
         when :invite_count_check
-          ret << ACHIEVEMENT_COND_TYPE_INVITE_COUNT.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_INVITE_COUNT.to_s << ':'
         when :raid_boss_defeat_check
-          ret << ACHIEVEMENT_COND_TYPE_RAID_BOSS_DEFEAT.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_RAID_BOSS_DEFEAT.to_s << ':'
         when :raid_all_damage_check
-          ret << ACHIEVEMENT_COND_TYPE_RAID_ALL_DAMAGE.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_RAID_ALL_DAMAGE.to_s << ':'
         when :created_days_check
-          ret << ACHIEVEMENT_COND_TYPE_CREATED_DAYS.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_CREATED_DAYS.to_s << ':'
         when :event_point_check
-          ret << ACHIEVEMENT_COND_TYPE_EVENT_POINT.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_EVENT_POINT.to_s << ':'
         when :event_point_cnt_check
-          ret << ACHIEVEMENT_COND_TYPE_EVENT_POINT_CNT.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_EVENT_POINT_CNT.to_s << ':'
         when :get_part_check
-          ret << ACHIEVEMENT_COND_TYPE_GET_PART.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_GET_PART.to_s << ':'
         when :daily_record_clear_check
-          ret << ACHIEVEMENT_COND_TYPE_DAILY_CLEAR.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_DAILY_CLEAR.to_s << ':'
         when :other_raid_btl_cnt
-          ret << ACHIEVEMENT_COND_TYPE_OTHER_RAID.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_OTHER_RAID.to_s << ':'
         when :use_item_check
-          ret << ACHIEVEMENT_COND_TYPE_USE_ITEM.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_USE_ITEM.to_s << ':'
         when :self_raid_claer_check
-          ret << ACHIEVEMENT_COND_TYPE_SELF_RAID.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_SELF_RAID.to_s << ':'
         when :other_duel_cnt_check
-          ret << ACHIEVEMENT_COND_TYPE_OTHER_DUEL.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_OTHER_DUEL.to_s << ':'
         when :item_full_num_check
-          ret << ACHIEVEMENT_COND_TYPE_ITEM_NUM.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_ITEM_NUM.to_s << ':'
         when :item_later_num_check
-          ret << ACHIEVEMENT_COND_TYPE_ITEM_NUM.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_ITEM_NUM.to_s << ':'
         when :item_later_calc_check
-          ret << ACHIEVEMENT_COND_TYPE_ITEM_CALC.to_s << ":"
+          ret << ACHIEVEMENT_COND_TYPE_ITEM_CALC.to_s << ':'
         end
 
         # 条件内容数値
@@ -1822,11 +1822,11 @@ module Unlight
               item_ids = CONDITION_SET[self.id][1][0]
               count = CONDITION_SET[self.id][1][1]
               item_ids.each { |e|
-                ret << "#{e},#{count}" << "_"
+                ret << "#{e},#{count}" << '_'
               }
             else
               CONDITION_SET[self.id][1].each { |e|
-                ret << e.join(",") << "_"
+                ret << e.join(',') << '_'
               }
             end
             ret.chop!
@@ -1834,7 +1834,7 @@ module Unlight
             if CONDITION_SET[self.id][0] == :event_point_cnt_check
               ret << CONDITION_SET[self.id][1].last.to_s
             else
-              ret << CONDITION_SET[self.id][1].join(",")
+              ret << CONDITION_SET[self.id][1].join(',')
             end
           end
         else
@@ -1843,21 +1843,21 @@ module Unlight
             if q_ids == 0
               ret << q_ids.to_s
             else
-              ret << q_ids.join(",")
+              ret << q_ids.join(',')
             end
           elsif CONDITION_SET[self.id][0] == :raid_boss_defeat_check
             p_ids = self.get_record_clear_prf_no
             if p_ids == 0
               ret << p_ids.to_s
             else
-              ret << p_ids.join(",")
+              ret << p_ids.join(',')
             end
           elsif CONDITION_SET[self.id][0] == :get_part_check
             p_ids = self.get_record_part
             if p_ids == 0
               ret << p_ids.to_s
             else
-              ret << p_ids.join(",")
+              ret << p_ids.join(',')
             end
           else
             ret << CONDITION_SET[self.id][1].to_s
@@ -1870,14 +1870,14 @@ module Unlight
 
     # データをとる
     def get_data_csv_str()
-      ret = ""
-      ret << self.id.to_s << ","
-      ret << self.kind.to_s << ","
-      ret << '"' << (self.caption || "") << '",'
-      ret << '"' << (self.event_end_at && self.event_end_at.strftime("%a %b %d %H:%M:%S %Z %Y") || "") << '",'
-      ret << self.success_cond.to_s << ","
+      ret = ''
+      ret << self.id.to_s << ','
+      ret << self.kind.to_s << ','
+      ret << '"' << (self.caption || '') << '",'
+      ret << '"' << (self.event_end_at && self.event_end_at.strftime('%a %b %d %H:%M:%S %Z %Y') || '') << '",'
+      ret << self.success_cond.to_s << ','
       ret << '"' << get_cond_info_str << '",'
-      exp_str = (self.explanation != nil) ? self.explanation.gsub(/\n/, "") : ""
+      exp_str = (self.explanation != nil) ? self.explanation.gsub(/\n/, '') : ''
       ret << '"' << exp_str << '"' << ','
       ret << "#{self.get_selectable_array}"
       ret
@@ -2273,7 +2273,7 @@ module Unlight
           ret.push(0)
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     def get_item_set_calc_check(avatar, v, inv)
@@ -2287,7 +2287,7 @@ module Unlight
           ret.push(0)
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     def get_progress(avatar, inv = nil)

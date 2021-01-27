@@ -18,20 +18,20 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, default: "real_money_item"
+      String      :name, default: 'real_money_item'
       float :price, default: 0
       integer     :rm_item_type, default: 0
       integer     :item_id, default: 0
       integer     :num, default: 0
       integer     :order, default: 0
       integer     :state, default: 0
-      String      :image_url, default: ""
+      String      :image_url, default: ''
       integer     :tab, default: 0
-      String      :description, default: ""
+      String      :description, default: ''
       integer     :extra_id, default: 0 #セット販売アイテムRealMoneyItem.ID
       integer     :view_frame, default: 0
       integer     :sale_type, default: 0 # セールタイプ 0:初心者,1:10%,2:15%,3:20%,4:30%,5:40%,6:Event
-      String      :deck_image_url, default: ""
+      String      :deck_image_url, default: ''
       float     :twd, default: 0
       float     :hkd, default: 0
       float     :usd, default: 0
@@ -54,7 +54,7 @@ module Unlight
       add_column :extra_id, :integer, default: 0 unless Unlight::RealMoneyItem.columns.include?(:extra_id) #new 2012/06/06
        add_column :view_frame, :integer, default: 0 unless Unlight::RealMoneyItem.columns.include?(:view_frame) #new 2012/06/20
        add_column :sale_type, :integer, default: 0  unless Unlight::RealMoneyItem.columns.include?(:sale_type) #new 2012/10/22
-       add_column :deck_image_url, String, default: "" unless Unlight::RealMoneyItem.columns.include?(:deck_image_url) #new 2012/11/21
+       add_column :deck_image_url, String, default: '' unless Unlight::RealMoneyItem.columns.include?(:deck_image_url) #new 2012/11/21
        add_column :twd, :float, default: 0  unless Unlight::RealMoneyItem.columns.include?(:twd) #new 2012/06/06
        add_column :hkd, :float, default: 0  unless Unlight::RealMoneyItem.columns.include?(:hkd) #new 2012/06/06
        add_column :usd, :float, default: 0  unless Unlight::RealMoneyItem.columns.include?(:usd) #new 2012/06/06
@@ -76,7 +76,7 @@ module Unlight
 
     # 特定のショップのアイテムIDリストをもらえる
     def RealMoneyItem::get_sale_list
-      ret = cache_store.get("real_mone_item_sale_list:")
+      ret = cache_store.get('real_mone_item_sale_list:')
       unless ret
         ret = []
         ids = []
@@ -113,7 +113,7 @@ module Unlight
         end
         ret << RealMoneyItem.all.size
         ret << [ids, names, prices, item_types, item_ids, nums, orders, states, image_urls, tabs, descs, frames, extra_ids, sale_types, deck_image_urls]
-        cache_store.set("real_mone_item_sale_list:", ret)
+        cache_store.set('real_mone_item_sale_list:', ret)
       end
       ret
     end

@@ -22,7 +22,7 @@ module Unlight
     set_schema do
       primary_key :id
       integer     :avatar_id, index: true # :table => :avatars
-      String      :name, default: ""
+      String      :name, default: ''
       integer     :point, default: 0
       integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
       datetime    :created_at
@@ -62,7 +62,7 @@ module Unlight
     end
 
     def TotalEventRanking::data_type
-      "frog"
+      'frog'
     end
 
     extend TotalRanking

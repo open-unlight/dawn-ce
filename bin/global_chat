@@ -29,7 +29,7 @@ module Unlight
 
   EM.run do
     GlobalChatServer.setup
-    EM.start_server "0.0.0.0", Dawn::Server.port, GlobalChatServer
+    EM.start_server '0.0.0.0', Dawn::Server.port, GlobalChatServer
     SERVER_LOG.info("GlobalChatServer Start: ip[#{Dawn::Server.hostname}] port[#{Dawn::Server.port}]")
     # タイマの制度を上げる
     EM.set_quantum(10)

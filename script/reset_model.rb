@@ -1,5 +1,5 @@
 # モデルを削除する
-$:.unshift(File.join(File.expand_path("."), "src"))
+$:.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 $arg = ARGV.shift
@@ -17,11 +17,11 @@ module Unlight
     col = eval ("#{$arg.camelize}.columns")
     puts "既存のモデルデータ#{$arg}のテーブルをリセットしますか(#{col})(y/n)"
     answer = gets.chomp
-    if answer == "y"
+    if answer == 'y'
       eval ("#{$arg.camelize}.create_table!")
     end
   else
-    puts "モデルデータが存在しないのでテーブルを作ります"
+    puts 'モデルデータが存在しないのでテーブルを作ります'
     eval ("#{$arg.camelize}.create_table")
   end
 end

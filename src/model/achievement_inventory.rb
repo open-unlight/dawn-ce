@@ -22,7 +22,7 @@ module Unlight
       integer     :progress, default: 0
       integer     :before_avatar_id, default: 0
       datetime    :end_at
-      String      :code, default: "" # 専用コード（置き換え文字列）
+      String      :code, default: '' # 専用コード（置き換え文字列）
       datetime    :created_at
       datetime    :updated_at
     end
@@ -36,7 +36,7 @@ module Unlight
       add_column :progress, :integer, default: 0 unless Unlight::AchievementInventory.columns.include?(:progress) # 新規追加2011/07/25
       add_column :before_avatar_id, :integer, default: 0 unless Unlight::AchievementInventory.columns.include?(:before_avatar_id) # 新規追加2011/07/25
       add_column :end_at, :datetime unless Unlight::AchievementInventory.columns.include?(:end_at) # 新規追加 2013/02/25
-      add_column :code, String, default: "" unless Unlight::AchievementInventory.columns.include?(:code) # 新規追加2015/04/13
+      add_column :code, String, default: '' unless Unlight::AchievementInventory.columns.include?(:code) # 新規追加2015/04/13
     end
 
     # バリデーションの設定
@@ -54,12 +54,12 @@ module Unlight
     end
 
     def restart
-      SERVER_LOG.info("<>Avatar: achievement inv restart start")
+      SERVER_LOG.info('<>Avatar: achievement inv restart start')
 
       self.state = ACHIEVEMENT_STATE_START
       self.progress = 0
       self.save_changes
-      SERVER_LOG.info("<>Avatar: achievement inv restart end")
+      SERVER_LOG.info('<>Avatar: achievement inv restart end')
     end
 
     def finish

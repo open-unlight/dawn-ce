@@ -22,7 +22,7 @@ module Unlight
     set_schema do
       primary_key :id
       integer     :avatar_id, index: true # :table => :avatars
-      String      :name, default: ""
+      String      :name, default: ''
       integer     :point, default: 0
       integer     :avatar_item_id, default: 0, index: true
       datetime    :created_at
@@ -63,7 +63,7 @@ module Unlight
     end
 
     def TotalCharaVoteRanking::data_type
-      "chara_vote"
+      'chara_vote'
     end
 
     extend TotalRanking

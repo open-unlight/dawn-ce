@@ -32,8 +32,8 @@ module Unlight
           if defeat_avatar
             ranking_str_list, self_rank = self_inv.get_finish_ranking_notice_str(defeat_avatar, false)
             if ranking_str_list.size > 0
-              set_data = [prf_id, NOTICE_TYPE_FIN_PRF_RANKING, self_rank, ranking_str_list.join(",")]
-              sc_profound_result_ranking(set_data.join("+"))
+              set_data = [prf_id, NOTICE_TYPE_FIN_PRF_RANKING, self_rank, ranking_str_list.join(',')]
+              sc_profound_result_ranking(set_data.join('+'))
             end
           end
         end

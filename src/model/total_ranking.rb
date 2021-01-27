@@ -167,7 +167,7 @@ module Unlight
             ret << set[i].point
           end
         end
-        ret = ret.join(",")
+        ret = ret.join(',')
         CACHE.set("total_#{data_type}_ranking:#{st_i}_#{end_i}_#{server_type}_str", ret, RANK_CACHE_TTL)
         @total_ranking_str_set["total_#{data_type}_ranking:#{st_i}_#{end_i}_#{server_type}_str"] = true
       end

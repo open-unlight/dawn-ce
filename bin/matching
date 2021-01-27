@@ -31,7 +31,7 @@ module Unlight
 
   EM.run do
     MatchServer.setup(Dawn::Server.id, Dawn::Server.hostname, Dawn::Server.port)
-    EM.start_server "0.0.0.0", Dawn::Server.port, MatchServer
+    EM.start_server '0.0.0.0', Dawn::Server.port, MatchServer
     SERVER_LOG.info("MatchServer Start: port[#{Dawn::Server.port}]")
     # タイマの制度を上げる
     EM.set_quantum(10)

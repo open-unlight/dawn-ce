@@ -18,7 +18,7 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, default: ""
+      String      :name, default: ''
       integer     :level, default: 0
       integer     :cpu_card_data_no, default: 0
       integer     :rule, default: 0
@@ -55,10 +55,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def CpuRoomData::data_version
-      ret = cache_store.get("CpuRoomDataVersion")
+      ret = cache_store.get('CpuRoomDataVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("CpuRoomDataVersion", ret)
+        cache_store.set('CpuRoomDataVersion', ret)
       end
       ret
     end
@@ -67,7 +67,7 @@ module Unlight
     def CpuRoomData::refresh_data_version
       m = Unlight::CpuRoomData.order(:updated_at).last
       if m
-        cache_store.set("CpuRoomDataVersion", m.version)
+        cache_store.set('CpuRoomDataVersion', m.version)
         m.version
       else
         0
@@ -81,7 +81,7 @@ module Unlight
 
     # CPUカードデータをかえす
     def cpu_card_data_id
-      if self.cpu_card_data_no == ""
+      if self.cpu_card_data_no == ''
         101
       else
         self.cpu_card_data_no

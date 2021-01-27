@@ -14,7 +14,7 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :content, text: true, default: ""
+      String      :content, text: true, default: ''
       datetime    :created_at
       datetime    :updated_at
     end
@@ -46,10 +46,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def Dialogue::data_version
-      ret = cache_store.get("DialogueVersion")
+      ret = cache_store.get('DialogueVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("DialogueVersion", ret)
+        cache_store.set('DialogueVersion', ret)
       end
       ret
     end
@@ -58,7 +58,7 @@ module Unlight
     def Dialogue::refresh_data_version
       m = Unlight::Dialogue.order(:updated_at).last
       if m
-        cache_store.set("DialogueVersion", m.version)
+        cache_store.set('DialogueVersion', m.version)
         m.version
       else
         0

@@ -63,7 +63,7 @@ module Unlight
         a << name
         a << body
         a << created_at.to_i.to_s
-        ret = a.join(",")
+        ret = a.join(',')
         QuestLog::cache_store.set("quest_log:#{id}", ret)
       end
       ret
@@ -77,7 +77,7 @@ module Unlight
       QuestLog.filter(avatar_id: a_id).limit(QUEST_LOG_LIMIT, page * QUEST_LOG_LIMIT).order(Sequel.desc(:created_at)).all.each do |a|
         ids << a.id
       end
-      ids.join(",")
+      ids.join(',')
     end
 
     # ログを書く

@@ -227,7 +227,7 @@ module Unlight
       begin
         refresh
       rescue => e
-        SERVER_LOG.fatal("FriendLink: errot link is deleted.")
+        SERVER_LOG.fatal('FriendLink: errot link is deleted.')
         return 0
       end
       case self.friend_type
