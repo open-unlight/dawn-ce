@@ -16,12 +16,12 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, default: ""
+      String      :name, default: ''
       integer     :monstar_no, default: 0
       integer     :treasure_no, default: 0
       integer     :event_no, default: 0
       integer     :stage, default: 0
-      String      :caption, default: ""
+      String      :caption, default: ''
       datetime    :created_at
       datetime    :updated_at
     end
@@ -37,10 +37,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def QuestLand::data_version
-      ret = cache_store.get("QuestLandVersion")
+      ret = cache_store.get('QuestLandVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("QuestLandVersion", ret)
+        cache_store.set('QuestLandVersion', ret)
       end
       ret
     end
@@ -49,7 +49,7 @@ module Unlight
     def QuestLand::refresh_data_version
       m = QuestLand.order(:updated_at).last
       if m
-        cache_store.set("QuestLandVersion", m.version)
+        cache_store.set('QuestLandVersion', m.version)
         m.version
       else
         0
@@ -105,14 +105,14 @@ module Unlight
     end
 
     def get_data_csv_str
-      ret = ""
-      ret << self.id.to_s << ","
-      ret << '"' << (self.name || "") << '",'
-      ret << (self.monstar_no || 0).to_s << ","
-      ret << (self.treasure_genre || 0).to_s << ","
-      ret << (self.event_no || 0).to_s << ","
-      ret << (self.stage || 0).to_s << ","
-      ret << '"' << (self.caption || "") << '"'
+      ret = ''
+      ret << self.id.to_s << ','
+      ret << '"' << (self.name || '') << '",'
+      ret << (self.monstar_no || 0).to_s << ','
+      ret << (self.treasure_genre || 0).to_s << ','
+      ret << (self.event_no || 0).to_s << ','
+      ret << (self.stage || 0).to_s << ','
+      ret << '"' << (self.caption || '') << '"'
       ret
     end
   end

@@ -169,7 +169,7 @@ module Unlight
     def do_determine_session(id, name, player_chara_id, foe_chara_id)
       dialogue_id, dialogue_content = CharaCard::duel_start_dialogue(player_chara_id, foe_chara_id)
       sc_determine_session(id, name, player_chara_id, foe_chara_id, dialogue_content, dialogue_id)
-      set_message_str_data(DUEL_MSGDLG_START, name.force_encoding("UTF-8"))
+      set_message_str_data(DUEL_MSGDLG_START, name.force_encoding('UTF-8'))
     end
 
     # デュエルのイベントハンドラをまとめて登録
@@ -453,7 +453,7 @@ module Unlight
         sc_duel_refill_phase(ActionCard.array2str(ret[@no]), ActionCard::array2int_dir(ret[@no]), size)
         ac_arr = []
         ret[@no].each { |ac| ac_arr << 0 }
-        set_cache_act_command(ac_arr.join(","), 0, size)
+        set_cache_act_command(ac_arr.join(','), 0, size)
       end
     end
 
@@ -466,7 +466,7 @@ module Unlight
         sc_duel_refill_event_phase(ac_arr_str, ac_arr_int_dir, size)
         ac_arr = []
         ret[@no].each { |ac| ac_arr << 0 }
-        set_cache_act_command(ac_arr.join(","), 0, size)
+        set_cache_act_command(ac_arr.join(','), 0, size)
       end
     end
 
@@ -500,7 +500,7 @@ module Unlight
 
       set_message_str_data(DUEL_MSGDLG_DISTANCE, target.first_entrant.distance_appearance)
 
-      audience_str_data = [DUEL_MSGDLG_INITIATIVE, DUEL_NAME_WATCH.gsub("__NAME__", target.avatar_names[target.initi[0]].force_encoding("UTF-8"))] if target && target.avatar_names
+      audience_str_data = [DUEL_MSGDLG_INITIATIVE, DUEL_NAME_WATCH.gsub('__NAME__', target.avatar_names[target.initi[0]].force_encoding('UTF-8'))] if target && target.avatar_names
       dista_str_data = [DUEL_MSGDLG_DISTANCE, target.first_entrant.distance]
       set_cache_act_command(audience_str_data, determine_move_args, dista_str_data)
     end
@@ -520,7 +520,7 @@ module Unlight
       # 敵のキャラチェンジ情報は最後に送る
       foe_current_cc_no = duel.entrants[@foe].current_chara_card_no
       foe_current_cc_id = duel.entrants[@foe].current_chara_card.id
-      foe_current_wb_str = duel.entrants[@foe].current_weapon_bonus.join(",")
+      foe_current_wb_str = duel.entrants[@foe].current_weapon_bonus.join(',')
       sc_entrant_chara_change_action(false, foe_current_cc_no, foe_current_cc_id, foe_current_wb_str)
 
       set_message_str_data(DUEL_MSGDLG_CHANGE_CHARA)
@@ -529,7 +529,7 @@ module Unlight
       # プレイヤーのキャラチェンジ情報を観戦に送る
       pl_current_cc_no = duel.entrants[@no].current_chara_card_no
       pl_current_cc_id = duel.entrants[@no].current_chara_card.id
-      pl_current_wb_str = duel.entrants[@no].current_weapon_bonus.join(",")
+      pl_current_wb_str = duel.entrants[@no].current_weapon_bonus.join(',')
 
       pl_cc_data = [pl_current_cc_no, pl_current_cc_id, pl_current_wb_str]
       foe_cc_data = [foe_current_cc_no, foe_current_cc_id, foe_current_wb_str]
@@ -632,7 +632,7 @@ module Unlight
 
     # 戦闘の結果がでた時のハンドラ
     def duel_battle_result_phase_handler(duel, ret)
-      audience_str_data = [DUEL_MSGDLG_BTL_RESULT, DUEL_NAME_WATCH.gsub("__NAME__", duel.avatar_names[duel.initi[0]].force_encoding("UTF-8"))] if duel && duel.avatar_names
+      audience_str_data = [DUEL_MSGDLG_BTL_RESULT, DUEL_NAME_WATCH.gsub('__NAME__', duel.avatar_names[duel.initi[0]].force_encoding('UTF-8'))] if duel && duel.avatar_names
       if ret[0].size == 0
         name = (duel.initi[0] == @no) ? DUEL_NAME_PL : DUEL_NAME_FOE
         set_message_str_data(DUEL_MSGDLG_BTL_RESULT, name)
@@ -640,8 +640,8 @@ module Unlight
         a = audience_str_data = nil
       end
       initi = (duel.initi[0] == @no)
-      ret_str_0 = ret[0].join(",")
-      ret_str_1 = ret[1].join(",")
+      ret_str_0 = ret[0].join(',')
+      ret_str_1 = ret[1].join(',')
       sc_duel_battle_result_phase(initi, ret_str_0, ret_str_1)
       battle_result_args = [initi, ret_str_0, ret_str_1]
 
@@ -664,7 +664,7 @@ module Unlight
       duel.entrants.each { |e| e.chara_change_action if e.not_change_done? }
       foe_current_cc_no = duel.entrants[@foe].current_chara_card_no
       foe_current_cc_id = duel.entrants[@foe].current_chara_card.id
-      foe_current_wb_str = duel.entrants[@foe].current_weapon_bonus.join(",")
+      foe_current_wb_str = duel.entrants[@foe].current_weapon_bonus.join(',')
       sc_entrant_chara_change_action(false, foe_current_cc_no, foe_current_cc_id, foe_current_wb_str)
       set_message_str_data(DUEL_MSGDLG_CHANGE_CHARA)
       sc_duel_dead_chara_change_phase_finish
@@ -672,7 +672,7 @@ module Unlight
       # プレイヤーの情報
       pl_current_cc_no = duel.entrants[@no].current_chara_card_no
       pl_current_cc_id = duel.entrants[@no].current_chara_card.id
-      pl_current_wb_str = duel.entrants[@no].current_weapon_bonus.join(",")
+      pl_current_wb_str = duel.entrants[@no].current_weapon_bonus.join(',')
 
       pl_cc_data = [pl_current_cc_no, pl_current_cc_id, pl_current_wb_str]
       foe_cc_data = [foe_current_cc_no, foe_current_cc_id, foe_current_wb_str]
@@ -787,8 +787,8 @@ module Unlight
 
     # 自分のキャラカードを変更する
     def pl_entrant_chara_change_action_handler(target, ret)
-      sc_entrant_chara_change_action(true, ret[0], ret[1], ret[2].join(","))
-      set_cache_act_command(ret[0], ret[1], ret[2].join(","))
+      sc_entrant_chara_change_action(true, ret[0], ret[1], ret[2].join(','))
+      set_cache_act_command(ret[0], ret[1], ret[2].join(','))
     end
 
     # 相手のキャラカードを変更する
@@ -1022,8 +1022,8 @@ module Unlight
     # 敵が特別にカードを配られる場合のイベント
     def foeEntrant_special_dealed_event_handler(target, ret)
       size = ret.size
-      sc_entrant_special_dealed_event(false, "", 0, size)
-      set_cache_act_command("", 0, size)
+      sc_entrant_special_dealed_event(false, '', 0, size)
+      set_cache_act_command('', 0, size)
     end
 
     # プレイヤーに墓地のカードが配られる場合のイベント
@@ -1073,7 +1073,7 @@ module Unlight
 
     # 敵が特別にイベントカードを配られる場合のイベント
     def foeEntrant_special_event_card_dealed_event_handler(target, ret)
-      ac_arr_str = ""
+      ac_arr_str = ''
       ac_arr_int_dir = 0
       size = ret.size
       sc_entrant_special_event_card_dealed_event(false, ac_arr_str, ac_arr_int_dir, size)
@@ -1094,24 +1094,24 @@ module Unlight
 
     # プレイヤーに仮のダイスが振られるときのイベント
     def plEntrant_dice_roll_event_handler(target, ret)
-      arr_str_0 = ret[0].join(",")
-      arr_str_1 = ret[1].join(",")
+      arr_str_0 = ret[0].join(',')
+      arr_str_1 = ret[1].join(',')
       sc_duel_battle_result_phase(true, arr_str_0, arr_str_1)
       set_cache_act_command(arr_str_0, arr_str_1)
     end
 
     # 敵に仮のダイスが振られるときのイベント
     def foeEntrant_dice_roll_event_handler(target, ret)
-      arr_str_0 = ret[0].join(",")
-      arr_str_1 = ret[1].join(",")
+      arr_str_0 = ret[0].join(',')
+      arr_str_1 = ret[1].join(',')
       sc_duel_battle_result_phase(false, arr_str_0, arr_str_1)
       set_cache_act_command(arr_str_0, arr_str_1)
     end
 
     # プレイヤーの装備カードが更新されるときのイベント
     def plEntrant_update_weapon_event_handler(target, ret)
-      arr_str_0 = ret[0].join(",")
-      arr_str_1 = ret[1].join(",")
+      arr_str_0 = ret[0].join(',')
+      arr_str_1 = ret[1].join(',')
       sc_entrant_update_weapon_event(true, arr_str_0, arr_str_1)
       set_cache_act_command(arr_str_0, arr_str_1)
     end
@@ -1130,25 +1130,25 @@ module Unlight
 
     # プレイヤーの特殊メッセージのイベント
     def plEntrant_special_message_event_handler(target, ret)
-      sc_message(ret.force_encoding("UTF-8"))
+      sc_message(ret.force_encoding('UTF-8'))
       set_cache_act_command(ret)
     end
 
     # プレイヤーの特殊メッセージのイベント
     def foeEntrant_special_message_event_handler(target, ret)
-      sc_message(ret.force_encoding("UTF-8"))
+      sc_message(ret.force_encoding('UTF-8'))
       set_cache_act_command(ret)
     end
 
     # プレイヤーの属性抵抗メッセージのイベント
     def plEntrant_attribute_regist_message_event_handler(target, ret)
-      sc_message(ret.force_encoding("UTF-8"))
+      sc_message(ret.force_encoding('UTF-8'))
       set_cache_act_command(ret)
     end
 
     # プレイヤーの属性抵抗メッセージのイベント
     def foeEntrant_attribute_regist_message_event_handler(target, ret)
-      sc_message(ret.force_encoding("UTF-8"))
+      sc_message(ret.force_encoding('UTF-8'))
       set_cache_act_command(ret)
     end
 
@@ -1184,18 +1184,18 @@ module Unlight
 
     # プレイヤーのトラップ発動イベント
     def plEntrant_trap_action_event_handler(target, ret)
-      audience_str_data = ""
+      audience_str_data = ''
 
       case ret[0]
       when TRAP_ARLE
         set_message_str_data(DUEL_MSGDLG_TRAP_ARLE, DUEL_NAME_PL)
-        audience_str_data = [DUEL_MSGDLG_TRAP_ARLE, DUEL_NAME_WATCH.gsub("__NAME__", @duel.avatar_names[@no].force_encoding("UTF-8"))] if @duel && @duel.avatar_names
+        audience_str_data = [DUEL_MSGDLG_TRAP_ARLE, DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[@no].force_encoding('UTF-8'))] if @duel && @duel.avatar_names
       when TRAP_INSC
         set_message_str_data(DUEL_MSGDLG_TRAP_INSC, DUEL_NAME_PL)
-        audience_str_data = [DUEL_MSGDLG_TRAP_INSC, DUEL_NAME_WATCH.gsub("__NAME__", @duel.avatar_names[@no].force_encoding("UTF-8"))] if @duel && @duel.avatar_names
+        audience_str_data = [DUEL_MSGDLG_TRAP_INSC, DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[@no].force_encoding('UTF-8'))] if @duel && @duel.avatar_names
       else
         set_message_str_data(DUEL_MSGDLG_TRAP, DUEL_NAME_PL)
-        audience_str_data = [DUEL_MSGDLG_TRAP, DUEL_NAME_WATCH.gsub("__NAME__", @duel.avatar_names[@no].force_encoding("UTF-8"))] if @duel && @duel.avatar_names
+        audience_str_data = [DUEL_MSGDLG_TRAP, DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[@no].force_encoding('UTF-8'))] if @duel && @duel.avatar_names
       end
 
       sc_entrant_trap_action_event(true, ret[0], ret[1])
@@ -1204,18 +1204,18 @@ module Unlight
 
     # 敵のトラップ発動イベント
     def foeEntrant_trap_action_event_handler(target, ret)
-      audience_str_data = ""
+      audience_str_data = ''
 
       case ret[0]
       when TRAP_ARLE
         set_message_str_data(DUEL_MSGDLG_TRAP_ARLE, DUEL_NAME_FOE)
-        audience_str_data = [DUEL_MSGDLG_TRAP_ARLE, DUEL_NAME_WATCH.gsub("__NAME__", @duel.avatar_names[@foe].force_encoding("UTF-8"))] if @duel && @duel.avatar_names
+        audience_str_data = [DUEL_MSGDLG_TRAP_ARLE, DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[@foe].force_encoding('UTF-8'))] if @duel && @duel.avatar_names
       when TRAP_INSC
         set_message_str_data(DUEL_MSGDLG_TRAP_INSC, DUEL_NAME_FOE)
-        audience_str_data = [DUEL_MSGDLG_TRAP_INSC, DUEL_NAME_WATCH.gsub("__NAME__", @duel.avatar_names[@foe].force_encoding("UTF-8"))] if @duel && @duel.avatar_names
+        audience_str_data = [DUEL_MSGDLG_TRAP_INSC, DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[@foe].force_encoding('UTF-8'))] if @duel && @duel.avatar_names
       else
         set_message_str_data(DUEL_MSGDLG_TRAP, DUEL_NAME_FOE)
-        audience_str_data = [DUEL_MSGDLG_TRAP, DUEL_NAME_WATCH.gsub("__NAME__", @duel.avatar_names[@foe].force_encoding("UTF-8"))] if @duel && @duel.avatar_names
+        audience_str_data = [DUEL_MSGDLG_TRAP, DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[@foe].force_encoding('UTF-8'))] if @duel && @duel.avatar_names
       end
 
       sc_entrant_trap_action_event(false, ret[0], ret[1])
@@ -1292,8 +1292,8 @@ module Unlight
           sc_actioncard_chance_event(true, ac_arr_str, ac_arr_int_dir, size)
           set_cache_act_command(true, ac_arr_str, ac_arr_int_dir, size)
         else
-          sc_actioncard_chance_event(false, "", 0, size)
-          set_cache_act_command(false, "", 0, size)
+          sc_actioncard_chance_event(false, '', 0, size)
+          set_cache_act_command(false, '', 0, size)
         end
       end
     end
@@ -1314,7 +1314,7 @@ module Unlight
       name = (ret[0]) ? DUEL_NAME_PL : DUEL_NAME_FOE
       set_message_str_data(DUEL_MSGDLG_STATE, ret[2], name) if duel.entrants[@no].current_chara_card_no == ret[1]
       name_idx = (ret[0]) ? @no : @foe
-      audience_str_data = [DUEL_MSGDLG_STATE, ret[2], DUEL_NAME_WATCH.gsub("__NAME__", @duel.avatar_names[name_idx].force_encoding("UTF-8"))] if @duel && @duel.avatar_names
+      audience_str_data = [DUEL_MSGDLG_STATE, ret[2], DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[name_idx].force_encoding('UTF-8'))] if @duel && @duel.avatar_names
       set_cache_act_command([ret[0], ret[1], ret[2], ret[3], ret[4]], audience_str_data)
     end
 
@@ -1324,7 +1324,7 @@ module Unlight
       name = (!ret[0]) ? DUEL_NAME_PL : DUEL_NAME_FOE
       set_message_str_data(DUEL_MSGDLG_STATE, ret[2], name) if duel.entrants[@foe].current_chara_card_no == ret[1]
       name_idx = (!ret[0]) ? @no : @foe
-      audience_str_data = [DUEL_MSGDLG_STATE, ret[2], DUEL_NAME_WATCH.gsub("__NAME__", @duel.avatar_names[name_idx].force_encoding("UTF-8"))] if @duel && @duel.avatar_names
+      audience_str_data = [DUEL_MSGDLG_STATE, ret[2], DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[name_idx].force_encoding('UTF-8'))] if @duel && @duel.avatar_names
       set_cache_act_command([!ret[0], ret[1], ret[2], ret[3], ret[4]], audience_str_data)
     end
 
@@ -1596,10 +1596,10 @@ module Unlight
     # 候補カードのリストを送る
     def candidate_cards_list_phase_handler(target, ret)
       if ret
-        ret_a = ret[0][0].join(",")
-        ret_b = (ret[0][1] ? ret[0][1].join(",") : "")
-        ret_c = (ret[0][2] ? ret[0][2].join(",") : "")
-        ret_d = (ret[0][3] ? ret[0][3].join(",") : "")
+        ret_a = ret[0][0].join(',')
+        ret_b = (ret[0][1] ? ret[0][1].join(',') : '')
+        ret_c = (ret[0][2] ? ret[0][2].join(',') : '')
+        ret_d = (ret[0][3] ? ret[0][3].join(',') : '')
         sc_reward_candidate_cards_list(ret_a, ret_b, ret_c, ret_d, ret[1])
       end
     end
@@ -1607,15 +1607,15 @@ module Unlight
     # 基本ダイスの結果を送る
     def bottom_dice_num_phase_handler(target, ret)
       if ret
-        sc_bottom_dice_num(ret.join(","))
+        sc_bottom_dice_num(ret.join(','))
       end
     end
 
     # ハイローフェイズの結果ハンドラ
     def high_low_phase_handler(target, ret)
       if ret && ret[3]
-        get_card = ret[1] ? ret[1].join(",") : ""
-        next_card = ret[2] ? ret[2].join(",") : ""
+        get_card = ret[1] ? ret[1].join(',') : ''
+        next_card = ret[2] ? ret[2].join(',') : ''
         sc_high_low_result(ret[0], get_card, next_card, ret[3])
       end
     end
@@ -1624,10 +1624,10 @@ module Unlight
     def reward_finish_handler(target, ret)
       r = target.final_result
       if r[1]
-        get_card =  r[1].join(",")
-        sc_chara_card_inventory_info(r[4].join(","), get_card)
+        get_card =  r[1].join(',')
+        sc_chara_card_inventory_info(r[4].join(','), get_card)
       else
-        get_card = ""
+        get_card = ''
       end
       sc_reward_final_result(get_card, target.total_gems, target.total_exp, target.add_point)
       SERVER_LOG.info("<UID:#{@uid}>GameServer: [duel_high_low_finish] reward_type:#{r[1][0]} reward_id:#{r[1][1]} reward_value:#{r[1][2]} step_num:#{r[3]} inv_id:#{r[4]}")
@@ -1636,7 +1636,7 @@ module Unlight
 
     # 結果ダイスのハンドラ
     def reward_result_dice_event_handler(target, ret)
-      sc_reward_result_dice(ret.join(","))
+      sc_reward_result_dice(ret.join(','))
     end
 
     # ==========

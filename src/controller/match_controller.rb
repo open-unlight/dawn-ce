@@ -4,7 +4,7 @@
 # http://opensource.org/licenses/mit-license.php
 
 puts RUBY_VERSION
-if RUBY_VERSION == "1.9.2"
+if RUBY_VERSION == '1.9.2'
   class Date::Format::Bag
     def method_missing(*arg)
     end
@@ -68,7 +68,7 @@ module Unlight
         if Match.room_size(server_channel) > 0
           sc_matching_info(Match::room_list_info_str(server_channel))
         else
-          sc_matching_info("-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1")
+          sc_matching_info('-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1')
         end
       end
     end
@@ -351,7 +351,7 @@ module Unlight
       if server_channel && @match == nil && server_channel.is_radder?
         # 2020-10-25 - Configurable Random Stage
         stage = ENV['QUICK_MATCH_STAGES']&.split(',')&.map(&:to_i)&.sample || rand(STAGE_GATE)
-        @match = Match.create_room(server_channel, @player.id, "QuickMatch", stage, rule, 0, 0)
+        @match = Match.create_room(server_channel, @player.id, 'QuickMatch', stage, rule, 0, 0)
         # 作った部屋のidを送る
         if @match
           sc_create_room_id(@match.id);
@@ -508,10 +508,10 @@ module Unlight
       when CPU_MATCHING_TYPE_COST
         avatar = player.current_avatar
         deck_cost = avatar.chara_card_decks[avatar.current_deck].current_cost
-        cost_conditions = Unlight::MatchServer::match_channel.cpu_matching_condition?.split(",").map { |s| s.scan(/([\d~]+):([\d+]+)/)[0] }
+        cost_conditions = Unlight::MatchServer::match_channel.cpu_matching_condition?.split(',').map { |s| s.scan(/([\d~]+):([\d+]+)/)[0] }
         cost_conditions.each do |cond|
-          range = cond[0].split("~", 2).map { |n| n.to_i }
-          room_ids = cond[1].split("+").map { |n| n.to_i }
+          range = cond[0].split('~', 2).map { |n| n.to_i }
+          room_ids = cond[1].split('+').map { |n| n.to_i }
           SERVER_LOG.info("ids ... #{room_ids}")
           if check_condition(range, deck_cost)
             return CpuRoomData[room_ids[rand(room_ids.size)]]
@@ -842,7 +842,7 @@ module Unlight
       if @avatar
         @avatar.achievement_check
         n = @avatar.get_notice
-        sc_add_notice(n) if n != "" && n != nil
+        sc_add_notice(n) if n != '' && n != nil
       end
     end
 

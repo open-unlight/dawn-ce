@@ -31,11 +31,11 @@ module Unlight
         @avatar.new_profound_inventory_check # 追加した新規渦の情報をNoticeに追加
         n = @avatar.get_profound_notice
       end
-      sc_add_notice(n) if n != "" && n != nil
+      sc_add_notice(n) if n != '' && n != nil
     end
 
     def cs_request_update_inventory(id_list_str)
-      str_list = id_list_str.split(",")
+      str_list = id_list_str.split(',')
       id_list = []
       str_list.each { |s| id_list << s.to_i }
       if @avatar
@@ -103,14 +103,14 @@ module Unlight
           msg_type = (data[:log].avatar_id != 0) ? PRF_MSGDLG_DAMAGE : PRF_MSGDLG_REPAIR
           msg_data = []
           if msg_type == PRF_MSGDLG_DAMAGE
-            msg_data << data[:log].avatar_name.force_encoding("UTF-8")
-            boss_name = data[:log].boss_name.force_encoding("UTF-8")
+            msg_data << data[:log].avatar_name.force_encoding('UTF-8')
+            boss_name = data[:log].boss_name.force_encoding('UTF-8')
             msg_data << boss_name
           else
-            boss_name = data[:log].avatar_name.force_encoding("UTF-8")
+            boss_name = data[:log].avatar_name.force_encoding('UTF-8')
             msg_data << boss_name
           end
-          msg_data << data[:log].damage.to_s.force_encoding("UTF-8")
+          msg_data << data[:log].damage.to_s.force_encoding('UTF-8')
 
           # 表示状態変更チェック
           state_update = true if prev_view_flag == false && data[:name_view] == true

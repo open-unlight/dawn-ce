@@ -20,12 +20,12 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, default: "monster"
+      String      :name, default: 'monster'
       integer     :allocation_type, default: QUEST_ALLOC_TYPE_NONE
-      String      :chara_card_id, default: "1001+1001+1001"
-      String      :weapon_card_id, default: "0+0+0"
-      String      :equip_card_id, default: "0+0+0"
-      String      :event_card_id, default: "1/1/1+1/1/1+1/1/1"
+      String      :chara_card_id, default: '1001+1001+1001'
+      String      :weapon_card_id, default: '0+0+0'
+      String      :equip_card_id, default: '0+0+0'
+      String      :event_card_id, default: '1/1/1+1/1/1+1/1/1'
      integer :ai_rank, default: CPU_AI_OLD
 
       integer     :treasure_id #, :table => :avatars
@@ -67,10 +67,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def CpuCardData::data_version
-      ret = cache_store.get("CpuCardDataVersion")
+      ret = cache_store.get('CpuCardDataVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("CpuCardDataVersion", ret)
+        cache_store.set('CpuCardDataVersion', ret)
       end
       ret
     end
@@ -79,7 +79,7 @@ module Unlight
     def CpuCardData::refresh_data_version
       m = Unlight::CpuCardData.order(:updated_at).last
       if m
-        cache_store.set("CpuCardDataVersion", m.version)
+        cache_store.set('CpuCardDataVersion', m.version)
         m.version
       else
         0
@@ -96,9 +96,9 @@ module Unlight
       allocation_id = 0
       case self.allocation_type
       when QUEST_ALLOC_TYPE_COST
-        cost_conditions = self.chara_card_id.split(",").map { |s| s.scan(/([\d~]+):(\d+)/)[0] }
+        cost_conditions = self.chara_card_id.split(',').map { |s| s.scan(/([\d~]+):(\d+)/)[0] }
         cost_conditions.each do |cond|
-          range = cond[0].split("~", 2).map { |n| n.to_i }
+          range = cond[0].split('~', 2).map { |n| n.to_i }
           avatar = player.current_avatar
           if check_condition(range, avatar.chara_card_decks[avatar.current_deck].current_cost)
             allocation_id = cond[1].to_i
@@ -123,22 +123,22 @@ module Unlight
 
     # キャラカードのIDをかえす
     def chara_cards_id
-      if self.chara_card_id != ""
-        self.chara_card_id.split(/\+/).map! { |s| s.to_i }
-      else
+      if self.chara_card_id == ''
         1001
+      else
+        self.chara_card_id.split(/\+/).map! { |s| s.to_i }
       end
     end
 
     def current_cards_ids
       ret = [-1, -1, -1]
-      if self.chara_card_id != ""
+      if self.chara_card_id != ''
         ids = self.chara_card_id.split(/\+/)
         ids.each_index do |i|
           ret[i] = ids[i]
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # 武器カードのIDをかえす

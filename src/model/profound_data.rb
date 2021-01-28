@@ -30,7 +30,7 @@ module Unlight
       integer     :stage                                                    # ステージID
       integer     :finder_start_point, default: RAID_FINDER_START_POINT_DEF # 発見者開始ポイント
       integer     :member_limit, default: RAID_MEMBER_LIMIT_DEF             # ステージID
-      String      :caption, default: "" # 簡易説明
+      String      :caption, default: '' # 簡易説明
       datetime    :created_at
       datetime    :updated_at
     end
@@ -47,10 +47,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def ProfoundData::data_version
-      ret = cache_store.get("ProfoundDataVersion")
+      ret = cache_store.get('ProfoundDataVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("ProfoundDataVersion", ret)
+        cache_store.set('ProfoundDataVersion', ret)
       end
       ret
     end
@@ -59,7 +59,7 @@ module Unlight
     def ProfoundData::refresh_data_version
       m = ProfoundData.order(:updated_at).last
       if m
-        cache_store.set("ProfoundDataVersion", m.version)
+        cache_store.set('ProfoundDataVersion', m.version)
         m.version
       else
         0
@@ -83,11 +83,11 @@ module Unlight
 
     # 渦時間の最大を取得
     def ProfoundData::get_max_ttl
-      ret = CACHE.get("profound_max_ttl")
+      ret = CACHE.get('profound_max_ttl')
       unless ret
         prf_data = ProfoundData.order(Sequel.desc(:ttl)).limit(1).all.first
         ret = prf_data.ttl.to_f * 60 * 60
-        CACHE.set("profound_max_ttl", ret, 60 * 60 * 24 * 30) # 1ヶ月
+        CACHE.set('profound_max_ttl', ret, 60 * 60 * 24 * 30) # 1ヶ月
       end
       ret
     end
@@ -99,14 +99,14 @@ module Unlight
 
     def get_boss_name
       boss_data = self.get_boss_data
-      (boss_data) ? boss_data.name : "Boss"
+      (boss_data) ? boss_data.name : 'Boss'
     end
 
     def get_boss_max_hp
       boss_data = self.get_boss_data
       max_hp = 0
       if boss_data
-        boss_data.chara_card_id.split("+").each { |id|
+        boss_data.chara_card_id.split('+').each { |id|
           cc = CharaCard[id.to_i]
           max_hp += cc.hp if cc
         }
@@ -115,21 +115,21 @@ module Unlight
     end
 
     def get_data_csv_str
-      ret = ""
-      ret << self.id.to_s << ","
-      ret << self.prf_type.to_s << ","
-      ret << '"' << (self.name || "") << '",'
-      ret << self.rarity.to_s << ","
-      ret << self.level.to_s << ","
-      ret << self.quest_map_id.to_s << ","
-      ret << self.stage.to_s << ","
+      ret = ''
+      ret << self.id.to_s << ','
+      ret << self.prf_type.to_s << ','
+      ret << '"' << (self.name || '') << '",'
+      ret << self.rarity.to_s << ','
+      ret << self.level.to_s << ','
+      ret << self.quest_map_id.to_s << ','
+      ret << self.stage.to_s << ','
       boss_data = CpuCardData[self.core_monster_id]
-      boss_name = "Boss"
+      boss_name = 'Boss'
       max_hp = 0
       boss_id = 0
       if boss_data
         boss_name = boss_data.name
-        boss_data.chara_card_id.split("+").each { |id|
+        boss_data.chara_card_id.split('+').each { |id|
           boss_id = id.to_i if boss_id == 0
           max_hp += CharaCard[id.to_i].hp if CharaCard[id.to_i]
         }
@@ -137,14 +137,14 @@ module Unlight
       ret << boss_id.to_s << ','
       ret << '"' << boss_name << '",'
       ret << max_hp.to_s << ','
-      ret << '"' << (self.caption || "") << '",'
+      ret << '"' << (self.caption || '') << '",'
       rank_bonus, all_bonus, defeat_bonus, found_bonus = ProfoundTreasureData::get_level_treasure_list(self.treasure_level)
       all_bonus_set = []
       all_bonus.each do |b|
         all_bonus_set << "#{b[:type]}_#{b[:id]}_#{b[:num]}_#{b[:sct_type]}"
       end
-      all_bonus_set_str = (all_bonus_set.size > 0) ? all_bonus_set.join(",") : ""
-      ret << '"' << (all_bonus_set_str || "") << '",'
+      all_bonus_set_str = (all_bonus_set.size > 0) ? all_bonus_set.join(',') : ''
+      ret << '"' << (all_bonus_set_str || '') << '",'
       ret << self.member_limit.to_s
       ret
     end

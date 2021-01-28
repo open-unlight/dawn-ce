@@ -21,9 +21,9 @@ module Unlight
       String      :name
       integer     :equip_no
       integer     :card_cost, default: 0
-      String      :restriction, default: ""
-      String      :image, default: ""
-      String      :caption, default: ""
+      String      :restriction, default: ''
+      String      :image, default: ''
+      String      :caption, default: ''
       datetime    :created_at
       datetime    :updated_at
     end
@@ -56,10 +56,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def EquipCard::data_version
-      ret = cache_store.get("EquipCardVersion")
+      ret = cache_store.get('EquipCardVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("EquipCardVersion", ret)
+        cache_store.set('EquipCardVersion', ret)
       end
       ret
     end
@@ -68,7 +68,7 @@ module Unlight
     def EquipCard::refresh_data_version
       m = Unlight::EquipCard.order(:updated_at).last
       if m
-        cache_store.set("EquipCardVersion", m.version);
+        cache_store.set('EquipCardVersion', m.version);
         m.version
       else
         0
@@ -93,7 +93,7 @@ module Unlight
     def restriction_charas
       ret = EquipCard::cache_store.get("equip_card:restricrt:#{id}")
       unless ret
-        ret = restriction.split("|")
+        ret = restriction.split('|')
         EquipCard::cache_store.set("equip_card:restricrt:#{id}", ret)
       end
       ret

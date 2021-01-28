@@ -18,9 +18,9 @@ module Unlight
     set_schema do
       primary_key :id
       integer     :weapon_card_id, default: 0, index: true # 追加側の武器ID
-      String      :requirement, default: ""                # 条件（ベース武器条件番号、範囲型、ベース以外番号、範囲型）andとorでつなげられる
+      String      :requirement, default: ''                # 条件（ベース武器条件番号、範囲型、ベース以外番号、範囲型）andとorでつなげられる
       integer     :mod_type, default: 0                    # 値の変更プログラム番号
-      String      :mod_args, default: ""                   # 値の変更プログラムへの引数
+      String      :mod_args, default: ''                   # 値の変更プログラムへの引数
       integer     :limited, default: 0                     # 排他条件（同じ番号のものには一つしか適用されない）
       integer     :priority, default: 0                    # 複数選ばれた場合、優先順位の高いものを選ぶ
       integer     :combined_w_id, default: 0               # 成功したときになる特定の新しい武器番号。0ならば変更なしまたは変プログラム依存
@@ -83,10 +83,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def CombineCase::case_version
-      ret = cache_store.get("CombineCaseVersion")
+      ret = cache_store.get('CombineCaseVersion')
       unless ret
         ret = refresh_case_version
-        cache_store.set("CombineCaseVersion", ret)
+        cache_store.set('CombineCaseVersion', ret)
       end
       ret
     end
@@ -95,7 +95,7 @@ module Unlight
     def CombineCase::refresh_case_version
       m = Unlight::CombineCase.order(:updated_at).last
       if m
-        cache_store.set("CombineCaseVersion", m.version)
+        cache_store.set('CombineCaseVersion', m.version)
         m.version
       else
         0
@@ -214,7 +214,7 @@ module Unlight
       ret = CombineCase::cache_store.get("combine_case:cond:#{id}")
       unless ret
         ret = { base: [], add: [[]] }
-        ret = ret.merge(eval(self.requirement.gsub('|', ','))) if self.requirement.length > 0
+        ret = ret.merge(eval(self.requirement.tr('|', ','))) if self.requirement.length > 0
         CombineCase::cache_store.set("combine_case:cond:#{id}", ret)
         @@condition_base_proc[self.id] = nil
         @@condition_add_proc[self.id] = nil
@@ -286,8 +286,8 @@ module Unlight
       return @@combine_param[self.id] if @@combine_param[self.id]
 
       ret = []
-      self.mod_args.split("|").each do |c|
-        if c[0] == ":"
+      self.mod_args.split('|').each do |c|
+        if c[0] == ':'
           ret << c[1..-1].to_sym
         else
           ret << c.to_i

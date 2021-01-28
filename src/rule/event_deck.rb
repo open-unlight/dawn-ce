@@ -69,7 +69,7 @@ module Unlight
 
         ac = ActionCard[ac_id]
         acwc = ActionCard.event_deck_with_context(context, self, @duel, [ac])
-        create_chance_card_event(acwc[0]) if (1..5).include?(ac.event_no) # コントローラからリスナー登録関数を呼ぶ
+        create_chance_card_event(acwc[0]) if (1..5).cover?(ac.event_no) # コントローラからリスナー登録関数を呼ぶ
         @special_event_cards[ac_id] = acwc[0]
         new_cards << @special_event_cards[ac_id]
 

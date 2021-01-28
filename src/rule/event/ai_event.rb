@@ -45,9 +45,9 @@ module Unlight
   # 更新関数定義
   # ===========================
   class OneToOneAi < EventRule
-    dsc       "1対１のデュエルのCPU戦"
+    dsc       '1対１のデュエルのCPU戦'
     func      :think
-    goal ["entrant", :dead?]
+    goal ['entrant', :dead?]
     event :start, :finish
   end
 
@@ -56,14 +56,14 @@ module Unlight
   # ===========================
 
   class WaitingAction < EventRule
-    dsc        "ターンの切れ目で待つ"
+    dsc        'ターンの切れ目で待つ'
     func       :waiting
-    goal       ["self", :wait?]
+    goal       ['self', :wait?]
     duration   type: :sec, value: AI_WAIT_TIME
   end
 
   class ChoiceMoveCardAction < EventRule
-    dsc        "移動カードの選択"
+    dsc        '移動カードの選択'
     func       :choice_move_card
     act        :waiting_action
     act        :drop_chance_card_action # チャンスカードを問答無用で出す
@@ -76,13 +76,13 @@ module Unlight
     act        :waiting_action
     act        :waiting_action
     act        :done_init_action
-    goal       ["entrant", :init_done?]
+    goal       ['entrant', :init_done?]
   end
 
   class ChoiceAttackCardAction < EventRule
-    dsc        "攻撃カードの選択"
-    guard      ["entrant", :initiative?]
-    goal       ["entrant", :untill_attack_done?]
+    dsc        '攻撃カードの選択'
+    guard      ['entrant', :initiative?]
+    goal       ['entrant', :untill_attack_done?]
     func       :choice_attack_card
     act        :waiting_action
     act        :decision_attack_action
@@ -90,14 +90,14 @@ module Unlight
     act        :drop_attack_card_action
     act        :waiting_action
     act        :done_attack_action
-    goal       ["entrant", :not_initiative?]
-    goal       ["entrant", :attack_done?]
+    goal       ['entrant', :not_initiative?]
+    goal       ['entrant', :attack_done?]
   end
 
   class ChoiceDeffenceCardAction < EventRule
-    dsc        "防御カードの選択"
-    guard      ["entrant", :not_initiative?]
-    goal       ["entrant", :untill_deffence_done?]
+    dsc        '防御カードの選択'
+    guard      ['entrant', :not_initiative?]
+    goal       ['entrant', :untill_deffence_done?]
     func       :choice_deffence_card
     act        :waiting_action
     act        :decision_deffence_action
@@ -105,78 +105,78 @@ module Unlight
     act        :drop_deffence_card_action
     act        :waiting_action
     act        :done_deffence_action
-    goal       ["entrant", :initiative?]
-    goal       ["entrant", :deffence_done?]
+    goal       ['entrant', :initiative?]
+    goal       ['entrant', :deffence_done?]
   end
 
   class ChoiceCharaCardAction < EventRule
-    dsc        "キャラカードの選択"
-    guard      ["entrant", :change_need?]
+    dsc        'キャラカードの選択'
+    guard      ['entrant', :change_need?]
     func       :choice_chara_card
     act        :waiting_action
     act        :decision_chara_change_action
     act        :set_chara_card_action
-    goal       ["entrant", :change_done?]
+    goal       ['entrant', :change_done?]
   end
 
   class DropChanceCardAction < EventRule
-    dsc        "チャンスのカードの提出"
+    dsc        'チャンスのカードの提出'
     func       :drop_chance_card
-    goal       ["self", :chance_none?]
+    goal       ['self', :chance_none?]
   end
 
   class DropMoveCardAction < EventRule
-    dsc        "移動のカードの提出"
+    dsc        '移動のカードの提出'
     func       :drop_move_card
   end
 
   class DropAttackCardAction < EventRule
-    dsc        "攻撃のカードの提出"
+    dsc        '攻撃のカードの提出'
     func       :drop_attack_card
   end
 
   class DropDeffenceCardAction < EventRule
-    dsc        "防御のカードの提出"
+    dsc        '防御のカードの提出'
     func       :drop_deffence_card
   end
 
   class SetCharaCardAction < EventRule
-    dsc        "キャラのカードの提出"
+    dsc        'キャラのカードの提出'
     func       :set_chara_card
   end
 
   class DoneInitAction < EventRule
-    dsc        "移動の終了"
+    dsc        '移動の終了'
     func       :done_init
   end
 
   class DoneAttackAction < EventRule
-    dsc        "攻撃の終了"
+    dsc        '攻撃の終了'
     func       :done_attack
   end
 
   class DoneDeffenceAction < EventRule
-    dsc        "防御の終了"
+    dsc        '防御の終了'
     func       :done_deffence
   end
 
   class MoveFeatHandSetAction < EventRule
-    dsc        "移動フェイズの必殺技をカードをセット"
+    dsc        '移動フェイズの必殺技をカードをセット'
     func       :move_feat_hand_set
   end
 
   class AttackFeatHandSetAction < EventRule
-    dsc        "攻撃フェイズの必殺技をカードをセット"
+    dsc        '攻撃フェイズの必殺技をカードをセット'
     func       :attack_feat_hand_set
   end
 
   class DeffenceFeatHandSetAction < EventRule
-    dsc        "防御フェイズの必殺技をカードをセット"
+    dsc        '防御フェイズの必殺技をカードをセット'
     func       :deffence_feat_hand_set
   end
 
   class ResetThinkNumAction < EventRule
-    dsc        "防御フェイズの必殺技をカードをセット"
+    dsc        '防御フェイズの必殺技をカードをセット'
     func       :reset_think_num
   end
 
@@ -184,33 +184,33 @@ module Unlight
   # 判定定義
   # ===========================
   class DecisionFeatAction < EventRule
-    dsc        "使用できる必殺技の判定"
+    dsc        '使用できる必殺技の判定'
     func       :decision_feat
-    goal       ["self", :solved?]
+    goal       ['self', :solved?]
   end
 
   class DecisionDistAction < EventRule
-    dsc        "移動したい距離の判定"
+    dsc        '移動したい距離の判定'
     func       :decision_dist
-    goal       ["self", :solved?]
+    goal       ['self', :solved?]
   end
 
   class DecisionAttackAction < EventRule
-    dsc        "攻撃カードの判定"
+    dsc        '攻撃カードの判定'
     func       :decision_attack
-    goal       ["self", :solved?]
+    goal       ['self', :solved?]
   end
 
   class DecisionDeffenceAction < EventRule
-    dsc        "防御カードの判定"
+    dsc        '防御カードの判定'
     func       :decision_deffence
-    goal       ["self", :solved?]
+    goal       ['self', :solved?]
   end
 
   class DecisionCharaChangeAction < EventRule
-    dsc        "キャラカードの判定"
+    dsc        'キャラカードの判定'
     func       :decision_chara_change
-    goal       ["self", :solved?]
+    goal       ['self', :solved?]
   end
 
   # ===========================
@@ -218,7 +218,7 @@ module Unlight
   # ===========================
 
   class FinishGameEvent < EventRule
-    dsc       "ゲームの終了"
+    dsc       'ゲームの終了'
     func      :finish_game
     event     :finish
   end

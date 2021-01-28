@@ -50,7 +50,7 @@ module Unlight
         pc.profound_id = prf_id
         pc.avatar_id   = a_id
         pc.name        = a_name
-        pc.comment     = comment.force_encoding("UTF-8")
+        pc.comment     = comment.force_encoding('UTF-8')
         pc.save_changes
       end
       cache_key = "prf_comment_#{prf_id}"

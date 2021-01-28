@@ -28,7 +28,7 @@ module Unlight
 
   EM.run do
     RaidServer.setup
-    EM.start_server "0.0.0.0", Dawn::Server.port, RaidServer
+    EM.start_server '0.0.0.0', Dawn::Server.port, RaidServer
     SERVER_LOG.info("RaidServer Start: port[#{Dawn::Server.port}]")
     # タイマの制度を上げる
     EM.set_quantum(10)

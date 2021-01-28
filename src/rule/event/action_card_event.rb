@@ -68,115 +68,115 @@ module Unlight
                    ]
 
   class DealedEvent < EventRule
-    dsc        "カードが配られた"
+    dsc        'カードが配られた'
     func       :dealed
   end
 
   class ThrowedEvent < EventRule
-    dsc        "カードがすてられた"
+    dsc        'カードがすてられた'
     func       :throwed
   end
 
   class DropedEvent < EventRule
-    dsc        "カードが場に出された"
+    dsc        'カードが場に出された'
     func       :droped
   end
 
   class OccurChanceEvent < EventRule
-    dsc        "チャンスカード起動"
-    type       type: :after, obj: "self", hook: :droped_event
+    dsc        'チャンスカード起動'
+    type       type: :after, obj: 'self', hook: :droped_event
     func       :occur_chance
   end
 
   class OccurHealEvent < EventRule
-    dsc        "HP回復イベント"
-    type       type: :after, obj: "self", hook: :droped_event
+    dsc        'HP回復イベント'
+    type       type: :after, obj: 'self', hook: :droped_event
     func       :occur_heal
   end
 
   class OccurDamageEvent < EventRule
-    dsc        "ダメージイベント"
-    type       type: :after, obj: "self", hook: :droped_event
+    dsc        'ダメージイベント'
+    type       type: :after, obj: 'self', hook: :droped_event
     func       :occur_damage
   end
 
   class OccurCureEvent < EventRule
-    dsc        "状態回復イベント"
-    type       type: :after, obj: "self", hook: :droped_event
+    dsc        '状態回復イベント'
+    type       type: :after, obj: 'self', hook: :droped_event
     func       :occur_cure
   end
 
   class OccurCurseEvent < EventRule
-    dsc        "カースカード起動"
-    type       type: :after, obj: "self", hook: :droped_event
+    dsc        'カースカード起動'
+    type       type: :after, obj: 'self', hook: :droped_event
     func       :occur_curse
   end
 
   class OccurChaliceEvent < EventRule
-    dsc        "聖杯イベント"
-    type       type: :after, obj: "self", hook: :droped_event
+    dsc        '聖杯イベント'
+    type       type: :after, obj: 'self', hook: :droped_event
     func       :occur_chalice
   end
 
   class OccurPoisonEvent < EventRule
-    dsc        "毒杯イベント"
-    type       type: :after, obj: "self", hook: :droped_event
+    dsc        '毒杯イベント'
+    type       type: :after, obj: 'self', hook: :droped_event
     func       :occur_poison
   end
 
   class OccurDefeatEvent < EventRule
-    dsc        "しまったカード 手札を３枚捨てる"
-    context    ["Duel", :move_card_drop]
-    context    ["Duel", :battle_card_drop]
+    dsc        'しまったカード 手札を３枚捨てる'
+    context    ['Duel', :move_card_drop]
+    context    ['Duel', :battle_card_drop]
     func       :occur_defeat
   end
 
   class OccurIdeaEvent < EventRule
-    dsc        "気転カード 捨てカードから一枚拾うことができる"
-    context    ["Duel", :move_card_drop]
-    context    ["Duel", :battle_card_drop]
+    dsc        '気転カード 捨てカードから一枚拾うことができる'
+    context    ['Duel', :move_card_drop]
+    context    ['Duel', :battle_card_drop]
     func       :idea
     event      :start
   end
 
   class ChanceEvent < EventRule
-    dsc        "チャンス！ 3枚追加ドロー"
+    dsc        'チャンス！ 3枚追加ドロー'
     func       :chance
     event      :finish
   end
 
   class HealEvent < EventRule
-    dsc        "ヒール！ HP回復"
+    dsc        'ヒール！ HP回復'
     func       :heal
     event      :finish
   end
 
   class DamageEvent < EventRule
-    dsc        "ダメージ！"
+    dsc        'ダメージ！'
     func       :damage
     event      :finish
   end
 
   class CureEvent < EventRule
-    dsc        "キュア！ 状態異常回復"
+    dsc        'キュア！ 状態異常回復'
     func       :cure
     event      :finish
   end
 
   class CurseEvent < EventRule
-    dsc        "呪い！ カード破棄"
+    dsc        '呪い！ カード破棄'
     func       :curse
     event      :finish
   end
 
   class ChaliceEvent < EventRule
-    dsc        "聖杯！ 状態異常回復とカードドロー"
+    dsc        '聖杯！ 状態異常回復とカードドロー'
     func       :chalice
     event      :finish
   end
 
   class PoisonEvent < EventRule
-    dsc        "毒杯！ 状態異常解除とカード破棄"
+    dsc        '毒杯！ 状態異常解除とカード破棄'
     func       :poison
     event      :finish
   end

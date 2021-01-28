@@ -31,7 +31,7 @@ module Unlight
   EM.epoll                            # Epollを使用するように設定。
   EM.run do
     ChatServer.setup
-    EM.start_server "0.0.0.0", Dawn::Server.port, ChatServer
+    EM.start_server '0.0.0.0', Dawn::Server.port, ChatServer
     SERVER_LOG.info("ChatServer Start: ip[#{Dawn::Server.hostname}] port[#{Dawn::Server.port}]")
     # タイマの制度を上げる
     EM.set_quantum(10)

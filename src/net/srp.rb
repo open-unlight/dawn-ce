@@ -11,14 +11,14 @@ require 'gmp'
 class SRP
   # イニシャライズ
   def initialize(n = nil, g = nil, s = nil)
-    @N = n || "115b8b692e0e045692cf280b436735c77a5a9e8a9e7ed56c965f87db5b2a2ece3".hex
+    @N = n || '115b8b692e0e045692cf280b436735c77a5a9e8a9e7ed56c965f87db5b2a2ece3'.hex
     @g = g || 2
     # プロトコル設定
     @proto = s || :'SPR6a' # SPR3 or SPR6 or SPR6a
     @k = srp_compute_k(@N, @g)
     tn = @N.to_s(16)
     if tn.length & 1 == 1
-      tn = "0" + tn
+      tn = "0#{tn}"
     end
     @m = hex2array(sha1_hash_hex(tn)) ^ hex2array(sha1_hash_hex(@g.to_s(16)))
     srp_validate_g(@g) if g
@@ -63,13 +63,13 @@ class SRP
     a = ''
     a << Time.now.to_s
     a << rand(1000).to_s
-    a << "takuramakuran"
+    a << 'takuramakuran'
     ret = Digest::SHA1.hexdigest(a)
     ret
   end
 
   def srp_compute_x(u, p, s)
-    ih = Digest::SHA1.hexdigest(u + ":" + p)
+    ih = Digest::SHA1.hexdigest("#{u}:#{p}")
     oh = sha1_hash_hex(s + ih).hex
     if oh < @N
       oh
@@ -85,7 +85,7 @@ class SRP
         if ((ahex.length & 1) == 0)
           hashin += ahex
         else
-          hashin += "0" + ahex
+          hashin += "0#{ahex}"
         end
       else
         nlen = 2 * ((@N.to_s(2).length + 7) >> 3)
@@ -96,7 +96,7 @@ class SRP
       if ((bhex.length & 1) == 0)
         hashin += bhex
       else
-        hashin += "0" + bhex
+        hashin += "0#{bhex}"
       end
     else
       hashin += nzero(nlen - bhex.length) + bhex
@@ -114,7 +114,7 @@ class SRP
   end
 
   def srp_compute_k(n, g)
-    hashin = ""
+    hashin = ''
     if @proto == :'SPR3'
       1
     elsif @proto == :'SPR6'
@@ -124,7 +124,7 @@ class SRP
       if ((nhex.length & 1) == 0)
         hashin += nhex
       else
-        hashin += "0" + nhex
+        hashin += "0#{nhex}"
       end
       ghex = g.to_s(16)
       hashin += nzero(nhex.length - ghex.length);
@@ -186,16 +186,16 @@ class SRP
     if power_modulo(g, (@N - 1) / 2, @N) + 1 == @N
       true
     else
-      raise "g is not a primitive root"
+      raise 'g is not a primitive root'
       false
     end
   end
 
   def srp_validate_N(n)
     if !(prime?(n))
-      raise "N is not prime"
+      raise 'N is not prime'
     elsif !(prime?((n - 1) / 2))
-      raise "(N-1)2 is not prime"
+      raise '(N-1)2 is not prime'
     end
   end
 
@@ -220,12 +220,12 @@ class SRP
 
   # ArrayからHex
   def array2hex(h)
-    a = ""
+    a = ''
     h.each { |i|
       if i > 15
         a << i.to_s(16)
       else
-        a << "0" + (i.to_s(16))
+        a << "0#{(i.to_s(16))}"
       end
     }
     a

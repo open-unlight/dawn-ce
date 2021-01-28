@@ -68,7 +68,7 @@ module Unlight
       @dist       = 2
       @pl_initi   = true
       @turn       = 0
-      @phase      = ""
+      @phase      = ''
       @phase_args = []
       @log_list   = []
 
@@ -79,7 +79,7 @@ module Unlight
       if commands
         commands.each do |cmd|
           if cmd
-            func = cmd[:func].gsub(/_handler/, "")
+            func = cmd[:func].gsub(/_handler/, '')
             args = cmd[:args]
             self.send(func, args)
             @cmd_cnt += 1
@@ -196,33 +196,33 @@ module Unlight
         state.each do |s|
           if s[:id] != 0 && s[:turn] > 0
             set_state = [s[:id], s[:value], s[:turn], i]
-            states.push(set_state.join(","))
+            states.push(set_state.join(','))
           end
         end
       end
       if states.length > 0
-        cmd = { func: "set_buff_handler", args: [true, states.join("_")] }
+        cmd = { func: 'set_buff_handler', args: [true, states.join('_')] }
         @init_commands.push(cmd)
       end
       states = []
       if @pl_stuffed_toy_num && @pl_stuffed_toy_num > 0
-        cmd = { func: "pl_entrant_stuffed_toys_set_event_handler", args: [true, @pl_stuffed_toy_num] }
+        cmd = { func: 'pl_entrant_stuffed_toys_set_event_handler', args: [true, @pl_stuffed_toy_num] }
         @init_commands.push(cmd)
       end
       @foe_state.each_with_index do |state, i|
         state.each do |s|
           if s[:id] != 0 && s[:turn] > 0
             set_state = [s[:id], s[:value], s[:turn], i]
-            states.push(set_state.join(","))
+            states.push(set_state.join(','))
           end
         end
       end
       if states.length > 0
-        cmd = { func: "set_buff_handler", args: [false, states.join("_")] }
+        cmd = { func: 'set_buff_handler', args: [false, states.join('_')] }
         @init_commands.push(cmd)
       end
       if @foe_stuffed_toy_num && @foe_stuffed_toy_num > 0
-        cmd = { func: "foe_entrant_stuffed_toys_set_event_handler", args: [false, @foe_stuffed_toy_num] }
+        cmd = { func: 'foe_entrant_stuffed_toys_set_event_handler', args: [false, @foe_stuffed_toy_num] }
         @init_commands.push(cmd)
       end
 
@@ -230,25 +230,25 @@ module Unlight
       chara_change_args = []
       if @pl_card_idx != 0
         weapon_bonus = get_weapon_bonus(true)
-        chara_change_args << [true, @pl_card_idx, @pl_cards[@pl_card_idx].id, weapon_bonus.join(",")]
+        chara_change_args << [true, @pl_card_idx, @pl_cards[@pl_card_idx].id, weapon_bonus.join(',')]
       end
       if @foe_card_idx != 0
         weapon_bonus = get_weapon_bonus(false)
-        chara_change_args << [false, @foe_card_idx, @foe_cards[@foe_card_idx].id, weapon_bonus.join(",")]
+        chara_change_args << [false, @foe_card_idx, @foe_cards[@foe_card_idx].id, weapon_bonus.join(',')]
       end
       if chara_change_args.size > 0
-        cmd = { func: "set_chara_card_idx_handler", args: [[(@pl_card_idx == 0), (@foe_card_idx == 0)], chara_change_args] }
+        cmd = { func: 'set_chara_card_idx_handler', args: [[(@pl_card_idx == 0), (@foe_card_idx == 0)], chara_change_args] }
         @init_commands.push(cmd)
       end
 
       func = nil
       case @phase
       when :duel_move_card_phase_start then
-        func = "entrant_move_card_add_action_handler"
+        func = 'entrant_move_card_add_action_handler'
       when :duel_attack_card_phase_start then
-        func = "entrant_battle_card_add_action_handler"
+        func = 'entrant_battle_card_add_action_handler'
       when :duel_deffence_card_phase_start then
-        func = "entrant_battle_card_add_action_handler"
+        func = 'entrant_battle_card_add_action_handler'
       else
         @pl_table  = []
         @foe_table = []
@@ -260,7 +260,7 @@ module Unlight
       @pl_table.each { |ac| acs.push(ac[:id]) } if func != nil
       foe_ac_size = @foe_ac.size
       foe_ac_size += @foe_table.size if func != nil
-      cmd = { func: "duel_refill_card_phase_handler", args: [acs.join(","), 0, foe_ac_size] }
+      cmd = { func: 'duel_refill_card_phase_handler', args: [acs.join(','), 0, foe_ac_size] }
       @init_commands.push(cmd)
 
       # 提出ターンの場合、場にカードを出す
@@ -276,15 +276,15 @@ module Unlight
       end
 
       # 山札枚数リセット
-      cmd = { func: "reset_deck_num_handler", args: [@deck_num] }
+      cmd = { func: 'reset_deck_num_handler', args: [@deck_num] }
       @init_commands.push(cmd)
 
       # イニシアチブ、距離の設定
-      cmd = { func: "set_initi_and_dist_handler", args: [@initi, @dist] }
+      cmd = { func: 'set_initi_and_dist_handler', args: [@initi, @dist] }
       @init_commands.push(cmd)
 
       # ターンの設定
-      cmd = { func: "duel_start_turn_phase_handler", args: [@turn] }
+      cmd = { func: 'duel_start_turn_phase_handler', args: [@turn] }
       @init_commands.push(cmd)
 
       # フェイズの設定
@@ -293,7 +293,7 @@ module Unlight
 
       # AC上書き
       @override_cards.each do |id, v|
-        cmd = { func: "foeEntrant_update_card_value_event_handler", args: [id, v["u_value"], v["b_value"], false] }
+        cmd = { func: 'foeEntrant_update_card_value_event_handler', args: [id, v['u_value'], v['b_value'], false] }
         @init_commands.push(cmd)
       end
 
@@ -302,7 +302,7 @@ module Unlight
         @log_list.each do |l|
           type = l[0]
           prm = (l[1] != nil) ? l[1] : []
-          cmd = { func: "set_message_str_data_handler", args: [type, prm] }
+          cmd = { func: 'set_message_str_data_handler', args: [type, prm] }
           @init_commands.push(cmd)
         end
       end
@@ -388,7 +388,7 @@ module Unlight
     # カードが配られた場合のハンドラ
     def duel_refill_card_phase(args)
       # args 0:plのAC:String,1:方向:int(BIT演算),2:foeのAC枚数:int
-      pl_ac_arr = args[0].split(",")
+      pl_ac_arr = args[0].split(',')
       pl_ac_arr.size.times do
         @pl_ac.push({ id: 0, dir: true })
       end
@@ -404,7 +404,7 @@ module Unlight
     # イベントカードが配られた場合のハンドラ
     def duel_refill_event_card_phase(args)
       # args 0:plのAC:String,1:方向:int(BIT演算),2:foeのAC枚数:int
-      pl_ac_arr = args[0].split(",")
+      pl_ac_arr = args[0].split(',')
       pl_ac_arr.size.times do
         @pl_ac.push({ id: 0, dir: true })
       end
@@ -921,7 +921,7 @@ module Unlight
     # プレイヤーが特別にカードを配られる場合のイベント
     def plEntrant_special_dealed_event(args)
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
-      ac_arr = args[0].split(",")
+      ac_arr = args[0].split(',')
       ac_arr.size.times do
         @pl_ac.push({ id: 0, dir: true })
       end
@@ -942,7 +942,7 @@ module Unlight
     # プレイヤーに墓地のカードが配られる場合のイベント
     def plEntrant_grave_dealed_event(args)
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
-      ac_arr = args[0].split(",")
+      ac_arr = args[0].split(',')
       ac_arr.size.times do
         @pl_ac.push({ id: 0, dir: true })
       end
@@ -961,7 +961,7 @@ module Unlight
     # プレイヤーに相手の手札のカードが配られる場合のイベント
     def plEntrant_steal_dealed_event(args)
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
-      ac_arr = args[0].split(",")
+      ac_arr = args[0].split(',')
       ac_arr.size.times do
         @pl_ac.push({ id: 0, dir: true })
       end
@@ -974,7 +974,7 @@ module Unlight
     # 敵にプレイヤーの手札のカードが配られる場合のイベント
     def foeEntrant_steal_dealed_event(args)
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
-      ac_arr = args[0].split(",")
+      ac_arr = args[0].split(',')
       ac_arr.size.times do
         @foe_ac.push({ id: 0, dir: true })
       end
@@ -987,7 +987,7 @@ module Unlight
     # プレイヤーが特別にイベントカードを配られる場合のイベント
     def plEntrant_special_event_card_dealed_event(args)
       # args 0:ACList:String,1:ACの向き:int(BIT演算),2:枚数:int
-      ac_arr = args[0].split(",")
+      ac_arr = args[0].split(',')
       ac_arr.size.times do
         @pl_ac.push({ id: 0, dir: true })
       end
@@ -1027,7 +1027,7 @@ module Unlight
       if args[3]
         @override_cards.delete(args[0]) if @override_cards.key?(args[0])
       else
-        @override_cards[args[0]] = { "u_value" => args[1], "b_value" => args[2] }
+        @override_cards[args[0]] = { 'u_value' => args[1], 'b_value' => args[2] }
       end
       debug_puts(__method__)
     end
@@ -1038,7 +1038,7 @@ module Unlight
       if args[3]
         @override_cards.delete(args[0]) if @override_cards.key?(args[0])
       else
-        @override_cards[args[0]] = { "u_value" => args[1], "b_value" => args[2] }
+        @override_cards[args[0]] = { 'u_value' => args[1], 'b_value' => args[2] }
       end
       debug_puts(__method__)
     end
@@ -1136,7 +1136,7 @@ module Unlight
     def action_card_chance_event(args)
       # args 0:plか:Boolean,1:ACList:String,2:AC方向:int(BIT演算),3:AC枚数:int
       if args[0]
-        ac_arr = args[1].split(",")
+        ac_arr = args[1].split(',')
         ac_arr.size.times do
           @pl_ac.push({ id: 0, dir: true })
         end

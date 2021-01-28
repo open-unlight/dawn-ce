@@ -19,8 +19,8 @@ module Unlight
     COMMAND_WAIT_SET_CNT  = 3                     # 待機時間を加算する取得コマンド数
     COMMAND_ACT_WAIT_CNT  = 1                     # 取得後のコマンドを(COMMAND_WAIT_SET_CNT)分取得した際に発生する待機時間
 
-    DUEL_FINISH_FUNC_STR = "duel_finish_handler"  # Duel終了Command
-    DUEL_ABORT_FUNC_STR  = "duel_abort_finish"    # Duel強制終了Command
+    DUEL_FINISH_FUNC_STR = 'duel_finish_handler'  # Duel終了Command
+    DUEL_ABORT_FUNC_STR  = 'duel_abort_finish'    # Duel強制終了Command
 
     def initialize(match_uid, is_watch, pl_id = 0, foe_id = 0)
       @key = match_uid      # match_uidをkeyにしてキャッシュ操作する
@@ -75,7 +75,7 @@ module Unlight
 
     # 保存形式にコマンド履歴を変換
     def convert_commands(commands)
-      ret = (commands) ? commands.join("-") : ""
+      ret = (commands) ? commands.join('-') : ''
       ret
     end
 
@@ -119,7 +119,7 @@ module Unlight
 
     # 呼び出しもと関数名を取得
     def parse_caller(at)
-      ret = ""
+      ret = ''
       if /^(.+?):(\d+)(?::in `(.*)')?/ =~ at
         ret = $3
       end

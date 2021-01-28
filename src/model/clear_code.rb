@@ -58,7 +58,7 @@ module Unlight
 
     # 済んだ
     def self::get_code(kind, max)
-      ret = ""
+      ret = ''
       if self::filter(kind: kind, state: STATE_USED).count > max
         return ret
       else

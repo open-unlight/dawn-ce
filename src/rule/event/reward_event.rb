@@ -39,14 +39,14 @@
 #   追加実行されるイベント
 module Unlight
   class RewardEvent < EventRule
-    dsc       "結果のルール"
+    dsc       '結果のルール'
     func      :start
     act       :init_phase
     act       :candidate_cards_list_phase
     act       :bottom_dice_num_phase
     act       :high_low_phase
     act       :exit_phase
-    goal      ["self", :finished]
+    goal      ['self', :finished]
     event      :finish
   end
 
@@ -55,37 +55,37 @@ module Unlight
   # ===========================
 
   class InitPhase < EventRule
-    dsc        "初期化フェイズ"
+    dsc        '初期化フェイズ'
     func       :init
     event      :finish
   end
 
   class CandidateCardsListPhase < EventRule
-    dsc        "報酬のスタート"
-    guard      ["self", :not_win_skip], ["self", :not_reroll?]
+    dsc        '報酬のスタート'
+    guard      ['self', :not_win_skip], ['self', :not_reroll?]
     func       :candidate_cards_list
     event      :finish
   end
 
   class BottomDiceNumPhase < EventRule
-    dsc        "基本ダイス数フェイズ"
+    dsc        '基本ダイス数フェイズ'
     func       :bottom_dice_num
     event      :finish
   end
 
   class HighLowPhase < EventRule
-    dsc        "ハイロー待ちフェイズ"
+    dsc        'ハイロー待ちフェイズ'
     func       :high_low
     event      :finish
-    goal       ["self", :challenged]
-    goal       ["self", :first?]
+    goal       ['self', :challenged]
+    goal       ['self', :first?]
   end
 
   class ExitPhase < EventRule
-    dsc        "カード決定待ちフェイズ"
+    dsc        'カード決定待ちフェイズ'
     func       :exit
     event      :finish
-    goal       ["self", :exited?]
+    goal       ['self', :exited?]
   end
 
   # ===========================
@@ -93,49 +93,49 @@ module Unlight
   # ===========================
 
   class UpEvent < EventRule
-    dsc "アップを選択した結果"
-    context ["Reward", :high_low_phase]
+    dsc 'アップを選択した結果'
+    context ['Reward', :high_low_phase]
     func      :up
     event     :finish
   end
 
   class DownEvent < EventRule
-    dsc       "ダウンを選択した結果"
-    context ["Reward", :high_low_phase]
+    dsc       'ダウンを選択した結果'
+    context ['Reward', :high_low_phase]
     func      :down
     event     :finish
   end
 
   class ResultDiceEvent < EventRule
-    dsc       "ダイスの結果"
+    dsc       'ダイスの結果'
     func      :result_dice_num
     event     :finish
   end
 
   class CancelEvent < EventRule
-    dsc       "キャンセルを選択した結果"
-    context ["Reward", :exit_phase]
+    dsc       'キャンセルを選択した結果'
+    context ['Reward', :exit_phase]
     func      :cancel
     event     :finish
   end
 
   class RetryRewardEvent < EventRule
-    dsc       "報酬ゲームを続ける"
-    context ["Reward", :exit_phase]
+    dsc       '報酬ゲームを続ける'
+    context ['Reward', :exit_phase]
     func      :retry_reward
     event     :finish
   end
 
   class RerollEvent < EventRule
-    dsc       "アイテムのリロールを使用"
-    context ["Reward", :exit_phase]
+    dsc       'アイテムのリロールを使用'
+    context ['Reward', :exit_phase]
     func      :reroll
     event     :finish
   end
 
   class AmendEvent < EventRule
-    dsc       "ダイス修正アイテムを使用"
-    context ["Reward", :exit_phase]
+    dsc       'ダイス修正アイテムを使用'
+    context ['Reward', :exit_phase]
     func      :amend
     event     :finish
   end

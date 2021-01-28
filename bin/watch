@@ -31,7 +31,7 @@ module Unlight
   EM.epoll                            # Epollを使用するように設定。
   EM.run do
     WatchServer.setup(Dawn::Server.id, Dawn::Server.hostname, Dawn::Server.port)
-    EM.start_server "0.0.0.0", Dawn::Server.port, WatchServer
+    EM.start_server '0.0.0.0', Dawn::Server.port, WatchServer
     SERVER_LOG.info("WatchServer Start: ip[#{Dawn::Server.hostname}] port[#{Dawn::Server.port}]")
     # タイマの制度を上げる
     EM.set_quantum(10)

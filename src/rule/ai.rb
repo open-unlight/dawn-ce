@@ -45,7 +45,7 @@ module Unlight
       cards.each do |a|
         ret << a.id
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # CPUプレイヤーを返す
@@ -102,7 +102,7 @@ module Unlight
 
     # 終了ハンドラ
     def finish_ai(target, ret)
-      SERVER_LOG.info("AI: [Destruct]")
+      SERVER_LOG.info('AI: [Destruct]')
       self.remove_all_hook
       self.remove_all_event_listener
       @@current_list.delete(self)

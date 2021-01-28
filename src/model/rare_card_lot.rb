@@ -48,7 +48,7 @@ module Unlight
                  LOT_REALITY[9] / LOT_REALITY_NUM.to_f
                 ]
 
-  PERCENT_CASH = "percent_cash_#{File.dirname(__FILE__).gsub!("/", "_")}"
+  PERCENT_CASH = "percent_cash_#{File.dirname(__FILE__).tr!("/", "_")}"
 
   @@percent = Array.new(10, 0)
 
@@ -72,8 +72,8 @@ module Unlight
       integer     :rarity,      default: 0  # 出る確率
       integer     :visible,     default: 0  # 見えるかどうか1以上で消す
       integer     :num,         default: 1  # 個数
-      String      :image_url,   default: "" # 画像URL
-      String      :description, default: "" # 解説
+      String      :image_url,   default: '' # 画像URL
+      String      :description, default: '' # 解説
       datetime    :created_at
       datetime    :updated_at
     end
@@ -93,7 +93,7 @@ module Unlight
       Unlight::RareCardLot::get_lot_list(lk).each do |r|
         if r.article_kind == a_k && r.article_id == a_i && r.id != id
           ret = [:article_kind, "error article no ,id:#{r.id}"]
-          puts "errr"
+          puts 'errr'
           break
         end
       end

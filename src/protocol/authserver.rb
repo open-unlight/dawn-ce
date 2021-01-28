@@ -135,18 +135,18 @@ module Unlight
       # OpenSocialプレイヤーを登録
       def cs_open_social_register(name, salt, verifire, server_type)
         SERVER_LOG.info("#{@@class_name}: [cs_os_register] #{name} ,#{salt}, #{verifire}, #{server_type}")
-        regist_result(Player.regist(name, "openplatform@dena.jp", salt, verifire, server_type))
+        regist_result(Player.regist(name, 'openplatform@dena.jp', salt, verifire, server_type))
       end
 
       # OpenSocial用再登録
       def cs_reregister(name, salt, verifire, server_type)
         SERVER_LOG.info("#{@@class_name}: [cs_os_reregister] #{name} ,#{salt}, #{verifire}")
-        Player.reregist(name, "openplatform@dena.jp", salt, verifire, server_type)
+        Player.reregist(name, 'openplatform@dena.jp', salt, verifire, server_type)
       end
 
       # 自分を招待してくれたひとを更新
       def cs_update_invited_user(users)
-        u = users.split(",")
+        u = users.split(',')
         if @player
           SERVER_LOG.info("<UID:#{@player.id}>AUTHServer: [cs_update_invited_users] #{users}")
           a = InviteLog::check_already_invited?(@player.name) # すでに自分がインバイトアイテムをもらっているか？

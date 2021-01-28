@@ -28,7 +28,7 @@ module Unlight
     set_schema do
       primary_key :id
       String      :name, index: true
-      String      :ab_name, default: ""
+      String      :ab_name, default: ''
       integer     :level, default: 1
       integer     :hp, default: 1
       integer     :ap, default: 1
@@ -36,11 +36,11 @@ module Unlight
       integer     :rarity, default: 1
       integer     :deck_cost, default: 1
       integer     :slot, default: 0
-      String      :stand_image, default: ""
-      String      :chara_image, default: ""
-      String      :artifact_image, default: ""
-      String      :bg_image, default: ""
-      String      :caption, default: ""
+      String      :stand_image, default: ''
+      String      :chara_image, default: ''
+      String      :artifact_image, default: ''
+      String      :bg_image, default: ''
+      String      :caption, default: ''
       integer     :charactor_id
       integer     :next_id
       datetime    :created_at
@@ -75,10 +75,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def CharaCard::data_version
-      ret = cache_store.get("CharaCardVersion")
+      ret = cache_store.get('CharaCardVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("CharaCardVersion", ret)
+        cache_store.set('CharaCardVersion', ret)
       end
       ret
     end
@@ -89,9 +89,9 @@ module Unlight
       if m
         FeatInventory::refresh_data_version
         if FeatInventory::data_version
-          cache_store.set("CharaCardVersion", [m.version, FeatInventory::data_version].max)
+          cache_store.set('CharaCardVersion', [m.version, FeatInventory::data_version].max)
           else
-            cache_store.set("CharaCardVersion", m.version)
+            cache_store.set('CharaCardVersion', m.version)
         end
         m.version
       else
@@ -131,8 +131,8 @@ module Unlight
 
     def CharaCard::duel_start_dialogue(chara_id_str, other_id_str)
       ret = []
-      a = CharaCard[chara_id_str.split(",")[0]]
-      b = CharaCard[other_id_str.split(",")[0]]
+      a = CharaCard[chara_id_str.split(',')[0]]
+      b = CharaCard[other_id_str.split(',')[0]]
       level = 0
       if a.rarity > 5 && b.rarity > 5
         level = 5
@@ -149,7 +149,7 @@ module Unlight
         if d
           ret = [d.id, d.content]
         else
-          ret = [0, ""]
+          ret = [0, '']
         end
       end
       ret
@@ -173,7 +173,7 @@ module Unlight
         ret << f.feat_id
       end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # パッシブのIDリストを返す
@@ -184,7 +184,7 @@ module Unlight
           ret << p.passive_skill_id
         end
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # 親のキャラクターIDを返す
@@ -387,30 +387,30 @@ module Unlight
     end
 
     def get_data_csv_str
-      ret = ""
-      ret << self.id.to_s << ","
-      ret << '"' << (self.name || "") << '",'
-      ret << '"' << (self.ab_name || "") << '",'
-      ret << (self.level || 0).to_s << ","
-      ret << (self.hp || 0).to_s << ","
-      ret << (self.ap || 0).to_s << ","
-      ret << (self.dp || 0).to_s << ","
-      ret << (self.rarity || 0).to_s << ","
-      ret << (self.deck_cost || 0).to_s << ","
-      ret << (self.slot || 0).to_s << ","
-      ret << '"' << (self.stand_image || "") << '",'
-      ret << '"' << (self.chara_image || "") << '",'
-      ret << '"' << (self.artifact_image || "") << '",'
-      ret << '"' << (self.bg_image || "") << '",'
-      ret << '"' << (self.caption || "") << '",'
-      ret << '"' << (self.feats_id || "") << '",'
-      ret << (self.story_id || 0).to_s << ","
-      ret << (self.charactor_id || 0).to_s << ","
-      ret << (self.next_id || 0).to_s << ","
-      ret << '"' << (CharaCardRequirement.up_tree(self.id).join(",")) << '",'
-      ret << '"' << (CharaCardRequirement.down_tree(self.id).join(",")) << '",'
-      ret << (self.kind || 0).to_s << ","
-      ret << '"' << (self.passives_id || "") << '"'
+      ret = ''
+      ret << self.id.to_s << ','
+      ret << '"' << (self.name || '') << '",'
+      ret << '"' << (self.ab_name || '') << '",'
+      ret << (self.level || 0).to_s << ','
+      ret << (self.hp || 0).to_s << ','
+      ret << (self.ap || 0).to_s << ','
+      ret << (self.dp || 0).to_s << ','
+      ret << (self.rarity || 0).to_s << ','
+      ret << (self.deck_cost || 0).to_s << ','
+      ret << (self.slot || 0).to_s << ','
+      ret << '"' << (self.stand_image || '') << '",'
+      ret << '"' << (self.chara_image || '') << '",'
+      ret << '"' << (self.artifact_image || '') << '",'
+      ret << '"' << (self.bg_image || '') << '",'
+      ret << '"' << (self.caption || '') << '",'
+      ret << '"' << (self.feats_id || '') << '",'
+      ret << (self.story_id || 0).to_s << ','
+      ret << (self.charactor_id || 0).to_s << ','
+      ret << (self.next_id || 0).to_s << ','
+      ret << '"' << (CharaCardRequirement.up_tree(self.id).join(',')) << '",'
+      ret << '"' << (CharaCardRequirement.down_tree(self.id).join(',')) << '",'
+      ret << (self.kind || 0).to_s << ','
+      ret << '"' << (self.passives_id || '') << '"'
       ret
     end
   end
@@ -555,9 +555,9 @@ module Unlight
 
     # フェイズ識別子
 
-    PHASE_ATTACK = "攻撃"
-    PHASE_DEFENSE = "防御"
-    PHASE_MOVE = "移動"
+    PHASE_ATTACK = '攻撃'
+    PHASE_DEFENSE = '防御'
+    PHASE_MOVE = '移動'
 
     # レンジ定数
     AI_RANGE_ALL = [1, 2, 3]
@@ -769,7 +769,7 @@ module Unlight
     end
 
     # パーティダメージ量を評価する
-    def attribute_party_damage(target, indexies, damage, attribute = ATTRIBUTE_CONSTANT, type = TARGET_TYPE_SINGLE, attack_times = 1, is_not_hostile = false)
+    def attribute_party_damage(target, indexies, damage, attribute = ATTRIBUTE_CONSTANT, type = TARGET_TYPE_SINGLE, attack_times = 1, is_not_hostile = false) # rubocop:disable Metrics/ParameterLists
       idxs = indexies.kind_of?(Array) ? indexies : [indexies]
 
       return if idxs.size == 0
@@ -1168,7 +1168,7 @@ module Unlight
     def check_harden_passive
       if @cc.using
         min = Time.now.min
-        if (10..19).include?(min) || (40..49).include?(min)
+        if (10..19).cover?(min) || (40..49).cover?(min)
           force_on_passive(PASSIVE_HARDEN)
         end
       end
@@ -1179,9 +1179,9 @@ module Unlight
     def use_harden_passive_damage
       if @passives_enable[PASSIVE_HARDEN] && !owner.initiative
         ats = duel.dice_attributes
-        if ats.include?("special") && !ats.include?("physical")
+        if ats.include?('special') && !ats.include?('physical')
           duel.tmp_damage *= 2
-        elsif !ats.include?("special")
+        elsif !ats.include?('special')
           duel.tmp_damage = (duel.tmp_damage / 4).to_i
         end
       end
@@ -1206,7 +1206,7 @@ module Unlight
     def check_absorp_passive
       if @cc.using
         min = Time.now.min
-        if (20..29).include?(min) || (50..59).include?(min)
+        if (20..29).cover?(min) || (50..59).cover?(min)
           unless @passives_enable[PASSIVE_HARDEN]
             force_on_passive(PASSIVE_ABSORP)
           end
@@ -1221,11 +1221,11 @@ module Unlight
         ats = duel.dice_attributes
         heal_pt = duel.tmp_damage > 5 ? 5 : duel.tmp_damage
         # special のみのとき、ダメージ無効＋回復
-        if ats.include?("special") && !ats.include?("physical")
+        if ats.include?('special') && !ats.include?('physical')
           owner.healed_event(heal_pt)
           duel.tmp_damage = 0
         # physical のみのとき、ダメージ普通＋回復
-        elsif ats.include?("special") && ats.include?("physical")
+        elsif ats.include?('special') && ats.include?('physical')
           owner.healed_event(heal_pt)
         # special がないとき、ダメージ2倍
         else
@@ -2339,7 +2339,7 @@ module Unlight
     # 発動状態をONにする
     def check_lonsbrough_event_passive
       if @cc.using
-        if CHARA_GROUP_MEMBERS["lonsbrough"].include?(foe.current_chara_card.charactor_id)
+        if CHARA_GROUP_MEMBERS['lonsbrough'].include?(foe.current_chara_card.charactor_id)
           force_on_passive(PASSIVE_LONSBROUGH_EVENT)
         else
           force_off_passive(PASSIVE_LONSBROUGH_EVENT)
@@ -2497,7 +2497,7 @@ module Unlight
     def use_cooly_passive_move
       if @passives_enable[PASSIVE_COOLY]
         owner.battle_table.clone.each do |c|
-          if (c.u_type == ActionCard::DEF || c.b_type == ActionCard::DEF) && (1..60).include?(c.id)
+          if (c.u_type == ActionCard::DEF || c.b_type == ActionCard::DEF) && (1..60).cover?(c.id)
             @passive_cooly_card_list << c
           end
         end
@@ -2509,7 +2509,7 @@ module Unlight
     def use_cooly_passive_attack
       if @passives_enable[PASSIVE_COOLY] && owner.initiative
         owner.battle_table.clone.each do |c|
-          if (c.u_type == ActionCard::DEF || c.b_type == ActionCard::DEF) && (1..60).include?(c.id)
+          if (c.u_type == ActionCard::DEF || c.b_type == ActionCard::DEF) && (1..60).cover?(c.id)
             @passive_cooly_card_list << c
           end
         end
@@ -2555,7 +2555,7 @@ module Unlight
     def use_burning_embers_passive_move
       if @passives_enable[PASSIVE_BURNING_EMBERS]
         owner.battle_table.clone.each do |c|
-          if (c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD) && (1..60).include?(c.id)
+          if (c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD) && (1..60).cover?(c.id)
             @passive_burning_embers_card_list << c
           end
         end
@@ -2567,7 +2567,7 @@ module Unlight
     def use_burning_embers_passive_attack
       if @passives_enable[PASSIVE_BURNING_EMBERS] && !owner.initiative
         owner.battle_table.clone.each do |c|
-          if (c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD) && (1..60).include?(c.id)
+          if (c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD) && (1..60).cover?(c.id)
             @passive_burning_embers_card_list << c
           end
         end
@@ -3397,7 +3397,7 @@ module Unlight
 
     # 操想が終了される
     def finish_control_state
-      if @cc && @cc.status[STATE_CONTROL][1] > 0 && !Charactor.attribute(@cc.charactor_id).include?("revisers")
+      if @cc && @cc.status[STATE_CONTROL][1] > 0 && !Charactor.attribute(@cc.charactor_id).include?('revisers')
         @cc.status[STATE_CONTROL][1] -= 1 if @cc.status_update
         attribute_party_damage(owner, @cc.index, 99, ATTRIBUTE_DEATH, TARGET_TYPE_SINGLE, 1, IS_NOT_HOSTILE_DAMAGE) if @cc.status[STATE_CONTROL][1] <= 0
 
@@ -4159,11 +4159,11 @@ module Unlight
             val[1] -= 1
 
             case i
-            when Entrant::FIELD_STATUS["FOG"]
+            when Entrant::FIELD_STATUS['FOG']
               foe.move_action(0)
               owner.move_action(0)
               owner.set_field_status_event(i, val[0], val[1])
-            when Entrant::FIELD_STATUS["AC_LOCK"]
+            when Entrant::FIELD_STATUS['AC_LOCK']
               owner.set_field_status(i, val[0], val[1])
             end
 
@@ -8276,7 +8276,7 @@ module Unlight
           end
 
           # 自分にかかる確率は3/4
-          own_buff = rand(4) != 0 ? true : false
+          own_buff = rand(4) == 0 ? false : true
 
           if hps.size == 1 || own_buff
             hps = [[true, owner.current_chara_card_no]] + hps.shuffle
@@ -12046,10 +12046,10 @@ module Unlight
         owner.hit_points_max.each { |i| mhp += i }
 
         mhp_criteria = []
-        if Feat.pow(@feats[FEAT_HACHIYOU]) != 4
-          mhp_criteria = [20, 27, 34, 40]
-        else
+        if Feat.pow(@feats[FEAT_HACHIYOU]) == 4
           mhp_criteria = [1, 20, 27, 34, 40]
+        else
+          mhp_criteria = [20, 27, 34, 40]
         end
 
         updated_state = []
@@ -16207,7 +16207,7 @@ module Unlight
           # 相手が攻撃フェイズで使う可能性のある技を全て拾う
           foe.current_chara_card.get_feat_ids.each do |fid|
             f = Unlight::Feat[fid]
-            attack_phase_feats << f.feat_no if f.caption.include?("[攻撃:")
+            attack_phase_feats << f.feat_no if f.caption.include?('[攻撃:')
           end
 
           foe.battle_table.each_with_index do |c, i|
@@ -17071,7 +17071,7 @@ module Unlight
       # ポイントの変更をチェック
       if @feats_enable[FEAT_BATAFLY_MOV]
         owner.table_cards_lock = (true)
-        owner.reset_on_list_by_type_set(FEAT_BATAFLY_MOV, "SAD", 3)
+        owner.reset_on_list_by_type_set(FEAT_BATAFLY_MOV, 'SAD', 3)
         owner.point_update_event
       else
         owner.clear_feat_battle_table_on_list(FEAT_BATAFLY_MOV)
@@ -17088,7 +17088,7 @@ module Unlight
     def determine_distance_batafly_mov_feat
       if @feats_enable[FEAT_BATAFLY_MOV]
         use_feat_event(@feats[FEAT_BATAFLY_MOV])
-        d = batafly_feat_type_to_distance(owner.get_max_value_type("SAD", 3))
+        d = batafly_feat_type_to_distance(owner.get_max_value_type('SAD', 3))
         trap_status = { TRAP_STATUS_DISTANCE => d,
                         TRAP_STATUS_POW => Feat.pow(@feats[FEAT_BATAFLY_MOV]),
                         TRAP_STATUS_TURN => TRAP_KEEP_TURN - 1,
@@ -17124,7 +17124,7 @@ module Unlight
         owner.table_cards_lock = (true)
         min_val = 3
         min_val = 2 if @easing_feat_list && @easing_feat_list.key?(@feats[FEAT_BATAFLY_ATK])
-        owner.reset_on_list_by_type_set(FEAT_BATAFLY_ATK, "SAD", min_val)
+        owner.reset_on_list_by_type_set(FEAT_BATAFLY_ATK, 'SAD', min_val)
         owner.point_update_event
       else
         owner.clear_feat_battle_table_on_list(FEAT_BATAFLY_ATK)
@@ -17153,7 +17153,7 @@ module Unlight
         use_feat_event(@feats[FEAT_BATAFLY_ATK])
         min_val = 3
         min_val = 2 if @easing_feat_list && @easing_feat_list.key?(@feats[FEAT_BATAFLY_ATK])
-        d = batafly_feat_type_to_distance(owner.get_max_value_type("SAD", min_val))
+        d = batafly_feat_type_to_distance(owner.get_max_value_type('SAD', min_val))
         trap_status = { TRAP_STATUS_DISTANCE => d,
                         TRAP_STATUS_POW => Feat.pow(@feats[FEAT_BATAFLY_ATK]),
                         TRAP_STATUS_TURN => TRAP_KEEP_TURN,
@@ -17178,7 +17178,7 @@ module Unlight
       # ポイントの変更をチェック
       if @feats_enable[FEAT_BATAFLY_DEF]
         owner.table_cards_lock = (true)
-        owner.reset_on_list_by_type_set(FEAT_BATAFLY_DEF, "SAD", 3)
+        owner.reset_on_list_by_type_set(FEAT_BATAFLY_DEF, 'SAD', 3)
         owner.point_update_event
       else
         owner.table_cards_lock = (false) if !@feats_enable[FEAT_BATAFLY_SLD]
@@ -17204,7 +17204,7 @@ module Unlight
       if @feats_enable[FEAT_BATAFLY_DEF]
         @feats_enable[FEAT_BATAFLY_DEF] = false
         use_feat_event(@feats[FEAT_BATAFLY_DEF])
-        d = batafly_feat_type_to_distance(owner.get_max_value_type("SAD", 3))
+        d = batafly_feat_type_to_distance(owner.get_max_value_type('SAD', 3))
         trap_status = { TRAP_STATUS_DISTANCE => d,
                         TRAP_STATUS_POW => Feat.pow(@feats[FEAT_BATAFLY_DEF]),
                         TRAP_STATUS_TURN => TRAP_KEEP_TURN,
@@ -17228,7 +17228,7 @@ module Unlight
       # ポイントの変更をチェック
       if @feats_enable[FEAT_BATAFLY_SLD]
         owner.table_cards_lock = (true)
-        owner.reset_on_list_by_type_set(FEAT_BATAFLY_SLD, "SAD", 1, true)
+        owner.reset_on_list_by_type_set(FEAT_BATAFLY_SLD, 'SAD', 1, true)
         owner.point_update_event
       else
         owner.table_cards_lock = (false) if !@feats[FEAT_BATAFLY_DEF]
@@ -17254,7 +17254,7 @@ module Unlight
       if @feats_enable[FEAT_BATAFLY_SLD]
         @feats_enable[FEAT_BATAFLY_SLD] = false
         use_feat_event(@feats[FEAT_BATAFLY_SLD])
-        d = batafly_feat_type_to_distance(owner.get_max_value_type("SAD", 1, true))
+        d = batafly_feat_type_to_distance(owner.get_max_value_type('SAD', 1, true))
         pow = Feat.pow(@feats[FEAT_BATAFLY_SLD])
         trap_status = { TRAP_STATUS_DISTANCE => d,
                         TRAP_STATUS_POW => pow,
@@ -19456,7 +19456,7 @@ module Unlight
                         owner.chara_cards[i].status[STATE_CONTROL][0],
                         owner.chara_cards[i].status[STATE_CONTROL][1])
 
-          unless Charactor.attribute(owner.chara_cards[i].charactor_id).include?("revisers")
+          unless Charactor.attribute(owner.chara_cards[i].charactor_id).include?('revisers')
 
             buffed = set_state(owner.chara_cards[i].status[STATE_SEAL], 1, 3);
             on_buff_event(true,
@@ -19528,10 +19528,10 @@ module Unlight
         # フィールドの状態を設定する
         @kirigakure_cc_selected = false
         owner.hiding_was_finished = false
-        if owner.direction != Entrant::DIRECTION_CHARA_CHANGE
-          owner.set_field_status_event(Entrant::FIELD_STATUS["FOG"], 1, 1)
-        else
+        if owner.direction == Entrant::DIRECTION_CHARA_CHANGE
           @kirigakure_cc_selected = true
+        else
+          owner.set_field_status_event(Entrant::FIELD_STATUS['FOG'], 1, 1)
         end
       end
     end
@@ -19542,7 +19542,7 @@ module Unlight
       if @feats_enable[FEAT_KIRIGAKURE]
         if @kirigakure_cc_selected
           on_feat_event(FEAT_KIRIGAKURE)
-          owner.set_field_status_event(Entrant::FIELD_STATUS["FOG"], 1, 1)
+          owner.set_field_status_event(Entrant::FIELD_STATUS['FOG'], 1, 1)
         end
         # 分身。距離表示を伏せる
         on_lost_in_the_fog_event(true)
@@ -19576,7 +19576,7 @@ module Unlight
       if @cc && @cc.using && foe.current_chara_card.check_feat_range_free?
         foe.current_chara_card.check_feat_range_free = false
         foe.bp_calc_range_free = false
-        phase = owner.initiative ? "防御" : "攻撃"
+        phase = owner.initiative ? '防御' : '攻撃'
         foe.current_chara_card.recheck_battle_point(foe, phase)
       end
     end
@@ -19585,7 +19585,7 @@ module Unlight
 
     # 攻撃力の再評価関数
     def recheck_battle_point(target, phase)
-      phase_key_str = "[" + phase + ":"
+      phase_key_str = "[#{phase}:"
       feats = get_feats_list_as_for(target, phase)
 
       feats.each do |f|
@@ -19599,7 +19599,7 @@ module Unlight
 
     # 指定したフェイズで使用可能な技を列挙する
     def get_feats_list_as_for(target, phase)
-      phase_key_str = "[" + phase + ":"
+      phase_key_str = "[#{phase}:"
       feats = []
       target.current_chara_card.get_feat_ids.each do |fid|
         f = Unlight::Feat[fid]
@@ -21007,7 +21007,7 @@ module Unlight
           owner.set_current_default_weapon_bonus()
 
           18.times do
-            bornus = [0, 0, 0, 0, 0, 0, 0, 0, ""]
+            bornus = [0, 0, 0, 0, 0, 0, 0, 0, '']
 
             # 9 未満のステータスをリストアップ
             under_nine_statuses = []
@@ -22559,7 +22559,7 @@ module Unlight
         additional_damage_str = additional_damage.to_s
         if @cc.status[STATE_CONTROL][1] > 0
           additional_damage += 4
-          additional_damage_str = additional_damage_str + "+4"
+          additional_damage_str = "#{additional_damage_str}+4"
         end
         owner.special_message_event(:EX_THIRTEEN_EYES, additional_damage_str)
         duel.tmp_damage += additional_damage
@@ -22725,7 +22725,7 @@ module Unlight
         reduced_damage_str = reduced_damage.to_s
         if @cc.status[STATE_CONTROL][1] > 0
           reduced_damage += 3
-          reduced_damage_str = reduced_damage_str + "+3"
+          reduced_damage_str = "#{reduced_damage_str}+3"
         end
         owner.special_message_event(:THIRD_STEP, reduced_damage_str)
         duel.tmp_damage -= reduced_damage
@@ -23772,7 +23772,7 @@ module Unlight
         use_feat_event(@feats[FEAT_SEIHO])
         @feats_enable[FEAT_SEIHO] = false
         owner.cards.each do |c|
-          if (1..60).include?(c.id)
+          if (1..60).cover?(c.id)
             if c.u_type == ActionCard::SWD && c.u_value < 4
               c.rewrite_u_value(c.u_value + 1)
             end
@@ -23824,7 +23824,7 @@ module Unlight
       if @feats_enable[FEAT_DOKKO]
         @feats_enable[FEAT_DOKKO] = false
         owner.cards.each do |c|
-          if (1..60).include?(c.id)
+          if (1..60).cover?(c.id)
             if c.u_type == ActionCard::SWD && (c.u_value == 4 || c.u_value == 5)
               c.rewrite_u_value(6)
             end
@@ -23876,7 +23876,7 @@ module Unlight
       if @feats_enable[FEAT_NYOI]
         @feats_enable[FEAT_NYOI] = false
         owner.cards.each do |c|
-          if (1..60).include?(c.id)
+          if (1..60).cover?(c.id)
             if c.u_type == ActionCard::SWD && c.u_value == 6
               c.rewrite_u_value(9)
             end
@@ -23887,7 +23887,7 @@ module Unlight
         end
         if duel.tmp_damage > 0
           foe.cards.each do |c|
-            if (1..60).include?(c.id)
+            if (1..60).cover?(c.id)
               if c.u_value > 1
                 c.rewrite_u_value(c.u_value - 1)
               end
@@ -24025,7 +24025,7 @@ module Unlight
           foe.cards.shuffle.each do |c|
             break if cnt >= max_num
 
-            if (1..60).include?(c.id)
+            if (1..60).cover?(c.id)
               rewrite_count = false
               if c.u_value < 9
                 tmp = c.u_value + Feat.pow(@feats[FEAT_CARP_LIGHTNING])
@@ -24046,7 +24046,7 @@ module Unlight
           foe.cards.shuffle.each do |c|
             break if cnt >= max_num
 
-            if (1..60).include?(c.id)
+            if (1..60).cover?(c.id)
               rewrite_count = false
               if c.u_value > 1
                 tmp = c.u_value - Feat.pow(@feats[FEAT_CARP_LIGHTNING])
@@ -24088,7 +24088,7 @@ module Unlight
     # フィールドロックの効果が発揮される
     def use_field_lock_feat()
       if @feats_enable[FEAT_FIELD_LOCK]
-        owner.set_field_status_event(Entrant::FIELD_STATUS["AC_LOCK"], 1, 1)
+        owner.set_field_status_event(Entrant::FIELD_STATUS['AC_LOCK'], 1, 1)
         use_feat_event(@feats[FEAT_FIELD_LOCK])
         @feats_enable[FEAT_FIELD_LOCK] = false
       end
@@ -25406,15 +25406,15 @@ module Unlight
     # ===========================================
     TRAP_KEEP_TURN = 3                            # 罠の有効ターン
 
-    TRAP_STATUS_KIND = "kind"                     # 罠のステータス。種類
-    TRAP_STATUS_TURN = "turn"                     # 罠のステータス。残ターン
-    TRAP_STATUS_DISTANCE = "distance"             # 罠のステータス。位置
-    TRAP_STATUS_VISIBILITY = "visibility"         # 罠のステータス。可視性
-    TRAP_STATUS_POW = "pow"                       # 罠のステータス。威力
-    TRAP_STATUS_STATE = "state"                   # 罠のステータス。ステート
+    TRAP_STATUS_KIND = 'kind'                     # 罠のステータス。種類
+    TRAP_STATUS_TURN = 'turn'                     # 罠のステータス。残ターン
+    TRAP_STATUS_DISTANCE = 'distance'             # 罠のステータス。位置
+    TRAP_STATUS_VISIBILITY = 'visibility'         # 罠のステータス。可視性
+    TRAP_STATUS_POW = 'pow'                       # 罠のステータス。威力
+    TRAP_STATUS_STATE = 'state'                   # 罠のステータス。ステート
 
-    TRAP_STATE_WAIT = "wait"                      # 罠のステート。待機状態
-    TRAP_STATE_READY = "ready"                    # 罠のステート。有効状態
+    TRAP_STATE_WAIT = 'wait'                      # 罠のステート。待機状態
+    TRAP_STATE_READY = 'ready'                    # 罠のステート。有効状態
 
     STABLE_TRAP_KINDS = [FEAT_BATAFLY_SLD]
     INSTANT_TRAP_KINDS = [FEAT_BATAFLY_ATK, FEAT_BATAFLY_DEF, FEAT_BATAFLY_MOV, FEAT_CLAYMORE]
@@ -25716,10 +25716,10 @@ module Unlight
       target.field_status.each_with_index { |val, i|
         if val[1] > 0
           case i
-          when Entrant::FIELD_STATUS["FOG"]
+          when Entrant::FIELD_STATUS['FOG']
             off_lost_in_the_fog_event(player)
             target.set_field_status_event(i, val[0], 0)
-          when Entrant::FIELD_STATUS["AC_LOCK"]
+          when Entrant::FIELD_STATUS['AC_LOCK']
             owner.clear_card_locks_event
             foe.clear_card_locks_event
             target.set_field_status_event(i, val[0], 0)
@@ -25746,11 +25746,11 @@ module Unlight
 
     # 霧を照らす
     def in_the_fog(player, range)
-      if @target_range != range
-        @target_range = range
-        [player, range.join(",")]
-      else
+      if @target_range == range
         [player, nil]
+      else
+        @target_range = range
+        [player, range.join(',')]
       end
     end
     regist_event InTheFogEvent
@@ -25803,11 +25803,11 @@ module Unlight
 
       when FEAT_SMILE
         # 相手が女性ではない
-        !Charactor.attribute(foe.current_chara_card.charactor_id).include?("female")
+        !Charactor.attribute(foe.current_chara_card.charactor_id).include?('female')
 
       when FEAT_COLD_EYES
         # 相手が男性ではない
-        !Charactor.attribute(foe.current_chara_card.charactor_id).include?("male")
+        !Charactor.attribute(foe.current_chara_card.charactor_id).include?('male')
 
       when FEAT_INVERT
         # hpが1/2以上
@@ -26064,7 +26064,7 @@ module Unlight
 
     # 相手のカードcを奪う
     def steal_deal(c)
-      if foe.cards.size > 0 && !(owner.field_status[Entrant::FIELD_STATUS["AC_LOCK"]][1] > 0 || (foe.field_status[Entrant::FIELD_STATUS["AC_LOCK"]][1] > 0))
+      if foe.cards.size > 0 && !(owner.field_status[Entrant::FIELD_STATUS['AC_LOCK']][1] > 0 || (foe.field_status[Entrant::FIELD_STATUS['AC_LOCK']][1] > 0))
         @cc.owner.steal_dealed_event([foe.cards.delete(c)])
         1
       else
@@ -26074,7 +26074,7 @@ module Unlight
 
     # entrantのカードcを破棄
     def discard(entrant, c)
-      if entrant.cards.size > 0 && !(owner.field_status[Entrant::FIELD_STATUS["AC_LOCK"]][1] > 0 || (foe.field_status[Entrant::FIELD_STATUS["AC_LOCK"]][1] > 0))
+      if entrant.cards.size > 0 && !(owner.field_status[Entrant::FIELD_STATUS['AC_LOCK']][1] > 0 || (foe.field_status[Entrant::FIELD_STATUS['AC_LOCK']][1] > 0))
         entrant.discard_event(c)
         1
       else
@@ -26110,7 +26110,7 @@ module Unlight
       unless @easing_feat_list.has_key?(f_id)
         # 無ければ登録
         eased_condition = easing_condition_all_type(Feat[f_id].condition, pow)
-        condition_check = Feat.condition_check_gen(eased_condition).gsub("__FEAT__", f_no.to_s)
+        condition_check = Feat.condition_check_gen(eased_condition).gsub('__FEAT__', f_no.to_s)
         update_feat_condition_event(true, owner.current_chara_card_no, get_feat_inventories_index(f_id), eased_condition)
         @easing_feat_list[f_id] = { f_no: f_no, pow: pow, condition: condition_check }
       end
@@ -26148,13 +26148,13 @@ module Unlight
     COND_PTN = /([ASDMEW]|\[.*\])(\d?)([+=-]?)(?:\*(\d))?/
     REDUCTION_TYPE_PRIORITY = %w[D M S A E W]
     def easing_condition_all_type(condition, num = -1)
-      return "" if condition == ""
+      return '' if condition == ''
 
-      dist_cond, ac_cond = condition.split(":")
+      dist_cond, ac_cond = condition.split(':')
 
       # 既定の技のコンディションを文字列から解釈
       ac_cond_list = {}
-      ac_cond.split(",").each_with_index do |c_str, i|
+      ac_cond.split(',').each_with_index do |c_str, i|
         ma = c_str.match(COND_PTN)
         ac_cond_list[i] = {
           type_sign: ma[1],
@@ -26186,9 +26186,9 @@ module Unlight
 
         # 2以上の数値は減算対象
         ac_cond_list.each do |i, cond|
-          if (cond[:type_sign] != "W")
+          if (cond[:type_sign] != 'W')
             if num < 0 && cond[:value] > 1
-              cond[:value] += (cond[:op] == "-" ? -1 * num : num)
+              cond[:value] += (cond[:op] == '-' ? -1 * num : num)
               cond[:value] = 1 if cond[:value] < 1
               cond[:value] = 9 if cond[:value] > 9
             elsif cond[:value] == 0
@@ -26197,13 +26197,13 @@ module Unlight
         end
       end
       ac_cond = ac_cond_list.collect { |i, cond|
-        if (cond[:type_sign] == "W" && cond[:num])
-          ((cond[:type_sign] + "1+,") * cond[:num].to_i).chop
+        if (cond[:type_sign] == 'W' && cond[:num])
+          (("#{cond[:type_sign]}1+,") * cond[:num].to_i).chop
         else
           cond[:type_sign].to_s + cond[:value].to_s + cond[:op].to_s
         end
-      }.join(",")
-      ret = dist_cond + ":" + ac_cond
+      }.join(',')
+      ret = "#{dist_cond}:#{ac_cond}"
       ret
     end
   end
