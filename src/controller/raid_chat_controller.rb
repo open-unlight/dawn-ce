@@ -15,7 +15,7 @@ module Unlight
         ret.each do |pc|
           set_comments << "#{pc[:a_name]}:#{pc[:comment]}"
         end
-        sc_update_comment(prf_id, set_comments.join(",").force_encoding("UTF-8"), new_last_id) if set_comments.size > 0
+        sc_update_comment(prf_id, set_comments.join(',').force_encoding('UTF-8'), new_last_id) if set_comments.size > 0
       end
     end
 
@@ -27,7 +27,7 @@ module Unlight
       ret.each do |pc|
         set_comments << "#{pc[:a_name]}:#{pc[:comment]}"
       end
-      sc_update_comment(prf_id, set_comments.join(",").force_encoding("UTF-8"), new_last_id) if set_comments.size > 0
+      sc_update_comment(prf_id, set_comments.join(',').force_encoding('UTF-8'), new_last_id) if set_comments.size > 0
     end
 
     # ボスHPの更新
@@ -42,14 +42,14 @@ module Unlight
           msg_type = (data[:log].avatar_id != 0) ? PRF_MSGDLG_DAMAGE : PRF_MSGDLG_REPAIR
           msg_data = []
           if msg_type == PRF_MSGDLG_DAMAGE
-            msg_data << data[:log].avatar_name.force_encoding("UTF-8")
-            boss_name = data[:log].boss_name.force_encoding("UTF-8")
+            msg_data << data[:log].avatar_name.force_encoding('UTF-8')
+            boss_name = data[:log].boss_name.force_encoding('UTF-8')
             msg_data << boss_name
           else
-            boss_name = data[:log].avatar_name.force_encoding("UTF-8")
+            boss_name = data[:log].avatar_name.force_encoding('UTF-8')
             msg_data << boss_name
           end
-          msg_data << data[:log].damage.to_s.force_encoding("UTF-8")
+          msg_data << data[:log].damage.to_s.force_encoding('UTF-8')
 
           # 表示状態変更チェック
           state_update = true if prev_view_flag == false && data[:name_view] == true

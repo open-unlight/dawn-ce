@@ -17,9 +17,9 @@ module Unlight
       primary_key :id
       String      :name
       integer     :parent_id, default: 0 # 新規追加 2014/10/9
-      String      :chara_attribute, default: ""
-      String      :lobby_image, default: "" # 新規追加 2013/12/11
-      String      :chara_voice, default: ""
+      String      :chara_attribute, default: ''
+      String      :lobby_image, default: '' # 新規追加 2013/12/11
+      String      :chara_voice, default: ''
       datetime    :created_at
       datetime    :updated_at
     end
@@ -43,7 +43,7 @@ module Unlight
     end
 
     def Charactor::attribute(id)
-      @@chara_attribute_set[id].split(",") if @@chara_attribute_set[id]
+      @@chara_attribute_set[id].split(',') if @@chara_attribute_set[id]
     end
 
     # インサート時の前処理
@@ -58,18 +58,18 @@ module Unlight
 
     DB.alter_table :charactors do
       add_column :parent_id, :integer, default: 0 unless Unlight::Charactor.columns.include?(:parent_id) # 新規追加 2014/10/9
-      add_column :lobby_image, String, default: "" unless Unlight::Charactor.columns.include?(:lobby_image) # 新規追加 2013/12/11
-      add_column :chara_attribute, String, default: "" unless Unlight::Charactor.columns.include?(:chara_attribute) # 新規追加 2013/12/11
-      add_column :chara_voice, String, default: "" unless Unlight::Charactor.columns.include?(:chara_voice) # 新規追加 2014/8/13
+      add_column :lobby_image, String, default: '' unless Unlight::Charactor.columns.include?(:lobby_image) # 新規追加 2013/12/11
+      add_column :chara_attribute, String, default: '' unless Unlight::Charactor.columns.include?(:chara_attribute) # 新規追加 2013/12/11
+      add_column :chara_voice, String, default: '' unless Unlight::Charactor.columns.include?(:chara_voice) # 新規追加 2014/8/13
     end
 
     # データをとる
     def get_data_csv_str()
-      ret = ""
-      ret << self.id.to_s << ","
-      ret << '"' << (self.name || "") << '",'
-      ret << '"' << (self.lobby_image || "") << '",'
-      ret << '"' << (self.chara_voice || "") << '",'
+      ret = ''
+      ret << self.id.to_s << ','
+      ret << '"' << (self.name || '') << '",'
+      ret << '"' << (self.lobby_image || '') << '",'
+      ret << '"' << (self.chara_voice || '') << '",'
       ret << (self.parent_id || 0).to_s
       ret
     end

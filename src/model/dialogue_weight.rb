@@ -48,7 +48,7 @@ module Unlight
 
     # クエストバトル開始時のダイアログ
     def DialogueWeight::quest_start_dialogue(chara_id, other_id, map_id, land_id)
-      ret = ""
+      ret = ''
       # 専用
       dw = DialogueWeight.filter({ dialogue_type: DLG_QUEST_START_CHARA,
                                    chara_id: chara_id,

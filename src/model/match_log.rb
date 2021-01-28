@@ -21,7 +21,7 @@ module Unlight
     set_schema do
       primary_key :id
       integer :channel_id #, :table => :channels
-      String      :match_name, text: true, default: ""
+      String      :match_name, text: true, default: ''
       integer     :match_rule
       integer     :match_stage
       integer     :a_avatar_id
@@ -180,8 +180,8 @@ module Unlight
       if self.state == MATCH_START
         # ちゃんと始まっているものを終わりにする
         self.finish_at = Time.now.utc
-        self.a_remain_hp_set = result[0][:remain_hp].join(",")
-        self.b_remain_hp_set = result[1][:remain_hp].join(",")
+        self.a_remain_hp_set = result[0][:remain_hp].join(',')
+        self.b_remain_hp_set = result[1][:remain_hp].join(',')
         self.turn_num = turn
         self.state = state
         self.finish_at = Time.now.utc

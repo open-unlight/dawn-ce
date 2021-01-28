@@ -3,7 +3,7 @@ require 'pathname'
 arg = ARGV.shift
 
 filename = "./spec/#{File.basename(arg)}_spec.rb"
-classname = File.basename(arg, ".rb")
+classname = File.basename(arg, '.rb')
 file = Pathname.new(filename)
 
 unless file.exist?

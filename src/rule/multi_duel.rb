@@ -22,7 +22,8 @@ module Unlight
     end
 
     # コンストラクタ
-    def initialize(pl, foe, deck1, deck2, rule, is_get_bp, ai = :none, stage = 0, hp1_set = [0, 0, 0], hp2_set = [0, 0, 0], bonus_level = 0, wild_items_id = 0, timeout_turn = BATTLE_TIMEOUT_TURN, ai_rank = CPU_AI_OLD, hp_up = 0, ap_up = 0, dp_up = 0)	# By_K2
+    # By_K2
+    def initialize(pl, foe, deck1, deck2, rule, is_get_bp, ai = :none, stage = 0, hp1_set = [0, 0, 0], hp2_set = [0, 0, 0], bonus_level = 0, wild_items_id = 0, timeout_turn = BATTLE_TIMEOUT_TURN, ai_rank = CPU_AI_OLD, hp_up = 0, ap_up = 0, dp_up = 0) # rubocop:disable Metrics/ParameterLists
       super
       create_context                                                     # コンテクストの作成
       @rule = rule
@@ -155,7 +156,7 @@ module Unlight
 
     # 途中でAIに切り替える
     def change_player_to_ai(index)
-      SERVER_LOG.info("MultiDuel: [change_player_to_ai]");
+      SERVER_LOG.info('MultiDuel: [change_player_to_ai]');
       if index == 0
         @ai = AI.new(context, self, @beta, @cards1, @cards2, CPU_AI_FEAT_ON)
       else
@@ -183,7 +184,7 @@ module Unlight
 
     # 自分をゲームリストから削除する
     def destruct()
-      SERVER_LOG.info("MultiDuel: [Destruct]")
+      SERVER_LOG.info('MultiDuel: [Destruct]')
       @@current_list.delete(self)
       SERVER_LOG.info("MultiDuel: [Destruct] remain duel.num #{@@current_list.size}")
     end
@@ -548,7 +549,7 @@ module Unlight
           }]
       elsif (@entrants[0].total_hit_point > @entrants[1].total_hit_point)
         if @entrants[0].total_hit_point == 1
-          SERVER_LOG.info("MultiDuel: [BONUS SURVIVER]");
+          SERVER_LOG.info('MultiDuel: [BONUS SURVIVER]');
           @entrants[0].duel_bonus_event(DUEL_BONUS_SURVIVER, @entrants[1].chara_cards.size + 2)
         end
         @alpha_reward = Reward.new(@alpha.chara_cards, @beta.chara_cards, get_reward_result(RESULT_WIN), @ai_type, @alpha.reward_bonus, @bonus_level, @wild_items_id)
@@ -570,7 +571,7 @@ module Unlight
         }]
       else
         if @entrants[1].total_hit_point == 1
-          SERVER_LOG.info("MultiDuel: [BONUS SURVIVER]");
+          SERVER_LOG.info('MultiDuel: [BONUS SURVIVER]');
           @entrants[1].duel_bonus_event(DUEL_BONUS_SURVIVER, @entrants[0].chara_cards.size + 2)
         end
         @alpha_reward = Reward.new(@alpha.chara_cards, @beta.chara_cards, get_reward_result(RESULT_LOSE), @ai_type, @alpha.reward_bonus, @bonus_level)

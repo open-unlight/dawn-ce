@@ -65,7 +65,7 @@ module Unlight
 
     # 全体データバージョンを返す
     def ActionCard::data_version
-      ret = cache_store.get("ActionCardVersion")
+      ret = cache_store.get('ActionCardVersion')
       unless ret
         ret = refresh_data_version
       end
@@ -76,7 +76,7 @@ module Unlight
     def ActionCard::refresh_data_version
       m = Unlight::ActionCard.order(:updated_at).last
       if m
-        cache_store.set("ActionCardVersion", m.version)
+        cache_store.set('ActionCardVersion', m.version)
         m.version
       else
         0
@@ -85,31 +85,31 @@ module Unlight
 
     # アクションカードをテキスト化する。デバッグ用
     def ActionCard::cards2str(cards)
-      cards.map { |c| ac2str(c) }.join("")
+      cards.map { |c| ac2str(c) }.join('')
     end
 
     def ActionCard::ac2str(ac)
-      "【" + ac.id.to_s + ":" + type2str(ac.u_type) + ac.u_value.to_s + "/" + type2str(ac.b_type) + ac.b_value.to_s + "】"
+      "【#{ac.id}:#{type2str(ac.u_type)}#{ac.u_value}/#{type2str(ac.b_type)}#{ac.b_value}】"
     end
 
     def ActionCard::type2str(type)
       case type
       when BLNK
-        "無"
+        '無'
       when SWD
-        "剣"
+        '剣'
       when ARW
-        "銃"
+        '銃'
       when DEF
-        "盾"
+        '盾'
       when MOVE
-        "移"
+        '移'
       when SPC
-        "特"
+        '特'
       when EVT
-        "イ"
+        'イ'
       when FCS
-        "フ"
+        'フ'
       end
     end
 
@@ -280,7 +280,7 @@ module Unlight
       a.each do |cc|
         ids << cc.id
       end
-      ids.join(",")
+      ids.join(',')
     end
 
     # カードの配列を向きのカンマ区切りStringにして返す
@@ -289,7 +289,7 @@ module Unlight
       a.each do |cc|
         ids << (cc.up?) ? 0 : 1
       end
-      ids.join(",")
+      ids.join(',')
     end
 
     # カードの配列を向きのIntにして返す(32枚まで限定)

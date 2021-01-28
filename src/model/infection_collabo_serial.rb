@@ -69,7 +69,7 @@ module Unlight
           cc_name = cc.name
           if cc.level > 0
             cc_name += ":LV#{cc.level}"
-            cc_name += "R" if cc.rarity > 5
+            cc_name += 'R' if cc.rarity > 5
           end
           cc_name += "×#{item[:num]}" if item[:num] > 1
           name_list.push(cc_name)
@@ -82,14 +82,14 @@ module Unlight
           name_list.push(part_name)
         end
       end
-      name_list.join("+")
+      name_list.join('+')
     end
 
     # 取得可能か
     def self::check(serial, player_id, server_type)
       # 保存用にSerial文字列をコピー（意味がわからん…）
-      set_serial = ""
-      set_serial += serial.gsub("-", "")
+      set_serial = ''
+      set_serial += serial.delete('-')
       ret = false
       # 同一シリアル、または同一プレイヤーのデータがあるか
       icss = self::filter(Sequel.|({ serial: set_serial }, { player_id: player_id })).filter(server_type: server_type).all
@@ -172,13 +172,13 @@ module Unlight
       num.times do |i|
         ret[ES_SHUFFLE_SET[i * 2]], ret[ES_SHUFFLE_SET[i * 2 + 1]] = ret[ES_SHUFFLE_SET[i * 2 + 1]], ret[ES_SHUFFLE_SET[i * 2]]
       end
-      ret = ret[0..3] + "-" + ret[4..7] + "-" + ret[8..12]
+      ret = "#{ret[0..3]}-#{ret[4..7]}-#{ret[8..12]}"
       ret
     end
 
     # ****_****_*****の形式
     def self::check_infection_serial(s)
-      s.gsub!("-", "")
+      s.delete!('-')
       ret = s.length == 13
       ret = s.hex != 0 if ret # 0の時はじく
       num = ret ? s[ES_SHUFFLE_NUM[0]].hex + s[ES_SHUFFLE_NUM[1]].hex : 0

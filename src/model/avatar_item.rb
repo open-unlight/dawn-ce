@@ -23,13 +23,13 @@ module Unlight
       String      :name
       integer     :item_no
       integer     :kind
-      String      :sub_kind, default: "" # Kindで指定している箇所以下のウィンドウに出したい場合の指定 [+]で分ける
+      String      :sub_kind, default: '' # Kindで指定している箇所以下のウィンドウに出したい場合の指定 [+]で分ける
       integer     :duration, default: 0 # 分
-      String      :cond, default: ""    # kind毎に異なる用途に使える設定値
-      String      :image, default: ""
+      String      :cond, default: ''    # kind毎に異なる用途に使える設定値
+      String      :image, default: ''
       integer     :image_frame, default: 0
-      String      :effect_image, default: ""
-      String      :caption, default: ""
+      String      :effect_image, default: ''
+      String      :caption, default: ''
       datetime    :created_at
       datetime    :updated_at
     end
@@ -44,8 +44,8 @@ module Unlight
     end
 
     DB.alter_table :avatar_items do
-      add_column :sub_kind, String, default: "" unless Unlight::AvatarItem.columns.include?(:sub_kind) # 新規追加2014/01/14
-      add_column :cond, String, default: "" unless Unlight::AvatarItem.columns.include?(:cond) # 新規追加2015/09/15
+      add_column :sub_kind, String, default: '' unless Unlight::AvatarItem.columns.include?(:sub_kind) # 新規追加2014/01/14
+      add_column :cond, String, default: '' unless Unlight::AvatarItem.columns.include?(:cond) # 新規追加2015/09/15
     end
 
     # インサート時の前処理
@@ -64,10 +64,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def AvatarItem::data_version
-      ret = cache_store.get("AvatarItemVersion")
+      ret = cache_store.get('AvatarItemVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("AvatarItemVersion", ret)
+        cache_store.set('AvatarItemVersion', ret)
       end
       ret
     end
@@ -76,7 +76,7 @@ module Unlight
     def AvatarItem::refresh_data_version
       m = Unlight::AvatarItem.order(:updated_at).last
       if m
-        cache_store.set("AvatarItemVersion", m.version)
+        cache_store.set('AvatarItemVersion', m.version)
         m.version
       else
         0

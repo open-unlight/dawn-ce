@@ -1641,7 +1641,7 @@ module Unlight
 
   # ============== キャラクターグループ定数 ==================
   CHARA_GROUP_MEMBERS = {
-    "regiment" => [
+    'regiment' => [
                   1,
                   2,
                   3,
@@ -1658,7 +1658,7 @@ module Unlight
                   62,
                   66
                  ],
-    "lonsbrough" => [
+    'lonsbrough' => [
                      3,
                      20,
                      27,

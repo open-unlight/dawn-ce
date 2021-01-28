@@ -36,7 +36,7 @@ module Unlight
     def cs_request_story_info(rnd0, id, rnd1)
       SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_request_story_info] #{id}");
       story = CharaCardStory[id];
-      sc_story_info(id, story.book_type || 0, story.title || "", story.content || "", story.image || "", story.age_no || "", story.version || 0) if story
+      sc_story_info(id, story.book_type || 0, story.title || '', story.content || '', story.image || '', story.age_no || '', story.version || 0) if story
     end
 
     # フレンド情報のリクエスト
@@ -70,7 +70,7 @@ module Unlight
     # 自分を招待してくれたひとを更新
     def cs_update_invited_users(users)
       SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_update_invited_users] #{users}")
-      u = users.split(",")
+      u = users.split(',')
       if @player
         @player.update_invited_users(u)
       end
@@ -79,7 +79,7 @@ module Unlight
     # 自分を招待してくれたひとを更新
     def cs_update_comeback_send_users(users)
       SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_update_comeback_send_users] #{users}")
-      u = users.split(",")
+      u = users.split(',')
       if @player
         @player.update_comebacked_users(u)
       end
@@ -160,7 +160,7 @@ module Unlight
             ret << a.id
           end
         end
-        sc_result_avatars_list(ret.join(","))
+        sc_result_avatars_list(ret.join(','))
       end
     end
 
@@ -233,7 +233,7 @@ module Unlight
         sc_achievement_info(*@avatar.get_achievement_info_set)
       else
         SERVER_LOG.info("<UID:#{@uid}>DataServer: [regist start]")
-        sc_regist_info(REGIST_PARTS.join(","), REGIST_CARDS.join(","))
+        sc_regist_info(REGIST_PARTS.join(','), REGIST_CARDS.join(','))
       end
     end
 

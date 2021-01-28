@@ -9,19 +9,19 @@ module Unlight
     # 正規表現の組み合わせ一覧
     COND_DIST = [
                  # 遠距離
-                 [/^S:/, "owner.distance == 1", "近", "[1]"],
+                 [/^S:/, 'owner.distance == 1', '近', '[1]'],
                  # 中距離
-                 [/^M:/, "owner.distance == 2", "中", "[2]"],
+                 [/^M:/, 'owner.distance == 2', '中', '[2]'],
                  # 遠距離
-                 [/^L:/, "owner.distance == 3", "遠", "[3]"],
+                 [/^L:/, 'owner.distance == 3', '遠', '[3]'],
                  # 中遠距離
-                 [/(^LM:)|(^ML:)/, "owner.distance != 1", "中,遠", "[2, 3]"],
+                 [/(^LM:)|(^ML:)/, 'owner.distance != 1', '中,遠', '[2, 3]'],
                  # 近中距離
-                 [/(^MS:)|(^SM:)/, "owner.distance != 3", "近,中", "[1, 2]"],
+                 [/(^MS:)|(^SM:)/, 'owner.distance != 3', '近,中', '[1, 2]'],
                  # 近遠距離
-                 [/(^LS:)|(^SL:)/, "owner.distance != 2", "近,遠", "[1, 3]"],
+                 [/(^LS:)|(^SL:)/, 'owner.distance != 2', '近,遠', '[1, 3]'],
                  # 全距離
-                 [/(^LMS:)|(^MLS:)/, "", "近,中,遠", "[1, 2, 3]"]
+                 [/(^LMS:)|(^MLS:)/, '', '近,中,遠', '[1, 2, 3]']
                 ]
 
     COND_CARD = [
@@ -36,7 +36,7 @@ module Unlight
                  # 移動で以上
                  [/M([1-9])[+]/, 'owner.greater_check(__FEAT__,ActionCard::MOVE,\1)', '移\1+', "greater_card,#{ActionCard::MOVE},\\1"],
                  # カードセットで以上
-                 [/(\[([SAEDM]+)\])([1-9])[+]/, 'owner.greater_check_type_set(__FEAT__,"\2",\3)', '\1\3+', "greater_card_set,\\1,\\3"],
+                 [/(\[([SAEDM]+)\])([1-9])[+]/, 'owner.greater_check_type_set(__FEAT__,"\2",\3)', '\1\3+', 'greater_card_set,\\1,\\3'],
 
                  # 近距離攻撃で以上
                  [/S([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::SWD,\1)', '近\1-', "below_card,#{ActionCard::SWD},\\1"],
@@ -60,7 +60,7 @@ module Unlight
                  # 移動で特定
                  [/M([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::MOVE,\1)', '移\1', "search_card,#{ActionCard::MOVE},\\1"],
                  # ワイルドカードで特定の数値
-                 [/W([1-9])([^+\-*]|\z)/, 'owner.search_check_wld_card(__FEAT__,\1)', '無\1', "search_wld_card,\\1"],
+                 [/W([1-9])([^+\-*]|\z)/, 'owner.search_check_wld_card(__FEAT__,\1)', '無\1', 'search_wld_card,\\1'],
 
                  # 近距離攻撃で特定複数枚
                  [/S([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::SWD,\1,\2)', '近\1 *\2', "search_card,#{ActionCard::SWD},\\1,\\2"],
@@ -73,28 +73,28 @@ module Unlight
                  # 移動で特定
                  [/M([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::MOVE,\1,\2)', '移\1 *\2', "search_card,#{ActionCard::MOVE},\\1,\\2"],
                  # ワイルドカードで特定の数値を複数枚
-                 [/W([1-9])[^+\-]([1-9])/, 'owner.search_check_wld_card(__FEAT__,\1,\2)', '無\1 *\2', "search_wld_card,\\1,\\2"],
+                 [/W([1-9])[^+\-]([1-9])/, 'owner.search_check_wld_card(__FEAT__,\1,\2)', '無\1 *\2', 'search_wld_card,\\1,\\2'],
                  # ワイルドカード
-                 [/W[*]([1-9])/, 'owner.table_count >= \1', '無1+ *\1', "wild_card,\\1"],
+                 [/W[*]([1-9])/, 'owner.table_count >= \1', '無1+ *\1', 'wild_card,\\1'],
 
                  # 近距離攻撃で０
-                 [/S(0)/, '!(owner.greater_check(__FEAT__,ActionCard::SWD,1))', '近0', ""],
+                 [/S(0)/, '!(owner.greater_check(__FEAT__,ActionCard::SWD,1))', '近0', ''],
                  # 遠距離攻撃で０
-                 [/A(0)/, '!(owner.greater_check(__FEAT__,ActionCard::ARW,1))', '遠0', ""],
+                 [/A(0)/, '!(owner.greater_check(__FEAT__,ActionCard::ARW,1))', '遠0', ''],
                  # 特殊で０
-                 [/E(0)/, '!(owner.greater_check(__FEAT__,ActionCard::SPC,1))', '特0', ""],
+                 [/E(0)/, '!(owner.greater_check(__FEAT__,ActionCard::SPC,1))', '特0', ''],
                  # 防御で０
-                 [/D(0)/, '!(owner.greater_check(__FEAT__,ActionCard::DEF,1))', '防0', ""],
+                 [/D(0)/, '!(owner.greater_check(__FEAT__,ActionCard::DEF,1))', '防0', ''],
                  # 移動で０
-                 [/M(0)/, '!(owner.greater_check(__FEAT__,ActionCard::MOVE,1))', '移0', ""],
+                 [/M(0)/, '!(owner.greater_check(__FEAT__,ActionCard::MOVE,1))', '移0', ''],
 
                 ]
 
     COND_PHASE = [
                  # 攻撃、防御、移動のフェイズ分け（キャプションから作り出す）
-                 [/攻撃:/, ":attack == phase"],
-                 [/防御:/, ":deffence == phase"],
-                 [/移動:/, ":move == phase"],
+                 [/攻撃:/, ':attack == phase'],
+                 [/防御:/, ':deffence == phase'],
+                 [/移動:/, ':move == phase'],
 
                 ]
 
@@ -116,10 +116,10 @@ module Unlight
       String      :name, index: true
       integer     :feat_no
       integer     :pow
-      String      :dice_attribute, default: ""
-      String      :effect_image, default: ""
-      String      :caption, default: ""
-      String      :condition, default: "", text: true
+      String      :dice_attribute, default: ''
+      String      :effect_image, default: ''
+      String      :caption, default: ''
+      String      :condition, default: '', text: true
       datetime    :created_at
       datetime    :updated_at
     end
@@ -135,7 +135,7 @@ module Unlight
     end
 
     DB.alter_table :feats do
-      add_column :dice_attribute, :string, default: "" unless Unlight::Feat.columns.include?(:dice_attribute) # 新規追加 2014/03/17
+      add_column :dice_attribute, :string, default: '' unless Unlight::Feat.columns.include?(:dice_attribute) # 新規追加 2014/03/17
     end
 
     # インサート時の前処理
@@ -155,10 +155,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def Feat::data_version
-      ret = cache_store.get("FeatVersion")
+      ret = cache_store.get('FeatVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("FeatVersion", ret)
+        cache_store.set('FeatVersion', ret)
       end
       ret
     end
@@ -167,7 +167,7 @@ module Unlight
     def Feat::refresh_data_version
       m = Unlight::Feat.order(:updated_at).last
       if m
-        cache_store.set("FeatVersion", m.version)
+        cache_store.set('FeatVersion', m.version)
         m.version
       else
         0
@@ -194,8 +194,8 @@ module Unlight
         # 文字列を作る
         cap_str = Feat::condition_str_gen(f.condition)
         # puts cap_str
-        @@condition_str_set[f.id] = f.orig_caption.force_encoding("UTF-8").gsub("__CONDITION__", cap_str) if f.orig_caption
-        @@condition_str_set[f.id] = @@condition_str_set[f.id].gsub("__POW__", f.pow.to_s) if f.pow.to_s && @@condition_str_set[f.id]
+        @@condition_str_set[f.id] = f.orig_caption.force_encoding('UTF-8').gsub('__CONDITION__', cap_str) if f.orig_caption
+        @@condition_str_set[f.id] = @@condition_str_set[f.id].gsub('__POW__', f.pow.to_s) if f.pow.to_s && @@condition_str_set[f.id]
 
         # チェック関数を作る
         method_name = "condisin_f#{f.id}"
@@ -244,7 +244,7 @@ module Unlight
         if s[-1]
           s[-1].sub!(e[0], e[1])
           if s[-1].strip.length > 0
-            s[-1] = "(range_free || " + s[-1].to_s + ")"
+            s[-1] = "(range_free || #{s[-1]})"
           end
         end
       end
@@ -254,7 +254,7 @@ module Unlight
         s << m.to_a[0]
         if s[-1]
           another_wild_cards = (s.size == WILD_CARD + 1 && s[WILD_TYPE_AND_CERTAIN_VALUE]) ? 1 : 0
-          cond = another_wild_cards > 0 ? e[1] + "+" + another_wild_cards.to_s : e[1]
+          cond = another_wild_cards > 0 ? "#{e[1]}+#{another_wild_cards}" : e[1]
           s[-1].sub!(e[0], cond)
         end
         while (m && m.post_match)
@@ -265,8 +265,8 @@ module Unlight
       end
 
       s.delete(nil)
-      s.delete("")
-      s.join(" && ")
+      s.delete('')
+      s.join(' && ')
     end
 
     # AI判定用の距離関数を返す
@@ -276,15 +276,15 @@ module Unlight
         s << e[0].match(str).to_a[0]
         if s[-1]
           s[-1].sub!(e[0], e[3])
-          if s[-1].strip.length > 0 && s[-1] != "[1, 2, 3]"
-            s[-1] = "range_free ? [1, 2, 3] : " + s[-1].to_s
+          if s[-1].strip.length > 0 && s[-1] != '[1, 2, 3]'
+            s[-1] = "range_free ? [1, 2, 3] : #{s[-1]}"
           end
         end
       end
       s.delete(nil)
-      s.delete("")
-      s << "true" if s.size == 0
-      s.join("")
+      s.delete('')
+      s << 'true' if s.size == 0
+      s.join('')
     end
 
     # アクションカードの配列から特定カードを探し出す
@@ -384,15 +384,15 @@ module Unlight
 
         sign.each_char do |s|
           case s
-          when "S"
+          when 'S'
             type = ActionCard::SWD
-          when "A"
+          when 'A'
             type = ActionCard::ARW
-          when "E"
+          when 'E'
             type = ActionCard::SPC
-          when "D"
+          when 'D'
             type = ActionCard::DEF
-          when "M"
+          when 'M'
             type = ActionCard::MOVE
           else
             type = ActionCard::SWD
@@ -422,28 +422,28 @@ module Unlight
     # アクションカードを表す符合(SAEDM)を漢字に変換して返す
     # クライアントでカード裏の表示に使う
     def self::sign_to_string(condition_str)
-      dist_str = ""
-      ac_str = ""
+      dist_str = ''
+      ac_str = ''
 
-      if condition_str.include?(":")
-        dist_str, ac_str = condition_str.split(":")
+      if condition_str.include?(':')
+        dist_str, ac_str = condition_str.split(':')
       else
         ac_str = condition_str
       end
 
-      if dist_str != ""
-        dist_str.gsub!("L", "遠")
-        dist_str.gsub!("M", "中")
-        dist_str.gsub!("S", "近")
-        dist_str += ":"
+      if dist_str != ''
+        dist_str.tr!('L', '遠')
+        dist_str.tr!('M', '中')
+        dist_str.tr!('S', '近')
+        dist_str += ':'
       end
 
-      ac_str.gsub!("S", "近")
-      ac_str.gsub!("A", "遠")
-      ac_str.gsub!("E", "特")
-      ac_str.gsub!("D", "防")
-      ac_str.gsub!("M", "移")
-      ac_str.gsub!("W", "無")
+      ac_str.tr!('S', '近')
+      ac_str.tr!('A', '遠')
+      ac_str.tr!('E', '特')
+      ac_str.tr!('D', '防')
+      ac_str.tr!('M', '移')
+      ac_str.tr!('W', '無')
 
       dist_str + ac_str
     end
@@ -496,7 +496,7 @@ module Unlight
     # AI判定用のカード条件を返す
     def self::ai_card_cond_gen(str)
       s = []
-      str.delete!("M0", "E0", "S0", "A0")
+      str.delete!('M0', 'E0', 'S0', 'A0')
       COND_CARD.each do |e|
         m = e[0].match(str)
         s << m.to_a[0]
@@ -509,10 +509,10 @@ module Unlight
         end
       end
       s.delete(nil)
-      s.delete("")
+      s.delete('')
       ret = []
       s.each_index do |i|
-        a = s[i].split(",")
+        a = s[i].split(',')
         t = 1
         t = a[3].to_i if a[3]
         t.times do |x|
@@ -564,7 +564,7 @@ module Unlight
         ret[-1].sub!(e[0], e[2]) if ret[-1]
       end
       ret.delete(nil)
-      ret.delete("")
+      ret.delete('')
 
       s = []
       COND_CARD.each do |e|
@@ -578,18 +578,18 @@ module Unlight
         end
       end
       s.delete(nil)
-      s.delete("")
+      s.delete('')
       s.each_index do |i|
-        a = /([遠|近|防|移|特|無]\d[+\-]?).*(\d)/.match(s[i]).to_a
+        a = /([遠|近防移特無]\d[+\-]?).*(\d)/.match(s[i]).to_a
         if a && a[2]
           ar = []
           a[2].to_i.times { ar << a[1] }
-          s[i] = ar.join(",")
+          s[i] = ar.join(',')
         end
       end
-      ret2 = s.join(",")
+      ret2 = s.join(',')
       ret << ret2
-      ret.join(":")
+      ret.join(':')
     end
 
     # 実際のPOWを返す
@@ -599,15 +599,15 @@ module Unlight
 
     # 属性を返す
     def self::dice_attribute(id)
-      @@dice_attribute_set[id].split(",")
+      @@dice_attribute_set[id].split(',')
     end
 
     def get_data_csv_str
-      ret = ""
-      ret << self.id.to_s.force_encoding("UTF-8") << ","
-      ret << '"' << (self.name || "").force_encoding("UTF-8") << '",'
-      ret << '"' << (self.effect_image || "").force_encoding("UTF-8") << '",'
-      ret << '"' << (self.caption || "").force_encoding("UTF-8") << '"'
+      ret = ''
+      ret << self.id.to_s.force_encoding('UTF-8') << ','
+      ret << '"' << (self.name || '').force_encoding('UTF-8') << '",'
+      ret << '"' << (self.effect_image || '').force_encoding('UTF-8') << '",'
+      ret << '"' << (self.caption || '').force_encoding('UTF-8') << '"'
       ret
     end
 

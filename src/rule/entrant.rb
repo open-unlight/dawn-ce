@@ -26,9 +26,9 @@ module Unlight
 
     # 場の状態
     FIELD_STATUS = {
-      "BLANK" => 0,
-      "FOG" => 1,     # 霧状態 位置不明
-      "AC_LOCK" => 2, # カードロック カードの移動
+      'BLANK' => 0,
+      'FOG' => 1,     # 霧状態 位置不明
+      'AC_LOCK' => 2, # カードロック カードの移動
     }
 
     attr_accessor :cards_max, :cards, :hit_points, :hit_points_max,
@@ -40,7 +40,8 @@ module Unlight
                   :special_gem_bonus_multi, :monitoring
     attr_reader :reward_bonus, :base_exp, :exp_bonus, :before_damage, :damaged_times
 
-    def initialize(c, ccs, wcs, qcs, ecs, dist, d_set, hp_up = 0, ap_up = 0, dp_up = 0, ai = :none)	# By_K2
+    # By_K2
+    def initialize(c, ccs, wcs, qcs, ecs, dist, d_set, hp_up = 0, ap_up = 0, dp_up = 0, ai = :none)	# rubocop:disable Metrics/ParameterLists
       super
       share_context(c)
       @chara_cards = ccs                         # 戦闘に使用するキャラカードの配列
@@ -311,7 +312,7 @@ module Unlight
 
     # 武器の所持がない場合に、あるように見せかける
     def set_dummy_weapon()
-      @weapon_cards[@current_chara_card_no] = ["dummy_weapon"] if @weapon_cards[@current_chara_card_no].blank?
+      @weapon_cards[@current_chara_card_no] = ['dummy_weapon'] if @weapon_cards[@current_chara_card_no].blank?
     end
 
     # 使用中の装備補正を返す
@@ -347,7 +348,7 @@ module Unlight
 
     # indexの武器パッシブを連結文字列で取得
     def weapon_passives_str(i)
-      ret = ""
+      ret = ''
       ret = @weapon_passives[i].join('|') if @weapon_passives[i]
       ret
     end
@@ -605,7 +606,7 @@ module Unlight
 
       ret = 0
 
-      if (@field_status[FIELD_STATUS["FOG"]][1] == 0 && @foe.field_status[FIELD_STATUS["FOG"]][1] == 0) ||
+      if (@field_status[FIELD_STATUS['FOG']][1] == 0 && @foe.field_status[FIELD_STATUS['FOG']][1] == 0) ||
          hiding_was_finished || foe.hiding_was_finished
         ret = @distance
       elsif current_chara_card.hiding?
@@ -1020,7 +1021,7 @@ module Unlight
     # 特殊メッセージ
     def special_message(mess, arg = nil)
       ret = SPECIAL_MESSAGE_SET[mess]
-      ret = ret.gsub("__DAMAGE__", arg.to_s) if arg
+      ret = ret.gsub('__DAMAGE__', arg.to_s) if arg
       ret
     end
     regist_event SpecialMessageEvent
@@ -1325,12 +1326,12 @@ module Unlight
 
     # クライアントに表示する見かけの移動ポイント
     def move_point_appearance(mp)
-      @field_status[FIELD_STATUS["FOG"]][1] > 0 ? 0 : mp
+      @field_status[FIELD_STATUS['FOG']][1] > 0 ? 0 : mp
     end
 
     # クライアントに表示する見かけの現在距離
     def distance_appearance
-      if @field_status[FIELD_STATUS["FOG"]][1] > 0 || @foe.field_status[FIELD_STATUS["FOG"]][1] > 0
+      if @field_status[FIELD_STATUS['FOG']][1] > 0 || @foe.field_status[FIELD_STATUS['FOG']][1] > 0
         4
       else
         @distance
@@ -1347,16 +1348,16 @@ module Unlight
         ret += point
         unless ignore_weapon_status
           if distance == 1
-            if type != ActionCard::DEF
-              ret += @sword_ap[@current_chara_card_no] if @sword_ap[@current_chara_card_no]
-            else
+            if type == ActionCard::DEF
               ret += @sword_dp[@current_chara_card_no] if @sword_dp[@current_chara_card_no]
+            else
+              ret += @sword_ap[@current_chara_card_no] if @sword_ap[@current_chara_card_no]
             end
           else
-            if type != ActionCard::DEF
-              ret += @arrow_ap[@current_chara_card_no] if @arrow_ap[@current_chara_card_no]
-            else
+            if type == ActionCard::DEF
               ret += @arrow_dp[@current_chara_card_no] if @arrow_dp[@current_chara_card_no]
+            else
+              ret += @arrow_ap[@current_chara_card_no] if @arrow_ap[@current_chara_card_no]
             end
           end
         end
@@ -1817,9 +1818,7 @@ module Unlight
       return [] if total_value < base_line
 
       result_value = 0
-      if !min
-        result_value = value_list.max
-      else
+      if min
         result_value = base_line
         while result_value <= value_list.max do
           if value_list.include?(result_value)
@@ -1828,6 +1827,8 @@ module Unlight
             result_value += 1
           end
         end
+      else
+        result_value = value_list.max
       end
       return [] if result_value == 0
 
@@ -1879,7 +1880,7 @@ module Unlight
     def current_on_cards
       ids = []
       @table.each { |c| ids << c.id }
-      [ids.join(","), current_on_card_value]
+      [ids.join(','), current_on_card_value]
     end
 
     def current_on_card_value
@@ -1940,7 +1941,7 @@ module Unlight
       @exit = true
       remove_all_event_listener
       remove_all_hook
-      SERVER_LOG.info("Entrant: [exit_game]");
+      SERVER_LOG.info('Entrant: [exit_game]');
     end
 
     # トラップ発動エフェクトをクライアントに表示させる

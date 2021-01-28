@@ -18,8 +18,8 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, default: ""
-      String      :caption, default: ""
+      String      :name, default: ''
+      String      :caption, default: ''
       integer     :region, default: 0
       integer     :level, default: 0      # 未使用
       integer     :difficulty, default: 1 # クリアに必要なDefficulty
@@ -39,10 +39,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def QuestMap::data_version
-      ret = cache_store.get("QuestMapVersion")
+      ret = cache_store.get('QuestMapVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("QuestMapVersion", ret)
+        cache_store.set('QuestMapVersion', ret)
       end
       ret
     end
@@ -51,7 +51,7 @@ module Unlight
     def QuestMap::refresh_data_version
       m = QuestMap.order(:updated_at).last
       if m
-        cache_store.set("QuestMapVersion", m.version)
+        cache_store.set('QuestMapVersion', m.version)
         m.version
       else
         0

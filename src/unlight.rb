@@ -6,7 +6,7 @@
 
 $:.unshift Bundler.root.join('src')
 $:.unshift Bundler.root.join('lib')
-d = File.dirname(__FILE__).gsub!("src", "")
+d = File.dirname(__FILE__).gsub!('src', '')
 ENV['INLINEDIR'] = "#{d}lib/ruby_inline"
 
 require 'rubygems'
@@ -15,8 +15,8 @@ require 'logger'
 require 'dalli'
 require 'sentry-raven'
 
-require "active_support"
-require "active_support/core_ext/object/blank"
+require 'active_support'
+require 'active_support/core_ext/object/blank'
 
 Sequel::Model.require_valid_table = false
 
@@ -30,7 +30,7 @@ module Unlight
   }
 end
 
-if File.exist?(File.dirname(__FILE__) + "/server_ip.rb")
+if File.exist?("#{File.dirname(__FILE__)}/server_ip.rb")
   require 'server_ip'
 end
 
@@ -144,7 +144,7 @@ require 'rule/ai'
 
 # メモリリークチェック用関数
 module Unlight
-  require "objspace"
+  require 'objspace'
 
   def self::puts_obj_count(c)
     count = ObjectSpace.each_object(c) { |x| x }
@@ -160,7 +160,7 @@ module Unlight
     # puts "OBJ COUNT_SIZE  #{ObjectSpace.count_objects_size}"
     # puts "OBJ MEM_SIZE #{ObjectSpace.memsize_of_all}"
     # puts "OBJ TDATA_COUNT  #{ObjectSpace.count_tdata_objects}"
-    SERVER_LOG.info("LEAK_CHECK:ModelObj")
+    SERVER_LOG.info('LEAK_CHECK:ModelObj')
     puts_obj_count(ActionCard)
     puts_obj_count(CardInventory)
     puts_obj_count(Channel)
@@ -180,7 +180,7 @@ module Unlight
     puts_obj_count(ProfoundLog)
     puts_obj_count(ProfoundComment)
     puts_obj_count(ProfoundTreasureData)
-    SERVER_LOG.info("LEAK_CHECK:EventObj")
+    SERVER_LOG.info('LEAK_CHECK:EventObj')
     puts_obj_count(Deck)
     puts_obj_count(EventDeck)
     puts_obj_count(Reward)

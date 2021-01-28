@@ -117,35 +117,35 @@ module Unlight
 
     # プレイヤーのなかからCPU専用キャラを返す。なければでっち上げる
     def Player.get_cpu_player
-      ret = CACHE.get("cpu_player")
+      ret = CACHE.get('cpu_player')
       unless ret
         ai = Player.filter({ role: ROLE_CPU }).all
         if ai.size > 0
           ret = ai[rand(ai.size)]
         else
-          ret = Player.create(name: "CPU", role: ROLE_CPU, email: "auto_create_mska@be.to", salt: "6600342d86408afb5b82")
+          ret = Player.create(name: 'CPU', role: ROLE_CPU, email: 'auto_create_mska@be.to', salt: '6600342d86408afb5b82')
           # CPU用のアバターを作る
-          Avatar.regist("CPU", ret.id, [], [], ret.server_type)
+          Avatar.regist('CPU', ret.id, [], [], ret.server_type)
           ret.save_changes
         end
-        CACHE.set("cpu_player", ret)
+        CACHE.set('cpu_player', ret)
       end
       ret
     end
 
     def Player.get_prf_owner_player
-      ret = CACHE.get("prf_owner")
+      ret = CACHE.get('prf_owner')
       unless ret
-        pl = Player.filter({ name: "prf_owner" }).all
+        pl = Player.filter({ name: 'prf_owner' }).all
         if pl.size > 0
           ret = pl.first
         else
-          ret = Player.create(name: "prf_owner", role: ROLE_ADMIN, email: "auto_create_mska@be.to", salt: "6600342d86408afb5b82")
+          ret = Player.create(name: 'prf_owner', role: ROLE_ADMIN, email: 'auto_create_mska@be.to', salt: '6600342d86408afb5b82')
           # CPU用のアバターを作る
-          Avatar.regist("prf_owner", ret.id, [1], [1], ret.server_type)
+          Avatar.regist('prf_owner', ret.id, [1], [1], ret.server_type)
           ret.save_changes
         end
-        CACHE.set("prf_owner", ret)
+        CACHE.set('prf_owner', ret)
       end
       ret
     end
@@ -192,7 +192,7 @@ module Unlight
                 pre_no_set << "#{pre[:type]}_#{pre[:id]}_#{pre[:num]}_#{pre[:sct_type]}" if is_set_pre
                 ret = true
               end
-              notice_str += pre_no_set.join(",")
+              notice_str += pre_no_set.join(',')
               self.current_avatar.write_notice(NOTICE_TYPE_COMEBKED_SUCC, notice_str)
               self.comeback # ペナルティフラグにカムバックフラグを立てる
             end
@@ -203,7 +203,7 @@ module Unlight
                 # ランダムで発生
                 r = rand(RANDOM_SALE_PROBABILITY)
                 if r == 0
-                  self.current_avatar.write_notice(NOTICE_TYPE_SALE_START, [SALE_TYPE_TEN, RANDOM_SALE_TIME].join(","))
+                  self.current_avatar.write_notice(NOTICE_TYPE_SALE_START, [SALE_TYPE_TEN, RANDOM_SALE_TIME].join(','))
                   SERVER_LOG.info("Player: RandomSaleStartSet id:#{self.id}")
                 end
               end
@@ -281,7 +281,7 @@ module Unlight
     end
 
     def Player.auth_off_all
-      SERVER_LOG.debug("Player: Auth all off")
+      SERVER_LOG.debug('Player: Auth all off')
       Player.filter("state >= #{Unlight::ST_AUTH}").all do |a|
         a.auth_off
       end
@@ -325,19 +325,19 @@ module Unlight
     # ペナルティの状況を確認
     # （今は恒常的なロックのみ
     def penalty?
-      if self.penalty & Unlight::PN_LOCK != 0
-        true
-      else
+      if self.penalty & Unlight::PN_LOCK == 0
         false
+      else
+        true
       end
     end
 
     # カムバックして来たか
     def comeback?
-      if self.penalty & Unlight::PN_COMEBACK != 0
-        true
-      else
+      if self.penalty & Unlight::PN_COMEBACK == 0
         false
+      else
+        true
       end
     end
 
@@ -393,7 +393,7 @@ module Unlight
           end
         end
       end
-      [id_set.join(","), av_set.join(","), st_set.join(","), sns_id_set.join(",")]
+      [id_set.join(','), av_set.join(','), st_set.join(','), sns_id_set.join(',')]
     end
 
     # フレンドリストとステータスをペアで返す
@@ -443,7 +443,7 @@ module Unlight
           end
         end
       end
-      [id_set.join(","), av_set.join(","), st_set.join(","), sns_id_set.join(","), type, offset, fl_num, bl_num, rq_num]
+      [id_set.join(','), av_set.join(','), st_set.join(','), sns_id_set.join(','), type, offset, fl_num, bl_num, rq_num]
     end
 
     # フレンドリンクを作る（認証前）
@@ -534,7 +534,7 @@ module Unlight
               pre_nums.each { |k, i|
                 pre_no_set << "#{k}_#{i}"
               }
-              notice_str += pre_no_set.join(",")
+              notice_str += pre_no_set.join(',')
               SERVER_LOG.info("<UID:#{self.id}>#{$SERVER_NAME}: [player.invite_succeed]#{pl.id}: #{notice_str}")
               pl.current_avatar.write_notice(NOTICE_TYPE_INVITE_SUCC, notice_str)
             end
@@ -578,7 +578,7 @@ module Unlight
                 pre_no_set << pre.to_s
                 ret = true
               end
-              notice_str += pre_no_set.join(",")
+              notice_str += pre_no_set.join(',')
               SERVER_LOG.info("<UID:#{self.id}>#{$SERVER_NAME}: [player.comeback_succeed]#{pl.id}: #{notice_str}")
               pl.current_avatar.write_notice(NOTICE_TYPE_COMEBK_SUCC, notice_str)
             end

@@ -32,7 +32,7 @@ module Unlight
       integer     :num, default: 1
       float       :amount, default: 0
       integer     :result, default: 0
-      String      :buyer_data, text: true, default: ""
+      String      :buyer_data, text: true, default: ''
       datetime    :created_at
       datetime    :updated_at
     end

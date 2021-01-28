@@ -29,7 +29,7 @@ module Unlight
       integer     :before_deck_id
       integer      :combine_param1, default: 0 # base(+-127) 8_8_8_8 mons(+-127) 8_8_8_8  64 bit
       integer      :combine_param2, default: PARAM2_DEFAULT # base_max(0-15) 4 passiveA cnt(0-31)5 passiveAmax_cnt(0-31)5 add_max 9(0-511) passive A 9(0-511) 32 bit
-      String      :combine_param1_str, default: "0" # base(+-127) 8_8_8_8 mons(+-127) 8_8_8_8  64 bit String
+      String      :combine_param1_str, default: '0' # base(+-127) 8_8_8_8 mons(+-127) 8_8_8_8  64 bit String
       integer     :level, default: 1
       integer     :exp, default: 0
       integer     :combine_param3, default: 0 # base_max(0-15) 4 passiveB cnt(0-31)5 passiveB max_cnt(0-31)5 add_max 9(0-511) passive B 9(0-511) 32 bit
@@ -406,7 +406,7 @@ module Unlight
 
     # 合成専用武器の場合、合成パラメータに加算
     def restriction_add_param
-      (self.card.restriction != "") ? COMB_ADD_PARAM_REST_SET : 0
+      (self.card.restriction != '') ? COMB_ADD_PARAM_REST_SET : 0
     end
 
     def combine_add_sap=(n)
@@ -512,7 +512,7 @@ module Unlight
     def set_combine_cnt(n, idx = 0)
       list = %w[combine_cnt_a combine_cnt_b]
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
-      send(list[idx] + "=", n)
+      send("#{list[idx]}=", n)
     end
 
     def combine_cnt(idx = 0)
@@ -523,13 +523,13 @@ module Unlight
     end
 
     def combine_cnt_str
-      [combine_cnt_a, combine_cnt_b].join("|")
+      [combine_cnt_a, combine_cnt_b].join('|')
     end
 
     def set_combine_cnt_max(n, idx = 0)
       list = %w[combine_cnt_a_max combine_cnt_b_max]
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
-      send(list[idx] + "=", n)
+      send("#{list[idx]}=", n)
     end
 
     def combine_cnt_max(idx = 0)
@@ -539,7 +539,7 @@ module Unlight
     end
 
     def combine_cnt_max_str
-      [combine_cnt_a_max, combine_cnt_b_max].join("|")
+      [combine_cnt_a_max, combine_cnt_b_max].join('|')
     end
 
     def combine_base_max=(n)
@@ -595,7 +595,7 @@ module Unlight
     def set_combine_pass(n, idx = 0)
       list = %w[combine_pass_a combine_pass_b]
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
-      send(list[idx] + "=", n)
+      send("#{list[idx]}=", n)
     end
 
     def combine_pass(idx = 0)
@@ -887,7 +887,7 @@ module Unlight
         end
 
         # 数値が上がったパラメータを記憶
-        incre_param_keys << "combine_" + k.to_s if k != :set && v > 0
+        incre_param_keys << "combine_#{k}" if k != :set && v > 0
       end
       over_check(incre_param_keys)
       normal_combine_id_check
@@ -905,7 +905,7 @@ module Unlight
         while decre_num != 0
           r = rand(l.size)
           if send(l[r]) > COMB_BASE_PARAM_MIN
-            send(l[r] + "=", send(l[r]) - 1)
+            send("#{l[r]}=", send(l[r]) - 1)
             decre_num -= 1
           else
             # これ以上マイナスできないので、リストから省く
@@ -919,7 +919,7 @@ module Unlight
     # 汎用合成武器のIDチェック
     def normal_combine_id_check
       # 専用武器ならこの処理はしない
-      return if self.card.restriction != ""
+      return if self.card.restriction != ''
 
       set_list = { base_sap: self.combine_base_sap, base_sdp: self.combine_base_sdp, base_aap: self.combine_base_aap, base_adp: self.combine_base_adp }
       max_key_list = [:base_sdp] # デフォルトはリング
@@ -959,8 +959,8 @@ module Unlight
 
     # ログにパラメータを表示
     def write_log(pl_id, after = false)
-      add_txt = "pre"
-      add_txt = "after" if after
+      add_txt = 'pre'
+      add_txt = 'after' if after
       set_param = []
       set_param << "inv_id:#{self.id}"
       set_param << "lv:#{self.level}"
@@ -1022,11 +1022,7 @@ module Unlight
       return false if base_sci.card.weapon_type == WEAPON_TYPE_MATERIAL
 
       # ベースの武器が未合成武器なら、素材がオルタサイトでないといけない
-      if !base_sci.combined?
-        first_mat_sci = use_sci_list.first
-        return false if first_mat_sci.card_id != CMB_BASE_WC_CHANGE_ID
-      else
-        # ベースが合成武器の場合、素材によって処置が変わってくる
+      if base_sci.combined?
         use_sci_id_list = {}
         use_sci_list.each do |sci|
           return false if sci.card_id == CMB_BASE_WC_CHANGE_ID # 合成武器にオルタサイトなら無効
@@ -1123,6 +1119,10 @@ module Unlight
             end
           end
         end
+      else
+        # ベースが合成武器の場合、素材によって処置が変わってくる
+        first_mat_sci = use_sci_list.first
+        return false if first_mat_sci.card_id != CMB_BASE_WC_CHANGE_ID
       end
       true
     end

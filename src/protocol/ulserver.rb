@@ -36,12 +36,12 @@ module Unlight
         @error_count = 0 # 無効なコマンドが送られてきた数
         @uid = 0
         # IPを保存
-        @ip = ""
+        @ip = ''
         begin
-          @ip = get_peername[2, 6].unpack("nC4")[1..4].join "." if get_peername && get_peername[2, 6].unpack("nC4") # 帰ってこない場合あり
+          @ip = get_peername[2, 6].unpack('nC4')[1..4].join '.' if get_peername && get_peername[2, 6].unpack('nC4') # 帰ってこない場合あり
         rescue => e
           SERVER_LOG.fatal("#{@@class_name}: [Got invalid IP] #{e}")
-          @ip = "0.0.0.0"
+          @ip = '0.0.0.0'
         end
         SERVER_LOG.info("#{@@class_name}: [Connected IP:] #{@ip}")
         @crypt = Crypt::None.new
@@ -140,7 +140,7 @@ module Unlight
         # 総サイズ分読み込む
         while i < d_size
           # 最初の2バイトを呼んで長さに変換
-          len = data[i, 2].unpack("n*")[0]
+          len = data[i, 2].unpack('n*')[0]
           # もしサイズが０ならば全サイズが長さ,またはnilならば全サイズを入れる（とばすため）
           len = d_size if len == 0 || len == nil
           # 長さの後ろに改行が入っているか？（正しいコマンドかをチェック）
@@ -177,7 +177,7 @@ module Unlight
               set_session_key(@player.session_key)
             end
             # ネゴシエーションの確認
-            nego_cert(@nego_crypt, "are you ok")
+            nego_cert(@nego_crypt, 'are you ok')
           else
             f_id = 0
             f_id = @player.id if @player
@@ -308,7 +308,7 @@ module Unlight
   end
 end
 
-if RUBY_VERSION == "1.9.2"
+if RUBY_VERSION == '1.9.2'
   #  Dateクラスで重たいmethod_missingを差し替え（クソ重たい処理をクソさぼっているので）
   class Date::Format::Bag
     def method_missing(t, *args, &block)

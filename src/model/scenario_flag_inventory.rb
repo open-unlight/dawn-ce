@@ -18,7 +18,7 @@ module Unlight
     set_schema do
       primary_key :id
       integer     :avatar_id, index: true #, :table => :chara_card_decks
-      String      :flags, default: "{}"
+      String      :flags, default: '{}'
       datetime    :created_at
       datetime    :updated_at
     end
@@ -55,7 +55,7 @@ module Unlight
     end
 
     def get_flag
-      @flag_hash = eval(self.flags || "{}")
+      @flag_hash = eval(self.flags || '{}')
     end
   end
 end

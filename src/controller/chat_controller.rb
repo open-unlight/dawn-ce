@@ -92,7 +92,7 @@ module Unlight
     def do_login
       if @player
         @avatar_name = @player.avatars[0].name
-        @avatar_name.force_encoding("UTF-8");
+        @avatar_name.force_encoding('UTF-8');
       end
       # ログインと同時にチャンネル０に入る(仮：本当はチャンネルにはいったときに切り換える)
       channel_in(0)
@@ -122,7 +122,7 @@ module Unlight
     end
 
     def audience_channel_in(room_id)
-      if room_id && room_id != ""
+      if room_id && room_id != ''
         SERVER_LOG.debug("<UID:#{@uid}>ChatServer: [audience_channel_in] #{room_id}")
         if @player
           @watch_room_id = room_id
@@ -133,7 +133,7 @@ module Unlight
     end
 
     def audience_channel_out(room_id)
-      if room_id && room_id != ""
+      if room_id && room_id != ''
         SERVER_LOG.debug("<UID:#{@uid}>ChatServer: [audience_channel_out] #{room_id}")
         if channel_list[CHAT_CHANNEL_WATCH].key?(room_id)
           channel_list[CHAT_CHANNEL_WATCH][room_id].delete(@player.id) if @player
@@ -145,10 +145,10 @@ module Unlight
 
     def channel_all_out
       channel_list.each_index do |i|
-        if i != CHAT_CHANNEL_WATCH
-          channel_out(i)
-        else
+        if i == CHAT_CHANNEL_WATCH
           audience_channel_out(@watch_room_id) if @watch_room_id
+        else
+          channel_out(i)
         end
       end
     end

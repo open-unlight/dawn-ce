@@ -117,10 +117,10 @@ module Unlight
 
   # 全体データバージョンを返す
   def CharaCardRequirement::data_version
-    ret = cache_store.get("CharaCardRequirementVersion")
+    ret = cache_store.get('CharaCardRequirementVersion')
     unless ret
       ret = refresh_data_version
-      cache_store.set("CharaCardRequirementVersion", ret)
+      cache_store.set('CharaCardRequirementVersion', ret)
     end
     ret
   end
@@ -129,7 +129,7 @@ module Unlight
   def CharaCardRequirement::refresh_data_versions
     m = CharaCardRequirement.order(:updated_at).last
     if m
-      cache_store.set("CharaCardRequirementVersion", m.version)
+      cache_store.set('CharaCardRequirementVersion', m.version)
       m.version
     else
       0

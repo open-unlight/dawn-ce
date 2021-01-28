@@ -1,21 +1,21 @@
-$:.unshift(File.join(File.expand_path("."), "src"))
+$:.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 $arg = ARGV.shift
 
 module Unlight
   # デバッグ用アイテム追加
-  puts "アイテムを追加しますか？(y/n)"
+  puts 'アイテムを追加しますか？(y/n)'
   answer = gets.chomp
-  if answer == "y" || answer == "Y" || answer == "yes" || answer == "Yes"
+  if answer == 'y' || answer == 'Y' || answer == 'yes' || answer == 'Yes'
 
-    puts "追加するアバターのIDを指定してください"
+    puts '追加するアバターのIDを指定してください'
     avatar_id = gets.chomp.to_i
 
-    puts "追加するアイテムを指定してください"
-    puts "Format例：[チケット×] => [9,3]"
+    puts '追加するアイテムを指定してください'
+    puts 'Format例：[チケット×] => [9,3]'
     list_str = gets.chomp
-    list = list_str.split(",")
+    list = list_str.split(',')
     item_id = list.shift.to_i
     num = list.shift.to_i
 

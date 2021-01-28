@@ -28,7 +28,7 @@ module Unlight
       @channel.room_list[@id] = self
       @cpu_card_data_id = cpu_card_data_id
       @dirty_flag = true
-      @info_str = ""
+      @info_str = ''
     end
 
     def cpu?
@@ -163,9 +163,9 @@ module Unlight
     def Match::room_list_info_str(channel)
       ret = []
       channel.room_list.each_value do |r|
-        ret << r.room_info_str.force_encoding("UTF-8")
+        ret << r.room_info_str.force_encoding('UTF-8')
       end
-      ret.join(",")
+      ret.join(',')
     end
 
     # 0:id
@@ -195,8 +195,8 @@ module Unlight
 
     def room_info
       ret = []
-      ret << id.force_encoding("UTF-8")
-      ret << name.force_encoding("UTF-8")
+      ret << id.force_encoding('UTF-8')
+      ret << name.force_encoding('UTF-8')
       ret << stage
       ret << rule
       @avatar_ids = []
@@ -208,7 +208,7 @@ module Unlight
         if temp_player_avatar
           @avatar_ids << temp_player_avatar.id
           ret << temp_player_avatar.id
-          ret << temp_player_avatar.name.force_encoding("UTF-8")
+          ret << temp_player_avatar.name.force_encoding('UTF-8')
           ret << temp_player_avatar.level
           ret << temp_player_avatar.point
           ret << temp_player_avatar.win
@@ -240,7 +240,7 @@ module Unlight
 
     def room_info_str
       if @dirty_flag
-        @info_str = room_info.join(",")
+        @info_str = room_info.join(',')
         @dirty_flag = false
       end
       @info_str

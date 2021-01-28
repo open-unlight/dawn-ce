@@ -18,7 +18,7 @@ module Unlight
     # スキーマの設定
     set_schema do
       primary_key :id
-      String      :name, index: true, default: "No Name"
+      String      :name, index: true, default: 'No Name'
       integer     :avatar_id, index: true #, :table => :avatars
       integer     :kind, default: 0
       integer     :level, default: 1

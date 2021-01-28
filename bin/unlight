@@ -31,7 +31,7 @@ end
 command = ARGV.shift
 
 def run_console
-  exec("irb -r bundler/setup -r ./src/unlight")
+  exec('irb -r bundler/setup -r ./src/unlight')
 end
 
 def run_web

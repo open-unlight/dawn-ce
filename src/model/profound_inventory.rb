@@ -319,7 +319,7 @@ module Unlight
     # 終了時ランキング情報を取得
     def get_finish_ranking_notice_str(defeat_avatar, r = true)
       ranking_str_list = []
-      self_rank = ""
+      self_rank = ''
 
       count = 0
       prf_rank_list = self.get_treasure_rank(r)
@@ -343,7 +343,7 @@ module Unlight
           end
         end
       end
-      if self_rank == ""
+      if self_rank == ''
         self_ava = Avatar[self.avatar_id]
         my_rank = self.get_avatar_treasure_rank(true, self.avatar_id)
         self_rank = "#{my_rank[:rank]}&#{self_ava.name.force_encoding("UTF-8")}&#{my_rank[:damage]}"
@@ -355,7 +355,7 @@ module Unlight
     def boss_battle_finish
       # 表示するランキングNotice用のデータを作る
       boss_data = self.profound.p_data.get_boss_data
-      boss_name = (boss_data) ? boss_data.name : "Boss"
+      boss_name = (boss_data) ? boss_data.name : 'Boss'
       prf_str = "#{self.profound_id}_#{self.profound.p_data.name.force_encoding("UTF-8")}_#{boss_name.force_encoding("UTF-8")}_#{self.profound.p_data.treasure_level}"
       notice_params = []
       notice_params << { type: NOTICE_TYPE_FIN_PRF_RANKING, param: [prf_str] }
@@ -387,7 +387,7 @@ module Unlight
         my_rank_str = "_#{my_rank[:rank]}-#{my_rank[:score]}"
         params.each do |prm|
           prm[:param][0] += my_rank_str
-          avatar.write_notice(prm[:type], prm[:param].join(","))
+          avatar.write_notice(prm[:type], prm[:param].join(','))
         end
         CACHE.set("profound_btl_fin_notice_#{self.profound_id}", params, PRF_RANK_NOTICE_CACHE_TIME)
       end
@@ -398,9 +398,9 @@ module Unlight
       refresh if r
       if self.reward_state == PRF_INV_REWARD_ST_READY
         boss_data = self.profound.p_data.get_boss_data
-        boss_name = (boss_data) ? boss_data.name : "Boss"
+        boss_name = (boss_data) ? boss_data.name : 'Boss'
         find_ava = Avatar[self.profound.found_avatar_id] if self.profound.found_avatar_id != 0
-        finder_name = (find_ava) ? find_ava.name : ""
+        finder_name = (find_ava) ? find_ava.name : ''
         prf_str = "#{self.profound.p_data.name.force_encoding("UTF-8")}_#{boss_name.force_encoding("UTF-8")}_#{finder_name.force_encoding("UTF-8")}"
         notice_head = [prf_str]
 
@@ -416,12 +416,12 @@ module Unlight
 
         # 参加報酬
         all_trs_str = avatar.get_profound_tresure(all_bonus)
-        reward_list << all_trs_str.join("+")
+        reward_list << all_trs_str.join('+')
 
         # ランキング報酬
         if rank_bonus[rank_data[:rank]]
           rank_trs_str = avatar.get_profound_tresure(rank_bonus[rank_data[:rank]])
-          reward_list << rank_trs_str.join("+")
+          reward_list << rank_trs_str.join('+')
         else
           reward_list << 0.to_s
         end
@@ -429,7 +429,7 @@ module Unlight
         # 撃破報酬
         if self.defeat && self.profound.set_defeat_reward
           defeat_trs_str = avatar.get_profound_tresure(defeat_bonus)
-          reward_list << defeat_trs_str.join("+")
+          reward_list << defeat_trs_str.join('+')
         else
           reward_list << 0.to_s
         end
@@ -437,7 +437,7 @@ module Unlight
         # 発見報酬
         if self.found
           found_trs_str = avatar.get_profound_tresure(found_bonus)
-          reward_list << found_trs_str.join("+")
+          reward_list << found_trs_str.join('+')
         else
           reward_list << 0.to_s
         end
@@ -445,7 +445,7 @@ module Unlight
         # Noticeの作成
         notice_params = []
         notice_params << { type: NOTICE_TYPE_FIN_PRF_WIN,    params: [self.profound_id, prf_str] }
-        notice_params << { type: NOTICE_TYPE_FIN_PRF_REWARD, params: [self.profound_id, reward_list.join("-")] } if reward_list.size > 0
+        notice_params << { type: NOTICE_TYPE_FIN_PRF_REWARD, params: [self.profound_id, reward_list.join('-')] } if reward_list.size > 0
         notice_params.each do |n_prm|
           avatar.write_notice(n_prm[:type], n_prm[:params].join(','))
         end
@@ -613,13 +613,13 @@ module Unlight
         if set
           set.each_index do |i|
             avatar = Avatar[set[i].avatar_id]
-            name = avatar ? avatar.name + " Lv." + avatar.level.to_s : ""
+            name = avatar ? "#{avatar.name} Lv.#{avatar.level}" : ''
             ret << name
             ret << arrow_set[i + st_i]
             ret << set[i].score
           end
         end
-        ret = ret.join(",")
+        ret = ret.join(',')
         rank_cache_set("prf_#{self.profound_id}_ranking:#{st_i}_#{end_i}_str", ret, PRF_RANKING_CACHE_TTL)
         @@prf_ranking_str_set["prf_#{self.profound_id}_ranking:#{st_i}_#{end_i}_str"] = true
       end
@@ -708,10 +708,10 @@ module Unlight
         end
         rank_cache_set("profound_get_treasure_rank_#{self.profound_id}_avatar_id", ret, 60 * 60 * 24)
       end
-      if avatar_id != 0
-        ret[avatar_id]
-      else
+      if avatar_id == 0
         ret
+      else
+        ret[avatar_id]
       end
     end
   end

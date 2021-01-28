@@ -23,7 +23,7 @@ module Unlight
     set_schema do
       primary_key :id
       integer     :avatar_id, index: true # :table => :avatars
-      String      :name, default: ""
+      String      :name, default: ''
       integer     :point, default: 0
       integer     :arrow, default: 0
       integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
@@ -161,14 +161,14 @@ module Unlight
           if weekly_ranking[i]
             w = weekly_ranking[i]
             w.avatar_id = 0
-            w.name = ""
+            w.name = ''
             w.point = 0
             w.arrow = 0
             w.save_changes
           else
             WeeklyDuelRanking.new do |w|
               w.avatar_id = 0
-              w.name = ""
+              w.name = ''
               w.point = 0
               w.arrow = 0
               w.server_type = server_type
@@ -238,7 +238,7 @@ module Unlight
             ret << s.point
           end
         end
-        ret = ret.join(",")
+        ret = ret.join(',')
         cache_store.set("weekly_duel_ranking:#{st_i}_#{end_i}_#{server_type}_str", ret, RANK_CACHE_TTL)
       end
       ret

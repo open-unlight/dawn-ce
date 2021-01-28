@@ -22,11 +22,11 @@ module Unlight
       primary_key :id
       String      :name
       integer     :weapon_no
-      String      :passive_id, default: ""
+      String      :passive_id, default: ''
       integer     :card_cost, default: 0
-      String      :restriction, default: ""
-      String      :image, default: ""
-      String      :caption, default: ""
+      String      :restriction, default: ''
+      String      :image, default: ''
+      String      :caption, default: ''
       integer     :weapon_type, default: WEAPON_TYPE_NORMAL
       integer     :material_use_cnt, default: 0
       integer     :material_add_param, default: 0 # mons(+-127) 8_8_8_8 32 bit
@@ -68,7 +68,7 @@ module Unlight
     end
 
     DB.alter_table :weapon_cards do
-      add_column :passive_id, String, default: "" unless Unlight::WeaponCard.columns.include?(:passive_id) # 新規追加 2014/8/13
+      add_column :passive_id, String, default: '' unless Unlight::WeaponCard.columns.include?(:passive_id) # 新規追加 2014/8/13
       add_column :material_use_cnt, :integer, default: 0 unless Unlight::WeaponCard.columns.include?(:material_use_cnt) # 新規追加 2015/5/13
       add_column :material_add_param, :integer, default: 0 unless Unlight::WeaponCard.columns.include?(:material_add_param) # 新規追加 2015/5/15
       add_column :material_exp, :integer, default: 0 unless Unlight::WeaponCard.columns.include?(:material_exp) # 新規追加 2015/5/15
@@ -76,10 +76,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def WeaponCard::data_version
-      ret = cache_store.get("WeaponCardVersion")
+      ret = cache_store.get('WeaponCardVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("WeaponCardVersion", ret)
+        cache_store.set('WeaponCardVersion', ret)
       end
       ret
     end
@@ -88,7 +88,7 @@ module Unlight
     def WeaponCard::refresh_data_version
       m = Unlight::WeaponCard.order(:updated_at).last
       if m
-        cache_store.set("WeaponCardVersion", m.version)
+        cache_store.set('WeaponCardVersion', m.version)
         m.version
       else
         0
@@ -117,21 +117,21 @@ module Unlight
 
     # CSVで返す
     def get_data_csv_str
-      ret = ""
-      ret << self.id.to_s << ","
-      ret << '"' << (self.name || "") << '",'
-      ret << (self.weapon_no || 0).to_s << ","
+      ret = ''
+      ret << self.id.to_s << ','
+      ret << '"' << (self.name || '') << '",'
+      ret << (self.weapon_no || 0).to_s << ','
       ret << (self.card_cost || 0).to_s << ','
-      ret << '[' << '"' << (self.restriction || "") << '"' << '],'
-      ret << '"' << (self.image || "") << '",'
-      ret << '"' << (self.caption || "") << '",'
+      ret << '[' << '"' << (self.restriction || '') << '"' << '],'
+      ret << '"' << (self.image || '') << '",'
+      ret << '"' << (self.caption || '') << '",'
       ret << (self.weapon_type || 0).to_s << ','
       ret << (self.material_use_cnt || 0).to_s << ','
       ret << (param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_SA) || 0).to_s << ','
       ret << (param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_SD) || 0).to_s << ','
       ret << (param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_AA) || 0).to_s << ','
       ret << (param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_AD) || 0).to_s << ','
-      ret << '[' << '"' << (self.passive_id || "") << '"' << ']'
+      ret << '[' << '"' << (self.passive_id || '') << '"' << ']'
       ret
     end
 
@@ -152,7 +152,7 @@ module Unlight
         if CHARA_GROUP_MEMBERS.key?(restriction)
           ret = CHARA_GROUP_MEMBERS[restriction]
         else
-          ret = restriction.split("|") if restriction
+          ret = restriction.split('|') if restriction
         end
         ret.map! { |c| c.to_i }
         WeaponCard::cache_store.set("weapon_card:restricrt:#{id}", ret)
@@ -165,7 +165,7 @@ module Unlight
       ret = WeaponCard::cache_store.get("weapon_card:passive_id:#{id}")
       unless ret
         ret = []
-        ret = self.passive_id.split("|") if self.passive_id
+        ret = self.passive_id.split('|') if self.passive_id
         ret.map! { |p| p.to_i }
         WeaponCard::cache_store.set("weapon_card:passive_id:#{id}", ret)
       end

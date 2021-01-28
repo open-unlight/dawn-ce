@@ -10,24 +10,24 @@ module Unlight
        # プレイヤー登録
        [:register,
         [ # Name, Type, Size
-         ["name", :String, 0],
-         ["email", :String, 0],
-         ["salt", :String, 0],
-         ["verifire", :String, 0],
-         ["server_type", :int, 4],
+         ['name', :String, 0],
+         ['email', :String, 0],
+         ['salt', :String, 0],
+         ['verifire', :String, 0],
+         ['server_type', :int, 4],
         ]
        ],
        # 認証問い合わせ
        [:auth_start,
         [ # Name, Type, Size
-         ["name", :String, 0],
-         ["client_pub_key", :String, 0],
+         ['name', :String, 0],
+         ['client_pub_key', :String, 0],
         ]
        ],
        # 認証ゲット
        [:auth_get_matcher,
         [ # Name, Type, Size
-         ["matcher", :String, 0],
+         ['matcher', :String, 0],
         ]
        ],
        # ログアウト
@@ -37,18 +37,18 @@ module Unlight
        # OpenSocialAuth
        [:cs_open_social_auth,
         [ # Name, Type, Size
-         ["user_id", :String, 0],
-         ["client_pub_key", :String, 0],
+         ['user_id', :String, 0],
+         ['client_pub_key', :String, 0],
         ]
        ],
 
        # OpenSocialプレイヤー登録
        [:cs_open_social_register,
         [ # Name, Type, Size
-         ["use_id", :String, 0],
-         ["salt", :String, 0],
-         ["verifire", :String, 0],
-         ["server_type", :int, 4],
+         ['use_id', :String, 0],
+         ['salt', :String, 0],
+         ['verifire', :String, 0],
+         ['server_type', :int, 4],
         ]
        ],
 
@@ -59,24 +59,24 @@ module Unlight
        # OpenSocialプレイヤー再登録
        [:cs_reregister,
         [ # Name, Type, Size
-         ["use_id", :String, 0],
-         ["salt", :String, 0],
-         ["verifire", :String, 0],
-         ["server_type", :int, 4],
+         ['use_id', :String, 0],
+         ['salt', :String, 0],
+         ['verifire', :String, 0],
+         ['server_type', :int, 4],
         ]
        ],
 
        # 自分をインバイトしたユーザの更新
        [:cs_update_invited_user,
         [ # Name, Type, Size
-         ["users", :String, 0],
+         ['users', :String, 0],
         ]
        ],
 
        # チュートリアルを再生した
        [:cs_update_tuto_play,
         [ # Name, Type, Size
-         ["type", :char, 1]
+         ['type', :char, 1]
         ]
        ],
 
@@ -88,21 +88,21 @@ module Unlight
        # 登録の結果
        [:regist_result,
         [ # Name, Type, Size
-         ["result", :int, 4],
+         ['result', :int, 4],
         ]
        ],
        # 認証のリターン
        [:auth_return,
         [ # Name, Type, Size
-         ["salt", :String, 0],
-         ["server_pub_key", :String, 0]
+         ['salt', :String, 0],
+         ['server_pub_key', :String, 0]
         ]
        ],
        # 認証成功
        [:auth_cert,
         [ # Name, Type, Size
-         ["cert", :String, 0],
-         ["uid", :int, 4]
+         ['cert', :String, 0],
+         ['uid', :int, 4]
         ]
        ],
        # 認証失敗
@@ -114,8 +114,8 @@ module Unlight
        # ロビー情報を送る
        [:lobby_info, # CMD_No, Command
         [ # Name, Type, Size
-         ["ip", :String, 0],
-         ["port", :int, 4]
+         ['ip', :String, 0],
+         ['port', :int, 4]
         ]
        ],
        # OpenSocialNotresgit
@@ -133,7 +133,7 @@ module Unlight
        # AP不足やルール不適合などのエラーコードを返します
        [:sc_error_no,
         [ # Name, Type, Size
-         ["error_type", :int, 4],
+         ['error_type', :int, 4],
         ]
        ],
 

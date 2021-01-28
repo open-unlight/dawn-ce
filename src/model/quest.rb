@@ -21,8 +21,8 @@ module Unlight
     set_schema do
       primary_key :id
       integer :quest_map_id, index: true #, :table => :quest_maps
-      String      :name,       default: ""
-      String      :caption,    default: ""
+      String      :name,       default: ''
+      String      :caption,    default: ''
       integer     :ap,         default: 0
       integer     :kind,       default: 0
       integer     :difficulty, default: 0
@@ -86,10 +86,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def Quest::data_version
-      ret = cache_store.get("QuestVersion")
+      ret = cache_store.get('QuestVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("QuestVersion", ret)
+        cache_store.set('QuestVersion', ret)
       end
       ret
     end
@@ -98,7 +98,7 @@ module Unlight
     def Quest::refresh_data_version
       m = Unlight::Quest.order(:updated_at).last
       if m
-        cache_store.set("QuestVersion", m.version)
+        cache_store.set('QuestVersion', m.version)
         m.version
       else
         0
@@ -126,7 +126,7 @@ module Unlight
 
     # マップデータを配列で返す＜文字列でキャッシュせよ
     def get_land_ids_str
-      land_set.join(",")
+      land_set.join(',')
     end
 
     def get_land_id(pos)
@@ -135,7 +135,7 @@ module Unlight
 
     # マップデータのつながりを返す。文字列でキャッシュせよ
     def get_nexts_str
-      next_set.join(",")
+      next_set.join(',')
     end
 
     # 特定場所の地形の敵を引いてくる
@@ -333,18 +333,18 @@ module Unlight
     end
 
     def get_data_csv_str
-      ret = ""
-      ret << self.id.to_s << ","
-      ret << '"' << (self.name || "") << '",'
-      ret << '"' << (self.caption || "") << '",'
-      ret << (self.ap || 0).to_s << ","
-      ret << (self.kind || 0).to_s << ","
-      ret << (self.difficulty || 0).to_s << ","
-      ret << (self.rarity || 0).to_s << ","
-      ret << '[' << (self.get_land_ids_str || "") << '],'
-      ret << '[' << (self.get_nexts_str || "") << '],'
-      ret << (self.quest_map_id || 0).to_s << ","
-      ret << (self.story_no || 0).to_s << ""
+      ret = ''
+      ret << self.id.to_s << ','
+      ret << '"' << (self.name || '') << '",'
+      ret << '"' << (self.caption || '') << '",'
+      ret << (self.ap || 0).to_s << ','
+      ret << (self.kind || 0).to_s << ','
+      ret << (self.difficulty || 0).to_s << ','
+      ret << (self.rarity || 0).to_s << ','
+      ret << '[' << (self.get_land_ids_str || '') << '],'
+      ret << '[' << (self.get_nexts_str || '') << '],'
+      ret << (self.quest_map_id || 0).to_s << ','
+      ret << (self.story_no || 0).to_s << ''
       ret
     end
   end

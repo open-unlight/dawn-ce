@@ -23,9 +23,9 @@ module Unlight
       integer     :card_cost, default: 0
       integer     :color, default: 0
       integer     :max_in_deck, default: 0
-      String      :restriction, default: ""
-      String      :image, default: ""
-      String      :caption, default: ""
+      String      :restriction, default: ''
+      String      :image, default: ''
+      String      :caption, default: ''
       Boolean     :filler, default: false
       datetime    :created_at
       datetime    :updated_at
@@ -59,10 +59,10 @@ module Unlight
 
     # 全体データバージョンを返す
     def EventCard::data_version
-      ret = cache_store.get("EventCardVersion")
+      ret = cache_store.get('EventCardVersion')
       unless ret
         ret = refresh_data_version
-        cache_store.set("EventCardVersion", ret)
+        cache_store.set('EventCardVersion', ret)
       end
       ret
     end
@@ -71,7 +71,7 @@ module Unlight
     def EventCard::refresh_data_version
       m = Unlight::EventCard.order(:updated_at).last
       if m
-        cache_store.set("EventCardVersion", m.version)
+        cache_store.set('EventCardVersion', m.version)
         m.version
       else
         0
@@ -97,7 +97,7 @@ module Unlight
       ret = EventCard::cache_store.get("event_card:restricrt:#{id}")
       unless ret
         ret = []
-        ret = self.restriction.split("|") if self.restriction
+        ret = self.restriction.split('|') if self.restriction
         EventCard::cache_store.set("event_card:restricrt:#{id}", ret)
       end
       ret

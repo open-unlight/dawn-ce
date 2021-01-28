@@ -5,7 +5,7 @@ require 'fileutils'
 OUTPUT = false
 opt = OptionParser.new
 
-filename = "../server/src/server_ip.rb"
+filename = '../server/src/server_ip.rb'
 
 file = Pathname.new(filename)
 ip = `wget -q -O - ipcheck.ieserver.net`

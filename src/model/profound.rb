@@ -68,7 +68,7 @@ module Unlight
     end
 
     def self::make_profound_hash
-      Digest::MD5.hexdigest(Time.now.to_s + "profound" + rand(1024).to_s)[0..10]
+      Digest::MD5.hexdigest("#{Time.now}profound#{rand(1024)}")[0..10]
     end
 
     def self::get_new_profound_for_map(found_avatar_id, map_id, server_type, pow = 0, type = PRF_TYPE_NORMAL)
@@ -260,18 +260,18 @@ module Unlight
     end
 
     # 状態異常を保存
-    def set_boss_buff(id = 0, value = 0, turn = 0, reset = false)
+    def set_boss_buff(id = 0, value = 0, turn = 0, reset = false) # rubocop:disable Metrics/ParameterLists
       buffs = CACHE.get("prf_#{self.id}_buffs")
       set_time = self.p_data.ttl.to_f * 60 * 60
-      if !reset
+      if reset
         # 新規作成
+        buffs = nil
+        set_time = 1
+      else
         buffs = {} unless buffs
         # 保存 limitはturn*1分
         now = Time.now.utc
         buffs[id] = { value: value, turn: turn, limit: Time.now.utc + turn * 60 } if id != 0
-      else
-        buffs = nil
-        set_time = 1
       end
       CACHE.set("prf_#{self.id}_buffs", buffs, set_time)
       (!reset) ? [id, buffs[id]] : nil

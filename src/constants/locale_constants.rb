@@ -79,13 +79,13 @@ module Unlight
   EVENT_START_ITEM_SEND_ID = 356
 
   QUEST_EVENT_FLAG = true
-  QUEST_EVENT_RANKING_NAME = "Holy Point"
+  QUEST_EVENT_RANKING_NAME = 'Holy Point'
 
   # 1日セール判定フラグ
   ONE_DAY_SALE_FLAG = false
   ONE_DAY_SALE_CHECK_AT = Time.new(2016, 5, 5, 18).utc # ログイン時間チェック
 
-  PRF_DMG_EVENT_RANKING_NAME = "All Damage"
+  PRF_DMG_EVENT_RANKING_NAME = 'All Damage'
   # 渦ダメージイベント集計開始時間
   TOTAL_EVENT_RANKING_CHECK_PRF_TIME = Time.new(2116, 9, 14, 17, 0).utc
 
@@ -112,9 +112,9 @@ module Unlight
   #  INVITE_PRESENTS  = [3,12]
   DUEL_IP_CHECK = false
   CHAT_START_DLG_1 = ':****** チャンネル'
-  CHAT_START_DLG_2 = "にログイン"
-  CHAT_START_DLG_3 = " [参加人数:"
-  CHAT_START_DLG_4 = "] *****"
+  CHAT_START_DLG_2 = 'にログイン'
+  CHAT_START_DLG_3 = ' [参加人数:'
+  CHAT_START_DLG_4 = '] *****'
 
   DUEL_PENALTY = DUEL_PENALTY_TYPE_ABORT
   # 中断ペナルティ時間
@@ -148,58 +148,58 @@ module Unlight
   DB_CONNECT_CHECK = false
 
   # DuelDialogue
-  DUEL_NAME_PL = "あなた"
-  DUEL_NAME_FOE = "相手"
-  DUEL_NAME_WATCH = "__NAME__さん"
+  DUEL_NAME_PL = 'あなた'
+  DUEL_NAME_FOE = '相手'
+  DUEL_NAME_WATCH = '__NAME__さん'
 
-  ACTV_START_TITLE = "Unlightスタート！！"
-  ACTV_START_BODY  = "__name__[__nickname__]さんはUnlightを始めました"
+  ACTV_START_TITLE = 'Unlightスタート！！'
+  ACTV_START_BODY  = '__name__[__nickname__]さんはUnlightを始めました'
 
   TAG_COLLECT_EVENT_ON = false
   TAG_INIT_CHECK_ST = Time.new(2016, 8, 17, 13, 15).utc
   TAG_INIT_CHECK_ED = Time.new(2016, 8, 31, 16).utc
   XMAS_EVENT_ON = false
   SPECIAL_MESSAGE_SET = {
-    RED_POMEGRANATE_RANDOM_HP_1: "赤い柘榴が発動！　互いのHPが1になった",
-    RED_POMEGRANATE_RANDOM_HP_5: "赤い柘榴が発動！　互いのHPが5になった",
-    RED_POMEGRANATE_RANDOM_HP_MAX: "赤い柘榴が発動！　互いのHPが全回復した",
-    RED_POMEGRANATE_RANDOME_HAND_0: "赤い柘榴が発動！　互いの手札が空になった",
-    RED_POMEGRANATE_RANDOME_HAND_8: "赤い柘榴が発動！　互いの手札が8枚になった",
-    RED_POMEGRANATE_RANDOME_HAND_15: "赤い柘榴が発動！　互いの手札が15枚になった",
-    RED_POMEGRANATE_RANDOME_DAMEGE_ALL_1: "赤い柘榴が発動！　全キャラクターにダメージ1",
-    RED_POMEGRANATE_RANDOME_DAMEGE_ALL_3: "赤い柘榴が発動！　全キャラクターにダメージ3",
-    RED_POMEGRANATE_RANDOME_DAMEGE_ALL_5: "赤い柘榴が発動！　全キャラクターにダメージ5",
-    RED_POMEGRANATE_RANDOME_HEAL_ALL_1: "赤い柘榴が発動！　全キャラクターが1回復した",
-    RED_POMEGRANATE_RANDOME_HEAL_ALL_3: "赤い柘榴が発動！　全キャラクターが3回復した",
-    RED_POMEGRANATE_RANDOME_HEAL_ALL_5: "赤い柘榴が発動！　全キャラクターが5回復した",
-    RED_POMEGRANATE_RANDOME_MOVE_1: "赤い柘榴が発動！　距離がひとつ離れた",
-    RED_POMEGRANATE_RANDOME_MOVE_2: "赤い柘榴が発動！　距離がふたつ離れた",
-    RED_POMEGRANATE_RANDOME_MOVE_0: "赤い柘榴が発動！　しかし、なにも効果はなかった",
-    RED_POMEGRANATE_RANDOME_MOVE_M1: "赤い柘榴が発動！　距離がひとつ近付いた",
-    RED_POMEGRANATE_RANDOME_MOVE_M2: "赤い柘榴が発動！　距離がふたつ近付いた",
-    RED_POMEGRANATE_RANDOM_BOSS_HP_1: "赤い柘榴が発動！　調べは暴走する…！",
-    RED_POMEGRANATE_RANDOM_BOSS_HP_5: "赤い柘榴が発動！　境界が揺らぐ…！",
-    RED_POMEGRANATE_RANDOM_BOSS_HP_MAX: "赤い柘榴が発動！　永劫回帰",
-    DREAM_STICK_X2: "ドリームステッキの効果により、攻撃ダイスが2倍になった。",
-    DREAM_STICK_X3: "ドリームステッキの効果により、攻撃ダイスが2倍になった。",
-    DREAM_STICK_X4: "ドリームステッキの効果により、攻撃ダイスが4倍になった。",
-    DREAM_STICK_X6: "ドリームステッキの効果により、攻撃ダイスが2倍になった。",
-    WANDERING_FEATHER_2D3: "彷徨う羽の効果により、攻撃ダイスが3分の2になった。",
-    WANDERING_FEATHER_1D2: "彷徨う羽の効果により、攻撃ダイスが2分の1になった。",
-    WANDERING_FEATHER_1D3: "彷徨う羽の効果により、攻撃ダイスが3分の1になった。",
-    WANDERING_FEATHER_0: "彷徨う羽の効果により、攻撃ダイスが0になった。",
-    EX_THIRTEEN_EYES: "__DAMAGE__のダメージが追加された。",
-    THIRD_STEP: "__DAMAGE__のダメージが無効化された。"
+    RED_POMEGRANATE_RANDOM_HP_1: '赤い柘榴が発動！　互いのHPが1になった',
+    RED_POMEGRANATE_RANDOM_HP_5: '赤い柘榴が発動！　互いのHPが5になった',
+    RED_POMEGRANATE_RANDOM_HP_MAX: '赤い柘榴が発動！　互いのHPが全回復した',
+    RED_POMEGRANATE_RANDOME_HAND_0: '赤い柘榴が発動！　互いの手札が空になった',
+    RED_POMEGRANATE_RANDOME_HAND_8: '赤い柘榴が発動！　互いの手札が8枚になった',
+    RED_POMEGRANATE_RANDOME_HAND_15: '赤い柘榴が発動！　互いの手札が15枚になった',
+    RED_POMEGRANATE_RANDOME_DAMEGE_ALL_1: '赤い柘榴が発動！　全キャラクターにダメージ1',
+    RED_POMEGRANATE_RANDOME_DAMEGE_ALL_3: '赤い柘榴が発動！　全キャラクターにダメージ3',
+    RED_POMEGRANATE_RANDOME_DAMEGE_ALL_5: '赤い柘榴が発動！　全キャラクターにダメージ5',
+    RED_POMEGRANATE_RANDOME_HEAL_ALL_1: '赤い柘榴が発動！　全キャラクターが1回復した',
+    RED_POMEGRANATE_RANDOME_HEAL_ALL_3: '赤い柘榴が発動！　全キャラクターが3回復した',
+    RED_POMEGRANATE_RANDOME_HEAL_ALL_5: '赤い柘榴が発動！　全キャラクターが5回復した',
+    RED_POMEGRANATE_RANDOME_MOVE_1: '赤い柘榴が発動！　距離がひとつ離れた',
+    RED_POMEGRANATE_RANDOME_MOVE_2: '赤い柘榴が発動！　距離がふたつ離れた',
+    RED_POMEGRANATE_RANDOME_MOVE_0: '赤い柘榴が発動！　しかし、なにも効果はなかった',
+    RED_POMEGRANATE_RANDOME_MOVE_M1: '赤い柘榴が発動！　距離がひとつ近付いた',
+    RED_POMEGRANATE_RANDOME_MOVE_M2: '赤い柘榴が発動！　距離がふたつ近付いた',
+    RED_POMEGRANATE_RANDOM_BOSS_HP_1: '赤い柘榴が発動！　調べは暴走する…！',
+    RED_POMEGRANATE_RANDOM_BOSS_HP_5: '赤い柘榴が発動！　境界が揺らぐ…！',
+    RED_POMEGRANATE_RANDOM_BOSS_HP_MAX: '赤い柘榴が発動！　永劫回帰',
+    DREAM_STICK_X2: 'ドリームステッキの効果により、攻撃ダイスが2倍になった。',
+    DREAM_STICK_X3: 'ドリームステッキの効果により、攻撃ダイスが2倍になった。',
+    DREAM_STICK_X4: 'ドリームステッキの効果により、攻撃ダイスが4倍になった。',
+    DREAM_STICK_X6: 'ドリームステッキの効果により、攻撃ダイスが2倍になった。',
+    WANDERING_FEATHER_2D3: '彷徨う羽の効果により、攻撃ダイスが3分の2になった。',
+    WANDERING_FEATHER_1D2: '彷徨う羽の効果により、攻撃ダイスが2分の1になった。',
+    WANDERING_FEATHER_1D3: '彷徨う羽の効果により、攻撃ダイスが3分の1になった。',
+    WANDERING_FEATHER_0: '彷徨う羽の効果により、攻撃ダイスが0になった。',
+    EX_THIRTEEN_EYES: '__DAMAGE__のダメージが追加された。',
+    THIRD_STEP: '__DAMAGE__のダメージが無効化された。'
   }
 
   ATTRIBUTE_REGIST_MESSAGE_SET = {
-    ATTRIBUTE_REGIST_MESSAGE_DEATH: "即死攻撃に対する抵抗により、技の効果が変化する...",
-    ATTRIBUTE_REGIST_MESSAGE_HALF: "HP半減攻撃に対する抵抗により、技の効果が変化する...",
-    ATTRIBUTE_REGIST_MESSAGE_CONSTANT: "ダメージへの抵抗が発生...",
-    ATTRIBUTE_REGIST_MESSAGE_DYING: "HP固定化攻撃に対する抵抗により、技の効果が変化する...",
-    ATTRIBUTE_REGIST_MESSAGE_ZAKURO: "not use.",
-    ATTRIBUTE_REGIST_MESSAGE_EXCHANGE: "HP交換に対する抵抗により、技の効果が変化する...",
-    ATTRIBUTE_REGIST_MESSAGE_DIFF: "差分攻撃への抵抗により、技の効果が変化する..."
+    ATTRIBUTE_REGIST_MESSAGE_DEATH: '即死攻撃に対する抵抗により、技の効果が変化する...',
+    ATTRIBUTE_REGIST_MESSAGE_HALF: 'HP半減攻撃に対する抵抗により、技の効果が変化する...',
+    ATTRIBUTE_REGIST_MESSAGE_CONSTANT: 'ダメージへの抵抗が発生...',
+    ATTRIBUTE_REGIST_MESSAGE_DYING: 'HP固定化攻撃に対する抵抗により、技の効果が変化する...',
+    ATTRIBUTE_REGIST_MESSAGE_ZAKURO: 'not use.',
+    ATTRIBUTE_REGIST_MESSAGE_EXCHANGE: 'HP交換に対する抵抗により、技の効果が変化する...',
+    ATTRIBUTE_REGIST_MESSAGE_DIFF: '差分攻撃への抵抗により、技の効果が変化する...'
   }
 
   # ============== ログインボーナス関連定数 ==================

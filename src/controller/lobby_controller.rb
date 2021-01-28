@@ -82,10 +82,10 @@ module Unlight
     def cs_create_avatar(name, parts, cards, invite_code)
       invite_player = Player[invite_code]
       invite_player.invite_friend(@player.name, false) if invite_player && @player && invite_player.server_type == @player.server_type
-      if @player && Avatar.regist(name, @player.id, parts.split(","), cards.split(","), @player.server_type)
+      if @player && Avatar.regist(name, @player.id, parts.split(','), cards.split(','), @player.server_type)
         @player.refresh
         @avatar = @player.avatars[0]
-        @avatar.rookie_present(@player, cards.split(",")) # 初心者キャンペーン
+        @avatar.rookie_present(@player, cards.split(',')) # 初心者キャンペーン
         regist_avatar_event
         sc_create_avatar_success(true)
         sc_avatar_info(*@avatar.get_avatar_info_set) if @avatar
@@ -128,7 +128,7 @@ module Unlight
 
     # カード合成ツリーのリクエスト
     def cs_request_growth_tree_info(id)
-      sc_growth_tree_info(id, CharaCard.up_tree(id).join(","), CharaCard.down_tree(id).join(","), CharaCardRequirement::data_version) if CharaCard[id]
+      sc_growth_tree_info(id, CharaCard.up_tree(id).join(','), CharaCard.down_tree(id).join(','), CharaCardRequirement::data_version) if CharaCard[id]
     end
 
     # 合成可能か調べるのリクエスト
@@ -143,7 +143,7 @@ module Unlight
       if @avatar
         if CharaCard[id]
           ret = @avatar.exchange(id, c_id)
-          sc_exchange_result(ret[0], ret[1], ret[2], ret[3].join(","))
+          sc_exchange_result(ret[0], ret[1], ret[2], ret[3].join(','))
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_exchage_result] #{ret[0]} getedCC:#{ret[1]} invID:#{ret[2]} LostCardInvID#{ret[3]}, deckID:#{@avatar.binder.id}")
         end
       end
@@ -153,7 +153,7 @@ module Unlight
     def cs_request_combine(inv_id_list_str)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [:#{__method__}] #{inv_id_list_str}");
       if @avatar
-        ret = @avatar.combine(inv_id_list_str.split(","))
+        ret = @avatar.combine(inv_id_list_str.split(','))
         sc_combine_result(ret[0], ret[1], ret[2])
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [:#{__method__}] ret:#{ret}");
       end
@@ -179,7 +179,7 @@ module Unlight
     def cs_request_shop_info(shop_type)
       list = Shop.get_sale_list(shop_type)
       if list.size > 0
-        sc_shop_info(shop_type, list.join(","))
+        sc_shop_info(shop_type, list.join(','))
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_shop_info] #{list.join(",")}")
       end
     end
@@ -213,7 +213,7 @@ module Unlight
     def cs_request_real_money_item_info
       list = RealMoneyItem.get_sale_list()
       if list[0] > 0
-        sc_real_money_item_info(list[0], list[1].join(","))
+        sc_real_money_item_info(list[0], list[1].join(','))
       end
     end
 
@@ -319,7 +319,7 @@ module Unlight
         if ret[0] == 0
           remainTime = ret[3] ? ret[3] : 0
           used = ret[4] ? ret[4] : 0
-          sc_equip_change_succ(ret[1], ret[2].join(","), remainTime, used)
+          sc_equip_change_succ(ret[1], ret[2].join(','), remainTime, used)
         else
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_equip_change_succ] error id:#{id}, error_no:#{ret[0]}")
           sc_error_no(ret[0])
@@ -349,7 +349,7 @@ module Unlight
       if @avatar
         @avatar.achievement_check
         n = @avatar.get_notice if notice_check
-        sc_add_notice(n) if n != "" && n != nil
+        sc_add_notice(n) if n != '' && n != nil
       end
     end
 
@@ -365,7 +365,7 @@ module Unlight
 
     # セール時間情報を要求
     def cs_request_sale_limit_info
-      ret = ""
+      ret = ''
       if @avatar
         ret = @avatar.get_sale_limit_rest_time(true)
         sc_update_sale_rest_time(@avatar.sale_type, ret)
@@ -413,7 +413,7 @@ module Unlight
       if @avatar
         @avatar.new_profound_inventory_check
         n = @avatar.get_profound_notice
-        sc_add_notice(n) if n != "" && n != nil
+        sc_add_notice(n) if n != '' && n != nil
       end
     end
 
@@ -514,7 +514,7 @@ module Unlight
       if @avatar
         ics = InfectionCollaboSerial::check(serial, @avatar.player_id, @avatar.server_type)
         if ics
-          notice_str = ""
+          notice_str = ''
           item_no_set = []
           INFECTION_COLLABO_PRESENTS.each do |item|
             @avatar.get_treasures(item[:type], item[:id], item[:sct_type], item[:num])
@@ -556,12 +556,12 @@ module Unlight
     # クランプスクリック
     def cs_clamps_click()
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}]")
-      msg = ""
+      msg = ''
 
       if @avatar.present_has_received?
 
         ### irregular case for cheat
-        msg = "ERROR"
+        msg = 'ERROR'
 
       else
 
@@ -573,7 +573,7 @@ module Unlight
             cc_name = cc.name
             if cc.level > 0
               cc_name += ":LV#{cc.level}"
-              cc_name += "R" if cc.rarity > 5
+              cc_name += 'R' if cc.rarity > 5
             end
             cc_name += "×#{item[:num]}" if item[:num] > 1
             name_list.push(cc_name)
@@ -590,7 +590,7 @@ module Unlight
         end
 
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}] #{name_list.join("+")}")
-        msg = name_list.join("+").force_encoding('UTF-8')
+        msg = name_list.join('+').force_encoding('UTF-8')
 
       end
 
@@ -613,7 +613,7 @@ module Unlight
     end
 
     def cs_deck_max_check
-      SERVER_LOG.info("*** deck max check")
+      SERVER_LOG.info('*** deck max check')
       sc_deck_max_check_result(@avatar.get_all_deck_num_include_payment_log < Unlight::DECK_MAX)
     end
 
@@ -754,7 +754,7 @@ module Unlight
     # コインを使用した
     def coin_use_event_handler(target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_use_coin] #{ret}")
-      sc_use_coin(ret.join(","))
+      sc_use_coin(ret.join(','))
     end
 
     # スロットカードを取得する

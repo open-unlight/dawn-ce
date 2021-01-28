@@ -11,10 +11,10 @@
 module Unlight
   # ライブラリのパス
   $:.unshift __dir__
-  LIB_PATH = File.dirname(__FILE__).gsub("src/constants", "") + 'lib'
+  LIB_PATH = "#{File.dirname(__FILE__).gsub('src/constants', '')}lib"
   # BotTest用セッションキー固定
   BOT_SESSION = false
-  BOT_SESSION_KEY = "49c5de87eced403d533526afc6ef0cbe3993efcd"
+  BOT_SESSION_KEY = '49c5de87eced403d533526afc6ef0cbe3993efcd'
 
   # ============== サーバタイプ ==================
   SERVER_SB = 0
@@ -359,7 +359,7 @@ module Unlight
   SAVE_INTERVAL = 60 * 10
 
   #プレイヤデータのバージョン
-  PL_DATA_VER = "0.1"
+  PL_DATA_VER = '0.1'
 
   # ============== モデル関連定数 ==================
   #
@@ -375,8 +375,8 @@ module Unlight
 
   #Sqlite3設定のデフォルト
   SQLITE3 =  {
-    DB_File: File.dirname(__FILE__).gsub("src/constants", "") + 'data/game_dev2.db',
-    LOG_File: File.dirname(__FILE__).gsub("src/constants", "") + 'data/db.log'
+    DB_File: "#{File.dirname(__FILE__).gsub('src/constants', '')}data/game_dev2.db",
+    LOG_File: "#{File.dirname(__FILE__).gsub('src/constants', '')}data/db.log"
   }
 
   #   case STORE_TYPE
@@ -397,7 +397,7 @@ module Unlight
 
   # ============== 関連定数 ==================
   unless $SERVER_NAME
-    $SERVER_NAME = "none"
+    $SERVER_NAME = 'none'
   end
 
   # ログの出力先
@@ -437,7 +437,7 @@ class Time
           year, mon, day, hour, min, sec =
             apply_offset(year, mon, day, hour, min, sec, offset)
           t = self.utc(year, mon, day, hour, min, sec, usec)
-          t.localtime unless zone =~ /Z|-00:?(00)?/
+          t.localtime unless /Z|-00:?(00)?/.match?(zone)
           t
         else
           self.local(year, mon, day, hour, min, sec, usec)
@@ -507,7 +507,7 @@ class OrderHash < Hash
   end
 
   def reject!(&block)
-    del = ""
+    del = ''
      @keys.each { |k|
        del = k if yield(k, self[k])
      }

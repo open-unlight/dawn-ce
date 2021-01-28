@@ -26,8 +26,8 @@ module Unlight
       float       :add_aap,     default: 0.0
       float       :add_adp,     default: 0.0
       integer     :card_cost,   default: 0
-      String      :passive_id,  default: ""
-      String      :restriction, default: ""
+      String      :passive_id,  default: ''
+      String      :restriction, default: ''
       datetime    :created_at
       datetime    :updated_at
     end
@@ -51,7 +51,7 @@ module Unlight
       self.updated_at = Time.now.utc
     end
 
-    def CombineWeaponCardInventory::create_data(base_sap, base_sdp, base_aap, base_adp, sap, sdp, aap, adp, cost, passive_id = "", restriction = "")
+    def CombineWeaponCardInventory::create_data(base_sap, base_sdp, base_aap, base_adp, sap, sdp, aap, adp, cost, passive_id = '', restriction = '')
       ret = CombineWeaponCardInventory.new do |d|
         d.combine_cnt = 1
         d.base_sap = base_sap
@@ -122,12 +122,12 @@ module Unlight
           set_param[:aap] += p[:aap]
           set_param[:adp] += p[:adp]
         end
-        set_param[:passive_id].concat(p[:passive_id].split("|")) if p[:passive_id] && p[:passive_id] != ""
-        set_param[:restriction].concat(p[:restriction].split("|")) if p[:restriction] && p[:restriction] != ""
+        set_param[:passive_id].concat(p[:passive_id].split('|')) if p[:passive_id] && p[:passive_id] != ''
+        set_param[:restriction].concat(p[:restriction].split('|')) if p[:restriction] && p[:restriction] != ''
       end
 
-      set_param[:passive_id].concat(base.passive_id.split("|")) if base.passive_id && base.passive_id != ""
-      set_param[:restriction].concat(base.restriction.split("|")) if base.restriction && base.restriction != ""
+      set_param[:passive_id].concat(base.passive_id.split('|')) if base.passive_id && base.passive_id != ''
+      set_param[:restriction].concat(base.restriction.split('|')) if base.restriction && base.restriction != ''
       passives = set_param[:passive_id].sort
       restrictions = set_param[:restriction].sort
       passives.uniq!
@@ -139,8 +139,8 @@ module Unlight
                                (base.arrow_ap + set_param[:aap]).round(2),
                                (base.arrow_dp + set_param[:adp]).round(2),
                                base.sword_ap + base.sword_dp + base.arrow_ap + base.arrow_dp,
-                               passives.join("|"),
-                               restrictions.join("|"))
+                               passives.join('|'),
+                               restrictions.join('|'))
       else
         ret = create_data(base.sword_ap,
                           base.sword_dp,
@@ -151,14 +151,14 @@ module Unlight
                           set_param[:aap],
                           set_param[:adp],
                           base.sword_ap + base.sword_dp + base.arrow_ap + base.arrow_dp,
-                          passives.join("|"),
-                          restrictions.join("|"))
+                          passives.join('|'),
+                          restrictions.join('|'))
       end
       SERVER_LOG.info("<UID:#{}>CombineWeaponCardInventory [#{__method__}] ret:#{ret} ret id:#{ret.id}")
       { type: COMBINE_WEAPON_TYPE_COMBINE, data: ret }
     end
 
-    def update_data(sap, sdp, aap, adp, cost, image, passive_id = "", restriction = "")
+    def update_data(sap, sdp, aap, adp, cost, image, passive_id = '', restriction = '')
       data = CombineWeaponCardInventory[id]
       if data
         data.add_sap     = sap
@@ -234,7 +234,7 @@ module Unlight
     def get_passive_id(ai = :none)
       ret = []
       if ai != :none
-        ret = self.passive_id.split("|") if self.passive_id
+        ret = self.passive_id.split('|') if self.passive_id
         ret.map! { |p| p.to_i }
       end
       ret
