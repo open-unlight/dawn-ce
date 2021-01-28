@@ -97,7 +97,7 @@ module Unlight
         ret << CharaCardStory.get_data_str(ccs) << ','
       }
       if list.length > 0
-        ret.gsub!("\n", '')
+        ret.delete!("\n")
         ret.chop! if ret
       end
       ret << ']'

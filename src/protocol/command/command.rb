@@ -50,7 +50,7 @@ module Unlight
     # 受信コマンドの初期化
     def init_receive(cmd)
       cmd.each do |c|
-        n = c[0].id2name + '_r'
+        n = "#{c[0].id2name}_r"
         @method_list << n.intern
         ret = <<-EOF
           def #{n}(data)
@@ -83,7 +83,7 @@ module Unlight
             ret << "            #{c.name} = data[#{s unless s == ""}#{pos},#{c.size}]#{type_rec_res(c.type)}\n"
             pos += c.size
           end
-          q << c.name + ','
+          q << "#{c.name},"
         end
       end
       ret << "            #{name}(#{q.chop!})"

@@ -76,7 +76,7 @@ module Unlight
         else
           list[0] = :return
           self.send(init_method)
-          s = list[-1].last.to_s + '_action_increment'
+          s = "#{list[-1].last}_action_increment"
           list[-1].first.send(s.to_sym)
           list[-1].first.send(list[-1].last) if @resumed
         end

@@ -72,7 +72,7 @@ module Unlight
       num = 0
       self.script.each_line do |s|
         s = s.force_encoding('utf-8')
-        s.gsub!("\r", '')
+        s.delete!("\r")
         case s
           # ダイアログの場合
         when /^\s*"(.*)"\s*$/
@@ -81,7 +81,7 @@ module Unlight
           num += 1
           # パネルの場合
         when /^Panel:(.*)\n$/
-          set = eval('[' + $1 + ']')
+          set = eval("[#{$1}]")
           @command_set << panel_to_proc(set)
           num += 1
           @command_set << stop_to_proc(set)
@@ -96,7 +96,7 @@ module Unlight
             @jump_set[$1] = num
           end
         when /^FlagCheck:(.*)\n$/
-          set = eval('[' + $1 + ']')
+          set = eval("[#{$1}]")
           @command_set << flag_check_to_proc(set)
           num += 1
         when /^FlagSet:(.*)\n$/
@@ -104,7 +104,7 @@ module Unlight
           @command_set << flag_set_to_proc(set)
           num += 1
         when /^Jump:(.*)\n$/
-          set = $1.gsub('[', '').gsub(']', '')
+          set = $1.delete('[').delete(']')
           @command_set << jump_to_proc(set)
           num += 1
         when /^Rand:(.*)\n$/

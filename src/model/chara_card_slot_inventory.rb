@@ -512,7 +512,7 @@ module Unlight
     def set_combine_cnt(n, idx = 0)
       list = %w[combine_cnt_a combine_cnt_b]
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
-      send(list[idx] + '=', n)
+      send("#{list[idx]}=", n)
     end
 
     def combine_cnt(idx = 0)
@@ -529,7 +529,7 @@ module Unlight
     def set_combine_cnt_max(n, idx = 0)
       list = %w[combine_cnt_a_max combine_cnt_b_max]
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
-      send(list[idx] + '=', n)
+      send("#{list[idx]}=", n)
     end
 
     def combine_cnt_max(idx = 0)
@@ -595,7 +595,7 @@ module Unlight
     def set_combine_pass(n, idx = 0)
       list = %w[combine_pass_a combine_pass_b]
       puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
-      send(list[idx] + '=', n)
+      send("#{list[idx]}=", n)
     end
 
     def combine_pass(idx = 0)
@@ -887,7 +887,7 @@ module Unlight
         end
 
         # 数値が上がったパラメータを記憶
-        incre_param_keys << 'combine_' + k.to_s if k != :set && v > 0
+        incre_param_keys << "combine_#{k}" if k != :set && v > 0
       end
       over_check(incre_param_keys)
       normal_combine_id_check
@@ -905,7 +905,7 @@ module Unlight
         while decre_num != 0
           r = rand(l.size)
           if send(l[r]) > COMB_BASE_PARAM_MIN
-            send(l[r] + '=', send(l[r]) - 1)
+            send("#{l[r]}=", send(l[r]) - 1)
             decre_num -= 1
           else
             # これ以上マイナスできないので、リストから省く

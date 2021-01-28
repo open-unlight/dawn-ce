@@ -322,7 +322,7 @@ module Unlight
     # アバターを登録
     def Avatar.name_check(name)
       ret = NAME_ALREADY_USED
-      return NAME_CANT_USE if name.match(/_rename$/)
+      return NAME_CANT_USE if /_rename$/.match?(name)
 
       avatar = Avatar.new
       avatar.name = name
@@ -3419,11 +3419,11 @@ module Unlight
         achievement_check(GODDESS_OF_FIRE_QUEST_03[1])
       end
 
-      if (20568..20618).include?(inv.quest_id) && r == RESULT_WIN
+      if (20568..20618).cover?(inv.quest_id) && r == RESULT_WIN
         1.times { achievement_check([348, 349, 350, 351, 352, 353]) }
-      elsif (20619..20643).include?(inv.quest_id) && r == RESULT_WIN
+      elsif (20619..20643).cover?(inv.quest_id) && r == RESULT_WIN
         3.times { achievement_check([348, 349, 350, 351, 352, 353]) }
-      elsif (10001..10288).include?(inv.quest_id) && r == RESULT_WIN
+      elsif (10001..10288).cover?(inv.quest_id) && r == RESULT_WIN
         5.times { achievement_check([348, 349, 350, 351, 352, 353]) } # 10回回すとサーバが一時停止するので、もしもう一度やるときは改善が必要
       end
 
@@ -4066,7 +4066,7 @@ module Unlight
         conditions_clear_record_ids = []
         self.achievement_inventories.each do |ai|
           # 条件レコードのインベントリのみ判定
-          if CONDITIONS_DAILY_ACHIEVEMENT_IDS.keys.include?(ai.achievement_id)
+          if CONDITIONS_DAILY_ACHIEVEMENT_IDS.key?(ai.achievement_id)
             # 条件レコードをクリアしているなら
             if ai.state == ACHIEVEMENT_STATE_FINISH
               conditions_clear_record_ids << ai.achievement_id
@@ -4612,14 +4612,14 @@ module Unlight
 
     # ProfoundIdからInventoryを取得
     def get_profound_inventory_from_prf_id(prf_id)
-      self.profound_inventories.select { |v| v[:profound_id] == prf_id }.first
+      self.profound_inventories.find { |v| v[:profound_id] == prf_id }
     end
 
     # 自分の渦戦闘のランク情報を取得
     def get_profound_rank(inv_id)
       ret = nil
       prf_id = 0
-      prf_inv = self.profound_inventories.select { |v| v[:id] == inv_id }.first
+      prf_inv = self.profound_inventories.find { |v| v[:id] == inv_id }
       if prf_inv
         prf_inv.init_ranking
         ret = prf_inv.get_self_rank

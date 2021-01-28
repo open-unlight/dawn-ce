@@ -1877,7 +1877,7 @@ module Unlight
       ret << '"' << (self.event_end_at && self.event_end_at.strftime('%a %b %d %H:%M:%S %Z %Y') || '') << '",'
       ret << self.success_cond.to_s << ','
       ret << '"' << get_cond_info_str << '",'
-      exp_str = (self.explanation != nil) ? self.explanation.gsub(/\n/, '') : ''
+      exp_str = (self.explanation != nil) ? self.explanation.delete("\n") : ''
       ret << '"' << exp_str << '"' << ','
       ret << "#{self.get_selectable_array}"
       ret

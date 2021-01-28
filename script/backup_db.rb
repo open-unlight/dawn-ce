@@ -52,7 +52,7 @@ def csv_output(dataset, include_column_titles = true)
   tsv << "#{cols.join(SEPARATOR)}\r\n" if include_column_titles
   n.each do |r|
     a = ''
-    cols.collect { |c| r[c] }.each { |f| a << '"' + f.to_s + '"' + (SEPARATOR) }
+    cols.collect { |c| r[c] }.each { |f| a << "\"#{f}\"#{(SEPARATOR)}" }
     a << "\r\n"
     tsv << a
   end
@@ -73,8 +73,8 @@ Find.find('./src/model') do |f|
   m = m.camelize
 
   # クラス名から一つずつcsvを取り出す
-  next unless  m =~ FILE_LIST
-  next if m =~ /^[^A-Z]/
+  next unless FILE_LIST.match?(m)
+  next if /^[^A-Z]/.match?(m)
 
   require "#{req}"
   puts "BackUp #{m}"

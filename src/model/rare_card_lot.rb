@@ -48,7 +48,7 @@ module Unlight
                  LOT_REALITY[9] / LOT_REALITY_NUM.to_f
                 ]
 
-  PERCENT_CASH = "percent_cash_#{File.dirname(__FILE__).gsub!("/", "_")}"
+  PERCENT_CASH = "percent_cash_#{File.dirname(__FILE__).tr!("/", "_")}"
 
   @@percent = Array.new(10, 0)
 

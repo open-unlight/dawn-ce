@@ -30,7 +30,7 @@ module Unlight
   }
 end
 
-if File.exist?(File.dirname(__FILE__) + '/server_ip.rb')
+if File.exist?("#{File.dirname(__FILE__)}/server_ip.rb")
   require 'server_ip'
 end
 

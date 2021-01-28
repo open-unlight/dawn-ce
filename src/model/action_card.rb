@@ -89,7 +89,7 @@ module Unlight
     end
 
     def ActionCard::ac2str(ac)
-      '【' + ac.id.to_s + ':' + type2str(ac.u_type) + ac.u_value.to_s + '/' + type2str(ac.b_type) + ac.b_value.to_s + '】'
+      "【#{ac.id}:#{type2str(ac.u_type)}#{ac.u_value}/#{type2str(ac.b_type)}#{ac.b_value}】"
     end
 
     def ActionCard::type2str(type)

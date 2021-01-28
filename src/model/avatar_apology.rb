@@ -82,7 +82,7 @@ module Unlight
               set_items.last.push(j.to_i)
             end
           end
-          ret[date] = { date: date_str.gsub('-', '/'), items: set_items }
+          ret[date] = { date: date_str.tr('-', '/'), items: set_items }
         end
       end
       ret.sort

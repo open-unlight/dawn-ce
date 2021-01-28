@@ -155,13 +155,13 @@ module Unlight
       num.times do |i|
         ret[ES_SHUFFLE_SET[i * 2]], ret[ES_SHUFFLE_SET[i * 2 + 1]] = ret[ES_SHUFFLE_SET[i * 2 + 1]], ret[ES_SHUFFLE_SET[i * 2]]
       end
-      ret = ret[0..3] + '-' + ret[4..7] + '-' + ret[8..12]
+      ret = "#{ret[0..3]}-#{ret[4..7]}-#{ret[8..12]}"
       ret
     end
 
     # ****_****_*****の形式
     def self::check_infection_serial(s)
-      s.gsub!('-', '')
+      s.delete!('-')
       ret = s.length == 13
       ret = s.hex != 0 if ret # 0の時はじく
       num = s[ES_SHUFFLE_NUM[0]].hex + s[ES_SHUFFLE_NUM[1]].hex

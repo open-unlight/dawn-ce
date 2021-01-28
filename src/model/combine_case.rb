@@ -214,7 +214,7 @@ module Unlight
       ret = CombineCase::cache_store.get("combine_case:cond:#{id}")
       unless ret
         ret = { base: [], add: [[]] }
-        ret = ret.merge(eval(self.requirement.gsub('|', ','))) if self.requirement.length > 0
+        ret = ret.merge(eval(self.requirement.tr('|', ','))) if self.requirement.length > 0
         CombineCase::cache_store.set("combine_case:cond:#{id}", ret)
         @@condition_base_proc[self.id] = nil
         @@condition_add_proc[self.id] = nil

@@ -78,12 +78,12 @@ File.open('./data/backup/string_constants.txt') do |file|
   bracket_skip = 0
   bracket_check = false
   while line = file.gets
-    if line.force_encoding('UTF-8') =~ mode_reg
+    if line.force_encoding('UTF-8')&.match?(mode_reg)
       skip = true
       bracket_check = true
     else
       if skip || bracket_skip > 0
-        if line.force_encoding('UTF-8') =~ end_reg
+        if line.force_encoding('UTF-8')&.match?(end_reg)
           skip = false
         elsif bracket_check && line.force_encoding('UTF-8').include?('{')
           bracket_skip = +1
@@ -105,7 +105,7 @@ f = file.open('w') { |f| f.puts new_const.each { |a| a } }
 # ======================
 if check_file
   check_hash = Hash.new()
-  File.open('../client/data/' + check_file) do |file|
+  File.open("../client/data/#{check_file}") do |file|
     while line = file.gets
       p line if OUTPUT
       line.scan(/./m) { |ch|
@@ -150,7 +150,7 @@ puts "error font num,#{error_num}."
 
 p h.values.sort! if OUTPUT
 p h if OUTPUT
-use_char_no = ", unicodeRange='" + h.values.sort!.join(',') + "'"
+use_char_no = ", unicodeRange='#{h.values.sort!.join(',')}'"
 use_char_no = '' if all_griph
 file = Pathname.new(filename)
 file.open('w') { |f| f.puts DATA.read.gsub('__font_UTF_NO__', use_char_no).gsub('__FONT_H__', font_h).gsub('__FONT_R__', font_r) }

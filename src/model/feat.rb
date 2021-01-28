@@ -244,7 +244,7 @@ module Unlight
         if s[-1]
           s[-1].sub!(e[0], e[1])
           if s[-1].strip.length > 0
-            s[-1] = '(range_free || ' + s[-1].to_s + ')'
+            s[-1] = "(range_free || #{s[-1]})"
           end
         end
       end
@@ -254,7 +254,7 @@ module Unlight
         s << m.to_a[0]
         if s[-1]
           another_wild_cards = (s.size == WILD_CARD + 1 && s[WILD_TYPE_AND_CERTAIN_VALUE]) ? 1 : 0
-          cond = another_wild_cards > 0 ? e[1] + '+' + another_wild_cards.to_s : e[1]
+          cond = another_wild_cards > 0 ? "#{e[1]}+#{another_wild_cards}" : e[1]
           s[-1].sub!(e[0], cond)
         end
         while (m && m.post_match)
@@ -277,7 +277,7 @@ module Unlight
         if s[-1]
           s[-1].sub!(e[0], e[3])
           if s[-1].strip.length > 0 && s[-1] != '[1, 2, 3]'
-            s[-1] = 'range_free ? [1, 2, 3] : ' + s[-1].to_s
+            s[-1] = "range_free ? [1, 2, 3] : #{s[-1]}"
           end
         end
       end
@@ -432,18 +432,18 @@ module Unlight
       end
 
       if dist_str != ''
-        dist_str.gsub!('L', '遠')
-        dist_str.gsub!('M', '中')
-        dist_str.gsub!('S', '近')
+        dist_str.tr!('L', '遠')
+        dist_str.tr!('M', '中')
+        dist_str.tr!('S', '近')
         dist_str += ':'
       end
 
-      ac_str.gsub!('S', '近')
-      ac_str.gsub!('A', '遠')
-      ac_str.gsub!('E', '特')
-      ac_str.gsub!('D', '防')
-      ac_str.gsub!('M', '移')
-      ac_str.gsub!('W', '無')
+      ac_str.tr!('S', '近')
+      ac_str.tr!('A', '遠')
+      ac_str.tr!('E', '特')
+      ac_str.tr!('D', '防')
+      ac_str.tr!('M', '移')
+      ac_str.tr!('W', '無')
 
       dist_str + ac_str
     end

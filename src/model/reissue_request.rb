@@ -76,7 +76,7 @@ module Unlight
       used_list = ReissueRequest.all.map { |rr| rr.uniq_str }
       ret = ''
       while ret == ''
-        trade_no_list = Digest::MD5.hexdigest(Time.now.to_s + 'ReissueRequest' + rand(1024).to_s)
+        trade_no_list = Digest::MD5.hexdigest("#{Time.now}ReissueRequest#{rand(1024)}")
         start_idx = 0
         str = ''
         UNIQ_STR_SPLIT_SET.each_with_index do |num, idx|

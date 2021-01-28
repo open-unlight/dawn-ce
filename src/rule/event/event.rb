@@ -103,7 +103,7 @@ module Unlight
 
     # hook_funcの名称
     def EventRule::hook_func_name
-      instance.hook_func[0] + '.' + instance.hook_func[1].to_s + '_' + instance.type.to_s + '_hook_func'
+      "#{instance.hook_func[0]}.#{instance.hook_func[1]}_#{instance.type}_hook_func"
     end
 
     def EventRule::dispose
@@ -114,7 +114,7 @@ module Unlight
     def EventRule::context(*cont)
       s = []
       cont.each do |a|
-        s << 'Unlight::' + a[0] + '::' + a[1].to_s
+        s << "Unlight::#{a[0]}::#{a[1]}"
       end
       instance.allow_context << s.join('->')
     end
@@ -348,7 +348,7 @@ END
     # コンテキストチェック部分を返す
     def self::context_check_gen(doc)
       if @event_rule.allow_context.size > 0
-        c = @event_rule.allow_context.map { |a| 'context_check("' + a + '")' }.join('||')
+        c = @event_rule.allow_context.map { |a| "context_check(\"#{a}\")" }.join('||')
         st = "if #{c}\n"
         en = ''
          en = "\n          else\n"

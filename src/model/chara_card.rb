@@ -1168,7 +1168,7 @@ module Unlight
     def check_harden_passive
       if @cc.using
         min = Time.now.min
-        if (10..19).include?(min) || (40..49).include?(min)
+        if (10..19).cover?(min) || (40..49).cover?(min)
           force_on_passive(PASSIVE_HARDEN)
         end
       end
@@ -1206,7 +1206,7 @@ module Unlight
     def check_absorp_passive
       if @cc.using
         min = Time.now.min
-        if (20..29).include?(min) || (50..59).include?(min)
+        if (20..29).cover?(min) || (50..59).cover?(min)
           unless @passives_enable[PASSIVE_HARDEN]
             force_on_passive(PASSIVE_ABSORP)
           end
@@ -2497,7 +2497,7 @@ module Unlight
     def use_cooly_passive_move
       if @passives_enable[PASSIVE_COOLY]
         owner.battle_table.clone.each do |c|
-          if (c.u_type == ActionCard::DEF || c.b_type == ActionCard::DEF) && (1..60).include?(c.id)
+          if (c.u_type == ActionCard::DEF || c.b_type == ActionCard::DEF) && (1..60).cover?(c.id)
             @passive_cooly_card_list << c
           end
         end
@@ -2509,7 +2509,7 @@ module Unlight
     def use_cooly_passive_attack
       if @passives_enable[PASSIVE_COOLY] && owner.initiative
         owner.battle_table.clone.each do |c|
-          if (c.u_type == ActionCard::DEF || c.b_type == ActionCard::DEF) && (1..60).include?(c.id)
+          if (c.u_type == ActionCard::DEF || c.b_type == ActionCard::DEF) && (1..60).cover?(c.id)
             @passive_cooly_card_list << c
           end
         end
@@ -2555,7 +2555,7 @@ module Unlight
     def use_burning_embers_passive_move
       if @passives_enable[PASSIVE_BURNING_EMBERS]
         owner.battle_table.clone.each do |c|
-          if (c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD) && (1..60).include?(c.id)
+          if (c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD) && (1..60).cover?(c.id)
             @passive_burning_embers_card_list << c
           end
         end
@@ -2567,7 +2567,7 @@ module Unlight
     def use_burning_embers_passive_attack
       if @passives_enable[PASSIVE_BURNING_EMBERS] && !owner.initiative
         owner.battle_table.clone.each do |c|
-          if (c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD) && (1..60).include?(c.id)
+          if (c.u_type == ActionCard::SWD || c.b_type == ActionCard::SWD) && (1..60).cover?(c.id)
             @passive_burning_embers_card_list << c
           end
         end
@@ -19585,7 +19585,7 @@ module Unlight
 
     # 攻撃力の再評価関数
     def recheck_battle_point(target, phase)
-      phase_key_str = '[' + phase + ':'
+      phase_key_str = "[#{phase}:"
       feats = get_feats_list_as_for(target, phase)
 
       feats.each do |f|
@@ -19599,7 +19599,7 @@ module Unlight
 
     # 指定したフェイズで使用可能な技を列挙する
     def get_feats_list_as_for(target, phase)
-      phase_key_str = '[' + phase + ':'
+      phase_key_str = "[#{phase}:"
       feats = []
       target.current_chara_card.get_feat_ids.each do |fid|
         f = Unlight::Feat[fid]
@@ -22559,7 +22559,7 @@ module Unlight
         additional_damage_str = additional_damage.to_s
         if @cc.status[STATE_CONTROL][1] > 0
           additional_damage += 4
-          additional_damage_str = additional_damage_str + '+4'
+          additional_damage_str = "#{additional_damage_str}+4"
         end
         owner.special_message_event(:EX_THIRTEEN_EYES, additional_damage_str)
         duel.tmp_damage += additional_damage
@@ -22725,7 +22725,7 @@ module Unlight
         reduced_damage_str = reduced_damage.to_s
         if @cc.status[STATE_CONTROL][1] > 0
           reduced_damage += 3
-          reduced_damage_str = reduced_damage_str + '+3'
+          reduced_damage_str = "#{reduced_damage_str}+3"
         end
         owner.special_message_event(:THIRD_STEP, reduced_damage_str)
         duel.tmp_damage -= reduced_damage
@@ -23772,7 +23772,7 @@ module Unlight
         use_feat_event(@feats[FEAT_SEIHO])
         @feats_enable[FEAT_SEIHO] = false
         owner.cards.each do |c|
-          if (1..60).include?(c.id)
+          if (1..60).cover?(c.id)
             if c.u_type == ActionCard::SWD && c.u_value < 4
               c.rewrite_u_value(c.u_value + 1)
             end
@@ -23824,7 +23824,7 @@ module Unlight
       if @feats_enable[FEAT_DOKKO]
         @feats_enable[FEAT_DOKKO] = false
         owner.cards.each do |c|
-          if (1..60).include?(c.id)
+          if (1..60).cover?(c.id)
             if c.u_type == ActionCard::SWD && (c.u_value == 4 || c.u_value == 5)
               c.rewrite_u_value(6)
             end
@@ -23876,7 +23876,7 @@ module Unlight
       if @feats_enable[FEAT_NYOI]
         @feats_enable[FEAT_NYOI] = false
         owner.cards.each do |c|
-          if (1..60).include?(c.id)
+          if (1..60).cover?(c.id)
             if c.u_type == ActionCard::SWD && c.u_value == 6
               c.rewrite_u_value(9)
             end
@@ -23887,7 +23887,7 @@ module Unlight
         end
         if duel.tmp_damage > 0
           foe.cards.each do |c|
-            if (1..60).include?(c.id)
+            if (1..60).cover?(c.id)
               if c.u_value > 1
                 c.rewrite_u_value(c.u_value - 1)
               end
@@ -24025,7 +24025,7 @@ module Unlight
           foe.cards.shuffle.each do |c|
             break if cnt >= max_num
 
-            if (1..60).include?(c.id)
+            if (1..60).cover?(c.id)
               rewrite_count = false
               if c.u_value < 9
                 tmp = c.u_value + Feat.pow(@feats[FEAT_CARP_LIGHTNING])
@@ -24046,7 +24046,7 @@ module Unlight
           foe.cards.shuffle.each do |c|
             break if cnt >= max_num
 
-            if (1..60).include?(c.id)
+            if (1..60).cover?(c.id)
               rewrite_count = false
               if c.u_value > 1
                 tmp = c.u_value - Feat.pow(@feats[FEAT_CARP_LIGHTNING])
@@ -26198,12 +26198,12 @@ module Unlight
       end
       ac_cond = ac_cond_list.collect { |i, cond|
         if (cond[:type_sign] == 'W' && cond[:num])
-          ((cond[:type_sign] + '1+,') * cond[:num].to_i).chop
+          (("#{cond[:type_sign]}1+,") * cond[:num].to_i).chop
         else
           cond[:type_sign].to_s + cond[:value].to_s + cond[:op].to_s
         end
       }.join(',')
-      ret = dist_cond + ':' + ac_cond
+      ret = "#{dist_cond}:#{ac_cond}"
       ret
     end
   end

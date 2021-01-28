@@ -11,7 +11,7 @@
 module Unlight
   # ライブラリのパス
   $:.unshift __dir__
-  LIB_PATH = File.dirname(__FILE__).gsub('src/constants', '') + 'lib'
+  LIB_PATH = "#{File.dirname(__FILE__).gsub('src/constants', '')}lib"
   # BotTest用セッションキー固定
   BOT_SESSION = false
   BOT_SESSION_KEY = '49c5de87eced403d533526afc6ef0cbe3993efcd'
@@ -375,8 +375,8 @@ module Unlight
 
   #Sqlite3設定のデフォルト
   SQLITE3 =  {
-    DB_File: File.dirname(__FILE__).gsub('src/constants', '') + 'data/game_dev2.db',
-    LOG_File: File.dirname(__FILE__).gsub('src/constants', '') + 'data/db.log'
+    DB_File: "#{File.dirname(__FILE__).gsub('src/constants', '')}data/game_dev2.db",
+    LOG_File: "#{File.dirname(__FILE__).gsub('src/constants', '')}data/db.log"
   }
 
   #   case STORE_TYPE
@@ -437,7 +437,7 @@ class Time
           year, mon, day, hour, min, sec =
             apply_offset(year, mon, day, hour, min, sec, offset)
           t = self.utc(year, mon, day, hour, min, sec, usec)
-          t.localtime unless zone =~ /Z|-00:?(00)?/
+          t.localtime unless /Z|-00:?(00)?/.match?(zone)
           t
         else
           self.local(year, mon, day, hour, min, sec, usec)

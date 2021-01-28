@@ -613,7 +613,7 @@ module Unlight
         if set
           set.each_index do |i|
             avatar = Avatar[set[i].avatar_id]
-            name = avatar ? avatar.name + ' Lv.' + avatar.level.to_s : ''
+            name = avatar ? "#{avatar.name} Lv.#{avatar.level}" : ''
             ret << name
             ret << arrow_set[i + st_i]
             ret << set[i].score

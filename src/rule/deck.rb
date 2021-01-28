@@ -80,7 +80,7 @@ module Unlight
 
         c = nil
         if borderline > 0
-          c = @deck_cards.shuffle.select { |ac| ac.event_no == 0 && ac.u_value <= borderline && ac.b_value <= borderline }.first
+          c = @deck_cards.shuffle.find { |ac| ac.event_no == 0 && ac.u_value <= borderline && ac.b_value <= borderline }
         else
           c = @deck_cards.sort_by { |ac| [ac.u_value, ac.b_value] }.first
         end

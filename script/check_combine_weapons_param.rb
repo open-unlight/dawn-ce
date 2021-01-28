@@ -3,7 +3,7 @@
 $:.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
-require File.expand_path('.') + '/script/sql_create.rb'
+require "#{File.expand_path('.')}/script/sql_create.rb"
 $arg = ARGV.shift
 
 module Unlight
