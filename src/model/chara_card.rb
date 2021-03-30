@@ -828,7 +828,7 @@ module Unlight
 
       # 攻撃実行
       if index == target.current_chara_card_no
-        target.damaged_event(attribute_damage(attribute, foe, damage), is_not_hostile)
+        target.damaged_event(attribute_damage(attribute, target, damage), is_not_hostile) # issue1 specific kind of damage was assigned to wrong target
       else
         unless target.chara_cards[index].status[STATE_UNDEAD2][1] > 0
           target.party_damaged_event(index, damage, is_not_hostile)
@@ -2522,7 +2522,7 @@ module Unlight
       if @passives_enable[PASSIVE_COOLY] && !owner.initiative
         owner.battle_table = []
         @passive_cooly_card_list.shuffle.each do |c|
-          if (!duel.deck.exist?(c) && !foe.cards.include?(c) && !owner.cards.include?(c)) # 山札・手札になければ引く
+          if (!duel.deck.exist?(c) && !foe.cards.include?(c) && !owner.cards.include?(c) && !foe.battle_table.clone.include?(c)) # 山札・手札になければ引く #issue2 unexpected duplicate card
             owner.grave_dealed_event([c])
             break
           end
@@ -13028,7 +13028,7 @@ module Unlight
       if @feats_enable[FEAT_BEGGARS_BANQUET] && Feat.pow(@feats[FEAT_BEGGARS_BANQUET]) == 50
         # 提出したカードを回収
         @beggars_keep_card = owner.battle_table.clone.sort_by { |c| c.get_value_max }.pop
-        owner.battle_table = []
+        owner.battle_table.delete(@beggars_keep_card) #issue3 other cards are disappeared
       end
     end
     regist_event ExBeggarsBanquetTmpFeatEvent
@@ -14795,7 +14795,7 @@ module Unlight
       if @feats_enable[FEAT_TENDER_NIGHT]
         use_feat_event(@feats[FEAT_TENDER_NIGHT])
         @feats_enable[FEAT_TENDER_NIGHT] = false
-        replace_num = Feat.pow(@feats[FEAT_TENDER_NIGHT]) == 2 ? 3 : 1
+        replace_num = Feat.pow(@feats[FEAT_TENDER_NIGHT]) == 2 ? 3 : 2  #issue4 doesn't match with skill effect
         duel.get_event_deck(owner).replace_event_cards(HP5_EVENT_CARD_ID, replace_num)
         owner.healed_event(1)
       end
