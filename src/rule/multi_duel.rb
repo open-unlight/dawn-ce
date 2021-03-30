@@ -45,8 +45,8 @@ module Unlight
       if @rule == RULE_1VS1
         @cards1 << deck1.cards[0]
         @cards2 << deck2.cards[0]
-        event_cards1 << deck1.event_cards[0].flatten
-        event_cards2 << deck2.event_cards[0].flatten
+        event_cards1 = deck1.event_cards[0].flatten
+        event_cards2 = deck2.event_cards[0].flatten
         weapon_cards1 << deck1.weapon_cards[0]
         weapon_cards2 << deck2.weapon_cards[0]
         equip_cards1 << deck1.equip_cards[0]
