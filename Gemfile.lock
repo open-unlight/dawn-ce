@@ -189,10 +189,10 @@ DEPENDENCIES
   rspec
   rspec_junit_formatter
   rubocop (~> 1.8.1)
-  rubocop-performance
-  rubocop-rspec
-  rubocop-sequel
-  rubocop-thread_safety
+  rubocop-performance (>= 1.8.1)
+  rubocop-rspec (>= 2.0.1)
+  rubocop-sequel (>= 0.1.0)
+  rubocop-thread_safety (>= 0.4.2)
   sentry-raven
   sequel (~> 4.0)
   simplecov (~> 0.17.1)
