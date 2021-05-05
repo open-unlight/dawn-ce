@@ -13,8 +13,8 @@ More information please reference ours [developer document](https://docs.unlight
 
 ## Requirement
 
-* Ruby 2.6.6
-* MySQL 5.7
+* Ruby 2.6.7
+* MySQL 8.0
 * Memcached
 * SQLite (for development)
 
@@ -59,10 +59,10 @@ Please follow the terminal message to update `.bashrc` or your shell configurati
 
 ```bash
 # Use rbenv
-rbenv install 2.6.6
+rbenv install 2.6.7
 
 # Use rvm
-rvm install 2.6.6
+rvm install 2.6.7
 ```
 
 You may need to install the bundler for the newly installed Ruby.
@@ -74,14 +74,14 @@ gem install bundler -v 2.1.4
 
 ### MySQL
 
-The MySQL isn't the latest version, please notice don't use `mysql` instead of `mysql@5.7` for install.
+The MySQL isn't the latest version, please notice don't use `mysql` instead of `mysql` for install.
 
 ```bash
 # Install
-brew install mysql@5.7
+brew install mysql
 
 # Start Server
-brew services start mysql@5.7
+brew services start mysql
 ```
 
 ### Memcached
@@ -112,7 +112,7 @@ If you got the error message for `mysql2` gem, you need extra configure it to in
 
 ```bash
 export LIBRARY_PATH=$(brew --prefix openssl@1.1)/lib:$LIBRARY_PATH
-gem install mysql2 -v 0.5.3 -- --with-mysql-config=/usr/local/opt/mysql@5.7/bin/mysql_config
+gem install mysql2 -v 0.5.3 -- --with-mysql-config=/usr/local/opt/mysql/bin/mysql_config
 ```
 
 ## Development
