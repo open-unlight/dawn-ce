@@ -14,7 +14,7 @@ gem 'sequel', '~> 4.0'
 gem 'dalli'
 
 # API Server
-gem 'puma'
+gem 'puma', '>= 5.3.1'
 gem 'rack'
 
 # Monitor
