@@ -14,7 +14,7 @@ gem 'sequel', '~> 4.0'
 gem 'dalli'
 
 # API Server
-gem 'puma'
+gem 'puma', '>= 5.3.1'
 gem 'rack'
 
 # Monitor
@@ -33,10 +33,10 @@ end
 
 group :development, :test do
   gem 'rubocop', '~> 1.8.1', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-rspec', require: false
-  gem 'rubocop-sequel', require: false
-  gem 'rubocop-thread_safety', require: false
+  gem 'rubocop-performance', '>= 1.8.1', require: false
+  gem 'rubocop-rspec', '>= 2.0.1', require: false
+  gem 'rubocop-sequel', '>= 0.1.0', require: false
+  gem 'rubocop-thread_safety', '>= 0.4.2', require: false
 
   gem 'bundler-audit', require: false
   gem 'bundler-leak', require: false
