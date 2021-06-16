@@ -10603,8 +10603,9 @@ module Unlight
         use_feat_event(@feats[FEAT_MADRIPOOL])
         hps = get_hps(foe)
         if Feat.pow(@feats[FEAT_MADRIPOOL]) == 99
+          add_num = @cc.status[STATE_MOVE_UP][1] > 0 ? @cc.status[STATE_MOVE_UP][0] / 3 : 0
           attribute_party_damage(foe, hps, 1, ATTRIBUTE_CONSTANT, TARGET_TYPE_RANDOM, 2)
-          attribute_party_damage(foe, get_hps(foe), 1 + (@cc.status[STATE_MOVE_UP][0] / 3), ATTRIBUTE_CONSTANT, TARGET_TYPE_RANDOM)
+          attribute_party_damage(foe, get_hps(foe), 1 + add_num, ATTRIBUTE_CONSTANT, TARGET_TYPE_RANDOM)
         else
           attribute_party_damage(foe, hps, 1, ATTRIBUTE_CONSTANT, TARGET_TYPE_RANDOM, Feat.pow(@feats[FEAT_MADRIPOOL])) if hps.count > 0
         end
