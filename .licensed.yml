@@ -13,4 +13,13 @@ reviewed:
     - eventmachine # Rplace with Ractor
     - sqlite3 # BSD-3
     - concurrent-ruby # MIT
-    - ruby2_keywords # Ruby builtin
+    - ruby2_keywords # BSD-2-Clause
+    - sentry-ruby # Apache-2.0
+    - sentry-ruby-core # Apache-2.0
+    - faraday-em_http # MIT
+    - faraday-em_synchrony # MIT
+    - faraday-excon # MIT
+    - faraday-httpclient # MIT
+    - faraday-net_http # MIT
+    - faraday-patron # MIT
+    - faraday-rack # MIT
