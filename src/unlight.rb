@@ -13,12 +13,15 @@ require 'rubygems'
 require 'sequel'
 require 'logger'
 require 'dalli'
-require 'sentry-raven'
+require 'sentry-ruby'
 
 require 'active_support'
 require 'active_support/core_ext/object/blank'
 
 Sequel::Model.require_valid_table = false
+
+# Initialize Extensions
+require_relative '../config/initializers/sentry'
 
 # db_config.rb
 module Unlight

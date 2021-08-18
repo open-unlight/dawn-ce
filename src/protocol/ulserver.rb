@@ -89,20 +89,29 @@ module Unlight
               @error_count += 1
             end
           else
-            begin
+            method = @func_list[cmd[0]].name
+            trace_performance(method) do
               @func_list[cmd[0]].call(cmd[1])
             rescue => e
-              Raven.capture_exception(e)
+              Sentry.capture_exception(e)
               SERVER_LOG.fatal("#{@@class_name}: [docommand:] fatal error #{e}:#{e.backtrace}")
             end
           end
         end
       end
 
+      def trace_performance(method, &block)
+        class_name = self.class.name.split('::').last
+        Sentry.get_current_scope.set_transaction_name("#{class_name}##{method}")
+        transaction = Sentry.start_transaction(op: 'dawn.execute_command')
+        yield if block_given?
+        transaction.finish
+      end
+
       def track_user_context
         return unless @player
 
-        Raven.user_context(
+        Sentry.set_user(
           id: @player.id,
           username: @player.name,
           ip_address: @player.last_ip
