@@ -26,12 +26,29 @@ services:
       MYSQL_ROOT_PASSWORD: unlight
     ports:
       - '3307:3306'
+  xmlsocket:
+    <<: *image
+    command: xmlsocket
+    ports:
+      - '11999:11999' # XMLSocket for Flash Policy
   auth:
     <<: *image
     hostname: auth.lvh.me
     command: authentication -p 12001
     ports:
       - '12001:12001'
+  lobby:
+    <<: *image
+    hostname: lobby.lvh.me
+    command: lobby -p 12002
+    ports:
+      - '12002:12002'
+  data:
+    <<: *image
+    hostname: data.lvh.me
+    command: data_lobby -p 12032
+    ports:
+      - '12032:12032'
   game:
     <<: *image
     hostname: auth.lvh.me

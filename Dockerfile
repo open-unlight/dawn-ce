@@ -21,7 +21,7 @@ RUN mkdir -p $UNLIGHT_HOME
 WORKDIR $UNLIGHT_HOME
 
 COPY Gemfile* $UNLIGHT_HOME/
-RUN gem install bundler:2.1.4 \
+RUN gem install bundler:2.2.5 \
     && bundle config --local deployment 'true' \
     && bundle config --local frozen 'true' \
     && bundle config --local no-cache 'true' \
