@@ -92,7 +92,7 @@ module Unlight
             begin
               @func_list[cmd[0]].call(cmd[1])
             rescue => e
-              Raven.capture_exception(e)
+              Sentry.capture_exception(e)
               SERVER_LOG.fatal("#{@@class_name}: [docommand:] fatal error #{e}:#{e.backtrace}")
             end
           end
@@ -102,7 +102,7 @@ module Unlight
       def track_user_context
         return unless @player
 
-        Raven.user_context(
+        Sentry.set_user(
           id: @player.id,
           username: @player.name,
           ip_address: @player.last_ip

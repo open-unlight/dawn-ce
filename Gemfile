@@ -18,7 +18,7 @@ gem 'puma', '>= 5.3.1'
 gem 'rack'
 
 # Monitor
-gem 'sentry-raven'
+gem 'sentry-ruby'
 
 # Utils
 gem 'activesupport'
