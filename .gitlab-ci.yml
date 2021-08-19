@@ -168,7 +168,7 @@ build:
   stage: build
   image: quay.io/open-unlight/ansible-in-docker:19.03.1
   services:
-    - docker:19.03.1-dind
+    - docker:20.10-dind
   variables:
     DOCKER_HOST: tcp://docker:2376
   before_script:
