@@ -9,7 +9,7 @@ RUN apk --update \
         build-base=~0.5 \
         ca-certificates=~20191127 \
         zlib-dev=~1.2 \
-        libressl-dev=~3.1 \
+        openssl-dev=~1.1.1 \
         mariadb-dev=~10.5 \
         mariadb-client=~10.5
 
@@ -39,11 +39,10 @@ FROM ruby:${RUBY_VERSION}-alpine
 
 RUN apk --update \
         add --no-cache \
-        gcc=~10.2 \
+        gcc=~10.3 \
         libc-dev=~0.7 \
         ca-certificates=~20191127 \
         zlib=~1.2 \
-        libressl=~3.1 \
         mariadb-connector-c=~3.1
 
 ARG UNLIGHT_HOME
