@@ -2,7 +2,7 @@ Dawn Server
 ===
 ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/openunlight/dawn-ce)
 ![Docker Image Version (latest semver)](https://img.shields.io/docker/v/openunlight/dawn-ce?sort=semver)
-[![Build Status](https://travis-ci.com/open-unlight/dawn-ce.svg?token=sVXxZVx3tpMDzXpPkwjf&branch=master)](https://travis-ci.com/open-unlight/dawn-ce)
+[![Build Status](https://github.com/open-unlight/dawn-ce/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/open-unlight/dawn-ce/actions)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopen-unlight%2Fdawn-ce.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fopen-unlight%2Fdawn-ce?ref=badge_shield)
 [![Maintainability](https://api.codeclimate.com/v1/badges/3e1d368e98780957e572/maintainability)](https://codeclimate.com/github/open-unlight/dawn-ce/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/3e1d368e98780957e572/test_coverage)](https://codeclimate.com/github/open-unlight/dawn-ce/test_coverage)
