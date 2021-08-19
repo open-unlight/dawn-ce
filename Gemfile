@@ -24,10 +24,10 @@ gem 'sentry-ruby'
 gem 'activesupport'
 gem 'gmp'
 gem 'rake'
-gem 'RubyInline', '~>3.12.4'
+gem 'RubyInline', '~> 3.12.4'
 
 group :build do
-  gem 'RocketAMF', '~>0.2.1'
+  gem 'RocketAMF', '~> 0.2.1'
   gem 'sqlite3'
 end
 
@@ -53,6 +53,7 @@ group :test do
   gem 'rspec_junit_formatter', require: false
 
   gem 'cucumber', require: false
+  gem 'database_cleaner', require: false
   gem 'database_cleaner-sequel', require: false
   gem 'factory_bot', require: false
   gem 'faker', require: false
