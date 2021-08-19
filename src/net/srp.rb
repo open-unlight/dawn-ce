@@ -14,7 +14,7 @@ class SRP
     @N = n || '115b8b692e0e045692cf280b436735c77a5a9e8a9e7ed56c965f87db5b2a2ece3'.hex
     @g = g || 2
     # プロトコル設定
-    @proto = s || :'SPR6a' # SPR3 or SPR6 or SPR6a
+    @proto = s || :SPR6a # SPR3 or SPR6 or SPR6a
     @k = srp_compute_k(@N, @g)
     tn = @N.to_s(16)
     if tn.length & 1 == 1
@@ -80,8 +80,8 @@ class SRP
 
   def srp_compute_u(ahex, bhex)
     hashin = ''
-    if @proto != :'SPR3'
-      if @proto == :'SPR6'
+    if @proto != :SPR3
+      if @proto == :SPR6
         if ((ahex.length & 1) == 0)
           hashin += ahex
         else
@@ -92,7 +92,7 @@ class SRP
         hashin += nzero(nlen - ahex.length) + ahex
       end
     end
-    if (@proto == :'SPR3' || @proto == :'SPR6')
+    if (@proto == :SPR3 || @proto == :SPR6)
       if ((bhex.length & 1) == 0)
         hashin += bhex
       else
@@ -101,7 +101,7 @@ class SRP
     else
       hashin += nzero(nlen - bhex.length) + bhex
     end
-   if (@proto == :"SPR3")
+   if (@proto == :SPR3)
      utmp = sha1_hash_hex(hashin)[0, 8]
    else
      utmp = sha1_hash_hex(hashin)
@@ -115,9 +115,9 @@ class SRP
 
   def srp_compute_k(n, g)
     hashin = ''
-    if @proto == :'SPR3'
+    if @proto == :SPR3
       1
-    elsif @proto == :'SPR6'
+    elsif @proto == :SPR6
       3
     else
       nhex = n.to_s(16)

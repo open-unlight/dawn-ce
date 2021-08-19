@@ -1,4 +1,7 @@
 inherit_from: .rubocop_todo.yml
+inherit_mode:
+  merge:
+    - Exclude
 
 require:
   - rubocop-performance
@@ -8,7 +11,7 @@ require:
 
 AllCops:
   # The Ruby 2.7 changes may breaks UL server
-  TargetRubyVersion: 2.6.6
+  TargetRubyVersion: 2.6.8
   DisplayCopNames: true
   NewCops: enable
   SuggestExtensions: false
@@ -24,3 +27,10 @@ RSpec/FilePath:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*_spec.rb
+
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+    - 'src/**/*'
+    - 'script/**/*'
+    - 'bin/**/*'

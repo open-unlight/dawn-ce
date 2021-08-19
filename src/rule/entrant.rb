@@ -307,7 +307,7 @@ module Unlight
 
     # なんらかの武器を持ってるか
     def has_weapon()
-      @weapon_cards[@current_chara_card_no].blank? ? false : true
+      !@weapon_cards[@current_chara_card_no].blank?
     end
 
     # 武器の所持がない場合に、あるように見せかける
@@ -566,7 +566,7 @@ module Unlight
     regist_event CardLockEvent
 
     def clear_card_locks
-      ret = @locked_cards_id.size > 0 ? true : false
+      ret = @locked_cards_id.size > 0
       @locked_cards_id = []
       ret
     end
@@ -586,7 +586,7 @@ module Unlight
     def move(i)
       i = 0 if current_chara_card.is_magnetic? || @foe.current_chara_card.is_magnetic?
 
-      if @direction == DIRECTION_CHARA_CHANGE && @hit_points.select { |v| v > 0 }.size > 1
+      if @direction == DIRECTION_CHARA_CHANGE && @hit_points.count { |v| v > 0 } > 1
         @change_done = false
         @change_need = true
       elsif @direction == DIRECTION_STAY

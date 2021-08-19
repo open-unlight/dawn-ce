@@ -61,7 +61,7 @@ module Dawn
     def import(batch_size: 1000, &block)
       lazy.each_slice(batch_size) do |rows|
         model.multi_insert(rows)
-        yield rows.size, rows if block_given?
+        yield rows.size, rows if block
       end
     end
 
@@ -88,10 +88,10 @@ module Dawn
     # @since 0.1.0
     def process(row)
       row
-        .yield_self(&method(:localize_column))
-        .yield_self(&method(:format_datetime))
-        .yield_self(&method(:set_updated_time))
-        .yield_self(&method(:fill_empty_data))
+        .yield_self { |item| localize_column(item) }
+        .yield_self { |item| format_datetime(item) }
+        .yield_self { |item| set_updated_time(item) }
+        .yield_self { |item| fill_empty_data(item) }
     end
 
     # Pick current locale column

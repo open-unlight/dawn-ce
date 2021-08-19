@@ -843,12 +843,12 @@ module Unlight
           else
             # 装備しようとするインベントリからパーツ位置を取り出す
             str1 = []
-            i.avatar_part.image.split(/\+/).each { |e| str1 << e[e.rindex('_p') + 2..-1] }
+            i.avatar_part.image.split('+').each { |e| str1 << e[e.rindex('_p') + 2..-1] }
             part_inventories.each do |p|
               # すべての使用中パーツに関してパーツの重複をしらべる（素体は除く）
               if p.equiped? && p.avatar_part && (p.avatar_part.parts_type != APT_B_BODY)
                 str2 = []
-                p.avatar_part.image.split(/\+/).each { |e| str2 << e[e.rindex('_p') + 2..-1] }
+                p.avatar_part.image.split('+').each { |e| str2 << e[e.rindex('_p') + 2..-1] }
                 # 装備するアイテムと装備中のアイテムを比較し重複していたら外す
                 if (str1 & str2).count > 0
                   p.unequip
@@ -3633,11 +3633,7 @@ module Unlight
       else
         cap = CHARA_VOTE_QUEST_CAP
       end
-      if self.get_quest_flag(map_id) <= cap
-        true
-      else
-        false
-      end
+      self.get_quest_flag(map_id) <= cap
     end
 
     # クエストの進行度が最大か？
@@ -4087,7 +4083,7 @@ module Unlight
     def check_set_end_at_records
       drop_invs = []
       reset_flag = false
-      self.achievement_inventories.sort { |a, b| a.achievement_id <=> b.achievement_id }.each do |ai|
+      self.achievement_inventories.sort_by(&:achievement_id).each do |ai|
         if DAILY_ACHIEVEMENT_IDS.include?(ai.achievement_id)
           drop_invs << ai
           if ai.is_end
@@ -4112,7 +4108,7 @@ module Unlight
         t = Time.now.utc
         d_time = DateTime.new(t.year, t.month, t.day) + 1
         next_end_at = Time.gm(d_time.year, d_time.month, d_time.day) + LOGIN_BONUS_OFFSET_TIME
-        self.achievement_inventories.sort { |a, b| a.achievement_id <=> b.achievement_id }.each do |ai|
+        self.achievement_inventories.sort_by(&:achievement_id).each do |ai|
           records.push(ai) if all_list.include?(ai.achievement_id)
         end
         # SERVER_LOG.info("<UID:#{self.player_id}>LobbyServer: [#{__method__}] records:#{records}")
@@ -4468,7 +4464,7 @@ module Unlight
           end
         end
         # ループするリストの先端のものを新規追加
-        new_ac_id = a_set.sort { |a, b| a.to_i <=> b.to_i }.first.to_i
+        new_ac_id = a_set.sort_by(&:to_i).first.to_i
         new_ai = AchievementInventory.new do |b|
           b.avatar_id = self.id
           b.achievement_id = new_ac_id

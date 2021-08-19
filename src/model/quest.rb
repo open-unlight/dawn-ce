@@ -299,11 +299,7 @@ module Unlight
       @route_array = create_route_array
       solve([], 0, pos + 1)
       p @closed
-      if @closed.size > 0
-        true
-      else
-        false
-      end
+      @closed.size > 0
     end
 
     def solve(c, pos, goal)

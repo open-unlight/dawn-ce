@@ -100,7 +100,7 @@ module Unlight
 
     # 実行コマンドを保存
     def set_cache_act_command(args = nil, method = nil)
-      method = parse_caller(caller.first) unless method
+      method = parse_caller(caller(1..1)) unless method
       make_set_act_command(method, args)
       CACHE.set("watch_duel_command:#{@key}", @act_command, COMMAND_CACHE_TIME)
     end

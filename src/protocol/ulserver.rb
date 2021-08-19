@@ -104,7 +104,7 @@ module Unlight
         class_name = self.class.name.split('::').last
         Sentry.get_current_scope.set_transaction_name("#{class_name}##{method}")
         transaction = Sentry.start_transaction(op: 'dawn.execute_command')
-        yield if block_given?
+        yield if block
         transaction.finish
       end
 

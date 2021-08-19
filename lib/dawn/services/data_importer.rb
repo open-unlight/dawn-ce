@@ -33,7 +33,7 @@ module Dawn
     # @since 0.1.0
     def import(&block)
       datasets.each do |dataset|
-        yield dataset if block_given?
+        yield dataset if block
         dataset.model.truncate
         dataset.import
       end

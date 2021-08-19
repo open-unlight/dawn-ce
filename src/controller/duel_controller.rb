@@ -1645,7 +1645,7 @@ module Unlight
     def set_cache_act_command(*args)
       if @watch_duel
         method = nil
-        if /^(.+?):(\d+)(?::in `(.*)')?/ =~ caller.first
+        if /^(.+?):(\d+)(?::in `(.*)')?/ =~ caller(1..1).first
           method = $3
         end
         @watch_duel.set_cache_act_command(args, method)

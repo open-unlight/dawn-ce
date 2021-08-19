@@ -10,10 +10,10 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7.3
+        ruby-version: 2.6.8
         bundler-cache: true
     - name: Run Lint
-      run: bundle exec rubocop
+      run: bundle exec rubocop -P
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -40,7 +40,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7.3
+        ruby-version: 2.6.8
         bundler-cache: true
     - name: Run Test
       run: ${{ matrix.command }}

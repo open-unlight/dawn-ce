@@ -24,18 +24,18 @@ gem 'sentry-ruby'
 gem 'activesupport'
 gem 'gmp'
 gem 'rake'
-gem 'RubyInline', '~>3.12.4'
+gem 'RubyInline', '~> 3.12.4'
 
 group :build do
-  gem 'RocketAMF', '~>0.2.1'
+  gem 'RocketAMF', '~> 0.2.1'
   gem 'sqlite3'
 end
 
 group :development, :test do
-  gem 'rubocop', '~> 1.8.1', require: false
-  gem 'rubocop-performance', '>= 1.8.1', require: false
-  gem 'rubocop-rspec', '>= 2.0.1', require: false
-  gem 'rubocop-sequel', '>= 0.1.0', require: false
+  gem 'rubocop', '~> 1.19.0', require: false
+  gem 'rubocop-performance', '>= 1.11.5', require: false
+  gem 'rubocop-rspec', '>= 2.4.0', require: false
+  gem 'rubocop-sequel', '>= 0.3.1', require: false
   gem 'rubocop-thread_safety', '>= 0.4.2', require: false
 
   gem 'bundler-audit', require: false
@@ -53,6 +53,7 @@ group :test do
   gem 'rspec_junit_formatter', require: false
 
   gem 'cucumber', require: false
+  gem 'database_cleaner', require: false
   gem 'database_cleaner-sequel', require: false
   gem 'factory_bot', require: false
   gem 'faker', require: false

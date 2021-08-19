@@ -108,11 +108,7 @@ module Unlight
 
     # クエストが進行度MAXか？
     def get_clear_capacity(clear_num)
-      if self.difficulty <= clear_num
-        true
-      else
-        false
-      end
+      self.difficulty <= clear_num
     end
 
     # レアリティを決定する

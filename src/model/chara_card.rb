@@ -722,7 +722,7 @@ module Unlight
           ret = target.instant_kill_damage - d
 
         elsif target.is_indomitable
-          dmg = target.hit_point - dmg < 1 ? target.hit_point - 1 : dmg
+          dmg = target.hit_point - 1 if target.hit_point - dmg < 1
           ret = dmg < 0 ? 0 : dmg
 
         else
@@ -737,21 +737,21 @@ module Unlight
         # 反射によるダメージ
       when ATTRIBUTE_REFLECTION
         dmg = target.current_chara_card.status[STATE_UNDEAD2][1] > 0 ? 0 : d
-        dmg = target.current_chara_card.is_senkou? ? dmg * 7 : dmg
-        dmg = target.current_chara_card.in_carapace? ? dmg * 5 : dmg
+        dmg = dmg * 7 if target.current_chara_card.is_senkou?
+        dmg = dmg * 5 if target.current_chara_card.in_carapace?
         ret = dmg
 
         # カウンターによるダメージ
       when ATTRIBUTE_COUNTER
         dmg = target.current_chara_card.status[STATE_UNDEAD2][1] > 0 ? 0 : d
-        dmg = target.current_chara_card.is_senkou? ? dmg * 7 : dmg
-        dmg = target.current_chara_card.in_carapace? ? dmg * 5 : dmg
+        dmg = dmg * 7 if target.current_chara_card.is_senkou?
+        dmg = dmg * 5 if target.current_chara_card.in_carapace?
         ret = dmg
 
         # 割合ダメージ、即死系のカウンター
       when ATTRIBUTE_SPECIAL_COUNTER
         dmg = target.current_chara_card.is_senkou? ? d * 7 : d
-        dmg = target.current_chara_card.in_carapace? ? dmg * 5 : dmg
+        dmg = dmg * 5 if target.current_chara_card.in_carapace?
         ret = dmg
 
       end
@@ -805,7 +805,7 @@ module Unlight
           hps << [i, target.hit_points[i]]
         end
         attack_times.times do
-          damage_to_index(target, hps.sort { |a, b| a[1] <=> b[1] }[0][0], damage, attribute, type, is_not_hostile)
+          damage_to_index(target, hps.sort_by { |a| a[1] }[0][0], damage, attribute, type, is_not_hostile)
         end
       end
     end
@@ -5227,11 +5227,11 @@ module Unlight
         # 相手のカードを回転する
         if Feat.pow(@feats[FEAT_KARMIC_RING]) > 0
           foe.battle_table.each do |a|
-            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (a.up?) ? false : true)
+            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, !(a.up?))
           end
         else
           foe.battle_table.each do |a|
-            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1) ? true : false)
+            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1))
           end
         end
         @feats_enable[FEAT_KARMIC_RING] = false
@@ -8276,7 +8276,7 @@ module Unlight
           end
 
           # 自分にかかる確率は3/4
-          own_buff = rand(4) == 0 ? false : true
+          own_buff = !(rand(4) == 0)
 
           if hps.size == 1 || own_buff
             hps = [[true, owner.current_chara_card_no]] + hps.shuffle
@@ -12114,7 +12114,7 @@ module Unlight
         duel.second_entrant.hit_points.each_index do |i|
           hps << [i, duel.second_entrant.hit_points[i]] if i != duel.second_entrant.current_chara_card_no && duel.second_entrant.hit_points[i] > 0
         end
-        duel.second_entrant.party_healed_event(hps.sort { |a, b| a[1] <=> b[1] }[0][0], 3) if hps.size > 0
+        duel.second_entrant.party_healed_event(hps.sort_by { |a| a[1] }[0][0], 3) if hps.size > 0
       end
     end
     regist_event FinishStoneCareFeatEvent
@@ -12386,7 +12386,7 @@ module Unlight
     # 有効の場合必殺技IDを返す
     def use_fools_hand_feat()
       if @feats_enable[FEAT_FOOLS_HAND]
-        @cc.owner.tmp_power += foe.hit_points.select { |h| h > 0 }.count * Feat.pow(@feats[FEAT_FOOLS_HAND])
+        @cc.owner.tmp_power += foe.hit_points.count { |h| h > 0 } * Feat.pow(@feats[FEAT_FOOLS_HAND])
       end
     end
     regist_event UseFoolsHandFeatEvent
@@ -12404,7 +12404,7 @@ module Unlight
     def use_fools_hand_feat_damage()
       if @feats_enable[FEAT_FOOLS_HAND]
         if @feats_enable[FEAT_SLAUGHTER_ORGAN]
-          owner.damaged_event(foe.hit_points.select { |h| h > 0 }.count, IS_NOT_HOSTILE_DAMAGE)
+          owner.damaged_event(foe.hit_points.count { |h| h > 0 }, IS_NOT_HOSTILE_DAMAGE)
         end
         @feats_enable[FEAT_FOOLS_HAND] = false
       end
@@ -12491,10 +12491,10 @@ module Unlight
           hps_s << [i, foe.hit_points[i]] if foe.hit_points[i] > 0
         end
         # 同率HPの場合、自パーティを優先して倒す
-        if hps_f.size > 0 && hps_f.sort { |a, b| a[1] <=> b[1] }[0][1] <= hps_s.sort { |a, b| a[1] <=> b[1] }[0][1]
-          attribute_party_damage(owner, hps_f.sort { |a, b| a[1] <=> b[1] }[0][0], 99, ATTRIBUTE_DEATH, TARGET_TYPE_SINGLE, 1, IS_NOT_HOSTILE_DAMAGE) if hps_f.size > 0
+        if hps_f.size > 0 && hps_f.sort_by { |a| a[1] }[0][1] <= hps_s.sort_by { |a| a[1] }[0][1]
+          attribute_party_damage(owner, hps_f.sort_by { |a| a[1] }[0][0], 99, ATTRIBUTE_DEATH, TARGET_TYPE_SINGLE, 1, IS_NOT_HOSTILE_DAMAGE) if hps_f.size > 0
         else
-          foe.party_damaged_event(hps_s.sort { |a, b| a[1] <=> b[1] }[0][0], attribute_damage(ATTRIBUTE_DEATH, foe)) if hps_s.size > 0
+          foe.party_damaged_event(hps_s.sort_by { |a| a[1] }[0][0], attribute_damage(ATTRIBUTE_DEATH, foe)) if hps_s.size > 0
         end
         # 殺戮状態で回復
         owner.healed_event(Feat.pow(@feats[FEAT_IRONGATE_OF_FATE])) if (@feats_enable[FEAT_SLAUGHTER_ORGAN] && owner.hit_point > 0)
@@ -13782,7 +13782,7 @@ module Unlight
     def finish_change_delicious_milk_feat()
       if @feats_enable[FEAT_DELICIOUS_MILK]
         # 自分ひとりでキャラチェンジしたとき移動方向を制御
-        owner.set_direction(Entrant::DIRECTION_STAY) if owner.hit_points.select { |h| h > 0 }.count <= 1 && owner.direction == Entrant::DIRECTION_CHARA_CHANGE
+        owner.set_direction(Entrant::DIRECTION_STAY) if owner.hit_points.count { |h| h > 0 } <= 1 && owner.direction == Entrant::DIRECTION_CHARA_CHANGE
       end
     end
     regist_event FinishChangeDeliciousMilkFeatEvent
@@ -13843,7 +13843,7 @@ module Unlight
         end
         if hps.size > 0
           hps.shuffle! if hps.size == 2 && hps[0][1] == hps[1][1] # 残り二人のhpが同じ値ならばランダムに入れ替える
-          chp = hps.sort { |a, b| a[1] <=> b[1] }[0]
+          chp = hps.sort_by { |a| a[1] }[0]
           if chp[1] < owner.hit_point
             duel.second_entrant.party_healed_event(chp[0], owner.hit_point - chp[1])
           elsif chp[1] > owner.hit_point
@@ -13893,7 +13893,7 @@ module Unlight
           hps.shuffle! if hps.size == 2 && hps[0][1] == hps[1][1] # 残り二人のhpが同じ値ならばランダムに入れ替える
           # オーナー側は自傷ダメージとして取り扱う
           attribute_party_damage(owner,
-                                 hps.sort { |a, b| a[1] <=> b[1] }[0][0],
+                                 hps.sort_by { |a| a[1] }[0][0],
                                  owner.get_battle_table_point(ActionCard::SPC).to_i,
                                  ATTRIBUTE_CONSTANT,
                                  TARGET_TYPE_SINGLE,
@@ -14401,7 +14401,7 @@ module Unlight
               hps << [i, foe.hit_points[i]]
             end
           end
-          foe.chara_change_index = hps.sort { |a, b| a[1] <=> b[1] }[0][0]
+          foe.chara_change_index = hps.sort_by { |a| a[1] }[0][0]
           foe.chara_change_force = true
         end
       end
@@ -17029,11 +17029,11 @@ module Unlight
         # 相手のカードを回転する
         if Feat.pow(@feats[FEAT_KARMIC_DOR]) > 0
           foe.battle_table.each do |a|
-            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (a.up?) ? false : true)
+            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, !(a.up?))
           end
         else
           foe.battle_table.each do |a|
-            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1) ? true : false)
+            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1))
           end
         end
       end
@@ -18208,7 +18208,7 @@ module Unlight
 
         if hps.count > 0
           attribute_party_damage(owner, hps[0], (duel.tmp_damage / 2).to_i)
-          # ToDo 状態クリア
+          # TODO: 状態クリア
           duel.tmp_damage = 0
           set_state(owner.chara_cards[hps[0]].status[STATE_SEAL], 1, 0)
           off_buff_event(true, hps[0], STATE_SEAL, owner.chara_cards[hps[0]].status[STATE_SEAL][0])
@@ -21506,7 +21506,7 @@ module Unlight
     def finish_change_bad_milk_feat()
       if @feats_enable[FEAT_BAD_MILK]
         # 自分ひとりでキャラチェンジしたとき移動方向を制御
-        owner.set_direction(Entrant::DIRECTION_STAY) if owner.hit_points.select { |h| h > 0 }.count <= 1 && owner.direction == Entrant::DIRECTION_CHARA_CHANGE
+        owner.set_direction(Entrant::DIRECTION_STAY) if owner.hit_points.count { |h| h > 0 } <= 1 && owner.direction == Entrant::DIRECTION_CHARA_CHANGE
       end
     end
     regist_event FinishChangeBadMilkFeatEvent
@@ -24562,7 +24562,7 @@ module Unlight
       if @feats_enable[FEAT_ALL_IN_ONE]
         # 自分のカードを回転する
         owner.battle_table.each do |a|
-          owner.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1) ? true : false)
+          owner.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, (rand(2) == 1))
         end
       end
     end
@@ -26168,10 +26168,10 @@ module Unlight
       result = []
 
       # 全てのタイプの必要数が1or0の場合はタイプを1種減らす
-      if ac_cond_list.select { |i, cond| cond[:value] > 1 }.size == 0
+      if ac_cond_list.count { |i, cond| cond[:value] > 1 } == 0
 
         REDUCTION_TYPE_PRIORITY.each do |t|
-          if ac_cond_list.select { |i, cond| cond[:type_sign] == t }.size > 0
+          if ac_cond_list.count { |i, cond| cond[:type_sign] == t } > 0
             ac_cond_list.each do |i, cond|
               if cond[:type_sign] == t
                 ac_cond_list.delete(i)

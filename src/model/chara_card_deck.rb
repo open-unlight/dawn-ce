@@ -164,7 +164,7 @@ module Unlight
     # デッキが保持するイベントカード(キャラごとの配列)
     def event_cards
       ret = [[], [], []]
-      chara_card_slot_inventories.sort { |a, b| a.card_position <=> b.card_position }.each do |a|
+      chara_card_slot_inventories.sort_by(&:card_position).each do |a|
         ret[a.deck_position] << EventCard[a.card_id] if a.kind == SCT_EVENT && a.deck_position && ret[a.deck_position] && EventCard[a.card_id]
       end
      ret
@@ -173,7 +173,7 @@ module Unlight
     # デッキが保持するイベントカードのID(キャラごとの配列)
     def event_cards_id
       ret = [[], [], []]
-      chara_card_slot_inventories.sort { |a, b| a.card_position <=> b.card_position }.each do |a|
+      chara_card_slot_inventories.sort_by(&:card_position).each do |a|
         ret[a.deck_position] << a.card_id if a.kind == SCT_EVENT && a.deck_position && ret[a.deck_position]
       end
      ret
@@ -182,7 +182,7 @@ module Unlight
     # デッキが保持する武器カード(キャラごとの配列)
     def weapon_cards
       ret = [[], [], []]
-      chara_card_slot_inventories.sort { |a, b| a.card_position <=> b.card_position }.each do |a|
+      chara_card_slot_inventories.sort_by(&:card_position).each do |a|
         if a.kind == SCT_WEAPON && a.deck_position && ret[a.deck_position]
           if a.combined?
             ret[a.deck_position] << a if WeaponCard[a.card_id]
@@ -197,7 +197,7 @@ module Unlight
     # デッキが保持する武器カードのIDを返す
     def weapon_cards_id
       ret = [[], [], []]
-      chara_card_slot_inventories.sort { |a, b| a.card_position <=> b.card_position }.each do |a|
+      chara_card_slot_inventories.sort_by(&:card_position).each do |a|
         ret[a.deck_position] << a.card_id if a.kind == SCT_WEAPON && a.deck_position && ret[a.deck_position]
       end
      ret
@@ -206,7 +206,7 @@ module Unlight
     # デッキが保持する装備カード(キャラごとの配列)
     def equip_cards
       ret = [[], [], []]
-      chara_card_slot_inventories.sort { |a, b| a.card_position <=> b.card_position }.each do |a|
+      chara_card_slot_inventories.sort_by(&:card_position).each do |a|
         ret[a.deck_position] << EquipCard[a.card_id] if a.kind == SCT_EQUIP && a.deck_position && ret[a.deck_position] && EquipCard[a.card_id]
       end
       ret
@@ -215,7 +215,7 @@ module Unlight
     # デッキが保持する装備カードのIDを返す
     def equip_cards_id
       ret = [[], [], []]
-      chara_card_slot_inventories.sort { |a, b| a.card_position <=> b.card_position }.each do |a|
+      chara_card_slot_inventories.sort_by(&:card_position).each do |a|
         ret[a.deck_position] << a.card_id if a.kind == SCT_EQUIP && a.deck_position && ret[a.deck_position]
       end
       ret
