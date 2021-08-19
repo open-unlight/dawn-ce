@@ -17,8 +17,8 @@ services:
     image: memcached:alpine
     command: memcached -m 1024
   mysql:
-    image: mysql:5.7
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    image: mysql:8.0
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
       MYSQL_USER: unlight
       MYSQL_PASSWORD: unlight
@@ -26,11 +26,13 @@ services:
       MYSQL_ROOT_PASSWORD: unlight
     ports:
       - '3307:3306'
+  # Flash Fallback
   xmlsocket:
     <<: *image
     command: xmlsocket
     ports:
       - '11999:11999' # XMLSocket for Flash Policy
+  # Game Server
   auth:
     <<: *image
     hostname: auth.lvh.me
@@ -56,3 +58,10 @@ services:
     ports:
       - '12008:12008'
   # TODO: Add servers
+  # API
+  game-api:
+    <<: *image
+    hostname: game-api.lvh.me
+    command: web game_api 9001
+    ports:
+      - '9001:9001'
