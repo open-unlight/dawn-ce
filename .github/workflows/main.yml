@@ -1,0 +1,50 @@
+name: Ruby
+
+on: [push,pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7.3
+        bundler-cache: true
+    - name: Run Lint
+      run: bundle exec rubocop
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        command: ["bundle exec rspec", "bundle exec cucumber"]
+    name: ${{ matrix.command }}
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_USER: unlight
+          MYSQL_PASSWORD: unlight
+          MYSQL_DATABASE: unlight_db
+          MYSQL_ROOT_PASSWORD: unlight
+        ports:
+          - 3306
+        options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 10
+      memcached:
+        image: memcached:alpine
+        ports:
+          - 11211
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7.3
+        bundler-cache: true
+    - name: Run Test
+      run: ${{ matrix.command }}
+      env:
+        CUCUMBER_PUBLISH_QUIET: 'true'
+        MEMCACHED_HOST: "127.0.0.1:${{ job.services.memcached.ports['11211'] }}"
+        DATABASE_URL: "mysql2://unlight:unlight@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/unlight_db?encoding=utf8"
