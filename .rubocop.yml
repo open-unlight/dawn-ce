@@ -1,4 +1,7 @@
 inherit_from: .rubocop_todo.yml
+inherit_mode:
+  merge:
+    - Exclude
 
 require:
   - rubocop-performance
@@ -24,3 +27,10 @@ RSpec/FilePath:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*_spec.rb
+
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+    - 'src/**/*'
+    - 'script/**/*'
+    - 'bin/**/*'

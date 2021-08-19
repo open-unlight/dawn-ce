@@ -534,7 +534,7 @@ class OrderHash < Hash
   end
 
   def sort_hash(&block)
-    if block_given?
+    if block
       arr_tmp = self.sort(&block)
     elsif
       arr_tmp = self.sort

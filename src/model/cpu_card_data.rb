@@ -105,7 +105,7 @@ module Unlight
             break
           end
         end
-        allocation_id = allocation_id > 0 ? allocation_id : self.id
+        allocation_id = self.id unless allocation_id > 0
       else
         allocation_id = self.id
       end
@@ -126,14 +126,14 @@ module Unlight
       if self.chara_card_id == ''
         1001
       else
-        self.chara_card_id.split(/\+/).map! { |s| s.to_i }
+        self.chara_card_id.split('+').map! { |s| s.to_i }
       end
     end
 
     def current_cards_ids
       ret = [-1, -1, -1]
       if self.chara_card_id != ''
-        ids = self.chara_card_id.split(/\+/)
+        ids = self.chara_card_id.split('+')
         ids.each_index do |i|
           ret[i] = ids[i]
         end
@@ -144,9 +144,9 @@ module Unlight
     # 武器カードのIDをかえす
     def weapon_cards_id
       ret = [[], [], []]
-      wcs = self.weapon_card_id.split(/\+/)
+      wcs = self.weapon_card_id.split('+')
       wcs.each_index do |i|
-        wcs[i].split(/\//).map! { |s| s.to_i }.each do |c|
+        wcs[i].split('/').map! { |s| s.to_i }.each do |c|
           ret[i] << c if c != 0
         end
       end
@@ -156,9 +156,9 @@ module Unlight
     # 装備カードのIDをかえす
     def equip_cards_id
       ret = [[], [], []]
-      ecs = self.equip_card_id.split(/\+/)
+      ecs = self.equip_card_id.split('+')
       ecs.each_index do |i|
-        ecs[i].split(/\//).map! { |s| s.to_i }.each do |c|
+        ecs[i].split('/').map! { |s| s.to_i }.each do |c|
           ret[i] << c if c != 0
         end
       end
@@ -168,9 +168,9 @@ module Unlight
     # イベントカードのIDをかえす
     def event_cards_id
       ret = [[], [], []]
-      ecs = self.event_card_id.split(/\+/)
+      ecs = self.event_card_id.split('+')
       ecs.each_index do |i|
-        ecs[i].split(/\//).map! { |s| s.to_i }.each do |c|
+        ecs[i].split('/').map! { |s| s.to_i }.each do |c|
           ret[i] << c if c != 0
         end
       end
@@ -179,7 +179,7 @@ module Unlight
 
     def treasure_items
       ret = []
-      self.monster_treasure_inventories.sort { |a, b| a.step <=> b.step }.each do |mt|
+      self.monster_treasure_inventories.sort_by(&:step).each do |mt|
         ret << mt.get_treasure
       end
       ret

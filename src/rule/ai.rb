@@ -629,11 +629,7 @@ module Unlight
 
     # チャンスカードはない？
     def chance_none?
-      if chance?
-        false
-      else
-        true
-      end
+      !chance?
     end
 
     # 手札にカースカードがある？
@@ -651,11 +647,7 @@ module Unlight
 
     # チャンスカードはない？
     def carse_none?
-      if carse?
-        false
-      else
-        true
-      end
+      !carse?
     end
 
     def wait?

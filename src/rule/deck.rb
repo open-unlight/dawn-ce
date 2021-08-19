@@ -148,7 +148,7 @@ module Unlight
 
     # 墓地にあるカードの枚数を返す カード数値num以上
     def get_grave_card_count(num = 1)
-      ret = @used_cards.select { |c| c.get_value_max >= num }.size
+      ret = @used_cards.count { |c| c.get_value_max >= num }
       ret
     end
 

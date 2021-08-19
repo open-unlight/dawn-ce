@@ -763,7 +763,7 @@ module Unlight
   SALE_TYPE_EVENT   = 6
 
   # ランダムセール時間
-  RANDOM_SALE_TIME  = 60 * 60 * 2 # ２時間
+  RANDOM_SALE_TIME = 60 * 60 * 2 # ２時間
   #  RANDOM_SALE_TIME  = 60*3  #3分
   # ランダムセール発生確率 (1/14)
   RANDOM_SALE_PROBABILITY = 14

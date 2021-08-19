@@ -325,12 +325,10 @@ module Unlight
       ret = false
       case buff_id
       when CharaCardEvent::STATE_STIGMATA, CharaCardEvent::STATE_CURSE, CharaCardEvent::STATE_TARGET
-        ret = true
+        true
       else
-        ret = false
+        false
       end
-
-      ret
     end
 
     # 渦のコピータイプを変更

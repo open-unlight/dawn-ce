@@ -473,7 +473,7 @@ module Unlight
       ent1 = @entrants[@initi[1]]
 
       # 一撃死のチェック）
-      striked = ((ent1.current_hit_point_max == ent1.current_hit_point) && (ent1.current_hit_point_max <= @tmp_damage)) ? true : false
+      striked = ((ent1.current_hit_point_max == ent1.current_hit_point) && (ent1.current_hit_point_max <= @tmp_damage))
       ent1.damaged_event(@tmp_damage) if @tmp_damage > 0
       # ファーストアタックか実行済みでなくかつダメージが生じていたら
       if not(@first_attack_bonus_done) && @tmp_damage > 0
