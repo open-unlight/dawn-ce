@@ -1,8 +1,8 @@
 image: ruby:2.6.7
 
 variables:
-  BUNDLER_VERSION: 2.1.4
-  LICENSED_VERSION: 2.14.1
+  BUNDLER_VERSION: 2.2.5
+  LICENSED_VERSION: 3.1.0
   # Rubocop Cache for Large Project
   XDG_CACHE_HOME: $CI_PROJECT_DIR/.cache
   CUCUMBER_PUBLISH_QUIET: 'true'
@@ -52,38 +52,37 @@ hadolint:
   before_script: []
   script:
     - hadolint Dockerfile
-  only:
-    changes:
-      - Dockerfile
-  except:
-    - schedules
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      changes:
+        - Dockerfile
 
 rubocop:
   stage: lint
   script:
     - bundle exec rubocop -P --format progress --format json --out rubocop.json
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
   artifacts:
     paths:
       - rubocop.json
-  except:
-    - schedules
 
 licensed:
   stage: lint
   before_script:
     - apt-get update
     - apt-get install -y cmake pkg-config
-    - curl -sSLO https://github.com/github/licensed/releases/download/${LICENSED_VERSION}/licensed-${LICENSED_VERSION}-linux-x64.tar.gz && tar -xzf licensed-${LICENSED_VERSION}-linux-x64.tar.gz -C /usr/local/bin --strip-components=1;
+    - gem install licensed
     - *install_ruby_gems
   script:
     - licensed cache
     - licensed status
-  only:
-    changes:
-      - Gemfile
-      - Gemfile.lock
-  except:
-    - schedules
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      changes:
+        - Gemfile
+        - Gemfile.lock
+    - if: $CI_PIPELINE_SOURCE == 'schedule'
 
 bundler-audit:
   stage: lint
@@ -92,10 +91,12 @@ bundler-audit:
     - bundle audit --update
   script:
     - bundle audit
-  only:
-    changes:
-      - Gemfile
-      - Gemfile.lock
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      changes:
+        - Gemfile
+        - Gemfile.lock
+    - if: $CI_PIPELINE_SOURCE == 'schedule'
   allow_failure: true
 
 bundler-leak:
@@ -105,10 +106,12 @@ bundler-leak:
     - bundle leak check --update
   script:
     - bundle leak
-  only:
-    changes:
-      - Gemfile
-      - Gemfile.lock
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      changes:
+        - Gemfile
+        - Gemfile.lock
+    - if: $CI_PIPELINE_SOURCE == 'schedule'
   allow_failure: true
 
 rspec:
@@ -123,6 +126,10 @@ rspec:
     reports:
       junit: rspec.xml
       cobertura: coverage/coverage.xml
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
   needs: []
 
 cucumber:
@@ -130,6 +137,8 @@ cucumber:
   script:
     # TODO: Run database migration
     - bundle exec cucumber
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
   needs: []
 
 sonarqube:
@@ -150,15 +159,10 @@ sonarqube:
       -Dsonar.exclusions=vendor/ruby/**/*
       -Dsonar.sources=.
   allow_failure: true
-  only:
-    refs:
-      - master
-    variables:
-      - $SONAR_PROJECT_KEY
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $SONAR_PROJECT_KEY
   needs:
     - rspec
-  except:
-    - schedules
 
 build:
   stage: build
@@ -188,8 +192,8 @@ build:
     # Upload to AWS
     - docker push $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG-gem
     - docker push $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
-    - if [ "$CI_COMMIT_REF_NAME" == "master" ]; then docker tag $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_IMAGE:latest; fi
-    - if [ "$CI_COMMIT_REF_NAME" == "master" ]; then docker push $DOCKER_IMAGE:latest; fi
+    - if [ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]; then docker tag $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_IMAGE:latest; fi
+    - if [ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]; then docker push $DOCKER_IMAGE:latest; fi
       # Security Check
     - |
       VERSION=$(
@@ -199,11 +203,8 @@ build:
       ) && curl -L -o dockle.tar.gz https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.tar.gz &&  \
       tar zxvf dockle.tar.gz
     - ./dockle --exit-code 1 $DOCKER_IMAGE:$CI_COMMIT_REF_SLUG
-  only:
-    - /^release\/.*$/
-    - master
-    - tags
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
   needs:
     - rspec
-  except:
-    - schedules
