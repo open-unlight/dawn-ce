@@ -47,8 +47,7 @@ RUN apk --update \
 
 ARG UNLIGHT_HOME
 ENV UNLIGHT_HOME=${UNLIGHT_HOME}
-
-RUN adduser -h ${UNLIGHT_HOME} -D -s /bin/nologin unlight unlight
+ENV RUBY_INLINE_DIR=${UNLIGHT_HOME}/lib/ruby_inline
 
 # Setup Application
 RUN mkdir -p $UNLIGHT_HOME \
@@ -57,10 +56,19 @@ RUN mkdir -p $UNLIGHT_HOME \
 
 COPY --from=gem /usr/local/bundle/config /usr/local/bundle/config
 COPY --from=gem /usr/local/bundle /usr/local/bundle
-COPY --chown=unlight:unlight --from=gem /${UNLIGHT_HOME}/vendor/bundle /${UNLIGHT_HOME}/vendor/bundle
+COPY --from=gem /${UNLIGHT_HOME}/vendor/bundle /${UNLIGHT_HOME}/vendor/bundle
 
 # Add Source Files
-COPY --chown=unlight:unlight . $UNLIGHT_HOME
+COPY . $UNLIGHT_HOME
+
+# Apply Execute Permission
+RUN adduser -h ${UNLIGHT_HOME} -D -s /bin/nologin unlight unlight && \
+    mkdir -p $RUBY_INLINE_DIR && \
+    chown unlight:unlight $UNLIGHT_HOME && \
+    chown -R unlight:unlight $RUBY_INLINE_DIR && \
+    chmod -R +rw $RUBY_INLINE_DIR && \
+    chmod -R +r $UNLIGHT_HOME && \
+    chmod -R +rx $UNLIGHT_HOME/bin
 
 ENV DAWN_LOG_TO_STDOUT=true
 ENV PATH $UNLIGHT_HOME/bin:$PATH
