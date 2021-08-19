@@ -23,3 +23,12 @@ reviewed:
     - faraday-net_http # MIT
     - faraday-patron # MIT
     - faraday-rack # MIT
+    # MIT
+    - dry-core
+    - concurrent-ruby
+    - dry-configurable
+    - dry-container
+    - dry-logic
+    - dry-types
+    - dry-inflector
+    - sequel
