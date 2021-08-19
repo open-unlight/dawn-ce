@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'socket'
+require 'logger'
+
+SERVER_LOG = Logger.new('/dev/stdout')
+RESPONSE = <<~DOC
+  <?xml version="1.0"?>
+  <!DOCTYPE cross-domain-policy SYSTEM "/xml/dtds/cross-domain-policy.dtd">
+
+  <!-- Policy file for xmlsocket://socks.example.com -->
+  <cross-domain-policy>
+
+     <!-- This is a master socket policy file -->
+     <!-- No other socket policies on the host will be permitted -->
+     <site-control permitted-cross-domain-policies="all"/>
+
+     <!-- Instead of setting to-ports="*", administrator's can use ranges and commas -->
+     <!-- This will allow access to ports 123, 456, 457 and 458 -->
+  <!--    <allow-access-from domain="swf.example.com" to-ports="123,456-458" /> -->
+     <allow-access-from domain="*" to-ports="12000-13999" />
+     <allow-access-from domain="*" to-ports="100-1000" />
+  </cross-domain-policy>
+DOC
+
+server = TCPServer.new 11_999
+
+SERVER_LOG.info('XMLSocket server is starting...')
+
+loop do
+  client = server.accept
+  Thread.new do # rubocop:disable ThreadSafety/NewThread
+    SERVER_LOG.info("Client #{client.addr&.last} is connected")
+    client.write(RESPONSE)
+    client.close
+  end
+end

@@ -17,7 +17,7 @@ Layout/LineLength:
   Exclude:
     - src/constants/common_constants.rb
 
-# It should use Rails-like style
+# Use Rails-like style
 RSpec/FilePath:
   Enabled: false
 
