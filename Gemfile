@@ -17,6 +17,12 @@ gem 'dalli'
 gem 'puma', '>= 5.3.1'
 gem 'rack'
 
+# Game API
+gem 'grape'
+gem 'oj'
+gem 'pagy'
+gem 'rack-cors'
+
 # Monitor
 gem 'sentry-ruby'
 

@@ -19,9 +19,13 @@ require 'active_support'
 require 'active_support/core_ext/object/blank'
 
 Sequel::Model.require_valid_table = false
+Sequel::Model.plugin :json_serializer
 
 # Initialize Extensions
 require_relative '../config/initializers/sentry'
+# TODO: Require necessary library for Game / API mode
+require_relative '../config/initializers/oj'
+require_relative '../config/initializers/pagy'
 
 # db_config.rb
 module Unlight
