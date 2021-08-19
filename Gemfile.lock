@@ -71,6 +71,24 @@ GEM
     diff-lcs (1.4.4)
     docile (1.4.0)
     dotenv (2.7.6)
+    dry-configurable (0.12.1)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.5, >= 0.5.0)
+    dry-container (0.8.0)
+      concurrent-ruby (~> 1.0)
+      dry-configurable (~> 0.1, >= 0.1.3)
+    dry-core (0.7.1)
+      concurrent-ruby (~> 1.0)
+    dry-inflector (0.2.1)
+    dry-logic (1.2.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.5, >= 0.5)
+    dry-types (1.5.1)
+      concurrent-ruby (~> 1.0)
+      dry-container (~> 0.3)
+      dry-core (~> 0.5, >= 0.5)
+      dry-inflector (~> 0.1, >= 0.1.2)
+      dry-logic (~> 1.0, >= 1.0.2)
     eventmachine (1.2.7)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -97,6 +115,13 @@ GEM
     faraday-rack (1.0.0)
     ffi (1.15.3)
     gmp (0.7.43)
+    grape (1.5.3)
+      activesupport
+      builder
+      dry-types (>= 1.1)
+      mustermann-grape (~> 1.0.0)
+      rack (>= 1.3.0)
+      rack-accept
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     iniparse (1.5.0)
@@ -107,13 +132,19 @@ GEM
     minitest (5.14.4)
     multi_test (0.1.2)
     multipart-post (2.1.1)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
+    mustermann-grape (1.0.1)
+      mustermann (>= 1.0.0)
     mysql2 (0.5.3)
     nio4r (2.5.8)
+    oj (3.13.2)
     optimist (3.0.1)
     overcommit (0.58.0)
       childprocess (>= 0.6.3, < 5)
       iniparse (~> 1.4)
       rexml (~> 3.2)
+    pagy (4.10.2)
     parallel (1.20.1)
     parser (3.0.2.0)
       ast (~> 2.4.1)
@@ -122,6 +153,10 @@ GEM
     puma (5.4.0)
       nio4r (~> 2.0)
     rack (2.2.3)
+    rack-accept (0.4.5)
+      rack (>= 0.4)
+    rack-cors (1.1.1)
+      rack (>= 2.0.0)
     rainbow (3.0.0)
     rake (13.0.6)
     regexp_parser (2.1.1)
@@ -210,10 +245,14 @@ DEPENDENCIES
   factory_bot
   faker
   gmp
+  grape
   mysql2 (~> 0.5.2)
+  oj
   overcommit
+  pagy
   puma (>= 5.3.1)
   rack
+  rack-cors
   rake
   rspec
   rspec_junit_formatter
