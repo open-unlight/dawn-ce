@@ -1,4 +1,4 @@
-image: ruby:2.6.7
+image: ruby:2.6.8
 
 variables:
   BUNDLER_VERSION: 2.2.5
