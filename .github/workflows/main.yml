@@ -1,4 +1,4 @@
-name: Ruby
+name: dawn
 
 on: [push,pull_request]
 
