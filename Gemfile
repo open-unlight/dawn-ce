@@ -32,10 +32,10 @@ group :build do
 end
 
 group :development, :test do
-  gem 'rubocop', '~> 1.8.1', require: false
-  gem 'rubocop-performance', '>= 1.8.1', require: false
-  gem 'rubocop-rspec', '>= 2.0.1', require: false
-  gem 'rubocop-sequel', '>= 0.1.0', require: false
+  gem 'rubocop', '~> 1.19.0', require: false
+  gem 'rubocop-performance', '>= 1.11.5', require: false
+  gem 'rubocop-rspec', '>= 2.4.0', require: false
+  gem 'rubocop-sequel', '>= 0.3.1', require: false
   gem 'rubocop-thread_safety', '>= 0.4.2', require: false
 
   gem 'bundler-audit', require: false
