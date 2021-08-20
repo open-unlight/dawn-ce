@@ -9,7 +9,9 @@ require 'rack/cors'
 require 'grape'
 
 require 'dawn/api/base'
+require 'dawn/api/authenticator'
 require 'dawn/api/rack/auth'
+require 'dawn/api/rack/request'
 
 module Dawn
   # API Provider
