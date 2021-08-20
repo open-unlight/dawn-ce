@@ -14,6 +14,6 @@ class GameAPI < Dawn::API::Base
   end
 
   version 'v1', using: :path do
-    mount Game::V1
+    mount Game::APIv1
   end
 end
