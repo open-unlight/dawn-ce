@@ -26,4 +26,5 @@ tags
 .env*
 !.env.example
 
+# Licensed
 .licenses

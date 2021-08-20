@@ -43,15 +43,14 @@ group :development, :test do
   gem 'rubocop-rspec', '>= 2.4.0', require: false
   gem 'rubocop-sequel', '>= 0.3.1', require: false
   gem 'rubocop-thread_safety', '>= 0.4.2', require: false
-
-  gem 'bundler-audit', require: false
-  gem 'bundler-leak', require: false
 end
 
 group :development do
   gem 'dotenv'
 
   gem 'overcommit', require: false
+
+  gem 'grape-swagger', require: false
 end
 
 group :test do
