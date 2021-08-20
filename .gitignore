@@ -12,7 +12,7 @@ config/database.yml
 /log/*
 /bin/pids/
 !/log/.gitkeep
-!/tmp/.keep
+!/tmp/.gitkeep
 *.orig
 .DS_Store
 tags
