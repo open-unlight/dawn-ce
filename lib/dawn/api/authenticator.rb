@@ -55,7 +55,7 @@ module Dawn
       def valid?(provided_signature)
         return false if player&.session_key.nil?
 
-         provided_signature == signature
+        provided_signature == signature
       end
     end
   end
