@@ -9,7 +9,18 @@ require 'dawn/api'
 require 'api/game/v1'
 
 class GameAPI < Dawn::API::Base
+  auth :dawn do |_, _, _, _|
+    # TODO: Implement Dawn::API::Authenticator
+    true
+  end
+
   version 'v1', using: :path do
     mount Game::V1
+  end
+
+  get do
+    {
+      message: 'Hello World'
+    }
   end
 end
