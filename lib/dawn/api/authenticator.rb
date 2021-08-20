@@ -13,12 +13,16 @@ module Dawn
     #
     # @since 0.1.0
     class Authenticator
+      # @since 0.1.0
+      MAX_SIGNATURE_VALID_TIME = 60
+
       # @param player_id [Fixnum] the player to authenticate
-      # @param nonce [String]
+      # @param nonce [String] the request generated timestamp
       # @param payload [String] the query string and request body
       def initialize(player_id, nonce, payload = '')
         @player_id = player_id
         @nonce = nonce
+        @timestamp = Time.at(nonce.to_f / 1000)
         @payload = payload
       end
 
@@ -45,6 +49,17 @@ module Dawn
           )
       end
 
+      # Verify signature expired
+      #
+      # @return [TrueClass|FalseClass]
+      #
+      # @since 0.1.0
+      def expired?
+        return true if @timestamp > Time.now
+
+        Time.now - @timestamp > MAX_SIGNATURE_VALID_TIME
+      end
+
       # Verify signature is valid
       #
       # @param provided_signature [String]
@@ -54,6 +69,7 @@ module Dawn
       # @since 0.1.0
       def valid?(provided_signature)
         return false if player&.session_key.nil?
+        return false if expired?
 
         provided_signature == signature
       end
