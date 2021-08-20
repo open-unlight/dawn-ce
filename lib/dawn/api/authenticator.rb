@@ -1,3 +1,8 @@
+# Unlight
+# Copyright (c) 2019 Open Unlight
+# This software is released under the Apache 2.0 License.
+# https://opensource.org/licenses/Apache2.0
+
 # frozen_string_literal: true
 
 require 'openssl'
