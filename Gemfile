@@ -66,5 +66,7 @@ group :test do
   gem 'simplecov', '~> 0.17.1', require: false
   gem 'simplecov-cobertura', require: false
 
+  gem 'rack-test', require: false
+
   gem 'super_diff', require: false
 end

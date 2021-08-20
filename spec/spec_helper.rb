@@ -5,6 +5,7 @@ require 'super_diff/rspec'
 require 'simplecov'
 require 'simplecov-cobertura'
 require 'faker'
+require 'rack/test'
 
 SimpleCov.start do
   load_profile 'test_frameworks'
@@ -46,4 +47,7 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  config.include Rack::Test::Methods, type: :api
+  config.include GameAPIHelper, type: :api, module: :game
 end
