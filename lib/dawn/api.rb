@@ -9,11 +9,15 @@ require 'rack/cors'
 require 'grape'
 
 require 'dawn/api/base'
+require 'dawn/api/authenticator'
+require 'dawn/api/rack/auth'
+require 'dawn/api/rack/request'
 
 module Dawn
   # API Provider
   #
   # @since 0.1.0
   module API
+    Grape::Middleware::Auth::Strategies.add(:dawn, Dawn::API::Rack::Auth)
   end
 end
