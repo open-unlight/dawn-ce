@@ -32,7 +32,7 @@ module Dawn
       #
       # @since 0.1.0
       def player
-        @player = Unlight::Player[@player_id]
+        @player ||= Unlight::Player[@player_id]
       end
 
       # Calculate Signature
