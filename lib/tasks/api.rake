@@ -2,6 +2,7 @@
 
 require 'forwardable'
 require 'grape-swagger'
+require 'grape-swagger-entity'
 
 # :nodoc:
 class APIDocumentGenerator
