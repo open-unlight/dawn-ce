@@ -7,6 +7,7 @@
 
 require 'rack/cors'
 require 'grape'
+require 'grape-entity'
 
 require 'dawn/api/base'
 require 'dawn/api/authenticator'

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'entities'
 require_relative 'v1/avatar'
 
 module Game

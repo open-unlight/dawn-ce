@@ -12,7 +12,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
       get '/v1/avatar'
     end
 
-    let(:data) { JSON.parse(last_response.body).fetch('data', {}) }
+    let(:data) { JSON.parse(last_response.body) }
 
     it { expect(last_response.status).to eq(200) }
     it { expect(data).to a_hash_including({ 'name' => 'Sheri' }) }
