@@ -19,6 +19,7 @@ module Dawn
         # :nodoc:
         def call(env)
           auth = Dawn::API::Rack::Request.new(env)
+          return @app.call(env) if auth.request.options?
           return unauthorized unless auth.provided?
           return bad_request unless auth.dawn?
           return unauthorized unless valid?(auth)
