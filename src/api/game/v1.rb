@@ -2,6 +2,7 @@
 
 require_relative 'entities'
 require_relative 'v1/avatar'
+require_relative 'v1/decks'
 
 module Game
   class APIv1 < Dawn::API::Base
@@ -12,5 +13,6 @@ module Game
     end
 
     mount Game::V1::Avatar
+    mount Game::V1::Decks
   end
 end
