@@ -31,7 +31,16 @@ end
 command = ARGV.shift
 
 def run_console
-  exec('irb -r bundler/setup -r ./src/unlight')
+  require 'bundler/setup'
+  require 'pry'
+  require 'irb'
+  require_relative '../src/unlight'
+
+  if defined?(Pry)
+    Pry.start
+  else
+    IRB.start(__FILE__)
+  end
 end
 
 def run_web
