@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :avatar, class: 'Unlight::Avatar' do
-    name { Faker::Name.name }
+    sequence(:name) { |id| "#{Faker::Name.name} - #{id}" }
     player
   end
 end
