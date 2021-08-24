@@ -53,6 +53,8 @@ group :development do
 
   gem 'grape-swagger', require: false
   gem 'grape-swagger-entity', require: false
+
+  gem 'pry'
 end
 
 group :test do
