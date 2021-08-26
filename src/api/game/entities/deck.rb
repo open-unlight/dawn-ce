@@ -5,6 +5,7 @@ module Game
     class Deck < Grape::Entity
       root :data
 
+      expose :id, documentation: { type: :number, example: 1 }
       expose :name, documentation: { example: 'Binder' }
       expose :level, documentation: { type: :number, example: 1 }
       expose :exp, documentation: { type: :number, example: '0' }
