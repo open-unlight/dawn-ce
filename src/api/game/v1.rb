@@ -5,6 +5,7 @@ require_relative 'v1/avatar'
 require_relative 'v1/decks'
 require_relative 'v1/character_cards'
 require_relative 'v1/slot_cards'
+require_relative 'v1/items'
 
 module Game
   class APIv1 < Dawn::API::Base
@@ -18,5 +19,6 @@ module Game
     mount Game::V1::Decks
     mount Game::V1::CharacterCards
     mount Game::V1::SlotCards
+    mount Game::V1::Items
   end
 end
