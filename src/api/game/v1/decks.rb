@@ -12,8 +12,9 @@ module Game
         get do
           avatar = @player.current_avatar
           decks = Unlight::CharaCardDeck.eager(:card_inventories).where(avatar_id: avatar.id).all
+          position = decks.map(&:id)
 
-          present decks, with: Game::Entities::Deck, binder_id: decks.first&.id
+          present decks, with: Game::Entities::Deck, binder_id: decks.first&.id, position: position
         end
       end
     end

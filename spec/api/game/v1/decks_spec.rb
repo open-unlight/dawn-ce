@@ -26,7 +26,9 @@ RSpec.describe GameAPI, type: :api, module: :game do
     it { expect(items[0]).to a_hash_including('cost' => 0) }
     it { expect(items[0]).to a_hash_including('max_cost' => 45) }
     it { expect(items[0]).to a_hash_including('is_binder' => true) }
+    it { expect(items[0]).to a_hash_including('index' => 0) }
 
     it { expect(items[1]).to a_hash_including('is_binder' => false) }
+    it { expect(items[1]).to a_hash_including('index' => 1) }
   end
 end

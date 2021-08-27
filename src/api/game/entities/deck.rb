@@ -12,6 +12,12 @@ module Game
       expose :status, documentation: { type: :number, example: '0' }
       expose :cost, documentation: { type: :number, example: 30 }, &:current_cost
       expose :max_cost, documentation: { type: :number, example: 45 }
+      # TODO: Remove when update card inventory with deck_id
+      expose :index,
+             unless: ->(_, options) { options[:position].nil? },
+             documentation: { type: :number, example: '0' } do |deck, options|
+        options[:position].index(deck.id)
+      end
       expose :is_binder,
              unless: ->(_, options) { options[:binder_id].nil? },
              documentation: { type: :boolean, example: true } do |deck, options|
