@@ -19,6 +19,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
 
     it { expect(last_response.status).to eq(200) }
     it { expect(items.size).to eq(1) }
+    it { expect(items[0]).to have_key('id') }
     it { expect(items[0]).to a_hash_including('avatar_item_id' => 1) }
     it { expect(items[0]).to a_hash_including('state' => 0) }
 
