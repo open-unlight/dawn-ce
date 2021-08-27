@@ -205,7 +205,8 @@ module Unlight
       rare_num = Array.new(10) { |i| Array.new(10, 0) }
 
       RareCardLot.all.each do |rc|
-        rc.refresh
+        # TODO: Ensure disable refresh not breaks reload rare card lot
+        # rc.refresh
         if rc.lot_kind && rc.rarity
           if rare_num[rc.lot_kind] && rare_num[rc.lot_kind][rc.rarity - 1]
             rare_num[rc.lot_kind][rc.rarity - 1] += 1
