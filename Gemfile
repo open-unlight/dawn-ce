@@ -20,6 +20,8 @@ gem 'rack'
 # Game API
 gem 'grape'
 gem 'grape-entity'
+gem 'grape-swagger', require: false
+gem 'grape-swagger-entity', require: false
 gem 'oj'
 gem 'pagy'
 gem 'rack-cors'
@@ -50,9 +52,6 @@ group :development do
   gem 'dotenv'
 
   gem 'overcommit', require: false
-
-  gem 'grape-swagger', require: false
-  gem 'grape-swagger-entity', require: false
 
   gem 'pry'
 end
