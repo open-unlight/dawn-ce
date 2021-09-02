@@ -43,7 +43,9 @@ jobs:
         ruby-version: 2.6.8
         bundler-cache: true
     - name: Run Test
-      run: ${{ matrix.command }}
+      run:
+        - bundle exec rake db:migrate
+        - ${{ matrix.command }}
       env:
         CUCUMBER_PUBLISH_QUIET: 'true'
         MEMCACHED_HOST: "127.0.0.1:${{ job.services.memcached.ports['11211'] }}"
