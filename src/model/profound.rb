@@ -9,36 +9,11 @@ module Unlight
   # 渦クラス
   class Profound < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
     # 他クラスのアソシエーション
     many_to_one :p_data, class: Unlight::ProfoundData, key: :data_id # 複数のクエストデータを保持
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :data_id # 渦データのID
-      String      :profound_hash, index: true # 渦のハッシュコード
-      datetime    :close_at                                   # 渦の消滅予定時間
-      integer     :state                                      # 状態
-      integer     :map_id, dafault: 0 # 配置マップID
-      integer     :pos_idx # 配置インデックス
-      integer     :copy_type, default: PRF_COPY_TYPE_OWNER # コピータイプ
-      Boolean     :set_defeat_reward, default: true # 撃破報酬設定
-      integer     :found_avatar_id # 発見者アバターID
-      integer     :defeat_avatar_id, dafault: 0            # 撃破者アバターID
-      datetime    :finish_at, dafault: nil                 # 渦の撃破時間
-      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
-    # DBにテーブルをつくる
-    if !(Profound.table_exists?)
-      Profound.create_table
-    end
 
     # インサート時の前処理
     before_create do
@@ -48,17 +23,6 @@ module Unlight
     # インサートとアップデート時の前処理
     before_save do
       self.updated_at = Time.now.utc
-    end
-
-    # テーブルを変更する（履歴を残せ）
-    DB.alter_table :profounds do
-      add_column :copy_type, :integer, default: PRF_COPY_TYPE_OWNER unless Unlight::Profound.columns.include?(:copy_type) # 新規追加 2014/09/02
-      add_column :set_defeat_reward, :Boolean, default: PRF_COPY_TYPE_OWNER unless Unlight::Profound.columns.include?(:set_defeat_reward) # 新規追加 2015/05/26
-      add_column :map_id, :integer, default: PRF_MAP_ID_MAX unless Unlight::Profound.columns.include?(:map_id) # 新規追加 2016/06/03
-      add_column :found_avatar_id, :integer, default: 0 unless Unlight::Profound.columns.include?(:found_avatar_id) # 新規追加 2016/08/02
-      add_column :defeat_avatar_id, :integer, default: 0 unless Unlight::Profound.columns.include?(:defeat_avatar_id) # 新規追加 2016/08/04
-      add_column :finish_at, :datetime, default: nil unless Unlight::Profound.columns.include?(:finish_at) # 新規追加 2016/08/23
-      add_column :server_type, :integer, default: 0 unless Unlight::Profound.columns.include?(:server_type) # 新規追加 2016/11/24
     end
 
     # 現在戦闘中の渦を全て取得

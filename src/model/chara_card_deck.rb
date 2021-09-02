@@ -7,37 +7,12 @@ module Unlight
   # キャラカードデッキクラス
   class CharaCardDeck < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
     many_to_one :avatar # アバターに複数所持される
     one_to_many :card_inventories # カードインベントリを複数所持する
     one_to_many :chara_card_slot_inventories # カードインベントリを複数所持する
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name, index: true, default: 'No Name'
-      integer     :avatar_id, index: true #, :table => :avatars
-      integer     :kind, default: 0
-      integer     :level, default: 1
-      integer     :exp, default: 0
-      integer     :max_cost, default: 45
-      integer     :status, default: 0
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
-    if !(CharaCardDeck.table_exists?)
-      CharaCardDeck.create_table
-    end
-
-    #    テーブルを変更する（履歴を残せ）
-    DB.alter_table :chara_card_decks do
-      add_column :level, :integer, default: 1 unless Unlight::CharaCardDeck.columns.include?(:level) # 新規追加2012/06/15
-      add_column :exp, :integer, default: 0 unless Unlight::CharaCardDeck.columns.include?(:exp) # 新規追加2012/06/15
-    end
 
     # インサート時の前処理
     before_create do

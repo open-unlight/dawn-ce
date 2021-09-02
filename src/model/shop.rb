@@ -7,47 +7,13 @@ module Unlight
   # ショップクラス
   class Shop < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :shop_type # ショップのタイプ
-      integer     :article_kind, index: true # 売り物の種類(0:AvatarItem,1:AvatarParts,2:EventCard)
-      integer     :article_id # 販売物のID
-      integer     :price, default: 0           # 値段
-      integer     :coin_0, default: 0          # コイン価格0
-      integer     :coin_1, default: 0          # コイン価格1
-      integer     :coin_2, default: 0          # コイン価格2
-      integer     :coin_3, default: 0          # コイン価格3
-      integer     :coin_4, default: 0          # コイン価格4
-      integer     :coin_ex, default: 0         # コイン価格ex
-      integer     :view_frame, default: 0      # 表示フレーム
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
-
-    # DBにテーブルをつくる
-    if !(Shop.table_exists?)
-      Shop.create_table
-    end
-
-    # テーブルの変更（履歴を残す）
-    DB.alter_table :shops do
-      add_column :coin_ex, :integer, default: 0 unless Unlight::Shop.columns.include?(:coin_ex) # 新規追加2012/05
-      add_column :view_frame, :integer, default: 0 unless Unlight::Shop.columns.include?(:view_frame) # 新規追加2012/06/20
     end
 
     # インサート時の前処理

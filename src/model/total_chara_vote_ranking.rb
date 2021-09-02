@@ -9,39 +9,14 @@ module Unlight
     many_to_one :avatar # プレイヤーに複数所持される
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     # キャッシュをON
     plugin :caching, CACHE, ignore_exceptions: true, ttl: 1200 # 10分だけキャッシュする･･･
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :avatar_id, index: true # :table => :avatars
-      String      :name, default: ''
-      integer     :point, default: 0
-      integer     :avatar_item_id, default: 0, index: true
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(TotalCharaVoteRanking.table_exists?)
-      TotalCharaVoteRanking.create_table
-    end
-
-    DB.alter_table :total_chara_vote_rankings do
-      add_column :avatar_item_id, :integer, index: true, default: 0 unless Unlight::TotalCharaVoteRanking.columns.include?(:avatar_item_id) # 新規追加 2014/04/12
-      add_column :server_type, :integer, default: 0 unless Unlight::TotalCharaVoteRanking.columns.include?(:server_type) # 新規追加 2016/11/24
     end
 
     # インサート時の前処理

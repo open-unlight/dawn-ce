@@ -7,41 +7,16 @@ module Unlight
   # 課金アイテムクラス
   class EventSerial < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
     STATE_OK = 0             # 未払い
     STATE_DONE = 1           # 支払い済み
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :serial, index: true, unique: true
-      String      :pass, default: 'pass'
-      integer     :rm_item_type, default: 0
-      integer     :item_id, default: 0
-      integer     :num, default: 1
-      integer     :extra_id, default: 0 #セット販売アイテムRealMoneyItem.ID
-      integer     :state, default: 0
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
-
-    # DBにテーブルをつくる
-    if !(EventSerial.table_exists?)
-      EventSerial.create_table
-    end
-
-    DB.alter_table :real_money_items do
     end
 
     # インサート時の前処理

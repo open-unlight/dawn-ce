@@ -55,28 +55,8 @@ module Unlight
   # ショップクラス
   class RareCardLot < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :lot_kind, default: 0, index: true # クジの種類
-      integer     :article_kind, default: 0 # 渡す物の種類(0:AvatarItem,1:AvatarParts,2:EventCard)
-      integer     :article_id # 渡すモノの種類
-      integer     :order,       default: 0  # カードの順番
-      integer     :rarity,      default: 0  # 出る確率
-      integer     :visible,     default: 0  # 見えるかどうか1以上で消す
-      integer     :num,         default: 1  # 個数
-      String      :image_url,   default: '' # 画像URL
-      String      :description, default: '' # 解説
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     # バリデーションの設定
     plugin :validation_helpers
@@ -108,15 +88,6 @@ module Unlight
       ret = [:order, "error order no, id:#{r.id}"] if r_str != o_str
       puts "errr #{r},#{r_str},#{o_str}" if ret
       ret
-    end
-
-    # DBにテーブルをつくる
-    if !(RareCardLot.table_exists?)
-      RareCardLot.create_table
-    end
-
-    DB.alter_table :rare_card_lots do
-      add_column :num, :integer, default: 1 unless Unlight::RareCardLot.columns.include?(:num) # 新規追加2012/09/12
     end
 
     # インサート時の前処理

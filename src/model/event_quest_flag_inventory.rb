@@ -7,33 +7,11 @@ module Unlight
   # イベントクエストフラグのインベントリクラス
   class EventQuestFlagInventory < Sequel::Model
     # 他クラスのアソシエーション
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer   :avatar_id, index: true
-      integer   :event_quest_flag_id, default: 0, index: true
-      integer   :event_id, index: true
-      integer   :quest_flag
-      integer   :quest_clear_num, default: 0
-      datetime  :created_at
-      datetime  :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(EventQuestFlagInventory.table_exists?)
-      EventQuestFlagInventory.create_table
-    end
-
-    DB.alter_table :event_quest_flag_inventories do
-      add_column :avatar_id, :integer, index: true unless Unlight::EventQuestFlagInventory.columns.include?(:avatar_id) # 新規追加2015/05/18
     end
 
     def EventQuestFlagInventory::create_inv(avatar_id, event_id = QUEST_EVENT_ID, map_start = QUEST_EVENT_MAP_START)

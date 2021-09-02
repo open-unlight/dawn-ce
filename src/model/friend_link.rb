@@ -11,36 +11,13 @@ module Unlight
     TYPE_BLOCK   = 2
 
     # プラグインの設定
-    plugin :schema
     plugin :hook_class_methods
-
-    Sequel::Model.plugin :schema
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :relating_player_id, index: true #, :table => :players
-      integer     :related_player_id, index: true #, :table => :players
-      integer     :friend_type, default: Unlight::FriendLink::TYPE_CONFIRM
-      Boolean     :invated, default: false
-      integer     :server_type, default: 0, index: true # tinyint(DB側で変更) 新規追加 2016/11/24
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     # バリデーションの設定
     def validate
       super
     end
 
-    # DBにテーブルをつくる
-    if !(FriendLink.table_exists?)
-      FriendLink.create_table
-    end
-
-    # テーブルを変更する（履歴を残せ）
-    DB.alter_table :friend_links do
-      add_column :server_type, :integer, default: 0 unless Unlight::FriendLink.columns.include?(:server_type) # 新規追加 2016/11/24
-    end
     # インサート時の前処理
     before_create do
       self.created_at = Time.now.utc

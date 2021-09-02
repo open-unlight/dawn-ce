@@ -7,41 +7,13 @@ module Unlight
   # 管理用のCPUカードデータクラス
   class TreasureData < Sequel::Model(:treasure_datas)
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name, default: 'treasure'
-      integer     :allocation_type, default: 0 # 新規追加2015/05/15
-      String      :allocation_id, default: ''  # 新規追加2015/05/15
-      integer     :treasure_type, default: 0
-      integer     :slot_type, default: 0
-      integer     :value, default: 0
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
-
-    # DBにテーブルをつくる
-    if !(TreasureData.table_exists?)
-      TreasureData.create_table
-    end
-
-    #   テーブルを変更する（履歴を残せ）
-    DB.alter_table :treasure_datas do
-      add_column :allocation_type, :integer, default: 0 unless Unlight::TreasureData.columns.include?(:allocation_type)  # 新規追加 2015/05/15
-      add_column :allocation_id, String, default: '' unless Unlight::TreasureData.columns.include?(:allocation_id)       # 新規追加 2012/05/15
     end
 
     # インサート時の前処理

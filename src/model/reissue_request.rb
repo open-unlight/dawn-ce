@@ -21,34 +21,12 @@ module Unlight
     NEXT_LIMIT_TIME = 60 * 10 # 10分
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :uniq_str, index: true
-      String      :email, index: true
-      integer     :player_id, default: 0
-      integer     :status, default: RR_ST_START
-      datetime    :limit_at
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(ReissueRequest.table_exists?)
-      ReissueRequest.create_table
-    end
-
-    DB.alter_table :reissue_requests do
-      add_column :player_id, :integer, default: 0 unless Unlight::ReissueRequest.columns.include?(:player_id) # 新規追加 2016/10/25
     end
 
     # インサート時の前処理

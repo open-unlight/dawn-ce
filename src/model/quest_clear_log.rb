@@ -14,39 +14,12 @@ module Unlight
     many_to_one :avatar_quest_inventory, key: :quest_inventory_id # アバターを持つ
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      int         :avatar_id
-      int         :quest_inventory_id
-      integer     :chara_card_id_0
-      integer     :chara_card_id_1
-      integer     :chara_card_id_2
-      int         :finish_point
-      int         :result
-      int         :quest_point
-      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(QuestClearLog.table_exists?)
-      QuestClearLog.create_table
-    end
-
-    # テーブルを変更する（履歴を残せ）
-    DB.alter_table :quest_clear_logs do
-      add_column :server_type, :integer, default: 0 unless Unlight::QuestClearLog.columns.include?(:server_type) # 新規追加 2016/11/24
     end
 
     #時の前処理

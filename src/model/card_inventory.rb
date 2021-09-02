@@ -10,32 +10,11 @@ module Unlight
     many_to_one :chara_card_deck # デッキに複数所持される
     many_to_one :chara_card # キャラカードを複数もてる
 
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer   :chara_card_deck_id, index: true #, :table => :chara_card_decks
-      integer   :chara_card_id #, :table => :chara_cards
-      integer   :position, default: 0, null: false
-      integer   :before_deck_id #, :table => :chara_card_decks
-      datetime  :created_at
-      datetime  :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(CardInventory.table_exists?)
-      CardInventory.create_table
-    end
-
-    DB.alter_table :card_inventories do
-      add_column :before_deck_id, :integer, default: 0 unless Unlight::CardInventory.columns.include?(:before_deck_id) # 新規追加2011/07/25
     end
 
     # インサート時の前処理

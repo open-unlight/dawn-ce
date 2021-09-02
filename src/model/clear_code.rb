@@ -7,34 +7,16 @@ module Unlight
   # 課金アイテムクラス
   class ClearCode < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
     STATE_UNUSE = 0           # 未使用
     STATE_USED  = 1           # 使用済み
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :code, index: true, unique: true
-      integer     :kind, default: 0
-      integer     :state, default: 0
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
-
-    # DBにテーブルをつくる
-    if !(ClearCode.table_exists?)
-      ClearCode.create_table
     end
 
     # インサート時の前処理

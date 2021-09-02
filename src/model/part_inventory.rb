@@ -10,35 +10,11 @@ module Unlight
     many_to_one :avatar         # アバターを持つ
     many_to_one :avatar_part    # アバターパーツを持つ
 
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer :avatar_id, index: true #, :table => :avatars
-      integer :avatar_part_id #, :table => :avatar_parts
-      integer     :used, default: 0
-      datetime    :end_at # 新規追加2011/08/01
-      integer     :before_avatar_id, default: 0 #, :table => :avatars
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(PartInventory.table_exists?)
-      PartInventory.create_table
-    end
-
-    # # テーブル内容のアップデート
-    DB.alter_table :part_inventories do
-      add_column :end_at, :datetime  unless Unlight::PartInventory.columns.include?(:end_at) # 新規追加2011/07/25
-      add_column :before_avatar_id, :integer, default: 0 unless Unlight::PartInventory.columns.include?(:before_avatar_id) # 新規追加2011/07/25
     end
 
     # 装備しているか？

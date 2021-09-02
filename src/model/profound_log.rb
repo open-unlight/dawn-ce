@@ -7,35 +7,12 @@ module Unlight
   # 渦ダメージログクラス
   class ProfoundLog < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :profound_id, index: true   # 渦ID
-      integer     :avatar_id, index: true     # アバターID
-      String      :avatar_name   # アバター名
-      integer     :chara_no      # キャラ位置
-      String      :boss_name     # ボス名
-      integer     :damage        # ダメージ
-      integer     :atk_charactor # 攻撃キャラ
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(ProfoundLog.table_exists?)
-      ProfoundLog.create_table
     end
 
     # インサート時の前処理

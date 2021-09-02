@@ -7,35 +7,13 @@ module Unlight
   # イベントカードクラス
   class EquipCard < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name
-      integer     :equip_no
-      integer     :card_cost, default: 0
-      String      :restriction, default: ''
-      String      :image, default: ''
-      String      :caption, default: ''
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
-
-    # DBにテーブルをつくる
-    if !(EquipCard.table_exists?)
-      EquipCard.create_table
     end
 
     # インサート時の前処理

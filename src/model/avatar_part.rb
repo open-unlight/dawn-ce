@@ -7,47 +7,13 @@ module Unlight
   # アバターパーツクラス
   class AvatarPart < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name
-      String      :image, text: true, default: ''
-
-      integer     :parts_type, default: 0
-
-      integer     :power_type, default: 0             # 装備したときの効果                     #new 2011/06/30
-      integer     :power, default: 0                  # 効果の力                               #new 2011/06/30
-      integer     :duration, default: 0               # 効果の持続時間（0の場合ずっと続く    ）#new 2011/06/30
-      String      :caption, text: true, default: '' # キャプション                           #new 2011/06/30
-
-      integer     :color, default: 0 # イメージに適用するカラー
-      integer     :offset_x, default: 0              # アイコンのオフセット（未使用）
-      integer     :offset_y, default: 0              # アイコンのオフセット（未使用）
-      integer     :offset_scale, default: 100        # アイコンのオフセット（未使用）
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(AvatarPart.table_exists?)
-      AvatarPart.create_table
-    end
-
-    # テーブルを変更する（履歴を残せ）
-    DB.alter_table :avatar_parts do
     end
 
     # インサート時の前処理

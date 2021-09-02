@@ -11,7 +11,6 @@ module Unlight
     NAME_CANT_USE      = 2 # 使用不可
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
@@ -30,66 +29,9 @@ module Unlight
 
     attr_reader :event, :reward
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name, index: true, limit: 10
-      integer     :player_id #, :table => :players
-      integer     :gems, default: 0
-      integer     :exp, default: 0
-      integer     :level, default: 1
-      integer     :energy, default: 5
-      integer     :energy_max, default: 5
-      integer     :recovery_interval, default: Unlight::AVATAR_RECOVERY_SEC
-      integer     :current_deck, default: 1
-      integer     :win, default: 0
-      integer     :lose, default: 0
-      integer     :draw, default: 0
-      integer     :point, default: 1500
-      integer     :free_duel_count, default: Unlight::FREE_DUEL_COUNT
-      integer     :friend_max, default: 10
-      integer     :part_inventory_max, default: Unlight::AP_INV_MAX
-      integer     :quest_inventory_max, default: Unlight::QUEST_MAX
-      integer     :quest_flag, default: 0
-      integer     :quest_clear_num, default: 0
-
-      integer     :exp_pow, default: 100 # 新規追加2011/07/25
-      integer     :gem_pow, default: 100 # 新規追加2011/07/25
-      integer     :quest_find_pow, default: 100 # 新規追加2011/07/25
-
-      integer     :quest_point, default: 0 # 新規追加2011/07/25
-
-      integer     :sale_type, default: 0 # 新規追加 2012/10/22
-      datetime    :sale_limit_at # 新規追加 2012/09/27
-
-      integer     :favorite_chara_id, default: 1 # 新規追加 2013/12/11
-
-      integer     :floor_count, default: 1 # By_K2 (무한의탑 층수)
-
-      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
-
-      datetime    :last_recovery_at
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
       uniqueness_of :name, minimum: 1
-    end
-
-    # DBにテーブルをつくる
-    if !(Avatar.table_exists?)
-      Avatar.create_table
-    end
-
-    # テーブルを変更する（履歴を残せ）
-    DB.alter_table :avatars do
-      add_column :sale_type, :integer, default: 0 unless Unlight::Avatar.columns.include?(:sale_type) # 新規追加 2012/10/22
-      add_column :sale_limit_at, :datetime unless Unlight::Avatar.columns.include?(:sale_limit_at) # 新規追加 2012/09/27
-      add_column :favorite_chara_id, :integer, default: 1 unless Unlight::Avatar.columns.include?(:favorite_chara_id) # 新規追加 2013/12/11
-      add_column :floor_count, :integer, default: 1 unless Unlight::Avatar.columns.include?(:floor_count)  # 新規追加 2014/08/01
-      add_column :server_type, :integer, default: 0 unless Unlight::Avatar.columns.include?(:server_type)  # 新規追加 2016/11/24
     end
 
     # インサート時の前処理

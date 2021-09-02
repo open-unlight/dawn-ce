@@ -7,40 +7,11 @@ module Unlight
   # 渦のインベントリクラス
   class ProfoundInventory < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
     # 他クラスのアソシエーション
     many_to_one :profound, class: Unlight::Profound, key: :profound_id # 渦情報を保持
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :avatar_id, index: true                            # アバターID
-      integer     :profound_id, index: true                          # 渦のID
-      integer     :deck_idx, default: 0                           # 使用デッキINDEX
-      integer     :chara_card_dmg_1, default: 0                   # デッキカード1のダメージ
-      integer     :chara_card_dmg_2, default: 0                   # デッキカード2のダメージ
-      integer     :chara_card_dmg_3, default: 0                   # デッキカード3のダメージ
-      integer     :damage_count, default: 0                       # 与えたダメージ数
-      integer     :score, default: 0                              # スコア
-      integer     :state, default: PRF_INV_ST_NEW, index: true # 現在の状態
-      Boolean     :found, default: false                          # 発見したか
-      Boolean     :defeat, default: false                         # 撃破したか
-      integer     :reward_state, default: PRF_INV_REWARD_ST_STILL # 報酬を取得したか
-      integer     :btl_count, default: 0                          # 戦闘回数
-      datetime    :created_at
-      datetime    :updated_at
-    end
-    # DBにテーブルをつくる
-    if !(ProfoundInventory.table_exists?)
-      ProfoundInventory.create_table
-    end
-    # テーブルを変更する
-    DB.alter_table :profound_inventories do
-      add_column :score, :integer, default: 0 unless Unlight::ProfoundInventory.columns.include?(:score) # 新規追加2013/10/10
-    end
 
     # インサート時の前処理
     before_create do

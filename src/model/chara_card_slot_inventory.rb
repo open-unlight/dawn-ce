@@ -11,31 +11,11 @@ module Unlight
     # 他クラスのアソシエーション
     many_to_one :chara_card_deck # デッキに複数所持される
 
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
     PARAM2_DEFAULT = 0B0010_0000_0000_0000_0010_1000_0000_0000
     puts "param2 default #{PARAM2_DEFAULT}"
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :chara_card_deck_id, index: true
-      integer     :deck_position
-      integer     :card_position
-      integer     :kind
-      integer     :card_id
-      integer     :weapon_type, default: WEAPON_TYPE_NORMAL
-      integer     :before_deck_id
-      integer      :combine_param1, default: 0 # base(+-127) 8_8_8_8 mons(+-127) 8_8_8_8  64 bit
-      integer      :combine_param2, default: PARAM2_DEFAULT # base_max(0-15) 4 passiveA cnt(0-31)5 passiveAmax_cnt(0-31)5 add_max 9(0-511) passive A 9(0-511) 32 bit
-      String      :combine_param1_str, default: '0' # base(+-127) 8_8_8_8 mons(+-127) 8_8_8_8  64 bit String
-      integer     :level, default: 1
-      integer     :exp, default: 0
-      integer     :combine_param3, default: 0 # base_max(0-15) 4 passiveB cnt(0-31)5 passiveB max_cnt(0-31)5 add_max 9(0-511) passive B 9(0-511) 32 bit
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     # param 計算用マスク
     COMB_PARAM_MASK_BASE_SA     = [0B1111_1111_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000, 56] # +-127
@@ -109,22 +89,6 @@ module Unlight
     COMB_SEND_EXP_COEFFICIENT = 2
 
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(CharaCardSlotInventory.table_exists?)
-      CharaCardSlotInventory.create_table
-    end
-
-    DB.alter_table :chara_card_slot_inventories do
-      add_column :weapon_type, :integer, default: WEAPON_TYPE_NORMAL unless Unlight::CharaCardSlotInventory.columns.include?(:weapon_type) # 新規追加2015/04/09
-      add_column :before_deck_id, :integer, default: 0 unless Unlight::CharaCardSlotInventory.columns.include?(:before_deck_id) # 新規追加2015/04/18
-      add_column :combine_param1, :bignum, default: 0 unless Unlight::CharaCardSlotInventory.columns.include?(:combine_param1) # 新規追加2015/04/20
-      add_column :combine_param2, :int, default: 0 unless Unlight::CharaCardSlotInventory.columns.include?(:combine_param2) # 新規追加2015/04/20
-      add_column :combine_param1_str, String, default: 0 unless Unlight::CharaCardSlotInventory.columns.include?(:combine_param1_str) # 新規追加2015/06/25
-      add_column :level, :integer, default: 1 unless Unlight::CharaCardSlotInventory.columns.include?(:level) # 新規追加2015/06/25
-      add_column :exp, :integer, default: 0 unless Unlight::CharaCardSlotInventory.columns.include?(:exp) # 新規追加2015/06/25
-      add_column :combine_param3, :int, default: 0 unless Unlight::CharaCardSlotInventory.columns.include?(:combine_param3) # 新規追加2015/04/20
     end
 
     # インサート時の前処理

@@ -7,43 +7,12 @@ module Unlight
   # 渦の元データクラス
   class ProfoundData < Sequel::Model(:profound_datas)
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
     # 他クラスのアソシエーション
     one_to_many :quests # 複数のクエストデータを保持
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :prf_type                                                 # 渦の種類
-      String      :name                                                     # 渦の名前
-      integer     :rarity                                                   # レアリティ
-      integer     :level                                                    # レベル
-      String      :ttl                                                      # 発生から消滅までの時間
-      integer     :core_monster_id                                          # ボスモンスターのID
-      integer     :quest_map_id                                             # 所属クエストID
-      integer     :group_id                                                 # 所属グループID
-      integer     :treasure_level                                           # 報酬レベル
-      integer     :stage                                                    # ステージID
-      integer     :finder_start_point, default: RAID_FINDER_START_POINT_DEF # 発見者開始ポイント
-      integer     :member_limit, default: RAID_MEMBER_LIMIT_DEF             # ステージID
-      String      :caption, default: '' # 簡易説明
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
-    # DBにテーブルをつくる
-    if !(ProfoundData.table_exists?)
-      ProfoundData.create_table
-    end
-
-    #   テーブルを変更する（履歴を残せ）
-    DB.alter_table :profound_datas do
-      add_column :member_limit, :integer, default: RAID_MEMBER_LIMIT_DEF unless Unlight::ProfoundData.columns.include?(:member_limit) # 新規追加 2015/05/25
-    end
 
     # 全体データバージョンを返す
     def ProfoundData::data_version

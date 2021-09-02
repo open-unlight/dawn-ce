@@ -7,45 +7,15 @@ module Unlight
   # アバターアイテムクラス
   class AvatarItem < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
     ITEM_DURATION_BASE = 60 # Durationの単位は分
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name
-      integer     :item_no
-      integer     :kind
-      String      :sub_kind, default: '' # Kindで指定している箇所以下のウィンドウに出したい場合の指定 [+]で分ける
-      integer     :duration, default: 0 # 分
-      String      :cond, default: ''    # kind毎に異なる用途に使える設定値
-      String      :image, default: ''
-      integer     :image_frame, default: 0
-      String      :effect_image, default: ''
-      String      :caption, default: ''
-      datetime    :created_at
-      datetime    :updated_at
-    end
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
-
-    # DBにテーブルをつくる
-    if !(AvatarItem.table_exists?)
-      AvatarItem.create_table
-    end
-
-    DB.alter_table :avatar_items do
-      add_column :sub_kind, String, default: '' unless Unlight::AvatarItem.columns.include?(:sub_kind) # 新規追加2014/01/14
-      add_column :cond, String, default: '' unless Unlight::AvatarItem.columns.include?(:cond) # 新規追加2015/09/15
     end
 
     # インサート時の前処理

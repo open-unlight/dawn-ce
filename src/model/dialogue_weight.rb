@@ -9,31 +9,12 @@ module Unlight
     many_to_one :charactor # プレイヤーに複数所持される
     many_to_one :dialogue # プレイヤーに複数所持される
 
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :dialogue_type, default: 0 # 会話のタイプ
-      integer     :chara_id #, :table => :charactor                       # 会話の主体
-      integer     :other_chara_id, default: 0 # 会話の相手
-      integer     :dialogue_id #, :table => :dialogue                     # 会話
-      integer     :weight, default: 1 # 出現ウェイト(最低１ないと出現しない)
-      integer     :level, default: 1 # 相手のレベル制限
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     # バリデーションの設定
     #    include Validation
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(DialogueWeight.table_exists?)
-      DialogueWeight.create_table
     end
 
     # インサート時の前処理

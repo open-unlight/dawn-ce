@@ -9,38 +9,14 @@ module Unlight
     many_to_one :avatar # プレイヤーに複数所持される
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     # キャッシュをON
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :avatar_id, index: true # :table => :avatars
-      String      :name, default: ''
-      integer     :point, default: 0
-      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(TotalDuelRanking.table_exists?)
-      TotalDuelRanking.create_table
-    end
-
-    DB.alter_table :total_duel_rankings do
-      add_column :server_type, :integer, default: 0 unless Unlight::TotalDuelRanking.columns.include?(:server_type) # 新規追加 2016/11/24
     end
 
     # インサート時の前処理
@@ -98,12 +74,8 @@ module Unlight
 
     ### 使ってない
     def TotalDuelRanking::start_up(server_type)
-      if !(TotalDuelRanking.table_exists?)
-        TotalDuelRanking.create_table
-      end
-
-    # 現在から一月アップデートされたことのあるアバターが対象
-    last_update = Date.today - 30
+      # 現在から一月アップデートされたことのあるアバターが対象
+      last_update = Date.today - 30
     st = Time.utc(last_update.year, last_update.month, last_update.day)
     Avatar.filter(server_type: server_type).filter { updated_at > st }.all do |a|
         if a.point

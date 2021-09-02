@@ -7,39 +7,17 @@ module Unlight
   # Infectionコラボイベントシリアル
   class InfectionCollaboSerial < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
     STATE_OK = 0             # 未払い
     STATE_DONE = 1           # 支払い済み
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :serial, index: true, unique: true
-      integer     :player_id, index: true, unique: true
-      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
    end
-
-    # DBにテーブルをつくる
-    if !(InfectionCollaboSerial.table_exists?)
-      InfectionCollaboSerial.create_table
-    end
-
-    DB.alter_table :infection_collabo_serials do
-      add_column :server_type, :integer, default: 0 unless Unlight::InfectionCollaboSerial.columns.include?(:server_type) # 新規追加 2016/12/5
-    end
 
     # インサート時の前処理
     before_create do

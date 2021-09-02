@@ -102,40 +102,13 @@ module Unlight
     WILD_CARD = 31
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-
-    Sequel::Model.plugin :schema
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name, index: true
-      integer     :feat_no
-      integer     :pow
-      String      :dice_attribute, default: ''
-      String      :effect_image, default: ''
-      String      :caption, default: ''
-      String      :condition, default: '', text: true
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(Feat.table_exists?)
-      Feat.create_table
-    end
-
-    DB.alter_table :feats do
-      add_column :dice_attribute, :string, default: '' unless Unlight::Feat.columns.include?(:dice_attribute) # 新規追加 2014/03/17
     end
 
     # インサート時の前処理

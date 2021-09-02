@@ -7,29 +7,8 @@ module Unlight
   # 渦専用報酬
   class ProfoundTreasureData < Sequel::Model(:profound_treasure_datas)
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :level # 報酬のレベル
-      integer     :prf_trs_type,  default: PRF_TRS_TYPE_RANK # 渦報酬のタイプ
-      integer     :rank_min,      default: 0                 # ランク指定の最低値
-      integer     :rank_max,      default: 0                 # ランク指定の最大値
-      integer     :treasure_type, default: 0                 # 報酬アイテムのタイプ
-      integer     :treasure_id,   default: 0                 # 報酬アイテムのID
-      integer     :slot_type,     default: 0                 # 報酬アイテムのSlotタイプ
-      integer     :value,         default: 0                 # 報酬アイテムの値（個数等）
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
-    # DBにテーブルをつくる
-    if !(ProfoundTreasureData.table_exists?)
-      ProfoundTreasureData.create_table
-    end
 
     # インサート時の前処理
     before_create do

@@ -7,7 +7,6 @@ module Unlight
   # ゲームセッションログ
   class MatchLog < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE
@@ -17,59 +16,8 @@ module Unlight
 
     attr_accessor :a_point, :b_point
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer :channel_id #, :table => :channels
-      String      :match_name, text: true, default: ''
-      integer     :match_rule
-      integer     :match_stage
-      integer     :a_avatar_id
-      integer     :b_avatar_id
-      integer     :a_chara_card_id_0
-      integer     :a_chara_card_id_1
-      integer     :a_chara_card_id_2
-      integer     :b_chara_card_id_0
-      integer     :b_chara_card_id_1
-      integer     :b_chara_card_id_2
-      integer     :a_deck_cost
-      integer     :b_deck_cost
-      integer     :cpu_card_data_id, default: 0
-      integer     :state
-      integer     :match_option, default: 0
-      integer     :match_level
-      integer     :winner_avatar_id, index: true
-      integer     :get_bp
-      integer     :lose_bp
-      integer     :channel_set_rule, default: CRULE_FREE
-      String      :a_remain_hp_set
-      String      :b_remain_hp_set
-      integer     :turn_num, default: 0
-      integer     :warn, default: 0
-      integer     :watch_mode, default: 0 # 観戦モード, 0:OFF,1:ON
-      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
-      datetime    :start_at
-      datetime    :finish_at
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(MatchLog.table_exists?)
-      MatchLog.create_table
-    end
-
-    DB.alter_table :match_logs do
-      add_column :watch_mode, :integer, default: 0 unless Unlight::MatchLog.columns.include?(:watch_mode) # 新規追加2013/01/07
-      add_column :lose_bp, :integer, default: 0 unless Unlight::MatchLog.columns.include?(:lose_bp) # 新規追加2013/04/02
-      add_column :a_deck_cost, :integer, default: 0 unless Unlight::MatchLog.columns.include?(:a_deck_cost)  # 新規追加2013/07/16
-      add_column :b_deck_cost, :integer, default: 0 unless Unlight::MatchLog.columns.include?(:b_deck_cost)  # 新規追加2013/07/16
-      add_column :channel_set_rule, :integer, default: CRULE_FREE unless Unlight::MatchLog.columns.include?(:channel_set_rule) # 新規追加2014/11/13
-      add_column :server_type, :integer, default: 0 unless Unlight::MatchLog.columns.include?(:server_type) # 新規追加 2016/11/24
     end
 
     # インサート時の前処理

@@ -7,7 +7,6 @@ module Unlight
   # ゲームセッションログ
   class InviteLog < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
@@ -16,27 +15,8 @@ module Unlight
 
     attr_accessor :a_point, :b_point
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :invite_player_id, index: true #, :table => :players
-      String      :invited_user_id, index: true
-      Boolean     :invited, default: false
-      integer     :sns_log_id, index: true
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(InviteLog.table_exists?)
-      InviteLog.create_table
-    end
-    DB.alter_table :invite_logs do
-      add_column :sns_log_id, :integer unless Unlight::InviteLog.columns.include?(:sns_log_id) # 新規追加 2012/09/27
     end
 
     # 招待する

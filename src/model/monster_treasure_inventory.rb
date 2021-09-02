@@ -10,28 +10,11 @@ module Unlight
     many_to_one :cpu_card_data # アバターを持つ
     many_to_one :treasure_data # アバターパーツを持つ
 
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :cpu_card_data_id, index: true
-      integer     :treasure_data_id
-      integer     :num
-      integer     :step
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(MonsterTreasureInventory.table_exists?)
-      MonsterTreasureInventory.create_table
     end
 
     # インサート時の前処理

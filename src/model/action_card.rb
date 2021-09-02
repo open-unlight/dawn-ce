@@ -17,35 +17,8 @@ module Unlight
     # 0:ブランク,1:近接 2:遠距離, 3:防御, 4:移動 5:特殊, 6:イベント, 7:フォーカス
     BLNK, SWD, ARW, DEF, MOVE, SPC, EVT, FCS = (0..7).to_a
 
-    # スキーマの設定
-    def self.create_table
-      DB.create_table self.implicit_table_name do
-        primary_key :id
-        integer     :u_type, default: 0
-        integer     :u_value, default: 1
-        integer     :b_type, default: 0
-        integer     :b_value, default: 1
-        integer     :event_no, default: 0
-        String      :caption
-        String      :image
-        datetime    :created_at
-        datetime    :updated_at
-      end
-    end
-
-    # スキーマの設定
-    def self.create_table!
-      DB.drop_table self.implicit_table_name
-      self.create_table
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(DB.table_exists? self.implicit_table_name)
-      ActionCard.create_table
     end
 
     # インサート時の前処理
