@@ -32,8 +32,11 @@ command = ARGV.shift
 
 def run_console
   require 'bundler/setup'
-  require 'pry'
-  require 'irb'
+  begin
+    require 'pry'
+  rescue LoadError
+    require 'irb'
+  end
   require_relative '../src/unlight'
 
   if defined?(Pry)
