@@ -42,10 +42,13 @@ jobs:
       with:
         ruby-version: 2.6.8
         bundler-cache: true
+    - name: Prepare Database
+      run: bundle exec rake db:migrate
+      env:
+        MEMCACHED_HOST: "127.0.0.1:${{ job.services.memcached.ports['11211'] }}"
+        DATABASE_URL: "mysql2://unlight:unlight@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/unlight_db?encoding=utf8"
     - name: Run Test
-      run:
-        - bundle exec rake db:migrate
-        - ${{ matrix.command }}
+      run: ${{ matrix.command }}
       env:
         CUCUMBER_PUBLISH_QUIET: 'true'
         MEMCACHED_HOST: "127.0.0.1:${{ job.services.memcached.ports['11211'] }}"
