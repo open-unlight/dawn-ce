@@ -9,6 +9,7 @@ x-image: &image
     DATABASE_URL: mysql2://unlight:unlight@mysql/unlight_db?encoding=utf8mb4
     MEMCACHED_HOST: memcached:11211
   depends_on:
+    - xmlsocket
     - memcached
     - mysql
 
@@ -28,7 +29,8 @@ services:
       - '3307:3306'
   # Flash Fallback
   xmlsocket:
-    <<: *image
+    image: ${IMAGE}:latest
+    restart: unless-stopped
     command: xmlsocket
     ports:
       - '11999:11999' # XMLSocket for Flash Policy
