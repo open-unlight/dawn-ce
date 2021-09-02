@@ -117,7 +117,7 @@ bundler-leak:
 rspec:
   <<: *base_test
   script:
-    # TODO: Run database migration
+    - rake db:migrate
     - bundle exec rspec --format progress --format RspecJunitFormatter --out rspec.xml
   artifacts:
     paths:
@@ -135,7 +135,7 @@ rspec:
 cucumber:
   <<: *base_test
   script:
-    # TODO: Run database migration
+    - rake db:migrate
     - bundle exec cucumber
   rules:
     - if: $CI_MERGE_REQUEST_ID
