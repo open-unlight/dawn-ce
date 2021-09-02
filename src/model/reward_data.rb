@@ -7,44 +7,14 @@ module Unlight
   # 管理用のCPUカードデータクラス
   class RewardData < Sequel::Model(:reward_datas)
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
-
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :exps,               default: 0
-      integer     :gems,               default: 0
-      integer     :item_id,            default: 0
-      integer     :item_num,           default: 0
-      integer     :own_card_lv,        default: 0
-      integer     :own_card_num,       default: 0
-      integer     :random_card_rarity, default: 0
-      integer     :random_card_num,    default: 0
-      integer     :rare_card_lv,       default: 0
-      integer     :event_card_id,      default: 0
-      integer     :event_card_num,     default: 0
-      integer     :weapon_card_id,     default: 0
-      integer     :weapon_card_num,    default: 0
-
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
    end
-
-    # DBにテーブルをつくる
-    if !(RewardData.table_exists?)
-      RewardData.create_table
-    end
 
     # インサート時の前処理
     before_create do

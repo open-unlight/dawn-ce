@@ -7,33 +7,11 @@ module Unlight
   # イベントカードクラス
   class WeaponCard < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
     one_to_many :combine_cases # 複数の合成情報を保持
-
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name
-      integer     :weapon_no
-      String      :passive_id, default: ''
-      integer     :card_cost, default: 0
-      String      :restriction, default: ''
-      String      :image, default: ''
-      String      :caption, default: ''
-      integer     :weapon_type, default: WEAPON_TYPE_NORMAL
-      integer     :material_use_cnt, default: 0
-      integer     :material_add_param, default: 0 # mons(+-127) 8_8_8_8 32 bit
-      integer     :material_exp, default: 0
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     MAT_ADD_PARAM_MASK_ADD_SA   = [0B1111_1111_0000_0000_0000_0000_0000_0000, 24] # +-127
     MAT_ADD_PARAM_MASK_ADD_SD   = [0B0000_0000_1111_1111_0000_0000_0000_0000, 16] # +-127
@@ -43,11 +21,6 @@ module Unlight
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
-
-    # DBにテーブルをつくる
-    if !(WeaponCard.table_exists?)
-      WeaponCard.create_table
     end
 
     # インサート時の前処理
@@ -65,13 +38,6 @@ module Unlight
       Unlight::WeaponCard::refresh_data_version
       Unlight::WeaponCard::cache_store.delete("weapon_card:restricrt:#{id}")
       Unlight::WeaponCard::cache_store.delete("weapon_card:passive_id:#{id}")
-    end
-
-    DB.alter_table :weapon_cards do
-      add_column :passive_id, String, default: '' unless Unlight::WeaponCard.columns.include?(:passive_id) # 新規追加 2014/8/13
-      add_column :material_use_cnt, :integer, default: 0 unless Unlight::WeaponCard.columns.include?(:material_use_cnt) # 新規追加 2015/5/13
-      add_column :material_add_param, :integer, default: 0 unless Unlight::WeaponCard.columns.include?(:material_add_param) # 新規追加 2015/5/15
-      add_column :material_exp, :integer, default: 0 unless Unlight::WeaponCard.columns.include?(:material_exp) # 新規追加 2015/5/15
     end
 
     # 全体データバージョンを返す

@@ -10,7 +10,6 @@ module Unlight
     attr_reader :event
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
@@ -24,36 +23,6 @@ module Unlight
     # 他クラスのアソシエーション
     many_to_one :charactor # キャラデータを持つ
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name, index: true
-      String      :ab_name, default: ''
-      integer     :level, default: 1
-      integer     :hp, default: 1
-      integer     :ap, default: 1
-      integer     :dp, default: 1
-      integer     :rarity, default: 1
-      integer     :deck_cost, default: 1
-      integer     :slot, default: 0
-      String      :stand_image, default: ''
-      String      :chara_image, default: ''
-      String      :artifact_image, default: ''
-      String      :bg_image, default: ''
-      String      :caption, default: ''
-      integer     :charactor_id
-      integer     :next_id
-      datetime    :created_at
-      datetime    :updated_at
-
-      integer     :kind, default: 0 # 新規追加 2013/06/24
-    end
-
-    # DBにテーブルをつくる
-    if !(CharaCard.table_exists?)
-      CharaCard.create_table
-    end
-
     # インサート時の前処理
     before_create do
       self.created_at = Time.now.utc
@@ -62,10 +31,6 @@ module Unlight
     # インサートとアップデート時の前処理
     before_save do
       self.updated_at = Time.now.utc
-    end
-
-    DB.alter_table :chara_cards do
-      add_column :kind, :integer, default: 0 unless Unlight::CharaCard.columns.include?(:kind) # 新規追加 2013/6/24
     end
 
     # アップデート後の後理処

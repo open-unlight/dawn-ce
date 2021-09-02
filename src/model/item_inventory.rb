@@ -10,34 +10,11 @@ module Unlight
     many_to_one :avatar         # アバターを持つ
     many_to_one :avatar_item    # アバターアイテムを持つ
 
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer :avatar_id, index: true #, :table => :avatars
-      integer :avatar_item_id #, :table => :avatar_items
-      integer     :state, default: 0 #   ITEM_STATE_NOT_USE
-      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
-      datetime    :use_at
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(ItemInventory.table_exists?)
-      ItemInventory.create_table
-    end
-
-    # テーブルを変更する（履歴を残せ）
-    DB.alter_table :item_inventories do
-      add_column :server_type, :integer, default: 0 unless Unlight::ItemInventory.columns.include?(:server_type) # 新規追加 2016/11/24
     end
 
     # インサート時の前処理

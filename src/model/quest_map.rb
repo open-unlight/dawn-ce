@@ -7,7 +7,6 @@ module Unlight
   # クエストのマップクラス
   class QuestMap < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
@@ -15,27 +14,9 @@ module Unlight
     # 他クラスのアソシエーション
     one_to_many :quests # 複数のクエストデータを保持
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name, default: ''
-      String      :caption, default: ''
-      integer     :region, default: 0
-      integer     :level, default: 0      # 未使用
-      integer     :difficulty, default: 1 # クリアに必要なDefficulty
-      integer     :ap, default: 0
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
    end
-
-    # DBにテーブルをつくる
-    if !(QuestMap.table_exists?)
-      QuestMap.create_table
-    end
 
     # 全体データバージョンを返す
     def QuestMap::data_version

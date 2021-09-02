@@ -6,36 +6,17 @@
 module Unlight
   # 台詞を保存するクラス
   class Scenario < Sequel::Model
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
     attr_reader :command_set, :jump_set
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :chara_id
-      String      :script, text: true, default: ''
-      integer     :count
-      integer     :priority # 大きい方から出る。0ででない。
-      datetime    :event_start_at
-      datetime    :event_end_at
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     @@script_str_set = []
     @@script_set = []
 
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(Scenario.table_exists?)
-      Scenario.create_table
     end
 
     # インサート時の前処理

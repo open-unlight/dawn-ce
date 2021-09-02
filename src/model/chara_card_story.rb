@@ -8,35 +8,12 @@ module Unlight
   class CharaCardStory < Sequel::Model
     many_to_one :chara_card # プレイヤーに複数所持される
 
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true, ttl: 1200 # 10分だけキャッシュする･･･
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer :chara_card_id #, :table => :chara_cards
-      integer     :book_type
-      String      :title, text: true, default: ''
-      String      :content, text: true, default: ''
-      String      :image, default: ''
-      String      :age_no, default: ''
-      integer     :text_id
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(CharaCardStory.table_exists?)
-      CharaCardStory.create_table
-    end
-
-    DB.alter_table :chara_card_stories do
-      add_column :age_no, String, default: '' unless Unlight::CharaCardStory.columns.include?(:age_no) # 新規追加 2012/06/14
     end
 
     # インサート時の前処理

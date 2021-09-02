@@ -7,55 +7,8 @@ module Unlight
   # ゲームロビーのチャンネルクラス
   class Channel < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name, default: '新規サーバ'
-      integer     :order, default: 0
-      integer     :rule, default: 0
-      integer     :max, default: Unlight::DUEL_CHANNEL_MAX
-      String      :host_name, default: ''
-      String      :host, default: ''
-      integer     :port, default: 0
-      String      :chat_host, default: ''
-      integer     :chat_port, default: 0
-      String      :duel_host, default: ''
-      integer     :duel_port, default: 0
-      String      :watch_host, default: ''
-      integer     :watch_port, default: 0
-      integer     :state, default: Unlight::DSS_DOWN
-      String      :caption, default: ''
-      integer     :count, default: 0
-      integer     :penalty_type, default: 0           # 切断時のペナルティタイプ 0:AI,1:Abort
-      integer     :watch_mode, default: 0             # 観戦モード 0:OFF,1:ON
-      integer     :cost_limit_min, default: 0         # コスト制限つきの場合の最小値、maxが0の場合無効
-      integer     :cost_limit_max, default: 0         # コスト制限つきの場合の最大値、minが0の場合無効
-      integer     :cpu_matching_type, default: 0      # CPUとマッチする場合、何を基準に相手を決めるか
-      String      :cpu_matching_condition, default: '' # マッチ条件
-      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
-    # DBにテーブルをつくる
-    if !(Channel.table_exists?)
-      Channel.create_table
-    end
-
-    DB.alter_table :channels do
-      add_column :count, :integer, default: 0 unless Unlight::Channel.columns.include?(:count) # 新規追加2011/07/25
-      add_column :penalty_type, :integer, default: 0 unless Unlight::Channel.columns.include?(:penalty_type) # 新規追加2012/06/21
-      add_column :cost_limit_min, :integer, default: 0 unless Unlight::Channel.columns.include?(:cost_limit_min)  # 新規追加2012/06/21
-      add_column :cost_limit_max, :integer, default: 0 unless Unlight::Channel.columns.include?(:cost_limit_max)  # 新規追加2012/06/21
-      add_column :watch_mode, :integer, default: 0 unless Unlight::Channel.columns.include?(:watch_mode) # 新規追加2013/01/04
-      add_column :cpu_matching_type, :integer, default: 0 unless Unlight::Channel.columns.include?(:cpu_matching_type) # 新規追加2015/07/13
-      add_column :cpu_matching_condition, String, default: '' unless Unlight::Channel.columns.include?(:cpu_matching_condition) # 新規追加2015/07/13
-      add_column :server_type, :integer, default: 0 unless Unlight::Channel.columns.include?(:server_type) # 新規追加 2016/11/24
-    end
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods

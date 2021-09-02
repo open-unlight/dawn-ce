@@ -7,32 +7,13 @@ module Unlight
   # キャラクター本体のデータ
   class Charactor < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name
-      integer     :parent_id, default: 0 # 新規追加 2014/10/9
-      String      :chara_attribute, default: ''
-      String      :lobby_image, default: '' # 新規追加 2013/12/11
-      String      :chara_voice, default: ''
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-    end
-
-    # DBにテーブルをつくる
-
-    if !(Charactor.table_exists?)
-      Charactor.create_table
     end
 
     def Charactor::initialize_charactor_param
@@ -54,13 +35,6 @@ module Unlight
     # インサートとアップデート時の前処理
     before_save do
       self.updated_at = Time.now.utc
-    end
-
-    DB.alter_table :charactors do
-      add_column :parent_id, :integer, default: 0 unless Unlight::Charactor.columns.include?(:parent_id) # 新規追加 2014/10/9
-      add_column :lobby_image, String, default: '' unless Unlight::Charactor.columns.include?(:lobby_image) # 新規追加 2013/12/11
-      add_column :chara_attribute, String, default: '' unless Unlight::Charactor.columns.include?(:chara_attribute) # 新規追加 2013/12/11
-      add_column :chara_voice, String, default: '' unless Unlight::Charactor.columns.include?(:chara_voice) # 新規追加 2014/8/13
     end
 
     # データをとる

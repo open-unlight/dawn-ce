@@ -10,38 +10,11 @@ module Unlight
     many_to_one :avatar               # アバターに複数所持される
     many_to_one :quest                # クエストに複数所持される
 
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :avatar_id, index: true #, :table => :avatars
-      integer     :quest_id #, :table => :quests
-      integer     :status
-      integer     :progress, default: 0
-      integer     :deck_index, default: 1
-      integer     :hp0, default: 0
-      integer     :hp1, default: 0
-      integer     :hp2, default: 0
-      integer     :before_avatar_id #, :table => :avatars
-      datetime    :find_at
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(AvatarQuestInventory.table_exists?)
-      AvatarQuestInventory.create_table
-    end
-
-    DB.alter_table :avatar_quest_inventories do
-      add_column :before_avatar_id, :integer, default: 0 unless Unlight::AvatarQuestInventory.columns.include?(:before_avatar_id) # 新規追加2012/01/13
     end
 
     def clear_land(no)

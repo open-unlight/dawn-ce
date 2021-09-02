@@ -7,7 +7,6 @@ module Unlight
   # プレイヤークラス
   class Player < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
@@ -17,44 +16,10 @@ module Unlight
     # 送受信コマンドのスタック
     attr_accessor :send_commamd, :receive_command
 
-    Sequel::Model.plugin :schema
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name, index: true, unique: true
-      String      :email
-      varchar     :salt, limit: 64
-      varchar     :verifier, limit: 64
-      integer     :role, default: 0
-      integer     :state, default: 0
-      integer     :game_session
-      datetime    :login_at
-      datetime    :logout_at
-      integer     :total_time, default: 0
-      String      :last_ip
-      String      :data_ver
-      integer     :penalty, default: 0
-      String      :session_key, limit: 64
-      integer     :tutorial, default: 0
-      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
       uniqueness_of :name
       length_of :salt, minimum: 8
-    end
-
-    # DBにテーブルをつくる
-    if !(Player.table_exists?)
-      Player.create_table
-    end
-
-    DB.alter_table :players do
-      add_column :tutorial, :integer, default: 0 unless Unlight::Player.columns.include?(:tutorial) # 新規追加2012/1/11
-      add_column :server_type, :integer, default: 0 unless Unlight::Player.columns.include?(:server_type) # 新規追加 2016/11/24
     end
 
     # インサート時の前処理

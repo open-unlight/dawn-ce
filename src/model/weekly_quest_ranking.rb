@@ -9,40 +9,15 @@ module Unlight
     many_to_one :avatar # プレイヤーに複数所持される
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
     # キャッシュをON
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :avatar_id, index: true # :table => :avatars
-      String      :name, default: ''
-      integer     :point, default: 0
-      integer     :arrow, default: 0
-      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
-
-    # DBにテーブルをつくる
-    if !(WeeklyQuestRanking.table_exists?)
-      WeeklyQuestRanking.create_table
-    end
-
-    DB.alter_table :weekly_quest_rankings do
-      add_column :server_type, :integer, default: 0 unless Unlight::WeeklyQuestRanking.columns.include?(:server_type) # 新規追加 2016/11/24
     end
 
     # インサート時の前処理

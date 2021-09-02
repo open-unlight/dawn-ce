@@ -7,7 +7,6 @@ module Unlight
   # カムバックログ
   class ComebackLog < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
@@ -16,23 +15,8 @@ module Unlight
 
     attr_accessor :a_point, :b_point
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :send_player_id, index: true #, :table => :players
-      String      :comebacked_player_id, index: true
-      Boolean     :comebacked, default: false
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(ComebackLog.table_exists?)
-      ComebackLog.create_table
     end
 
     # カムバック依頼をする

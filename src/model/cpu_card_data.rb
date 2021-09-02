@@ -7,47 +7,16 @@ module Unlight
   # 管理用のCPUカードデータクラス
   class CpuCardData < Sequel::Model(:cpu_card_datas)
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
     one_to_many :monster_treasure_inventories # 複数の宝箱をもつ
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name, default: 'monster'
-      integer     :allocation_type, default: QUEST_ALLOC_TYPE_NONE
-      String      :chara_card_id, default: '1001+1001+1001'
-      String      :weapon_card_id, default: '0+0+0'
-      String      :equip_card_id, default: '0+0+0'
-      String      :event_card_id, default: '1/1/1+1/1/1+1/1/1'
-     integer :ai_rank, default: CPU_AI_OLD
-
-      integer     :treasure_id #, :table => :avatars
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
    end
-
-    # DBにテーブルをつくる
-    if !(CpuCardData.table_exists?)
-      CpuCardData.create_table
-    end
-
-    # テーブルを変更する（履歴を残せ）
-    DB.alter_table :cpu_card_datas do
-      add_column :ai_rank, :integer, default: CPU_AI_OLD unless Unlight::CpuCardData.columns.include?(:ai_rank) # 新規追加 2013/04/01
-     add_column :allocation_type, :integer, default: QUEST_ALLOC_TYPE_NONE unless Unlight::CpuCardData.columns.include?(:allocation_type) # 新規追加 2015/2/12
-    end
 
     # インサート時の前処理
     before_create do

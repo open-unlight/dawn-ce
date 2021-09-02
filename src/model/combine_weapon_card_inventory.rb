@@ -8,37 +8,11 @@ module Unlight
   class CombineWeaponCardInventory < Sequel::Model
     # 他クラスのアソシエーション
 
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :combine_cnt, default: 0
-      integer     :combine_max, default: 10
-      integer     :base_sap,    default: 0
-      integer     :base_sdp,    default: 0
-      integer     :base_aap,    default: 0
-      integer     :base_adp,    default: 0
-      float       :add_sap,     default: 0.0
-      float       :add_sdp,     default: 0.0
-      float       :add_aap,     default: 0.0
-      float       :add_adp,     default: 0.0
-      integer     :card_cost,   default: 0
-      String      :passive_id,  default: ''
-      String      :restriction, default: ''
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(CombineWeaponCardInventory.table_exists?)
-      CombineWeaponCardInventory.create_table
     end
 
     # インサート時の前処理

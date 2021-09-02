@@ -10,28 +10,12 @@ module Unlight
     one_to_one :avatar # アバターと一対一
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :avatar_id, index: true, unique: true #, :table => :avatars
-      String      :body, text: true, default: ''
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-
-    if !(AvatarApology.table_exists?) #テーブルをリセットするときにコメントアウト
-      AvatarApology.create_table
     end
 
     # インサート時の前処理

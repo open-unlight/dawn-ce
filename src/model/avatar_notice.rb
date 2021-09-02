@@ -10,33 +10,12 @@ module Unlight
     one_to_one :avatar
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :avatar_id, index: true #, :table => :avatars
-      String      :body, text: true, default: ''
-      datetime    :created_at
-      datetime    :updated_at
-      datetime    :send_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-
-    if !(AvatarNotice.table_exists?) #テーブルをリセットするときにコメントアウト
-      AvatarNotice.create_table
-    end
-
-    DB.alter_table :avatar_notices do
-      add_column :send_at, :datetime unless Unlight::AvatarNotice.columns.include?(:send_at) # 新規追加2012/01
     end
 
     # インサート時の前処理

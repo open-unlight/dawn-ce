@@ -7,32 +7,12 @@ module Unlight
   # クエストの１場所クラス
   class QuestLand < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name, default: ''
-      integer     :monstar_no, default: 0
-      integer     :treasure_no, default: 0
-      integer     :event_no, default: 0
-      integer     :stage, default: 0
-      String      :caption, default: ''
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(QuestLand.table_exists?)
-      QuestLand.create_table
     end
 
     # 全体データバージョンを返す

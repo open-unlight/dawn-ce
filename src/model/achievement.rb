@@ -7,57 +7,13 @@ module Unlight
   # キャラクター本体のデータ
   class Achievement < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :kind, default: 0 # 種類
-      integer     :cond # 条件
-      String      :items, default: '' # 報酬アイテム
-      integer     :prerequisite, default: 0  # 前提条件
-      String      :exclusion, default: ''    # 排他条件
-      integer     :loop, default: 0          # 繰り返し可能か(1以上で無限)
-      String      :caption, default: ''      # キャプション
-
-      integer     :success_cond, default: 0  # 達成条件
-      String      :explanation, default: ''  # 説明
-
-      String      :set_loop, default: ''     # セットループ条件
-
-      String      :set_end_type, default: '0' # end_at設定タイプ
-
-      datetime    :event_start_at
-      datetime    :event_end_at
-
-      integer     :clear_code_type, default: 0 # クリアコードタイプ0の時なし
-      integer     :clear_code_max, default: 0  # 発行最大数
-
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(Achievement.table_exists?)
-      Achievement.create_table
-    end
-
-    DB.alter_table :achievements do
-      add_column :success_cond, :integer, default: 0 unless Unlight::Achievement.columns.include?(:success_cond)  # 新規追加2012/06/22
-      add_column :explanation, String, default: '' unless Unlight::Achievement.columns.include?(:explanation)     # 新規追加2012/10/16
-      add_column :loop, :integer, default: 0 unless Unlight::Achievement.columns.include?(:loop)                  # 新規追加2013/01/10
-      add_column :set_loop, String, default: '' unless Unlight::Achievement.columns.include?(:set_loop)           # 新規追加2014/06/13
-      add_column :clear_code_type, :integer, default: 0 unless Unlight::Achievement.columns.include?(:clear_code_type) # 新規追加2015/04/14
-      add_column :clear_code_max, :integer, default: 0 unless Unlight::Achievement.columns.include?(:clear_code_max) # 新規追加2015/04/14
-      add_column :set_end_type, String, default: '0' unless Unlight::Achievement.columns.include?(:set_end_type) # 新規追加2015/11/13
     end
 
     # インサート時の前処理

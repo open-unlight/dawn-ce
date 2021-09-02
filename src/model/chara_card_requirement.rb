@@ -8,28 +8,12 @@ module Unlight
   class CharaCardRequirement < Sequel::Model
     many_to_one :chara_card # プレイヤーに複数所持される
 
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer :chara_card_id, index: true #, :table => :chara_cards,:key=>:id, :deferrable=>true
-      integer :require_chara_card_id #, :table => :chara_cards, :key=>:id, :deferrable=>true
-      integer     :require_num
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(CharaCardRequirement.table_exists?)
-      CharaCardRequirement.create_table
     end
 
     # インサート時の前処理

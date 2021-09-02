@@ -10,26 +10,8 @@ module Unlight
     many_to_one :avatar # デッキに複数所持される
     many_to_one :scenario # キャラカードを複数もてる
 
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :avatar_id, index: true #, :table => :chara_card_decks
-      String      :flags, default: '{}'
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
-    # DBにテーブルをつくる
-    if !(ScenarioFlagInventory.table_exists?)
-      ScenarioFlagInventory.create_table
-    end
-
-    DB.alter_table :scenario_flag_inventories do
-    end
 
     # バリデーションの設定
     validates do

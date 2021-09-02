@@ -9,7 +9,6 @@ module Unlight
     COLLUMN_PATH = [0b100, 0b010, 0b001]
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
@@ -17,66 +16,8 @@ module Unlight
     # 他クラスのアソシエーション
     many_to_one :quest_map # クエストに複数所持される
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer :quest_map_id, index: true #, :table => :quest_maps
-      String      :name,       default: ''
-      String      :caption,    default: ''
-      integer     :ap,         default: 0
-      integer     :kind,       default: 0
-      integer     :difficulty, default: 0
-      integer     :rarity,     default: 0
-      integer     :story_no, default: 0
-
-      integer :quest_land_id_0_0, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_0_0, default: 0, null: false
-      integer :quest_land_id_0_1, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_0_1, default: 0, null: false
-      integer :quest_land_id_0_2, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_0_2, default: 0, null: false
-
-      integer :quest_land_id_1_0, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_1_0, default: 0, null: false
-      integer :quest_land_id_1_1, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_1_1, default: 0, null: false
-      integer :quest_land_id_1_2, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_1_2, default: 0, null: false
-      integer :quest_land_id_2_0, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_2_0, default: 0, null: false
-      integer :quest_land_id_2_1, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_2_1, default: 0, null: false
-      integer :quest_land_id_2_2, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_2_2, default: 0, null: false
-      integer :quest_land_id_3_0, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_3_0, default: 0, null: false
-      integer :quest_land_id_3_1, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_3_1, default: 0, null: false
-      integer :quest_land_id_3_2, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_3_2, default: 0, null: false
-      integer :quest_land_id_4_0, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_4_0, default: 0, null: false
-      integer :quest_land_id_4_1, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_4_1, default: 0, null: false
-      integer :quest_land_id_4_2, default: 0, null: false #, :table => :quest_lands,:default => 0, :null =>false
-      integer :next_4_2, default: 0, null: false
-
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(Quest.table_exists?)
-      Quest.create_table
-    end
-
-    # テーブルの変更
-    DB.alter_table :quests do
-      add_column :story_no, :integer, default: 0 unless Unlight::Quest.columns.include?(:story_no) # 新規追加 2013//12/5
     end
 
     # アップデート後の後理処

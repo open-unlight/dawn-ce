@@ -7,38 +7,13 @@ module Unlight
   # イベントカードクラス
   class EventCard < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :name
-      integer     :event_no
-      integer     :card_cost, default: 0
-      integer     :color, default: 0
-      integer     :max_in_deck, default: 0
-      String      :restriction, default: ''
-      String      :image, default: ''
-      String      :caption, default: ''
-      Boolean     :filler, default: false
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
-
-    # DBにテーブルをつくる
-    if !(EventCard.table_exists?)
-      EventCard.create_table
     end
 
     # インサート時の前処理

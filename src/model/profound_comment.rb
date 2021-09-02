@@ -7,28 +7,11 @@ module Unlight
   # 渦のインベントリクラス
   class ProfoundComment < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
     # 他クラスのアソシエーション
     one_to_many :quests # 複数のクエストデータを保持
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :profound_id, index: true     # 渦のID
-      integer     :avatar_id, index: true       # アバターID
-      String      :name            # アバター名
-      String      :comment         # 渦へのコメント
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
-    # DBにテーブルをつくる
-    if !(ProfoundComment.table_exists?)
-      ProfoundComment.create_table
-    end
 
     # インサート時の前処理
     before_create do

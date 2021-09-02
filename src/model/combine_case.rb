@@ -7,27 +7,9 @@ module Unlight
   # 合成条件
   class CombineCase < Sequel::Model
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
-
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :weapon_card_id, default: 0, index: true # 追加側の武器ID
-      String      :requirement, default: ''                # 条件（ベース武器条件番号、範囲型、ベース以外番号、範囲型）andとorでつなげられる
-      integer     :mod_type, default: 0                    # 値の変更プログラム番号
-      String      :mod_args, default: ''                   # 値の変更プログラムへの引数
-      integer     :limited, default: 0                     # 排他条件（同じ番号のものには一つしか適用されない）
-      integer     :priority, default: 0                    # 複数選ばれた場合、優先順位の高いものを選ぶ
-      integer     :combined_w_id, default: 0               # 成功したときになる特定の新しい武器番号。0ならば変更なしまたは変プログラム依存
-      integer     :pow, default: 100                       # 成功の確率%
-      datetime    :created_at
-      datetime    :updated_at
-    end
 
     # requrement 記法括弧はand同じものが複数必要ならなべる必要あり
     # 元武器のIDが1と3〜9,11〜1000{:base =>[1, 3..9, 11..1000]} # 範囲型か数字を並べる
@@ -56,11 +38,6 @@ module Unlight
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
-
-    # DBにテーブルをつくる
-    if !(CombineCase.table_exists?)
-      CombineCase.create_table
     end
 
     # インサート時の前処理

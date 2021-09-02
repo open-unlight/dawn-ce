@@ -6,27 +6,13 @@
 module Unlight
   # 台詞を保存するクラス
   class Dialogue < Sequel::Model
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      String      :content, text: true, default: ''
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     #    include Validation
     validates do
-    end
-
-    # DBにテーブルをつくる
-    if !(Dialogue.table_exists?)
-      Dialogue.create_table
     end
 
     # インサート時の前処理

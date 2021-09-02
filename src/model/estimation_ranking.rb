@@ -11,40 +11,15 @@ module Unlight
     RANK_TYPE_ID_OFFSET = [200, 0, 300, 100, 0, 200]
 
     # プラグインの設定
-    plugin :schema
     plugin :validation_class_methods
     plugin :hook_class_methods
 
     # キャッシュをON
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # 他クラスのアソシエーション
-    Sequel::Model.plugin :schema
-
-    # スキーマの設定
-    set_schema do
-      primary_key :id
-      integer     :rank_type # ランキングのタイプ
-      integer     :point, default: 0 # 切れ目となるポイント
-      integer     :ranking, default: 0 # 上記ポイントと同じ場合のランキング
-      Float       :user_num, default: 0 # １pointあたりにいる人数
-      integer     :rank_index # １００までのインデックス
-      integer     :server_type, default: 0 # tinyint(DB側で変更) 新規追加 2016/11/24
-      datetime    :created_at
-      datetime    :updated_at
-    end
-
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
-    # DBにテーブルをつくる
-    if !(EstimationRanking.table_exists?)
-      EstimationRanking.create_table
-    end
-
-    DB.alter_table :estimation_rankings do
-      add_column :server_type, :integer, default: 0 unless Unlight::EstimationRanking.columns.include?(:server_type) # 新規追加 2016/11/24
     end
 
     # インサート時の前処理
@@ -59,7 +34,6 @@ module Unlight
 
     BASE_RANKING_NUM = 100
     def EstimationRanking::reset_table
-      EstimationRanking.create_table! unless EstimationRanking.table_exists?
       cnt = 0
       USE_DB_TYPE[THIS_SERVER].each do |server_type|
         BASE_RANKING_NUM.times do |i|
@@ -96,11 +70,6 @@ module Unlight
           cnt += 1
         end
       end
-    end
-
-    # DBにテーブルをつくる
-    if !(EstimationRanking.table_exists?)
-      reset_table
     end
 
     # 指定したアバターのランキングを取得する
