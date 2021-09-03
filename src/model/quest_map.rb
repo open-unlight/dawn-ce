@@ -16,7 +16,7 @@ module Unlight
 
     # バリデーションの設定
     validates do
-   end
+    end
 
     # 全体データバージョンを返す
     def QuestMap::data_version

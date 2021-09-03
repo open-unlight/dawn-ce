@@ -33,7 +33,7 @@ module Unlight
           @flag_hash[key] = value
           self.flags = @flag_hash.to_s
         end
-     end
+      end
     end
 
     def get_flag

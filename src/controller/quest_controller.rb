@@ -159,8 +159,8 @@ module Unlight
 
           if now_map_id == QM_EV_INFINITE_TOWER
             hp_up = (@avatar.floor_count_check - 1) - 10;
-              ap_up = (@avatar.floor_count_check / 5) - 2;
-              dp_up = (@avatar.floor_count_check / 5) - 2;
+            ap_up = (@avatar.floor_count_check / 5) - 2;
+            dp_up = (@avatar.floor_count_check / 5) - 2;
           end
 
           # 報酬のためにLand番号を覚えておく
@@ -180,16 +180,14 @@ module Unlight
                                 ai_rank,
                                 hp_up.to_i,       # By_K2
                                 ap_up.to_i,       # By_K2
-                                dp_up.to_i        # By_K2
-                               )
+                                dp_up.to_i) # By_K2
 
           do_determine_session(id,
                                'CPU',
                                @avatar.chara_card_decks[deck_index].cards_id.join(','),
                                ai_chara_card_deck.cards_id.join(','),
                                @avatar.get_land_stage(current_inv, next_no),
-                               @avatar.get_damage_set(current_inv),
-                              )
+                               @avatar.get_damage_set(current_inv),)
 
           set_duel_handler(0, RULE_3VS3)
           # 1の対戦の時はクライアントのキャラチェンジボタンを消す
@@ -262,8 +260,7 @@ module Unlight
                            alpha_damege_set[2],
                            beta_damege_set[0],
                            beta_damege_set[1],
-                           beta_damege_set[2]
-                          )
+                           beta_damege_set[2])
     end
 
     # クエストを消去
@@ -290,39 +287,39 @@ module Unlight
     def regist_avatar_event
       if @avatar
         @avatar.init
-      @avatar.add_finish_listener_use_energy_event(method(:use_energy_event_handler))
-      @avatar.add_finish_listener_update_energy_max_event(method(:update_energy_max_event_handler))
-      @avatar.add_finish_listener_quest_get_event(method(:get_quest_event_handler))
-      @avatar.add_finish_listener_get_exp_event(method(:get_exp_event_handler))
-      @avatar.add_finish_listener_level_up_event(method(:level_up_event_handler))
-      @avatar.add_finish_listener_update_gems_event(method(:update_gems_event_handler))
-      @avatar.add_finish_listener_item_get_event(method(:item_get_event_handler))
-      @avatar.add_finish_listener_item_use_event(method(:item_use_event_handler))
-      @avatar.add_finish_listener_quest_state_update_event(method(:quest_state_update_handler))
-      @avatar.add_finish_listener_quest_progress_update_event(method(:quest_progress_update_handler))
-      @avatar.add_finish_listener_quest_deleted_event(method(:quest_deleted_handler))
-      @avatar.add_finish_listener_quest_deck_state_update_event(method(:quest_deck_state_update_handler))
-      @avatar.add_finish_listener_quest_flag_update_event(method(:quest_flag_update_event_handler))
+        @avatar.add_finish_listener_use_energy_event(method(:use_energy_event_handler))
+        @avatar.add_finish_listener_update_energy_max_event(method(:update_energy_max_event_handler))
+        @avatar.add_finish_listener_quest_get_event(method(:get_quest_event_handler))
+        @avatar.add_finish_listener_get_exp_event(method(:get_exp_event_handler))
+        @avatar.add_finish_listener_level_up_event(method(:level_up_event_handler))
+        @avatar.add_finish_listener_update_gems_event(method(:update_gems_event_handler))
+        @avatar.add_finish_listener_item_get_event(method(:item_get_event_handler))
+        @avatar.add_finish_listener_item_use_event(method(:item_use_event_handler))
+        @avatar.add_finish_listener_quest_state_update_event(method(:quest_state_update_handler))
+        @avatar.add_finish_listener_quest_progress_update_event(method(:quest_progress_update_handler))
+        @avatar.add_finish_listener_quest_deleted_event(method(:quest_deleted_handler))
+        @avatar.add_finish_listener_quest_deck_state_update_event(method(:quest_deck_state_update_handler))
+        @avatar.add_finish_listener_quest_flag_update_event(method(:quest_flag_update_event_handler))
 
-      @avatar.add_finish_listener_floor_count_update_event(method(:floor_count_update_event_handler)) # By_K2
+        @avatar.add_finish_listener_floor_count_update_event(method(:floor_count_update_event_handler)) # By_K2
 
-      @avatar.add_finish_listener_quest_clear_num_update_event(method(:quest_clear_num_update_event_handler))
+        @avatar.add_finish_listener_quest_clear_num_update_event(method(:quest_clear_num_update_event_handler))
 
-      @avatar.add_finish_listener_event_quest_clear_num_update_event(method(:event_quest_clear_num_update_event_handler))
-      @avatar.add_finish_listener_event_quest_flag_update_event(method(:event_quest_flag_update_event_handler))
+        @avatar.add_finish_listener_event_quest_clear_num_update_event(method(:event_quest_clear_num_update_event_handler))
+        @avatar.add_finish_listener_event_quest_flag_update_event(method(:event_quest_flag_update_event_handler))
 
-      @avatar.add_finish_listener_quest_find_at_update_event(method(:quest_find_at_update_event_handler))
-      @avatar.add_finish_listener_get_quest_treasure_event(method(:get_quest_treasure_handler))
-      @avatar.add_finish_listener_slot_card_get_event(method(:slot_card_get_event_handler))
-      @avatar.add_finish_listener_chara_card_get_event(method(:chara_card_get_event_handler))
-      @avatar.add_finish_listener_part_get_event(method(:part_get_event_handler))
+        @avatar.add_finish_listener_quest_find_at_update_event(method(:quest_find_at_update_event_handler))
+        @avatar.add_finish_listener_get_quest_treasure_event(method(:get_quest_treasure_handler))
+        @avatar.add_finish_listener_slot_card_get_event(method(:slot_card_get_event_handler))
+        @avatar.add_finish_listener_chara_card_get_event(method(:chara_card_get_event_handler))
+        @avatar.add_finish_listener_part_get_event(method(:part_get_event_handler))
 
-      @avatar.add_finish_listener_achievement_clear_event(method(:achievement_clear_event_handler))
-      @avatar.add_finish_listener_add_new_achievement_event(method(:add_new_achievement_event_handler))
-      @avatar.add_finish_listener_delete_achievement_event(method(:delete_achievement_event_handler))
-      @avatar.add_finish_listener_update_achievement_info_event(method(:update_achievement_info_event_handler))
+        @avatar.add_finish_listener_achievement_clear_event(method(:achievement_clear_event_handler))
+        @avatar.add_finish_listener_add_new_achievement_event(method(:add_new_achievement_event_handler))
+        @avatar.add_finish_listener_delete_achievement_event(method(:delete_achievement_event_handler))
+        @avatar.add_finish_listener_update_achievement_info_event(method(:update_achievement_info_event_handler))
 
-      @avatar.add_finish_listener_update_combine_weapon_data_event(method(:update_combine_weapon_data_event_handler))
+        @avatar.add_finish_listener_update_combine_weapon_data_event(method(:update_combine_weapon_data_event_handler))
       end
     end
 
@@ -615,9 +612,9 @@ module Unlight
           # By_K2 (무한의탑 층수+1)
           if duel.result[@no][:result] == RESULT_WIN
             now_map_id = current_inv.quest.quest_map_id
-              if now_map_id == QM_EV_INFINITE_TOWER
-                @avatar.floor_count_up
-              end
+            if now_map_id == QM_EV_INFINITE_TOWER
+              @avatar.floor_count_up
+            end
           end
 
           # 経験値等をおくる

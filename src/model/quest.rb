@@ -134,22 +134,22 @@ module Unlight
     # 地形を配列で返す
     def land_set
       [
-       quest_land_id_0_0, quest_land_id_0_1, quest_land_id_0_2,
-       quest_land_id_1_0, quest_land_id_1_1, quest_land_id_1_2,
-       quest_land_id_2_0, quest_land_id_2_1, quest_land_id_2_2,
-       quest_land_id_3_0, quest_land_id_3_1, quest_land_id_3_2,
-       quest_land_id_4_0, quest_land_id_4_1, quest_land_id_4_2,
+        quest_land_id_0_0, quest_land_id_0_1, quest_land_id_0_2,
+        quest_land_id_1_0, quest_land_id_1_1, quest_land_id_1_2,
+        quest_land_id_2_0, quest_land_id_2_1, quest_land_id_2_2,
+        quest_land_id_3_0, quest_land_id_3_1, quest_land_id_3_2,
+        quest_land_id_4_0, quest_land_id_4_1, quest_land_id_4_2,
       ]
     end
 
     # 道を配列で返す
     def next_set
       [
-       next_0_0, next_0_1, next_0_2,
-       next_1_0, next_1_1, next_1_2,
-       next_2_0, next_2_1, next_2_2,
-       next_3_0, next_3_1, next_3_2,
-       next_4_0, next_4_1, next_4_2,
+        next_0_0, next_0_1, next_0_2,
+        next_1_0, next_1_1, next_1_2,
+        next_2_0, next_2_1, next_2_2,
+        next_3_0, next_3_1, next_3_2,
+        next_4_0, next_4_1, next_4_2,
       ]
     end
 
@@ -207,22 +207,22 @@ module Unlight
 
     def create_route_array
       [
-       [1, 2, 3],
-       next_to_route(0, 0, next_0_0),
-       next_to_route(0, 1, next_0_1),
-       next_to_route(0, 2, next_0_2),
-       next_to_route(1, 0, next_1_0),
-       next_to_route(1, 1, next_1_1),
-       next_to_route(1, 2, next_1_2),
-       next_to_route(2, 0, next_2_0),
-       next_to_route(2, 1, next_2_1),
-       next_to_route(2, 2, next_2_2),
-       next_to_route(3, 0, next_3_0),
-       next_to_route(3, 1, next_3_1),
-       next_to_route(3, 2, next_3_2),
-       next_to_route(4, 0, next_4_0),
-       next_to_route(4, 1, next_4_1),
-       next_to_route(4, 2, next_4_2),
+        [1, 2, 3],
+        next_to_route(0, 0, next_0_0),
+        next_to_route(0, 1, next_0_1),
+        next_to_route(0, 2, next_0_2),
+        next_to_route(1, 0, next_1_0),
+        next_to_route(1, 1, next_1_1),
+        next_to_route(1, 2, next_1_2),
+        next_to_route(2, 0, next_2_0),
+        next_to_route(2, 1, next_2_1),
+        next_to_route(2, 2, next_2_2),
+        next_to_route(3, 0, next_3_0),
+        next_to_route(3, 1, next_3_1),
+        next_to_route(3, 2, next_3_2),
+        next_to_route(4, 0, next_4_0),
+        next_to_route(4, 1, next_4_1),
+        next_to_route(4, 2, next_4_2),
       ]
     end
 

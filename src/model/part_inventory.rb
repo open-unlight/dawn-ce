@@ -89,11 +89,11 @@ module Unlight
 
     def get_end_at(now)
       ret = 0
-        if self.end_at
-          ret = (self.end_at - now).to_i
-        else
-          ret = 0
-        end
+      if self.end_at
+        ret = (self.end_at - now).to_i
+      else
+        ret = 0
+      end
       ret
     end
 

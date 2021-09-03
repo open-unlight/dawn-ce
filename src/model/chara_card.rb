@@ -55,8 +55,8 @@ module Unlight
         FeatInventory::refresh_data_version
         if FeatInventory::data_version
           cache_store.set('CharaCardVersion', [m.version, FeatInventory::data_version].max)
-          else
-            cache_store.set('CharaCardVersion', m.version)
+        else
+          cache_store.set('CharaCardVersion', m.version)
         end
         m.version
       else
@@ -135,8 +135,8 @@ module Unlight
       ret = []
       if feat_inventories.size > 0
         feat_inventories.each do |f|
-        ret << f.feat_id
-      end
+          ret << f.feat_id
+        end
       end
       ret.join(',')
     end
@@ -283,8 +283,8 @@ module Unlight
     # 治癒できないステータス
     STATE_CONTROL = 25
     IRREMEDIABLE_STATE = [
-                          STATE_CONTROL,
-                         ]
+      STATE_CONTROL,
+    ]
     # ステータス状態を初期化
     HAS_PILOTS = [20, 27]
     def cure_status()
@@ -1047,7 +1047,7 @@ module Unlight
     regist_event UseCreatorPassiveDetermineMovePhaseEvent
     regist_event UseCreatorPassiveDetermineBpPhaseEvent
     regist_event UseCreatorPassiveBattleResultPhaseEvent
-    #regist_event UseCreatorPassiveCharaChangeEvent
+    # regist_event UseCreatorPassiveCharaChangeEvent
 
     # ------------------
     # バウンスバック
@@ -3242,8 +3242,8 @@ module Unlight
         if owner.tmp_power > 0
           owner.tmp_power -= @cc.status[STATE_MOVE_DOWN][0]
           owner.tmp_power = 0 if owner.tmp_power < 0
-       elsif owner.tmp_power < 0
-         owner.tmp_power += @cc.status[STATE_MOVE_DOWN][0]
+        elsif owner.tmp_power < 0
+          owner.tmp_power += @cc.status[STATE_MOVE_DOWN][0]
           owner.tmp_power = 0 if owner.tmp_power > 0
         end
       end
@@ -7469,8 +7469,8 @@ module Unlight
           curse_care_debuffaring
           curse_care_healing if @curse_care_is_ex
         end
-      @feats_enable[FEAT_CURSE_CARE] = false
-    end
+        @feats_enable[FEAT_CURSE_CARE] = false
+      end
     end
     regist_event UseCurseCareFeatHeal3Event
 
@@ -10413,13 +10413,13 @@ module Unlight
 
     EX_MIKAZUKI_STATE_LIST =
       [
-       STATE_ATK_UP,
-       STATE_DEF_UP,
-       STATE_MOVE_UP,
-       STATE_UNDEAD,
-       STATE_CHAOS,
-       STATE_STIGMATA,
-       STATE_STICK
+        STATE_ATK_UP,
+        STATE_DEF_UP,
+        STATE_MOVE_UP,
+        STATE_UNDEAD,
+        STATE_CHAOS,
+        STATE_STIGMATA,
+        STATE_STICK
       ]
 
     # 三日月が使用される
@@ -12488,9 +12488,9 @@ module Unlight
     def use_gatherer_feat()
       if @feats_enable[FEAT_GATHERER]
         use_feat_event(@feats[FEAT_GATHERER])
-      owner.healed_event(Feat.pow(@feats[FEAT_GATHERER])) if owner.hit_point > 0
-      foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_GATHERER])))
-    end
+        owner.healed_event(Feat.pow(@feats[FEAT_GATHERER])) if owner.hit_point > 0
+        foe.damaged_event(attribute_damage(ATTRIBUTE_CONSTANT, foe, Feat.pow(@feats[FEAT_GATHERER])))
+      end
     end
     regist_event UseGathererFeatEvent
 
@@ -13242,23 +13242,23 @@ module Unlight
 
     # 柘榴用のメッセージ定数と番号を合わせる
     RED_PEMEGRANTE_MESS_SET = [
-                               :RED_POMEGRANATE_RANDOM_HP_1,
-                               :RED_POMEGRANATE_RANDOM_HP_5,
-                               :RED_POMEGRANATE_RANDOM_HP_MAX,
-                               :RED_POMEGRANATE_RANDOME_HAND_0,
-                               :RED_POMEGRANATE_RANDOME_HAND_8,
-                               :RED_POMEGRANATE_RANDOME_HAND_15,
-                               nil,
-                               :RED_POMEGRANATE_RANDOME_DAMEGE_ALL_1,
-                               :RED_POMEGRANATE_RANDOME_DAMEGE_ALL_3,
-                               :RED_POMEGRANATE_RANDOME_DAMEGE_ALL_5,
-                               :RED_POMEGRANATE_RANDOME_HEAL_ALL_1,
-                               :RED_POMEGRANATE_RANDOME_HEAL_ALL_3,
-                               :RED_POMEGRANATE_RANDOME_HEAL_ALL_5,
-                               :RED_POMEGRANATE_RANDOM_BOSS_HP_1,
-                               :RED_POMEGRANATE_RANDOM_BOSS_HP_5,
-                               :RED_POMEGRANATE_RANDOM_BOSS_HP_MAX
-                              ]
+      :RED_POMEGRANATE_RANDOM_HP_1,
+      :RED_POMEGRANATE_RANDOM_HP_5,
+      :RED_POMEGRANATE_RANDOM_HP_MAX,
+      :RED_POMEGRANATE_RANDOME_HAND_0,
+      :RED_POMEGRANATE_RANDOME_HAND_8,
+      :RED_POMEGRANATE_RANDOME_HAND_15,
+      nil,
+      :RED_POMEGRANATE_RANDOME_DAMEGE_ALL_1,
+      :RED_POMEGRANATE_RANDOME_DAMEGE_ALL_3,
+      :RED_POMEGRANATE_RANDOME_DAMEGE_ALL_5,
+      :RED_POMEGRANATE_RANDOME_HEAL_ALL_1,
+      :RED_POMEGRANATE_RANDOME_HEAL_ALL_3,
+      :RED_POMEGRANATE_RANDOME_HEAL_ALL_5,
+      :RED_POMEGRANATE_RANDOM_BOSS_HP_1,
+      :RED_POMEGRANATE_RANDOM_BOSS_HP_5,
+      :RED_POMEGRANATE_RANDOM_BOSS_HP_MAX
+    ]
 
     # 赤い石榴を使用
     def finish_red_pomegranate_feat()
@@ -13330,12 +13330,12 @@ module Unlight
 
     # 柘榴用のメッセージ定数と番号を合わせる
     RED_PEMEGRANTE_RAND_MOVE_MESS_SET = [
-                                         :RED_POMEGRANATE_RANDOME_MOVE_M2,
-                                         :RED_POMEGRANATE_RANDOME_MOVE_M1,
-                                         :RED_POMEGRANATE_RANDOME_MOVE_0,
-                                         :RED_POMEGRANATE_RANDOME_MOVE_2,
-                                         :RED_POMEGRANATE_RANDOME_MOVE_1,
-                                        ]
+      :RED_POMEGRANATE_RANDOME_MOVE_M2,
+      :RED_POMEGRANATE_RANDOME_MOVE_M1,
+      :RED_POMEGRANATE_RANDOME_MOVE_0,
+      :RED_POMEGRANATE_RANDOME_MOVE_2,
+      :RED_POMEGRANATE_RANDOME_MOVE_1,
+    ]
     # ランダムに移動
     def random_move(v = 0)
       mp = rand(4) - 2
@@ -15022,10 +15022,10 @@ module Unlight
     def check_feet_of_hermes_feat
       # カードをON情報をリセットしてから
       @cc.owner.reset_feat_on_cards(FEAT_FEET_OF_HERMES)
-        # テーブルにアクションカードがおかれていてかつ、距離が中・遠距離の時
-        check_feat(FEAT_FEET_OF_HERMES)
-        # ポイントの変更をチェック
-        @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
+      # テーブルにアクションカードがおかれていてかつ、距離が中・遠距離の時
+      check_feat(FEAT_FEET_OF_HERMES)
+      # ポイントの変更をチェック
+      @cc.owner.point_check(Entrant::POINT_CHECK_BATTLE)
     end
     regist_event CheckRemoveFeetOfHermesFeatEvent
     regist_event CheckAddFeetOfHermesFeatEvent
@@ -15040,7 +15040,7 @@ module Unlight
     end
     regist_event UseFeetOfHermesFeatEvent
 
-    #ヘルメスの靴が使用される
+    # ヘルメスの靴が使用される
     # 有効の場合必殺技IDを返す
     def use_feet_of_hermes_feat_damage()
       if @feats_enable[FEAT_FEET_OF_HERMES]
@@ -16071,9 +16071,9 @@ module Unlight
     # attribute_damageが任意のタイミングで使う
     def use_volition_deflect_feat_damage(d)
       rand_num = rand(100)
-        if rand_num < 33
-          owner.damaged_event(attribute_damage(ATTRIBUTE_REFLECTION, owner, d))
-        end
+      if rand_num < 33
+        owner.damaged_event(attribute_damage(ATTRIBUTE_REFLECTION, owner, d))
+      end
     end
 
     # 必殺技が使用終了
@@ -16791,7 +16791,7 @@ module Unlight
 
     def start_feat4_feat()
       @over_drive_five = false
-        @over_drive = false
+      @over_drive = false
     end
     regist_event StartFeat4FeatEvent
 
@@ -17058,8 +17058,7 @@ module Unlight
                         TRAP_STATUS_POW => Feat.pow(@feats[FEAT_BATAFLY_MOV]),
                         TRAP_STATUS_TURN => TRAP_KEEP_TURN - 1,
                         TRAP_STATUS_STATE => TRAP_STATE_READY,
-                        TRAP_STATUS_VISIBILITY => false
-                      }
+                        TRAP_STATUS_VISIBILITY => false }
         set_trap(foe, FEAT_BATAFLY_MOV, trap_status)
       end
     end
@@ -17123,8 +17122,7 @@ module Unlight
                         TRAP_STATUS_POW => Feat.pow(@feats[FEAT_BATAFLY_ATK]),
                         TRAP_STATUS_TURN => TRAP_KEEP_TURN,
                         TRAP_STATUS_STATE => TRAP_STATE_WAIT,
-                        TRAP_STATUS_VISIBILITY => false
-                      }
+                        TRAP_STATUS_VISIBILITY => false }
         set_trap(foe, FEAT_BATAFLY_ATK, trap_status)
       end
     end
@@ -17682,8 +17680,7 @@ module Unlight
                         TRAP_STATUS_POW => Feat.pow(@feats[FEAT_ROAD_OF_UNDERGROUND]),
                         TRAP_STATUS_TURN => 2,
                         TRAP_STATUS_STATE => TRAP_STATE_WAIT,
-                        TRAP_STATUS_VISIBILITY => false
-                      }
+                        TRAP_STATUS_VISIBILITY => false }
         set_trap(foe, FEAT_BATAFLY_ATK, trap_status)
       end
     end
@@ -18209,7 +18206,7 @@ module Unlight
     end
     regist_event UseDorfloftFeatEvent
 
-    #ドルフルフトが使用される
+    # ドルフルフトが使用される
     # 有効の場合必殺技IDを返す
     def use_dorfloft_feat_damage()
       if @feats_enable[FEAT_DORFLOFT]
@@ -20653,23 +20650,23 @@ module Unlight
     # 対象とするバッドステータス(軽度)
     # ステータスの選択には一定の優先順位がある
     BAD_STATUS_REVOVARE = [
-                  [
-                   STATE_MOVE_DOWN,
-                   STATE_BIND,
-                  ],  # HIGH
-                  [
-                   STATE_PARALYSIS,
-                   STATE_ATK_DOWN,
-                   STATE_DEF_DOWN,
-                   STATE_POISON,
-                   STATE_SEAL,
-                   STATE_DARK,
-                   ], # MID
-                  [
-                   STATE_BERSERK,
-                   STATE_STONE,
-                  ],  # LOW
-               ]
+      [
+        STATE_MOVE_DOWN,
+        STATE_BIND,
+      ], # HIGH
+      [
+        STATE_PARALYSIS,
+        STATE_ATK_DOWN,
+        STATE_DEF_DOWN,
+        STATE_POISON,
+        STATE_SEAL,
+        STATE_DARK,
+      ], # MID
+      [
+        STATE_BERSERK,
+        STATE_STONE,
+      ], # LOW
+    ]
     def use_renovate_atrandom_feat_damage()
       if @feats_enable[FEAT_RENOVATE_ATRANDOM]
 
@@ -21444,9 +21441,9 @@ module Unlight
 
     RECALC_FEATS =
       [
-       FEAT_RED_MOON,
-       FEAT_EX_RED_MOON,
-       FEAT_WHITE_MOON
+        FEAT_RED_MOON,
+        FEAT_EX_RED_MOON,
+        FEAT_WHITE_MOON
       ]
     # ベース攻撃力をもとに再計算する技を奪っているとき、再計算終了後に再度足す
     def use_bad_milk_feat_recalc()
@@ -22514,10 +22511,10 @@ module Unlight
 
     # ランページが使用される(ダメージ時)
     RAMPAGE_DAMAGE_SET = [
-                          (-2..5).to_a,
-                          (-1..5).to_a,
-                          (1..8).to_a
-                         ]
+      (-2..5).to_a,
+      (-1..5).to_a,
+      (1..8).to_a
+    ]
     def use_rampage_feat_damage()
       if @feats_enable[FEAT_RAMPAGE]
         additional_damage = RAMPAGE_DAMAGE_SET[Feat.pow(@feats[FEAT_RAMPAGE])].sample
@@ -22575,10 +22572,10 @@ module Unlight
 
     # スクラッチファイアが使用される(ダメージ時)
     SCRATCH_FIRE_DAMAGE_SET = [
-                          (0..2).to_a,
-                          (0..3).to_a,
-                          (1..4).to_a
-                         ]
+      (0..2).to_a,
+      (0..3).to_a,
+      (1..4).to_a
+    ]
     def use_scratch_fire_feat_damage()
       if @feats_enable[FEAT_SCRATCH_FIRE]
         additional_damage = SCRATCH_FIRE_DAMAGE_SET[Feat.pow(@feats[FEAT_SCRATCH_FIRE])].sample
@@ -22940,8 +22937,7 @@ module Unlight
                         TRAP_STATUS_POW => Feat.pow(@feats[FEAT_CLAYMORE]),
                         TRAP_STATUS_TURN => 1,
                         TRAP_STATUS_STATE => TRAP_STATE_READY,
-                        TRAP_STATUS_VISIBILITY => false,
-                      }
+                        TRAP_STATUS_VISIBILITY => false, }
         set_trap(foe, FEAT_CLAYMORE, trap_status)
       end
     end

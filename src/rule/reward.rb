@@ -679,136 +679,136 @@ module Unlight
       ret
     end
 
-   #    # プレイヤーカードを一枚返す（IDの配列で）
-   #    def p_one
-   #      if @pl_cc.rarity <= 5
-   #        [@pl_cc.id]
-   #      else
-   #        get_search_card(@pl_cc.name,@pl_cc.level, 1..5 )
-   #      end
-   #    end
+    #    # プレイヤーカードを一枚返す（IDの配列で）
+    #    def p_one
+    #      if @pl_cc.rarity <= 5
+    #        [@pl_cc.id]
+    #      else
+    #        get_search_card(@pl_cc.name,@pl_cc.level, 1..5 )
+    #      end
+    #    end
 
-   #    # プレイヤーカードを二枚返す（IDの配列で）
-   #    def p_two
-   #      if @pl_cc.rarity <= 5
-   #        id = @pl_cc.id
-   #      else
-   #        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
-   #      end
-   #      [id, id]
-   #    end
+    #    # プレイヤーカードを二枚返す（IDの配列で）
+    #    def p_two
+    #      if @pl_cc.rarity <= 5
+    #        id = @pl_cc.id
+    #      else
+    #        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
+    #      end
+    #      [id, id]
+    #    end
 
-   #    # プレイヤーカードを４枚返す（IDの配列で）
-   #    def p_four
-   #      if @pl_cc.rarity <= 5
-   #        id = @pl_cc.id
-   #      else
-   #        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
-   #      end
-   #      [id, id, id, id]
-   #    end
+    #    # プレイヤーカードを４枚返す（IDの配列で）
+    #    def p_four
+    #      if @pl_cc.rarity <= 5
+    #        id = @pl_cc.id
+    #      else
+    #        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
+    #      end
+    #      [id, id, id, id]
+    #    end
 
-   #    # プレイヤーカードを８枚返す（IDの配列で）
-   #    def p_eight
-   #      if @pl_cc.rarity <= 5
-   #        id = @pl_cc.id
-   #      else
-   #        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
-   #      end
-   #      [id, id, id, id, id, id, id, id]
-   #    end
+    #    # プレイヤーカードを８枚返す（IDの配列で）
+    #    def p_eight
+    #      if @pl_cc.rarity <= 5
+    #        id = @pl_cc.id
+    #      else
+    #        id = get_search_card(@pl_cc.name,@pl_cc.level,1..5)[0]
+    #      end
+    #      [id, id, id, id, id, id, id, id]
+    #    end
 
-   #    # 対戦相手のカードを一枚返す（IDの配列で）
-   #    def f_one
-   #      if @foe_cc.rarity <= 5
-   #        [@foe_cc.id]
-   #      else
-   #        get_search_card(@foe_cc.name,@foe_cc.level, 1..5 )
-   #      end
-   #    end
+    #    # 対戦相手のカードを一枚返す（IDの配列で）
+    #    def f_one
+    #      if @foe_cc.rarity <= 5
+    #        [@foe_cc.id]
+    #      else
+    #        get_search_card(@foe_cc.name,@foe_cc.level, 1..5 )
+    #      end
+    #    end
 
-   #    # レアリティ2以下のカードをランダムで1枚返す（IDの配列で）
-   #    def q_first
-   #       cards = CharaCard.filter([[:rarity , 1..2], [:level , 1], [~:name, @pl_cc.name]])
-   # #     p cards.all
-   #      r = cards.all[rand(cards.count)]
-   #      if r
-   #        [r.id]
-   #      else
-   #        p_one
-   #      end
-   #    end
+    #    # レアリティ2以下のカードをランダムで1枚返す（IDの配列で）
+    #    def q_first
+    #       cards = CharaCard.filter([[:rarity , 1..2], [:level , 1], [~:name, @pl_cc.name]])
+    # #     p cards.all
+    #      r = cards.all[rand(cards.count)]
+    #      if r
+    #        [r.id]
+    #      else
+    #        p_one
+    #      end
+    #    end
 
-   #    # レアリティ3から４のカードをランダム1枚返す（IDの配列で）
-   #    def q_second
-   #      cards = CharaCard.filter([[:rarity , 3..4], [:level , 1], [~:name, @pl_cc.name]])
-   # #     p cards.all
-   #      r = cards.all[rand(cards.count)]
-   #      if r
-   #        [r.id]
-   #      else
-   #        p_two
-   #      end
-   #    end
+    #    # レアリティ3から４のカードをランダム1枚返す（IDの配列で）
+    #    def q_second
+    #      cards = CharaCard.filter([[:rarity , 3..4], [:level , 1], [~:name, @pl_cc.name]])
+    # #     p cards.all
+    #      r = cards.all[rand(cards.count)]
+    #      if r
+    #        [r.id]
+    #      else
+    #        p_two
+    #      end
+    #    end
 
-   #    # レアリティ５のカードをランダム1枚返す（IDの配列で）
-   #    def q_third
-   #      cards = CharaCard.filter([[:rarity , 5], [:level , 1], [~:name, @pl_cc.name]])
-   #  #    p cards.all
-   #      r = cards.all[rand(cards.count)]
-   #      if r
-   #        [r.id]
-   #      else
-   #        p_eight
-   #      end
-   #    end
+    #    # レアリティ５のカードをランダム1枚返す（IDの配列で）
+    #    def q_third
+    #      cards = CharaCard.filter([[:rarity , 5], [:level , 1], [~:name, @pl_cc.name]])
+    #  #    p cards.all
+    #      r = cards.all[rand(cards.count)]
+    #      if r
+    #        [r.id]
+    #      else
+    #        p_eight
+    #      end
+    #    end
 
-   #    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで返す
-   #    def r_one
-   #      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
-   # #     p cards.all
-   #      r = cards.all[rand(cards.count)]
-   #      if r
-   #        [r.id]
-   #      else
-   #        p_eight
-   #      end
-   #    end
+    #    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで返す
+    #    def r_one
+    #      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
+    # #     p cards.all
+    #      r = cards.all[rand(cards.count)]
+    #      if r
+    #        [r.id]
+    #      else
+    #        p_eight
+    #      end
+    #    end
 
-   #    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで2枚返す
-   #    def r_two
-   #      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
-   # #     p cards.all
-   #      r = cards.all[rand(cards.count)]
-   #      if r
-   #        [r.id, r.id]
-   #      else
-   #        p_eight
-   #      end
-   #    end
+    #    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで2枚返す
+    #    def r_two
+    #      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
+    # #     p cards.all
+    #      r = cards.all[rand(cards.count)]
+    #      if r
+    #        [r.id, r.id]
+    #      else
+    #        p_eight
+    #      end
+    #    end
 
-   #    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで3枚返す
-   #    def r_three
-   #      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
-   # #     p cards.all
-   #      r = cards.all[rand(cards.count)]
-   #      if r
-   #        [r.id, r.id, r.id]
-   #      else
-   #        p_eight
-   #      end
-   #    end
+    #    # プレイヤーカードのレアカードを（レアリティ値6から8）をランダムで3枚返す
+    #    def r_three
+    #      cards = CharaCard.filter([[:rarity , 6..8], [:name , @pl_cc.name], [:level , 1]])
+    # #     p cards.all
+    #      r = cards.all[rand(cards.count)]
+    #      if r
+    #        [r.id, r.id, r.id]
+    #      else
+    #        p_eight
+    #      end
+    #    end
 
-   #    # あるキャラクターの特定レベル、特定レアリティのカードをランダムで返す
-   #    def get_search_card(name, level, rare)
-   #      cards = CharaCard.filter([[:rarity , rare], [:name , name], [:level , level]])
-   # #     p cards.all
-   #      r = cards.all[rand(cards.count)]
-   #      if r
-   #        r.id
-   #      else
-   #        q_first
-   #      end
-   #    end
- end
+    #    # あるキャラクターの特定レベル、特定レアリティのカードをランダムで返す
+    #    def get_search_card(name, level, rare)
+    #      cards = CharaCard.filter([[:rarity , rare], [:name , name], [:level , level]])
+    # #     p cards.all
+    #      r = cards.all[rand(cards.count)]
+    #      if r
+    #        r.id
+    #      else
+    #        q_first
+    #      end
+    #    end
+  end
 end
