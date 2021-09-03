@@ -122,7 +122,7 @@ module Unlight
           ret = Unlight::TotalCharaVoteRanking.get_ranking_str(server_type, offset, offset + count - 1, false);
           sc_update_total_chara_vote_ranking_list(offset, ret) if ret && ret.size > 1
         end
-     end
+      end
     end
 
     # チャンネルリストを取得する
@@ -217,8 +217,7 @@ module Unlight
                            0,
                            0,
                            0,
-                           0,
-                          )
+                           0,)
       if @player.avatars.size > 0
         @avatar = @player.avatars[0]
         @avatar.deck_clean_up_all
@@ -247,5 +246,5 @@ module Unlight
       end
       delete_connection
     end
-    end
   end
+end

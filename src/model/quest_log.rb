@@ -6,7 +6,7 @@
 module Unlight
   # ゲームセッションログ
   class QuestLog < Sequel::Model
-    #ログのタイプ（書き込んだもの）
+    # ログのタイプ（書き込んだもの）
     TYPE_AVATAR, TYPE_CHARA, TYPE_QUEST, TYPE_DUEL, TYPE_SYSTEM = (0..4).to_a
     # アイコンを決めるクエスト用のID
     Q_NORMAL, Q_BATTLE, Q_ALART, Q_GOT, = (0..3).to_a

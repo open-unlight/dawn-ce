@@ -263,86 +263,86 @@ module Unlight
 
     # 初期化部分を返す
     def self::init_gen
-      <<-END
-# 初化期
-      a = Module.nesting[0].to_s
-      #　初期化リストのメソッドを登録
-      @@init_list[a]||=[]
-      @@init_list[a] << :#{@f}_init
+      <<~END
+        # 初化期
+              a = Module.nesting[0].to_s
+              #　初期化リストのメソッドを登録
+              @@init_list[a]||=[]
+              @@init_list[a] << :#{@f}_init
 
-      #　イベントのリムーバのメソッドを登録
-      @@event_removers[a]||=[]
-      @@event_removers[a] << :remove_listener_all_#{@f}
+              #　イベントのリムーバのメソッドを登録
+              @@event_removers[a]||=[]
+              @@event_removers[a] << :remove_listener_all_#{@f}
 
-      #　イベントのリムーバのメソッドを登録
-      @@hook_removers[a]||=[]
-      @@hook_removers[a] << :remove_hook_all_#{@f}
+              #　イベントのリムーバのメソッドを登録
+              @@hook_removers[a]||=[]
+              @@hook_removers[a] << :remove_hook_all_#{@f}
 
 
-      attr_accessor :#{@f}_before_hook_func, :#{@f}_after_hook_func, :#{@f}_proxy_func, :#{@f}_counter
+              attr_accessor :#{@f}_before_hook_func, :#{@f}_after_hook_func, :#{@f}_proxy_func, :#{@f}_counter
 
-      def #{@f}_init
-        @#{@f}_context = []
-        @#{@f}_before_hook_func = [] unless @#{@f}_before_hook_func
-        @#{@f}_after_hook_func = [] unless @#{@f}_after_hook_func
-        @#{@f}_proxy_func
-        # スタートイベントを再設定する
-        @#{@f}_start_event_handlers = [] unless  @#{@f}_start_event_handlers
-        @#{@f}_start_event_handlers += @#{@f}_start_event_done_handlers if @#{@f}_start_event_done_handlers
-        @#{@f}_start_event_handlers.uniq!
-        @#{@f}_start_event_done_handlers = []
-        # フィニッシュイベントを再設定
-        @#{@f}_finish_event_handlers = [] unless @#{@f}_finish_event_handlers
-        @#{@f}_counter = 0
-        @#{@f}_timer = nil
-        @#{@f}_act_counter = 0
-      end
+              def #{@f}_init
+                @#{@f}_context = []
+                @#{@f}_before_hook_func = [] unless @#{@f}_before_hook_func
+                @#{@f}_after_hook_func = [] unless @#{@f}_after_hook_func
+                @#{@f}_proxy_func
+                # スタートイベントを再設定する
+                @#{@f}_start_event_handlers = [] unless  @#{@f}_start_event_handlers
+                @#{@f}_start_event_handlers += @#{@f}_start_event_done_handlers if @#{@f}_start_event_done_handlers
+                @#{@f}_start_event_handlers.uniq!
+                @#{@f}_start_event_done_handlers = []
+                # フィニッシュイベントを再設定
+                @#{@f}_finish_event_handlers = [] unless @#{@f}_finish_event_handlers
+                @#{@f}_counter = 0
+                @#{@f}_timer = nil
+                @#{@f}_act_counter = 0
+              end
 
-      def add_start_listener_#{@f}(m)
-        @#{@f}_start_event_handlers||= []
-        @#{@f}_start_event_handlers << m
-      end
+              def add_start_listener_#{@f}(m)
+                @#{@f}_start_event_handlers||= []
+                @#{@f}_start_event_handlers << m
+              end
 
-      def remove_start_listener_#{@f}(m)
-        @#{@f}_start_event_handlers.delete(m)
-      end
+              def remove_start_listener_#{@f}(m)
+                @#{@f}_start_event_handlers.delete(m)
+              end
 
-      def add_finish_listener_#{@f}(m)
-        @#{@f}_finish_event_handlers||=[]
-        @#{@f}_finish_event_handlers << m
-      end
+              def add_finish_listener_#{@f}(m)
+                @#{@f}_finish_event_handlers||=[]
+                @#{@f}_finish_event_handlers << m
+              end
 
-      def remove_finish_listener_#{@f}(m)
-        @#{@f}_finish_event_handlers.delete(m)
-      end
+              def remove_finish_listener_#{@f}(m)
+                @#{@f}_finish_event_handlers.delete(m)
+              end
 
-      def remove_listener_all_#{@f}
-        @#{@f}_start_event_handlers.clear
-        @#{@f}_start_event_done_handlers.clear
-        @#{@f}_finish_event_handlers.clear
-      end
+              def remove_listener_all_#{@f}
+                @#{@f}_start_event_handlers.clear
+                @#{@f}_start_event_done_handlers.clear
+                @#{@f}_finish_event_handlers.clear
+              end
 
-      def remove_hook_all_#{@f}
-#        SERVER_LOG.info("BASE EVENT: ALL MOVE#{self} ");
-        @#{@f}_before_hook_func =[]
-        @#{@f}_after_hook_func = []
-        @#{@f}_proxy_func =nil
-      end
+              def remove_hook_all_#{@f}
+        #        SERVER_LOG.info("BASE EVENT: ALL MOVE#{self} ");
+                @#{@f}_before_hook_func =[]
+                @#{@f}_after_hook_func = []
+                @#{@f}_proxy_func =nil
+              end
 
-      def #{@f}_action_increment
-        @#{@f}_act_counter +=1
-      end
+              def #{@f}_action_increment
+                @#{@f}_act_counter +=1
+              end
 
-      def #{@f}_start_event_do
-        # Start Eventの発行
-        while @#{@f}_start_event_handlers.size > 0
-          m = @#{@f}_start_event_handlers.shift
-          m.call(self)
-          @#{@f}_start_event_done_handlers.push(m)
-        end
-      end
+              def #{@f}_start_event_do
+                # Start Eventの発行
+                while @#{@f}_start_event_handlers.size > 0
+                  m = @#{@f}_start_event_handlers.shift
+                  m.call(self)
+                  @#{@f}_start_event_done_handlers.push(m)
+                end
+              end
 
-END
+      END
     end
 
     # コンテキストチェック部分を返す
@@ -351,7 +351,7 @@ END
         c = @event_rule.allow_context.map { |a| "context_check(\"#{a}\")" }.join('||')
         st = "if #{c}\n"
         en = ''
-         en = "\n          else\n"
+        en = "\n          else\n"
         en += '          end'
         doc = st + doc + en
       end
@@ -371,7 +371,7 @@ END
         en += "          guarded = true\n"
         en += "          end\n"
       end
-        doc = st + doc + en
+      doc = st + doc + en
       doc + goal_check_gen
     end
 
@@ -381,20 +381,20 @@ END
       if @event_rule.type == :instant
         if @event_rule.goal_list.size > 0
           c = @event_rule.goal_list.to_s
-        <<-END
-# もしコンテキストが実行中でかつこのイベントが最後ならばイベントを終了する
-        if (@#{@f}_context.first == :active||@#{@f}_context.first == :return)&&(@#{@f}_context.last == nil ||@#{@f}_context.last.last == :#{@f})
-          if list_check?(#{c})#{duration_result_gen}
-           #{finish_event_gen}
-            event_finish(@#{@f}_context,:#{@f}_init)
-         else
-            #puts "finish event #{@f}"
-            @#{@f}_act_counter = 0
-            event_suspend(@#{@f}_context)
-          end
+          <<~END
+            # もしコンテキストが実行中でかつこのイベントが最後ならばイベントを終了する
+                    if (@#{@f}_context.first == :active||@#{@f}_context.first == :return)&&(@#{@f}_context.last == nil ||@#{@f}_context.last.last == :#{@f})
+                      if list_check?(#{c})#{duration_result_gen}
+                       #{finish_event_gen}
+                        event_finish(@#{@f}_context,:#{@f}_init)
+                     else
+                        #puts "finish event #{@f}"
+                        @#{@f}_act_counter = 0
+                        event_suspend(@#{@f}_context)
+                      end
 
-        end
-        END
+                    end
+          END
 
         else
           <<-END
@@ -403,7 +403,7 @@ END
             event_finish(@#{@f}_context,:#{@f}_init)
             #{@f}_init
         end
-        END
+          END
         end
       else
         "\n"
@@ -456,18 +456,18 @@ END
             send_all_hook(@#{@f}_after_hook_func)
           end
             #{act_list_gen}
-        END
+      END
     end
 
     def self::act_list_gen
       ret = []
       ret << ' '
       ret << "      if @#{@f}_context.first == :active||@#{@f}_context.first == :return"
-       @event_rule.act_list.each_index do |i|
+      @event_rule.act_list.each_index do |i|
         ret << "          if @#{@f}_act_counter == #{i}"
-         ret << "            self.send(:#{@event_rule.act_list[i]})"
-         ret << "            @#{@f}_act_counter +=1 if @#{@f}_context.first == :active"
-         ret << '          end'
+        ret << "            self.send(:#{@event_rule.act_list[i]})"
+        ret << "            @#{@f}_act_counter +=1 if @#{@f}_context.first == :active"
+        ret << '          end'
       end
       ret << '       end'
       ret = [] if @event_rule.act_list.size == 0
@@ -476,7 +476,7 @@ END
 
     def self::before_main_gen
       h = @event_rule.hook_func
-        <<-END
+      <<-END
 
         #{start_event_gen}
         ret = nil
@@ -487,12 +487,12 @@ END
 
         #{h[0]}.#{h[1]}_before_hook_func.sort!{|a,b| a[1]<=>b[1]}
         #{hook_add_remove_gen}
-        END
+      END
     end
 
     def self::after_main_gen
       h = @event_rule.hook_func
-        <<-END
+      <<-END
 
         #{start_event_gen}
         ret = nil
@@ -502,18 +502,18 @@ END
 
         #{h[0]}.#{h[1]}_after_hook_func.sort!{|a,b| a[1]<=>b[1]}
         #{hook_add_remove_gen}
-        END
+      END
     end
 
     def self::proxy_main_gen
       h = @event_rule.hook_func
-        <<-END
+      <<-END
 
             #{start_event_gen}
         ret = nil
         #{h[0]}.#{h[1]}_proxy_func = method(:#{@event_rule.func})
         #{hook_add_remove_gen}
-        END
+      END
     end
 
     def self::hook_add_remove_gen
@@ -523,18 +523,18 @@ END
         when :before
           <<-END
         #{h[0]}.#{h[1]}_before_hook_func.unshift([method(:remove_before_hook_#{@f}),-1])
-        END
-      when :after
-        <<-END
+          END
+        when :after
+          <<-END
 
         #{h[0]}.#{h[1]}_before_hook_func.unshift([method(:remove_after_hook_#{@f}),-1])
-        END
-      when :proxy
-        <<-END
+          END
+        when :proxy
+          <<-END
 
         #{h[0]}.#{h[1]}_before_hook_func.unshift([method(:remove_proxy_hook_#{@f}),-1])
-        END
-      end
+          END
+        end
       end
     end
 
@@ -553,8 +553,8 @@ END
 
     def self::before_remove_gen
       h = @event_rule.hook_func
-        c = @event_rule.goal_list
-        <<-END
+      c = @event_rule.goal_list
+      <<-END
         def remove_before_hook_#{@f}
           if list_check?(#{c})
            #{finish_event_gen}
@@ -563,13 +563,13 @@ END
            #{h[0]}.#{h[1]}_before_hook_func.delete([method(:remove_before_hook_#{@f}), -1])
           end
         end
-        END
+      END
     end
 
     def self::after_remove_gen
       h = @event_rule.hook_func
-        c = @event_rule.goal_list
-        <<-END
+      c = @event_rule.goal_list
+      <<-END
         def remove_after_hook_#{@f}
           if list_check?(#{c})
           #{finish_event_gen}
@@ -578,13 +578,13 @@ END
            #{h[0]}.#{h[1]}_before_hook_func.delete([method(:remove_after_hook_#{@f}), -1])
           end
         end
-        END
+      END
     end
 
     def self::proxy_remove_gen
       h = @event_rule.hook_func
-        c = @event_rule.goal_list
-        <<-END
+      c = @event_rule.goal_list
+      <<-END
 
         def remove_proxy_hook_#{@f}
           if list_check?(#{c})
@@ -594,18 +594,18 @@ END
            #{h[0]}.#{h[1]}_before_hook_func.delete([method(:remove_proxy_hook_#{@f}), -1])
           end
         end
-        END
+      END
     end
 
     def self::duration_result_gen
       case @event_rule.duration_type
       when :times
-        <<-END
-|| (@#{@f}_counter >= #{@event_rule.duration_value})
+        <<~END
+          || (@#{@f}_counter >= #{@event_rule.duration_value})
         END
       when :sec
-        <<-END
-||(Time.now-(@#{@f}_timer|| @#{@f}_timer =Time.now)>#{@event_rule.duration_value})
+        <<~END
+          ||(Time.now-(@#{@f}_timer|| @#{@f}_timer =Time.now)>#{@event_rule.duration_value})
         END
       end
     end

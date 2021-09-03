@@ -45,27 +45,27 @@ module Unlight
 
   # 追加したら以下の参照番号を付加すること
   ACTION_EVENT_NO = [
-                    nil,                          # 0
-                    [:occur_chance_event, 1],     # 1 チャンスカードx1
-                    [:occur_chance_event, 2],     # 2 チャンスカードx2
-                    [:occur_chance_event, 3],     # 3 チャンスカードx3
-                    [:occur_chance_event, 4],     # 4 チャンスカードx4
-                    [:occur_chance_event, 5],     # 5 チャンスカードx5
-                    [:occur_heal_event, 1],       # 6 HP回復x1
-                    [:occur_heal_event, 2],       # 7 HP回復x2
-                    [:occur_heal_event, 3],       # 8 HP回復x3
-                    [:occur_cure_event],          # 9 パラメーター異常回復
-                    [:occur_quick_event],         # 10 必ずイニシアチブを取る
-                    [:occur_curse_event, 1],      # 11 カースカードx1
-                    [:occur_curse_event, 2],      # 12 カースカードx2
-                    [:occur_curse_event, 3],      # 13 カースカードx3
-                    [:occur_curse_event, 4],      # 14 カースカードx4
-                    [:occur_curse_event, 5],      # 15 カースカードx5
-                    [:occur_chalice_event, 1],    # 16 聖杯カード1
-                    [:occur_poison_event, 1],     # 17 毒杯カード1
-                    nil,                          # 18 ?
-                    [:occur_damage_event, 2],     # 19 ウイルス
-                   ]
+    nil, # 0
+    [:occur_chance_event, 1],     # 1 チャンスカードx1
+    [:occur_chance_event, 2],     # 2 チャンスカードx2
+    [:occur_chance_event, 3],     # 3 チャンスカードx3
+    [:occur_chance_event, 4],     # 4 チャンスカードx4
+    [:occur_chance_event, 5],     # 5 チャンスカードx5
+    [:occur_heal_event, 1],       # 6 HP回復x1
+    [:occur_heal_event, 2],       # 7 HP回復x2
+    [:occur_heal_event, 3],       # 8 HP回復x3
+    [:occur_cure_event],          # 9 パラメーター異常回復
+    [:occur_quick_event],         # 10 必ずイニシアチブを取る
+    [:occur_curse_event, 1],      # 11 カースカードx1
+    [:occur_curse_event, 2],      # 12 カースカードx2
+    [:occur_curse_event, 3],      # 13 カースカードx3
+    [:occur_curse_event, 4],      # 14 カースカードx4
+    [:occur_curse_event, 5],      # 15 カースカードx5
+    [:occur_chalice_event, 1],    # 16 聖杯カード1
+    [:occur_poison_event, 1],     # 17 毒杯カード1
+    nil,                          # 18 ?
+    [:occur_damage_event, 2],     # 19 ウイルス
+  ]
 
   class DealedEvent < EventRule
     dsc        'カードが配られた'
