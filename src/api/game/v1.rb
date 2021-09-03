@@ -15,14 +15,6 @@ module Game
       @player = Unlight::Player[env['REMOTE_USER']]
     end
 
-    desc 'Get game server status'
-    get '/status' do
-      # TODO: Provide more information about game server
-      {
-        status: :ok
-      }
-    end
-
     mount Game::V1::Avatar
     mount Game::V1::Decks
     mount Game::V1::CharacterCards
