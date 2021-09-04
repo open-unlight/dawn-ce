@@ -76,11 +76,11 @@ module Unlight
     def TotalDuelRanking::start_up(server_type)
       # 現在から一月アップデートされたことのあるアバターが対象
       last_update = Date.today - 30
-    st = Time.utc(last_update.year, last_update.month, last_update.day)
-    Avatar.filter(server_type: server_type).filter { updated_at > st }.all do |a|
+      st = Time.utc(last_update.year, last_update.month, last_update.day)
+      Avatar.filter(server_type: server_type).filter { updated_at > st }.all do |a|
         if a.point
           TotalDuelRanking::update_ranking(a.id, a.name, a.point, server_type)
-          end
+        end
       end
     end
 

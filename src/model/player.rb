@@ -461,7 +461,7 @@ module Unlight
     end
 
     def invited?
-      InviteLog::check_invited?(self.name) #.size > 0
+      InviteLog::check_invited?(self.name) # .size > 0
     end
 
     # フレンドを招待した相手へ登録プレゼント

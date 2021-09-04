@@ -72,7 +72,7 @@ module Unlight
           ret << cc
           list.delete(cc.id)
           break if list.size <= 0
-       end
+        end
       end
       ret
     end
@@ -142,7 +142,7 @@ module Unlight
       chara_card_slot_inventories.sort_by(&:card_position).each do |a|
         ret[a.deck_position] << EventCard[a.card_id] if a.kind == SCT_EVENT && a.deck_position && ret[a.deck_position] && EventCard[a.card_id]
       end
-     ret
+      ret
     end
 
     # デッキが保持するイベントカードのID(キャラごとの配列)
@@ -151,7 +151,7 @@ module Unlight
       chara_card_slot_inventories.sort_by(&:card_position).each do |a|
         ret[a.deck_position] << a.card_id if a.kind == SCT_EVENT && a.deck_position && ret[a.deck_position]
       end
-     ret
+      ret
     end
 
     # デッキが保持する武器カード(キャラごとの配列)
@@ -166,7 +166,7 @@ module Unlight
           end
         end
       end
-     ret
+      ret
     end
 
     # デッキが保持する武器カードのIDを返す
@@ -175,7 +175,7 @@ module Unlight
       chara_card_slot_inventories.sort_by(&:card_position).each do |a|
         ret[a.deck_position] << a.card_id if a.kind == SCT_WEAPON && a.deck_position && ret[a.deck_position]
       end
-     ret
+      ret
     end
 
     # デッキが保持する装備カード(キャラごとの配列)
@@ -284,9 +284,9 @@ module Unlight
       ret = []
       self.refresh
       self.card_inventories.sort { |a, b| (a.position <=> b.position) if a && b && a.position && b.position }.each do |i|
-       ret << i.id
-     end
-     ret
+        ret << i.id
+      end
+      ret
     end
 
     # 引数のカードインベントリと同じキャラがすでにデッキにある

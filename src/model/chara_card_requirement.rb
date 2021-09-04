@@ -33,18 +33,17 @@ module Unlight
     # モンスターとキャラで分ける
     if cc && (cc.kind == CC_KIND_MONSTAR)
       ret = [COIN_SET[cc.level], EX_COIN_RATE, COIN_GOLD_ID, EX_COIN_GOLD_RATE, COIN_PLATINUM_ID, EX_COIN_PLATINUM_RATE]
-    elsif
-      CharaCardRequirement.filter({ require_chara_card_id: cc_id }).all.each do |r|
-          ret << r.chara_card_id
-        ret << r.require_num
-        end
+    elsif CharaCardRequirement.filter({ require_chara_card_id: cc_id }).all.each do |r|
+            ret << r.chara_card_id
+            ret << r.require_num
+          end
     end
     # ケイオシウム変換
     if cc && cc.kind == CC_KIND_CHARA && cc.rarity > 5
       ret << EX_TIPS_CARD_ID
       ret << EX_TIPS_RATE
     end
-      ret
+    ret
   end
 
   def CharaCardRequirement::down_tree(cc_id)

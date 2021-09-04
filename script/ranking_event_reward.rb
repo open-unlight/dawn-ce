@@ -19,8 +19,8 @@ module Unlight
     total_damage = pi_set.first.values[:all_damage]
 
     ITEM_SET_LIST = {
-      250000  => { genr: TG_SLOT_CARD, id: 5025, num: 1, stype: SCT_WEAPON },
-      750000  => { genr: TG_SLOT_CARD, id: 6000, num: 1, stype: SCT_WEAPON },
+      250000 => { genr: TG_SLOT_CARD, id: 5025, num: 1, stype: SCT_WEAPON },
+      750000 => { genr: TG_SLOT_CARD, id: 6000, num: 1, stype: SCT_WEAPON },
       1250000 => { genr: TG_AVATAR_PART, id: 752, num: 1, stype: SCT_WEAPON },
       1750000 => { genr: TG_SLOT_CARD, id: 6001, num: 1, stype: SCT_WEAPON },
       2500000 => { genr: TG_AVATAR_PART, id: 751, num: 1, stype: SCT_WEAPON },

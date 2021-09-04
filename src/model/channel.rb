@@ -13,7 +13,7 @@ module Unlight
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
     validates do
-   end
+    end
 
     # 現在の部屋リスト
     @@channel_list = {}
@@ -45,8 +45,8 @@ module Unlight
       # 現在の部屋リスト
       @@channel_list = {}
       Channel.all.each { |a|
-  @@channel_list[a.id] = a
-}
+        @@channel_list[a.id] = a
+      }
     end
 
     def boot(update = true)
@@ -135,26 +135,26 @@ module Unlight
           end
         end
         ret = [
-               ret_id.join(','),
-               ret_name.join(','),
-               ret_rule.join(','),
-               ret_max.join(','),
-               ret_host.join(','),
-               ret_port.join(','),
-               ret_duel_host.join(','),
-               ret_duel_port.join(','),
-               ret_chat_host.join(','),
-               ret_chat_port.join(','),
-               ret_watch_host.join(','),
-               ret_watch_port.join(','),
-               ret_state.join(','),
-               ret_caption.join(','),
-               ret_count.join(','),
-               ret_penalty_type.join(','),
-               ret_cost_limit_min.join(','),
-               ret_cost_limit_max.join(','),
-               ret_watch_mode.join(',')
-              ]
+          ret_id.join(','),
+          ret_name.join(','),
+          ret_rule.join(','),
+          ret_max.join(','),
+          ret_host.join(','),
+          ret_port.join(','),
+          ret_duel_host.join(','),
+          ret_duel_port.join(','),
+          ret_chat_host.join(','),
+          ret_chat_port.join(','),
+          ret_watch_host.join(','),
+          ret_watch_port.join(','),
+          ret_state.join(','),
+          ret_caption.join(','),
+          ret_count.join(','),
+          ret_penalty_type.join(','),
+          ret_cost_limit_min.join(','),
+          ret_cost_limit_max.join(','),
+          ret_watch_mode.join(',')
+        ]
         CACHE.set("channel_list_info_#{server_type}", ret, 120)
       end
       ret
