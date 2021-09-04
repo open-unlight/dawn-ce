@@ -61,14 +61,14 @@ module Unlight
         self.hp0 = self.hp0 - set[0]
         self.hp0 = 0 if self.hp0 < 0
       end
-      if set[1]
-        self.hp1 = self.hp1 - set[1]
-        self.hp1 = 0 if self.hp1 < 0
-      end
-      if set[2]
-        self.hp2 = self.hp2 - set[2]
-        self.hp2 = 0 if self.hp2 < 0
-      end
+        if set[1]
+          self.hp1 = self.hp1 - set[1]
+          self.hp1 = 0 if self.hp1 < 0
+        end
+        if set[2]
+          self.hp2 = self.hp2 - set[2]
+          self.hp2 = 0 if self.hp2 < 0
+        end
       self.save_changes
     end
 
@@ -100,7 +100,7 @@ module Unlight
     # 発見時間を分単位で進める（目標時間を縮める）
     def shorten_find_time(min)
       self.find_at = self.find_at - (min * 60)
-      self.save_changes
+        self.save_changes
     end
 
     # 別のアバターに送る

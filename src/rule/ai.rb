@@ -117,16 +117,16 @@ module Unlight
     def regist_event
       # 移動カード提出フェイズの開始
       @duel.add_start_listener_move_card_drop_phase(method(:duel_move_card_drop_handler))
-      # 攻撃カード提出フェイズの開始
-      @duel.add_start_listener_attack_card_drop_phase(method(:duel_attack_card_phase_handler))
-      # 防御カード提出フェイズの開始
-      @duel.add_start_listener_deffence_card_drop_phase(method(:duel_deffence_card_phase_handler))
-      # キャラカード提出フェイズの開始
-      @duel.add_start_listener_chara_change_phase(method(:duel_chara_change_phase_handler))
-      # イニシアチブ変更フェイズの開始
-      @duel.add_finish_listener_change_initiative_phase(method(:duel_change_initiative_phase_handler))
-      # 死亡時キャラカード提出フェイズの開始
-      @duel.add_start_listener_dead_chara_change_phase(method(:duel_dead_chara_change_phase_handler))
+       # 攻撃カード提出フェイズの開始
+       @duel.add_start_listener_attack_card_drop_phase(method(:duel_attack_card_phase_handler))
+       # 防御カード提出フェイズの開始
+       @duel.add_start_listener_deffence_card_drop_phase(method(:duel_deffence_card_phase_handler))
+       # キャラカード提出フェイズの開始
+       @duel.add_start_listener_chara_change_phase(method(:duel_chara_change_phase_handler))
+       # イニシアチブ変更フェイズの開始
+       @duel.add_finish_listener_change_initiative_phase(method(:duel_change_initiative_phase_handler))
+       # 死亡時キャラカード提出フェイズの開始
+       @duel.add_start_listener_dead_chara_change_phase(method(:duel_dead_chara_change_phase_handler))
     end
 
     # 移動フェイズのハンドラ。移動カードを判定アクションを実行
@@ -210,7 +210,7 @@ module Unlight
     end
     regist_event ChoiceDeffenceCardAction
 
-    # キャラカードの変更を選択する
+    #キャラカードの変更を選択する
     def choice_chara_card
       reset_think_num
     end
@@ -553,7 +553,7 @@ module Unlight
         v = c.get_type_value(ActionCard::ARW, true)
         if v > 0
           ret += v
-          @hand_arw_value[c] = [5 + v, true]
+           @hand_arw_value[c] = [5 + v, true]
         end
       end
       ret
@@ -689,136 +689,136 @@ module Unlight
       # :Pow      評価値（攻撃力と一定ではない。選ばれやすさ）
       FEAT_CONDITION =
         [
-          # SMASH
-          #    check_feat(@cc.owner.greater_check(FEAT_SMASH,ActionCard::SWD,3)&&(@cc.owner.distance == 1), FEAT_SMASH)
-          {
-            Cond: [[ActionCard::SWD, 3, GREATER]],
-            Distance: [SHORT, EQUAL],
-            Pow: 3
-          },
+         # SMASH
+         #    check_feat(@cc.owner.greater_check(FEAT_SMASH,ActionCard::SWD,3)&&(@cc.owner.distance == 1), FEAT_SMASH)
+         {
+           Cond: [[ActionCard::SWD, 3, GREATER]],
+           Distance: [SHORT, EQUAL],
+           Pow: 3
+         },
 
-          # AIMING
-          #    check_feat(@cc.owner.greater_check(FEAT_AIMING,ActionCard::ARW, 4)&&(@cc.owner.distance != 1), FEAT_AIMING)
-          {
-            Cond: [[ActionCard::ARW, 4, GREATER],],
-            Distance: [SHORT, EQUAL],
-            Pow: 2
-          },
+         # AIMING
+         #    check_feat(@cc.owner.greater_check(FEAT_AIMING,ActionCard::ARW, 4)&&(@cc.owner.distance != 1), FEAT_AIMING)
+         {
+           Cond: [[ActionCard::ARW, 4, GREATER],],
+           Distance: [SHORT, EQUAL],
+           Pow: 2
+         },
 
-          # STRIKE
-          #    check_feat(@cc.owner.greater_check(FEAT_STRIKE,ActionCard::SPC,2) && @cc.owner.greater_check(FEAT_STRIKE,ActionCard::SWD,1) &&(@cc.owner.distance == 1), FEAT_STRIKE)
-          {
-            Cond: [[ActionCard::SWD, 1, GREATER], [ActionCard::SPC, 2, GREATER]],
-            Distance: [SHORT, EQUAL],
-            Pow: 3
-          },
+         # STRIKE
+         #    check_feat(@cc.owner.greater_check(FEAT_STRIKE,ActionCard::SPC,2) && @cc.owner.greater_check(FEAT_STRIKE,ActionCard::SWD,1) &&(@cc.owner.distance == 1), FEAT_STRIKE)
+         {
+           Cond: [[ActionCard::SWD, 1, GREATER], [ActionCard::SPC, 2, GREATER]],
+           Distance: [SHORT, EQUAL],
+           Pow: 3
+         },
 
-          # COMBO
-          #    check_feat(@cc.owner.search_check(FEAT_COMBO,ActionCard::SWD, 1) && @cc.owner.search_check(FEAT_COMBO,ActionCard::SWD, 2) && @cc.owner.search_check(FEAT_COMBO,ActionCard::SWD, 3) && @cc.owner.distance == 1, FEAT_COMBO)
-          {
-            Cond: [[ActionCard::SWD, 1, EQUAL], [ActionCard::SWD, 2, EQUAL], [ActionCard::SWD, 3, EQUAL]],
-            Distance: [SHORT, EQUAL],
-            Pow: 3
-          },
-          # CHARGE
-          #    check_feat(@cc.owner.greater_check(FEAT_CHARGE,ActionCard::ARW,1)&&@cc.owner.greater_check(FEAT_CHARGE,ActionCard::MOVE, 1)&&@cc.owner.distance != 1,FEAT_CHARGE)
-          {
-            Cond: [[ActionCard::ARW, 1, GREATER], [ActionCard::MOVE, 1, GREATER]],
-            Distance: [MIDDLE, GREATER],
-            Pow: 3
-          },
-          # MIRAGE
-          #    check_feat(@cc.owner.distance == 3,FEAT_MIRAGE)
-          {
-            Distance: [LONG, EQUAL],
-            Pow: 3
-          },
-          # FRENZY_EYES
-          #    check_feat(@cc.owner.greater_check(FEAT_FRENZY_EYES, ActionCard::SPC, 2) && @cc.owner.distance == 1,FEAT_FRENZY_EYES)
-          {
-            Cond: [[ActionCard::ARW, 1, GREATER], [ActionCard::MOVE, 1, GREATER]],
-            Distance: [MIDDLE, GREATER],
-            Pow: 3
-          },
-          # ABYSS
-          #    check_feat(@cc.owner.greater_check(FEAT_ABYSS, ActionCard::SPC,4), FEAT_ABYSS)
-          {
-            Cond: [[ActionCard::MOVE, 4, GREATER]],
-            Pow: 10
-          },
+         # COMBO
+         #    check_feat(@cc.owner.search_check(FEAT_COMBO,ActionCard::SWD, 1) && @cc.owner.search_check(FEAT_COMBO,ActionCard::SWD, 2) && @cc.owner.search_check(FEAT_COMBO,ActionCard::SWD, 3) && @cc.owner.distance == 1, FEAT_COMBO)
+         {
+           Cond: [[ActionCard::SWD, 1, EQUAL], [ActionCard::SWD, 2, EQUAL], [ActionCard::SWD, 3, EQUAL]],
+           Distance: [SHORT, EQUAL],
+           Pow: 3
+         },
+         # CHARGE
+         #    check_feat(@cc.owner.greater_check(FEAT_CHARGE,ActionCard::ARW,1)&&@cc.owner.greater_check(FEAT_CHARGE,ActionCard::MOVE, 1)&&@cc.owner.distance != 1,FEAT_CHARGE)
+         {
+           Cond: [[ActionCard::ARW, 1, GREATER], [ActionCard::MOVE, 1, GREATER]],
+           Distance: [MIDDLE, GREATER],
+           Pow: 3
+         },
+         # MIRAGE
+         #    check_feat(@cc.owner.distance == 3,FEAT_MIRAGE)
+         {
+           Distance: [LONG, EQUAL],
+           Pow: 3
+         },
+         # FRENZY_EYES
+         #    check_feat(@cc.owner.greater_check(FEAT_FRENZY_EYES, ActionCard::SPC, 2) && @cc.owner.distance == 1,FEAT_FRENZY_EYES)
+         {
+           Cond: [[ActionCard::ARW, 1, GREATER], [ActionCard::MOVE, 1, GREATER]],
+           Distance: [MIDDLE, GREATER],
+           Pow: 3
+         },
+         # ABYSS
+         #    check_feat(@cc.owner.greater_check(FEAT_ABYSS, ActionCard::SPC,4), FEAT_ABYSS)
+         {
+           Cond: [[ActionCard::MOVE, 4, GREATER]],
+           Pow: 10
+         },
 
-          # RAPID_SWORD
-          #    check_feat(@cc.owner.greater_check(FEAT_RAPID_SWORD, ActionCard::SWD, 1) && @cc.owner.greater_check(FEAT_RAPID_SWORD,ActionCard::ARW,1) && @cc.owner.distance == 2, FEAT_RAPID_SWORD)
-          {
-            Cond: [[ActionCard::SWD, 1, GREATER], [ActionCard::ARW, 1, GREATER]],
-            Distance: [MIDDLE, EQUAL],
-            Pow: 4
-          },
-          # ANGER
-          #    check_feat(@cc.owner.greater_check(FEAT_ANGER, ActionCard::SWD, 3) && @cc.owner.greater_check(FEAT_ANGER, ActionCard::SPC, 3) &&@cc.owner.distance == 1, FEAT_ANGER)
-          {
-            Cond: [[ActionCard::SWD, 3, GREATER], [ActionCard::SPC, 3, GREATER]],
-            Distance: [SHORT, EQUAL],
-            Pow: 10
-          },
-          # POWER_STOCK
-          #    check_feat(!(@cc.owner.greater_check(FEAT_POWER_STOCK,ActionCard::MOVE, 1)) && @cc.owner.greater_check(FEAT_POWER_STOCK, ActionCard::SPC, 2), FEAT_POWER_STOCK)
-          {
-            Cond: [[ActionCard::MOVE, 1, SMALLER], [ActionCard::SPC, 2, GREATER]],
-            Pow: 10
-          },
+         # RAPID_SWORD
+         #    check_feat(@cc.owner.greater_check(FEAT_RAPID_SWORD, ActionCard::SWD, 1) && @cc.owner.greater_check(FEAT_RAPID_SWORD,ActionCard::ARW,1) && @cc.owner.distance == 2, FEAT_RAPID_SWORD)
+         {
+           Cond: [[ActionCard::SWD, 1, GREATER], [ActionCard::ARW, 1, GREATER]],
+           Distance: [MIDDLE, EQUAL],
+           Pow: 4
+         },
+         # ANGER
+         #    check_feat(@cc.owner.greater_check(FEAT_ANGER, ActionCard::SWD, 3) && @cc.owner.greater_check(FEAT_ANGER, ActionCard::SPC, 3) &&@cc.owner.distance == 1, FEAT_ANGER)
+         {
+           Cond: [[ActionCard::SWD, 3, GREATER], [ActionCard::SPC, 3, GREATER]],
+           Distance: [SHORT, EQUAL],
+           Pow: 10
+         },
+         # POWER_STOCK
+         #    check_feat(!(@cc.owner.greater_check(FEAT_POWER_STOCK,ActionCard::MOVE, 1)) && @cc.owner.greater_check(FEAT_POWER_STOCK, ActionCard::SPC, 2), FEAT_POWER_STOCK)
+         {
+           Cond: [[ActionCard::MOVE, 1, SMALLER], [ActionCard::SPC, 2, GREATER]],
+           Pow: 10
+         },
 
-          # SHODOW_SHOT
-          #    check_feat(@cc.owner.greater_check(FEAT_SHADOW_SHOT, ActionCard::SPC, 1), FEAT_SHADOW_SHOT)
-          {
-            Cond: [[ActionCard::SPC, 1, GREATER]],
-            Pow: 10
-          },
+         # SHODOW_SHOT
+         #    check_feat(@cc.owner.greater_check(FEAT_SHADOW_SHOT, ActionCard::SPC, 1), FEAT_SHADOW_SHOT)
+         {
+           Cond: [[ActionCard::SPC, 1, GREATER]],
+           Pow: 10
+         },
 
-          # RED_FANG
-          #    check_feat(@cc.owner.greater_check(FEAT_RED_FANG, ActionCard::SPC, 3) && @cc.owner.greater_check(FEAT_RED_FANG, ActionCard::SWD, 3) && @cc.owner.distance == 1, FEAT_RED_FANG)
-          {
-            Cond: [[ActionCard::SPC, 3, GREATER], [ActionCard::SWD, 3, GREATER]],
-            Distance: [SHORT, EQUAL],
-            Pow: 10
-          },
+         # RED_FANG
+         #    check_feat(@cc.owner.greater_check(FEAT_RED_FANG, ActionCard::SPC, 3) && @cc.owner.greater_check(FEAT_RED_FANG, ActionCard::SWD, 3) && @cc.owner.distance == 1, FEAT_RED_FANG)
+         {
+           Cond: [[ActionCard::SPC, 3, GREATER], [ActionCard::SWD, 3, GREATER]],
+           Distance: [SHORT, EQUAL],
+           Pow: 10
+         },
 
-          # BLESSING_BLOOD
-          #    check_feat(@cc.owner.greater_check(FEAT_BLESSING_BLOOD,ActionCard::SPC,3) && @cc.owner.greater_check(FEAT_BLESSING_BLOOD,ActionCard::DEF,1), FEAT_BLESSING_BLOOD)
-          {
-            Cond: [[ActionCard::SPC, 3, GREATER], [ActionCard::DEF, 1, GREATER]],
-            Pow: 10
-          },
+         # BLESSING_BLOOD
+         #    check_feat(@cc.owner.greater_check(FEAT_BLESSING_BLOOD,ActionCard::SPC,3) && @cc.owner.greater_check(FEAT_BLESSING_BLOOD,ActionCard::DEF,1), FEAT_BLESSING_BLOOD)
+         {
+           Cond: [[ActionCard::SPC, 3, GREATER], [ActionCard::DEF, 1, GREATER]],
+           Pow: 10
+         },
 
-          # COUNTER_PREPARATION
-          #    check_feat(@cc.owner.greater_check(FEAT_COUNTER_PREPARATION,ActionCard::SPC,2), FEAT_COUNTER_PREPARATION)
-          {
-            Cond: [[ActionCard::SPC, 2, GREATER]],
-            Pow: 10
-          },
+         # COUNTER_PREPARATION
+         #    check_feat(@cc.owner.greater_check(FEAT_COUNTER_PREPARATION,ActionCard::SPC,2), FEAT_COUNTER_PREPARATION)
+         {
+           Cond: [[ActionCard::SPC, 2, GREATER]],
+           Pow: 10
+         },
 
-          # KERMIC_TIME
-          #    check_feat(@cc.owner.greater_check(FEAT_KARMIC_TIME, ActionCard::SPC, 5), FEAT_KARMIC_TIME)
-          {
-            Cond: [[ActionCard::SPC, 5, GREATER]],
-            Pow: 20
-          },
+         # KERMIC_TIME
+         #    check_feat(@cc.owner.greater_check(FEAT_KARMIC_TIME, ActionCard::SPC, 5), FEAT_KARMIC_TIME)
+         {
+           Cond: [[ActionCard::SPC, 5, GREATER]],
+           Pow: 20
+         },
 
-          # KERMIC_RING
-          #    check_feat(@cc.owner.greater_check(FEAT_KARMIC_RING, ActionCard::SPC, 3), FEAT_KARMIC_RING)
-          {
-            Cond: [[ActionCard::SPC, 3, GREATER]],
-            Pow: 10
-          },
+         # KERMIC_RING
+         #    check_feat(@cc.owner.greater_check(FEAT_KARMIC_RING, ActionCard::SPC, 3), FEAT_KARMIC_RING)
+         {
+           Cond: [[ActionCard::SPC, 3, GREATER]],
+           Pow: 10
+         },
 
-          # KERMIC_STRING
-          #    check_feat(@cc.owner.greater_check(FEAT_KARMIC_STRING, ActionCard::SPC, 1), FEAT_KARMIC_STRING)
-          {
-            Cond: [[ActionCard::SPC, 1, GREATER]],
-            Pow: 10
-          },
+         # KERMIC_STRING
+         #    check_feat(@cc.owner.greater_check(FEAT_KARMIC_STRING, ActionCard::SPC, 1), FEAT_KARMIC_STRING)
+         {
+           Cond: [[ActionCard::SPC, 1, GREATER]],
+           Pow: 10
+         },
 
         ]
     end
-  end
+ end
 end

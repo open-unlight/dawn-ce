@@ -52,14 +52,14 @@ module Unlight
       cmd.each do |c|
         n = "#{c[0].id2name}_r"
         @method_list << n.intern
-        ret = <<~EOF
-                    def #{n}(data)
-                     # p data
-          #{gen_receve_cmd(c[1], c[0])}
-                    end
-        EOF
-        puts ret if OUTPUT_EVAL
-        @klass.class_eval(ret)
+        ret = <<-EOF
+          def #{n}(data)
+           # p data
+#{gen_receve_cmd(c[1], c[0])}
+          end
+          EOF
+      puts ret if OUTPUT_EVAL
+       @klass.class_eval(ret)
       end
     end
 
@@ -102,7 +102,7 @@ module Unlight
         ".unpack('c')[0]"
       when :Boolean
         ".unpack('C')[0]==0? false:true"
-      end
+       end
     end
     private :type_rec_res
 
@@ -110,17 +110,17 @@ module Unlight
     def init_send(cmd)
       cmd.each_index do |i|
         n = cmd[i][0].id2name
-        ret = <<~EOF
-                    def #{n}(#{gen_arg(cmd[i][1])})
-          #            puts "#{n}が実行されました#{i}"
-                      data =""
-                      data << [#{i}].pack('n')
-          #{gen_send_cmd(cmd[i][1], cmd[i][2])}
-                      send_data(data)
-                    end
-        EOF
-        puts ret if OUTPUT_EVAL
-        @klass.class_eval(ret)
+        ret = <<-EOF
+          def #{n}(#{gen_arg(cmd[i][1])})
+#            puts "#{n}が実行されました#{i}"
+            data =""
+            data << [#{i}].pack('n')
+#{gen_send_cmd(cmd[i][1], cmd[i][2])}
+            send_data(data)
+          end
+          EOF
+          puts ret if OUTPUT_EVAL
+       @klass.class_eval(ret)
       end
     end
 

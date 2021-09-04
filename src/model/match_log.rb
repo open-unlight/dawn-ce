@@ -99,7 +99,7 @@ module Unlight
       self.save_changes
     end
 
-    # 対戦の開始
+    #対戦の開始
     def start_match()
       self.start_at = Time.now.utc
       self.state = MATCH_START

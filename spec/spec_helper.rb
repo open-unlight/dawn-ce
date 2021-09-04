@@ -26,10 +26,10 @@ SimpleCov.start do
 
   if ENV.fetch('GITLAB_CI', false)
     formatter SimpleCov::Formatter::MultiFormatter.new([
-                                                         SimpleCov::Formatter::SimpleFormatter,
-                                                         SimpleCov::Formatter::CoberturaFormatter,
-                                                         SimpleCov::Formatter::HTMLFormatter
-                                                       ])
+      SimpleCov::Formatter::SimpleFormatter,
+      SimpleCov::Formatter::CoberturaFormatter,
+      SimpleCov::Formatter::HTMLFormatter
+    ])
   end
 end
 

@@ -81,8 +81,8 @@ module Unlight
 
           # By_K2 START (무한의탑 몬스터인 경우 층수만큼 POWER 증가)
           @chara_cards[s].hp += hp_up;
-          @chara_cards[s].ap += ap_up;
-          @chara_cards[s].dp += dp_up;
+      @chara_cards[s].ap += ap_up;
+      @chara_cards[s].dp += dp_up;
           # By_K2 END
 
           @hit_points << (@chara_cards[s].hp - (d_set[s] ? d_set[s] : 0)) # 現在のヒットポイントを格納
@@ -108,8 +108,8 @@ module Unlight
             @weapon_cards[s].each { |w| @arrow_deffence_dice_bonus[s] += w.arrow_deffence_dice_bonus(ai) }
 
             @weapon_cards[s].each { |w|
-              @weapon_passives[s] = w.get_passive_id(ai)
-            }
+  @weapon_passives[s] = w.get_passive_id(ai)
+}
             @chara_cards[s].weapon_passive = (@weapon_passives[s])
           end
           @default_weapon_bonus[s] = weapon_bonus(s)
@@ -1227,10 +1227,10 @@ module Unlight
       else
         mp_calc
       end
-      # 有効カードの内容、ポイント、テーブルのサイズが変わっていた場合にポイントをアップデートする
-      if (@before_on_cards != self.current_on_card_value) || (@before_point != self.tmp_power)
-        point_update_event unless update_skip
-      end
+       # 有効カードの内容、ポイント、テーブルのサイズが変わっていた場合にポイントをアップデートする
+       if (@before_on_cards != self.current_on_card_value) || (@before_point != self.tmp_power)
+         point_update_event unless update_skip
+       end
       @before_on_cards = self.current_on_card_value unless update_skip
       @before_point = self.tmp_power
     end
@@ -1492,11 +1492,11 @@ module Unlight
     def get_type_table_count(type)
       ret = 0
       @table.each do |a|
-        tmp = a.battle_point(type)
+         tmp = a.battle_point(type)
         unless tmp == 0
           ret += 1
         end
-      end
+       end
       ret
     end
 
@@ -1504,8 +1504,8 @@ module Unlight
     def get_type_table_count_both_faces(type)
       ret = 0
       @table.each do |a|
-        ret += 1 if a.u_type == type || a.b_type == type
-      end
+         ret += 1 if a.u_type == type || a.b_type == type
+       end
       ret
     end
 
@@ -1571,8 +1571,8 @@ module Unlight
     def get_type_cards_count_both_faces(type)
       ret = 0
       @cards.each do |a|
-        ret += 1 if a.u_type == type || a.b_type == type
-      end
+         ret += 1 if a.u_type == type || a.b_type == type
+       end
       ret
     end
 
@@ -1580,12 +1580,12 @@ module Unlight
     def get_type_point_cards_both_faces(type)
       ret = 0
       @cards.each do |a|
-        if  a.u_type == type
-          ret += a.u_value
-        elsif a.b_type == type
-          ret += a.b_value
-        end
-      end
+         if  a.u_type == type
+           ret += a.u_value
+         elsif a.b_type == type
+           ret += a.b_value
+         end
+       end
       ret
     end
 

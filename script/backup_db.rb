@@ -27,7 +27,7 @@ end
 opt.on('-s', '--sandbox', 'sandboxをのバックアップファイルを作る') do |v|
   if v
     ORIG = false
-    # mysql設定
+    #mysql設定
     # SB_MYSQL_CONFIG =  {
     #   :host =>"10.162.66.17",
     #   :port =>3306,
@@ -96,7 +96,7 @@ Find.find('./src/model') do |f|
         puts "Create BackUpFile"+file.to_s
         file.open('w') {|f| f.puts csv_output(Unlight::#{m})}
       end
-  END
+      END
   #  puts doc if OUTPUT
   eval doc
 end

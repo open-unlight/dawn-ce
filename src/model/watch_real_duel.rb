@@ -329,13 +329,15 @@ module Unlight
                        CharaCardEvent::STATE_STATE_DOWN,
                        CharaCardEvent::STATE_CURSE,
                        CharaCardEvent::STATE_UNDEAD2,
-                       CharaCardEvent::STATE_CONTROL,]
+                       CharaCardEvent::STATE_CONTROL,
+                      ]
       else
         check_state = [CharaCardEvent::STATE_POISON,
                        CharaCardEvent::STATE_PARALYSIS,
                        CharaCardEvent::STATE_DEAD_COUNT,
                        CharaCardEvent::STATE_REGENE,
-                       CharaCardEvent::STATE_POISON2,]
+                       CharaCardEvent::STATE_POISON2,
+                      ]
       end
       @pl_state[@pl_card_idx].each do |state|
         if check_state.index(state[:id]) != nil && state[:turn] > 0

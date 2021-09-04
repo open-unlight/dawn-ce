@@ -4,11 +4,11 @@ require 'pathname'
 require 'unlight'
 $arg = ARGV.shift
 puts $arg
-class String
-  def camelize
-    self.split(/[^a-z0-9]/i).map { |w| w.capitalize }.join
+  class String
+    def camelize
+      self.split(/[^a-z0-9]/i).map { |w| w.capitalize }.join
+    end
   end
-end
 
 require "model/#{$arg}"
 

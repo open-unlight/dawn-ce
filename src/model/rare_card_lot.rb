@@ -8,45 +8,45 @@ module Unlight
   puts "OLD_LOT IS  #{OLD_LOT}"
   if OLD_LOT
     LOT_REALITY = [
-      1000000, # Reality 1 32%     99
-      679287,         # Reality 2 26%     66
-      415285,         # Reality 3 17%     40
-      236395,         # Reality 4 12%     23
-      115177,         # Reality 5  6%     11
-      47563,          # Reality 6  3%     5
-      16517,          # Reality 7  1%     2 <-使わない
-      4783,           # Reality 8  0.3%   1 <-使わない
-      1132,           # Reality 9  0.1%
-      197,            # Reality 10 0.02%
-    ]
+                 1000000,        # Reality 1 32%     99
+                 679287,         # Reality 2 26%     66
+                 415285,         # Reality 3 17%     40
+                 236395,         # Reality 4 12%     23
+                 115177,         # Reality 5  6%     11
+                 47563,          # Reality 6  3%     5
+                 16517,          # Reality 7  1%     2 <-使わない
+                 4783,           # Reality 8  0.3%   1 <-使わない
+                 1132,           # Reality 9  0.1%
+                 197,            # Reality 10 0.02%
+                ]
   else
     LOT_REALITY = [
-      1000000, # Reality 1 3%      100
-      970000,        # Reality 2 5%      97
-      920000,        # Reality 3 15%     92
-      770000,        # Reality 4 30%     77
-      470000,        # Reality 5  6%     47
-      0,             # Reality 6  3%     5
-      0,             # Reality 7  1%     2 <-使わない
-      0,             # Reality 8  0.3%   1 <-使わない
-      0,             # Reality 9  0.1%
-      0,             # Reality 10 0.02%
-    ]
+               1000000, # Reality 1 3%      100
+               970000,        # Reality 2 5%      97
+               920000,        # Reality 3 15%     92
+               770000,        # Reality 4 30%     77
+               470000,        # Reality 5  6%     47
+               0,             # Reality 6  3%     5
+               0,             # Reality 7  1%     2 <-使わない
+               0,             # Reality 8  0.3%   1 <-使わない
+               0,             # Reality 9  0.1%
+               0,             # Reality 10 0.02%
+              ]
   end
 
   LOT_REALITY_NUM = 1000000
   LOT_PERCENT = [
-    (LOT_REALITY[0] - LOT_REALITY[1]) / LOT_REALITY_NUM.to_f,
-    (LOT_REALITY[1] - LOT_REALITY[2]) / LOT_REALITY_NUM.to_f,
-    (LOT_REALITY[2] - LOT_REALITY[3]) / LOT_REALITY_NUM.to_f,
-    (LOT_REALITY[3] - LOT_REALITY[4]) / LOT_REALITY_NUM.to_f,
-    (LOT_REALITY[4] - LOT_REALITY[5]) / LOT_REALITY_NUM.to_f,
-    (LOT_REALITY[5] - LOT_REALITY[6]) / LOT_REALITY_NUM.to_f,
-    (LOT_REALITY[6] - LOT_REALITY[7]) / LOT_REALITY_NUM.to_f,
-    (LOT_REALITY[7] - LOT_REALITY[8]) / LOT_REALITY_NUM.to_f,
-    (LOT_REALITY[8] - LOT_REALITY[9]) / LOT_REALITY_NUM.to_f,
-    LOT_REALITY[9] / LOT_REALITY_NUM.to_f
-  ]
+                 (LOT_REALITY[0] - LOT_REALITY[1]) / LOT_REALITY_NUM.to_f,
+                 (LOT_REALITY[1] - LOT_REALITY[2]) / LOT_REALITY_NUM.to_f,
+                 (LOT_REALITY[2] - LOT_REALITY[3]) / LOT_REALITY_NUM.to_f,
+                 (LOT_REALITY[3] - LOT_REALITY[4]) / LOT_REALITY_NUM.to_f,
+                 (LOT_REALITY[4] - LOT_REALITY[5]) / LOT_REALITY_NUM.to_f,
+                 (LOT_REALITY[5] - LOT_REALITY[6]) / LOT_REALITY_NUM.to_f,
+                 (LOT_REALITY[6] - LOT_REALITY[7]) / LOT_REALITY_NUM.to_f,
+                 (LOT_REALITY[7] - LOT_REALITY[8]) / LOT_REALITY_NUM.to_f,
+                 (LOT_REALITY[8] - LOT_REALITY[9]) / LOT_REALITY_NUM.to_f,
+                 LOT_REALITY[9] / LOT_REALITY_NUM.to_f
+                ]
 
   PERCENT_CASH = "percent_cash_#{File.dirname(__FILE__).tr!("/", "_")}"
 

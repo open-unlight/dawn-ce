@@ -880,7 +880,7 @@ module Unlight
         st = Time.local(2012, 12, 20, 15, 00)
         @avatar.cleared_achievement_progress_update if @player.login_at < st
         # クエストイベント中ならクエストイベント用フラグを作製（ない場合のみ）
-        @avatar.create_event_quest_flag # if QUEST_EVENT_FLAG
+        @avatar.create_event_quest_flag #if QUEST_EVENT_FLAG
         # イベント開始時アイテム配付処理
         event_start_item_send
         # # 1日セールスタート判定
@@ -889,8 +889,8 @@ module Unlight
           # By_K2 (BP 1600 이상인 경우 무한의탑 입장권 지급 (기간제))
           if TOWER_LOGIN_BONUS_FLAG && @avatar.point >= 1600
             b = @avatar.get_login_tower_bonus
-            sc_login_bonus(b[0], b[1], b[2])
-            SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_login_tower_bonus] tg_type:#{b[0]} slot_type:#{b[1]} value or id:#{b[2]}")
+              sc_login_bonus(b[0], b[1], b[2])
+              SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_login_tower_bonus] tg_type:#{b[0]} slot_type:#{b[1]} value or id:#{b[2]}")
           end
 
           bns = @avatar.get_login_bonus
@@ -965,5 +965,5 @@ module Unlight
         end
       end
     end
+    end
   end
-end

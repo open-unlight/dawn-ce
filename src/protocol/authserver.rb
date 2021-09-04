@@ -201,7 +201,7 @@ module Unlight
         rescue => e
           puts e.message
         end
-        SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")
+       SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")
       end
 
       # サーバを終了する

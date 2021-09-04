@@ -20,9 +20,9 @@ module Protocol
       # コマンドクラスをつくる
       @@receive_cmd = Command.new(self, :Match)
       @@server_channel = nil
-      unless self::server_channel
-        SERVER_LOG.fatal("#{@@class_name}: not regist Channel!!")
-      end
+       unless self::server_channel
+         SERVER_LOG.fatal("#{@@class_name}: not regist Channel!!")
+       end
       # コネクションチェック時の分割リスト
       set_check_split_list
       MatchController::init

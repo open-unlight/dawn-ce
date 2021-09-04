@@ -92,10 +92,10 @@ module Unlight
 
       @avatars = [pl, foe]                                                # アバター
       @avatar_names = [pl.name, foe.name]                                 # アバター名
-      @entrants = [@alpha, @beta]                                         # 対戦者全員
+      @entrants = [@alpha, @beta]                                         #対戦者全員
       @initi = [0, 1] # イニシアチブの結果
       @event_deck1, @event_deck2 = EventDeck.create_decks(context, event_cards1, event_cards2, self) # イベントカードデッキを作る
-      @event_decks = [@event_deck1, @event_deck2] # 対戦者全員
+      @event_decks = [@event_deck1, @event_deck2] #対戦者全員
       add_finish_listener_three_to_three_duel(method(:finish_game))      # ゲーム結果を監視
       @@current_list << self                                             # ゲームリストに追加
       @tmp_damage                                                        # ダメージの一時保管
@@ -209,12 +209,12 @@ module Unlight
         @cards1.each do |c|
           if c
             c.finalize_event
-          end
+         end
         end
         @cards2.each do |c|
           if c
             c.finalize_event
-          end
+         end
         end
 
         @cards1 = []                                                        # プレイヤーキャラカード
@@ -386,7 +386,7 @@ module Unlight
         e.move_action(det)
         e.move_phase_init_event
       }
-      ret
+     ret
     end
     regist_event DetermineMovePhase
 
@@ -532,21 +532,21 @@ module Unlight
       if (@entrants[0].total_hit_point == @entrants[1].total_hit_point) # &&@turn == BATTLE_TIMEOUT_TURN
         @alpha_reward = Reward.new(@alpha.chara_cards, @beta.chara_cards, get_reward_result(RESULT_DRAW), @ai_type, @alpha.reward_bonus, @bonus_level)
         @beta_reward = Reward.new(@beta.chara_cards, @alpha.chara_cards, get_reward_result(RESULT_DRAW), @ai_type, @beta.reward_bonus, @bonus_level)
-        ret = [{
-          result: RESULT_DRAW,
-          reward: @alpha_reward,
-          gems: @alpha.update_gems(RESULT_DRAW),
-          exp: @alpha.update_exp(RESULT_DRAW),
-          damage: @alpha.damage_set,
-          remain_hp: @alpha.remain_hp_set,
-        }, {
-          result: RESULT_DRAW,
-          reward: @beta_reward,
-          gems: @beta.update_gems(RESULT_DRAW),
-          exp: @beta.update_exp(RESULT_DRAW),
-          damage: @beta.damage_set,
-          remain_hp: @beta.remain_hp_set,
-        }]
+          ret = [{
+            result: RESULT_DRAW,
+            reward: @alpha_reward,
+            gems: @alpha.update_gems(RESULT_DRAW),
+            exp: @alpha.update_exp(RESULT_DRAW),
+            damage: @alpha.damage_set,
+            remain_hp: @alpha.remain_hp_set,
+          }, {
+            result: RESULT_DRAW,
+            reward: @beta_reward,
+            gems: @beta.update_gems(RESULT_DRAW),
+            exp: @beta.update_exp(RESULT_DRAW),
+            damage: @beta.damage_set,
+            remain_hp: @beta.remain_hp_set,
+          }]
       elsif (@entrants[0].total_hit_point > @entrants[1].total_hit_point)
         if @entrants[0].total_hit_point == 1
           SERVER_LOG.info('MultiDuel: [BONUS SURVIVER]');
@@ -576,20 +576,20 @@ module Unlight
         end
         @alpha_reward = Reward.new(@alpha.chara_cards, @beta.chara_cards, get_reward_result(RESULT_LOSE), @ai_type, @alpha.reward_bonus, @bonus_level)
         @beta_reward = Reward.new(@beta.chara_cards, @alpha.chara_cards, get_reward_result(RESULT_WIN), @ai_type, @beta.reward_bonus, @bonus_level, @wild_items_id)
-        ret = [{
-          result: RESULT_LOSE,
-          reward: @alpha_reward,
-          gems: @alpha.update_gems(RESULT_LOSE),
-          exp: @alpha.update_exp(RESULT_LOSE),
-          damage: @alpha.damage_set,
-          remain_hp: @alpha.remain_hp_set,
-        }, {
-          result: RESULT_WIN,
-          reward: @beta_reward,
-          gems: @beta.update_gems(RESULT_WIN),
-          exp: @beta.update_exp(RESULT_WIN),
-          remain_hp: @beta.remain_hp_set,
-        }]
+          ret = [{
+            result: RESULT_LOSE,
+            reward: @alpha_reward,
+            gems: @alpha.update_gems(RESULT_LOSE),
+            exp: @alpha.update_exp(RESULT_LOSE),
+            damage: @alpha.damage_set,
+            remain_hp: @alpha.remain_hp_set,
+          }, {
+            result: RESULT_WIN,
+            reward: @beta_reward,
+            gems: @beta.update_gems(RESULT_WIN),
+            exp: @beta.update_exp(RESULT_WIN),
+            remain_hp: @beta.remain_hp_set,
+          }]
       end
       if ai_type == :none || ai_type == :proxy_ai
         wp = win_bp
@@ -713,5 +713,5 @@ module Unlight
       @turn = @battle_timeout_turn
       @three_to_three_duel_counter = @battle_timeout_turn
     end
-  end
+ end
 end

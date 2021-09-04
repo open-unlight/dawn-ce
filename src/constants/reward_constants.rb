@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# 定数モジュール
+#定数モジュール
 #
 
 module Unlight
@@ -9,22 +9,22 @@ module Unlight
   GENRE_ODDS = { exp: 250, gem: 250, item: 200, own_card: 300, random_card: 15, rare_card: 0, event_card: 200, weapon_card: 2, wild_item: 1500 }
   GENRE_ODDS_QUEST = { exp: 300, gem: 250, item: 200, own_card: 100, random_card: 7, rare_card: 0, event_card: 50, weapon_card: 2, wild_item: 1500 }
   START_END_TABLE = [
-    [1, 20], # 1VS1 LOSE
-    [21, 50], # 1VS1 WIN
-    [51, 70], # 3VS3 LOSE
-    [71, 100], # 3VS3 WIN
-    [101, 140], # CPU LOSE (枠40)
-    [141, 200], # CPU WIN（枠60）
-  ]
+                     [1,  20], # 1VS1 LOSE
+                     [21, 50], # 1VS1 WIN
+                     [51, 70], # 3VS3 LOSE
+                     [71, 100], # 3VS3 WIN
+                     [101, 140], # CPU LOSE (枠40)
+                     [141, 200], # CPU WIN（枠60）
+                    ]
   # 特殊アイテムをゲットできるか
   WILD_ITEM_GET = [
-    false, # 1VS1 LOSE
-    false, # 1VS1 WIN
-    true, # 3VS3 LOSE
-    true, # 3VS3 WIN
-    false, # CPU LOSE (枠40)
-    false, # CPU WIN（枠60）
-  ]
+                     false, # 1VS1 LOSE
+                     false, # 1VS1 WIN
+                     true, # 3VS3 LOSE
+                     true, # 3VS3 WIN
+                     false, # CPU LOSE (枠40)
+                     false, # CPU WIN（枠60）
+                  ]
 
   RESULT_1VS1_LOSE = 0
   RESULT_1VS1_WIN  = 1
@@ -41,7 +41,8 @@ module Unlight
                     [20, 30],             # LV5
                     [24, 34],             # LV6
                     [28, 38],             # LV7
-                    [32, 39],] # LV8
+                    [32, 39],             # LV8
+                   ]
 
   LEVEL_CAP_WIN = [[0, 25], # LV0(未使用)幅25
                    [0, 25],              # LV1 幅25
@@ -51,7 +52,8 @@ module Unlight
                    [16, 41],             # LV5
                    [20, 45],             # LV6
                    [24, 45],             # LV7
-                   [28, 45],] # LV8
+                   [28, 45],             # LV8
+]
 
   # ============== イベントアイテムの設定 ==================
 
@@ -60,13 +62,13 @@ module Unlight
 
   # 出現アイテム
   EVENT_REWARD_ITEM = [
-    [],
-    [],
-    [490],
-    [490],
-    [],
-    [],
-  ]
+                       [],
+                       [],
+                       [490],
+                       [490],
+                       [],
+                       [],
+                       ]
 
   # CPUの場合の個数
   EVENT_REWARD_NUM_IDX = 2
