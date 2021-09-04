@@ -8,7 +8,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
   let(:binder) { player.current_avatar.binder }
 
   describe 'GET /v1/slot_cards' do
-    before(:each) do
+    before do
       create :chara_card_slot_inventory, chara_card_deck_id: binder.id, card_id: 1
 
       with_player_id(player.id)
@@ -32,14 +32,14 @@ RSpec.describe GameAPI, type: :api, module: :game do
     let(:event_card) { instance_double(Unlight::EventCard, color: 0) }
     let(:data) { JSON.parse(last_response.body) }
 
-    before(:each) do
+    before do
       # TODO: Avoid to mock all instances
       allow_any_instance_of(Unlight::CharaCardDeck).to receive(:cards).and_return([character_card]) # rubocop:disable RSpec/AnyInstance
       allow(Unlight::EventCard).to receive(:[]).with(1).and_return(event_card)
     end
 
     context 'when equip card success' do
-      before(:each) do
+      before do
         create :card_inventory, chara_card_deck_id: target_deck.id, chara_card_id: 1
         inv = create :chara_card_slot_inventory, chara_card_deck_id: binder.id, card_id: 1
 
@@ -54,7 +54,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
     end
 
     context 'when card deck not found' do
-      before(:each) do
+      before do
         inv = create :chara_card_slot_inventory, chara_card_deck_id: binder.id, card_id: 1
 
         with_player_id(player.id)
@@ -65,7 +65,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
     end
 
     context 'when card inventory not found' do
-      before(:each) do
+      before do
         with_player_id(player.id)
         put '/v1/slot_cards/999/deck', { index: 1, deck_position: 0, card_position: 1 }
       end
@@ -74,7 +74,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
     end
 
     context 'when slot is full' do
-      before(:each) do
+      before do
         # TODO: Avoid to mock all instances
         allow_any_instance_of(Unlight::CharaCardDeck).to receive(:event_cards).and_return([[0] * 100]) # rubocop:disable RSpec/AnyInstance
 
@@ -91,7 +91,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
     context 'when color slot not enough' do
       let(:event_card) { instance_double(Unlight::EventCard, color: 1) }
 
-      before(:each) do
+      before do
         allow(character_card).to receive(:slot_color_num).and_return(1)
 
         create :card_inventory, chara_card_deck_id: target_deck.id, chara_card_id: 1

@@ -10,7 +10,7 @@ RSpec.describe Unlight::ClearCode do
     it { is_expected.to be_empty }
 
     context 'when code available' do
-      before(:each) { create(:clear_code) }
+      before { create(:clear_code) }
 
       it { is_expected.not_to be_empty }
       it { expect { get_code }.to change { described_class.filter(state: Unlight::ClearCode::STATE_UNUSE).count }.by(-1) }

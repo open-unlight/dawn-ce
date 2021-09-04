@@ -4,7 +4,7 @@ RSpec.describe Unlight::Player do
   describe '.logout_all' do
     subject(:logout_all) { described_class.logout_all }
 
-    before(:each) { create_list(:player, 5, state: Unlight::ST_LOGIN) }
+    before { create_list(:player, 5, state: Unlight::ST_LOGIN) }
 
     it { expect { logout_all }.to change { described_class.filter({ state: Unlight::ST_LOGIN }).count }.by(-5) }
   end
@@ -12,7 +12,7 @@ RSpec.describe Unlight::Player do
   describe '.state_clear_all' do
     subject(:state_clear_all) { described_class.state_clear_all }
 
-    before(:each) { create_list(:player, 5, state: Unlight::ST_LOGIN) }
+    before { create_list(:player, 5, state: Unlight::ST_LOGIN) }
 
     xit 'is deprecated method' do
       expect { state_clear_all }.to change { described_class.filter({ state: Unlight::ST_LOGIN }).count }.by(-5)
@@ -33,7 +33,7 @@ RSpec.describe Unlight::Player do
     it { is_expected.to eq(Unlight::RG_NG[:none]) }
 
     context 'when duplicate player name' do
-      before(:each) { create(:player, name: name) }
+      before { create(:player, name: name) }
 
       it { expect { regist }.to change(described_class, :count).by(0) }
       it { is_expected.to eq(Unlight::RG_NG[:name]) }
@@ -65,7 +65,7 @@ RSpec.describe Unlight::Player do
     it { expect { get_system_player }.to change(described_class, :count).by(1) }
 
     context 'when system player exists' do
-      before(:each) { get_system_player }
+      before { get_system_player }
 
       it { expect { get_system_player }.not_to change(described_class, :count) }
     end
@@ -86,7 +86,7 @@ RSpec.describe Unlight::Player do
   describe '.auth_off_all' do
     subject(:auth_off_all) { described_class.auth_off_all }
 
-    before(:each) { create_list(:player, 5, state: Unlight::ST_LOGIN_AUTH) }
+    before { create_list(:player, 5, state: Unlight::ST_LOGIN_AUTH) }
 
     it { expect { auth_off_all }.to change { described_class.filter(Sequel.lit("state >= #{Unlight::ST_AUTH}")).count }.by(-5) }
   end
@@ -270,7 +270,7 @@ RSpec.describe Unlight::Player do
     it { is_expected.to be_falsy }
 
     context 'when player lock' do
-      before(:each) { player.lock }
+      before { player.lock }
 
       it { is_expected.to be_truthy }
     end
@@ -284,7 +284,7 @@ RSpec.describe Unlight::Player do
     it { is_expected.to be_falsy }
 
     context 'when player comeback' do
-      before(:each) { player.comeback }
+      before { player.comeback }
 
       it { is_expected.to be_truthy }
     end

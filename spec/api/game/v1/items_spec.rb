@@ -10,7 +10,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
     let(:state) { Unlight::ITEM_STATE_NOT_USE }
     let(:items) { JSON.parse(last_response.body).fetch('data', []) }
 
-    before(:each) do
+    before do
       create :item_inventory, avatar_id: avatar.id, avatar_item_id: 1, state: state
 
       with_player_id(player.id)

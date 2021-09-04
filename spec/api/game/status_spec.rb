@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe GameAPI, type: :api, module: :game do
   describe 'GET /status' do
-    before(:each) do
+    before do
       get '/status'
     end
 

@@ -8,7 +8,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
   let(:binder) { player.current_avatar.binder }
 
   describe 'GET /v1/character_cards' do
-    before(:each) do
+    before do
       create :card_inventory, chara_card_deck_id: binder.id, chara_card_id: 1
 
       with_player_id(player.id)
@@ -30,7 +30,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
     let(:data) { JSON.parse(last_response.body) }
 
     context 'when move card success' do
-      before(:each) do
+      before do
         inv = create :card_inventory, chara_card_deck_id: binder.id, chara_card_id: 1
 
         with_player_id(player.id)
@@ -43,7 +43,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
     end
 
     context 'when card deck not found' do
-      before(:each) do
+      before do
         inv = create :card_inventory, chara_card_deck_id: binder.id, chara_card_id: 1
 
         with_player_id(player.id)
@@ -54,7 +54,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
     end
 
     context 'when card inventory not found' do
-      before(:each) do
+      before do
         with_player_id(player.id)
         put '/v1/character_cards/999/deck', { index: 1, position: 1 }
       end
@@ -63,7 +63,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
     end
 
     context 'when card deck is full' do
-      before(:each) do
+      before do
         inv = create :card_inventory, chara_card_deck_id: binder.id, chara_card_id: 1
         create_list :card_inventory, 4, chara_card_deck_id: target_deck.id, chara_card_id: 1
 

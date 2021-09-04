@@ -6,7 +6,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
   let(:player) { create :player, session_key: 'rspec' }
 
   describe 'GET /v1/avatar' do
-    before(:each) do
+    before do
       create :avatar, name: 'Sheri', gems: 1000, player: player
       with_player_id(player.id)
       get '/v1/avatar'
