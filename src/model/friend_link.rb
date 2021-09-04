@@ -34,8 +34,7 @@ module Unlight
     # リンクをゲット出来る(リンクを五分間キャッシュする)
     def FriendLink::get_link(p_id, server_type)
       link = CACHE.get("friend_link_get:#{p_id}")
-      unless
-        link = FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).exclude(friend_type: TYPE_BLOCK).filter(server_type: server_type).all
+      unless link = FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).exclude(friend_type: TYPE_BLOCK).filter(server_type: server_type).all
         CACHE.set("friend_link_get:#{p_id}", link, 300)
       end
       link
@@ -232,7 +231,7 @@ module Unlight
       else
         ret = self.relating_player_id
       end
-     ret
+      ret
     end
 
     # p_idにother_p_idがBlockされてるか

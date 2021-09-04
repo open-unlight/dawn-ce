@@ -22,7 +22,7 @@ opt.on('-e', '--english', '英語用') do |v|
   if v
     delete_mode = true;
     mode_reg = /LOCALE_TCN|LOCALE_SCN|LOCALE_JP|LOCALE_KR|LOCALE_FR/
- end
+  end
 end
 
 opt.on('-c', '--chinese', '繁体中国語') do |v|
@@ -65,7 +65,7 @@ opt.on('-fr', '--french', 'フランス語用') do |v|
     font_r_size = 1.5
     all_griph = true
 
- end
+  end
 end
 
 opt.parse!(ARGV)

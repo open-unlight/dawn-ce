@@ -22,7 +22,7 @@ module Unlight
     validates do
     end
 
-    #時の前処理
+    # 時の前処理
     before_create do
       self.created_at = Time.now.utc
     end

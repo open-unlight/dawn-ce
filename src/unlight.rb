@@ -156,7 +156,7 @@ module Unlight
 
   def self::puts_obj_count(c)
     count = ObjectSpace.each_object(c) { |x| x }
-      SERVER_LOG.info("LEAK_CHECK:#{c.name} num is #{count}")
+    SERVER_LOG.info("LEAK_CHECK:#{c.name} num is #{count}")
   end
 
   def self::debug_memory_leak

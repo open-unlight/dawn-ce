@@ -67,8 +67,7 @@ module Unlight
                                   :none,
                                   match_log.match_stage,
                                   watch_r_duel.pl_damege,
-                                  watch_r_duel.foe_damege
-                                 )
+                                  watch_r_duel.foe_damege)
             do_determine_session(player_b.id,
                                  a_avatar.name,
                                  b_avatar.name,
@@ -76,8 +75,7 @@ module Unlight
                                  b_avatar.duel_deck_mask_cards_id_str,
                                  match_log.match_stage,
                                  watch_r_duel.pl_damege.join(','),
-                                 watch_r_duel.foe_damege.join(',')
-                                )
+                                 watch_r_duel.foe_damege.join(','))
             set_duel_handler(0, RULE_1VS1)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, false)
             @duel.three_to_three_duel
@@ -92,8 +90,7 @@ module Unlight
                                   :none,
                                   match_log.match_stage,
                                   watch_r_duel.pl_damege,
-                                  watch_r_duel.foe_damege
-                                 )
+                                  watch_r_duel.foe_damege)
             do_determine_session(player_b.id,
                                  a_avatar.name,
                                  b_avatar.name,
@@ -101,8 +98,7 @@ module Unlight
                                  b_deck.mask_cards_id.join(','),
                                  match_log.match_stage,
                                  watch_r_duel.pl_damege.join(','),
-                                 watch_r_duel.foe_damege.join(',')
-                                )
+                                 watch_r_duel.foe_damege.join(','))
             set_duel_handler(0, RULE_3VS3)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, true)
             @duel.three_to_three_duel
@@ -125,8 +121,7 @@ module Unlight
                                   :none,
                                   match_log.match_stage,
                                   watch_r_duel.pl_damege,
-                                  watch_r_duel.foe_damege
-                                 )
+                                  watch_r_duel.foe_damege)
             do_determine_session(player_b.id,
                                  a_avatar.name,
                                  b_avatar.name,
@@ -134,8 +129,7 @@ module Unlight
                                  b_avatar.duel_deck_mask_cards_id_str,
                                  match_log.match_stage,
                                  watch_r_duel.pl_damege.join(','),
-                                 watch_r_duel.foe_damege.join(',')
-                                )
+                                 watch_r_duel.foe_damege.join(','))
             set_duel_handler(0, RULE_1VS1)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, false)
             @duel.three_to_three_duel
@@ -151,8 +145,7 @@ module Unlight
                                   :none,
                                   match_log.match_stage,
                                   watch_r_duel.pl_damege,
-                                  watch_r_duel.foe_damege
-                                 )
+                                  watch_r_duel.foe_damege)
             do_determine_session(player_b.id,
                                  a_avatar.name,
                                  b_avatar.name,
@@ -160,8 +153,7 @@ module Unlight
                                  b_deck.mask_cards_id.join(','),
                                  match_log.match_stage,
                                  watch_r_duel.pl_damege.join(','),
-                                 watch_r_duel.foe_damege.join(',')
-                                )
+                                 watch_r_duel.foe_damege.join(','))
             set_duel_handler(0, RULE_3VS3)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, true)
             @duel.three_to_three_duel

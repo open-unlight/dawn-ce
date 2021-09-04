@@ -124,11 +124,11 @@ module Unlight
   CPU_POP_TIME = 60
   # CPU部屋が沸く数
   CPU_SPAWN_NUM = [
-                   5, 5, 5, 5, 5, 5, # UTC0-5時(9-14)
-                   5, 5, 5, 5, 10, 10, # UTC6-11時(15-20)
-                   20, 20, 20, 10, 10, 10, # UTC12-17時(21-2)
-                   5, 5, 3, 3, 5, 5, # UTC18-23時(3-8)
-                  ]
+    5, 5, 5, 5, 5, 5, # UTC0-5時(9-14)
+    5, 5, 5, 5, 10, 10, # UTC6-11時(15-20)
+    20, 20, 20, 10, 10, 10, # UTC12-17時(21-2)
+    5, 5, 3, 3, 5, 5, # UTC18-23時(3-8)
+  ]
 
   # 勝利報酬アイテムテーブル(未使用)
   CPU_DUEL_BONUS = [1,
@@ -355,10 +355,10 @@ module Unlight
   PN_COMEBACK = 16384           # 0100_0000_0000_0000 # 2015/01/07 カムバックしてきた
   PN_2015_NY = 32768            # 1000_0000_0000_0000 # 2015/01/01 新年ログイン
 
-  #プレイヤーの自動セーブ間隔(秒)
+  # プレイヤーの自動セーブ間隔(秒)
   SAVE_INTERVAL = 60 * 10
 
-  #プレイヤデータのバージョン
+  # プレイヤデータのバージョン
   PL_DATA_VER = '0.1'
 
   # ============== モデル関連定数 ==================
@@ -373,7 +373,7 @@ module Unlight
   # キャッシュを念のため全削除
   CACHE.flush_all
 
-  #Sqlite3設定のデフォルト
+  # Sqlite3設定のデフォルト
   SQLITE3 =  {
     DB_File: "#{File.dirname(__FILE__).gsub('src/constants', '')}data/game_dev2.db",
     LOG_File: "#{File.dirname(__FILE__).gsub('src/constants', '')}data/db.log"
@@ -467,7 +467,7 @@ class OrderHash < Hash
     @keys = []
   end
 
-  #superとして、Hash#[]=を呼び出す
+  # superとして、Hash#[]=を呼び出す
   def []=(key, value)
     super(key, value)
     unless @keys.include?(key)
@@ -484,8 +484,7 @@ class OrderHash < Hash
     if @keys.include?(key)
       @keys.delete(key)
       super(key)
-    elsif
-      yield(key)
+    elsif yield(key)
     end
   end
 
@@ -508,9 +507,9 @@ class OrderHash < Hash
 
   def reject!(&block)
     del = ''
-     @keys.each { |k|
-       del = k if yield(k, self[k])
-     }
+    @keys.each { |k|
+      del = k if yield(k, self[k])
+    }
     @keys.delete(del)
     super(&block)
   end
@@ -536,8 +535,7 @@ class OrderHash < Hash
   def sort_hash(&block)
     if block
       arr_tmp = self.sort(&block)
-    elsif
-      arr_tmp = self.sort
+    elsif arr_tmp = self.sort
     end
     hash_tmp = OrderHash.new
     arr_tmp.each { |item|

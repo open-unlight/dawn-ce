@@ -135,8 +135,8 @@ module Unlight
       ret = []
       if feat_inventories.size > 0
         feat_inventories.each do |f|
-        ret << f.feat_id
-      end
+          ret << f.feat_id
+        end
       end
       ret.join(',')
     end
@@ -273,8 +273,8 @@ module Unlight
     # 治癒できないステータス
     STATE_CONTROL = 25
     IRREMEDIABLE_STATE = [
-                          STATE_CONTROL,
-                         ]
+      STATE_CONTROL,
+    ]
     # ステータス状態を初期化
     HAS_PILOTS = [20, 27]
     def cure_status()
