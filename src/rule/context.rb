@@ -14,9 +14,9 @@ module Unlight
   module Context
     # コンストラクタ
     # 親となるオブジェが作る
-    def create_context()
+    def create_context
       @parent = self
-      @current_context = ContextValue.new()
+      @current_context = ContextValue.new
     end
 
     # コンテクストを共有する
@@ -62,7 +62,7 @@ module Unlight
       else
         raise "This event is not active. Can't suspend."
       end
-      @current_context.check_list_update()
+      @current_context.check_list_update
     end
 
     # イベントが終了するとき呼ばれる
@@ -80,7 +80,7 @@ module Unlight
           list[-1].first.send(s.to_sym)
           list[-1].first.send(list[-1].last) if @resumed
         end
-        @current_context.check_list_update()
+        @current_context.check_list_update
       end
     end
 
@@ -107,7 +107,7 @@ module Unlight
         end
       end
       @current_context.delete([])
-      @current_context.check_list_update()
+      @current_context.check_list_update
       @resumed = false
     end
 
@@ -125,31 +125,6 @@ module Unlight
     # 現在のコンテキストを文字列で返す
     def context_to_s
       @current_context.check_list
-    end
-  end
-
-  class ContextValue < Array
-    attr_accessor :check_list
-
-    # コンテキストのチェック用文字列リストを更新する
-    def check_list_update()
-      @check_list = ''
-      self.each do |c|
-          a = []
-        c[1..-1].each do |f|
-            s = ''
-          s << f[1].to_s << '::' << f.last.to_s
-            a << s
-          end
-         @check_list << a.join('->')
-         @check_list << "\n"
-        end
-       @check_list
-    end
-
-    def to_s
-      check_list_update()
-      @check_list
     end
   end
 end
