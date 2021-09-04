@@ -57,7 +57,7 @@ RSpec.describe Unlight::Match do
   describe 'room_info' do
     subject(:room_info) { match.room_info }
 
-    before(:each) { create(:avatar, player_id: player_id) }
+    before { create(:avatar, player_id: player_id) }
 
     it { expect(room_info[0]).to eq(match.id) }
   end
@@ -65,7 +65,7 @@ RSpec.describe Unlight::Match do
   describe 'room_info_str' do
     subject(:room_info_str) { match.room_info_str }
 
-    before(:each) { create(:avatar, player_id: player_id) }
+    before { create(:avatar, player_id: player_id) }
 
     it { is_expected.to start_with(match.id) }
   end

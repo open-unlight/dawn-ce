@@ -6,7 +6,7 @@ RSpec.describe GameAPI, type: :api, module: :game do
   let(:player) { create :player, session_key: 'rspec' }
 
   describe 'GET /v1/decks' do
-    before(:each) do
+    before do
       # TODO: Player regist should not be dependency
       avatar = build :avatar, player: player
       Unlight::Avatar.regist(avatar.name, player.id, [], [])

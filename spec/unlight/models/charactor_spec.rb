@@ -7,7 +7,7 @@ RSpec.describe Unlight::Charactor do
     it { is_expected.to be_empty }
 
     context 'when charactor exists' do
-      before(:each) { create(:charactor) }
+      before { create(:charactor) }
 
       it { is_expected.not_to be_empty }
     end
@@ -25,7 +25,7 @@ RSpec.describe Unlight::Charactor do
 
       let(:id) { charactor.id }
 
-      before(:each) { described_class.initialize_charactor_param }
+      before { described_class.initialize_charactor_param }
 
       it { is_expected.to be_a(Array) }
       it { is_expected.to eq(%w[A B]) }
