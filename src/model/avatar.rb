@@ -143,7 +143,7 @@ module Unlight
           d.save_changes
         end
 
-        CharaCardDeck.new do |d|
+       CharaCardDeck.new do |d|
           d.name = 'Deck 3'
           d.avatar_id = avatar.id
           d.save_changes
@@ -220,7 +220,7 @@ module Unlight
         # セール時間にする
         avatar.set_one_day_sale_start_check()
 
-        SERVER_LOG.info("<UID:#{avatar.player_id}>AuthServer: [#{__method__}] #{avatar.part_inventory_max} #{Unlight::AP_INV_MAX}")
+      SERVER_LOG.info("<UID:#{avatar.player_id}>AuthServer: [#{__method__}] #{avatar.part_inventory_max} #{Unlight::AP_INV_MAX}")
       end
       ret
     end
@@ -750,11 +750,11 @@ module Unlight
     # アバターパーツの使用フラグを返す
     def part_used_list_str(r = true)
       ret = []
-      refresh if r
-      part_inventories.each do |p|
-        ret << p.used
-      end
-      ret.join(',')
+       refresh if r
+       part_inventories.each do |p|
+         ret << p.used
+       end
+       ret.join(',')
     end
 
     # アバターパーツを装備する(同じインベントリを装備しようとすると外れる)
@@ -1464,7 +1464,7 @@ module Unlight
       while d.check_deck_level_up
         @event.deck_level_up_event if @event
       end
-      @event.get_deck_exp_event if @event
+        @event.get_deck_exp_event if @event
     end
 
     # ジェムをセット
@@ -1498,16 +1498,16 @@ module Unlight
       # 勝敗を保存
       if result == RESULT_WIN
         self.win += 1
-        self.point += point_calc if is_get_bp == 1
-        self.save_changes # チェックの前に保存する
+          self.point += point_calc if is_get_bp == 1
+          self.save_changes # チェックの前に保存する
       elsif result == RESULT_LOSE
         self.lose += 1
-        self.point -= point_calc if is_get_bp == 1
-        self.point = 0 if self.point < 0 if is_get_bp == 1
-        self.save_changes
+          self.point -= point_calc if is_get_bp == 1
+          self.point = 0 if self.point < 0 if is_get_bp == 1
+          self.save_changes
       elsif result == RESULT_DRAW
         self.draw += 1
-        self.save_changes
+          self.save_changes
       end
       Unlight::TotalDuelRanking::update_ranking(self.id, self.name, self.point, self.server_type)
       if EVENT_DUEL_01[0].include?(result)
@@ -1677,10 +1677,10 @@ module Unlight
       # パーツが存在するならば追加
       if AvatarPart[part_id]
         inv = PartInventory.new do |i|
-          i.avatar_id = self.id
-          i.avatar_part_id = part_id
-          i.save_changes
-        end
+            i.avatar_id = self.id
+            i.avatar_part_id = part_id
+            i.save_changes
+          end
         @event.part_get_event(inv.id, part_id) if @event
         ret = true
 
@@ -2227,7 +2227,7 @@ module Unlight
     def get_login_tower_bonus()
       trs = TOWER_LOGIN_BONUS
       get_treasures(trs[0], trs[2], trs[1])
-      trs
+        trs
     end
 
     # 復活後名前が変わったひと
@@ -2396,7 +2396,8 @@ module Unlight
       uses.each_index do |i|
         if i >= (TIPS_CARD_ID - COIN_CARD_ID)
           cid = EX_COIN_CARD_ID
-        elsif cid = (COIN_CARD_ID + i).to_i
+        elsif
+          cid = (COIN_CARD_ID + i).to_i
         end
         uses[i].times do |c|
           ret << nums[cid].last.id
@@ -2762,7 +2763,7 @@ module Unlight
       # クエストの進捗をチェックする
       if flag + 1 < quest_map_id
         ret = ERROR_NOT_ENOUGH_LEVEL
-        return ret
+         return ret
       end
 
       is_cleared_map = flag >= quest_map_id
@@ -3785,11 +3786,11 @@ module Unlight
 
     def get_other_avatar_info_set
       [
-        self.id,
-        self.name,
-        self.level,
-        self.setted_parts_list_str,
-        self.point
+       self.id,
+       self.name,
+       self.level,
+       self.setted_parts_list_str,
+       self.point
       ]
     end
 
@@ -3804,90 +3805,90 @@ module Unlight
       # 再利用する為、ここで取得
       cards_arr = self.cards_list(false)
       ret = [
-        self.id || 0,
-        self.name || '',
-        self.gems || 0,
-        self.exp || 0,
-        self.level || 0,
-        self.energy || 0,
-        self.energy_max || 0,
-        self.recovery_interval || 0,
-        self.get_next_recovery_time(false) || 0,
-        self.point || 0,
-        self.win || 0,
-        self.lose || 0,
-        self.draw || 0,
-        self.parts_num || 0,
-        self.part_inventories_list_str(false) || '',
-        self.part_list_str(false) || '',
-        self.part_used_list_str(false) || '',
-        self.parts_end_at_list_str(false) || '',
-        self.items_num || 0,
-        self.item_inventories_list_str(false) || '',
-        self.item_list_str(false) || '',
-        self.item_state_list_str(false) || '',
-        self.decks_num || 0,
-        self.deck_name_list_str(false) || '',
-        self.deck_kind_list_str(false) || '',
+       self.id || 0,
+       self.name || '',
+       self.gems || 0,
+       self.exp || 0,
+       self.level || 0,
+       self.energy || 0,
+       self.energy_max || 0,
+       self.recovery_interval || 0,
+       self.get_next_recovery_time(false) || 0,
+       self.point || 0,
+       self.win || 0,
+       self.lose || 0,
+       self.draw || 0,
+       self.parts_num || 0,
+       self.part_inventories_list_str(false) || '',
+       self.part_list_str(false) || '',
+       self.part_used_list_str(false) || '',
+       self.parts_end_at_list_str(false) || '',
+       self.items_num || 0,
+       self.item_inventories_list_str(false) || '',
+       self.item_list_str(false) || '',
+       self.item_state_list_str(false) || '',
+       self.decks_num || 0,
+       self.deck_name_list_str(false) || '',
+       self.deck_kind_list_str(false) || '',
 
-        self.deck_level_list_str(false) || '',
-        self.deck_exp_list_str(false) || '',
+       self.deck_level_list_str(false) || '',
+       self.deck_exp_list_str(false) || '',
 
-        self.deck_status_list_str(false) || '',
-        self.deck_cost_list_str(false) || '',
-        self.deck_max_cost_list_str(false) || '',
+       self.deck_status_list_str(false) || '',
+       self.deck_cost_list_str(false) || '',
+       self.deck_max_cost_list_str(false) || '',
 
-        self.cards_num || 0,
-        self.inventories_list_str(false) || '',
-        self.cards_list_str(false, cards_arr) || '',
-        self.deck_index_list_str(false) || '',
-        self.deck_position_list_str(false) || '',
-        self.slots_num || 0,
-        self.slot_inventories_list_str(false) || '',
-        self.slots_list_str(false) || '',
-        self.slot_type_list_str(false) || '',
-        self.slot_combined_list_str(false) || '',
-        self.slot_combine_data_list_str(false) || '',
-        self.slot_deck_index_list_str(false) || '',
-        self.slot_deck_position_list_str(false) || '',
-        self.slot_card_position_list_str(false) || '',
+       self.cards_num || 0,
+       self.inventories_list_str(false) || '',
+       self.cards_list_str(false, cards_arr) || '',
+       self.deck_index_list_str(false) || '',
+       self.deck_position_list_str(false) || '',
+       self.slots_num || 0,
+       self.slot_inventories_list_str(false) || '',
+       self.slots_list_str(false) || '',
+       self.slot_type_list_str(false) || '',
+       self.slot_combined_list_str(false) || '',
+       self.slot_combine_data_list_str(false) || '',
+       self.slot_deck_index_list_str(false) || '',
+       self.slot_deck_position_list_str(false) || '',
+       self.slot_card_position_list_str(false) || '',
 
-        self.quest_inventory_max || 0,
-        self.quests_num || 0,
-        self.quest_inventories_list_str(false) || '',
-        self.quest_id_list_str(false) || '',
-        self.quest_status_list_str(false) || '',
-        self.quest_find_time_list_str(false) || '',
-        self.quest_ba_name_list_str(false) || '',
+       self.quest_inventory_max || 0,
+       self.quests_num || 0,
+       self.quest_inventories_list_str(false) || '',
+       self.quest_id_list_str(false) || '',
+       self.quest_status_list_str(false) || '',
+       self.quest_find_time_list_str(false) || '',
+       self.quest_ba_name_list_str(false) || '',
 
-        self.quest_flag,
-        self.quest_clear_num,
+       self.quest_flag,
+       self.quest_clear_num,
 
-        self.friend_max || 10,
-        self.part_inventory_max || 30,
-        self.free_duel_count || 0,
+       self.friend_max || 10,
+       self.part_inventory_max || 30,
+       self.free_duel_count || 0,
 
-        self.exp_pow || 0,
-        self.gem_pow || 0,
-        self.quest_find_pow || 0,
+       self.exp_pow || 0,
+       self.gem_pow || 0,
+       self.quest_find_pow || 0,
 
-        self.current_deck || 0,
+       self.current_deck || 0,
 
-        self.sale_type || 0,
-        self.get_sale_limit_rest_time(false) || 0,
+       self.sale_type || 0,
+       self.get_sale_limit_rest_time(false) || 0,
 
-        self.favorite_chara_id || 0,
+       self.favorite_chara_id || 0,
 
-        self.floor_count || 0, # By_K2
+       self.floor_count || 0, # By_K2
 
-        self.get_event_quest_flag || 0,
-        self.get_event_quest_clear_num || 0,
+       self.get_event_quest_flag || 0,
+       self.get_event_quest_clear_num || 0,
 
-        self.get_event_quest_flag(QUEST_TUTORIAL_ID) || 0,
-        self.get_event_quest_clear_num(QUEST_TUTORIAL_ID) || 0,
+       self.get_event_quest_flag(QUEST_TUTORIAL_ID) || 0,
+       self.get_event_quest_clear_num(QUEST_TUTORIAL_ID) || 0,
 
-        self.get_event_quest_flag(QUEST_CHARA_VOTE_ID) || 0,
-        self.get_event_quest_clear_num(QUEST_CHARA_VOTE_ID) || 0,
+       self.get_event_quest_flag(QUEST_CHARA_VOTE_ID) || 0,
+       self.get_event_quest_clear_num(QUEST_CHARA_VOTE_ID) || 0,
       ]
 
       # キャラカードに関するアチーブメントのチェックをしてしまう
@@ -4733,13 +4734,13 @@ module Unlight
         end
       end
 
-      # 2014クリスマスイベント用チェック 送り主以外に送ることが出来ない
-      if ai.quest_id >= QE_CHRISTMAS2014_START_ID && ai.quest_id <= QE_CHRISTMAS2014_END_ID
-        if ai.before_avatar_id != a_id
-          ret = ERROR_SEND_QUEST_NOT_SENDER
-          return ret
-        end
-      end
+       # 2014クリスマスイベント用チェック 送り主以外に送ることが出来ない
+       if ai.quest_id >= QE_CHRISTMAS2014_START_ID && ai.quest_id <= QE_CHRISTMAS2014_END_ID
+         if ai.before_avatar_id != a_id
+           ret = ERROR_SEND_QUEST_NOT_SENDER
+           return ret
+         end
+       end
 
       # 特別なアイテムを装備していたときに別のクエストを差し替える 2014クリスマスイベント
       if self.setted_parts_id_list.include?(QEV_XMAS_PART_ID) && ai.quest.rarity >= QEV_RARITY
@@ -4924,8 +4925,8 @@ module Unlight
           @lobby_chara_flags = s.get_flag
         else
           @lobby_chara_flags = {}
-        end
-      end
+         end
+       end
     end
 
     # シナリオでジャンプ処理

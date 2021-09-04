@@ -8,95 +8,95 @@ module Unlight
   class Feat < Sequel::Model
     # 正規表現の組み合わせ一覧
     COND_DIST = [
-      # 遠距離
-      [/^S:/, 'owner.distance == 1', '近', '[1]'],
-      # 中距離
-      [/^M:/, 'owner.distance == 2', '中', '[2]'],
-      # 遠距離
-      [/^L:/, 'owner.distance == 3', '遠', '[3]'],
-      # 中遠距離
-      [/(^LM:)|(^ML:)/, 'owner.distance != 1', '中,遠', '[2, 3]'],
-      # 近中距離
-      [/(^MS:)|(^SM:)/, 'owner.distance != 3', '近,中', '[1, 2]'],
-      # 近遠距離
-      [/(^LS:)|(^SL:)/, 'owner.distance != 2', '近,遠', '[1, 3]'],
-      # 全距離
-      [/(^LMS:)|(^MLS:)/, '', '近,中,遠', '[1, 2, 3]']
-    ]
+                 # 遠距離
+                 [/^S:/, 'owner.distance == 1', '近', '[1]'],
+                 # 中距離
+                 [/^M:/, 'owner.distance == 2', '中', '[2]'],
+                 # 遠距離
+                 [/^L:/, 'owner.distance == 3', '遠', '[3]'],
+                 # 中遠距離
+                 [/(^LM:)|(^ML:)/, 'owner.distance != 1', '中,遠', '[2, 3]'],
+                 # 近中距離
+                 [/(^MS:)|(^SM:)/, 'owner.distance != 3', '近,中', '[1, 2]'],
+                 # 近遠距離
+                 [/(^LS:)|(^SL:)/, 'owner.distance != 2', '近,遠', '[1, 3]'],
+                 # 全距離
+                 [/(^LMS:)|(^MLS:)/, '', '近,中,遠', '[1, 2, 3]']
+                ]
 
     COND_CARD = [
-      # 近距離攻撃で以上
-      [/S([1-9])[+]/, 'owner.greater_check(__FEAT__,ActionCard::SWD,\1)', '近\1+', "greater_card,#{ActionCard::SWD},\\1"],
-      # 遠距離攻撃で以上
-      [/A([1-9])[+]/, 'owner.greater_check(__FEAT__,ActionCard::ARW,\1)', '遠\1+', "greater_card,#{ActionCard::ARW},\\1"],
-      # 特殊で以上
-      [/E([1-9])[+]/, 'owner.greater_check(__FEAT__,ActionCard::SPC,\1)', '特\1+', "greater_card,#{ActionCard::SPC},\\1"],
-      # 防御で以上
-      [/D([1-9])[+]/, 'owner.greater_check(__FEAT__,ActionCard::DEF,\1)', '防\1+', "greater_card,#{ActionCard::DEF},\\1"],
-      # 移動で以上
-      [/M([1-9])[+]/, 'owner.greater_check(__FEAT__,ActionCard::MOVE,\1)', '移\1+', "greater_card,#{ActionCard::MOVE},\\1"],
-      # カードセットで以上
-      [/(\[([SAEDM]+)\])([1-9])[+]/, 'owner.greater_check_type_set(__FEAT__,"\2",\3)', '\1\3+', 'greater_card_set,\\1,\\3'],
+                 # 近距離攻撃で以上
+                 [/S([1-9])[+]/, 'owner.greater_check(__FEAT__,ActionCard::SWD,\1)', '近\1+', "greater_card,#{ActionCard::SWD},\\1"],
+                 # 遠距離攻撃で以上
+                 [/A([1-9])[+]/, 'owner.greater_check(__FEAT__,ActionCard::ARW,\1)', '遠\1+', "greater_card,#{ActionCard::ARW},\\1"],
+                 # 特殊で以上
+                 [/E([1-9])[+]/, 'owner.greater_check(__FEAT__,ActionCard::SPC,\1)', '特\1+', "greater_card,#{ActionCard::SPC},\\1"],
+                 # 防御で以上
+                 [/D([1-9])[+]/, 'owner.greater_check(__FEAT__,ActionCard::DEF,\1)', '防\1+', "greater_card,#{ActionCard::DEF},\\1"],
+                 # 移動で以上
+                 [/M([1-9])[+]/, 'owner.greater_check(__FEAT__,ActionCard::MOVE,\1)', '移\1+', "greater_card,#{ActionCard::MOVE},\\1"],
+                 # カードセットで以上
+                 [/(\[([SAEDM]+)\])([1-9])[+]/, 'owner.greater_check_type_set(__FEAT__,"\2",\3)', '\1\3+', 'greater_card_set,\\1,\\3'],
 
-      # 近距離攻撃で以上
-      [/S([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::SWD,\1)', '近\1-', "below_card,#{ActionCard::SWD},\\1"],
-      # 遠距離攻撃で以上
-      [/A([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::ARW,\1)', '遠\1-', "below_card,#{ActionCard::ARW},\\1"],
-      # 特殊で以上
-      [/E([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::SPC,\1)', '特\1-', "below_card,#{ActionCard::SPC},\\1"],
-      # 防御で以上
-      [/D([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::DEF,\1)', '防\1-', "below_card,#{ActionCard::DEF},\\1"],
-      # 移動で以上
-      [/M([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::MOVE,\1)', '移\1-', "below_card,#{ActionCard::MOVE},\\1"],
+                 # 近距離攻撃で以上
+                 [/S([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::SWD,\1)', '近\1-', "below_card,#{ActionCard::SWD},\\1"],
+                 # 遠距離攻撃で以上
+                 [/A([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::ARW,\1)', '遠\1-', "below_card,#{ActionCard::ARW},\\1"],
+                 # 特殊で以上
+                 [/E([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::SPC,\1)', '特\1-', "below_card,#{ActionCard::SPC},\\1"],
+                 # 防御で以上
+                 [/D([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::DEF,\1)', '防\1-', "below_card,#{ActionCard::DEF},\\1"],
+                 # 移動で以上
+                 [/M([1-9])-/, 'owner.below_check(__FEAT__,ActionCard::MOVE,\1)', '移\1-', "below_card,#{ActionCard::MOVE},\\1"],
 
-      # 近距離攻撃で特定
-      [/S([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::SWD,\1)', '近\1', "search_card,#{ActionCard::SWD},\\1"],
-      # 遠距離攻撃で特定
-      [/A([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::ARW,\1)', '遠\1', "search_card,#{ActionCard::ARW},\\1"],
-      # 特殊で特定
-      [/E([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::SPC,\1)', '特\1', "search_card,#{ActionCard::SPC},\\1"],
-      # 防御で特定
-      [/D([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::DEF,\1)', '防\1', "search_card,#{ActionCard::DEF},\\1"],
-      # 移動で特定
-      [/M([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::MOVE,\1)', '移\1', "search_card,#{ActionCard::MOVE},\\1"],
-      # ワイルドカードで特定の数値
-      [/W([1-9])([^+\-*]|\z)/, 'owner.search_check_wld_card(__FEAT__,\1)', '無\1', 'search_wld_card,\\1'],
+                 # 近距離攻撃で特定
+                 [/S([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::SWD,\1)', '近\1', "search_card,#{ActionCard::SWD},\\1"],
+                 # 遠距離攻撃で特定
+                 [/A([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::ARW,\1)', '遠\1', "search_card,#{ActionCard::ARW},\\1"],
+                 # 特殊で特定
+                 [/E([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::SPC,\1)', '特\1', "search_card,#{ActionCard::SPC},\\1"],
+                 # 防御で特定
+                 [/D([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::DEF,\1)', '防\1', "search_card,#{ActionCard::DEF},\\1"],
+                 # 移動で特定
+                 [/M([1-9])([^+\-*]|\z)/, 'owner.search_check(__FEAT__,ActionCard::MOVE,\1)', '移\1', "search_card,#{ActionCard::MOVE},\\1"],
+                 # ワイルドカードで特定の数値
+                 [/W([1-9])([^+\-*]|\z)/, 'owner.search_check_wld_card(__FEAT__,\1)', '無\1', 'search_wld_card,\\1'],
 
-      # 近距離攻撃で特定複数枚
-      [/S([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::SWD,\1,\2)', '近\1 *\2', "search_card,#{ActionCard::SWD},\\1,\\2"],
-      # 遠距離攻撃で特定
-      [/A([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::ARW,\1,\2)', '遠\1 *\2', "search_card,#{ActionCard::ARW},\\1,\\2"],
-      # 特殊で特定
-      [/E([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::SPC,\1,\2)', '特\1 *\2', "search_card,#{ActionCard::SPC},\\1,\\2"],
-      # 防御で特定
-      [/D([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::DEF,\1,\2)', '防\1 *\2', "search_card,#{ActionCard::DEF},\\1,\\2"],
-      # 移動で特定
-      [/M([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::MOVE,\1,\2)', '移\1 *\2', "search_card,#{ActionCard::MOVE},\\1,\\2"],
-      # ワイルドカードで特定の数値を複数枚
-      [/W([1-9])[^+\-]([1-9])/, 'owner.search_check_wld_card(__FEAT__,\1,\2)', '無\1 *\2', 'search_wld_card,\\1,\\2'],
-      # ワイルドカード
-      [/W[*]([1-9])/, 'owner.table_count >= \1', '無1+ *\1', 'wild_card,\\1'],
+                 # 近距離攻撃で特定複数枚
+                 [/S([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::SWD,\1,\2)', '近\1 *\2', "search_card,#{ActionCard::SWD},\\1,\\2"],
+                 # 遠距離攻撃で特定
+                 [/A([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::ARW,\1,\2)', '遠\1 *\2', "search_card,#{ActionCard::ARW},\\1,\\2"],
+                 # 特殊で特定
+                 [/E([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::SPC,\1,\2)', '特\1 *\2', "search_card,#{ActionCard::SPC},\\1,\\2"],
+                 # 防御で特定
+                 [/D([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::DEF,\1,\2)', '防\1 *\2', "search_card,#{ActionCard::DEF},\\1,\\2"],
+                 # 移動で特定
+                 [/M([1-9])[^+\-]([1-9])/, 'owner.search_check(__FEAT__,ActionCard::MOVE,\1,\2)', '移\1 *\2', "search_card,#{ActionCard::MOVE},\\1,\\2"],
+                 # ワイルドカードで特定の数値を複数枚
+                 [/W([1-9])[^+\-]([1-9])/, 'owner.search_check_wld_card(__FEAT__,\1,\2)', '無\1 *\2', 'search_wld_card,\\1,\\2'],
+                 # ワイルドカード
+                 [/W[*]([1-9])/, 'owner.table_count >= \1', '無1+ *\1', 'wild_card,\\1'],
 
-      # 近距離攻撃で０
-      [/S(0)/, '!(owner.greater_check(__FEAT__,ActionCard::SWD,1))', '近0', ''],
-      # 遠距離攻撃で０
-      [/A(0)/, '!(owner.greater_check(__FEAT__,ActionCard::ARW,1))', '遠0', ''],
-      # 特殊で０
-      [/E(0)/, '!(owner.greater_check(__FEAT__,ActionCard::SPC,1))', '特0', ''],
-      # 防御で０
-      [/D(0)/, '!(owner.greater_check(__FEAT__,ActionCard::DEF,1))', '防0', ''],
-      # 移動で０
-      [/M(0)/, '!(owner.greater_check(__FEAT__,ActionCard::MOVE,1))', '移0', ''],
+                 # 近距離攻撃で０
+                 [/S(0)/, '!(owner.greater_check(__FEAT__,ActionCard::SWD,1))', '近0', ''],
+                 # 遠距離攻撃で０
+                 [/A(0)/, '!(owner.greater_check(__FEAT__,ActionCard::ARW,1))', '遠0', ''],
+                 # 特殊で０
+                 [/E(0)/, '!(owner.greater_check(__FEAT__,ActionCard::SPC,1))', '特0', ''],
+                 # 防御で０
+                 [/D(0)/, '!(owner.greater_check(__FEAT__,ActionCard::DEF,1))', '防0', ''],
+                 # 移動で０
+                 [/M(0)/, '!(owner.greater_check(__FEAT__,ActionCard::MOVE,1))', '移0', ''],
 
-    ]
+                ]
 
     COND_PHASE = [
-      # 攻撃、防御、移動のフェイズ分け（キャプションから作り出す）
-      [/攻撃:/, ':attack == phase'],
-      [/防御:/, ':deffence == phase'],
-      [/移動:/, ':move == phase'],
+                 # 攻撃、防御、移動のフェイズ分け（キャプションから作り出す）
+                 [/攻撃:/, ':attack == phase'],
+                 [/防御:/, ':deffence == phase'],
+                 [/移動:/, ':move == phase'],
 
-    ]
+                ]
 
     WILD_TYPE_AND_CERTAIN_VALUE = 23
     WILD_CARD = 31

@@ -101,16 +101,16 @@ class SRP
     else
       hashin += nzero(nlen - bhex.length) + bhex
     end
-    if (@proto == :SPR3)
-      utmp = sha1_hash_hex(hashin)[0, 8]
-    else
-      utmp = sha1_hash_hex(hashin)
-    end
-    if utmp.hex < @N
-      utmp
-    else
-      utmp.hex % (@N - 1)
-    end
+   if (@proto == :SPR3)
+     utmp = sha1_hash_hex(hashin)[0, 8]
+   else
+     utmp = sha1_hash_hex(hashin)
+   end
+   if utmp.hex < @N
+     utmp
+   else
+     utmp.hex % (@N - 1)
+   end
   end
 
   def srp_compute_k(n, g)
@@ -167,7 +167,7 @@ class SRP
   # Calculate ((b**p) % m) assuming that b and m are large integers.
   def power_modulo(b, p, m)
     z = GMP::Z.new(b)
-    z.powmod(p, m).to_i
+       z.powmod(p, m).to_i
   end
 
   # GMPを使わない場合の関数一応残しておく

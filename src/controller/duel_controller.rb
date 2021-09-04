@@ -1277,7 +1277,7 @@ module Unlight
     # デッキの初期化のハンドラ
     def deck_init_handler(target, ret)
       sc_deck_init_event(ret)
-      set_cache_act_command(ret)
+     set_cache_act_command(ret)
     end
 
     # =====================

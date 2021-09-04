@@ -19,13 +19,13 @@ module Unlight
       puts set.size
       s = 0
       set.each do |pi|
-        s += 1
-        puts pi.id
-        pi.sale_limit_at = pi.sale_limit_at + 60 * 60 * num.to_i
-        pi.sale_limit_at
-        pi.save_changes
+          s += 1
+          puts pi.id
+          pi.sale_limit_at = pi.sale_limit_at + 60 * 60 * num.to_i
+          pi.sale_limit_at
+          pi.save_changes
+        end
       end
+      puts "size is #{s}"
     end
-    puts "size is #{s}"
-  end
 end

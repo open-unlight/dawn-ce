@@ -57,7 +57,8 @@ module Unlight
                                 boss_damage,
                                 0,
                                 0,
-                                turn)
+                                turn
+                               )
           # 相手のカードの状態異常をターン制から、時間制に変更
           @duel.beta.chara_cards.each { |c| c.status_update = false }
           do_determine_session(-1,
@@ -66,7 +67,8 @@ module Unlight
                                boss_deck.cards_id.join(','),
                                stage,
                                deck_damages,
-                               boss_damage,)
+                               boss_damage,
+                              )
           @duel.profound_id = @prf_inv.profound_id
           set_duel_handler(0, RULE_3VS3)
           regist_raid_event
@@ -106,7 +108,8 @@ module Unlight
                            alpha_damege_set[2],
                            beta_damege_set[0],
                            beta_damege_set[1],
-                           beta_damege_set[2],)
+                           beta_damege_set[2],
+                          )
     end
 
     def cs_request_notice

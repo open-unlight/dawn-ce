@@ -17,17 +17,17 @@ module Unlight
     # 追加素材武器のIDが1001〜1100が二つ{:add =[[1001..1100],[1001..1100]]} # 範囲型か数字を並べる
 
     MOD_LIST = [
-      nil,
-      :add_point,                # 1 ポイントを固定値上昇(引数 type:Symbol,num:int)
-      :add_point_rnd,            # 2 ポイントをランダム上昇(引数 type:Symbol,min:int,max:int)
-      :shift_base_point_rnd,     # 3 特定ポイントを他の特定ポイントにランダムで移す(引数 type:Symbol,num:int)
-      :shift_add_point_rnd,      # 4 特定ポイントを他の特定ポイントにランダムで移す(引数 type:Symbol,num:int)
-      :shift_base_point,         # 5 特定ポイントを他のポイントに移す(引数 from_type:Symbol,to_type:Symbol,num:int)
-      :shift_add_point,          # 6 特定ポイントを他のポイントに移す(引数 from_type:Symbol,to_type:Symbol,num:int)
-      :set_max,                  # 7 最大合計基本ポイントを特定値にセット(引数 type:Symbol,max:int)
-      :set_passive,              # 8 一時パッシブをつけるになる(引数 passive_id:int)
-      :change_weapon,            # 9 合成武器になるようパラメータ調整(引数 type:Symbol,num:int)
-    ]
+                nil,
+                :add_point,                # 1 ポイントを固定値上昇(引数 type:Symbol,num:int)
+                :add_point_rnd,            # 2 ポイントをランダム上昇(引数 type:Symbol,min:int,max:int)
+                :shift_base_point_rnd,     # 3 特定ポイントを他の特定ポイントにランダムで移す(引数 type:Symbol,num:int)
+                :shift_add_point_rnd,      # 4 特定ポイントを他の特定ポイントにランダムで移す(引数 type:Symbol,num:int)
+                :shift_base_point,         # 5 特定ポイントを他のポイントに移す(引数 from_type:Symbol,to_type:Symbol,num:int)
+                :shift_add_point,          # 6 特定ポイントを他のポイントに移す(引数 from_type:Symbol,to_type:Symbol,num:int)
+                :set_max,                  # 7 最大合計基本ポイントを特定値にセット(引数 type:Symbol,max:int)
+                :set_passive,              # 8 一時パッシブをつけるになる(引数 passive_id:int)
+                :change_weapon,            # 9 合成武器になるようパラメータ調整(引数 type:Symbol,num:int)
+               ]
     MOD_POINT_BASE_LIST = [:base_sap, :base_sdp, :base_aap, :base_adp]
     MOD_POINT_ADD_LIST = [:add_sap, :add_sdp, :add_aap, :add_adp]
     MOD_POINT_LIST = MOD_POINT_ADD_LIST + MOD_POINT_BASE_LIST

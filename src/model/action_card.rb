@@ -301,7 +301,7 @@ module Unlight
       if num < j.max_in_deck
         ret = ActionCard[j.event_no + num]
         ret.init_card(dk, ctxt)
-      end
+       end
       ret
     end
 

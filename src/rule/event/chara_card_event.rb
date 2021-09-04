@@ -46,470 +46,470 @@ module Unlight
   # 追加したら以下の参照番号を付加すること
   # イベントの起動チェック関数を列挙する
   CHARA_PASSIVE_SKILL_EVENT_NO = [
-    [],
-    # 0
-    [
-      :check_additional_draw_passive_event,
-      :finish_additional_draw_passive_event,
-    ],
-    # 1 追加ドロー
-    [
-      :check_indomitable_mind_passive_event,
-      :check_indomitable_mind_passive_change_event,
-      :use_indomitable_mind_passive_damage_event,
-      :finish_indomitable_mind_passive_event,
-      :finish_indomitable_mind_passive_dead_chara_change_event,
-    ],
-    # 2 不屈
-    [
-      :check_drain_soul_passive_event,
-      :finish_drain_soul_passive_event,
-    ],
-    # 3 精神の器
-    [
-      :check_sealing_attack_passive_event,
-      :check_sealing_attack_passive_change_event,
-      :finish_sealing_attack_passive_event,
-    ],
-    # 4 剣聖
-    [
-      :check_instant_kill_guard_passive_start_turn_event,
-    ],
-    # 5 千古不朽
-    [
-      :check_rage_against_passive_start_event,
-      :check_rage_against_passive_chara_change_event,
-      :check_rage_against_passive_dead_change_event,
-      :finish_rage_against_passive_event
-    ],
-    # 6 レイジ
-    [
-      :check_creator_passive_start_turn_event,
-      :check_creator_passive_chara_change_event,
-      :check_creator_passive_dead_chara_change_event,
-      :use_creator_passive_damage_event,
-      :use_creator_passive_determine_move_phase_event,
-      :use_creator_passive_move_phase_event,
-      :use_creator_passive_determine_bp_phase_event,
-      :use_creator_passive_battle_result_phase_event,
-      :finish_creator_passive_chara_change_event,
-      :finish_creator_passive_dead_chara_change_event,
-      :finish_creator_passive_finish_turn_event,
-    ],
-    # 7 創造主
-    [
-      :check_bounce_back_passive_event,
-      :check_bounce_back_passive_change_event,
-      :use_bounce_back_passive_damage_event,
-      :finish_bounce_back_passive_event,
-      :finish_bounce_back_passive_dead_chara_change_event,
-    ],
-    # 8 バウンスバック
-    [
-      :check_linkage_passive_start_turn_event,
-      :check_linkage_passive_chara_change_event,
-      :check_linkage_passive_dead_chara_change_event,
-    ],
-    # 9 リンケージ
-    [
-      :use_liberation_passive_event,
-      :finish_liberation_passive_event,
-      :finish_liberation_passive_dead_chara_change_event,
-    ],
-    # 10 リベレーション
-    [
-      :check_harden_passive_event,
-      :use_harden_passive_damage_event,
-      :finish_harden_passive_event,
-      :finish_harden_passive_dead_chara_change_event,
-    ],
-    # 11 ハーデン
-    [
-      :check_absorp_passive_event,
-      :use_absorp_passive_damage_event,
-      :finish_absorp_passive_event,
-      :finish_absorp_passive_dead_chara_change_event,
-    ],
-    # 12 アブソープ
-    [
-      :check_moondog_passive_event,
-      :check_moondog_passive_change_event,
-      :use_moondog_passive_event,
-      :finish_moondog_passive_event,
-    ],
-    # 13 幻月
-    [
-      :check_jump_passive_event,
-      :use_jump_passive_damage_before_event,
-      :use_jump_passive_damage_after_event,
-      :use_jump_passive_det_bp_event,
-      :use_jump_passive_battle_result_before_event,
-      :use_jump_passive_battle_result_after_event,
-      :finish_jump_passive_event,
-    ],
-    # 14 跳躍
-    [
-      :check_protection_aim_passive_event,
-      :check_protection_aim_passive_change_event,
-      :use_protection_aim_passive_event,
-      :finish_protection_aim_passive_event,
-    ],
-    # 15 プロテクションエイム
-    [
-      :check_mistake_passive_event,
-      :use_mistake_passive_damage_event,
-      :finish_mistake_passive_event,
-      :finish_mistake_passive_dead_chara_change_event,
-    ],
-    # 16 C・ミステイク
-    [
-      :check_status_resistance_passive_event,
-    ],
-    # 17 スライムカバー
-    [
-      :check_senkou_passive_event,
-      :use_senkou_passive_event,
-      :finish_senkou_passive_event,
-      :finish_senkou_passive_dead_chara_change_event,
-    ],
-    # 18 潜行する災厄
-    [
-      :check_hate_passive_event,
-      :use_hate_passive_event,
-      :use_hate_passive_damage_event,
-      :finish_hate_passive_event,
-      :finish_hate_passive_dead_chara_change_event,
-    ],
-    # 19 果てる路
-    [
-      :check_little_princess_passive_event,
-      :check_little_princess_change_passive_event,
-      :use_little_princess_passive_event,
-      :finish_little_princess_passive_event,
-      :finish_little_princess_passive_dead_chara_change_event,
-    ],
-    # 20 リトルプリンセス
-    [
-      :check_crimson_witch_passive_event,
-      :check_crimson_witch_change_passive_event,
-      :use_crimson_witch_passive_event,
-      :finish_crimson_witch_passive_event,
-      :finish_crimson_witch_passive_dead_chara_change_event,
-    ],
-    # 21 深紅の魔女
-    [
-      :check_aegis_passive_event,
-      :check_aegis_passive_change_event,
-      :use_aegis_passive_event,
-      :finish_aegis_passive_event,
-      :finish_aegis_passive_dead_chara_change_event,
-    ],
-    # 22 イージス
-    [
-      :check_ocean_passive_event,
-      :check_ocean_passive_change_event,
-      :check_ocean_passive_dead_change_event,
-      :finish_ocean_passive_event,
-    ],
-    # 23 溟海符
-    [
-      :check_resist_skylla_passive_event,
-    ],
-    # 24 状態抵抗 スキュラ
-    [
-      :check_night_fog_passive_event,
-      :use_night_fog_passive_event,
-      :use_night_fog_passive_damage_event,
-      :finish_night_fog_passive_event,
-      :finish_night_fog_passive_dead_chara_change_event,
-    ],
-    # 25 立ち込める夜霧
-    [
-      :check_double_boddy_passive_event,
-      :check_double_boddy_passive_change_event,
-      :use_double_boddy_passive_event,
-      :finish_double_boddy_passive_event,
-      :finish_double_boddy_passive_dead_chara_change_event,
-    ],
-    # 26 2つの身体(パッシブ)
-    [
-      :check_wit_passive_event,
-      :use_wit_passive_draw_event,
-      :use_wit_passive_event,
-      :finish_wit_passive_event,
-    ],
-    # 27 機知
-    [
-      :check_curse_care_passive_event,
-      :check_curse_care_passive_change_event,
-      :use_curse_care_passive_event,
-      :recover_curse_care_passive_det_bp_bf_event,
-      :recover_curse_care_passive_det_bp_af_event,
-      :recover_curse_care_passive_damage_bf_event,
-      :recover_curse_care_passive_damage_af_event,
-      :recover_curse_care_passive_last_event,
-      :finish_curse_care_passive_event,
-      :finish_curse_care_passive_dead_chara_change_event,
-    ],
-    # 28 修羅
-    [
-      :check_white_light_passive_event,
-      :finish_white_light_passive_event,
-    ],
-    # 29 白晄
-    [
-      :check_carapace_break_passive_event,
-      :check_carapace_break_change_passive_event,
-      :check_carapace_break_dead_change_passive_event,
-      :use_carapace_break_passive_event,
-      :finish_carapace_break_passive_event,
-      :finish_carapace_break_passive_dead_chara_change_event,
-    ],
-    # 30 甲羅割り
-    [
-      :check_carapace_passive_event,
-      :use_carapace_passive_event,
-      :finish_carapace_passive_event,
-      :finish_carapace_passive_dead_chara_change_event,
-    ],
-    # 31 身隠し
-    [
-      :check_resist_kamuy_passive_event,
-      :check_chara_resist_kamuy_passive_event,
-      :restore_resist_kamuy_passive_event,
-    ],
-    # 32 状態抵抗 かめ
-    [
-      :check_revisers_passive_event,
-      :check_revisers_passive_change_event,
-      :check_revisers_passive_dead_change_event,
-    ],
-    # 33 リバイザーズ
-    [
-      :check_resist_wall_passive_event,
-      :check_resist_wall_passive_change_event,
-      :check_resist_wall_passive_dead_change_event,
-      :check_resist_wall_passive_move_event,
-    ],
-    # 34 レジストウォール
-    [
-      :check_curse_sign_passive_event,
-      :check_curse_sign_passive_change_event,
-      :check_curse_sign_passive_dead_change_event,
-      :finish_curse_sign_passive_event,
-      :finish_curse_sign_passive_change_event,
-      :finish_curse_sign_passive_dead_change_event,
-    ],
-    # 35 呪印符
-    [
-      :check_loyalty_passive_event,
-      :check_loyalty_passive_change_event,
-      :check_loyalty_passive_dead_change_event,
-      :finish_loyalty_passive_event,
-      :finish_loyalty_passive_change_event,
-      :finish_loyalty_passive_dead_change_event,
-    ],
-    # 36 従者の忠誠
-    [
-      :check_aiming_plus_passive_event,
-      :check_aiming_plus_passive_change_event,
-      :use_aiming_plus_passive_event,
-      :finish_aiming_plus_passive_event,
-      :finish_aiming_plus_passive_dead_chara_change_event,
-    ],
-    # 37 精密射撃+
-    [
-      :check_easing_card_condition_passive_event,
-      :check_easing_card_condition_passive_change_event,
-      :check_easing_card_condition_passive_dead_change_event,
-    ],
-    # 38 精密射撃+
-    [
-      :check_harvest_passive_event,
-      :finish_harvest_passive_event,
-    ],
-    # 39 収穫
-    [
-      :check_td_passive_event,
-      :finish_td_passive_event,
-    ],
-    # 40 T.D.
-    [
-      :check_moon_shine_passive_event,
-      :check_moon_shine_passive_change_event,
-      :finish_moon_shine_passive_event,
-    ],
-    # 41 ムーンシャイン
-    [
-      :check_fertility_passive_event,
-      :finish_fertility_passive_pre_event,
-      :finish_fertility_passive_event,
-    ],
-    # 42 豊穣符
-    [
-      :check_resist_pumpkin_passive_event,
-    ],
-    # 43 状態抵抗 クエカボチャ
-    [
-      :check_awcs_passive_event,
-      :use_awcs_passive_damage_event,
-    ],
-    # 44 AWCS
-    [
-      :check_resist_dw_passive_event,
-    ],
-    # 45 状態抵抗 DW
-    [
-      :check_lonsbrough_event_passive_event,
-      :check_lonsbrough_event_passive_change_event,
-      :use_lonsbrough_event_passive_damage_event,
-    ],
-    # 46 ロンズブラウイベント
-    [
-      :check_rock_crusher_passive_event,
-      :check_rock_crusher_change_passive_event,
-      :check_rock_crusher_dead_change_passive_event,
-      :use_rock_crusher_passive_event,
-      :finish_rock_crusher_passive_event,
-      :finish_rock_crusher_passive_dead_chara_change_event,
-    ],
-    # 47 岩石割り
-    [
-      :check_projection_passive_change_event,
-      :check_projection_passive_dead_change_event,
-      :finish_projection_passive_event,
-    ],
-    # 48 交錯する影
-    [
-      :check_damage_multiplier_passive_event,
-      :check_damage_multiplier_change_passive_event,
-      :check_damage_multiplier_dead_change_passive_event,
-      :use_damage_multiplier_passive_event,
-      :finish_damage_multiplier_passive_event,
-      :finish_damage_multiplier_passive_dead_chara_change_event,
-    ],
-    # 49 ダメージ乗算
-    [
-      :check_ev201606_passive_event,
-      :check_ev201606_change_passive_event,
-      :check_ev201606_dead_change_passive_event,
-      :use_ev201606_passive_event,
-      :finish_ev201606_passive_event,
-      :finish_ev201606_passive_dead_chara_change_event,
-    ],
-    # 50 2016.6イベント
-    [
-      :check_status_resistance_aquamarine_passive_event,
-    ],
-    # 51 アクアマリン
-    [
-      :check_cooly_passive_event,
-      :check_cooly_change_passive_event,
-      :check_cooly_dead_change_passive_event,
-      :use_cooly_passive_move_event,
-      :use_cooly_passive_attack_event,
-      :use_cooly_passive_defense_event,
-    ],
-    # 52 爽涼符
-    [
-      :check_ev201609_passive_event,
-      :check_ev201609_change_passive_event,
-      :check_ev201609_dead_change_passive_event,
-      :use_ev201609_passive_event,
-      :finish_ev201609_passive_event,
-      :finish_ev201609_passive_dead_chara_change_event,
-    ],
-    # 53 2016.9イベント
-    [
-      :check_resist_byakhee_passive_event,
-    ],
-    # 54 状態抵抗 ビヤーキー
-    [
-      :check_disaster_flame_passive_event,
-      :check_disaster_flame_passive_change_event,
-      :finish_disaster_flame_passive_event,
-    ],
-    # 55 劫火
-    [
-      :check_brambles_card_passive_event,
-      :check_brambles_card_passive_change_event,
-      :check_brambles_card_passive_dead_change_event,
-      :use_brambles_card_passive_event,
-      :finish_brambles_card_passive_event,
-    ],
-    # 56 荊棘符
-    [
-      :check_awakening_one_passive_event,
-      :check_awakening_one_passive_change_event,
-      :finish_awakening_one_passive_event,
-    ],
-    # 57 目覚めしもの
-    [
-      :check_servo_skull_passive_event,
-      :check_servo_skull_passive_change_event,
-      :use_servo_skull_passive_event,
-      :finish_servo_skull_passive_event,
-      :finish_servo_skull_passive_dead_chara_change_event,
-    ],
-    # 58 サーボスカル
-    [
-      :check_ev201612_passive_event,
-      :check_ev201612_change_passive_event,
-      :use_ev201612_passive_event,
-      :finish_ev201612_passive_event,
-      :finish_ev201612_passive_dead_chara_change_event,
-    ],
-    # 59 2016.12イベント
-    [
-      :check_high_protection_passive_event,
-      :check_high_protection_passive_change_event,
-      :use_high_protection_passive_event,
-      :finish_high_protection_passive_event,
-    ],
-    # 60 ハイプロテクション
-    [
-      :check_puppet_master_passive_event,
-      :check_puppet_master_passive_change_event,
-      :use_puppet_master_passive_event,
-      :finish_puppet_master_passive_event,
-    ],
-    # 61 パペットマスター
-    [
-      :check_ogre_arm_passive_event,
-      :check_ogre_arm_change_passive_event,
-      :use_ogre_arm_passive_event,
-      :finish_ogre_arm_passive_event,
-      :finish_ogre_arm_passive_dead_chara_change_event,
-    ],
-    # 62 岩石割り
-    [
-      :check_crimson_will_passive_event,
-      :check_crimson_will_passive_change_event,
-      :use_crimson_will_passive_damage_event,
-      :finish_crimson_will_passive_event,
-      :finish_crimson_will_passive_dead_chara_change_event,
-    ],
-    # 63 紅の意志
-    [
-      :check_guardian_of_life_passive_event,
-      :check_guardian_of_life_passive_change_event,
-      :use_guardian_of_life_passive_attack_event,
-      :use_guardian_of_life_passive_defense_event,
-      :finish_guardian_of_life_passive_event,
-      :finish_guardian_of_life_passive_dead_chara_change_event,
-    ],
-    # 64 生命の守人
-    [
-      :check_burning_embers_passive_event,
-      :check_burning_embers_change_passive_event,
-      :check_burning_embers_dead_change_passive_event,
-      :use_burning_embers_passive_move_event,
-      :use_burning_embers_passive_attack_event,
-      :use_burning_embers_passive_defense_event,
-      :use_burning_embers_passive_defense_det_chara_change_event,
-    ],
-    # 65 余焔符
-  ]
+                    [],
+                    # 0
+                    [
+                     :check_additional_draw_passive_event,
+                     :finish_additional_draw_passive_event,
+                    ],
+                    # 1 追加ドロー
+                    [
+                     :check_indomitable_mind_passive_event,
+                     :check_indomitable_mind_passive_change_event,
+                     :use_indomitable_mind_passive_damage_event,
+                     :finish_indomitable_mind_passive_event,
+                     :finish_indomitable_mind_passive_dead_chara_change_event,
+                    ],
+                    # 2 不屈
+                    [
+                     :check_drain_soul_passive_event,
+                     :finish_drain_soul_passive_event,
+                    ],
+                    # 3 精神の器
+                    [
+                     :check_sealing_attack_passive_event,
+                     :check_sealing_attack_passive_change_event,
+                     :finish_sealing_attack_passive_event,
+                    ],
+                    # 4 剣聖
+                    [
+                     :check_instant_kill_guard_passive_start_turn_event,
+                    ],
+                    # 5 千古不朽
+                    [
+                     :check_rage_against_passive_start_event,
+                     :check_rage_against_passive_chara_change_event,
+                     :check_rage_against_passive_dead_change_event,
+                     :finish_rage_against_passive_event
+                    ],
+                    # 6 レイジ
+                    [
+                     :check_creator_passive_start_turn_event,
+                     :check_creator_passive_chara_change_event,
+                     :check_creator_passive_dead_chara_change_event,
+                     :use_creator_passive_damage_event,
+                     :use_creator_passive_determine_move_phase_event,
+                     :use_creator_passive_move_phase_event,
+                     :use_creator_passive_determine_bp_phase_event,
+                     :use_creator_passive_battle_result_phase_event,
+                     :finish_creator_passive_chara_change_event,
+                     :finish_creator_passive_dead_chara_change_event,
+                     :finish_creator_passive_finish_turn_event,
+                    ],
+                    # 7 創造主
+                    [
+                     :check_bounce_back_passive_event,
+                     :check_bounce_back_passive_change_event,
+                     :use_bounce_back_passive_damage_event,
+                     :finish_bounce_back_passive_event,
+                     :finish_bounce_back_passive_dead_chara_change_event,
+                    ],
+                    # 8 バウンスバック
+                    [
+                     :check_linkage_passive_start_turn_event,
+                     :check_linkage_passive_chara_change_event,
+                     :check_linkage_passive_dead_chara_change_event,
+                    ],
+                    # 9 リンケージ
+                    [
+                     :use_liberation_passive_event,
+                     :finish_liberation_passive_event,
+                     :finish_liberation_passive_dead_chara_change_event,
+                    ],
+                    # 10 リベレーション
+                    [
+                     :check_harden_passive_event,
+                     :use_harden_passive_damage_event,
+                     :finish_harden_passive_event,
+                     :finish_harden_passive_dead_chara_change_event,
+                    ],
+                    # 11 ハーデン
+                    [
+                     :check_absorp_passive_event,
+                     :use_absorp_passive_damage_event,
+                     :finish_absorp_passive_event,
+                     :finish_absorp_passive_dead_chara_change_event,
+                    ],
+                    # 12 アブソープ
+                    [
+                     :check_moondog_passive_event,
+                     :check_moondog_passive_change_event,
+                     :use_moondog_passive_event,
+                     :finish_moondog_passive_event,
+                    ],
+                    # 13 幻月
+                    [
+                     :check_jump_passive_event,
+                     :use_jump_passive_damage_before_event,
+                     :use_jump_passive_damage_after_event,
+                     :use_jump_passive_det_bp_event,
+                     :use_jump_passive_battle_result_before_event,
+                     :use_jump_passive_battle_result_after_event,
+                     :finish_jump_passive_event,
+                    ],
+                    # 14 跳躍
+                    [
+                     :check_protection_aim_passive_event,
+                     :check_protection_aim_passive_change_event,
+                     :use_protection_aim_passive_event,
+                     :finish_protection_aim_passive_event,
+                    ],
+                    # 15 プロテクションエイム
+                    [
+                     :check_mistake_passive_event,
+                     :use_mistake_passive_damage_event,
+                     :finish_mistake_passive_event,
+                     :finish_mistake_passive_dead_chara_change_event,
+                    ],
+                    # 16 C・ミステイク
+                    [
+                     :check_status_resistance_passive_event,
+                    ],
+                    # 17 スライムカバー
+                    [
+                     :check_senkou_passive_event,
+                     :use_senkou_passive_event,
+                     :finish_senkou_passive_event,
+                     :finish_senkou_passive_dead_chara_change_event,
+                    ],
+                    # 18 潜行する災厄
+                    [
+                     :check_hate_passive_event,
+                     :use_hate_passive_event,
+                     :use_hate_passive_damage_event,
+                     :finish_hate_passive_event,
+                     :finish_hate_passive_dead_chara_change_event,
+                    ],
+                    # 19 果てる路
+                    [
+                     :check_little_princess_passive_event,
+                     :check_little_princess_change_passive_event,
+                     :use_little_princess_passive_event,
+                     :finish_little_princess_passive_event,
+                     :finish_little_princess_passive_dead_chara_change_event,
+                    ],
+                    # 20 リトルプリンセス
+                    [
+                     :check_crimson_witch_passive_event,
+                     :check_crimson_witch_change_passive_event,
+                     :use_crimson_witch_passive_event,
+                     :finish_crimson_witch_passive_event,
+                     :finish_crimson_witch_passive_dead_chara_change_event,
+                    ],
+                    # 21 深紅の魔女
+                    [
+                     :check_aegis_passive_event,
+                     :check_aegis_passive_change_event,
+                     :use_aegis_passive_event,
+                     :finish_aegis_passive_event,
+                     :finish_aegis_passive_dead_chara_change_event,
+                    ],
+                    # 22 イージス
+                    [
+                     :check_ocean_passive_event,
+                     :check_ocean_passive_change_event,
+                     :check_ocean_passive_dead_change_event,
+                     :finish_ocean_passive_event,
+                    ],
+                    # 23 溟海符
+                    [
+                     :check_resist_skylla_passive_event,
+                    ],
+                    # 24 状態抵抗 スキュラ
+                    [
+                     :check_night_fog_passive_event,
+                     :use_night_fog_passive_event,
+                     :use_night_fog_passive_damage_event,
+                     :finish_night_fog_passive_event,
+                     :finish_night_fog_passive_dead_chara_change_event,
+                    ],
+                    # 25 立ち込める夜霧
+                    [
+                     :check_double_boddy_passive_event,
+                     :check_double_boddy_passive_change_event,
+                     :use_double_boddy_passive_event,
+                     :finish_double_boddy_passive_event,
+                     :finish_double_boddy_passive_dead_chara_change_event,
+                    ],
+                    # 26 2つの身体(パッシブ)
+                    [
+                     :check_wit_passive_event,
+                     :use_wit_passive_draw_event,
+                     :use_wit_passive_event,
+                     :finish_wit_passive_event,
+                    ],
+                    # 27 機知
+                    [
+                     :check_curse_care_passive_event,
+                     :check_curse_care_passive_change_event,
+                     :use_curse_care_passive_event,
+                     :recover_curse_care_passive_det_bp_bf_event,
+                     :recover_curse_care_passive_det_bp_af_event,
+                     :recover_curse_care_passive_damage_bf_event,
+                     :recover_curse_care_passive_damage_af_event,
+                     :recover_curse_care_passive_last_event,
+                     :finish_curse_care_passive_event,
+                     :finish_curse_care_passive_dead_chara_change_event,
+                    ],
+                    # 28 修羅
+                    [
+                     :check_white_light_passive_event,
+                     :finish_white_light_passive_event,
+                    ],
+                    # 29 白晄
+                    [
+                     :check_carapace_break_passive_event,
+                     :check_carapace_break_change_passive_event,
+                     :check_carapace_break_dead_change_passive_event,
+                     :use_carapace_break_passive_event,
+                     :finish_carapace_break_passive_event,
+                     :finish_carapace_break_passive_dead_chara_change_event,
+                    ],
+                    # 30 甲羅割り
+                    [
+                     :check_carapace_passive_event,
+                     :use_carapace_passive_event,
+                     :finish_carapace_passive_event,
+                     :finish_carapace_passive_dead_chara_change_event,
+                    ],
+                    # 31 身隠し
+                    [
+                     :check_resist_kamuy_passive_event,
+                     :check_chara_resist_kamuy_passive_event,
+                     :restore_resist_kamuy_passive_event,
+                    ],
+                    # 32 状態抵抗 かめ
+                    [
+                     :check_revisers_passive_event,
+                     :check_revisers_passive_change_event,
+                     :check_revisers_passive_dead_change_event,
+                    ],
+                    # 33 リバイザーズ
+                    [
+                     :check_resist_wall_passive_event,
+                     :check_resist_wall_passive_change_event,
+                     :check_resist_wall_passive_dead_change_event,
+                     :check_resist_wall_passive_move_event,
+                    ],
+                    # 34 レジストウォール
+                    [
+                     :check_curse_sign_passive_event,
+                     :check_curse_sign_passive_change_event,
+                     :check_curse_sign_passive_dead_change_event,
+                     :finish_curse_sign_passive_event,
+                     :finish_curse_sign_passive_change_event,
+                     :finish_curse_sign_passive_dead_change_event,
+                    ],
+                    # 35 呪印符
+                    [
+                     :check_loyalty_passive_event,
+                     :check_loyalty_passive_change_event,
+                     :check_loyalty_passive_dead_change_event,
+                     :finish_loyalty_passive_event,
+                     :finish_loyalty_passive_change_event,
+                     :finish_loyalty_passive_dead_change_event,
+                    ],
+                    # 36 従者の忠誠
+                    [
+                     :check_aiming_plus_passive_event,
+                     :check_aiming_plus_passive_change_event,
+                     :use_aiming_plus_passive_event,
+                     :finish_aiming_plus_passive_event,
+                     :finish_aiming_plus_passive_dead_chara_change_event,
+                    ],
+                    # 37 精密射撃+
+                    [
+                     :check_easing_card_condition_passive_event,
+                     :check_easing_card_condition_passive_change_event,
+                     :check_easing_card_condition_passive_dead_change_event,
+                    ],
+                    # 38 精密射撃+
+                    [
+                     :check_harvest_passive_event,
+                     :finish_harvest_passive_event,
+                    ],
+                    # 39 収穫
+                    [
+                     :check_td_passive_event,
+                     :finish_td_passive_event,
+                    ],
+                    # 40 T.D.
+                    [
+                     :check_moon_shine_passive_event,
+                     :check_moon_shine_passive_change_event,
+                     :finish_moon_shine_passive_event,
+                    ],
+                    # 41 ムーンシャイン
+                    [
+                     :check_fertility_passive_event,
+                     :finish_fertility_passive_pre_event,
+                     :finish_fertility_passive_event,
+                    ],
+                    # 42 豊穣符
+                    [
+                     :check_resist_pumpkin_passive_event,
+                    ],
+                    # 43 状態抵抗 クエカボチャ
+                    [
+                     :check_awcs_passive_event,
+                     :use_awcs_passive_damage_event,
+                    ],
+                    # 44 AWCS
+                    [
+                     :check_resist_dw_passive_event,
+                    ],
+                    # 45 状態抵抗 DW
+                    [
+                     :check_lonsbrough_event_passive_event,
+                     :check_lonsbrough_event_passive_change_event,
+                     :use_lonsbrough_event_passive_damage_event,
+                    ],
+                    # 46 ロンズブラウイベント
+                    [
+                     :check_rock_crusher_passive_event,
+                     :check_rock_crusher_change_passive_event,
+                     :check_rock_crusher_dead_change_passive_event,
+                     :use_rock_crusher_passive_event,
+                     :finish_rock_crusher_passive_event,
+                     :finish_rock_crusher_passive_dead_chara_change_event,
+                    ],
+                    # 47 岩石割り
+                    [
+                     :check_projection_passive_change_event,
+                     :check_projection_passive_dead_change_event,
+                     :finish_projection_passive_event,
+                    ],
+                    # 48 交錯する影
+                    [
+                     :check_damage_multiplier_passive_event,
+                     :check_damage_multiplier_change_passive_event,
+                     :check_damage_multiplier_dead_change_passive_event,
+                     :use_damage_multiplier_passive_event,
+                     :finish_damage_multiplier_passive_event,
+                     :finish_damage_multiplier_passive_dead_chara_change_event,
+                    ],
+                    # 49 ダメージ乗算
+                    [
+                     :check_ev201606_passive_event,
+                     :check_ev201606_change_passive_event,
+                     :check_ev201606_dead_change_passive_event,
+                     :use_ev201606_passive_event,
+                     :finish_ev201606_passive_event,
+                     :finish_ev201606_passive_dead_chara_change_event,
+                    ],
+                    # 50 2016.6イベント
+                    [
+                     :check_status_resistance_aquamarine_passive_event,
+                    ],
+                    # 51 アクアマリン
+                    [
+                     :check_cooly_passive_event,
+                     :check_cooly_change_passive_event,
+                     :check_cooly_dead_change_passive_event,
+                     :use_cooly_passive_move_event,
+                     :use_cooly_passive_attack_event,
+                     :use_cooly_passive_defense_event,
+                    ],
+                    # 52 爽涼符
+                    [
+                     :check_ev201609_passive_event,
+                     :check_ev201609_change_passive_event,
+                     :check_ev201609_dead_change_passive_event,
+                     :use_ev201609_passive_event,
+                     :finish_ev201609_passive_event,
+                     :finish_ev201609_passive_dead_chara_change_event,
+                    ],
+                    # 53 2016.9イベント
+                    [
+                     :check_resist_byakhee_passive_event,
+                    ],
+                    # 54 状態抵抗 ビヤーキー
+                    [
+                     :check_disaster_flame_passive_event,
+                     :check_disaster_flame_passive_change_event,
+                     :finish_disaster_flame_passive_event,
+                    ],
+                    # 55 劫火
+                    [
+                     :check_brambles_card_passive_event,
+                     :check_brambles_card_passive_change_event,
+                     :check_brambles_card_passive_dead_change_event,
+                     :use_brambles_card_passive_event,
+                     :finish_brambles_card_passive_event,
+                    ],
+                    # 56 荊棘符
+                    [
+                     :check_awakening_one_passive_event,
+                     :check_awakening_one_passive_change_event,
+                     :finish_awakening_one_passive_event,
+                    ],
+                    # 57 目覚めしもの
+                    [
+                     :check_servo_skull_passive_event,
+                     :check_servo_skull_passive_change_event,
+                     :use_servo_skull_passive_event,
+                     :finish_servo_skull_passive_event,
+                     :finish_servo_skull_passive_dead_chara_change_event,
+                    ],
+                    # 58 サーボスカル
+                    [
+                     :check_ev201612_passive_event,
+                     :check_ev201612_change_passive_event,
+                     :use_ev201612_passive_event,
+                     :finish_ev201612_passive_event,
+                     :finish_ev201612_passive_dead_chara_change_event,
+                    ],
+                    # 59 2016.12イベント
+                    [
+                     :check_high_protection_passive_event,
+                     :check_high_protection_passive_change_event,
+                     :use_high_protection_passive_event,
+                     :finish_high_protection_passive_event,
+                    ],
+                    # 60 ハイプロテクション
+                    [
+                     :check_puppet_master_passive_event,
+                     :check_puppet_master_passive_change_event,
+                     :use_puppet_master_passive_event,
+                     :finish_puppet_master_passive_event,
+                    ],
+                    # 61 パペットマスター
+                    [
+                     :check_ogre_arm_passive_event,
+                     :check_ogre_arm_change_passive_event,
+                     :use_ogre_arm_passive_event,
+                     :finish_ogre_arm_passive_event,
+                     :finish_ogre_arm_passive_dead_chara_change_event,
+                    ],
+                    # 62 岩石割り
+                    [
+                     :check_crimson_will_passive_event,
+                     :check_crimson_will_passive_change_event,
+                     :use_crimson_will_passive_damage_event,
+                     :finish_crimson_will_passive_event,
+                     :finish_crimson_will_passive_dead_chara_change_event,
+                    ],
+                    # 63 紅の意志
+                    [
+                     :check_guardian_of_life_passive_event,
+                     :check_guardian_of_life_passive_change_event,
+                     :use_guardian_of_life_passive_attack_event,
+                     :use_guardian_of_life_passive_defense_event,
+                     :finish_guardian_of_life_passive_event,
+                     :finish_guardian_of_life_passive_dead_chara_change_event,
+                    ],
+                    # 64 生命の守人
+                    [
+                     :check_burning_embers_passive_event,
+                     :check_burning_embers_change_passive_event,
+                     :check_burning_embers_dead_change_passive_event,
+                     :use_burning_embers_passive_move_event,
+                     :use_burning_embers_passive_attack_event,
+                     :use_burning_embers_passive_defense_event,
+                     :use_burning_embers_passive_defense_det_chara_change_event,
+                    ],
+                     # 65 余焔符
+                   ]
 
   #---------------------------------------------------------------------------------------------
   # ドロー
@@ -2346,120 +2346,120 @@ module Unlight
   # 追加したら以下の参照番号を付加すること
   # イベントの起動チェック関数を列挙する
   CHARA_STATE_EVENT_NO = [
-    [],
-    # 0
-    [
-      :check_poison_state_event,
-      :finish_poison_state_event,
-    ],    # 毒状態
-    [
-      :check_paralysis_state_event,
-      :finish_paralysis_state_event,
-    ],    # 麻痺状態
-    [
-      :check_attack_up_state_event,
-      :finish_attack_up_state_event,
-    ],    # ATKアップ状態
-    [
-      :check_attack_down_state_event,
-      :finish_attack_down_state_event,
-    ],    # ATKダウン状態
-    [
-      :check_deffence_up_state_event,
-      :finish_deffence_up_state_event,
-    ],    # DEFアップ状態
-    [
-      :check_deffence_down_state_event,
-      :finish_deffence_down_state_event,
-    ],    # DEFダウン状態
-    [
-      :check_berserk_state_event,
-      :finish_berserk_state_event,
-    ],    # バーサーク状態
-    [
-      :check_attack_stop_state_event,
-      :check_deffence_stop_state_event,
-      :finish_stop_state_event,
-    ],    # 停止状態
-    [
-      :check_seal_state_event,
-      :finish_seal_state_event,
-    ],    # 封印状態
-    [
-      :check_dead_count_state_event,
-      :finish_dead_count_state_event,
-    ],    # 自壊状態
-    [
-      :check_undead_state_event,
-      :finish_undead_state_event,
-    ],    # 不死状態
-    [
-      :check_stone_state_event,
-      :finish_stone_state_event,
-    ],    # 石化状態
-    [
-      :check_move_up_state_event,
-      :finish_move_up_state_event,
-    ],    # MOVアップ
-    [
-      :check_move_down_state_event,
-      :finish_move_down_state_event,
-    ],    # MOVダウン
-    [
-      :check_regene_state_event,
-      :finish_regene_state_event,
-    ],    # リジェネ状態
-    [
-      :check_bind_state_event,
-      :finish_bind_state_event,
-    ],    # 呪縛状態
-    [
-      :check_chaos_attack_state_event,
-      :check_chaos_defence_state_event,
-      :finish_chaos_state_event,
-    ],    # 混沌状態
-    [
-      :check_stigmata_attack_state_event,
-      :check_stigmata_defence_state_event,
-      :finish_stigmata_state_event,
-    ],    # 聖痕状態
-    [
-      :check_state_down_attack_state_event,
-      :check_state_down_defence_state_event,
-      :finish_state_down_state_event,
-    ],    # 魔力中毒状態
-    [
-      :check_attack_stick_state_event,
-      :check_deffence_stick_state_event,
-      :finish_stick_state_event,
-    ],    # 棍術状態
-    [
-      :check_curse_attack_state_event,
-    ],    # 詛呪状態
-    [
-      :check_bless_attack_state_event,
-      :check_bless_deffence_state_event,
-    ],    # 臨界状態
-    [
-      :check_undead2_state_event,
-      :finish_undead2_state_event,
-    ],    # 不死2状態
-    [
-      :check_poison2_state_event,
-      :finish_poison2_state_event,
-    ],    # 猛毒状態
-    [
-      :check_control_state_event,
-      :finish_control_state_event,
-    ],    # 操想状態
-    [], # 正鵠状態
-    [
-      :finish_dark_state_event,
-    ],    # 暗黒状態
-    [
-      :finish_doll_state_event,
-    ],    # 人形状態
-  ]
+                    [],
+                    # 0
+                    [
+                     :check_poison_state_event,
+                     :finish_poison_state_event,
+                    ],    # 毒状態
+                    [
+                     :check_paralysis_state_event,
+                     :finish_paralysis_state_event,
+                    ],    # 麻痺状態
+                    [
+                     :check_attack_up_state_event,
+                     :finish_attack_up_state_event,
+                    ],    # ATKアップ状態
+                    [
+                     :check_attack_down_state_event,
+                     :finish_attack_down_state_event,
+                    ],    # ATKダウン状態
+                    [
+                     :check_deffence_up_state_event,
+                     :finish_deffence_up_state_event,
+                    ],    # DEFアップ状態
+                    [
+                     :check_deffence_down_state_event,
+                     :finish_deffence_down_state_event,
+                    ],    # DEFダウン状態
+                    [
+                     :check_berserk_state_event,
+                     :finish_berserk_state_event,
+                    ],    # バーサーク状態
+                    [
+                     :check_attack_stop_state_event,
+                     :check_deffence_stop_state_event,
+                     :finish_stop_state_event,
+                    ],    # 停止状態
+                    [
+                     :check_seal_state_event,
+                     :finish_seal_state_event,
+                    ],    # 封印状態
+                    [
+                     :check_dead_count_state_event,
+                     :finish_dead_count_state_event,
+                    ],    # 自壊状態
+                    [
+                     :check_undead_state_event,
+                     :finish_undead_state_event,
+                    ],    # 不死状態
+                    [
+                     :check_stone_state_event,
+                     :finish_stone_state_event,
+                    ],    # 石化状態
+                    [
+                     :check_move_up_state_event,
+                     :finish_move_up_state_event,
+                    ],    # MOVアップ
+                    [
+                     :check_move_down_state_event,
+                     :finish_move_down_state_event,
+                    ],    # MOVダウン
+                    [
+                     :check_regene_state_event,
+                     :finish_regene_state_event,
+                    ],    # リジェネ状態
+                    [
+                     :check_bind_state_event,
+                     :finish_bind_state_event,
+                    ],    # 呪縛状態
+                    [
+                     :check_chaos_attack_state_event,
+                     :check_chaos_defence_state_event,
+                     :finish_chaos_state_event,
+                    ],    # 混沌状態
+                    [
+                     :check_stigmata_attack_state_event,
+                     :check_stigmata_defence_state_event,
+                     :finish_stigmata_state_event,
+                    ],    # 聖痕状態
+                    [
+                     :check_state_down_attack_state_event,
+                     :check_state_down_defence_state_event,
+                     :finish_state_down_state_event,
+                    ],    # 魔力中毒状態
+                    [
+                     :check_attack_stick_state_event,
+                     :check_deffence_stick_state_event,
+                     :finish_stick_state_event,
+                    ],    # 棍術状態
+                    [
+                     :check_curse_attack_state_event,
+                    ],    # 詛呪状態
+                    [
+                     :check_bless_attack_state_event,
+                     :check_bless_deffence_state_event,
+                    ],    # 臨界状態
+                    [
+                     :check_undead2_state_event,
+                     :finish_undead2_state_event,
+                    ],    # 不死2状態
+                    [
+                     :check_poison2_state_event,
+                     :finish_poison2_state_event,
+                    ],    # 猛毒状態
+                    [
+                     :check_control_state_event,
+                     :finish_control_state_event,
+                    ],    # 操想状態
+                    [], # 正鵠状態
+                    [
+                     :finish_dark_state_event,
+                    ],    # 暗黒状態
+                    [
+                     :finish_doll_state_event,
+                    ],    # 人形状態
+                   ]
 
   #---------------------------------------------------------------------------------------------
   # 毒状態
@@ -2929,27 +2929,27 @@ module Unlight
   # その他のイベント
   # ====================
   CHARA_OTHER_EVENT_NO = [
-    [],
-    # 0
-    [
-      :progress_trap_event,
-      :check_started_trap_det_bp_before_event,
-      :check_started_trap_det_bp_event,
-      :check_started_trap_battle_result_event,
-      :check_started_trap_damage_event,
-      :check_started_trap_finish_move_event,
-      :check_started_trap_det_change_event,
-    ],    # トラップチェック
-    [
-      :check_barrier_state_event,
-    ],    # 無敵状態
-    [
-      :check_harbour_event,
-    ],    # かばわれ状態
-    [
-      :check_field_status_finish_turn_event,
-    ],    # フィールド状態チェック
-  ]
+                          [],
+                          # 0
+                          [
+                           :progress_trap_event,
+                           :check_started_trap_det_bp_before_event,
+                           :check_started_trap_det_bp_event,
+                           :check_started_trap_battle_result_event,
+                           :check_started_trap_damage_event,
+                           :check_started_trap_finish_move_event,
+                           :check_started_trap_det_change_event,
+                          ],    # トラップチェック
+                          [
+                           :check_barrier_state_event,
+                          ],    # 無敵状態
+                          [
+                           :check_harbour_event,
+                          ],    # かばわれ状態
+                          [
+                           :check_field_status_finish_turn_event,
+                          ],    # フィールド状態チェック
+                         ]
 
   #---------------------------------------------------------------------------------------------
   # トラップチェック
@@ -3052,58 +3052,58 @@ module Unlight
 
   # アイコンとして表示しない、解除不可能な状態異常。技無効化等で解除される
   CHARA_SPECIAL_STATE_EVENT_NO = [
-    [],
-    # 0
-    [
-      :check_cat_state_attack_event,
-      :check_cat_state_defence_event,
-      :finish_cat_state_event,
-    ], # 1 猫状態
-    [],    # 2 アンチセプチック 実体は技の内部で実装
-    [],    # 3 シャープンエッジ状態 実体は技の方で実装
-    [],    # 4 控えでダメージ無効 フラグとして使う
-    [
-      :check_dealing_restriction_state_event,
-      :finish_dealing_restriction_state_event,
-    ],    # 5 一時的なドロー枚数制限状態
-    [
-      :check_constraint_state_event,
-      :finish_constraint_state_event,
-    ],    # 6 行動制限状態
-    [],    # 7 ダメージ追加常態 技の方で実装
-    [],    # 8 スキル上書き状態 技の方で実装
-    [
-      :finish_magnetic_field_state_event,
-    ], # 9 スキル移動禁止 終了チェック
-    [], # 10 固定ダメージカウンター ワザの方で実装
-    [
-      :check_stuffed_toys_state_damage_event,
-      :finish_stuffed_toys_state_damage_event,
-    ],    # 11 ヌイグルミ
-    [
-      :use_monitoring_state_heal_before_event,
-      :use_monitoring_state_party_heal_before_event,
-      :use_monitoring_state_heal_after_event,
-      :use_monitoring_state_party_heal_after_event,
-      :finish_monitoring_state_event,
-    ],    # 12 監視 終了チェック
-    [
-      :finish_time_lag_draw_state_event,
-    ],    # 13 時差ドロー 終了チェック
-    [
-      :finish_time_lag_buff_state_change_event,
-    ],    # 14 時差バフ 終了チェック
-    [
-      :check_machine_cell_state_event,
-      :use_machine_cell_state_event,
-      :finish_machine_cell_state_event,
-    ],    # 15 マシンセル 終了チェック Rエイダ
-    [
-      :check_ax_guard_state_event,
-      :use_ax_guard_state_event,
-      :finish_ax_guard_state_event,
-    ],    # 16 アクスガード 終了チェック Rフロレ
-  ]
+                    [],
+                    # 0
+                    [
+                     :check_cat_state_attack_event,
+                     :check_cat_state_defence_event,
+                     :finish_cat_state_event,
+                    ], # 1 猫状態
+                    [],    # 2 アンチセプチック 実体は技の内部で実装
+                    [],    # 3 シャープンエッジ状態 実体は技の方で実装
+                    [],    # 4 控えでダメージ無効 フラグとして使う
+                    [
+                     :check_dealing_restriction_state_event,
+                     :finish_dealing_restriction_state_event,
+                    ],    # 5 一時的なドロー枚数制限状態
+                    [
+                     :check_constraint_state_event,
+                     :finish_constraint_state_event,
+                    ],    # 6 行動制限状態
+                    [],    # 7 ダメージ追加常態 技の方で実装
+                    [],    # 8 スキル上書き状態 技の方で実装
+                    [
+                     :finish_magnetic_field_state_event,
+                    ], # 9 スキル移動禁止 終了チェック
+                    [], # 10 固定ダメージカウンター ワザの方で実装
+                    [
+                     :check_stuffed_toys_state_damage_event,
+                     :finish_stuffed_toys_state_damage_event,
+                    ],    # 11 ヌイグルミ
+                    [
+                     :use_monitoring_state_heal_before_event,
+                     :use_monitoring_state_party_heal_before_event,
+                     :use_monitoring_state_heal_after_event,
+                     :use_monitoring_state_party_heal_after_event,
+                     :finish_monitoring_state_event,
+                    ],    # 12 監視 終了チェック
+                    [
+                     :finish_time_lag_draw_state_event,
+                    ],    # 13 時差ドロー 終了チェック
+                    [
+                     :finish_time_lag_buff_state_change_event,
+                    ],    # 14 時差バフ 終了チェック
+                    [
+                     :check_machine_cell_state_event,
+                     :use_machine_cell_state_event,
+                     :finish_machine_cell_state_event,
+                    ],    # 15 マシンセル 終了チェック Rエイダ
+                    [
+                     :check_ax_guard_state_event,
+                     :use_ax_guard_state_event,
+                     :finish_ax_guard_state_event,
+                    ],    # 16 アクスガード 終了チェック Rフロレ
+                                ]
 
   #---------------------------------------------------------------------------------------------
   # 猫状態
@@ -3286,3732 +3286,3767 @@ module Unlight
   # 追加したら以下の参照番号を付加すること
   # イベントの起動チェック関数を列挙する
   CHARA_FEAT_EVENT_NO = [
-    nil,
-    # 0
-    [
-      :check_add_smash_feat_event,
-      :check_remove_smash_feat_event,
-      :check_rotate_smash_feat_event,
-      :use_smash_feat_event,
-      :finish_smash_feat_event,
-    ],    # 1
-    [
-      :check_add_aiming_feat_event,
-      :check_remove_aiming_feat_event,
-      :check_rotate_aiming_feat_event,
-      :use_aiming_feat_event,
-      :finish_aiming_feat_event,
-    ],    # 2
-    [
-      :check_add_strike_feat_event,
-      :check_remove_strike_feat_event,
-      :check_rotate_strike_feat_event,
-      :use_strike_feat_event,
-      :use_strike_feat_damage_event,
-      :finish_strike_feat_event,
-    ],    # 3
-    [
-      :check_add_combo_feat_event,
-      :check_remove_combo_feat_event,
-      :check_rotate_combo_feat_event,
-      :use_combo_feat_event,
-      :finish_combo_feat_event,
-    ],
-    # 4
-    [:check_add_thorn_feat_event,
-     :check_remove_thorn_feat_event,
-     :check_rotate_thorn_feat_event,
-     :use_thorn_feat_event,
-     :use_thorn_feat_damage_event,
-     :finish_thorn_feat_event,],
-    # 5
-    [:check_add_charge_feat_event,
-     :check_remove_charge_feat_event,
-     :check_rotate_charge_feat_event,
-     :use_charge_feat_event,
-     :finish_charge_feat_event,],
-    # 6
-    [:check_add_mirage_feat_event,
-     :check_remove_mirage_feat_event,
-     :check_rotate_mirage_feat_event,
-     :check_move_mirage_feat_event,
-     :use_mirage_feat_event,
-     :finish_mirage_feat_event,],
-    # 7
-    [:check_add_frenzy_eyes_feat_event,
-     :check_remove_frenzy_eyes_feat_event,
-     :check_rotate_frenzy_eyes_feat_event,
-     :use_frenzy_eyes_feat_event,
-     :use_frenzy_eyes_feat_damage_event,
-     :finish_frenzy_eyes_feat_event,],
-    # 8 狂気の眼窩
-    [:check_add_abyss_feat_event,
-     :check_remove_abyss_feat_event,
-     :check_rotate_abyss_feat_event,
-     :use_abyss_feat_event,
-     :finish_abyss_feat_event,],
-    # 9 深淵
-    [:check_add_rapid_sword_feat_event,
-     :check_remove_rapid_sword_feat_event,
-     :check_rotate_rapid_sword_feat_event,
-     :use_rapid_sword_feat_event,
-     :finish_rapid_sword_feat_event,],
-    # 10 神速の剣
-    [:check_add_anger_feat_event,
-     :check_remove_anger_feat_event,
-     :check_rotate_anger_feat_event,
-     :use_anger_feat_event,
-     :finish_anger_feat_event,],
-    # 11 怒りの一撃
-    [:check_add_power_stock_feat_event,
-     :check_remove_power_stock_feat_event,
-     :check_rotate_power_stock_feat_event,
-     :finish_power_stock_feat_event,],
-    # 12 必殺の構え
-    [:check_add_shadow_shot_feat_event,
-     :check_remove_shadow_shot_feat_event,
-     :check_rotate_shadow_shot_feat_event,
-     :use_shadow_shot_feat_event,
-     :use_shadow_shot_feat_damage_event,
-     :finish_shadow_shot_feat_event,],
-    # 13 影撃ち
-    [:check_add_red_fang_feat_event,
-     :check_remove_red_fang_feat_event,
-     :check_rotate_red_fang_feat_event,
-     :use_red_fang_feat_event,
-     :use_red_fang_feat_damage_event,
-     :finish_red_fang_feat_event,],
-    # 14
-    [:check_add_blessing_blood_feat_event,
-     :check_remove_blessing_blood_feat_event,
-     :check_rotate_blessing_blood_feat_event,
-     :use_blessing_blood_feat_event,
-     :use_blessing_blood_feat_damage_event,
-     :finish_blessing_blood_feat_event,],
-    # 15
-    [:check_add_counter_preparation_feat_event,
-     :check_remove_counter_preparation_feat_event,
-     :check_rotate_counter_preparation_feat_event,
-     :use_counter_preparation_feat_damage_event,
-     :finish_counter_preparation_feat_event,],
-    # 16
-    [:check_add_karmic_time_feat_event,
-     :check_remove_karmic_time_feat_event,
-     :check_rotate_karmic_time_feat_event,
-     :use_karmic_time_feat_event,
-     :finish_chara_change_karmic_time_feat_event,
-     :finish_foe_chara_change_karmic_time_feat_event,],
-    # 17
-    [:check_add_karmic_ring_feat_event,
-     :check_remove_karmic_ring_feat_event,
-     :check_rotate_karmic_ring_feat_event,
-     :use_karmic_ring_feat_event,
-     :finish_karmic_ring_feat_event,],
-    # 18 因果の輪
-    [:check_add_karmic_string_feat_event,
-     :check_remove_karmic_string_feat_event,
-     :check_rotate_karmic_string_feat_event,
-     :use_karmic_string_feat_event,],
-    # 19
-    [
-      :check_add_hi_smash_feat_event,
-      :check_remove_hi_smash_feat_event,
-      :check_rotate_hi_smash_feat_event,
-      :use_hi_smash_feat_event,
-      :finish_hi_smash_feat_event,
-    ],
-    # 20
-    [
-      :check_add_hi_power_stock_feat_event,
-      :check_remove_hi_power_stock_feat_event,
-      :check_rotate_hi_power_stock_feat_event,
-      :finish_hi_power_stock_feat_event,
-    ],
-    # 21
-    [
-      :check_add_hi_aiming_feat_event,
-      :check_remove_hi_aiming_feat_event,
-      :check_rotate_hi_aiming_feat_event,
-      :use_hi_aiming_feat_event,
-      :finish_hi_aiming_feat_event,
-    ],
-    # 22
-    [:check_add_hi_rapid_sword_feat_event,
-     :check_remove_hi_rapid_sword_feat_event,
-     :check_rotate_hi_rapid_sword_feat_event,
-     :use_hi_rapid_sword_feat_event,
-     :finish_hi_rapid_sword_feat_event,],
-    # 23
-    [:check_add_hi_karmic_string_feat_event,
-     :check_remove_hi_karmic_string_feat_event,
-     :check_rotate_hi_karmic_string_feat_event,
-     :use_hi_karmic_string_feat_event,],
-    # 24
-    [:check_add_hi_frenzy_eyes_feat_event,
-     :check_remove_hi_frenzy_eyes_feat_event,
-     :check_rotate_hi_frenzy_eyes_feat_event,
-     :use_hi_frenzy_eyes_feat_event,
-     :use_hi_frenzy_eyes_feat_damage_event,
-     :finish_hi_frenzy_eyes_feat_event,],
-    # 25
-    [:check_add_hi_shadow_shot_feat_event,
-     :check_remove_hi_shadow_shot_feat_event,
-     :check_rotate_hi_shadow_shot_feat_event,
-     :use_hi_shadow_shot_feat_event,
-     :use_hi_shadow_shot_feat_damage_event,
-     :finish_hi_shadow_shot_feat_event,],
-    # 26
-    [:check_add_land_mine_feat_event,
-     :check_remove_land_mine_feat_event,
-     :check_rotate_land_mine_feat_event,
-     :use_land_mine_feat_event,],
-    # 27 地雷
-    [
-      :check_add_desperado_feat_event,
-      :check_remove_desperado_feat_event,
-      :check_rotate_desperado_feat_event,
-      :use_desperado_feat_event,
-      :finish_desperado_feat_event,
-    ],
-    # 28
-    [
-      :check_add_reject_sword_feat_event,
-      :check_remove_reject_sword_feat_event,
-      :check_rotate_reject_sword_feat_event,
-      :use_reject_sword_feat_event,
-      :finish_reject_sword_feat_event,
-    ],
-    # 29
-    [
-      :check_add_counter_guard_feat_event,
-      :check_remove_counter_guard_feat_event,
-      :check_rotate_counter_guard_feat_event,
-      :use_counter_guard_feat_event,
-      :use_counter_guard_feat_dice_attr_event,
-      :finish_counter_guard_feat_event,
-    ],
-    # 30 カウンターガード
-    [
-      :check_add_pain_flee_feat_event,
-      :check_remove_pain_flee_feat_event,
-      :check_rotate_pain_flee_feat_event,
-      :finish_pain_flee_feat_event,
-    ],
-    # 31
-    [
-      :check_add_body_of_light_feat_event,
-      :check_remove_body_of_light_feat_event,
-      :check_rotate_body_of_light_feat_event,
-      :use_body_of_light_feat_event,
-      :finish_body_of_light_feat_event,
-    ],
-    # 32 光の移し身
-    [:check_add_seal_chain_feat_event,
-     :check_remove_seal_chain_feat_event,
-     :check_rotate_seal_chain_feat_event,
-     :use_seal_chain_feat_event,
-     :use_seal_chain_feat_damage_event,
-     :finish_seal_chain_feat_event,],
-    # 33 封印の鎖
-    [
-      :check_add_purification_light_feat_event,
-      :check_remove_purification_light_feat_event,
-      :check_rotate_purification_light_feat_event,
-      :use_purification_light_feat_event,
-      :use_purification_light_feat_damage_event,
-      :finish_purification_light_feat_event,
-    ],
-    # 34
-    [:check_add_craftiness_feat_event,
-     :check_remove_craftiness_feat_event,
-     :check_rotate_craftiness_feat_event,
-     :finish_craftiness_feat_event,],
-    # 35 知略
-    [:check_add_land_bomb_feat_event,
-     :check_remove_land_bomb_feat_event,
-     :check_rotate_land_bomb_feat_event,
-     :use_land_bomb_feat_event,],
-    # 36 地雷2
-    [
-      :check_add_reject_blade_feat_event,
-      :check_remove_reject_blade_feat_event,
-      :check_rotate_reject_blade_feat_event,
-      :use_reject_blade_feat_event,
-      :finish_reject_blade_feat_event,
-    ],
-    # 37 リジェクトブレイド
-    [
-      :check_add_spell_chain_feat_event,
-      :check_remove_spell_chain_feat_event,
-      :check_rotate_spell_chain_feat_event,
-      :use_spell_chain_feat_event,
-      :use_spell_chain_feat_damage_event,
-      :finish_spell_chain_feat_event,
-    ],
-    # 38 呪縛の鎖
-    [
-      :check_add_indomitable_mind_feat_event,
-      :check_remove_indomitable_mind_feat_event,
-      :check_rotate_indomitable_mind_feat_event,
-      :use_indomitable_mind_feat_event,
-      :use_indomitable_mind_feat_damage_event,
-      :finish_indomitable_mind_feat_event,
-      :finish_indomitable_mind_feat_dead_chara_change_event,
-    ],
-    # 39 不屈の心
-    [
-      :check_add_drain_soul_feat_event,
-      :check_remove_drain_soul_feat_event,
-      :check_rotate_drain_soul_feat_event,
-      :use_drain_soul_feat_event,
-    ],
-    # 40 精神力吸収
-    [
-      :check_add_back_stab_feat_event,
-      :check_remove_back_stab_feat_event,
-      :check_rotate_back_stab_feat_event,
-      :use_back_stab_feat_event,
-      :finish_back_stab_feat_event,
-    ],
-    # 41 バックスタブ
-    [
-      :check_add_enlightened_feat_event,
-      :check_remove_enlightened_feat_event,
-      :check_rotate_enlightened_feat_event,
-      :use_enlightened_feat_event,
-    ],
-    # 42 見切り
-    [
-      :check_add_dark_whirlpool_feat_event,
-      :check_remove_dark_whirlpool_feat_event,
-      :check_rotate_dark_whirlpool_feat_event,
-      :use_dark_whirlpool_feat_event,
-      :use_dark_whirlpool_feat_damage_event,
-    ],
-    # 43 暗黒の渦
-    [
-      :check_add_karmic_phantom_feat_event,
-      :check_remove_karmic_phantom_feat_event,
-      :check_rotate_karmic_phantom_feat_event,
-      :use_karmic_phantom_feat_event,
-      :finish_karmic_phantom_feat_event,
-    ],
-    # 44 因果の幻
-    [
-      :check_add_recovery_wave_feat_event,
-      :check_remove_recovery_wave_feat_event,
-      :check_rotate_recovery_wave_feat_event,
-      :finish_recovery_wave_feat_event,
-    ],
-    # 45 治癒の波動
-    [
-      :check_add_self_destruction_feat_event,
-      :check_remove_self_destruction_feat_event,
-      :check_rotate_self_destruction_feat_event,
-      :finish_self_destruction_feat_event,
-    ],
-    # 46 自爆
-    [
-      :check_add_deffence_shooting_feat_event,
-      :check_remove_deffence_shooting_feat_event,
-      :check_rotate_deffence_shooting_feat_event,
-      :use_deffence_shooting_feat_event,
-      :use_deffence_shooting_feat_damage_event,
-    ],
-    # 47 防護射撃
-    [
-      :check_add_recovery_feat_event,
-      :check_remove_recovery_feat_event,
-      :check_rotate_recovery_feat_event,
-      :finish_recovery_feat_event,
-    ],
-    # 48 再生
-    [
-      :check_add_shadow_attack_feat_event,
-      :check_remove_shadow_attack_feat_event,
-      :check_rotate_shadow_attack_feat_event,
-      :use_shadow_attack_feat_event,
-      :finish_shadow_attack_feat_event,
-    ],
-    # 49 幻影
-    [
-      :check_add_suicidal_tendencies_feat_event,
-      :check_remove_suicidal_tendencies_feat_event,
-      :check_rotate_suicidal_tendencies_feat_event,
-      :use_suicidal_tendencies_feat_event,
-      :finish_suicidal_tendencies_feat_event,
-    ],
-    # 50 スーサイダルテンデンシー
-    [:check_add_misfit_feat_event,
-     :check_remove_misfit_feat_event,
-     :check_rotate_misfit_feat_event,
-     :use_misfit_feat_event,
-     :use_misfit_feat_damage_event,
-     :finish_misfit_feat_event,],
-    # 51 ミスフィット
-    [:check_add_big_bragg_feat_event,
-     :check_remove_big_bragg_feat_event,
-     :check_rotate_big_bragg_feat_event,
-     :finish_big_bragg_feat_event,],
-    # 52 ビッグブラッグ
-    [
-      :check_add_lets_knife_feat_event,
-      :check_remove_lets_knife_feat_event,
-      :check_rotate_lets_knife_feat_event,
-      :use_lets_knife_feat_event,
-      :finish_lets_knife_feat_event,
-    ],
-    # 53 レッツナイフ
-    [
-      :check_add_single_heart_feat_event,
-      :check_remove_single_heart_feat_event,
-      :check_rotate_single_heart_feat_event,
-      :use_single_heart_feat_event,
-    ],
-    # 54 1つの心
-    [
-      :check_add_double_body_feat_event,
-      :check_remove_double_body_feat_event,
-      :check_rotate_double_body_feat_event,
-      :use_double_body_feat_event,
-      :use_double_body_feat_damage_event,
-      :finish_double_body_feat_event,
-    ],
-    # 55 2つの身体
-    [:check_add_nine_soul_feat_event,
-     :check_remove_nine_soul_feat_event,
-     :check_rotate_nine_soul_feat_event,
-     :use_nine_soul_feat_event,
-     :finish_nine_soul_feat_event,],
-    # 56 9つの魂
+                    nil,
+                    # 0
+                    [
+                     :check_add_smash_feat_event,
+                     :check_remove_smash_feat_event,
+                     :check_rotate_smash_feat_event,
+                     :use_smash_feat_event,
+                     :finish_smash_feat_event,
+                    ],    # 1
+                    [
+                     :check_add_aiming_feat_event,
+                     :check_remove_aiming_feat_event,
+                     :check_rotate_aiming_feat_event,
+                     :use_aiming_feat_event,
+                     :finish_aiming_feat_event,
+                    ],    # 2
+                    [
+                     :check_add_strike_feat_event,
+                     :check_remove_strike_feat_event,
+                     :check_rotate_strike_feat_event,
+                     :use_strike_feat_event,
+                     :use_strike_feat_damage_event,
+                     :finish_strike_feat_event,
+                    ],    # 3
+                    [
+                     :check_add_combo_feat_event,
+                     :check_remove_combo_feat_event,
+                     :check_rotate_combo_feat_event,
+                     :use_combo_feat_event,
+                     :finish_combo_feat_event,
+                    ],
+                    # 4
+                    [:check_add_thorn_feat_event,
+                     :check_remove_thorn_feat_event,
+                     :check_rotate_thorn_feat_event,
+                     :use_thorn_feat_event,
+                     :use_thorn_feat_damage_event,
+                     :finish_thorn_feat_event,
+                    ],
+                    # 5
+                    [:check_add_charge_feat_event,
+                     :check_remove_charge_feat_event,
+                     :check_rotate_charge_feat_event,
+                     :use_charge_feat_event,
+                     :finish_charge_feat_event,
+                    ],
+                    # 6
+                    [:check_add_mirage_feat_event,
+                     :check_remove_mirage_feat_event,
+                     :check_rotate_mirage_feat_event,
+                     :check_move_mirage_feat_event,
+                     :use_mirage_feat_event,
+                     :finish_mirage_feat_event,
+                    ],
+                    # 7
+                    [:check_add_frenzy_eyes_feat_event,
+                     :check_remove_frenzy_eyes_feat_event,
+                     :check_rotate_frenzy_eyes_feat_event,
+                     :use_frenzy_eyes_feat_event,
+                     :use_frenzy_eyes_feat_damage_event,
+                     :finish_frenzy_eyes_feat_event,
+                    ],
+                    # 8 狂気の眼窩
+                    [:check_add_abyss_feat_event,
+                     :check_remove_abyss_feat_event,
+                     :check_rotate_abyss_feat_event,
+                     :use_abyss_feat_event,
+                     :finish_abyss_feat_event,
+                    ],
+                    # 9 深淵
+                    [:check_add_rapid_sword_feat_event,
+                     :check_remove_rapid_sword_feat_event,
+                     :check_rotate_rapid_sword_feat_event,
+                     :use_rapid_sword_feat_event,
+                     :finish_rapid_sword_feat_event,
+                    ],
+                    # 10 神速の剣
+                    [:check_add_anger_feat_event,
+                     :check_remove_anger_feat_event,
+                     :check_rotate_anger_feat_event,
+                     :use_anger_feat_event,
+                     :finish_anger_feat_event,
+                    ],
+                    # 11 怒りの一撃
+                    [:check_add_power_stock_feat_event,
+                     :check_remove_power_stock_feat_event,
+                     :check_rotate_power_stock_feat_event,
+                     :finish_power_stock_feat_event,
+                    ],
+                    # 12 必殺の構え
+                    [:check_add_shadow_shot_feat_event,
+                     :check_remove_shadow_shot_feat_event,
+                     :check_rotate_shadow_shot_feat_event,
+                     :use_shadow_shot_feat_event,
+                     :use_shadow_shot_feat_damage_event,
+                     :finish_shadow_shot_feat_event,
+                    ],
+                    # 13 影撃ち
+                    [:check_add_red_fang_feat_event,
+                     :check_remove_red_fang_feat_event,
+                     :check_rotate_red_fang_feat_event,
+                     :use_red_fang_feat_event,
+                     :use_red_fang_feat_damage_event,
+                     :finish_red_fang_feat_event,
+                    ],
+                    # 14
+                    [:check_add_blessing_blood_feat_event,
+                     :check_remove_blessing_blood_feat_event,
+                     :check_rotate_blessing_blood_feat_event,
+                     :use_blessing_blood_feat_event,
+                     :use_blessing_blood_feat_damage_event,
+                     :finish_blessing_blood_feat_event,
+                    ],
+                    # 15
+                    [:check_add_counter_preparation_feat_event,
+                     :check_remove_counter_preparation_feat_event,
+                     :check_rotate_counter_preparation_feat_event,
+                     :use_counter_preparation_feat_damage_event,
+                     :finish_counter_preparation_feat_event,
+                    ],
+                    # 16
+                    [:check_add_karmic_time_feat_event,
+                     :check_remove_karmic_time_feat_event,
+                     :check_rotate_karmic_time_feat_event,
+                     :use_karmic_time_feat_event,
+                     :finish_chara_change_karmic_time_feat_event,
+                     :finish_foe_chara_change_karmic_time_feat_event,
+                    ],
+                    # 17
+                    [:check_add_karmic_ring_feat_event,
+                     :check_remove_karmic_ring_feat_event,
+                     :check_rotate_karmic_ring_feat_event,
+                     :use_karmic_ring_feat_event,
+                     :finish_karmic_ring_feat_event,
+                    ],
+                    # 18 因果の輪
+                    [:check_add_karmic_string_feat_event,
+                     :check_remove_karmic_string_feat_event,
+                     :check_rotate_karmic_string_feat_event,
+                     :use_karmic_string_feat_event,
+                    ],
+                    # 19
+                    [
+                     :check_add_hi_smash_feat_event,
+                     :check_remove_hi_smash_feat_event,
+                     :check_rotate_hi_smash_feat_event,
+                     :use_hi_smash_feat_event,
+                     :finish_hi_smash_feat_event,
+                    ],
+                    # 20
+                    [
+                     :check_add_hi_power_stock_feat_event,
+                     :check_remove_hi_power_stock_feat_event,
+                     :check_rotate_hi_power_stock_feat_event,
+                     :finish_hi_power_stock_feat_event,
+                    ],
+                    # 21
+                    [
+                     :check_add_hi_aiming_feat_event,
+                     :check_remove_hi_aiming_feat_event,
+                     :check_rotate_hi_aiming_feat_event,
+                     :use_hi_aiming_feat_event,
+                     :finish_hi_aiming_feat_event,
+                    ],
+                    # 22
+                    [:check_add_hi_rapid_sword_feat_event,
+                     :check_remove_hi_rapid_sword_feat_event,
+                     :check_rotate_hi_rapid_sword_feat_event,
+                     :use_hi_rapid_sword_feat_event,
+                     :finish_hi_rapid_sword_feat_event,
+                    ],
+                    # 23
+                    [:check_add_hi_karmic_string_feat_event,
+                     :check_remove_hi_karmic_string_feat_event,
+                     :check_rotate_hi_karmic_string_feat_event,
+                     :use_hi_karmic_string_feat_event,
+                    ],
+                    # 24
+                    [:check_add_hi_frenzy_eyes_feat_event,
+                     :check_remove_hi_frenzy_eyes_feat_event,
+                     :check_rotate_hi_frenzy_eyes_feat_event,
+                     :use_hi_frenzy_eyes_feat_event,
+                     :use_hi_frenzy_eyes_feat_damage_event,
+                     :finish_hi_frenzy_eyes_feat_event,
+                    ],
+                    # 25
+                    [:check_add_hi_shadow_shot_feat_event,
+                     :check_remove_hi_shadow_shot_feat_event,
+                     :check_rotate_hi_shadow_shot_feat_event,
+                     :use_hi_shadow_shot_feat_event,
+                     :use_hi_shadow_shot_feat_damage_event,
+                     :finish_hi_shadow_shot_feat_event,
+                    ],
+                    # 26
+                    [:check_add_land_mine_feat_event,
+                     :check_remove_land_mine_feat_event,
+                     :check_rotate_land_mine_feat_event,
+                     :use_land_mine_feat_event,
+                    ],
+                    # 27 地雷
+                    [
+                     :check_add_desperado_feat_event,
+                     :check_remove_desperado_feat_event,
+                     :check_rotate_desperado_feat_event,
+                     :use_desperado_feat_event,
+                     :finish_desperado_feat_event,
+                    ],
+                    # 28
+                    [
+                     :check_add_reject_sword_feat_event,
+                     :check_remove_reject_sword_feat_event,
+                     :check_rotate_reject_sword_feat_event,
+                     :use_reject_sword_feat_event,
+                     :finish_reject_sword_feat_event,
+                    ],
+                    # 29
+                    [
+                     :check_add_counter_guard_feat_event,
+                     :check_remove_counter_guard_feat_event,
+                     :check_rotate_counter_guard_feat_event,
+                     :use_counter_guard_feat_event,
+                     :use_counter_guard_feat_dice_attr_event,
+                     :finish_counter_guard_feat_event,
+                    ],
+                    # 30 カウンターガード
+                    [
+                     :check_add_pain_flee_feat_event,
+                     :check_remove_pain_flee_feat_event,
+                     :check_rotate_pain_flee_feat_event,
+                     :finish_pain_flee_feat_event,
+                    ],
+                    # 31
+                    [
+                     :check_add_body_of_light_feat_event,
+                     :check_remove_body_of_light_feat_event,
+                     :check_rotate_body_of_light_feat_event,
+                     :use_body_of_light_feat_event,
+                     :finish_body_of_light_feat_event,
+                    ],
+                    # 32 光の移し身
+                    [:check_add_seal_chain_feat_event,
+                     :check_remove_seal_chain_feat_event,
+                     :check_rotate_seal_chain_feat_event,
+                     :use_seal_chain_feat_event,
+                     :use_seal_chain_feat_damage_event,
+                     :finish_seal_chain_feat_event,
+                    ],
+                    # 33 封印の鎖
+                    [
+                     :check_add_purification_light_feat_event,
+                     :check_remove_purification_light_feat_event,
+                     :check_rotate_purification_light_feat_event,
+                     :use_purification_light_feat_event,
+                     :use_purification_light_feat_damage_event,
+                     :finish_purification_light_feat_event,
+                    ],
+                    # 34
+                    [:check_add_craftiness_feat_event,
+                     :check_remove_craftiness_feat_event,
+                     :check_rotate_craftiness_feat_event,
+                     :finish_craftiness_feat_event,
+                    ],
+                    # 35 知略
+                    [:check_add_land_bomb_feat_event,
+                     :check_remove_land_bomb_feat_event,
+                     :check_rotate_land_bomb_feat_event,
+                     :use_land_bomb_feat_event,
+                    ],
+                    # 36 地雷2
+                    [
+                     :check_add_reject_blade_feat_event,
+                     :check_remove_reject_blade_feat_event,
+                     :check_rotate_reject_blade_feat_event,
+                     :use_reject_blade_feat_event,
+                     :finish_reject_blade_feat_event,
+                    ],
+                    # 37 リジェクトブレイド
+                    [
+                     :check_add_spell_chain_feat_event,
+                     :check_remove_spell_chain_feat_event,
+                     :check_rotate_spell_chain_feat_event,
+                     :use_spell_chain_feat_event,
+                     :use_spell_chain_feat_damage_event,
+                     :finish_spell_chain_feat_event,
+                    ],
+                    # 38 呪縛の鎖
+                    [
+                     :check_add_indomitable_mind_feat_event,
+                     :check_remove_indomitable_mind_feat_event,
+                     :check_rotate_indomitable_mind_feat_event,
+                     :use_indomitable_mind_feat_event,
+                     :use_indomitable_mind_feat_damage_event,
+                     :finish_indomitable_mind_feat_event,
+                     :finish_indomitable_mind_feat_dead_chara_change_event,
+                    ],
+                    # 39 不屈の心
+                    [
+                     :check_add_drain_soul_feat_event,
+                     :check_remove_drain_soul_feat_event,
+                     :check_rotate_drain_soul_feat_event,
+                     :use_drain_soul_feat_event,
+                    ],
+                    # 40 精神力吸収
+                    [
+                     :check_add_back_stab_feat_event,
+                     :check_remove_back_stab_feat_event,
+                     :check_rotate_back_stab_feat_event,
+                     :use_back_stab_feat_event,
+                     :finish_back_stab_feat_event,
+                    ],
+                    # 41 バックスタブ
+                    [
+                     :check_add_enlightened_feat_event,
+                     :check_remove_enlightened_feat_event,
+                     :check_rotate_enlightened_feat_event,
+                     :use_enlightened_feat_event,
+                    ],
+                    # 42 見切り
+                    [
+                     :check_add_dark_whirlpool_feat_event,
+                     :check_remove_dark_whirlpool_feat_event,
+                     :check_rotate_dark_whirlpool_feat_event,
+                     :use_dark_whirlpool_feat_event,
+                     :use_dark_whirlpool_feat_damage_event,
+                    ],
+                    # 43 暗黒の渦
+                    [
+                     :check_add_karmic_phantom_feat_event,
+                     :check_remove_karmic_phantom_feat_event,
+                     :check_rotate_karmic_phantom_feat_event,
+                     :use_karmic_phantom_feat_event,
+                     :finish_karmic_phantom_feat_event,
+                    ],
+                    # 44 因果の幻
+                    [
+                     :check_add_recovery_wave_feat_event,
+                     :check_remove_recovery_wave_feat_event,
+                     :check_rotate_recovery_wave_feat_event,
+                     :finish_recovery_wave_feat_event,
+                    ],
+                    # 45 治癒の波動
+                    [
+                     :check_add_self_destruction_feat_event,
+                     :check_remove_self_destruction_feat_event,
+                     :check_rotate_self_destruction_feat_event,
+                     :finish_self_destruction_feat_event,
+                    ],
+                    # 46 自爆
+                    [
+                     :check_add_deffence_shooting_feat_event,
+                     :check_remove_deffence_shooting_feat_event,
+                     :check_rotate_deffence_shooting_feat_event,
+                     :use_deffence_shooting_feat_event,
+                     :use_deffence_shooting_feat_damage_event,
+                    ],
+                    # 47 防護射撃
+                    [
+                     :check_add_recovery_feat_event,
+                     :check_remove_recovery_feat_event,
+                     :check_rotate_recovery_feat_event,
+                     :finish_recovery_feat_event,
+                    ],
+                    # 48 再生
+                    [
+                     :check_add_shadow_attack_feat_event,
+                     :check_remove_shadow_attack_feat_event,
+                     :check_rotate_shadow_attack_feat_event,
+                     :use_shadow_attack_feat_event,
+                     :finish_shadow_attack_feat_event,
+                    ],
+                    # 49 幻影
+                    [
+                     :check_add_suicidal_tendencies_feat_event,
+                     :check_remove_suicidal_tendencies_feat_event,
+                     :check_rotate_suicidal_tendencies_feat_event,
+                     :use_suicidal_tendencies_feat_event,
+                     :finish_suicidal_tendencies_feat_event,
+                    ],
+                    # 50 スーサイダルテンデンシー
+                    [:check_add_misfit_feat_event,
+                     :check_remove_misfit_feat_event,
+                     :check_rotate_misfit_feat_event,
+                     :use_misfit_feat_event,
+                     :use_misfit_feat_damage_event,
+                     :finish_misfit_feat_event,
+                    ],
+                    # 51 ミスフィット
+                    [:check_add_big_bragg_feat_event,
+                     :check_remove_big_bragg_feat_event,
+                     :check_rotate_big_bragg_feat_event,
+                     :finish_big_bragg_feat_event,
+                    ],
+                    # 52 ビッグブラッグ
+                    [
+                     :check_add_lets_knife_feat_event,
+                     :check_remove_lets_knife_feat_event,
+                     :check_rotate_lets_knife_feat_event,
+                     :use_lets_knife_feat_event,
+                     :finish_lets_knife_feat_event,
+                    ],
+                    # 53 レッツナイフ
+                    [
+                     :check_add_single_heart_feat_event,
+                     :check_remove_single_heart_feat_event,
+                     :check_rotate_single_heart_feat_event,
+                     :use_single_heart_feat_event,
+                    ],
+                    # 54 1つの心
+                    [
+                     :check_add_double_body_feat_event,
+                     :check_remove_double_body_feat_event,
+                     :check_rotate_double_body_feat_event,
+                     :use_double_body_feat_event,
+                     :use_double_body_feat_damage_event,
+                     :finish_double_body_feat_event,
+                    ],
+                    # 55 2つの身体
+                    [:check_add_nine_soul_feat_event,
+                     :check_remove_nine_soul_feat_event,
+                     :check_rotate_nine_soul_feat_event,
+                     :use_nine_soul_feat_event,
+                     :finish_nine_soul_feat_event,
+                    ],
+                    # 56 9つの魂
 
-    [
-      :check_add_thirteen_eyes_feat_event,
-      :check_remove_thirteen_eyes_feat_event,
-      :check_rotate_thirteen_eyes_feat_event,
-      :use_owner_thirteen_eyes_feat_event,
-      :use_foe_thirteen_eyes_feat_event,
-      :finish_thirteen_eyes_feat_event,
-      :use_thirteen_eyes_feat_damage_event,
-    ],
-    # 57 13の眼
-    [:check_add_life_drain_feat_event,
-     :check_remove_life_drain_feat_event,
-     :check_rotate_life_drain_feat_event,
-     :use_life_drain_feat_event,
-     :use_life_drain_feat_damage_event,
-     :finish_life_drain_feat_event,],
-    # 58 ライフドレイン
-    [:check_add_random_curse_feat_event,
-     :check_remove_random_curse_feat_event,
-     :check_rotate_random_curse_feat_event,
-     :use_random_curse_feat_event,
-     :use_random_curse_feat_damage_event,
-     :finish_random_curse_feat_event,],
-    # 59 ランダムカース
-    [:check_add_heal_voice_feat_event,
-     :check_remove_heal_voice_feat_event,
-     :check_rotate_heal_voice_feat_event,
-     :use_heal_voice_feat_event,
-     :finish_heal_voice_feat_event,],
-    # 60 癒しの声
-    [
-      :check_add_double_attack_feat_event,
-      :check_remove_double_attack_feat_event,
-      :check_rotate_double_attack_feat_event,
-      :use_double_attack_feat_event,
-      :finish_double_attack_feat_event,
-    ],
-    # 61 ダブルアタック
-    [
-      :check_add_party_damage_feat_event,
-      :check_remove_party_damage_feat_event,
-      :check_rotate_party_damage_feat_event,
-      :use_party_damage_feat_event,
-      :finish_party_damage_feat_event,
-    ],
-    # 62 全体攻撃
-    [
-      :check_add_guard_feat_event,
-      :check_remove_guard_feat_event,
-      :check_rotate_guard_feat_event,
-      :use_guard_feat_event,
-      :use_guard_feat_damage_event,
-      :finish_guard_feat_event,
-    ],
-    # 63 ダメージ軽減
+                    [
+                     :check_add_thirteen_eyes_feat_event,
+                     :check_remove_thirteen_eyes_feat_event,
+                     :check_rotate_thirteen_eyes_feat_event,
+                     :use_owner_thirteen_eyes_feat_event,
+                     :use_foe_thirteen_eyes_feat_event,
+                     :finish_thirteen_eyes_feat_event,
+                     :use_thirteen_eyes_feat_damage_event,
+                    ],
+                    # 57 13の眼
+                    [:check_add_life_drain_feat_event,
+                     :check_remove_life_drain_feat_event,
+                     :check_rotate_life_drain_feat_event,
+                     :use_life_drain_feat_event,
+                     :use_life_drain_feat_damage_event,
+                     :finish_life_drain_feat_event,
+                    ],
+                    # 58 ライフドレイン
+                    [:check_add_random_curse_feat_event,
+                     :check_remove_random_curse_feat_event,
+                     :check_rotate_random_curse_feat_event,
+                     :use_random_curse_feat_event,
+                     :use_random_curse_feat_damage_event,
+                     :finish_random_curse_feat_event,
+                    ],
+                    # 59 ランダムカース
+                    [:check_add_heal_voice_feat_event,
+                     :check_remove_heal_voice_feat_event,
+                     :check_rotate_heal_voice_feat_event,
+                     :use_heal_voice_feat_event,
+                     :finish_heal_voice_feat_event,
+                    ],
+                    # 60 癒しの声
+                    [
+                     :check_add_double_attack_feat_event,
+                     :check_remove_double_attack_feat_event,
+                     :check_rotate_double_attack_feat_event,
+                     :use_double_attack_feat_event,
+                     :finish_double_attack_feat_event,
+                    ],
+                    # 61 ダブルアタック
+                    [
+                     :check_add_party_damage_feat_event,
+                     :check_remove_party_damage_feat_event,
+                     :check_rotate_party_damage_feat_event,
+                     :use_party_damage_feat_event,
+                     :finish_party_damage_feat_event,
+                    ],
+                    # 62 全体攻撃
+                    [
+                     :check_add_guard_feat_event,
+                     :check_remove_guard_feat_event,
+                     :check_rotate_guard_feat_event,
+                     :use_guard_feat_event,
+                     :use_guard_feat_damage_event,
+                     :finish_guard_feat_event,
+                    ],
+                    # 63 ダメージ軽減
 
-    [
-      :check_add_death_control_feat_event,
-      :check_remove_death_control_feat_event,
-      :check_rotate_death_control_feat_event,
-      :use_death_control_feat_event,
-      :use_death_control_feat_damage_event,
-      :finish_death_control_feat_event,
-    ],
-    # 64 自壊攻撃
-    [
-      :check_add_wit_feat_event,
-      :check_remove_wit_feat_event,
-      :check_rotate_wit_feat_event,
-      :use_wit_feat_event,
-      :finish_wit_feat_event,
-    ],
-    # 65 機知
-    [
-      :check_add_thorn_care_feat_event,
-      :check_remove_thorn_care_feat_event,
-      :check_rotate_thorn_care_feat_event,
-      :use_thorn_care_feat_event,
-      :use_thorn_care_feat_damage_event,
-      :finish_thorn_care_feat_event,
-    ],
-    # 66 茨の構え
-    [
-      :check_add_liberating_sword_feat_event,
-      :check_remove_liberating_sword_feat_event,
-      :check_rotate_liberating_sword_feat_event,
-      :use_liberating_sword_feat_event,
-      :use_liberating_sword_feat_damage_event,
-      :finish_liberating_sword_feat_event,
-    ],
-    # 67 解放剣
-    [
-      :check_add_one_slash_feat_event,
-      :check_remove_one_slash_feat_event,
-      :check_rotate_one_slash_feat_event,
-      :use_one_slash_feat_event,
-      :use_one_slash_feat_damage_event,
-      :finish_one_slash_feat_event,
-    ],
-    # 68 一閃
-    [
-      :check_add_ten_slash_feat_event,
-      :check_remove_ten_slash_feat_event,
-      :check_rotate_ten_slash_feat_event,
-      :use_ten_slash_feat_event,
-      :finish_ten_slash_feat_event,
-    ],
-    # 69 十閃
-    [
-      :check_add_handled_slash_feat_event,
-      :check_remove_handled_slash_feat_event,
-      :check_rotate_handled_slash_feat_event,
-      :use_handled_slash_feat_event,
-      :use_handled_slash_feat_damage_event,
-      :finish_handled_slash_feat_event,
-    ],
-    # 70 百閃
-    [
-      :check_add_curse_care_feat_event,
-      :check_remove_curse_care_feat_event,
-      :check_rotate_curse_care_feat_event,
-      :use_curse_care_feat_event,
-      :use_curse_care_feat_damage_event,
-      :use_curse_care_feat_heal1_event,
-      :use_curse_care_feat_heal2_event,
-      :use_curse_care_feat_heal3_event,
-      :use_curse_care_feat_heal_det_bp_event,
-    ],
-    # 71 修羅の構え
-    [
-      :check_add_moon_shine_feat_event,
-      :check_remove_moon_shine_feat_event,
-      :check_rotate_moon_shine_feat_event,
-      :use_moon_shine_feat_event,
-      :finish_moon_shine_feat_event,
-    ],
-    # 72 ムーンシャイン
-    [
-      :check_add_rapture_feat_event,
-      :check_remove_rapture_feat_event,
-      :check_rotate_rapture_feat_event,
-      :use_rapture_feat_event,
-      :use_rapture_feat_damage_event,
-      :finish_rapture_feat_event,
-    ],
-    # 73 ラプチュア
-    [
-      :check_add_doomsday_feat_event,
-      :check_remove_doomsday_feat_event,
-      :check_rotate_doomsday_feat_event,
-      :finish_doomsday_feat_event,
-    ],
-    # 74 ドゥームスデイ
-    [
-      :check_add_hell_feat_event,
-      :check_remove_hell_feat_event,
-      :check_rotate_hell_feat_event,
-      :finish_hell_feat_event,
-    ],
-    # 75 hellboundheart
-    [
-      :check_add_awaking_feat_event,
-      :check_remove_awaking_feat_event,
-      :check_rotate_awaking_feat_event,
-      :finish_awaking_feat_event,
-    ],
-    # 76 スーパーヒロイン
-    [
-      :check_add_moving_one_feat_event,
-      :check_remove_moving_one_feat_event,
-      :check_rotate_moving_one_feat_event,
-      :use_moving_one_feat_event,
-      :finish_moving_one_feat_event,
-    ],
-    # 77 近距離移動
-    [
-      :check_add_arrogant_one_feat_event,
-      :check_remove_arrogant_one_feat_event,
-      :check_rotate_arrogant_one_feat_event,
-      :use_arrogant_one_feat_event,
-      :finish_arrogant_one_feat_event,
-    ],
-    # 78 下位防御
-    [
-      :check_add_eating_one_feat_event,
-      :check_remove_eating_one_feat_event,
-      :check_rotate_eating_one_feat_event,
-      :use_eating_one_feat_event,
-      :finish_eating_one_feat_event,
-    ],
-    # 79 食らうもの
-    [
-      :check_add_reviving_one_feat_event,
-      :check_remove_reviving_one_feat_event,
-      :check_rotate_reviving_one_feat_event,
-      :finish_reviving_one_feat_event,
-    ],
-    # 80 蘇るもの
-    [:check_add_white_light_feat_event,
-     :check_remove_white_light_feat_event,
-     :check_rotate_white_light_feat_event,
-     :finish_white_light_feat_event,],
-    # 81 ホワイトライト
-    [:check_add_crystal_shield_feat_event,
-     :check_remove_crystal_shield_feat_event,
-     :check_rotate_crystal_shield_feat_event,
-     :use_crystal_shield_feat_event,
-     :use_after_crystal_shield_feat_event,
-     :finish_crystal_shield_feat_event,],
-    # 82 クリスタル・M
-    [
-      :check_add_snow_balling_feat_event,
-      :check_remove_snow_balling_feat_event,
-      :check_rotate_snow_balling_feat_event,
-      :use_snow_balling_feat_event,
-      :use_snow_balling_feat_damage_event,
-      :use_snow_balling_feat_const_damage_event,
-      :finish_snow_balling_feat_event,
-    ],
-    # 83 スノーボーリング
-    [
-      :check_add_solvent_rain_feat_event,
-      :check_remove_solvent_rain_feat_event,
-      :check_rotate_solvent_rain_feat_event,
-      :use_solvent_rain_feat_event,
-      :finish_solvent_rain_feat_event,
-    ],
-    # 84 ソルベント・レイン
-    [
-      :check_add_awaking_door_feat_event,
-      :check_remove_awaking_door_feat_event,
-      :check_rotate_awaking_door_feat_event,
-      :finish_awaking_door_feat_event,
-    ],
-    # 85 知覚の扉
-    [
-      :check_add_over_dose_feat_event,
-      :check_remove_over_dose_feat_event,
-      :check_rotate_over_dose_feat_event,
-      :use_over_dose_feat_event,
-      :finish_over_dose_feat_event,
-    ],
-    # 86 オーバードウズ
+                    [
+                     :check_add_death_control_feat_event,
+                     :check_remove_death_control_feat_event,
+                     :check_rotate_death_control_feat_event,
+                     :use_death_control_feat_event,
+                     :use_death_control_feat_damage_event,
+                     :finish_death_control_feat_event,
+                    ],
+                    # 64 自壊攻撃
+                    [
+                     :check_add_wit_feat_event,
+                     :check_remove_wit_feat_event,
+                     :check_rotate_wit_feat_event,
+                     :use_wit_feat_event,
+                     :finish_wit_feat_event,
+                    ],
+                    # 65 機知
+                    [
+                     :check_add_thorn_care_feat_event,
+                     :check_remove_thorn_care_feat_event,
+                     :check_rotate_thorn_care_feat_event,
+                     :use_thorn_care_feat_event,
+                     :use_thorn_care_feat_damage_event,
+                     :finish_thorn_care_feat_event,
+                    ],
+                    # 66 茨の構え
+                    [
+                     :check_add_liberating_sword_feat_event,
+                     :check_remove_liberating_sword_feat_event,
+                     :check_rotate_liberating_sword_feat_event,
+                     :use_liberating_sword_feat_event,
+                     :use_liberating_sword_feat_damage_event,
+                     :finish_liberating_sword_feat_event,
+                    ],
+                    # 67 解放剣
+                    [
+                     :check_add_one_slash_feat_event,
+                     :check_remove_one_slash_feat_event,
+                     :check_rotate_one_slash_feat_event,
+                     :use_one_slash_feat_event,
+                     :use_one_slash_feat_damage_event,
+                     :finish_one_slash_feat_event,
+                    ],
+                    # 68 一閃
+                    [
+                     :check_add_ten_slash_feat_event,
+                     :check_remove_ten_slash_feat_event,
+                     :check_rotate_ten_slash_feat_event,
+                     :use_ten_slash_feat_event,
+                     :finish_ten_slash_feat_event,
+                    ],
+                    # 69 十閃
+                    [
+                     :check_add_handled_slash_feat_event,
+                     :check_remove_handled_slash_feat_event,
+                     :check_rotate_handled_slash_feat_event,
+                     :use_handled_slash_feat_event,
+                     :use_handled_slash_feat_damage_event,
+                     :finish_handled_slash_feat_event,
+                    ],
+                    # 70 百閃
+                    [
+                     :check_add_curse_care_feat_event,
+                     :check_remove_curse_care_feat_event,
+                     :check_rotate_curse_care_feat_event,
+                     :use_curse_care_feat_event,
+                     :use_curse_care_feat_damage_event,
+                     :use_curse_care_feat_heal1_event,
+                     :use_curse_care_feat_heal2_event,
+                     :use_curse_care_feat_heal3_event,
+                     :use_curse_care_feat_heal_det_bp_event,
+                    ],
+                    # 71 修羅の構え
+                    [
+                     :check_add_moon_shine_feat_event,
+                     :check_remove_moon_shine_feat_event,
+                     :check_rotate_moon_shine_feat_event,
+                     :use_moon_shine_feat_event,
+                     :finish_moon_shine_feat_event,
+                    ],
+                    # 72 ムーンシャイン
+                    [
+                     :check_add_rapture_feat_event,
+                     :check_remove_rapture_feat_event,
+                     :check_rotate_rapture_feat_event,
+                     :use_rapture_feat_event,
+                     :use_rapture_feat_damage_event,
+                     :finish_rapture_feat_event,
+                    ],
+                    # 73 ラプチュア
+                    [
+                     :check_add_doomsday_feat_event,
+                     :check_remove_doomsday_feat_event,
+                     :check_rotate_doomsday_feat_event,
+                     :finish_doomsday_feat_event,
+                    ],
+                    # 74 ドゥームスデイ
+                    [
+                     :check_add_hell_feat_event,
+                     :check_remove_hell_feat_event,
+                     :check_rotate_hell_feat_event,
+                     :finish_hell_feat_event,
+                    ],
+                    # 75 hellboundheart
+                    [
+                     :check_add_awaking_feat_event,
+                     :check_remove_awaking_feat_event,
+                     :check_rotate_awaking_feat_event,
+                     :finish_awaking_feat_event,
+                    ],
+                    # 76 スーパーヒロイン
+                    [
+                     :check_add_moving_one_feat_event,
+                     :check_remove_moving_one_feat_event,
+                     :check_rotate_moving_one_feat_event,
+                     :use_moving_one_feat_event,
+                     :finish_moving_one_feat_event,
+                    ],
+                    # 77 近距離移動
+                    [
+                     :check_add_arrogant_one_feat_event,
+                     :check_remove_arrogant_one_feat_event,
+                     :check_rotate_arrogant_one_feat_event,
+                     :use_arrogant_one_feat_event,
+                     :finish_arrogant_one_feat_event,
+                    ],
+                    # 78 下位防御
+                    [
+                     :check_add_eating_one_feat_event,
+                     :check_remove_eating_one_feat_event,
+                     :check_rotate_eating_one_feat_event,
+                     :use_eating_one_feat_event,
+                     :finish_eating_one_feat_event,
+                    ],
+                    # 79 食らうもの
+                    [
+                     :check_add_reviving_one_feat_event,
+                     :check_remove_reviving_one_feat_event,
+                     :check_rotate_reviving_one_feat_event,
+                     :finish_reviving_one_feat_event,
+                    ],
+                    # 80 蘇るもの
+                    [:check_add_white_light_feat_event,
+                     :check_remove_white_light_feat_event,
+                     :check_rotate_white_light_feat_event,
+                     :finish_white_light_feat_event,
+                    ],
+                    # 81 ホワイトライト
+                    [:check_add_crystal_shield_feat_event,
+                     :check_remove_crystal_shield_feat_event,
+                     :check_rotate_crystal_shield_feat_event,
+                     :use_crystal_shield_feat_event,
+                     :use_after_crystal_shield_feat_event,
+                     :finish_crystal_shield_feat_event,
+                    ],
+                    # 82 クリスタル・M
+                    [
+                     :check_add_snow_balling_feat_event,
+                     :check_remove_snow_balling_feat_event,
+                     :check_rotate_snow_balling_feat_event,
+                     :use_snow_balling_feat_event,
+                     :use_snow_balling_feat_damage_event,
+                     :use_snow_balling_feat_const_damage_event,
+                     :finish_snow_balling_feat_event,
+                    ],
+                    # 83 スノーボーリング
+                    [
+                     :check_add_solvent_rain_feat_event,
+                     :check_remove_solvent_rain_feat_event,
+                     :check_rotate_solvent_rain_feat_event,
+                     :use_solvent_rain_feat_event,
+                     :finish_solvent_rain_feat_event,
+                    ],
+                    # 84 ソルベント・レイン
+                    [
+                     :check_add_awaking_door_feat_event,
+                     :check_remove_awaking_door_feat_event,
+                     :check_rotate_awaking_door_feat_event,
+                     :finish_awaking_door_feat_event,
+                    ],
+                    # 85 知覚の扉
+                    [
+                     :check_add_over_dose_feat_event,
+                     :check_remove_over_dose_feat_event,
+                     :check_rotate_over_dose_feat_event,
+                     :use_over_dose_feat_event,
+                     :finish_over_dose_feat_event,
+                    ],
+                    # 86 オーバードウズ
 
-    [
-      :check_add_razors_edge_feat_event,
-      :check_remove_razors_edge_feat_event,
-      :check_rotate_razors_edge_feat_event,
-      :use_owner_razors_edge_feat_event,
-      :use_foe_razors_edge_feat_event,
-      :use_razors_edge_feat_dice_attr_event,
-      :finish_razors_edge_feat_event,
-    ],
-    # 87 レイザーズエッジ
-    [
-      :check_add_hells_bell_feat_event,
-      :check_remove_hells_bell_feat_event,
-      :check_rotate_hells_bell_feat_event,
-      :finish_hells_bell_feat_event,
-    ],
-    # 88 ヘルズベル
-    [
-      :check_add_drain_seed_feat_event,
-      :check_remove_drain_seed_feat_event,
-      :check_rotate_drain_seed_feat_event,
-      :finish_drain_seed_feat_event,
-    ],
-    # 89 ドレインシード
-    [
-      :check_add_atk_drain_feat_event,
-      :check_remove_atk_drain_feat_event,
-      :check_rotate_atk_drain_feat_event,
-      :finish_atk_drain_feat_event,
-    ],
-    # 90 攻撃吸収
-    [
-      :check_add_def_drain_feat_event,
-      :check_remove_def_drain_feat_event,
-      :check_rotate_def_drain_feat_event,
-      :finish_def_drain_feat_event,
-    ],
-    # 91 防御吸収
-    [
-      :check_add_mov_drain_feat_event,
-      :check_remove_mov_drain_feat_event,
-      :check_rotate_mov_drain_feat_event,
-      :finish_mov_drain_feat_event,
-    ],
-    # 92 移動吸収
-    [
-      :check_add_poison_skin_feat_event,
-      :check_remove_poison_skin_feat_event,
-      :check_rotate_poison_skin_feat_event,
-      :use_poison_skin_feat_event,
-      :use_poison_skin_feat_damage_event,
-      :finish_poison_skin_feat_event,
-    ],
-    # 93 毒竜燐
-    [:check_add_roar_feat_event,
-     :check_remove_roar_feat_event,
-     :check_rotate_roar_feat_event,
-     :use_roar_feat_event,
-     :finish_roar_feat_event,],
-    # 94 咆哮
-    [
-      :check_add_fire_breath_feat_event,
-      :check_remove_fire_breath_feat_event,
-      :check_rotate_fire_breath_feat_event,
-      :finish_fire_breath_feat_event,
-    ],
-    # 95 ヘルズベル
-    [:check_add_whirl_wind_feat_event,
-     :check_remove_whirl_wind_feat_event,
-     :check_rotate_whirl_wind_feat_event,
-     :use_whirl_wind_feat_event,
-     :finish_whirl_wind_feat_event,],
-    # 96 ワールウインド
-    [
-      :check_add_active_armor_feat_event,
-      :check_remove_active_armor_feat_event,
-      :check_rotate_active_armor_feat_event,
-      :use_active_armor_feat_event,
-      :use_active_armor_feat_damage_event,
-      :check_seal_active_armor_feat_move_after_event,
-      :check_seal_active_armor_feat_det_change_after_event,
-      :check_seal_active_armor_feat_damage_after_event,
-      :check_unseal_active_armor_feat_start_turn_event,
-      :check_unseal_active_armor_feat_damage_after_event,
-      :check_seal_active_armor_feat_chara_change_event,
-    ],
-    # 97 アクティブアーマ
-    [
-      :check_add_scolor_attack_feat_event,
-      :check_remove_scolor_attack_feat_event,
-      :check_rotate_scolor_attack_feat_event,
-      :use_scolor_attack_feat_event,
-      :use_scolor_attack_feat_damage_event,
-      :finish_scolor_attack_feat_event,
-    ],
-    # 98 マシンガン
-    [
-      :check_add_heat_seeker_feat_event,
-      :check_remove_heat_seeker_feat_event,
-      :check_rotate_heat_seeker_feat_event,
-      :use_heat_seeker_feat_event,
-      :use_heat_seeker_feat_damage_event,
-      :finish_heat_seeker_feat_event,
-    ],
-    # 99 ヒートシーカー
-    [
-      :check_add_purge_feat_event,
-      :check_remove_purge_feat_event,
-      :check_rotate_purge_feat_event,
-      :finish_purge_feat_event,
-    ],
-    # 100 パージ
-    [
-      :check_add_high_hand_feat_event,
-      :check_remove_high_hand_feat_event,
-      :check_rotate_high_hand_feat_event,
-      :use_high_hand_feat_event,
-      :use_high_hand_feat_damage_event,
-    ],
-    # 101 ハイハンド
-    [:check_add_jack_pot_feat_event,
-     :check_remove_jack_pot_feat_event,
-     :check_rotate_jack_pot_feat_event,
-     :use_jack_pot_feat_event,
-     :use_after_jack_pot_feat_event,
-     :finish_jack_pot_feat_event,],
-    # 102 ジャックポット
-    [
-      :check_add_low_ball_feat_event,
-      :check_remove_low_ball_feat_event,
-      :check_rotate_low_ball_feat_event,
-      :use_low_ball_feat_event,
-      :use_low_ball_feat_damage_event,
-      :finish_low_ball_feat_event,
-    ],
-    # 103 ローボール
-    [
-      :check_add_gamble_feat_event,
-      :check_remove_gamble_feat_event,
-      :check_rotate_gamble_feat_event,
-      :use_gamble_feat_event,
-      :use_gamble_feat_damage_event,
-      :finish_gamble_feat_event,
-    ],
-    # 104 ギャンブル
-    [
-      :check_add_bird_cage_feat_event,
-      :check_remove_bird_cage_feat_event,
-      :check_rotate_bird_cage_feat_event,
-      :finish_bird_cage_feat_event,
-    ],
-    # 105 バードケージ
-    [
-      :check_add_hanging_feat_event,
-      :check_remove_hanging_feat_event,
-      :check_rotate_hanging_feat_event,
-      :use_hanging_feat_event,
-      :finish_hanging_feat_event,
-    ],
-    # 106 ハンギング
-    [
-      :check_add_blast_off_feat_event,
-      :check_remove_blast_off_feat_event,
-      :check_rotate_blast_off_feat_event,
-      :use_blast_off_feat_event,
-      :ex_blast_off_feat_event,
-      :finish_blast_off_feat_event,
-    ],
-    # 107 ブラストオフ
-    [:check_add_puppet_master_feat_event,
-     :check_remove_puppet_master_feat_event,
-     :check_rotate_puppet_master_feat_event,
-     :use_puppet_master_feat_event,
-     :finish_puppet_master_feat_event,],
-    # 108 パペットマスター
-    [
-      :check_add_ctl_feat_event,
-      :check_remove_ctl_feat_event,
-      :check_rotate_ctl_feat_event,
-      :use_ctl_feat_event,
-      :finish_ctl_feat_event,
-    ],
-    # 109 C.T.L
-    [
-      :check_add_bpa_feat_event,
-      :check_remove_bpa_feat_event,
-      :check_rotate_bpa_feat_event,
-      :use_bpa_feat_event,
-      :finish_bpa_feat_event,
-    ],
-    # 110 B.P.A
-    [
-      :check_add_lar_feat_event,
-      :check_remove_lar_feat_event,
-      :check_rotate_lar_feat_event,
-      :use_lar_feat_event,
-      :use_lar_feat_damage_event,
-      :finish_lar_feat_event,
-    ],
-    # 111 L.A.R
-    [
-      :check_add_sss_feat_event,
-      :check_remove_sss_feat_event,
-      :check_rotate_sss_feat_event,
-      :finish_sss_feat_event,
-    ],
-    # 112 S.S.S
-    [
-      :check_add_counter_rush_feat_event,
-      :check_remove_counter_rush_feat_event,
-      :check_rotate_counter_rush_feat_event,
-      :use_counter_rush_feat_event,
-      :finish_counter_rush_feat_event,
-    ],
-    # 113 カウンターラッシュ
-    [
-      :check_add_disaster_flame_feat_event,
-      :check_remove_disaster_flame_feat_event,
-      :check_rotate_disaster_flame_feat_event,
-      :use_disaster_flame_feat_event,
-      :finish_disaster_flame_feat_event,
-    ],
-    # 114 劫火
-    [
-      :check_add_hell_fire_feat_event,
-      :check_remove_hell_fire_feat_event,
-      :check_rotate_hell_fire_feat_event,
-      :use_hell_fire_feat_event,
-      :use_hell_fire_feat_damage_event,
-      :use_hell_fire_feat_const_damage_event,
-      :finish_hell_fire_feat_event,
-    ],
-    # 115 煉獄
-    [
-      :check_add_blindness_feat_event,
-      :check_remove_blindness_feat_event,
-      :check_rotate_blindness_feat_event,
-      :use_blindness_feat1_event,
-      :use_blindness_feat2_event,
-      :finish_blindness_feat_event,
-    ],
-    # 116 眩彩
-    [
-      :check_add_fire_disappear_feat_event,
-      :check_remove_fire_disappear_feat_event,
-      :check_rotate_fire_disappear_feat_event,
-      :use_fire_disappear_feat_event,
-      :use_after_fire_disappear_feat_event,
-      :finish_fire_disappear_feat_event,
-    ],
-    # 117 焼滅
-    [
-      :check_add_dark_hole_feat_event,
-      :check_remove_dark_hole_feat_event,
-      :check_rotate_dark_hole_feat_event,
-      :use_dark_hole_feat_event,
-      :finish_dark_hole_feat_event,
-    ],
-    # 118 ダークホール
-    [
-      :check_add_tannhauser_gate_feat_event,
-      :check_remove_tannhauser_gate_feat_event,
-      :check_rotate_tannhauser_gate_feat_event,
-      :use_tannhauser_gate_feat_event,
-      :finish_tannhauser_gate_feat_event,
-    ],
-    # 119 タンホイザーゲート
-    [
-      :check_add_schwar_blitz_feat_event,
-      :check_remove_schwar_blitz_feat_event,
-      :check_rotate_schwar_blitz_feat_event,
-      :use_schwar_blitz_feat_event,
-      :use_schwar_blitz_feat_damage_event,
-      :finish_schwar_blitz_feat_event,
-    ],
-    # 120 シュバルトブリッツ
-    [
-      :check_add_hi_rounder_feat_event,
-      :check_remove_hi_rounder_feat_event,
-      :check_rotate_hi_rounder_feat_event,
-      :use_hi_rounder_feat_event,
-      :finish_hi_rounder_feat_event,
-      :use_hi_rounder_feat_const_damage_event,
-    ],
-    # 121 ハイランダー
-    [
-      :check_add_blood_retting_feat_event,
-      :check_remove_blood_retting_feat_event,
-      :check_rotate_blood_retting_feat_event,
-      :use_blood_retting_feat_event,
-      :use_blood_retting_feat_damage_event,
-      :finish_blood_retting_feat_event,
-    ],
-    # 122 ブラッドレッティング
-    [
-      :check_add_acupuncture_feat_event,
-      :check_remove_acupuncture_feat_event,
-      :check_rotate_acupuncture_feat_event,
-      :finish_acupuncture_feat_event,
-    ],
-    # 123 アキュパンクチャー
-    [
-      :check_add_dissection_feat_event,
-      :check_remove_dissection_feat_event,
-      :check_rotate_dissection_feat_event,
-      :use_dissection_feat_event,
-      :use_dissection_feat_damage_event,
-      :use_dissection_feat_guard_event,
-    ],
-    # 124 ディセクション
-    [
-      :check_add_euthanasia_feat_event,
-      :check_remove_euthanasia_feat_event,
-      :check_rotate_euthanasia_feat_event,
-      :use_euthanasia_feat_event,
-      :use_euthanasia_feat_damage_event,
-      :finish_euthanasia_feat_event,
-    ],
-    # 125 ユーサネイジアー
-    [
-      :check_add_anger_nail_feat_event,
-      :check_remove_anger_nail_feat_event,
-      :check_rotate_anger_nail_feat_event,
-      :finish_anger_nail_feat_event,
-    ],
-    # 126 憤怒の爪
-    [
-      :check_add_calm_back_feat_event,
-      :check_remove_calm_back_feat_event,
-      :check_rotate_calm_back_feat_event,
-      :use_calm_back_feat_event,
-      :use_calm_back_feat_damage_event,
-      :finish_calm_back_feat_event,
-    ],
-    # 127 静謐な背中
-    [
-      :check_add_blue_eyes_feat_event,
-      :check_remove_blue_eyes_feat_event,
-      :check_rotate_blue_eyes_feat_event,
-      :use_blue_eyes_feat_event,
-      :finish_blue_eyes_feat_event,
-    ],
-    # 128 慈悲の青眼
-    [
-      :check_add_wolf_fang_feat_event,
-      :check_remove_wolf_fang_feat_event,
-      :check_rotate_wolf_fang_feat_event,
-      :use_wolf_fang_feat_event,
-      :finish_wolf_fang_feat_event,
-    ],
-    # 129 戦慄の狼牙
-    [
-      :check_add_hagakure_feat_event,
-      :check_remove_hagakure_feat_event,
-      :check_rotate_hagakure_feat_event,
-      :use_hagakure_feat_event,
-      :use_hagakure_feat_damage_event,
-      :finish_hagakure_feat_event,
-    ],
-    # 130 葉隠れ
-    [
-      :check_add_reppu_feat_event,
-      :check_remove_reppu_feat_event,
-      :check_rotate_reppu_feat_event,
-      :use_reppu_feat_event,
-      :finish_reppu_feat_event,
-      :finish_effect_reppu_feat_event,
-      :finish_foe_change_reppu_feat_event,
-      :finish_dead_change_reppu_feat_event,
-      :finish_turn_reppu_feat_event,
-    ],
-    # 131 烈風
-    [
-      :check_add_enpi_feat_event,
-      :check_remove_enpi_feat_event,
-      :check_rotate_enpi_feat_event,
-      :use_enpi_feat_event,
-      :use_enpi_feat_damage_event,
-      :finish_enpi_feat_event,
-    ],
-    # 132 燕飛
-    [
-      :check_add_mikazuki_feat_event,
-      :check_remove_mikazuki_feat_event,
-      :check_rotate_mikazuki_feat_event,
-      :use_mikazuki_feat_event,
-      :finish_mikazuki_feat_event,
-    ],
-    # 133 三日月
-    [
-      :check_add_casablanca_feat_event,
-      :check_remove_casablanca_feat_event,
-      :check_rotate_casablanca_feat_event,
-      :finish_casablanca_feat_event,
-    ],
-    # 134 カサブランカの風
-    [
-      :check_add_rhodesia_feat_event,
-      :check_remove_rhodesia_feat_event,
-      :check_rotate_rhodesia_feat_event,
-      :use_rhodesia_feat_event,
-      :use_rhodesia_feat_damage_event,
-      :finish_rhodesia_feat_event,
-    ],
-    # 135 ローデシアの海
-    [
-      :check_add_madripool_feat_event,
-      :check_remove_madripool_feat_event,
-      :check_rotate_madripool_feat_event,
-      :finish_madripool_feat_event,
-    ],
-    # 136 マドリプールの雑踏
-    [
-      :check_add_asia_feat_event,
-      :check_remove_asia_feat_event,
-      :check_rotate_asia_feat_event,
-      :finish_asia_feat_event,
-    ],
-    # 137 エイジャの曙光
-    [
-      :check_add_demonic_feat_event,
-      :check_remove_demonic_feat_event,
-      :check_rotate_demonic_feat_event,
-      :use_demonic_feat_event,
-      :use_demonic_feat_damage_event,
-      :finish_demonic_feat_event,
-    ],
-    # 138 デモニック
-    [
-      :check_add_shadow_sword_feat_event,
-      :check_remove_shadow_sword_feat_event,
-      :check_rotate_shadow_sword_feat_event,
-      :use_shadow_sword_feat_event,
-      :finish_shadow_sword_feat_event,
-    ],
-    # 139 残像剣
-    [
-      :check_add_perfect_dead_feat_event,
-      :check_remove_perfect_dead_feat_event,
-      :check_rotate_perfect_dead_feat_event,
-      :use_perfect_dead_feat_event,
-      :use_perfect_dead_feat_damage_event,
-      :finish_perfect_dead_feat_event,
-    ],
-    # 140 パーフェクトデッド
-    [
-      :check_add_destruct_gear_feat_event,
-      :check_remove_destruct_gear_feat_event,
-      :check_rotate_destruct_gear_feat_event,
-      :use_destruct_gear_feat_event,
-      :use_destruct_gear_feat_damage_event,
-      :finish_destruct_gear_feat_event,
-    ],
-    # 141 破壊の歯車
-    [
-      :check_add_power_shift_feat_event,
-      :check_remove_power_shift_feat_event,
-      :check_rotate_power_shift_feat_event,
-      :use_power_shift_feat_event,
-      :use_power_shift_feat_damage_event,
-      :finish_power_shift_feat_event,
-    ],
-    # 142 パワーシフト
-    [
-      :check_add_kill_shot_feat_event,
-      :check_remove_kill_shot_feat_event,
-      :check_rotate_kill_shot_feat_event,
-      :use_kill_shot_feat_event,
-      :use_kill_shot_feat_damage_event,
-      :finish_kill_shot_feat_event,
-    ],
-    # 143 キルショット
-    [
-      :check_add_defrect_feat_event,
-      :check_remove_defrect_feat_event,
-      :check_rotate_defrect_feat_event,
-      :use_defrect_feat_event,
-      :use_defrect_feat_damage_event,
-      :finish_defrect_feat_event,
-    ],
-    # 144 ディフレクト
-    [
-      :check_add_flame_offering_feat_event,
-      :check_remove_flame_offering_feat_event,
-      :check_rotate_flame_offering_feat_event,
-      :use_flame_offering_feat_event,
-    ],
-    # 145 炎の供物
-    [
-      :check_add_drain_hand_feat_event,
-      :check_remove_drain_hand_feat_event,
-      :check_rotate_drain_hand_feat_event,
-      :use_drain_hand_feat_event,
-      :use_drain_hand_feat_damage_event,
-      :finish_drain_hand_feat_event,
-    ],
-    # 146 吸収の手
-    [
-      :check_add_fire_prizon_feat_event,
-      :check_remove_fire_prizon_feat_event,
-      :check_rotate_fire_prizon_feat_event,
-      :use_fire_prizon_feat_event,
-    ],
-    # 147 焔の監獄
-    [
-      :check_add_time_stop_feat_event,
-      :check_remove_time_stop_feat_event,
-      :check_rotate_time_stop_feat_event,
-      :finish_time_stop_feat_event,
-    ],
-    # 148 時間停止
-    [
-      :check_add_dead_guard_feat_event,
-      :check_remove_dead_guard_feat_event,
-      :check_rotate_dead_guard_feat_event,
-      :use_dead_guard_feat_event,
-      :use_dead_guard_feat_damage_event,
-      :finish_dead_guard_feat_event,
-    ],
-    # 149 即死防御
-    [
-      :check_add_dead_blue_feat_event,
-      :check_remove_dead_blue_feat_event,
-      :check_rotate_dead_blue_feat_event,
-      :use_dead_blue_feat_event,
-      :use_dead_blue_feat_damage_event,
-      :finish_dead_blue_feat_event,
-    ],
-    # 150 奇数即死
-    [
-      :check_add_evil_guard_feat_event,
-      :check_remove_evil_guard_feat_event,
-      :check_rotate_evil_guard_feat_event,
-      :use_evil_guard_feat_event,
-      :use_evil_guard_feat_damage_event,
-      :finish_evil_guard_feat_event,
-    ],
-    # 151 善悪の彼岸
-    [
-      :check_add_abyss_eyes_feat_event,
-      :check_remove_abyss_eyes_feat_event,
-      :check_rotate_abyss_eyes_feat_event,
-      :use_abyss_eyes_feat_event,
-      :use_abyss_eyes_feat_damage_event,
-      :finish_abyss_eyes_feat_event,
-    ],
-    # 152 道連れ
-    [
-      :check_add_dead_red_feat_event,
-      :check_remove_dead_red_feat_event,
-      :check_rotate_dead_red_feat_event,
-      :finish_dead_red_feat_event,
-    ],
-    # 153 偶数即死
-    [
-      :check_add_night_ghost_feat_event,
-      :check_remove_night_ghost_feat_event,
-      :check_rotate_night_ghost_feat_event,
-      :use_night_ghost_feat_event,
-      :use_night_ghost_feat_damage_event,
-      :finish_night_ghost_feat_event,
-    ],
-    # 154 幽冥の夜
-    [
-      :check_add_avatar_war_feat_event,
-      :check_remove_avatar_war_feat_event,
-      :check_rotate_avatar_war_feat_event,
-      :use_avatar_war_feat_event,
-      :use_avatar_war_feat_damage_event,
-      :finish_avatar_war_feat_event,
-    ],
-    # 155 人形の軍勢
-    [
-      :check_add_confuse_pool_feat_event,
-      :check_remove_confuse_pool_feat_event,
-      :check_rotate_confuse_pool_feat_event,
-      :use_confuse_pool_feat_event,
-      :use_confuse_pool_feat_damage_event,
-      :finish_confuse_pool_feat_event,
-    ],
-    # 156 混沌の渦
-    [
-      :check_add_prominence_feat_event,
-      :check_remove_prominence_feat_event,
-      :check_rotate_prominence_feat_event,
-      :use_prominence_feat_event,
-      :finish_prominence_feat_event,
-    ],
-    # 157 プロミネンス
-    [
-      :check_add_battle_axe_feat_event,
-      :check_remove_battle_axe_feat_event,
-      :check_rotate_battle_axe_feat_event,
-      :use_battle_axe_feat_event,
-      :use_battle_axe_feat_damage_event,
-      :finish_battle_axe_feat_event,
-    ],
-    # 158 バトルアックス
-    [
-      :check_add_moab_feat_event,
-      :check_remove_moab_feat_event,
-      :check_rotate_moab_feat_event,
-      :finish_moab_feat_event,
-    ],
-    # 159 MOAB
-    [
-      :check_add_over_heat_feat_event,
-      :check_remove_over_heat_feat_event,
-      :check_rotate_over_heat_feat_event,
-      :finish_over_heat_feat_event,
-    ],
-    # 160 オーバーヒート
-    [
-      :check_add_blue_rose_feat_event,
-      :check_remove_blue_rose_feat_event,
-      :check_rotate_blue_rose_feat_event,
-      :use_blue_rose_feat_event,
-      :use_blue_rose_feat_damage_event,
-      :finish_blue_rose_feat_event,
-    ],
-    # 161 蒼き薔薇
-    [
-      :check_add_white_crow_feat_event,
-      :check_remove_white_crow_feat_event,
-      :check_rotate_white_crow_feat_event,
-      :finish_white_crow_feat_event,
-    ],
-    # 162 白鴉
-    [
-      :check_add_red_moon_feat_event,
-      :check_remove_red_moon_feat_event,
-      :check_rotate_red_moon_feat_event,
-      :use_red_moon_feat_event,
-      :use_red_moon_feat_dice_attr_event,
-      :use_red_moon_feat_damage_event,
-      :finish_red_moon_feat_event,
-    ],
-    # 163 深紅の月
-    [
-      :check_add_black_sun_feat_event,
-      :check_remove_black_sun_feat_event,
-      :check_rotate_black_sun_feat_event,
-      :finish_black_sun_feat_event,
-    ],
-    # 164黒い太陽
-    [
-      :check_add_girasole_feat_event,
-      :check_remove_girasole_feat_event,
-      :check_rotate_girasole_feat_event,
-      :use_girasole_feat_event,
-      :use_girasole_feat_damage_event,
-      :use_girasole_feat_const_damage_event,
-      :finish_girasole_feat_event,
-    ],
-    # 165 ジラソーレ
-    [
-      :check_add_violetta_feat_event,
-      :check_remove_violetta_feat_event,
-      :check_rotate_violetta_feat_event,
-      :finish_violetta_feat_event,
-    ],
-    # 166 ビオレッタ
-    [
-      :check_add_digitale_feat_event,
-      :check_remove_digitale_feat_event,
-      :check_rotate_digitale_feat_event,
-      :use_digitale_feat_event,
-      :use_digitale_feat_damage_event,
-      :finish_digitale_feat_event,
-    ],
-    # 167 ディジタリス
-    [
-      :check_add_rosmarino_feat_event,
-      :check_remove_rosmarino_feat_event,
-      :check_rotate_rosmarino_feat_event,
-      :finish_rosmarino_feat_event,
-    ],
-    # 168 ロスマリーノ
-    [
-      :check_add_hachiyou_feat_event,
-      :check_remove_hachiyou_feat_event,
-      :check_rotate_hachiyou_feat_event,
-      :finish_hachiyou_feat_event,
-    ],
-    # 169 八葉
-    [
-      :check_add_stone_care_feat_event,
-      :check_remove_stone_care_feat_event,
-      :check_rotate_stone_care_feat_event,
-      :use_stone_care_feat_event,
-      :finish_stone_care_feat_event,
-    ],
-    # 170 鉄石の構え
-    [
-      :check_add_dust_sword_feat_event,
-      :check_remove_dust_sword_feat_event,
-      :check_rotate_dust_sword_feat_event,
-      :use_dust_sword_feat_event,
-      :use_dust_sword_feat_damage_event,
-      :finish_dust_sword_feat_event,
-    ],
-    # 171 絶塵剣
-    [
-      :check_add_illusion_feat_event,
-      :check_remove_illusion_feat_event,
-      :check_rotate_illusion_feat_event,
-      :use_illusion_feat_event,
-      :use_illusion_feat_damage_event,
-      :finish_illusion_feat_event,
-    ],
-    # 172 夢幻
-    [
-      :check_add_despair_shout_feat_event,
-      :check_remove_despair_shout_feat_event,
-      :check_rotate_despair_shout_feat_event,
-      :finish_despair_shout_feat_event,
-    ],
-    # 173 絶望の叫び
-    [
-      :check_add_darkness_song_feat_event,
-      :check_remove_darkness_song_feat_event,
-      :check_rotate_darkness_song_feat_event,
-      :use_darkness_song_feat_event,
-      :finish_darkness_song_feat_event,
-    ],
-    # 174 暗黒神の歌
-    [
-      :check_add_guard_spirit_feat_event,
-      :check_remove_guard_spirit_feat_event,
-      :check_rotate_guard_spirit_feat_event,
-      :finish_guard_spirit_feat_event,
-    ],
-    # 175 守護霊の魂
-    [
-      :check_add_slaughter_organ_feat_event,
-      :check_remove_slaughter_organ_feat_event,
-      :check_rotate_slaughter_organ_feat_event,
-      :use_slaughter_organ_feat_event,
-      :finish_slaughter_organ_feat_event,
-      :finish_turn_slaughter_organ_feat_event,
-    ],
-    # 176 殺戮器官
-    [
-      :check_add_fools_hand_feat_event,
-      :check_remove_fools_hand_feat_event,
-      :check_rotate_fools_hand_feat_event,
-      :use_fools_hand_feat_event,
-      :use_fools_hand_feat_damage_event,
-      :finish_fools_hand_feat_event,
-    ],
-    # 177 愚者の手
-    [
-      :check_add_time_seed_feat_event,
-      :check_remove_time_seed_feat_event,
-      :check_rotate_time_seed_feat_event,
-      :use_time_seed_feat_event,
-      :finish_time_seed_feat_event,
-    ],
-    # 178 時の種子
-    [
-      :check_add_irongate_of_fate_feat_event,
-      :check_remove_irongate_of_fate_feat_event,
-      :check_rotate_irongate_of_fate_feat_event,
-      :use_irongate_of_fate_feat_event,
-      :use_irongate_of_fate_feat_damage_event,
-      :finish_irongate_of_fate_feat_event,
-    ],
-    # 179 運命の鉄門
-    [
-      :check_add_gatherer_feat_event,
-      :check_remove_gatherer_feat_event,
-      :check_rotate_gatherer_feat_event,
-      :use_gatherer_feat_event,
-      :use_next_gatherer_feat_event,
-      :finish_gatherer_feat_event,
-      :finish_chara_change_gatherer_feat_event,
-      :finish_foe_chara_change_gatherer_feat_event,
-    ],
-    # 180 ザ・ギャザラー
-    [
-      :check_add_judge_feat_event,
-      :check_remove_judge_feat_event,
-      :check_rotate_judge_feat_event,
-      :use_judge_feat_event,
-      :use_judge_feat_damage_event,
-      :finish_judge_feat_event,
-    ],
-    # 161 ザ・ジャッジ
-    [
-      :check_add_dream_feat_event,
-      :check_remove_dream_feat_event,
-      :check_rotate_dream_feat_event,
-      :use_dream_feat_event,
-      :use_dream_feat_damage_event,
-      :finish_dream_feat_event,
-    ],
-    # 182 ザ・ドリーム
-    [
-      :check_add_one_above_all_feat_event,
-      :check_remove_one_above_all_feat_event,
-      :check_rotate_one_above_all_feat_event,
-      :use_one_above_all_feat_event,
-    ],
-    # 183 ジ・ワン・アボヴ・オール
-    [
-      :check_add_antiseptic_feat_event,
-      :check_remove_antiseptic_feat_event,
-      :check_rotate_antiseptic_feat_event,
-      :use_antiseptic_feat_event,
-      :finish_antiseptic_feat_event,
-      :finish_turn_antiseptic_feat_event,
-      :check_antiseptic_state_change_event,
-      :check_antiseptic_state_dead_change_event,
-      :finish_antiseptic_state_event,
-    ],
-    # 184 アンチセプティック・F
-    [
-      :check_add_silver_machine_feat_event,
-      :check_remove_silver_machine_feat_event,
-      :check_rotate_silver_machine_feat_event,
-      :use_silver_machine_feat_event,
-      :finish_silver_machine_feat_event,
-      :finish_turn_silver_machine_feat_event,
-    ],
-    # 185 シルバーマシン
-    [
-      :check_add_atom_heart_feat_event,
-      :check_remove_atom_heart_feat_event,
-      :check_rotate_atom_heart_feat_event,
-      :use_atom_heart_feat_event,
-      :use_next_atom_heart_feat_event,
-      :finish_atom_heart_feat_event,
-      :finish_result_atom_heart_feat_event,
-      :finish_calc_atom_heart_feat_event,
-      :disable_atom_heart_feat_event,
-      :disable_next_atom_heart_feat_event,
-    ],
-    # 186 アトムハート
-    [
-      :check_add_electric_surgery_feat_event,
-      :check_remove_electric_surgery_feat_event,
-      :check_rotate_electric_surgery_feat_event,
-      :use_electric_surgery_feat_event,
-      :use_electric_surgery_feat_damage_event,
-      :finish_electric_surgery_feat_event,
-    ],
-    # 187 エレクトロサージェリー
-    [
-      :check_add_acid_eater_feat_event,
-      :check_remove_acid_eater_feat_event,
-      :check_rotate_acid_eater_feat_event,
-      :finish_used_determine_acid_eater_feat_event,
-      :finish_determine_acid_eater_feat_event,
-      :finish_calc_acid_eater_feat_event,
-      :finish_next_acid_eater_feat_event,
-    ],
-    # 188 アシッドイーター
-    [
-      :check_add_dead_lock_feat_event,
-      :check_remove_dead_lock_feat_event,
-      :check_rotate_dead_lock_feat_event,
-      :use_dead_lock_feat_event,
-      :use_dead_lock_feat_damage_event,
-      :finish_dead_lock_feat_event,
-    ],
-    # 189 デッドロック
-    [
-      :check_add_beggars_banquet_feat_event,
-      :check_remove_beggars_banquet_feat_event,
-      :check_rotate_beggars_banquet_feat_event,
-      :use_beggars_banquet_feat_event,
-      :ex_beggars_banquet_tmp_feat_event,
-      :finish_ex_beggars_banquet_feat_event,
-      :finish_chara_change_ex_beggars_banquet_feat_event,
-      :finish_foe_chara_change_ex_beggars_banquet_feat_event,
-    ],
-    # 190 ベガーズバンケット
-    [
-      :check_add_swan_song_feat_event,
-      :check_remove_swan_song_feat_event,
-      :check_rotate_swan_song_feat_event,
-      :use_swan_song_feat_event,
-      :finish_swan_song_feat_event,
-    ],
-    # 191 スワンソング
-    [
-      :check_add_idle_grave_feat_event,
-      :check_remove_idle_grave_feat_event,
-      :check_rotate_idle_grave_feat_event,
-      :use_idle_grave_feat_event,
-    ],
-    # 192 精神力吸収
-    [
-      :check_add_sorrow_song_feat_event,
-      :check_remove_sorrow_song_feat_event,
-      :check_rotate_sorrow_song_feat_event,
-      :use_sorrow_song_feat_event,
-      :finish_sorrow_song_feat_event,
-      :finish_ex_sorrow_song_feat_event,
-    ],
-    # 193 慟哭の歌
-    [
-      :check_add_red_wheel_feat_event,
-      :check_remove_red_wheel_feat_event,
-      :check_rotate_red_wheel_feat_event,
-      :use_red_wheel_feat_event,
-      :use_red_wheel_feat_damage_event,
-      :finish_red_wheel_feat_event,
-    ],
-    # 194 紅蓮の車輪
-    [
-      :check_add_red_pomegranate_feat_event,
-      :check_remove_red_pomegranate_feat_event,
-      :check_rotate_red_pomegranate_feat_event,
-      :finish_red_pomegranate_feat_event,
-    ],
-    # 195 赤い石榴
-    [
-      :check_add_clock_works_feat_event,
-      :check_remove_clock_works_feat_event,
-      :check_rotate_clock_works_feat_event,
-      :finish_clock_works_feat_event,
-    ],
-    # 196 クロックワークス
-    [
-      :check_add_time_hunt_feat_event,
-      :check_remove_time_hunt_feat_event,
-      :check_rotate_time_hunt_feat_event,
-      :use_ex_time_hunt_feat_event,
-      :use_time_hunt_feat_event,
-      :finish_time_hunt_feat_event,
-    ],
-    # 197 タイムハント
-    [
-      :check_add_time_bomb_feat_event,
-      :check_remove_time_bomb_feat_event,
-      :check_rotate_time_bomb_feat_event,
-      :use_time_bomb_feat_event,
-      :finish_time_bomb_feat_event,
-    ],
-    # 198 タイムボム
-    [
-      :check_add_in_the_evening_feat_event,
-      :check_remove_in_the_evening_feat_event,
-      :check_rotate_in_the_evening_feat_event,
-      :finish_in_the_evening_feat_event,
-    ],
-    # 199 インジイブニング
-    [
-      :check_add_final_waltz_feat_event,
-      :check_remove_final_waltz_feat_event,
-      :check_rotate_final_waltz_feat_event,
-      :use_final_waltz_feat_event,
-      :use_final_waltz_feat_damage_event,
-      :finish_final_waltz_feat_event,
-    ],
-    # 200 終局のワルツ
-    [
-      :check_add_desperate_sonata_feat_event,
-      :check_remove_desperate_sonata_feat_event,
-      :check_rotate_desperate_sonata_feat_event,
-      :use_desperate_sonata_feat_event,
-      :finish_desperate_sonata_feat_event,
-      :finish_turn_desperate_sonata_feat_event,
-    ],
-    # 201 自棄のソナタ
-    [
-      :check_add_gladiator_march_feat_event,
-      :check_remove_gladiator_march_feat_event,
-      :check_rotate_gladiator_march_feat_event,
-      :use_gladiator_march_feat_event,
-      :finish_gladiator_march_feat_event,
-    ],
-    # 202 剣闘士のマーチ
-    [
-      :check_add_requiem_of_revenge_feat_event,
-      :check_remove_requiem_of_revenge_feat_event,
-      :check_rotate_requiem_of_revenge_feat_event,
-      :use_requiem_of_revenge_feat_event,
-      :finish_requiem_of_revenge_feat_event,
-    ],
-    # 203 恩讐のレクイエム
-    [
-      :check_add_delicious_milk_feat_event,
-      :check_remove_delicious_milk_feat_event,
-      :check_rotate_delicious_milk_feat_event,
-      :use_delicious_milk_feat_event,
-      :use_ex_delicious_milk_feat_event,
-      :finish_change_delicious_milk_feat_event,
-      :finish_delicious_milk_feat_event,
-      :finish_turn_delicious_milk_feat_event,
-    ],
-    # 204 おいしいミルク
-    [
-      :check_add_easy_injection_feat_event,
-      :check_remove_easy_injection_feat_event,
-      :check_rotate_easy_injection_feat_event,
-      :use_easy_injection_feat_event,
-      :finish_easy_injection_feat_event,
-    ],
-    # 205 やさしいお注射
-    [
-      :check_add_blood_collecting_feat_event,
-      :check_remove_blood_collecting_feat_event,
-      :check_rotate_blood_collecting_feat_event,
-      :use_blood_collecting_feat_event,
-      :finish_blood_collecting_feat_event,
-    ],
-    # 206 たのしい採血
-    [
-      :check_add_secret_medicine_feat_event,
-      :check_remove_secret_medicine_feat_event,
-      :check_rotate_secret_medicine_feat_event,
-      :use_secret_medicine_feat_event,
-      :finish_secret_medicine_feat_event,
-    ],
-    # 207 ひみつのお薬
-    [
-      :check_add_ice_gate_feat_event,
-      :check_remove_ice_gate_feat_event,
-      :check_rotate_ice_gate_feat_event,
-      :use_ice_gate_feat_event,
-      :finish_ice_gate_feat_event,
-    ],
-    # 208 氷の門
-    [
-      :check_add_fire_gate_feat_event,
-      :check_remove_fire_gate_feat_event,
-      :check_rotate_fire_gate_feat_event,
-      :use_fire_gate_feat_event,
-      :finish_fire_gate_feat_event,
-    ],
-    # 209 炎の門
-    [
-      :check_add_break_gate_feat_event,
-      :check_remove_break_gate_feat_event,
-      :check_rotate_break_gate_feat_event,
-      :finish_break_gate_feat_event,
-    ],
-    # 210
-    [
-      :check_add_shout_of_gate_feat_event,
-      :check_remove_shout_of_gate_feat_event,
-      :check_rotate_shout_of_gate_feat_event,
-      :use_shout_of_gate_feat_event,
-      :use_shout_of_gate_feat_damage_event,
-      :finish_shout_of_gate_feat_event,
-    ],
-    # 211 叫ぶ門
-    [
-      :check_add_ferreous_anger_feat_event,
-      :check_remove_ferreous_anger_feat_event,
-      :check_rotate_ferreous_anger_feat_event,
-      :use_ferreous_anger_feat_event,
-      :use_ferreous_anger_feat_damage_event,
-      :finish_ferreous_anger_feat_event,
-    ],
-    # 212 フュリアスアンガー
-    [
-      :check_add_name_of_charity_feat_event,
-      :check_remove_name_of_charity_feat_event,
-      :check_rotate_name_of_charity_feat_event,
-      :use_name_of_charity_feat_event,
-    ],
-    # 213 ネームオブチャリティ
-    [
-      :check_add_good_will_feat_event,
-      :check_remove_good_will_feat_event,
-      :check_rotate_good_will_feat_event,
-      :use_good_will_feat_event,
-      :finish_good_will_feat_event,
-    ],
-    # 214 グッドウィル
-    [
-      :check_add_great_vengeance_feat_event,
-      :check_remove_great_vengeance_feat_event,
-      :check_rotate_great_vengeance_feat_event,
-      :use_great_vengeance_feat_event,
-      :use_great_vengeance_feat_damage_event,
-      :use_great_vengeance_feat_const_damage_event,
-      :finish_great_vengeance_feat_event,
-    ],
-    # 215 グレートベンジェンス
-    [
-      :check_add_innocent_soul_feat_event,
-      :check_remove_innocent_soul_feat_event,
-      :check_rotate_innocent_soul_feat_event,
-      :finish_innocent_soul_feat_event,
-    ],
-    # 216 無辜の魂
-    [
-      :check_add_infallible_deed_feat_event,
-      :check_remove_infallible_deed_feat_event,
-      :check_rotate_infallible_deed_feat_event,
-      :use_infallible_deed_feat_event,
-      :finish_infallible_deed_feat_event,
-      :finish_chara_change_infallible_deed_feat_event,
-      :finish_effect_infallible_deed_feat_event,
-      :finish_foe_change_infallible_deed_feat_event,
-      :finish_owner_change_infallible_deed_feat_event,
-      :finish_dead_change_infallible_deed_feat_event,
-      :finish_turn_infallible_deed_feat_event,
-    ],
-    # 217 無謬の行い(光彩陸離)
-    [
-      :check_add_idle_fate_feat_event,
-      :check_remove_idle_fate_feat_event,
-      :check_rotate_idle_fate_feat_event,
-      :use_idle_fate_feat_event,
-      :use_idle_fate_feat_damage_event,
-      :finish_idle_fate_feat_event,
-    ],
-    # 218 無為の運命
-    [
-      :check_add_regrettable_judgment_feat_event,
-      :check_remove_regrettable_judgment_feat_event,
-      :check_rotate_regrettable_judgment_feat_event,
-      :use_regrettable_judgment_feat_event,
-      :use_regrettable_judgment_feat_damage_event,
-      :finish_regrettable_judgment_feat_event,
-    ],
-    # 219 無念の裁き
-    [
-      :check_add_sin_wriggle_feat_event,
-      :check_remove_sin_wriggle_feat_event,
-      :check_rotate_sin_wriggle_feat_event,
-      :use_sin_wriggle_feat_event,
-      :use_sin_wriggle_feat_damage_event,
-      :finish_sin_wriggle_feat_event,
-    ],
-    # 220 罪業の蠢き
-    [
-      :check_add_idle_groan_feat_event,
-      :check_remove_idle_groan_feat_event,
-      :check_rotate_idle_groan_feat_event,
-      :use_idle_groan_feat_event,
-      :use_idle_groan_feat_damage_event,
-      :finish_idle_groan_feat_event,
-      :finish_turn_idle_groan_feat_event,
-    ],
-    # 221 懶惰の呻き
-    [
-      :check_add_contamination_sorrow_feat_event,
-      :check_remove_contamination_sorrow_feat_event,
-      :check_rotate_contamination_sorrow_feat_event,
-      :finish_contamination_sorrow_feat_event,
-    ],
-    # 222 汚濁の囁き
-    [
-      :check_add_failure_groan_feat_event,
-      :check_remove_failure_groan_feat_event,
-      :check_rotate_failure_groan_feat_event,
-      :finish_failure_groan_feat_event,
-    ],
-    # 223 蹉跌の犇めき
-    [
-      :check_add_cathedral_feat_event,
-      :check_remove_cathedral_feat_event,
-      :check_rotate_cathedral_feat_event,
-      :use_cathedral_feat_event,
-      :finish_cathedral_feat_event,
-    ],
-    # 224 大聖堂
-    [
-      :check_add_winter_dream_feat_event,
-      :check_remove_winter_dream_feat_event,
-      :check_rotate_winter_dream_feat_event,
-      :use_winter_dream_feat_event,
-      :use_winter_dream_feat_damage_event,
-      :finish_winter_dream_feat_event,
-    ],
-    # 225 冬の夢
-    [
-      :check_add_tender_night_feat_event,
-      :check_remove_tender_night_feat_event,
-      :check_rotate_tender_night_feat_event,
-      :finish_tender_night_feat_event,
-    ],
-    # 226 夜はやさし
-    [
-      :check_add_fortunate_reason_feat_event,
-      :check_remove_fortunate_reason_feat_event,
-      :check_rotate_fortunate_reason_feat_event,
-      :finish_fortunate_reason_feat_event,
-    ],
-    # 227 しあわせの理由
-    [
-      :check_add_rud_num_feat_event,
-      :check_remove_rud_num_feat_event,
-      :check_rotate_rud_num_feat_event,
-      :use_rud_num_feat_event,
-      :finish_rud_num_feat_event,
-    ],
-    # 228 RudNum
-    [
-      :check_add_von_num_feat_event,
-      :check_remove_von_num_feat_event,
-      :check_rotate_von_num_feat_event,
-      :use_von_num_feat_event,
-      :use_von_num_feat_damage_event,
-      :finish_von_num_feat_event,
-    ],
-    # 229 VonNum
-    [
-      :check_add_chr_num_feat_event,
-      :check_remove_chr_num_feat_event,
-      :check_rotate_chr_num_feat_event,
-      :use_chr_num_feat_event,
-      :finish_chr_num_feat_event,
-    ],
-    # 230 CHR799
-    [
-      :check_add_wil_num_feat_event,
-      :check_remove_wil_num_feat_event,
-      :check_rotate_wil_num_feat_event,
-      :finish_wil_num_feat_event,
-    ],
-    # 231 wil846
-    [
-      :check_add_precision_fire_feat_event,
-      :check_remove_precision_fire_feat_event,
-      :check_rotate_precision_fire_feat_event,
-      :use_precision_fire_feat_event,
-      :use_precision_fire_feat_damage_event,
-      :finish_precision_fire_feat_event,
-    ],
-    # 232 精密射撃(復活)
-    [
-      :check_add_purple_lightning_feat_event,
-      :check_remove_purple_lightning_feat_event,
-      :check_rotate_purple_lightning_feat_event,
-      :use_purple_lightning_feat_event,
-      :use_purple_lightning_feat_damage_event,
-      :finish_purple_lightning_feat_event,
-    ],
-    # 233 紫電
-    [
-      :check_add_mortal_style_feat_event,
-      :check_remove_mortal_style_feat_event,
-      :check_rotate_mortal_style_feat_event,
-      :finish_mortal_style_feat_event,
-    ],
-    # 234 必殺の構え(復活)
-    [
-      :check_add_bloody_howl_feat_event,
-      :check_remove_bloody_howl_feat_event,
-      :check_rotate_bloody_howl_feat_event,
-      :use_bloody_howl_feat_event,
-      :finish_bloody_howl_feat_event,
-      :use_bloody_howl_feat_damage_event,
-    ],
-    # 235 ブラッディハウル
-    [
-      :check_add_charged_thrust_feat_event,
-      :check_remove_charged_thrust_feat_event,
-      :check_rotate_charged_thrust_feat_event,
-      :use_charged_thrust_feat_event,
-      :finish_charged_thrust_feat_event,
-    ],
-    # 236 チャージドストラト
-    [
-      :check_add_sword_dance_feat_event,
-      :check_remove_sword_dance_feat_event,
-      :check_rotate_sword_dance_feat_event,
-      :use_sword_dance_feat_event,
-      :finish_sword_dance_feat_event,
-      :use_sword_dance_feat_damage_event,
-    ],
-    # 237 ソードダンス
-    [
-      :check_add_sword_avoid_feat_event,
-      :check_remove_sword_avoid_feat_event,
-      :check_rotate_sword_avoid_feat_event,
-      :use_sword_avoid_feat_event,
-      :use_sword_avoid_feat_damage_event,
-      :finish_sword_avoid_feat_event,
-    ],
-    # 238 受け流し
-    [
-      :check_add_kutunesirka_feat_event,
-      :check_remove_kutunesirka_feat_event,
-      :check_rotate_kutunesirka_feat_event,
-      :use_kutunesirka_feat_event,
-      :finish_kutunesirka_feat_event,
-      :use_kutunesirka_feat_damage_event,
-    ],
-    # 239 クトネシリカ(フォイルニスゼーレ)
-    [
-      :check_add_feet_of_hermes_feat_event,
-      :check_remove_feet_of_hermes_feat_event,
-      :check_rotate_feet_of_hermes_feat_event,
-      :use_feet_of_hermes_feat_event,
-      :use_feet_of_hermes_feat_damage_event,
-    ],
-    # 240 ヘルメスの靴(ドゥンケルハイト)
-    [
-      :check_add_aegis_wing_feat_event,
-      :check_remove_aegis_wing_feat_event,
-      :check_rotate_aegis_wing_feat_event,
-      :use_aegis_wing_feat_event,
-      :finish_aegis_wing_feat_event,
-      :use_aegis_wing_feat_damage_event,
-    ],
-    # 241 イージスの翼(シャッテンフリューゲル)
-    [
-      :check_add_claiomh_solais_feat_event,
-      :check_remove_claiomh_solais_feat_event,
-      :check_rotate_claiomh_solais_feat_event,
-      :use_claiomh_solais_feat_event,
-      :finish_claiomh_solais_feat_event,
-    ],
-    # 242 クラウ・ソラス(ヴィルベルリッテル)
-    [
-      :check_add_mutation_feat_event,
-      :check_remove_mutation_feat_event,
-      :check_rotate_mutation_feat_event,
-      :use_mutation_feat_event,
-      :finish_mutation_feat_event,
-      :finish_effect_mutation_feat_event,
-    ],
-    # 243 細胞変異
-    [
-      :check_add_rampancy_feat_event,
-      :check_remove_rampancy_feat_event,
-      :check_rotate_rampancy_feat_event,
-      :use_rampancy_feat_damage_event,
-      :finish_rampancy_feat_event,
-    ],
-    # 244 指嗾する仔
-    [
-      :check_add_sacrifice_of_soul_feat_event,
-      :check_remove_sacrifice_of_soul_feat_event,
-      :check_rotate_sacrifice_of_soul_feat_event,
-      :use_sacrifice_of_soul_feat_event,
-      :use_sacrifice_of_soul_feat_heal_event,
-      :use_sacrifice_of_soul_feat_damage_event,
-    ],
-    # 245 魂魄の贄
-    [
-      :check_add_silver_bullet_feat_event,
-      :check_remove_silver_bullet_feat_event,
-      :check_rotate_silver_bullet_feat_event,
-      :finish_silver_bullet_feat_event,
-    ],
-    # 246 銀の丸弾(哀切の残光)
-    [
-      :check_add_pumpkin_drop_feat_event,
-      :check_remove_pumpkin_drop_feat_event,
-      :check_rotate_pumpkin_drop_feat_event,
-      :use_pumpkin_drop_feat_event,
-      :use_pumpkin_drop_feat_damage_event,
-      :use_pumpkin_drop_feat_const_damage_event,
-      :finish_pumpkin_drop_feat_event,
-    ],
-    # 247 かぼちゃ落とし
-    [
-      :check_add_wandering_feather_feat_event,
-      :check_remove_wandering_feather_feat_event,
-      :check_rotate_wandering_feather_feat_event,
-      :use_wandering_feather_feat_event,
-      :finish_wandering_feather_feat_event,
-      :cutin_wandering_feather_feat_event,
-    ],
-    # 248 彷徨う羽根
-    [
-      :check_add_sheep_song_feat_event,
-      :check_remove_sheep_song_feat_event,
-      :check_rotate_sheep_song_feat_event,
-      :use_sheep_song_feat_event,
-      :finish_sheep_song_feat_event,
-    ],
-    # 249 ひつじ数え歌
-    [
-      :check_add_dream_of_ovuerya_feat_event,
-      :check_remove_dream_of_ovuerya_feat_event,
-      :check_rotate_dream_of_ovuerya_feat_event,
-      :finish_dream_of_ovuerya_feat_event,
-    ],
-    # 250 オヴェリャの夢
-    [
-      :check_add_marys_sheep_feat_event,
-      :check_remove_marys_sheep_feat_event,
-      :check_rotate_marys_sheep_feat_event,
-      :use_marys_sheep_feat_event,
-      :use_marys_sheep_feat_damage_event,
-      :finish_marys_sheep_feat_event,
-    ],
-    # 251 メリーズシープ
-    [
-      :check_add_evil_eye_feat_event,
-      :check_remove_evil_eye_feat_event,
-      :check_rotate_evil_eye_feat_event,
-      :use_evil_eye_feat_event,
-      :use_evil_eye_feat_damage_event,
-      :finish_evil_eye_feat_event,
-    ],
-    # 252 光り輝く邪眼
-    [
-      :check_add_black_arts_feat_event,
-      :check_remove_black_arts_feat_event,
-      :check_rotate_black_arts_feat_event,
-      :finish_black_arts_feat_event,
-    ],
-    # 253 超越者の邪法
-    [
-      :check_add_blasphemy_curse_feat_event,
-      :check_remove_blasphemy_curse_feat_event,
-      :check_rotate_blasphemy_curse_feat_event,
-      :use_blasphemy_curse_feat_event,
-      :use_blasphemy_curse_feat_damage_event,
-      :finish_blasphemy_curse_feat_event,
-    ],
-    # 254 冒涜する呪詛
-    [
-      :check_add_end_of_end_feat_event,
-      :check_remove_end_of_end_feat_event,
-      :check_rotate_end_of_end_feat_event,
-      :use_end_of_end_feat_event,
-      :use_end_of_end_feat_damage_event,
-      :finish_end_of_end_feat_event,
-    ],
-    # 255 終焉の果て
-    [
-      :check_add_thrones_gate_feat_event,
-      :check_remove_thrones_gate_feat_event,
-      :check_rotate_thrones_gate_feat_event,
-      :use_thrones_gate_feat_event,
-      :use_thrones_gate_feat_damage_event,
-      :finish_thrones_gate_feat_event,
-    ],
-    # 256 玉座の凱旋門
-    [
-      :check_add_ghost_resentment_feat_event,
-      :check_remove_ghost_resentment_feat_event,
-      :check_rotate_ghost_resentment_feat_event,
-      :use_ghost_resentment_feat_event,
-      :use_ghost_resentment_feat_damage_event,
-      :finish_ghost_resentment_feat_event,
-    ],
-    # 257 幽愁暗恨
-    [
-      :check_add_curse_sword_feat_event,
-      :check_remove_curse_sword_feat_event,
-      :check_rotate_curse_sword_feat_event,
-      :use_curse_sword_feat_event,
-      :use_curse_sword_feat_damage_event,
-      :finish_curse_sword_feat_event,
-    ],
-    # 258 Ex呪剣
-    [
-      :check_add_rapid_sword_r2_feat_event,
-      :check_remove_rapid_sword_r2_feat_event,
-      :check_rotate_rapid_sword_r2_feat_event,
-      :use_rapid_sword_r2_feat_event,
-      :finish_rapid_sword_r2_feat_event,
-    ],
-    # 259 神速の剣(復活)
-    [
-      :check_add_anger_r_feat_event,
-      :check_remove_anger_r_feat_event,
-      :check_rotate_anger_r_feat_event,
-      :use_anger_r_feat_event,
-      :finish_anger_r_feat_event,
-    ],
-    # 260 怒りの一撃
-    [
-      :check_add_volition_deflect_feat_event,
-      :check_remove_volition_deflect_feat_event,
-      :check_rotate_volition_deflect_feat_event,
-      :use_volition_deflect_feat_event,
-      :finish_volition_deflect_feat_event,
-    ],
-    # 261 ヴォリッションディフレクト
-    [
-      :check_add_shadow_shot_r_feat_event,
-      :check_remove_shadow_shot_r_feat_event,
-      :check_rotate_shadow_shot_r_feat_event,
-      :use_shadow_shot_r_feat_event,
-      :use_shadow_shot_r_feat_damage_event,
-      :finish_shadow_shot_r_feat_event,
-    ],
-    # 262 影撃ち(復活)
-    [
-      :check_add_burning_tail_feat_event,
-      :check_remove_burning_tail_feat_event,
-      :check_rotate_burning_tail_feat_event,
-      :use_burning_tail_feat_event,
-      :finish_burning_tail_feat_event,
-    ],
-    # 263 嚇灼の尾
-    [
-      :check_add_quake_walk_feat_event,
-      :check_remove_quake_walk_feat_event,
-      :check_rotate_quake_walk_feat_event,
-      :finish_quake_walk_feat_event,
-    ],
-    # 264 震歩
-    [
-      :check_add_drainage_feat_event,
-      :check_remove_drainage_feat_event,
-      :check_rotate_drainage_feat_event,
-      :use_drainage_feat_event,
-      :use_drainage_feat_damage_event,
-      :use_drainage_feat_const_damage_event,
-      :finish_drainage_feat_event,
-    ],
-    # 265 ドレナージ
-    [
-      :check_add_smile_feat_event,
-      :check_remove_smile_feat_event,
-      :check_rotate_smile_feat_event,
-      :use_smile_feat_event,
-      :use_smile_feat_damage_event,
-      :finish_smile_feat_event,
-    ],
-    # 266 やさしい微笑み
-    [
-      :check_add_blutkontamina_feat_event,
-      :check_remove_blutkontamina_feat_event,
-      :check_rotate_blutkontamina_feat_event,
-      :use_blutkontamina_feat_event,
-      :use_blutkontamina_feat_damage_event,
-      :finish_blutkontamina_feat_event,
-    ],
-    # 267 血統汚染(レイド用)
-    [
-      :check_add_cold_eyes_feat_event,
-      :check_remove_cold_eyes_feat_event,
-      :check_rotate_cold_eyes_feat_event,
-      :use_cold_eyes_feat_damage_event,
-      :finish_cold_eyes_feat_event,
-    ],
-    # 268 つめたい視線
-    [
-      :check_add_feat1_feat_event,
-      :check_remove_feat1_feat_event,
-      :check_rotate_feat1_feat_event,
-      :use_feat1_feat_event,
-      :use_feat1_feat_damage_event,
-      :finish_feat1_feat_event,
-    ],
-    # 269 Feat1
-    [
-      :check_add_feat2_feat_event,
-      :check_remove_feat2_feat_event,
-      :check_rotate_feat2_feat_event,
-      :use_feat2_feat_event,
-      :finish_feat2_feat_event,
-      :use_feat2_feat_damage_event,
-    ],
-    # 270 Feat2
-    [
-      :check_add_feat3_feat_event,
-      :check_remove_feat3_feat_event,
-      :check_rotate_feat3_feat_event,
-      :use_feat3_feat_event,
-      :finish_feat3_feat_event,
-    ],
-    # 271 Feat3
-    [
-      :check_add_feat4_feat_event,
-      :check_remove_feat4_feat_event,
-      :check_rotate_feat4_feat_event,
-      :check_bp_feat4_attack_feat_event,
-      :check_bp_feat4_defence_feat_event,
-      :use_feat4_feat_event,
-      :finish_change_feat4_feat_event,
-      :start_feat4_feat_event,
-      :finish_feat4_feat_event,
-    ],
-    # 272 Feat4
-    [
-      :check_add_weasel_feat_event,
-      :check_remove_weasel_feat_event,
-      :check_rotate_weasel_feat_event,
-      :check_table_weasel_feat_move_event,
-      :check_table_weasel_feat_battle_event,
-      :use_weasel_feat_deal_event,
-      :use_weasel_feat_event,
-      :use_weasel_feat_damage_event,
-      :finish_weasel_feat_event,
-      :check_ending_weasel_feat_event,
-    ],
-    # 273 見えざる白群の鼬
-    [
-      :check_add_dark_profound_feat_event,
-      :check_remove_dark_profound_feat_event,
-      :check_rotate_dark_profound_feat_event,
-      :use_dark_profound_feat_event,
-      :use_dark_profound_feat_bornus_event,
-      :finish_dark_profound_feat_event,
-    ],
-    # 274 暗黒の渦(復活)
-    [
-      :check_add_karmic_dor_feat_event,
-      :check_remove_karmic_dor_feat_event,
-      :check_rotate_karmic_dor_feat_event,
-      :check_point_karmic_dor_feat_event,
-      :use_karmic_dor_feat_event,
-      :finish_karmic_dor_feat_event,
-    ],
-    # 275 因果の扉
-    [
-      :check_add_batafly_mov_feat_event,
-      :check_remove_batafly_mov_feat_event,
-      :check_rotate_batafly_mov_feat_event,
-      :determine_distance_batafly_mov_feat_event,
-      :finish_batafly_mov_feat_event,
-    ],
-    # 276 batafly_mov
-    [
-      :check_add_batafly_atk_feat_event,
-      :check_remove_batafly_atk_feat_event,
-      :check_rotate_batafly_atk_feat_event,
-      :use_batafly_atk_feat_event,
-      :finish_batafly_atk_feat_event,
-    ],
-    # 277 batafly_atk
-    [
-      :check_add_batafly_def_feat_event,
-      :check_remove_batafly_def_feat_event,
-      :check_rotate_batafly_def_feat_event,
-      :use_batafly_def_feat_event,
-      :finish_batafly_def_feat_event,
-    ],
-    # 278 batafly_def
-    [
-      :check_add_batafly_sld_feat_event,
-      :check_remove_batafly_sld_feat_event,
-      :check_rotate_batafly_sld_feat_event,
-      :use_batafly_sld_feat_event,
-      :finish_batafly_sld_feat_event,
-    ],
-    # 279 batafly_sld
-    [
-      :check_add_grace_cocktail_feat_event,
-      :check_remove_grace_cocktail_feat_event,
-      :check_rotate_grace_cocktail_feat_event,
-      :use_grace_cocktail_feat_event,
-      :use_grace_cocktail_feat_damage_event,
-      :finish_grace_cocktail_feat_event,
-    ],
-    # 280 ベンダーカクテル
-    [
-      :check_add_land_mine_r_feat_event,
-      :check_remove_land_mine_r_feat_event,
-      :check_rotate_land_mine_r_feat_event,
-      :use_land_mine_r_feat_event,
-    ],
-    # 281 ランドマイン(復活)
-    [
-      :check_add_napalm_death_feat_event,
-      :check_remove_napalm_death_feat_event,
-      :check_rotate_napalm_death_feat_event,
-      :use_napalm_death_feat_event,
-      :finish_napalm_death_feat_event,
-    ],
-    # 282 ナパーム・デス
-    [
-      :check_add_suicidal_failure_feat_event,
-      :check_remove_suicidal_failure_feat_event,
-      :check_rotate_suicidal_failure_feat_event,
-      :use_suicidal_failure_feat_event,
-      :finish_suicidal_failure_feat_event,
-    ],
-    # 283 スーサイダルフェイルア
-    [
-      :check_add_big_bragg_r_feat_event,
-      :check_remove_big_bragg_r_feat_event,
-      :check_rotate_big_bragg_r_feat_event,
-      :finish_big_bragg_r_feat_event,
-    ],
-    # 284 ビッグブラッグ(復活)
-    [
-      :check_add_lets_knife_r_feat_event,
-      :check_remove_lets_knife_r_feat_event,
-      :check_rotate_lets_knife_r_feat_event,
-      :use_lets_knife_r_feat_event,
-      :finish_lets_knife_r_feat_event,
-    ],
-    # 285 レッツナイフ(復活)
-    [
-      :check_add_prey_feat_event,
-      :check_remove_prey_feat_event,
-      :check_rotate_prey_feat_event,
-      :use_prey_feat_event,
-    ],
-    # 286 捕食
-    [
-      :check_add_rumination_feat_event,
-      :check_remove_rumination_feat_event,
-      :check_rotate_rumination_feat_event,
-      :use_rumination_feat_event,
-      :finish_rumination_feat_event,
-      :finish_rumination_feat_foe_chara_change_event,
-      :finish_rumination_feat_owner_chara_change_event,
-    ],
-    # 287 反芻
-    [
-      :check_add_pilum_feat_event,
-      :check_remove_pilum_feat_event,
-      :check_rotate_pilum_feat_event,
-      :use_pilum_feat_event,
-      :finish_pilum_feat_event,
-      :use_pilum_feat_damage_event,
-    ],
-    # 288 ピルム
-    [
-      :check_add_road_of_underground_feat_event,
-      :check_remove_road_of_underground_feat_event,
-      :check_rotate_road_of_underground_feat_event,
-      :use_road_of_underground_feat_event,
-      :use_road_of_underground_feat_finish_move_event,
-      :finish_road_of_underground_feat_event,
-    ],
-    # 289 地中の路
-    [
-      :check_add_fox_shadow_feat_event,
-      :check_remove_fox_shadow_feat_event,
-      :check_rotate_fox_shadow_feat_event,
-      :use_fox_shadow_feat_event,
-      :finish_fox_shadow_feat_event,
-    ],
-    # 290 狐分身
-    [
-      :check_add_fox_shoot_feat_event,
-      :check_remove_fox_shoot_feat_event,
-      :check_rotate_fox_shoot_feat_event,
-      :use_fox_shoot_feat_event,
-      :finish_fox_shoot_feat_event,
-      :use_fox_shoot_feat_damage_event,
-    ],
-    # 291 狐シュート
-    [
-      :check_add_fox_zone_feat_event,
-      :check_remove_fox_zone_feat_event,
-      :check_rotate_fox_zone_feat_event,
-      :use_fox_zone_feat_event,
-      :use_fox_zone_feat_attack_deal_det_chara_change_event,
-      :use_fox_zone_feat_attack_deal_change_initiative_event,
-      :use_fox_zone_feat_defense_deal_event,
-      :finish_fox_zone_feat_event,
-    ],
-    # 292 狐間空
-    [
-      :check_add_arrow_rain_feat_event,
-      :check_remove_arrow_rain_feat_event,
-      :check_rotate_arrow_rain_feat_event,
-      :use_arrow_rain_feat_event,
-      :finish_arrow_rain_feat_event,
-    ],
-    # 293 墜下する流星
-    [
-      :check_add_atemwende_feat_event,
-      :check_remove_atemwende_feat_event,
-      :check_rotate_atemwende_feat_event,
-      :use_atemwende_feat_event,
-      :finish_change_atemwende_feat_event,
-      :finish_turn_atemwende_feat_event,
-    ],
-    # 294 光輝強迫
-    [
-      :check_add_fadensonnen_feat_event,
-      :check_remove_fadensonnen_feat_event,
-      :check_rotate_fadensonnen_feat_event,
-      :use_fadensonnen_feat_event,
-      :finish_fadensonnen_feat_event,
-    ],
-    # 295 雪の重唱
-    [
-      :check_add_lichtzwang_feat_event,
-      :check_remove_lichtzwang_feat_event,
-      :check_rotate_lichtzwang_feat_event,
-      :use_lichtzwang_feat_event,
-      :finish_lichtzwang_feat_event,
-      :use_lichtzwang_feat_damage_event,
-    ],
-    # 296 紡がれる陽
-    [
-      :check_add_schneepart_feat_event,
-      :check_remove_schneepart_feat_event,
-      :check_rotate_schneepart_feat_event,
-      :use_schneepart_feat_event,
-      :use_schneepart_feat_damage_event,
-      :finish_schneepart_feat_event,
-    ],
-    # 297 溜息の転換
-    [
-      :check_add_highgate_feat_event,
-      :check_remove_highgate_feat_event,
-      :check_rotate_highgate_feat_event,
-      :use_highgate_feat_event,
-    ],
-    # 298 ハイゲート
-    [
-      :check_add_dorfloft_feat_event,
-      :check_remove_dorfloft_feat_event,
-      :check_rotate_dorfloft_feat_event,
-      :use_dorfloft_feat_event,
-      :use_dorfloft_feat_damage_event,
-    ],
-    # 299 ドルフルフト
-    [
-      :check_add_lumines_feat_event,
-      :check_remove_lumines_feat_event,
-      :check_rotate_lumines_feat_event,
-      :use_lumines_feat_event,
-      :use_lumines_feat_damage_event,
-      :finish_lumines_feat_event,
-    ],
-    # 300 ルミネセンス
-    [
-      :check_add_super_heroine_feat_event,
-      :check_remove_super_heroine_feat_event,
-      :check_rotate_super_heroine_feat_event,
-      :finish_super_heroine_feat_event,
-    ],
-    # 301 スーパーヒロイン(復活)
-    [
-      :check_add_stampede_feat_event,
-      :check_remove_stampede_feat_event,
-      :check_rotate_stampede_feat_event,
-      :use_stampede_feat_event,
-      :use_stampede_feat_damage_event,
-      :finish_stampede_feat_event,
-    ],
-    # 302 T・スタンピード
-    [
-      :check_add_death_control2_feat_event,
-      :check_remove_death_control2_feat_event,
-      :check_rotate_death_control2_feat_event,
-      :use_death_control2_feat_event,
-      :use_death_control2_feat_damage_event,
-      :finish_death_control2_feat_event,
-    ],
-    # 303 D・コントロール(復活)
-    [
-      :check_add_kengi_feat_event,
-      :check_remove_kengi_feat_event,
-      :check_rotate_kengi_feat_event,
-      :use_kengi_feat_event,
-      :use_kengi_feat_roll_chancel_event,
-      :use_kengi_feat_battle_result_event,
-      :finish_kengi_feat_event,
-    ],
-    # 304 俺様の剣技に見惚れろ
-    [
-      :check_add_dokowo_feat_event,
-      :check_remove_dokowo_feat_event,
-      :check_rotate_dokowo_feat_event,
-      :finish_dokowo_feat_event,
-    ],
-    # 305 何処を見てやがる
-    [
-      :check_add_mikitta_feat_event,
-      :check_remove_mikitta_feat_event,
-      :check_rotate_mikitta_feat_event,
-      :finish_mikitta_feat_event,
-    ],
-    # 306 お前の技は見切った
-    [
-      :check_add_hontou_feat_event,
-      :check_remove_hontou_feat_event,
-      :check_rotate_hontou_feat_event,
-      :use_hontou_feat_event,
-      :use_hontou_feat_roll_chancel_event,
-      :use_hontou_feat_battle_result_event,
-      :finish_hontou_feat_event,
-    ],
-    # 307 これが俺様の本当の力だ
-    [
-      :check_add_invited_feat_event,
-      :check_remove_invited_feat_event,
-      :check_rotate_invited_feat_event,
-      :finish_invited_feat_event,
-    ],
-    # 308 招かれるものども
-    [
-      :check_add_through_hand_feat_event,
-      :check_remove_through_hand_feat_event,
-      :check_rotate_through_hand_feat_event,
-      :use_through_hand_feat_event,
-    ],
-    # 309 透き通る手
-    [
-      :check_add_prof_breath_feat_event,
-      :check_remove_prof_breath_feat_event,
-      :check_rotate_prof_breath_feat_event,
-      :finish_prof_breath_feat_event,
-    ],
-    # 310 深遠なる息
-    [
-      :check_add_seven_wish_feat_event,
-      :check_remove_seven_wish_feat_event,
-      :check_rotate_seven_wish_feat_event,
-      :use_seven_wish_feat_event,
-      :use_seven_wish_feat_damage_event,
-    ],
-    # 311 7つの願い
-    [
-      :check_add_thirteen_eyes_r_feat_event,
-      :check_remove_thirteen_eyes_r_feat_event,
-      :check_rotate_thirteen_eyes_r_feat_event,
-      :use_owner_thirteen_eyes_r_feat_event,
-      :use_foe_thirteen_eyes_r_feat_event,
-      :finish_thirteen_eyes_r_feat_event,
-      :use_thirteen_eyes_r_feat_damage_event,
-    ],
-    # 312 13の眼(復活)
-    [
-      :check_add_thorn_care_r_feat_event,
-      :check_remove_thorn_care_r_feat_event,
-      :check_rotate_thorn_care_r_feat_event,
-      :use_thorn_care_r_feat_event,
-      :use_thorn_care_r_feat_damage_event,
-      :finish_thorn_care_r_feat_event,
-    ],
-    # 313 茨の構え(復活)
-    [
-      :check_add_liberating_sword_r_feat_event,
-      :check_remove_liberating_sword_r_feat_event,
-      :check_rotate_liberating_sword_r_feat_event,
-      :use_liberating_sword_r_feat_event,
-      :use_liberating_sword_r_feat_damage_event,
-      :finish_liberating_sword_r_feat_event,
-    ],
-    # 314 解放剣(復活)
-    [
-      :check_add_curse_sword_r_feat_event,
-      :check_remove_curse_sword_r_feat_event,
-      :check_rotate_curse_sword_r_feat_event,
-      :use_curse_sword_r_feat_event,
-      :use_curse_sword_r_feat_damage_event,
-      :finish_curse_sword_r_feat_event,
-    ],
-    # 315 獄剣
-    [
-      :check_add_flame_ring_feat_event,
-      :check_remove_flame_ring_feat_event,
-      :check_rotate_flame_ring_feat_event,
-      :use_flame_ring_feat_event,
-      :finish_flame_ring_feat_event,
-    ],
-    # 316 火の輪くぐり
-    [
-      :check_add_piano_feat_event,
-      :check_remove_piano_feat_event,
-      :check_rotate_piano_feat_event,
-      :use_piano_feat_event,
-      :use_piano_feat_damage_event,
-      :finish_piano_feat_event,
-    ],
-    # 317 ピアノ
-    [
-      :check_add_ona_ball_feat_event,
-      :check_remove_ona_ball_feat_event,
-      :check_rotate_ona_ball_feat_event,
-      :finish_next_ona_ball_feat_event,
-    ],
-    # 318 玉乗り
-    [
-      :check_add_violent_feat_event,
-      :check_remove_violent_feat_event,
-      :check_rotate_violent_feat_event,
-      :finish_violent_feat_change_event,
-      :finish_violent_feat_event,
-    ],
-    # 319 暴れる
-    [
-      :check_add_balance_life_feat_event,
-      :check_remove_balance_life_feat_event,
-      :check_rotate_balance_life_feat_event,
-      :use_balance_life_feat_event,
-      :use_balance_life_feat_damage_event,
-      :finish_balance_life_feat_event,
-    ],
-    # 320 バランスライフ
-    [
-      :check_add_lifetime_sound_feat_event,
-      :check_remove_lifetime_sound_feat_event,
-      :check_rotate_lifetime_sound_feat_event,
-      :use_lifetime_sound_feat_event,
-      :finish_lifetime_sound_feat_event,
-      :finish_lifetime_sound_feat_damage_event,
-    ],
-    # 321 ライフタイムサウンド
-    [
-      :check_add_coma_white_feat_event,
-      :check_remove_coma_white_feat_event,
-      :check_rotate_coma_white_feat_event,
-      :use_coma_white_feat_event,
-      :finish_coma_white_feat_event,
-    ],
-    # 322 コマホワイト
-    [
-      :check_add_goes_to_dark_feat_event,
-      :check_remove_goes_to_dark_feat_event,
-      :check_rotate_goes_to_dark_feat_event,
-      :finish_goes_to_dark_feat_event,
-    ],
-    # 323 ゴーズトゥダーク
-    [
-      :check_add_counter_guard_feat_event,
-      :check_remove_counter_guard_feat_event,
-      :check_rotate_counter_guard_feat_event,
-      :use_ex_counter_guard_feat_event,
-      :use_ex_counter_guard_feat_dice_attr_event,
-      :finish_counter_guard_feat_event,
-    ],
-    # 324 Exカウンターガード
-    [
-      :check_add_thirteen_eyes_feat_event,
-      :check_remove_thirteen_eyes_feat_event,
-      :check_rotate_thirteen_eyes_feat_event,
-      :use_owner_thirteen_eyes_feat_event,
-      :use_foe_ex_thirteen_eyes_feat_event,
-      :finish_ex_thirteen_eyes_feat_event,
-      :use_thirteen_eyes_feat_damage_event,
-    ],
-    # 325 Ex13の眼
-    [
-      :check_add_razors_edge_feat_event,
-      :check_remove_razors_edge_feat_event,
-      :check_rotate_razors_edge_feat_event,
-      :use_owner_razors_edge_feat_event,
-      :use_foe_ex_razors_edge_feat_event,
-      :use_ex_razors_edge_feat_dice_attr_event,
-      :finish_razors_edge_feat_event,
-    ],
-    # 326 Exレイザーズエッジ
-    [
-      :check_add_red_moon_feat_event,
-      :check_remove_red_moon_feat_event,
-      :check_rotate_red_moon_feat_event,
-      :use_red_moon_feat_event,
-      :use_ex_red_moon_feat_dice_attr_event,
-      :use_red_moon_feat_damage_event,
-      :finish_red_moon_feat_event,
-    ],
-    # 327 Ex深紅の月
-    [
-      :check_add_hassen_feat_event,
-      :check_remove_hassen_feat_event,
-      :check_rotate_hassen_feat_event,
-      :use_hassen_feat_event,
-      :finish_hassen_feat_event,
-    ],
-    # 328 八閃
-    [
-      :check_add_handled_slash_r_feat_event,
-      :check_remove_handled_slash_r_feat_event,
-      :check_rotate_handled_slash_r_feat_event,
-      :use_handled_slash_r_feat_event,
-      :use_handled_slash_r_feat_damage_event,
-      :finish_handled_slash_r_feat_event,
-    ],
-    # 329 百閃R
-    [
-      :check_add_rakshasa_stance_feat_event,
-      :check_remove_rakshasa_stance_feat_event,
-      :check_rotate_rakshasa_stance_feat_event,
-      :check_rakshasa_stance_state_change_event,
-      :use_rakshasa_stance_feat_event,
-      :use_rakshasa_stance_feat_result_event,
-      :on_rakshasa_stance_feat_event,
-      :off_rakshasa_stance_feat_event,
-      :finish_rakshasa_stance_feat_event,
-    ],
-    # 330 羅刹の構え
-    [
-      :check_add_obituary_feat_event,
-      :check_remove_obituary_feat_event,
-      :check_rotate_obituary_feat_event,
-      :use_obituary_feat_event,
-      :use_obituary_feat_damage_event,
-      :finish_obituary_feat_event,
-    ],
-    # 331 オビチュアリ
-    [
-      :check_add_solvent_rain_r_feat_event,
-      :check_remove_solvent_rain_r_feat_event,
-      :check_rotate_solvent_rain_r_feat_event,
-      :use_solvent_rain_r_feat_event,
-      :finish_solvent_rain_r_feat_event,
-    ],
-    # 332 ソルベント・レインR
-    [
-      :check_add_kirigakure_feat_event,
-      :check_remove_kirigakure_feat_event,
-      :check_rotate_kirigakure_feat_event,
-      :check_add_kirigakure_feat_foe_attack_event,
-      :check_remove_kirigakure_feat_foe_attack_event,
-      :check_rotate_kirigakure_feat_foe_attack_event,
-      :check_add_kirigakure_feat_foe_defense_event,
-      :check_remove_kirigakure_feat_foe_defense_event,
-      :check_rotate_kirigakure_feat_foe_defense_event,
-      :use_kirigakure_feat_calc_event,
-      :use_kirigakure_feat_phase_init_event,
-      :use_kirigakure_feat_defense_done_owner_event,
-      :use_kirigakure_feat_defense_done_foe_event,
-      :use_kirigakure_feat_event,
-      :use_kirigakure_feat_det_change_event,
-      :finish_kirigakure_feat_owner_damaged_event,
-      :finish_kirigakure_feat_do_damage_event,
-      :finish_kirigakure_feat_finish_turn_event,
-    ],
-    # 333 霧隠れ
-    [
-      :check_add_mikagami_feat_event,
-      :check_remove_mikagami_feat_event,
-      :check_rotate_mikagami_feat_event,
-      :use_mikagami_feat_event,
-      :finish_mikagami_feat_event,
-    ],
-    # 334 水鏡
-    [
-      :check_add_mutual_love_feat_event,
-      :check_remove_mutual_love_feat_event,
-      :check_rotate_mutual_love_feat_event,
-      :use_mutual_love_feat_event,
-      :use_mutual_love_feat_damage_event,
-      :use_mutual_love_feat_const_damage_event,
-      :finish_mutual_love_feat_event,
-    ],
-    # 335 落花流水
-    [
-      :check_add_mere_shadow_feat_event,
-      :check_remove_mere_shadow_feat_event,
-      :check_rotate_mere_shadow_feat_event,
-      :use_mere_shadow_feat_event,
-      :finish_mere_shadow_feat_event,
-      :finish_mere_shadow_feat_dice_attr_event,
-    ],
-    # 336 鏡花水月
-    [
-      :check_add_scapulimancy_feat_event,
-      :check_remove_scapulimancy_feat_event,
-      :check_rotate_scapulimancy_feat_event,
-      :finish_scapulimancy_feat_event,
-    ],
-    # 337 亀占い
-    [
-      :check_add_soil_guard_feat_event,
-      :check_remove_soil_guard_feat_event,
-      :check_rotate_soil_guard_feat_event,
-      :use_soil_guard_feat_event,
-      :use_soil_guard_feat_damage_event,
-    ],
-    # 338 土盾
-    [
-      :check_add_carapace_spin_feat_event,
-      :check_remove_carapace_spin_feat_event,
-      :check_rotate_carapace_spin_feat_event,
-      :finish_carapace_spin_feat_event,
-    ],
-    # 339 甲羅スピン
-    [
-      :check_add_vendetta_feat_event,
-      :check_remove_vendetta_feat_event,
-      :check_rotate_vendetta_feat_event,
-      :use_vendetta_feat_event,
-      :finish_vendetta_feat_event,
-    ],
-    # 340 ヴェンデッタ
-    [
-      :check_add_avengers_feat_event,
-      :check_remove_avengers_feat_event,
-      :check_rotate_avengers_feat_event,
-      :use_avengers_feat_event,
-      :finish_avengers_feat_event,
-    ],
-    # 341 アヴェンジャー
-    [
-      :check_add_sharpen_edge_feat_event,
-      :check_remove_sharpen_edge_feat_event,
-      :check_rotate_sharpen_edge_feat_event,
-      :use_sharpen_edge_feat_event,
-      :check_sharpen_edge_state_change_event,
-      :check_sharpen_edge_state_dead_change_event,
-      :use_sharpen_edge_state_damage_event,
-      :finish_sharpen_edge_state_event,
-    ],
-    # 342 シャープンエッジ
-    [
-      :check_add_hacknine_feat_event,
-      :check_remove_hacknine_feat_event,
-      :check_rotate_hacknine_feat_event,
-      :use_hacknine_feat_event,
-      :finish_hacknine_feat_event,
-    ],
-    # 343 ハックナイン
-    [
-      :check_add_black_mageia_feat_event,
-      :check_remove_black_mageia_feat_event,
-      :check_rotate_black_mageia_feat_event,
-      :finish_black_mageia_feat_event,
-    ],
-    # 344 ブラックマゲイア
-    [
-      :check_add_corps_drain_feat_event,
-      :check_remove_corps_drain_feat_event,
-      :check_rotate_corps_drain_feat_event,
-      :finish_corps_drain_feat_event,
-      :use_corps_drain_feat_damage_event,
-    ],
-    # 345 コープスドレイン
-    [
-      :check_add_invert_feat_event,
-      :check_remove_invert_feat_event,
-      :check_rotate_invert_feat_event,
-      :finish_invert_feat_event,
-    ],
-    # 346 インヴァート
-    [
-      :check_add_night_hawk_feat_event,
-      :check_remove_night_hawk_feat_event,
-      :check_rotate_night_hawk_feat_event,
-      :use_night_hawk_feat_event,
-      :use_night_hawk_feat_det_mp_before1_event,
-      :use_night_hawk_feat_det_mp_before2_event,
-      :use_night_hawk_feat_foe_change_event,
-      :use_night_hawk_feat_owner_change_event,
-      :use_night_hawk_feat_dead_change_event,
-      :finish_night_hawk_feat_change_event,
-    ],
-    # 347 追跡する夜鷹
-    [
-      :check_add_phantom_barrett_feat_event,
-      :check_remove_phantom_barrett_feat_event,
-      :check_rotate_phantom_barrett_feat_event,
-      :use_phantom_barrett_feat_event,
-      :finish_phantom_barrett_feat_event,
-    ],
-    # 348 幽幻の剛弾
-    [
-      :check_add_one_act_feat_event,
-      :check_remove_one_act_feat_event,
-      :check_rotate_one_act_feat_event,
-      :use_one_act_feat_event,
-      :finish_one_act_feat_event,
-    ],
-    # 349 惑わしの一幕
-    [
-      :check_add_final_barrett_feat_event,
-      :check_remove_final_barrett_feat_event,
-      :check_rotate_final_barrett_feat_event,
-      :finish_final_barrett_feat_event,
-    ],
-    # 350 終極の烈弾
-    [
-      :check_add_grimmdead_feat_event,
-      :check_remove_grimmdead_feat_event,
-      :check_rotate_grimmdead_feat_event,
-      :use_grimmdead_feat_calc_event,
-      :use_grimmdead_feat_event,
-      :use_grimmdead_feat_move_before_event,
-      :use_grimmdead_feat_move_after_event,
-      :finish_grimmdead_feat_event,
-    ],
-    # 351 グリムデッド
-    [
-      :check_add_wunderkammer_feat_event,
-      :check_remove_wunderkammer_feat_event,
-      :check_rotate_wunderkammer_feat_event,
-      :use_wunderkammer_feat_event,
-      :use_wunderkammer_feat_damage_event,
-      :finish_wunderkammer_feat_event,
-    ],
-    # 352 ヴンダーカンマー
-    [
-      :check_add_constraint_feat_event,
-      :check_remove_constraint_feat_event,
-      :check_rotate_constraint_feat_event,
-      :use_constraint_feat_event,
-      :use_constraint_feat_damage_event,
-      :finish_constraint_feat_event,
-    ],
-    # 353 コンストレイント
-    [
-      :check_add_renovate_atrandom_feat_event,
-      :check_remove_renovate_atrandom_feat_event,
-      :check_rotate_renovate_atrandom_feat_event,
-      :use_renovate_atrandom_feat_event,
-      :use_renovate_atrandom_feat_damage_event,
-      :finish_renovate_atrandom_feat_event,
-    ],
-    # 354 リノベートアトランダム
-    [
-      :check_add_backbeard_feat_event,
-      :check_remove_backbeard_feat_event,
-      :check_rotate_backbeard_feat_event,
-      :use_backbeard_feat_damage_event,
-      :finish_backbeard_feat_event,
-    ],
-    # 355 催眠術
-    [
-      :check_add_shadow_stitch_feat_event,
-      :check_remove_shadow_stitch_feat_event,
-      :check_rotate_shadow_stitch_feat_event,
-      :use_shadow_stitch_feat_event,
-      :use_shadow_stitch_feat_damage_event,
-      :finish_shadow_stitch_feat_event,
-    ],
-    # 356 影縫い
-    [
-      :check_add_mextli_feat_event,
-      :check_remove_mextli_feat_event,
-      :check_rotate_mextli_feat_event,
-      :use_mextli_feat_event,
-      :check_damage_insurance_change_event,
-      :check_damage_insurance_dead_change_event,
-      :use_damage_insurance_damage_event,
-    ],
-    # 357 ミキストリ
-    [
-      :check_add_rivet_and_surge_feat_event,
-      :check_remove_rivet_and_surge_feat_event,
-      :check_rotate_rivet_and_surge_feat_event,
-      :use_rivet_and_surge_feat_attack_event,
-      :use_rivet_and_surge_feat_defense_event,
-      :cutin_rivet_and_surge_feat_event,
-      :finish_rivet_and_surge_feat_event,
-    ],
-    # 358 リベットアンドサージ
-    [
-      :check_add_phantomas_feat_event,
-      :check_remove_phantomas_feat_event,
-      :check_rotate_phantomas_feat_event,
-      :finish_phantomas_feat_event,
-    ],
-    # 359 ファントマ
-    [
-      :check_add_danger_drug_feat_event,
-      :check_remove_danger_drug_feat_event,
-      :check_rotate_danger_drug_feat_event,
-      :finish_danger_drug_feat_event,
-    ],
-    # 360 危険ドラッグ
-    [
-      :check_add_three_thunder_feat_event,
-      :check_remove_three_thunder_feat_event,
-      :check_rotate_three_thunder_feat_event,
-      :use_three_thunder_feat_event,
-      :finish_three_thunder_feat_event,
-    ],
-    # 361 HP3サンダー
-    [
-      :check_add_prime_heal_feat_event,
-      :check_remove_prime_heal_feat_event,
-      :check_rotate_prime_heal_feat_event,
-      :use_prime_heal_feat_event,
-      :finish_prime_heal_feat_event,
-    ],
-    # 362 素数ヒール
-    [
-      :check_add_four_comet_feat_event,
-      :check_remove_four_comet_feat_event,
-      :check_rotate_four_comet_feat_event,
-      :use_four_comet_feat_event,
-      :finish_four_comet_feat_event,
-    ],
-    # 363 HP4コメット
-    [
-      :check_add_club_jugg_feat_event,
-      :check_remove_club_jugg_feat_event,
-      :check_rotate_club_jugg_feat_event,
-      :use_club_jugg_feat_event,
-      :use_club_jugg_feat_deal_event,
-      :finish_club_jugg_feat_event,
-    ],
-    # 364 クラブジャグ
-    [
-      :check_add_knife_jugg_feat_event,
-      :check_remove_knife_jugg_feat_event,
-      :check_rotate_knife_jugg_feat_event,
-      :use_knife_jugg_feat_event,
-      :use_knife_jugg_feat_deal_event,
-      :finish_knife_jugg_feat_event,
-    ],
-    # 365 ナイフジャグ
-    [
-      :check_add_blowing_fire_feat_event,
-      :check_remove_blowing_fire_feat_event,
-      :check_rotate_blowing_fire_feat_event,
-      :use_blowing_fire_feat_event,
-      :finish_blowing_fire_feat_event,
-    ],
-    # 366 火吹き
-    [
-      :check_add_balance_ball_feat_event,
-      :check_remove_balance_ball_feat_event,
-      :check_rotate_balance_ball_feat_event,
-      :use_balance_ball_feat_event,
-      :finish_balance_ball_feat_event,
-    ],
-    # 367 バランスボール
-    [
-      :check_add_bad_milk_feat_event,
-      :check_remove_bad_milk_feat_event,
-      :check_rotate_bad_milk_feat_event,
-      :use_bad_milk_feat_event,
-      :use_bad_milk_feat_recalc_event,
-      :use_ex_bad_milk_feat_event,
-      :finish_change_bad_milk_feat_event,
-      :finish_bad_milk_feat_event,
-      :finish_turn_bad_milk_feat_event,
-    ],
-    # 368 劣化ミルク
-    [
-      :check_add_mira_hp_feat_event,
-      :check_remove_mira_hp_feat_event,
-      :check_rotate_mira_hp_feat_event,
-      :use_mira_hp_feat_event,
-      :use_mira_hp_feat_damage_event,
-      :finish_mira_hp_feat_event,
-    ],
-    # 369 ミラHP
-    [
-      :check_add_skill_drain_feat_event,
-      :check_remove_skill_drain_feat_event,
-      :check_rotate_skill_drain_feat_event,
-      :use_skill_drain_feat_event,
-      :use_skill_drain_feat_damage_event,
-      :finish_skill_drain_feat_event,
-      :finish_skill_drain_feat_finish_event,
-      :finish_override_skill_state_event,
-    ],
-    # 370 スキルドレイン
-    [
-      :check_add_coffin_feat_event,
-      :check_remove_coffin_feat_event,
-      :check_rotate_coffin_feat_event,
-      :use_coffin_feat_event,
-      :finish_coffin_feat_event,
-    ],
-    # 371 コフィン
-    [
-      :check_add_dark_eyes_feat_event,
-      :check_remove_dark_eyes_feat_event,
-      :check_rotate_dark_eyes_feat_event,
-      :use_dark_eyes_feat_event,
-      :use_dark_eyes_feat_move_event,
-      :use_dark_eyes_feat_damage_event,
-    ],
-    # 372 玄青眼
-    [
-      :check_add_crows_claw_feat_event,
-      :check_remove_crows_claw_feat_event,
-      :check_rotate_crows_claw_feat_event,
-      :use_crows_claw_feat_event,
-      :finish_crows_claw_feat_event,
-    ],
-    # 373 烏爪一転
-    [
-      :check_add_mole_feat_event,
-      :check_remove_mole_feat_event,
-      :check_rotate_mole_feat_event,
-      :use_mole_feat_event,
-      :use_mole_feat_damage_event,
-      :finish_mole_feat_event,
-    ],
-    # 374 土竜一転
-    [
-      :check_add_sunset_feat_event,
-      :check_remove_sunset_feat_event,
-      :check_rotate_sunset_feat_event,
-      :use_sunset_feat_event,
-      :use_sunset_feat_result_event,
-      :use_sunset_feat_damage_check_event,
-      :use_sunset_feat_const_damage_event,
-    ],
-    # 375 五彩晩霞
-    [
-      :check_add_vine_feat_event,
-      :check_remove_vine_feat_event,
-      :check_rotate_vine_feat_event,
-      :use_vine_feat_event,
-      :use_vine_feat_damage_event,
-      :finish_vine_feat_event,
-      :finish_vine_feat_turn_event
-    ],
-    # 376 蔓縛り
-    [
-      :check_add_grape_vine_feat_event,
-      :check_remove_grape_vine_feat_event,
-      :check_rotate_grape_vine_feat_event,
-      :use_grape_vine_feat_event,
-      :use_grape_vine_feat_damage_event,
-      :use_grape_vine_feat_foe_event
-    ],
-    # 377 吸収
-    [
-      :check_add_thunder_struck_feat_event,
-      :check_remove_thunder_struck_feat_event,
-      :check_rotate_thunder_struck_feat_event,
-      :use_thunder_struck_feat_event,
-      :finish_thunder_struck_feat_event,
-      :finish_thunder_struck_feat_end_event,
-    ],
-    # 378 サンダーストラック
-    [
-      :check_add_weave_world_feat_event,
-      :check_remove_weave_world_feat_event,
-      :check_rotate_weave_world_feat_event,
-      :use_weave_world_feat_event,
-      :finish_weave_world_feat_event,
-    ],
-    # 379 ウィーヴワールド
-    [
-      :check_add_collection_feat_event,
-      :check_remove_collection_feat_event,
-      :check_rotate_collection_feat_event,
-      :check_table_collection_feat_move_event,
-      :check_table_collection_feat_battle_event,
-      :use_collection_feat_deal_event,
-      :use_collection_feat_event,
-      :finish_collection_feat_event,
-      :check_ending_collection_feat_event,
-    ],
-    # 380 コレクション
-    [
-      :check_add_restriction_feat_event,
-      :check_remove_restriction_feat_event,
-      :check_rotate_restriction_feat_event,
-      :use_restriction_feat_event,
-      :finish_restriction_feat_event,
-    ],
-    # 381 Dリストリクション
-    [
-      :check_add_dabs_feat_event,
-      :check_remove_dabs_feat_event,
-      :check_rotate_dabs_feat_event,
-      :use_dabs_feat_event,
-      :finish_dabs_feat_event,
-    ],
-    # 382 DABS
-    [
-      :check_add_vibration_feat_event,
-      :check_remove_vibration_feat_event,
-      :check_rotate_vibration_feat_event,
-      :use_vibration_feat_event,
-      :finish_vibration_feat_event,
-    ],
-    # 383 VIBRATION
-    [
-      :check_add_tot_feat_event,
-      :check_remove_tot_feat_event,
-      :check_rotate_tot_feat_event,
-      :use_tot_feat_event,
-      :use_tot_feat_damage_event,
-      :finish_tot_feat_event,
-    ],
-    # 384 ToT
-    [
-      :check_add_duck_apple_feat_event,
-      :check_remove_duck_apple_feat_event,
-      :check_rotate_duck_apple_feat_event,
-      :finish_duck_apple_feat_event,
-    ],
-    # 385 ダックアップル
-    [
-      :check_add_rampage_feat_event,
-      :check_remove_rampage_feat_event,
-      :check_rotate_rampage_feat_event,
-      :use_rampage_feat_event,
-      :use_rampage_feat_damage_event,
-      :finish_rampage_feat_event,
-    ],
-    # 386 ランページ
-    [
-      :check_add_scratch_fire_feat_event,
-      :check_remove_scratch_fire_feat_event,
-      :check_rotate_scratch_fire_feat_event,
-      :use_scratch_fire_feat_event,
-      :use_scratch_fire_feat_damage_event,
-      :finish_scratch_fire_feat_event,
-    ],
-    # 387 スクラッチファイア
-    [
-      :check_add_blue_ruin_feat_event,
-      :check_remove_blue_ruin_feat_event,
-      :check_rotate_blue_ruin_feat_event,
-      :use_blue_ruin_feat_event,
-      :finish_blue_ruin_feat_event,
-    ],
-    # 388 ブルールーイン
-    [
-      :check_add_third_step_feat_event,
-      :check_remove_third_step_feat_event,
-      :check_rotate_third_step_feat_event,
-      :use_third_step_feat_event,
-      :use_third_step_feat_damage_event,
-      :finish_third_step_feat_event,
-    ],
-    # 389 サードステップ
-    [
-      :check_add_metal_shield_feat_event,
-      :check_remove_metal_shield_feat_event,
-      :check_rotate_metal_shield_feat_event,
-      :use_metal_shield_feat_event,
-      :finish_metal_shield_feat_event,
-    ],
-    # 390 メタルシールド
-    [
-      :check_add_magnetic_field_feat_event,
-      :check_remove_magnetic_field_feat_event,
-      :check_rotate_magnetic_field_feat_event,
-      :use_magnetic_field_feat_event,
-      :finish_magnetic_field_feat_event,
-      :final_magnetic_field_feat_event,
-    ],
-    # 391 滞留する光波
-    [
-      :check_add_afterglow_feat_event,
-      :check_remove_afterglow_feat_event,
-      :check_rotate_afterglow_feat_event,
-      :use_afterglow_feat_event,
-      :use_afterglow_feat_damage_event,
-      :finish_afterglow_feat_event,
-    ],
-    # 392 拒絶の余光
-    [
-      :check_add_keeper_feat_event,
-      :check_remove_keeper_feat_event,
-      :check_rotate_keeper_feat_event,
-      :use_keeper_feat_event,
-      :finish_keeper_feat_event,
-    ],
-    # 393 夕暉の番人
-    [
-      :check_add_healing_schock_feat_event,
-      :check_remove_healing_schock_feat_event,
-      :check_rotate_healing_schock_feat_event,
-      :use_healing_schock_feat_event,
-      :finish_healing_schock_feat_event,
-    ],
-    # 394 ヒーリングショック
-    [
-      :check_add_claymore_feat_event,
-      :check_remove_claymore_feat_event,
-      :check_rotate_claymore_feat_event,
-      :finish_claymore_feat_event,
-    ],
-    # 395 クレイモア
-    [
-      :check_add_trap_chase_feat_event,
-      :check_remove_trap_chase_feat_event,
-      :check_rotate_trap_chase_feat_event,
-      :use_trap_chase_feat_event,
-      :use_trap_chase_feat_damage_event,
-      :finish_trap_chase_feat_event,
-    ],
-    # 396トラップチェイス
-    [
-      :check_add_panic_feat_event,
-      :check_remove_panic_feat_event,
-      :check_rotate_panic_feat_event,
-      :use_panic_feat_event,
-      :use_panic_feat_damage_event,
-      :finish_panic_feat_event,
-    ],
-    # 397 パニックグレネード
-    [
-      :check_add_bullet_counter_feat_event,
-      :check_remove_bullet_counter_feat_event,
-      :check_rotate_bullet_counter_feat_event,
-      :use_bullet_counter_feat_event,
-      :finish_bullet_counter_feat_event,
-    ],
-    # 398 バレットカウンター
-    [
-      :check_add_bean_storm_feat_event,
-      :check_remove_bean_storm_feat_event,
-      :check_rotate_bean_storm_feat_event,
-      :use_bean_storm_feat_event,
-      :finish_bean_storm_feat_event,
-    ],
-    # 399 大菽嵐
-    [
-      :check_add_joker_feat_event,
-      :check_remove_joker_feat_event,
-      :check_rotate_joker_feat_event,
-      :finish_joker_feat_event,
-    ],
-    # 400 ジョーカー
-    [
-      :check_add_familiar_feat_event,
-      :check_remove_familiar_feat_event,
-      :check_rotate_familiar_feat_event,
-      :use_familiar_feat_event,
-      :finish_familiar_feat_event,
-    ],
-    # 401 ファミリア
-    [
-      :check_add_crown_crown_feat_event,
-      :check_remove_crown_crown_feat_event,
-      :check_rotate_crown_crown_feat_event,
-      :use_crown_crown_feat_event,
-      :use_crown_crown_feat_damage_event,
-      :finish_crown_crown_feat_event,
+                    [
+                     :check_add_razors_edge_feat_event,
+                     :check_remove_razors_edge_feat_event,
+                     :check_rotate_razors_edge_feat_event,
+                     :use_owner_razors_edge_feat_event,
+                     :use_foe_razors_edge_feat_event,
+                     :use_razors_edge_feat_dice_attr_event,
+                     :finish_razors_edge_feat_event,
+                    ],
+                    # 87 レイザーズエッジ
+                    [
+                     :check_add_hells_bell_feat_event,
+                     :check_remove_hells_bell_feat_event,
+                     :check_rotate_hells_bell_feat_event,
+                     :finish_hells_bell_feat_event,
+                    ],
+                    # 88 ヘルズベル
+                    [
+                     :check_add_drain_seed_feat_event,
+                     :check_remove_drain_seed_feat_event,
+                     :check_rotate_drain_seed_feat_event,
+                     :finish_drain_seed_feat_event,
+                    ],
+                    # 89 ドレインシード
+                    [
+                     :check_add_atk_drain_feat_event,
+                     :check_remove_atk_drain_feat_event,
+                     :check_rotate_atk_drain_feat_event,
+                     :finish_atk_drain_feat_event,
+                    ],
+                    # 90 攻撃吸収
+                    [
+                     :check_add_def_drain_feat_event,
+                     :check_remove_def_drain_feat_event,
+                     :check_rotate_def_drain_feat_event,
+                     :finish_def_drain_feat_event,
+                    ],
+                    # 91 防御吸収
+                    [
+                     :check_add_mov_drain_feat_event,
+                     :check_remove_mov_drain_feat_event,
+                     :check_rotate_mov_drain_feat_event,
+                     :finish_mov_drain_feat_event,
+                    ],
+                    # 92 移動吸収
+                    [
+                     :check_add_poison_skin_feat_event,
+                     :check_remove_poison_skin_feat_event,
+                     :check_rotate_poison_skin_feat_event,
+                     :use_poison_skin_feat_event,
+                     :use_poison_skin_feat_damage_event,
+                     :finish_poison_skin_feat_event,
+                    ],
+                    # 93 毒竜燐
+                    [:check_add_roar_feat_event,
+                     :check_remove_roar_feat_event,
+                     :check_rotate_roar_feat_event,
+                     :use_roar_feat_event,
+                     :finish_roar_feat_event,
+                    ],
+                    # 94 咆哮
+                    [
+                     :check_add_fire_breath_feat_event,
+                     :check_remove_fire_breath_feat_event,
+                     :check_rotate_fire_breath_feat_event,
+                     :finish_fire_breath_feat_event,
+                    ],
+                    # 95 ヘルズベル
+                    [:check_add_whirl_wind_feat_event,
+                     :check_remove_whirl_wind_feat_event,
+                     :check_rotate_whirl_wind_feat_event,
+                     :use_whirl_wind_feat_event,
+                     :finish_whirl_wind_feat_event,
+                    ],
+                    # 96 ワールウインド
+                    [
+                     :check_add_active_armor_feat_event,
+                     :check_remove_active_armor_feat_event,
+                     :check_rotate_active_armor_feat_event,
+                     :use_active_armor_feat_event,
+                     :use_active_armor_feat_damage_event,
+                     :check_seal_active_armor_feat_move_after_event,
+                     :check_seal_active_armor_feat_det_change_after_event,
+                     :check_seal_active_armor_feat_damage_after_event,
+                     :check_unseal_active_armor_feat_start_turn_event,
+                     :check_unseal_active_armor_feat_damage_after_event,
+                     :check_seal_active_armor_feat_chara_change_event,
+                    ],
+                    # 97 アクティブアーマ
+                    [
+                     :check_add_scolor_attack_feat_event,
+                     :check_remove_scolor_attack_feat_event,
+                     :check_rotate_scolor_attack_feat_event,
+                     :use_scolor_attack_feat_event,
+                     :use_scolor_attack_feat_damage_event,
+                     :finish_scolor_attack_feat_event,
+                    ],
+                    # 98 マシンガン
+                    [
+                     :check_add_heat_seeker_feat_event,
+                     :check_remove_heat_seeker_feat_event,
+                     :check_rotate_heat_seeker_feat_event,
+                     :use_heat_seeker_feat_event,
+                     :use_heat_seeker_feat_damage_event,
+                     :finish_heat_seeker_feat_event,
+                    ],
+                    # 99 ヒートシーカー
+                    [
+                     :check_add_purge_feat_event,
+                     :check_remove_purge_feat_event,
+                     :check_rotate_purge_feat_event,
+                     :finish_purge_feat_event,
+                    ],
+                    # 100 パージ
+                    [
+                     :check_add_high_hand_feat_event,
+                     :check_remove_high_hand_feat_event,
+                     :check_rotate_high_hand_feat_event,
+                     :use_high_hand_feat_event,
+                     :use_high_hand_feat_damage_event,
+                    ],
+                    # 101 ハイハンド
+                    [:check_add_jack_pot_feat_event,
+                     :check_remove_jack_pot_feat_event,
+                     :check_rotate_jack_pot_feat_event,
+                     :use_jack_pot_feat_event,
+                     :use_after_jack_pot_feat_event,
+                     :finish_jack_pot_feat_event,
+                    ],
+                    # 102 ジャックポット
+                    [
+                     :check_add_low_ball_feat_event,
+                     :check_remove_low_ball_feat_event,
+                     :check_rotate_low_ball_feat_event,
+                     :use_low_ball_feat_event,
+                     :use_low_ball_feat_damage_event,
+                     :finish_low_ball_feat_event,
+                    ],
+                    # 103 ローボール
+                    [
+                     :check_add_gamble_feat_event,
+                     :check_remove_gamble_feat_event,
+                     :check_rotate_gamble_feat_event,
+                     :use_gamble_feat_event,
+                     :use_gamble_feat_damage_event,
+                     :finish_gamble_feat_event,
+                    ],
+                    # 104 ギャンブル
+                    [
+                     :check_add_bird_cage_feat_event,
+                     :check_remove_bird_cage_feat_event,
+                     :check_rotate_bird_cage_feat_event,
+                     :finish_bird_cage_feat_event,
+                    ],
+                    # 105 バードケージ
+                    [
+                     :check_add_hanging_feat_event,
+                     :check_remove_hanging_feat_event,
+                     :check_rotate_hanging_feat_event,
+                     :use_hanging_feat_event,
+                     :finish_hanging_feat_event,
+                    ],
+                    # 106 ハンギング
+                    [
+                     :check_add_blast_off_feat_event,
+                     :check_remove_blast_off_feat_event,
+                     :check_rotate_blast_off_feat_event,
+                     :use_blast_off_feat_event,
+                     :ex_blast_off_feat_event,
+                     :finish_blast_off_feat_event,
+                    ],
+                    # 107 ブラストオフ
+                    [:check_add_puppet_master_feat_event,
+                     :check_remove_puppet_master_feat_event,
+                     :check_rotate_puppet_master_feat_event,
+                     :use_puppet_master_feat_event,
+                     :finish_puppet_master_feat_event,
+                    ],
+                    # 108 パペットマスター
+                    [
+                     :check_add_ctl_feat_event,
+                     :check_remove_ctl_feat_event,
+                     :check_rotate_ctl_feat_event,
+                     :use_ctl_feat_event,
+                     :finish_ctl_feat_event,
+                    ],
+                    # 109 C.T.L
+                    [
+                     :check_add_bpa_feat_event,
+                     :check_remove_bpa_feat_event,
+                     :check_rotate_bpa_feat_event,
+                     :use_bpa_feat_event,
+                     :finish_bpa_feat_event,
+                    ],
+                    # 110 B.P.A
+                    [
+                     :check_add_lar_feat_event,
+                     :check_remove_lar_feat_event,
+                     :check_rotate_lar_feat_event,
+                     :use_lar_feat_event,
+                     :use_lar_feat_damage_event,
+                     :finish_lar_feat_event,
+                    ],
+                    # 111 L.A.R
+                    [
+                     :check_add_sss_feat_event,
+                     :check_remove_sss_feat_event,
+                     :check_rotate_sss_feat_event,
+                     :finish_sss_feat_event,
+                    ],
+                    # 112 S.S.S
+                    [
+                     :check_add_counter_rush_feat_event,
+                     :check_remove_counter_rush_feat_event,
+                     :check_rotate_counter_rush_feat_event,
+                     :use_counter_rush_feat_event,
+                     :finish_counter_rush_feat_event,
+                    ],
+                    # 113 カウンターラッシュ
+                    [
+                     :check_add_disaster_flame_feat_event,
+                     :check_remove_disaster_flame_feat_event,
+                     :check_rotate_disaster_flame_feat_event,
+                     :use_disaster_flame_feat_event,
+                     :finish_disaster_flame_feat_event,
+                    ],
+                    # 114 劫火
+                    [
+                     :check_add_hell_fire_feat_event,
+                     :check_remove_hell_fire_feat_event,
+                     :check_rotate_hell_fire_feat_event,
+                     :use_hell_fire_feat_event,
+                     :use_hell_fire_feat_damage_event,
+                     :use_hell_fire_feat_const_damage_event,
+                     :finish_hell_fire_feat_event,
+                    ],
+                    # 115 煉獄
+                    [
+                     :check_add_blindness_feat_event,
+                     :check_remove_blindness_feat_event,
+                     :check_rotate_blindness_feat_event,
+                     :use_blindness_feat1_event,
+                     :use_blindness_feat2_event,
+                     :finish_blindness_feat_event,
+                    ],
+                    # 116 眩彩
+                    [
+                     :check_add_fire_disappear_feat_event,
+                     :check_remove_fire_disappear_feat_event,
+                     :check_rotate_fire_disappear_feat_event,
+                     :use_fire_disappear_feat_event,
+                     :use_after_fire_disappear_feat_event,
+                     :finish_fire_disappear_feat_event,
+                    ],
+                    # 117 焼滅
+                    [
+                     :check_add_dark_hole_feat_event,
+                     :check_remove_dark_hole_feat_event,
+                     :check_rotate_dark_hole_feat_event,
+                     :use_dark_hole_feat_event,
+                     :finish_dark_hole_feat_event,
+                    ],
+                    # 118 ダークホール
+                    [
+                     :check_add_tannhauser_gate_feat_event,
+                     :check_remove_tannhauser_gate_feat_event,
+                     :check_rotate_tannhauser_gate_feat_event,
+                     :use_tannhauser_gate_feat_event,
+                     :finish_tannhauser_gate_feat_event,
+                    ],
+                    # 119 タンホイザーゲート
+                    [
+                     :check_add_schwar_blitz_feat_event,
+                     :check_remove_schwar_blitz_feat_event,
+                     :check_rotate_schwar_blitz_feat_event,
+                     :use_schwar_blitz_feat_event,
+                     :use_schwar_blitz_feat_damage_event,
+                     :finish_schwar_blitz_feat_event,
+                    ],
+                    # 120 シュバルトブリッツ
+                    [
+                     :check_add_hi_rounder_feat_event,
+                     :check_remove_hi_rounder_feat_event,
+                     :check_rotate_hi_rounder_feat_event,
+                     :use_hi_rounder_feat_event,
+                     :finish_hi_rounder_feat_event,
+                     :use_hi_rounder_feat_const_damage_event,
+                    ],
+                    # 121 ハイランダー
+                    [
+                     :check_add_blood_retting_feat_event,
+                     :check_remove_blood_retting_feat_event,
+                     :check_rotate_blood_retting_feat_event,
+                     :use_blood_retting_feat_event,
+                     :use_blood_retting_feat_damage_event,
+                     :finish_blood_retting_feat_event,
+                    ],
+                    # 122 ブラッドレッティング
+                    [
+                     :check_add_acupuncture_feat_event,
+                     :check_remove_acupuncture_feat_event,
+                     :check_rotate_acupuncture_feat_event,
+                     :finish_acupuncture_feat_event,
+                    ],
+                    # 123 アキュパンクチャー
+                    [
+                     :check_add_dissection_feat_event,
+                     :check_remove_dissection_feat_event,
+                     :check_rotate_dissection_feat_event,
+                     :use_dissection_feat_event,
+                     :use_dissection_feat_damage_event,
+                     :use_dissection_feat_guard_event,
+                    ],
+                    # 124 ディセクション
+                    [
+                     :check_add_euthanasia_feat_event,
+                     :check_remove_euthanasia_feat_event,
+                     :check_rotate_euthanasia_feat_event,
+                     :use_euthanasia_feat_event,
+                     :use_euthanasia_feat_damage_event,
+                     :finish_euthanasia_feat_event,
+                    ],
+                    # 125 ユーサネイジアー
+                    [
+                     :check_add_anger_nail_feat_event,
+                     :check_remove_anger_nail_feat_event,
+                     :check_rotate_anger_nail_feat_event,
+                     :finish_anger_nail_feat_event,
+                    ],
+                    # 126 憤怒の爪
+                    [
+                     :check_add_calm_back_feat_event,
+                     :check_remove_calm_back_feat_event,
+                     :check_rotate_calm_back_feat_event,
+                     :use_calm_back_feat_event,
+                     :use_calm_back_feat_damage_event,
+                     :finish_calm_back_feat_event,
+                    ],
+                    # 127 静謐な背中
+                    [
+                     :check_add_blue_eyes_feat_event,
+                     :check_remove_blue_eyes_feat_event,
+                     :check_rotate_blue_eyes_feat_event,
+                     :use_blue_eyes_feat_event,
+                     :finish_blue_eyes_feat_event,
+                    ],
+                    # 128 慈悲の青眼
+                    [
+                     :check_add_wolf_fang_feat_event,
+                     :check_remove_wolf_fang_feat_event,
+                     :check_rotate_wolf_fang_feat_event,
+                     :use_wolf_fang_feat_event,
+                     :finish_wolf_fang_feat_event,
+                    ],
+                    # 129 戦慄の狼牙
+                    [
+                     :check_add_hagakure_feat_event,
+                     :check_remove_hagakure_feat_event,
+                     :check_rotate_hagakure_feat_event,
+                     :use_hagakure_feat_event,
+                     :use_hagakure_feat_damage_event,
+                     :finish_hagakure_feat_event,
+                    ],
+                    # 130 葉隠れ
+                    [
+                     :check_add_reppu_feat_event,
+                     :check_remove_reppu_feat_event,
+                     :check_rotate_reppu_feat_event,
+                     :use_reppu_feat_event,
+                     :finish_reppu_feat_event,
+                     :finish_effect_reppu_feat_event,
+                     :finish_foe_change_reppu_feat_event,
+                     :finish_dead_change_reppu_feat_event,
+                     :finish_turn_reppu_feat_event,
+                    ],
+                    # 131 烈風
+                    [
+                     :check_add_enpi_feat_event,
+                     :check_remove_enpi_feat_event,
+                     :check_rotate_enpi_feat_event,
+                     :use_enpi_feat_event,
+                     :use_enpi_feat_damage_event,
+                     :finish_enpi_feat_event,
+                    ],
+                    # 132 燕飛
+                    [
+                     :check_add_mikazuki_feat_event,
+                     :check_remove_mikazuki_feat_event,
+                     :check_rotate_mikazuki_feat_event,
+                     :use_mikazuki_feat_event,
+                     :finish_mikazuki_feat_event,
+                    ],
+                    # 133 三日月
+                    [
+                     :check_add_casablanca_feat_event,
+                     :check_remove_casablanca_feat_event,
+                     :check_rotate_casablanca_feat_event,
+                     :finish_casablanca_feat_event,
+                    ],
+                    # 134 カサブランカの風
+                    [
+                     :check_add_rhodesia_feat_event,
+                     :check_remove_rhodesia_feat_event,
+                     :check_rotate_rhodesia_feat_event,
+                     :use_rhodesia_feat_event,
+                     :use_rhodesia_feat_damage_event,
+                     :finish_rhodesia_feat_event,
+                    ],
+                    # 135 ローデシアの海
+                    [
+                     :check_add_madripool_feat_event,
+                     :check_remove_madripool_feat_event,
+                     :check_rotate_madripool_feat_event,
+                     :finish_madripool_feat_event,
+                    ],
+                    # 136 マドリプールの雑踏
+                    [
+                     :check_add_asia_feat_event,
+                     :check_remove_asia_feat_event,
+                     :check_rotate_asia_feat_event,
+                     :finish_asia_feat_event,
+                    ],
+                    # 137 エイジャの曙光
+                    [
+                     :check_add_demonic_feat_event,
+                     :check_remove_demonic_feat_event,
+                     :check_rotate_demonic_feat_event,
+                     :use_demonic_feat_event,
+                     :use_demonic_feat_damage_event,
+                     :finish_demonic_feat_event,
+                    ],
+                    # 138 デモニック
+                    [
+                     :check_add_shadow_sword_feat_event,
+                     :check_remove_shadow_sword_feat_event,
+                     :check_rotate_shadow_sword_feat_event,
+                     :use_shadow_sword_feat_event,
+                     :finish_shadow_sword_feat_event,
+                    ],
+                    # 139 残像剣
+                    [
+                     :check_add_perfect_dead_feat_event,
+                     :check_remove_perfect_dead_feat_event,
+                     :check_rotate_perfect_dead_feat_event,
+                     :use_perfect_dead_feat_event,
+                     :use_perfect_dead_feat_damage_event,
+                     :finish_perfect_dead_feat_event,
+                    ],
+                    # 140 パーフェクトデッド
+                    [
+                     :check_add_destruct_gear_feat_event,
+                     :check_remove_destruct_gear_feat_event,
+                     :check_rotate_destruct_gear_feat_event,
+                     :use_destruct_gear_feat_event,
+                     :use_destruct_gear_feat_damage_event,
+                     :finish_destruct_gear_feat_event,
+                    ],
+                    # 141 破壊の歯車
+                    [
+                     :check_add_power_shift_feat_event,
+                     :check_remove_power_shift_feat_event,
+                     :check_rotate_power_shift_feat_event,
+                     :use_power_shift_feat_event,
+                     :use_power_shift_feat_damage_event,
+                     :finish_power_shift_feat_event,
+                    ],
+                    # 142 パワーシフト
+                    [
+                     :check_add_kill_shot_feat_event,
+                     :check_remove_kill_shot_feat_event,
+                     :check_rotate_kill_shot_feat_event,
+                     :use_kill_shot_feat_event,
+                     :use_kill_shot_feat_damage_event,
+                     :finish_kill_shot_feat_event,
+                    ],
+                    # 143 キルショット
+                    [
+                     :check_add_defrect_feat_event,
+                     :check_remove_defrect_feat_event,
+                     :check_rotate_defrect_feat_event,
+                     :use_defrect_feat_event,
+                     :use_defrect_feat_damage_event,
+                     :finish_defrect_feat_event,
+                    ],
+                    # 144 ディフレクト
+                    [
+                     :check_add_flame_offering_feat_event,
+                     :check_remove_flame_offering_feat_event,
+                     :check_rotate_flame_offering_feat_event,
+                     :use_flame_offering_feat_event,
+                    ],
+                    # 145 炎の供物
+                    [
+                     :check_add_drain_hand_feat_event,
+                     :check_remove_drain_hand_feat_event,
+                     :check_rotate_drain_hand_feat_event,
+                     :use_drain_hand_feat_event,
+                     :use_drain_hand_feat_damage_event,
+                     :finish_drain_hand_feat_event,
+                    ],
+                    # 146 吸収の手
+                    [
+                     :check_add_fire_prizon_feat_event,
+                     :check_remove_fire_prizon_feat_event,
+                     :check_rotate_fire_prizon_feat_event,
+                     :use_fire_prizon_feat_event,
+                    ],
+                    # 147 焔の監獄
+                    [
+                     :check_add_time_stop_feat_event,
+                     :check_remove_time_stop_feat_event,
+                     :check_rotate_time_stop_feat_event,
+                     :finish_time_stop_feat_event,
+                    ],
+                    # 148 時間停止
+                    [
+                     :check_add_dead_guard_feat_event,
+                     :check_remove_dead_guard_feat_event,
+                     :check_rotate_dead_guard_feat_event,
+                     :use_dead_guard_feat_event,
+                     :use_dead_guard_feat_damage_event,
+                     :finish_dead_guard_feat_event,
+                    ],
+                    # 149 即死防御
+                    [
+                     :check_add_dead_blue_feat_event,
+                     :check_remove_dead_blue_feat_event,
+                     :check_rotate_dead_blue_feat_event,
+                     :use_dead_blue_feat_event,
+                     :use_dead_blue_feat_damage_event,
+                     :finish_dead_blue_feat_event,
+                    ],
+                    # 150 奇数即死
+                    [
+                     :check_add_evil_guard_feat_event,
+                     :check_remove_evil_guard_feat_event,
+                     :check_rotate_evil_guard_feat_event,
+                     :use_evil_guard_feat_event,
+                     :use_evil_guard_feat_damage_event,
+                     :finish_evil_guard_feat_event,
+                    ],
+                    # 151 善悪の彼岸
+                    [
+                     :check_add_abyss_eyes_feat_event,
+                     :check_remove_abyss_eyes_feat_event,
+                     :check_rotate_abyss_eyes_feat_event,
+                     :use_abyss_eyes_feat_event,
+                     :use_abyss_eyes_feat_damage_event,
+                     :finish_abyss_eyes_feat_event,
+                    ],
+                    # 152 道連れ
+                    [
+                     :check_add_dead_red_feat_event,
+                     :check_remove_dead_red_feat_event,
+                     :check_rotate_dead_red_feat_event,
+                     :finish_dead_red_feat_event,
+                    ],
+                    # 153 偶数即死
+                    [
+                     :check_add_night_ghost_feat_event,
+                     :check_remove_night_ghost_feat_event,
+                     :check_rotate_night_ghost_feat_event,
+                     :use_night_ghost_feat_event,
+                     :use_night_ghost_feat_damage_event,
+                     :finish_night_ghost_feat_event,
+                    ],
+                    # 154 幽冥の夜
+                    [
+                     :check_add_avatar_war_feat_event,
+                     :check_remove_avatar_war_feat_event,
+                     :check_rotate_avatar_war_feat_event,
+                     :use_avatar_war_feat_event,
+                     :use_avatar_war_feat_damage_event,
+                     :finish_avatar_war_feat_event,
+                    ],
+                    # 155 人形の軍勢
+                    [
+                     :check_add_confuse_pool_feat_event,
+                     :check_remove_confuse_pool_feat_event,
+                     :check_rotate_confuse_pool_feat_event,
+                     :use_confuse_pool_feat_event,
+                     :use_confuse_pool_feat_damage_event,
+                     :finish_confuse_pool_feat_event,
+                    ],
+                    # 156 混沌の渦
+                    [
+                     :check_add_prominence_feat_event,
+                     :check_remove_prominence_feat_event,
+                     :check_rotate_prominence_feat_event,
+                     :use_prominence_feat_event,
+                     :finish_prominence_feat_event,
+                    ],
+                    # 157 プロミネンス
+                    [
+                     :check_add_battle_axe_feat_event,
+                     :check_remove_battle_axe_feat_event,
+                     :check_rotate_battle_axe_feat_event,
+                     :use_battle_axe_feat_event,
+                     :use_battle_axe_feat_damage_event,
+                     :finish_battle_axe_feat_event,
+                    ],
+                    # 158 バトルアックス
+                    [
+                     :check_add_moab_feat_event,
+                     :check_remove_moab_feat_event,
+                     :check_rotate_moab_feat_event,
+                     :finish_moab_feat_event,
+                    ],
+                    # 159 MOAB
+                    [
+                     :check_add_over_heat_feat_event,
+                     :check_remove_over_heat_feat_event,
+                     :check_rotate_over_heat_feat_event,
+                     :finish_over_heat_feat_event,
+                    ],
+                    # 160 オーバーヒート
+                    [
+                     :check_add_blue_rose_feat_event,
+                     :check_remove_blue_rose_feat_event,
+                     :check_rotate_blue_rose_feat_event,
+                     :use_blue_rose_feat_event,
+                     :use_blue_rose_feat_damage_event,
+                     :finish_blue_rose_feat_event,
+                    ],
+                    # 161 蒼き薔薇
+                    [
+                     :check_add_white_crow_feat_event,
+                     :check_remove_white_crow_feat_event,
+                     :check_rotate_white_crow_feat_event,
+                     :finish_white_crow_feat_event,
+                    ],
+                    # 162 白鴉
+                    [
+                     :check_add_red_moon_feat_event,
+                     :check_remove_red_moon_feat_event,
+                     :check_rotate_red_moon_feat_event,
+                     :use_red_moon_feat_event,
+                     :use_red_moon_feat_dice_attr_event,
+                     :use_red_moon_feat_damage_event,
+                     :finish_red_moon_feat_event,
+                    ],
+                    # 163 深紅の月
+                    [
+                     :check_add_black_sun_feat_event,
+                     :check_remove_black_sun_feat_event,
+                     :check_rotate_black_sun_feat_event,
+                     :finish_black_sun_feat_event,
+                    ],
+                    # 164黒い太陽
+                    [
+                     :check_add_girasole_feat_event,
+                     :check_remove_girasole_feat_event,
+                     :check_rotate_girasole_feat_event,
+                     :use_girasole_feat_event,
+                     :use_girasole_feat_damage_event,
+                     :use_girasole_feat_const_damage_event,
+                     :finish_girasole_feat_event,
+                    ],
+                    # 165 ジラソーレ
+                    [
+                     :check_add_violetta_feat_event,
+                     :check_remove_violetta_feat_event,
+                     :check_rotate_violetta_feat_event,
+                     :finish_violetta_feat_event,
+                    ],
+                    # 166 ビオレッタ
+                    [
+                     :check_add_digitale_feat_event,
+                     :check_remove_digitale_feat_event,
+                     :check_rotate_digitale_feat_event,
+                     :use_digitale_feat_event,
+                     :use_digitale_feat_damage_event,
+                     :finish_digitale_feat_event,
+                    ],
+                    # 167 ディジタリス
+                    [
+                     :check_add_rosmarino_feat_event,
+                     :check_remove_rosmarino_feat_event,
+                     :check_rotate_rosmarino_feat_event,
+                     :finish_rosmarino_feat_event,
+                    ],
+                    # 168 ロスマリーノ
+                    [
+                     :check_add_hachiyou_feat_event,
+                     :check_remove_hachiyou_feat_event,
+                     :check_rotate_hachiyou_feat_event,
+                     :finish_hachiyou_feat_event,
+                    ],
+                    # 169 八葉
+                    [
+                     :check_add_stone_care_feat_event,
+                     :check_remove_stone_care_feat_event,
+                     :check_rotate_stone_care_feat_event,
+                     :use_stone_care_feat_event,
+                     :finish_stone_care_feat_event,
+                    ],
+                    # 170 鉄石の構え
+                    [
+                     :check_add_dust_sword_feat_event,
+                     :check_remove_dust_sword_feat_event,
+                     :check_rotate_dust_sword_feat_event,
+                     :use_dust_sword_feat_event,
+                     :use_dust_sword_feat_damage_event,
+                     :finish_dust_sword_feat_event,
+                    ],
+                    # 171 絶塵剣
+                    [
+                     :check_add_illusion_feat_event,
+                     :check_remove_illusion_feat_event,
+                     :check_rotate_illusion_feat_event,
+                     :use_illusion_feat_event,
+                     :use_illusion_feat_damage_event,
+                     :finish_illusion_feat_event,
+                    ],
+                    # 172 夢幻
+                    [
+                     :check_add_despair_shout_feat_event,
+                     :check_remove_despair_shout_feat_event,
+                     :check_rotate_despair_shout_feat_event,
+                     :finish_despair_shout_feat_event,
+                    ],
+                    # 173 絶望の叫び
+                    [
+                     :check_add_darkness_song_feat_event,
+                     :check_remove_darkness_song_feat_event,
+                     :check_rotate_darkness_song_feat_event,
+                     :use_darkness_song_feat_event,
+                     :finish_darkness_song_feat_event,
+                    ],
+                    # 174 暗黒神の歌
+                    [
+                     :check_add_guard_spirit_feat_event,
+                     :check_remove_guard_spirit_feat_event,
+                     :check_rotate_guard_spirit_feat_event,
+                     :finish_guard_spirit_feat_event,
+                    ],
+                    # 175 守護霊の魂
+                    [
+                     :check_add_slaughter_organ_feat_event,
+                     :check_remove_slaughter_organ_feat_event,
+                     :check_rotate_slaughter_organ_feat_event,
+                     :use_slaughter_organ_feat_event,
+                     :finish_slaughter_organ_feat_event,
+                     :finish_turn_slaughter_organ_feat_event,
+                    ],
+                    # 176 殺戮器官
+                    [
+                     :check_add_fools_hand_feat_event,
+                     :check_remove_fools_hand_feat_event,
+                     :check_rotate_fools_hand_feat_event,
+                     :use_fools_hand_feat_event,
+                     :use_fools_hand_feat_damage_event,
+                     :finish_fools_hand_feat_event,
+                    ],
+                    # 177 愚者の手
+                    [
+                     :check_add_time_seed_feat_event,
+                     :check_remove_time_seed_feat_event,
+                     :check_rotate_time_seed_feat_event,
+                     :use_time_seed_feat_event,
+                     :finish_time_seed_feat_event,
+                    ],
+                    # 178 時の種子
+                    [
+                     :check_add_irongate_of_fate_feat_event,
+                     :check_remove_irongate_of_fate_feat_event,
+                     :check_rotate_irongate_of_fate_feat_event,
+                     :use_irongate_of_fate_feat_event,
+                     :use_irongate_of_fate_feat_damage_event,
+                     :finish_irongate_of_fate_feat_event,
+                    ],
+                    # 179 運命の鉄門
+                    [
+                     :check_add_gatherer_feat_event,
+                     :check_remove_gatherer_feat_event,
+                     :check_rotate_gatherer_feat_event,
+                     :use_gatherer_feat_event,
+                     :use_next_gatherer_feat_event,
+                     :finish_gatherer_feat_event,
+                     :finish_chara_change_gatherer_feat_event,
+                     :finish_foe_chara_change_gatherer_feat_event,
+                    ],
+                    # 180 ザ・ギャザラー
+                    [
+                     :check_add_judge_feat_event,
+                     :check_remove_judge_feat_event,
+                     :check_rotate_judge_feat_event,
+                     :use_judge_feat_event,
+                     :use_judge_feat_damage_event,
+                     :finish_judge_feat_event,
+                    ],
+                    # 161 ザ・ジャッジ
+                    [
+                     :check_add_dream_feat_event,
+                     :check_remove_dream_feat_event,
+                     :check_rotate_dream_feat_event,
+                     :use_dream_feat_event,
+                     :use_dream_feat_damage_event,
+                     :finish_dream_feat_event,
+                    ],
+                    # 182 ザ・ドリーム
+                    [
+                     :check_add_one_above_all_feat_event,
+                     :check_remove_one_above_all_feat_event,
+                     :check_rotate_one_above_all_feat_event,
+                     :use_one_above_all_feat_event,
+                    ],
+                    # 183 ジ・ワン・アボヴ・オール
+                    [
+                     :check_add_antiseptic_feat_event,
+                     :check_remove_antiseptic_feat_event,
+                     :check_rotate_antiseptic_feat_event,
+                     :use_antiseptic_feat_event,
+                     :finish_antiseptic_feat_event,
+                     :finish_turn_antiseptic_feat_event,
+                     :check_antiseptic_state_change_event,
+                     :check_antiseptic_state_dead_change_event,
+                     :finish_antiseptic_state_event,
+                    ],
+                    # 184 アンチセプティック・F
+                    [
+                     :check_add_silver_machine_feat_event,
+                     :check_remove_silver_machine_feat_event,
+                     :check_rotate_silver_machine_feat_event,
+                     :use_silver_machine_feat_event,
+                     :finish_silver_machine_feat_event,
+                     :finish_turn_silver_machine_feat_event,
+                    ],
+                    # 185 シルバーマシン
+                    [
+                     :check_add_atom_heart_feat_event,
+                     :check_remove_atom_heart_feat_event,
+                     :check_rotate_atom_heart_feat_event,
+                     :use_atom_heart_feat_event,
+                     :use_next_atom_heart_feat_event,
+                     :finish_atom_heart_feat_event,
+                     :finish_result_atom_heart_feat_event,
+                     :finish_calc_atom_heart_feat_event,
+                     :disable_atom_heart_feat_event,
+                     :disable_next_atom_heart_feat_event,
+                    ],
+                    # 186 アトムハート
+                    [
+                     :check_add_electric_surgery_feat_event,
+                     :check_remove_electric_surgery_feat_event,
+                     :check_rotate_electric_surgery_feat_event,
+                     :use_electric_surgery_feat_event,
+                     :use_electric_surgery_feat_damage_event,
+                     :finish_electric_surgery_feat_event,
+                    ],
+                    # 187 エレクトロサージェリー
+                    [
+                     :check_add_acid_eater_feat_event,
+                     :check_remove_acid_eater_feat_event,
+                     :check_rotate_acid_eater_feat_event,
+                     :finish_used_determine_acid_eater_feat_event,
+                     :finish_determine_acid_eater_feat_event,
+                     :finish_calc_acid_eater_feat_event,
+                     :finish_next_acid_eater_feat_event,
+                    ],
+                    # 188 アシッドイーター
+                    [
+                     :check_add_dead_lock_feat_event,
+                     :check_remove_dead_lock_feat_event,
+                     :check_rotate_dead_lock_feat_event,
+                     :use_dead_lock_feat_event,
+                     :use_dead_lock_feat_damage_event,
+                     :finish_dead_lock_feat_event,
+                    ],
+                    # 189 デッドロック
+                    [
+                     :check_add_beggars_banquet_feat_event,
+                     :check_remove_beggars_banquet_feat_event,
+                     :check_rotate_beggars_banquet_feat_event,
+                     :use_beggars_banquet_feat_event,
+                     :ex_beggars_banquet_tmp_feat_event,
+                     :finish_ex_beggars_banquet_feat_event,
+                     :finish_chara_change_ex_beggars_banquet_feat_event,
+                     :finish_foe_chara_change_ex_beggars_banquet_feat_event,
+                    ],
+                    # 190 ベガーズバンケット
+                    [
+                     :check_add_swan_song_feat_event,
+                     :check_remove_swan_song_feat_event,
+                     :check_rotate_swan_song_feat_event,
+                     :use_swan_song_feat_event,
+                     :finish_swan_song_feat_event,
+                    ],
+                    # 191 スワンソング
+                    [
+                     :check_add_idle_grave_feat_event,
+                     :check_remove_idle_grave_feat_event,
+                     :check_rotate_idle_grave_feat_event,
+                     :use_idle_grave_feat_event,
+                    ],
+                    # 192 精神力吸収
+                    [
+                     :check_add_sorrow_song_feat_event,
+                     :check_remove_sorrow_song_feat_event,
+                     :check_rotate_sorrow_song_feat_event,
+                     :use_sorrow_song_feat_event,
+                     :finish_sorrow_song_feat_event,
+                     :finish_ex_sorrow_song_feat_event,
+                    ],
+                    # 193 慟哭の歌
+                    [
+                     :check_add_red_wheel_feat_event,
+                     :check_remove_red_wheel_feat_event,
+                     :check_rotate_red_wheel_feat_event,
+                     :use_red_wheel_feat_event,
+                     :use_red_wheel_feat_damage_event,
+                     :finish_red_wheel_feat_event,
+                    ],
+                    # 194 紅蓮の車輪
+                    [
+                     :check_add_red_pomegranate_feat_event,
+                     :check_remove_red_pomegranate_feat_event,
+                     :check_rotate_red_pomegranate_feat_event,
+                     :finish_red_pomegranate_feat_event,
+                    ],
+                    # 195 赤い石榴
+                    [
+                     :check_add_clock_works_feat_event,
+                     :check_remove_clock_works_feat_event,
+                     :check_rotate_clock_works_feat_event,
+                     :finish_clock_works_feat_event,
+                    ],
+                    # 196 クロックワークス
+                    [
+                     :check_add_time_hunt_feat_event,
+                     :check_remove_time_hunt_feat_event,
+                     :check_rotate_time_hunt_feat_event,
+                     :use_ex_time_hunt_feat_event,
+                     :use_time_hunt_feat_event,
+                     :finish_time_hunt_feat_event,
+                    ],
+                    # 197 タイムハント
+                    [
+                     :check_add_time_bomb_feat_event,
+                     :check_remove_time_bomb_feat_event,
+                     :check_rotate_time_bomb_feat_event,
+                     :use_time_bomb_feat_event,
+                     :finish_time_bomb_feat_event,
+                    ],
+                    # 198 タイムボム
+                    [
+                     :check_add_in_the_evening_feat_event,
+                     :check_remove_in_the_evening_feat_event,
+                     :check_rotate_in_the_evening_feat_event,
+                     :finish_in_the_evening_feat_event,
+                    ],
+                    # 199 インジイブニング
+                    [
+                     :check_add_final_waltz_feat_event,
+                     :check_remove_final_waltz_feat_event,
+                     :check_rotate_final_waltz_feat_event,
+                     :use_final_waltz_feat_event,
+                     :use_final_waltz_feat_damage_event,
+                     :finish_final_waltz_feat_event,
+                    ],
+                    # 200 終局のワルツ
+                    [
+                     :check_add_desperate_sonata_feat_event,
+                     :check_remove_desperate_sonata_feat_event,
+                     :check_rotate_desperate_sonata_feat_event,
+                     :use_desperate_sonata_feat_event,
+                     :finish_desperate_sonata_feat_event,
+                     :finish_turn_desperate_sonata_feat_event,
+                    ],
+                    # 201 自棄のソナタ
+                    [
+                     :check_add_gladiator_march_feat_event,
+                     :check_remove_gladiator_march_feat_event,
+                     :check_rotate_gladiator_march_feat_event,
+                     :use_gladiator_march_feat_event,
+                     :finish_gladiator_march_feat_event,
+                    ],
+                    # 202 剣闘士のマーチ
+                    [
+                     :check_add_requiem_of_revenge_feat_event,
+                     :check_remove_requiem_of_revenge_feat_event,
+                     :check_rotate_requiem_of_revenge_feat_event,
+                     :use_requiem_of_revenge_feat_event,
+                     :finish_requiem_of_revenge_feat_event,
+                    ],
+                    # 203 恩讐のレクイエム
+                    [
+                     :check_add_delicious_milk_feat_event,
+                     :check_remove_delicious_milk_feat_event,
+                     :check_rotate_delicious_milk_feat_event,
+                     :use_delicious_milk_feat_event,
+                     :use_ex_delicious_milk_feat_event,
+                     :finish_change_delicious_milk_feat_event,
+                     :finish_delicious_milk_feat_event,
+                     :finish_turn_delicious_milk_feat_event,
+                    ],
+                    # 204 おいしいミルク
+                    [
+                     :check_add_easy_injection_feat_event,
+                     :check_remove_easy_injection_feat_event,
+                     :check_rotate_easy_injection_feat_event,
+                     :use_easy_injection_feat_event,
+                     :finish_easy_injection_feat_event,
+                    ],
+                    # 205 やさしいお注射
+                    [
+                     :check_add_blood_collecting_feat_event,
+                     :check_remove_blood_collecting_feat_event,
+                     :check_rotate_blood_collecting_feat_event,
+                     :use_blood_collecting_feat_event,
+                     :finish_blood_collecting_feat_event,
+                    ],
+                    # 206 たのしい採血
+                    [
+                     :check_add_secret_medicine_feat_event,
+                     :check_remove_secret_medicine_feat_event,
+                     :check_rotate_secret_medicine_feat_event,
+                     :use_secret_medicine_feat_event,
+                     :finish_secret_medicine_feat_event,
+                    ],
+                    # 207 ひみつのお薬
+                    [
+                     :check_add_ice_gate_feat_event,
+                     :check_remove_ice_gate_feat_event,
+                     :check_rotate_ice_gate_feat_event,
+                     :use_ice_gate_feat_event,
+                     :finish_ice_gate_feat_event,
+                    ],
+                    # 208 氷の門
+                    [
+                     :check_add_fire_gate_feat_event,
+                     :check_remove_fire_gate_feat_event,
+                     :check_rotate_fire_gate_feat_event,
+                     :use_fire_gate_feat_event,
+                     :finish_fire_gate_feat_event,
+                    ],
+                    # 209 炎の門
+                    [
+                     :check_add_break_gate_feat_event,
+                     :check_remove_break_gate_feat_event,
+                     :check_rotate_break_gate_feat_event,
+                     :finish_break_gate_feat_event,
+                    ],
+                    # 210
+                    [
+                     :check_add_shout_of_gate_feat_event,
+                     :check_remove_shout_of_gate_feat_event,
+                     :check_rotate_shout_of_gate_feat_event,
+                     :use_shout_of_gate_feat_event,
+                     :use_shout_of_gate_feat_damage_event,
+                     :finish_shout_of_gate_feat_event,
+                    ],
+                    # 211 叫ぶ門
+                    [
+                     :check_add_ferreous_anger_feat_event,
+                     :check_remove_ferreous_anger_feat_event,
+                     :check_rotate_ferreous_anger_feat_event,
+                     :use_ferreous_anger_feat_event,
+                     :use_ferreous_anger_feat_damage_event,
+                     :finish_ferreous_anger_feat_event,
+                    ],
+                    # 212 フュリアスアンガー
+                    [
+                     :check_add_name_of_charity_feat_event,
+                     :check_remove_name_of_charity_feat_event,
+                     :check_rotate_name_of_charity_feat_event,
+                     :use_name_of_charity_feat_event,
+                    ],
+                    # 213 ネームオブチャリティ
+                    [
+                     :check_add_good_will_feat_event,
+                     :check_remove_good_will_feat_event,
+                     :check_rotate_good_will_feat_event,
+                     :use_good_will_feat_event,
+                     :finish_good_will_feat_event,
+                    ],
+                    # 214 グッドウィル
+                    [
+                     :check_add_great_vengeance_feat_event,
+                     :check_remove_great_vengeance_feat_event,
+                     :check_rotate_great_vengeance_feat_event,
+                     :use_great_vengeance_feat_event,
+                     :use_great_vengeance_feat_damage_event,
+                     :use_great_vengeance_feat_const_damage_event,
+                     :finish_great_vengeance_feat_event,
+                    ],
+                    # 215 グレートベンジェンス
+                    [
+                     :check_add_innocent_soul_feat_event,
+                     :check_remove_innocent_soul_feat_event,
+                     :check_rotate_innocent_soul_feat_event,
+                     :finish_innocent_soul_feat_event,
+                    ],
+                    # 216 無辜の魂
+                    [
+                     :check_add_infallible_deed_feat_event,
+                     :check_remove_infallible_deed_feat_event,
+                     :check_rotate_infallible_deed_feat_event,
+                     :use_infallible_deed_feat_event,
+                     :finish_infallible_deed_feat_event,
+                     :finish_chara_change_infallible_deed_feat_event,
+                     :finish_effect_infallible_deed_feat_event,
+                     :finish_foe_change_infallible_deed_feat_event,
+                     :finish_owner_change_infallible_deed_feat_event,
+                     :finish_dead_change_infallible_deed_feat_event,
+                     :finish_turn_infallible_deed_feat_event,
+                    ],
+                    # 217 無謬の行い(光彩陸離)
+                    [
+                     :check_add_idle_fate_feat_event,
+                     :check_remove_idle_fate_feat_event,
+                     :check_rotate_idle_fate_feat_event,
+                     :use_idle_fate_feat_event,
+                     :use_idle_fate_feat_damage_event,
+                     :finish_idle_fate_feat_event,
+                    ],
+                    # 218 無為の運命
+                    [
+                     :check_add_regrettable_judgment_feat_event,
+                     :check_remove_regrettable_judgment_feat_event,
+                     :check_rotate_regrettable_judgment_feat_event,
+                     :use_regrettable_judgment_feat_event,
+                     :use_regrettable_judgment_feat_damage_event,
+                     :finish_regrettable_judgment_feat_event,
+                    ],
+                    # 219 無念の裁き
+                    [
+                     :check_add_sin_wriggle_feat_event,
+                     :check_remove_sin_wriggle_feat_event,
+                     :check_rotate_sin_wriggle_feat_event,
+                     :use_sin_wriggle_feat_event,
+                     :use_sin_wriggle_feat_damage_event,
+                     :finish_sin_wriggle_feat_event,
+                    ],
+                    # 220 罪業の蠢き
+                    [
+                     :check_add_idle_groan_feat_event,
+                     :check_remove_idle_groan_feat_event,
+                     :check_rotate_idle_groan_feat_event,
+                     :use_idle_groan_feat_event,
+                     :use_idle_groan_feat_damage_event,
+                     :finish_idle_groan_feat_event,
+                     :finish_turn_idle_groan_feat_event,
+                    ],
+                    # 221 懶惰の呻き
+                    [
+                     :check_add_contamination_sorrow_feat_event,
+                     :check_remove_contamination_sorrow_feat_event,
+                     :check_rotate_contamination_sorrow_feat_event,
+                     :finish_contamination_sorrow_feat_event,
+                    ],
+                    # 222 汚濁の囁き
+                    [
+                     :check_add_failure_groan_feat_event,
+                     :check_remove_failure_groan_feat_event,
+                     :check_rotate_failure_groan_feat_event,
+                     :finish_failure_groan_feat_event,
+                    ],
+                    # 223 蹉跌の犇めき
+                    [
+                     :check_add_cathedral_feat_event,
+                     :check_remove_cathedral_feat_event,
+                     :check_rotate_cathedral_feat_event,
+                     :use_cathedral_feat_event,
+                     :finish_cathedral_feat_event,
+                    ],
+                    # 224 大聖堂
+                    [
+                     :check_add_winter_dream_feat_event,
+                     :check_remove_winter_dream_feat_event,
+                     :check_rotate_winter_dream_feat_event,
+                     :use_winter_dream_feat_event,
+                     :use_winter_dream_feat_damage_event,
+                     :finish_winter_dream_feat_event,
+                    ],
+                    # 225 冬の夢
+                    [
+                     :check_add_tender_night_feat_event,
+                     :check_remove_tender_night_feat_event,
+                     :check_rotate_tender_night_feat_event,
+                     :finish_tender_night_feat_event,
+                    ],
+                    # 226 夜はやさし
+                    [
+                     :check_add_fortunate_reason_feat_event,
+                     :check_remove_fortunate_reason_feat_event,
+                     :check_rotate_fortunate_reason_feat_event,
+                     :finish_fortunate_reason_feat_event,
+                    ],
+                    # 227 しあわせの理由
+                    [
+                     :check_add_rud_num_feat_event,
+                     :check_remove_rud_num_feat_event,
+                     :check_rotate_rud_num_feat_event,
+                     :use_rud_num_feat_event,
+                     :finish_rud_num_feat_event,
+                    ],
+                    # 228 RudNum
+                    [
+                     :check_add_von_num_feat_event,
+                     :check_remove_von_num_feat_event,
+                     :check_rotate_von_num_feat_event,
+                     :use_von_num_feat_event,
+                     :use_von_num_feat_damage_event,
+                     :finish_von_num_feat_event,
+                    ],
+                    # 229 VonNum
+                    [
+                     :check_add_chr_num_feat_event,
+                     :check_remove_chr_num_feat_event,
+                     :check_rotate_chr_num_feat_event,
+                     :use_chr_num_feat_event,
+                     :finish_chr_num_feat_event,
+                    ],
+                    # 230 CHR799
+                    [
+                     :check_add_wil_num_feat_event,
+                     :check_remove_wil_num_feat_event,
+                     :check_rotate_wil_num_feat_event,
+                     :finish_wil_num_feat_event,
+                    ],
+                    # 231 wil846
+                    [
+                     :check_add_precision_fire_feat_event,
+                     :check_remove_precision_fire_feat_event,
+                     :check_rotate_precision_fire_feat_event,
+                     :use_precision_fire_feat_event,
+                     :use_precision_fire_feat_damage_event,
+                     :finish_precision_fire_feat_event,
+                    ],
+                    # 232 精密射撃(復活)
+                    [
+                     :check_add_purple_lightning_feat_event,
+                     :check_remove_purple_lightning_feat_event,
+                     :check_rotate_purple_lightning_feat_event,
+                     :use_purple_lightning_feat_event,
+                     :use_purple_lightning_feat_damage_event,
+                     :finish_purple_lightning_feat_event,
+                    ],
+                    # 233 紫電
+                    [
+                     :check_add_mortal_style_feat_event,
+                     :check_remove_mortal_style_feat_event,
+                     :check_rotate_mortal_style_feat_event,
+                     :finish_mortal_style_feat_event,
+                    ],
+                    # 234 必殺の構え(復活)
+                    [
+                     :check_add_bloody_howl_feat_event,
+                     :check_remove_bloody_howl_feat_event,
+                     :check_rotate_bloody_howl_feat_event,
+                     :use_bloody_howl_feat_event,
+                     :finish_bloody_howl_feat_event,
+                     :use_bloody_howl_feat_damage_event,
+                    ],
+                    # 235 ブラッディハウル
+                    [
+                     :check_add_charged_thrust_feat_event,
+                     :check_remove_charged_thrust_feat_event,
+                     :check_rotate_charged_thrust_feat_event,
+                     :use_charged_thrust_feat_event,
+                     :finish_charged_thrust_feat_event,
+                    ],
+                    # 236 チャージドストラト
+                    [
+                     :check_add_sword_dance_feat_event,
+                     :check_remove_sword_dance_feat_event,
+                     :check_rotate_sword_dance_feat_event,
+                     :use_sword_dance_feat_event,
+                     :finish_sword_dance_feat_event,
+                     :use_sword_dance_feat_damage_event,
+                    ],
+                    # 237 ソードダンス
+                    [
+                     :check_add_sword_avoid_feat_event,
+                     :check_remove_sword_avoid_feat_event,
+                     :check_rotate_sword_avoid_feat_event,
+                     :use_sword_avoid_feat_event,
+                     :use_sword_avoid_feat_damage_event,
+                     :finish_sword_avoid_feat_event,
+                    ],
+                    # 238 受け流し
+                    [
+                     :check_add_kutunesirka_feat_event,
+                     :check_remove_kutunesirka_feat_event,
+                     :check_rotate_kutunesirka_feat_event,
+                     :use_kutunesirka_feat_event,
+                     :finish_kutunesirka_feat_event,
+                     :use_kutunesirka_feat_damage_event,
+                    ],
+                    # 239 クトネシリカ(フォイルニスゼーレ)
+                    [
+                     :check_add_feet_of_hermes_feat_event,
+                     :check_remove_feet_of_hermes_feat_event,
+                     :check_rotate_feet_of_hermes_feat_event,
+                     :use_feet_of_hermes_feat_event,
+                     :use_feet_of_hermes_feat_damage_event,
+                    ],
+                    # 240 ヘルメスの靴(ドゥンケルハイト)
+                    [
+                     :check_add_aegis_wing_feat_event,
+                     :check_remove_aegis_wing_feat_event,
+                     :check_rotate_aegis_wing_feat_event,
+                     :use_aegis_wing_feat_event,
+                     :finish_aegis_wing_feat_event,
+                     :use_aegis_wing_feat_damage_event,
+                    ],
+                    # 241 イージスの翼(シャッテンフリューゲル)
+                    [
+                     :check_add_claiomh_solais_feat_event,
+                     :check_remove_claiomh_solais_feat_event,
+                     :check_rotate_claiomh_solais_feat_event,
+                     :use_claiomh_solais_feat_event,
+                     :finish_claiomh_solais_feat_event,
+                    ],
+                    # 242 クラウ・ソラス(ヴィルベルリッテル)
+                    [
+                     :check_add_mutation_feat_event,
+                     :check_remove_mutation_feat_event,
+                     :check_rotate_mutation_feat_event,
+                     :use_mutation_feat_event,
+                     :finish_mutation_feat_event,
+                     :finish_effect_mutation_feat_event,
+                    ],
+                    # 243 細胞変異
+                    [
+                     :check_add_rampancy_feat_event,
+                     :check_remove_rampancy_feat_event,
+                     :check_rotate_rampancy_feat_event,
+                     :use_rampancy_feat_damage_event,
+                     :finish_rampancy_feat_event,
+                    ],
+                    # 244 指嗾する仔
+                    [
+                     :check_add_sacrifice_of_soul_feat_event,
+                     :check_remove_sacrifice_of_soul_feat_event,
+                     :check_rotate_sacrifice_of_soul_feat_event,
+                     :use_sacrifice_of_soul_feat_event,
+                     :use_sacrifice_of_soul_feat_heal_event,
+                     :use_sacrifice_of_soul_feat_damage_event,
+                    ],
+                    # 245 魂魄の贄
+                    [
+                     :check_add_silver_bullet_feat_event,
+                     :check_remove_silver_bullet_feat_event,
+                     :check_rotate_silver_bullet_feat_event,
+                     :finish_silver_bullet_feat_event,
+                    ],
+                    # 246 銀の丸弾(哀切の残光)
+                    [
+                     :check_add_pumpkin_drop_feat_event,
+                     :check_remove_pumpkin_drop_feat_event,
+                     :check_rotate_pumpkin_drop_feat_event,
+                     :use_pumpkin_drop_feat_event,
+                     :use_pumpkin_drop_feat_damage_event,
+                     :use_pumpkin_drop_feat_const_damage_event,
+                     :finish_pumpkin_drop_feat_event,
+                    ],
+                    # 247 かぼちゃ落とし
+                    [
+                     :check_add_wandering_feather_feat_event,
+                     :check_remove_wandering_feather_feat_event,
+                     :check_rotate_wandering_feather_feat_event,
+                     :use_wandering_feather_feat_event,
+                     :finish_wandering_feather_feat_event,
+                     :cutin_wandering_feather_feat_event,
+                    ],
+                    # 248 彷徨う羽根
+                    [
+                     :check_add_sheep_song_feat_event,
+                     :check_remove_sheep_song_feat_event,
+                     :check_rotate_sheep_song_feat_event,
+                     :use_sheep_song_feat_event,
+                     :finish_sheep_song_feat_event,
+                    ],
+                    # 249 ひつじ数え歌
+                    [
+                     :check_add_dream_of_ovuerya_feat_event,
+                     :check_remove_dream_of_ovuerya_feat_event,
+                     :check_rotate_dream_of_ovuerya_feat_event,
+                     :finish_dream_of_ovuerya_feat_event,
+                    ],
+                    # 250 オヴェリャの夢
+                    [
+                     :check_add_marys_sheep_feat_event,
+                     :check_remove_marys_sheep_feat_event,
+                     :check_rotate_marys_sheep_feat_event,
+                     :use_marys_sheep_feat_event,
+                     :use_marys_sheep_feat_damage_event,
+                     :finish_marys_sheep_feat_event,
+                    ],
+                    # 251 メリーズシープ
+                    [
+                     :check_add_evil_eye_feat_event,
+                     :check_remove_evil_eye_feat_event,
+                     :check_rotate_evil_eye_feat_event,
+                     :use_evil_eye_feat_event,
+                     :use_evil_eye_feat_damage_event,
+                     :finish_evil_eye_feat_event,
+                    ],
+                    # 252 光り輝く邪眼
+                    [
+                     :check_add_black_arts_feat_event,
+                     :check_remove_black_arts_feat_event,
+                     :check_rotate_black_arts_feat_event,
+                     :finish_black_arts_feat_event,
+                    ],
+                    # 253 超越者の邪法
+                    [
+                     :check_add_blasphemy_curse_feat_event,
+                     :check_remove_blasphemy_curse_feat_event,
+                     :check_rotate_blasphemy_curse_feat_event,
+                     :use_blasphemy_curse_feat_event,
+                     :use_blasphemy_curse_feat_damage_event,
+                     :finish_blasphemy_curse_feat_event,
+                    ],
+                    # 254 冒涜する呪詛
+                    [
+                     :check_add_end_of_end_feat_event,
+                     :check_remove_end_of_end_feat_event,
+                     :check_rotate_end_of_end_feat_event,
+                     :use_end_of_end_feat_event,
+                     :use_end_of_end_feat_damage_event,
+                     :finish_end_of_end_feat_event,
+                    ],
+                    # 255 終焉の果て
+                    [
+                     :check_add_thrones_gate_feat_event,
+                     :check_remove_thrones_gate_feat_event,
+                     :check_rotate_thrones_gate_feat_event,
+                     :use_thrones_gate_feat_event,
+                     :use_thrones_gate_feat_damage_event,
+                     :finish_thrones_gate_feat_event,
+                    ],
+                    # 256 玉座の凱旋門
+                    [
+                     :check_add_ghost_resentment_feat_event,
+                     :check_remove_ghost_resentment_feat_event,
+                     :check_rotate_ghost_resentment_feat_event,
+                     :use_ghost_resentment_feat_event,
+                     :use_ghost_resentment_feat_damage_event,
+                     :finish_ghost_resentment_feat_event,
+                    ],
+                    # 257 幽愁暗恨
+                    [
+                     :check_add_curse_sword_feat_event,
+                     :check_remove_curse_sword_feat_event,
+                     :check_rotate_curse_sword_feat_event,
+                     :use_curse_sword_feat_event,
+                     :use_curse_sword_feat_damage_event,
+                     :finish_curse_sword_feat_event,
+                    ],
+                    # 258 Ex呪剣
+                    [
+                     :check_add_rapid_sword_r2_feat_event,
+                     :check_remove_rapid_sword_r2_feat_event,
+                     :check_rotate_rapid_sword_r2_feat_event,
+                     :use_rapid_sword_r2_feat_event,
+                     :finish_rapid_sword_r2_feat_event,
+                    ],
+                    # 259 神速の剣(復活)
+                    [
+                     :check_add_anger_r_feat_event,
+                     :check_remove_anger_r_feat_event,
+                     :check_rotate_anger_r_feat_event,
+                     :use_anger_r_feat_event,
+                     :finish_anger_r_feat_event,
+                    ],
+                    # 260 怒りの一撃
+                    [
+                     :check_add_volition_deflect_feat_event,
+                     :check_remove_volition_deflect_feat_event,
+                     :check_rotate_volition_deflect_feat_event,
+                     :use_volition_deflect_feat_event,
+                     :finish_volition_deflect_feat_event,
+                    ],
+                    # 261 ヴォリッションディフレクト
+                    [
+                     :check_add_shadow_shot_r_feat_event,
+                     :check_remove_shadow_shot_r_feat_event,
+                     :check_rotate_shadow_shot_r_feat_event,
+                     :use_shadow_shot_r_feat_event,
+                     :use_shadow_shot_r_feat_damage_event,
+                     :finish_shadow_shot_r_feat_event,
+                    ],
+                    # 262 影撃ち(復活)
+                    [
+                     :check_add_burning_tail_feat_event,
+                     :check_remove_burning_tail_feat_event,
+                     :check_rotate_burning_tail_feat_event,
+                     :use_burning_tail_feat_event,
+                     :finish_burning_tail_feat_event,
+                    ],
+                    # 263 嚇灼の尾
+                    [
+                     :check_add_quake_walk_feat_event,
+                     :check_remove_quake_walk_feat_event,
+                     :check_rotate_quake_walk_feat_event,
+                     :finish_quake_walk_feat_event,
+                    ],
+                    # 264 震歩
+                    [
+                     :check_add_drainage_feat_event,
+                     :check_remove_drainage_feat_event,
+                     :check_rotate_drainage_feat_event,
+                     :use_drainage_feat_event,
+                     :use_drainage_feat_damage_event,
+                     :use_drainage_feat_const_damage_event,
+                     :finish_drainage_feat_event,
+                    ],
+                    # 265 ドレナージ
+                    [
+                     :check_add_smile_feat_event,
+                     :check_remove_smile_feat_event,
+                     :check_rotate_smile_feat_event,
+                     :use_smile_feat_event,
+                     :use_smile_feat_damage_event,
+                     :finish_smile_feat_event,
+                    ],
+                    # 266 やさしい微笑み
+                    [
+                     :check_add_blutkontamina_feat_event,
+                     :check_remove_blutkontamina_feat_event,
+                     :check_rotate_blutkontamina_feat_event,
+                     :use_blutkontamina_feat_event,
+                     :use_blutkontamina_feat_damage_event,
+                     :finish_blutkontamina_feat_event,
+                    ],
+                    # 267 血統汚染(レイド用)
+                    [
+                     :check_add_cold_eyes_feat_event,
+                     :check_remove_cold_eyes_feat_event,
+                     :check_rotate_cold_eyes_feat_event,
+                     :use_cold_eyes_feat_damage_event,
+                     :finish_cold_eyes_feat_event,
+                    ],
+                    # 268 つめたい視線
+                    [
+                     :check_add_feat1_feat_event,
+                     :check_remove_feat1_feat_event,
+                     :check_rotate_feat1_feat_event,
+                     :use_feat1_feat_event,
+                     :use_feat1_feat_damage_event,
+                     :finish_feat1_feat_event,
+                    ],
+                    # 269 Feat1
+                    [
+                     :check_add_feat2_feat_event,
+                     :check_remove_feat2_feat_event,
+                     :check_rotate_feat2_feat_event,
+                     :use_feat2_feat_event,
+                     :finish_feat2_feat_event,
+                     :use_feat2_feat_damage_event,
+                    ],
+                    # 270 Feat2
+                    [
+                     :check_add_feat3_feat_event,
+                     :check_remove_feat3_feat_event,
+                     :check_rotate_feat3_feat_event,
+                     :use_feat3_feat_event,
+                     :finish_feat3_feat_event,
+                    ],
+                    # 271 Feat3
+                    [
+                     :check_add_feat4_feat_event,
+                     :check_remove_feat4_feat_event,
+                     :check_rotate_feat4_feat_event,
+                     :check_bp_feat4_attack_feat_event,
+                     :check_bp_feat4_defence_feat_event,
+                     :use_feat4_feat_event,
+                     :finish_change_feat4_feat_event,
+                     :start_feat4_feat_event,
+                     :finish_feat4_feat_event,
+                    ],
+                    # 272 Feat4
+                    [
+                     :check_add_weasel_feat_event,
+                     :check_remove_weasel_feat_event,
+                     :check_rotate_weasel_feat_event,
+                     :check_table_weasel_feat_move_event,
+                     :check_table_weasel_feat_battle_event,
+                     :use_weasel_feat_deal_event,
+                     :use_weasel_feat_event,
+                     :use_weasel_feat_damage_event,
+                     :finish_weasel_feat_event,
+                     :check_ending_weasel_feat_event,
+                    ],
+                    # 273 見えざる白群の鼬
+                    [
+                     :check_add_dark_profound_feat_event,
+                     :check_remove_dark_profound_feat_event,
+                     :check_rotate_dark_profound_feat_event,
+                     :use_dark_profound_feat_event,
+                     :use_dark_profound_feat_bornus_event,
+                     :finish_dark_profound_feat_event,
+                    ],
+                    # 274 暗黒の渦(復活)
+                    [
+                     :check_add_karmic_dor_feat_event,
+                     :check_remove_karmic_dor_feat_event,
+                     :check_rotate_karmic_dor_feat_event,
+                     :check_point_karmic_dor_feat_event,
+                     :use_karmic_dor_feat_event,
+                     :finish_karmic_dor_feat_event,
+                    ],
+                    # 275 因果の扉
+                    [
+                     :check_add_batafly_mov_feat_event,
+                     :check_remove_batafly_mov_feat_event,
+                     :check_rotate_batafly_mov_feat_event,
+                     :determine_distance_batafly_mov_feat_event,
+                     :finish_batafly_mov_feat_event,
+                    ],
+                    # 276 batafly_mov
+                    [
+                     :check_add_batafly_atk_feat_event,
+                     :check_remove_batafly_atk_feat_event,
+                     :check_rotate_batafly_atk_feat_event,
+                     :use_batafly_atk_feat_event,
+                     :finish_batafly_atk_feat_event,
+                    ],
+                    # 277 batafly_atk
+                    [
+                     :check_add_batafly_def_feat_event,
+                     :check_remove_batafly_def_feat_event,
+                     :check_rotate_batafly_def_feat_event,
+                     :use_batafly_def_feat_event,
+                     :finish_batafly_def_feat_event,
+                    ],
+                    # 278 batafly_def
+                    [
+                     :check_add_batafly_sld_feat_event,
+                     :check_remove_batafly_sld_feat_event,
+                     :check_rotate_batafly_sld_feat_event,
+                     :use_batafly_sld_feat_event,
+                     :finish_batafly_sld_feat_event,
+                    ],
+                    # 279 batafly_sld
+                    [
+                     :check_add_grace_cocktail_feat_event,
+                     :check_remove_grace_cocktail_feat_event,
+                     :check_rotate_grace_cocktail_feat_event,
+                     :use_grace_cocktail_feat_event,
+                     :use_grace_cocktail_feat_damage_event,
+                     :finish_grace_cocktail_feat_event,
+                    ],
+                    # 280 ベンダーカクテル
+                    [
+                     :check_add_land_mine_r_feat_event,
+                     :check_remove_land_mine_r_feat_event,
+                     :check_rotate_land_mine_r_feat_event,
+                     :use_land_mine_r_feat_event,
+                    ],
+                    # 281 ランドマイン(復活)
+                    [
+                     :check_add_napalm_death_feat_event,
+                     :check_remove_napalm_death_feat_event,
+                     :check_rotate_napalm_death_feat_event,
+                     :use_napalm_death_feat_event,
+                     :finish_napalm_death_feat_event,
+                    ],
+                    # 282 ナパーム・デス
+                    [
+                     :check_add_suicidal_failure_feat_event,
+                     :check_remove_suicidal_failure_feat_event,
+                     :check_rotate_suicidal_failure_feat_event,
+                     :use_suicidal_failure_feat_event,
+                     :finish_suicidal_failure_feat_event,
+                    ],
+                    # 283 スーサイダルフェイルア
+                    [
+                     :check_add_big_bragg_r_feat_event,
+                     :check_remove_big_bragg_r_feat_event,
+                     :check_rotate_big_bragg_r_feat_event,
+                     :finish_big_bragg_r_feat_event,
+                    ],
+                    # 284 ビッグブラッグ(復活)
+                    [
+                     :check_add_lets_knife_r_feat_event,
+                     :check_remove_lets_knife_r_feat_event,
+                     :check_rotate_lets_knife_r_feat_event,
+                     :use_lets_knife_r_feat_event,
+                     :finish_lets_knife_r_feat_event,
+                    ],
+                    # 285 レッツナイフ(復活)
+                    [
+                     :check_add_prey_feat_event,
+                     :check_remove_prey_feat_event,
+                     :check_rotate_prey_feat_event,
+                     :use_prey_feat_event,
+                    ],
+                    # 286 捕食
+                    [
+                     :check_add_rumination_feat_event,
+                     :check_remove_rumination_feat_event,
+                     :check_rotate_rumination_feat_event,
+                     :use_rumination_feat_event,
+                     :finish_rumination_feat_event,
+                     :finish_rumination_feat_foe_chara_change_event,
+                     :finish_rumination_feat_owner_chara_change_event,
+                    ],
+                    # 287 反芻
+                    [
+                     :check_add_pilum_feat_event,
+                     :check_remove_pilum_feat_event,
+                     :check_rotate_pilum_feat_event,
+                     :use_pilum_feat_event,
+                     :finish_pilum_feat_event,
+                     :use_pilum_feat_damage_event,
+                    ],
+                    # 288 ピルム
+                    [
+                     :check_add_road_of_underground_feat_event,
+                     :check_remove_road_of_underground_feat_event,
+                     :check_rotate_road_of_underground_feat_event,
+                     :use_road_of_underground_feat_event,
+                     :use_road_of_underground_feat_finish_move_event,
+                     :finish_road_of_underground_feat_event,
+                    ],
+                    # 289 地中の路
+                    [
+                     :check_add_fox_shadow_feat_event,
+                     :check_remove_fox_shadow_feat_event,
+                     :check_rotate_fox_shadow_feat_event,
+                     :use_fox_shadow_feat_event,
+                     :finish_fox_shadow_feat_event,
+                    ],
+                    # 290 狐分身
+                    [
+                     :check_add_fox_shoot_feat_event,
+                     :check_remove_fox_shoot_feat_event,
+                     :check_rotate_fox_shoot_feat_event,
+                     :use_fox_shoot_feat_event,
+                     :finish_fox_shoot_feat_event,
+                     :use_fox_shoot_feat_damage_event,
+                    ],
+                    # 291 狐シュート
+                    [
+                     :check_add_fox_zone_feat_event,
+                     :check_remove_fox_zone_feat_event,
+                     :check_rotate_fox_zone_feat_event,
+                     :use_fox_zone_feat_event,
+                     :use_fox_zone_feat_attack_deal_det_chara_change_event,
+                     :use_fox_zone_feat_attack_deal_change_initiative_event,
+                     :use_fox_zone_feat_defense_deal_event,
+                     :finish_fox_zone_feat_event,
+                    ],
+                    # 292 狐間空
+                    [
+                     :check_add_arrow_rain_feat_event,
+                     :check_remove_arrow_rain_feat_event,
+                     :check_rotate_arrow_rain_feat_event,
+                     :use_arrow_rain_feat_event,
+                     :finish_arrow_rain_feat_event,
+                    ],
+                    # 293 墜下する流星
+                    [
+                     :check_add_atemwende_feat_event,
+                     :check_remove_atemwende_feat_event,
+                     :check_rotate_atemwende_feat_event,
+                     :use_atemwende_feat_event,
+                     :finish_change_atemwende_feat_event,
+                     :finish_turn_atemwende_feat_event,
+                    ],
+                    # 294 光輝強迫
+                    [
+                     :check_add_fadensonnen_feat_event,
+                     :check_remove_fadensonnen_feat_event,
+                     :check_rotate_fadensonnen_feat_event,
+                     :use_fadensonnen_feat_event,
+                     :finish_fadensonnen_feat_event,
+                    ],
+                    # 295 雪の重唱
+                    [
+                     :check_add_lichtzwang_feat_event,
+                     :check_remove_lichtzwang_feat_event,
+                     :check_rotate_lichtzwang_feat_event,
+                     :use_lichtzwang_feat_event,
+                     :finish_lichtzwang_feat_event,
+                     :use_lichtzwang_feat_damage_event,
+                    ],
+                    # 296 紡がれる陽
+                    [
+                     :check_add_schneepart_feat_event,
+                     :check_remove_schneepart_feat_event,
+                     :check_rotate_schneepart_feat_event,
+                     :use_schneepart_feat_event,
+                     :use_schneepart_feat_damage_event,
+                     :finish_schneepart_feat_event,
+                    ],
+                    # 297 溜息の転換
+                    [
+                     :check_add_highgate_feat_event,
+                     :check_remove_highgate_feat_event,
+                     :check_rotate_highgate_feat_event,
+                     :use_highgate_feat_event,
+                    ],
+                    # 298 ハイゲート
+                    [
+                     :check_add_dorfloft_feat_event,
+                     :check_remove_dorfloft_feat_event,
+                     :check_rotate_dorfloft_feat_event,
+                     :use_dorfloft_feat_event,
+                     :use_dorfloft_feat_damage_event,
+                    ],
+                    # 299 ドルフルフト
+                    [
+                     :check_add_lumines_feat_event,
+                     :check_remove_lumines_feat_event,
+                     :check_rotate_lumines_feat_event,
+                     :use_lumines_feat_event,
+                     :use_lumines_feat_damage_event,
+                     :finish_lumines_feat_event,
+                    ],
+                    # 300 ルミネセンス
+                    [
+                     :check_add_super_heroine_feat_event,
+                     :check_remove_super_heroine_feat_event,
+                     :check_rotate_super_heroine_feat_event,
+                     :finish_super_heroine_feat_event,
+                    ],
+                    # 301 スーパーヒロイン(復活)
+                    [
+                     :check_add_stampede_feat_event,
+                     :check_remove_stampede_feat_event,
+                     :check_rotate_stampede_feat_event,
+                     :use_stampede_feat_event,
+                     :use_stampede_feat_damage_event,
+                     :finish_stampede_feat_event,
+                    ],
+                    # 302 T・スタンピード
+                    [
+                     :check_add_death_control2_feat_event,
+                     :check_remove_death_control2_feat_event,
+                     :check_rotate_death_control2_feat_event,
+                     :use_death_control2_feat_event,
+                     :use_death_control2_feat_damage_event,
+                     :finish_death_control2_feat_event,
+                    ],
+                    # 303 D・コントロール(復活)
+                    [
+                     :check_add_kengi_feat_event,
+                     :check_remove_kengi_feat_event,
+                     :check_rotate_kengi_feat_event,
+                     :use_kengi_feat_event,
+                     :use_kengi_feat_roll_chancel_event,
+                     :use_kengi_feat_battle_result_event,
+                     :finish_kengi_feat_event,
+                    ],
+                    # 304 俺様の剣技に見惚れろ
+                    [
+                     :check_add_dokowo_feat_event,
+                     :check_remove_dokowo_feat_event,
+                     :check_rotate_dokowo_feat_event,
+                     :finish_dokowo_feat_event,
+                    ],
+                    # 305 何処を見てやがる
+                    [
+                     :check_add_mikitta_feat_event,
+                     :check_remove_mikitta_feat_event,
+                     :check_rotate_mikitta_feat_event,
+                     :finish_mikitta_feat_event,
+                    ],
+                    # 306 お前の技は見切った
+                    [
+                     :check_add_hontou_feat_event,
+                     :check_remove_hontou_feat_event,
+                     :check_rotate_hontou_feat_event,
+                     :use_hontou_feat_event,
+                     :use_hontou_feat_roll_chancel_event,
+                     :use_hontou_feat_battle_result_event,
+                     :finish_hontou_feat_event,
+                    ],
+                    # 307 これが俺様の本当の力だ
+                    [
+                     :check_add_invited_feat_event,
+                     :check_remove_invited_feat_event,
+                     :check_rotate_invited_feat_event,
+                     :finish_invited_feat_event,
+                    ],
+                    # 308 招かれるものども
+                    [
+                     :check_add_through_hand_feat_event,
+                     :check_remove_through_hand_feat_event,
+                     :check_rotate_through_hand_feat_event,
+                     :use_through_hand_feat_event,
+                    ],
+                    # 309 透き通る手
+                    [
+                     :check_add_prof_breath_feat_event,
+                     :check_remove_prof_breath_feat_event,
+                     :check_rotate_prof_breath_feat_event,
+                     :finish_prof_breath_feat_event,
+                    ],
+                    # 310 深遠なる息
+                    [
+                     :check_add_seven_wish_feat_event,
+                     :check_remove_seven_wish_feat_event,
+                     :check_rotate_seven_wish_feat_event,
+                     :use_seven_wish_feat_event,
+                     :use_seven_wish_feat_damage_event,
+                    ],
+                    # 311 7つの願い
+                    [
+                     :check_add_thirteen_eyes_r_feat_event,
+                     :check_remove_thirteen_eyes_r_feat_event,
+                     :check_rotate_thirteen_eyes_r_feat_event,
+                     :use_owner_thirteen_eyes_r_feat_event,
+                     :use_foe_thirteen_eyes_r_feat_event,
+                     :finish_thirteen_eyes_r_feat_event,
+                     :use_thirteen_eyes_r_feat_damage_event,
+                    ],
+                    # 312 13の眼(復活)
+                    [
+                     :check_add_thorn_care_r_feat_event,
+                     :check_remove_thorn_care_r_feat_event,
+                     :check_rotate_thorn_care_r_feat_event,
+                     :use_thorn_care_r_feat_event,
+                     :use_thorn_care_r_feat_damage_event,
+                     :finish_thorn_care_r_feat_event,
+                    ],
+                    # 313 茨の構え(復活)
+                    [
+                     :check_add_liberating_sword_r_feat_event,
+                     :check_remove_liberating_sword_r_feat_event,
+                     :check_rotate_liberating_sword_r_feat_event,
+                     :use_liberating_sword_r_feat_event,
+                     :use_liberating_sword_r_feat_damage_event,
+                     :finish_liberating_sword_r_feat_event,
+                    ],
+                    # 314 解放剣(復活)
+                    [
+                     :check_add_curse_sword_r_feat_event,
+                     :check_remove_curse_sword_r_feat_event,
+                     :check_rotate_curse_sword_r_feat_event,
+                     :use_curse_sword_r_feat_event,
+                     :use_curse_sword_r_feat_damage_event,
+                     :finish_curse_sword_r_feat_event,
+                    ],
+                    # 315 獄剣
+                    [
+                     :check_add_flame_ring_feat_event,
+                     :check_remove_flame_ring_feat_event,
+                     :check_rotate_flame_ring_feat_event,
+                     :use_flame_ring_feat_event,
+                     :finish_flame_ring_feat_event,
+                    ],
+                    # 316 火の輪くぐり
+                    [
+                     :check_add_piano_feat_event,
+                     :check_remove_piano_feat_event,
+                     :check_rotate_piano_feat_event,
+                     :use_piano_feat_event,
+                     :use_piano_feat_damage_event,
+                     :finish_piano_feat_event,
+                    ],
+                    # 317 ピアノ
+                    [
+                     :check_add_ona_ball_feat_event,
+                     :check_remove_ona_ball_feat_event,
+                     :check_rotate_ona_ball_feat_event,
+                     :finish_next_ona_ball_feat_event,
+                    ],
+                    # 318 玉乗り
+                    [
+                     :check_add_violent_feat_event,
+                     :check_remove_violent_feat_event,
+                     :check_rotate_violent_feat_event,
+                     :finish_violent_feat_change_event,
+                     :finish_violent_feat_event,
+                    ],
+                    # 319 暴れる
+                    [
+                     :check_add_balance_life_feat_event,
+                     :check_remove_balance_life_feat_event,
+                     :check_rotate_balance_life_feat_event,
+                     :use_balance_life_feat_event,
+                     :use_balance_life_feat_damage_event,
+                     :finish_balance_life_feat_event,
+                    ],
+                    # 320 バランスライフ
+                    [
+                     :check_add_lifetime_sound_feat_event,
+                     :check_remove_lifetime_sound_feat_event,
+                     :check_rotate_lifetime_sound_feat_event,
+                     :use_lifetime_sound_feat_event,
+                     :finish_lifetime_sound_feat_event,
+                     :finish_lifetime_sound_feat_damage_event,
+                    ],
+                    # 321 ライフタイムサウンド
+                    [
+                     :check_add_coma_white_feat_event,
+                     :check_remove_coma_white_feat_event,
+                     :check_rotate_coma_white_feat_event,
+                     :use_coma_white_feat_event,
+                     :finish_coma_white_feat_event,
+                    ],
+                    # 322 コマホワイト
+                    [
+                     :check_add_goes_to_dark_feat_event,
+                     :check_remove_goes_to_dark_feat_event,
+                     :check_rotate_goes_to_dark_feat_event,
+                     :finish_goes_to_dark_feat_event,
+                    ],
+                    # 323 ゴーズトゥダーク
+                    [
+                     :check_add_counter_guard_feat_event,
+                     :check_remove_counter_guard_feat_event,
+                     :check_rotate_counter_guard_feat_event,
+                     :use_ex_counter_guard_feat_event,
+                     :use_ex_counter_guard_feat_dice_attr_event,
+                     :finish_counter_guard_feat_event,
+                    ],
+                    # 324 Exカウンターガード
+                    [
+                     :check_add_thirteen_eyes_feat_event,
+                     :check_remove_thirteen_eyes_feat_event,
+                     :check_rotate_thirteen_eyes_feat_event,
+                     :use_owner_thirteen_eyes_feat_event,
+                     :use_foe_ex_thirteen_eyes_feat_event,
+                     :finish_ex_thirteen_eyes_feat_event,
+                     :use_thirteen_eyes_feat_damage_event,
+                    ],
+                    # 325 Ex13の眼
+                    [
+                     :check_add_razors_edge_feat_event,
+                     :check_remove_razors_edge_feat_event,
+                     :check_rotate_razors_edge_feat_event,
+                     :use_owner_razors_edge_feat_event,
+                     :use_foe_ex_razors_edge_feat_event,
+                     :use_ex_razors_edge_feat_dice_attr_event,
+                     :finish_razors_edge_feat_event,
+                    ],
+                    # 326 Exレイザーズエッジ
+                    [
+                     :check_add_red_moon_feat_event,
+                     :check_remove_red_moon_feat_event,
+                     :check_rotate_red_moon_feat_event,
+                     :use_red_moon_feat_event,
+                     :use_ex_red_moon_feat_dice_attr_event,
+                     :use_red_moon_feat_damage_event,
+                     :finish_red_moon_feat_event,
+                    ],
+                    # 327 Ex深紅の月
+                    [
+                     :check_add_hassen_feat_event,
+                     :check_remove_hassen_feat_event,
+                     :check_rotate_hassen_feat_event,
+                     :use_hassen_feat_event,
+                     :finish_hassen_feat_event,
+                    ],
+                    # 328 八閃
+                    [
+                     :check_add_handled_slash_r_feat_event,
+                     :check_remove_handled_slash_r_feat_event,
+                     :check_rotate_handled_slash_r_feat_event,
+                     :use_handled_slash_r_feat_event,
+                     :use_handled_slash_r_feat_damage_event,
+                     :finish_handled_slash_r_feat_event,
+                    ],
+                    # 329 百閃R
+                    [
+                     :check_add_rakshasa_stance_feat_event,
+                     :check_remove_rakshasa_stance_feat_event,
+                     :check_rotate_rakshasa_stance_feat_event,
+                     :check_rakshasa_stance_state_change_event,
+                     :use_rakshasa_stance_feat_event,
+                     :use_rakshasa_stance_feat_result_event,
+                     :on_rakshasa_stance_feat_event,
+                     :off_rakshasa_stance_feat_event,
+                     :finish_rakshasa_stance_feat_event,
+                    ],
+                    # 330 羅刹の構え
+                    [
+                     :check_add_obituary_feat_event,
+                     :check_remove_obituary_feat_event,
+                     :check_rotate_obituary_feat_event,
+                     :use_obituary_feat_event,
+                     :use_obituary_feat_damage_event,
+                     :finish_obituary_feat_event,
+                    ],
+                    # 331 オビチュアリ
+                    [
+                     :check_add_solvent_rain_r_feat_event,
+                     :check_remove_solvent_rain_r_feat_event,
+                     :check_rotate_solvent_rain_r_feat_event,
+                     :use_solvent_rain_r_feat_event,
+                     :finish_solvent_rain_r_feat_event,
+                    ],
+                    # 332 ソルベント・レインR
+                    [
+                     :check_add_kirigakure_feat_event,
+                     :check_remove_kirigakure_feat_event,
+                     :check_rotate_kirigakure_feat_event,
+                     :check_add_kirigakure_feat_foe_attack_event,
+                     :check_remove_kirigakure_feat_foe_attack_event,
+                     :check_rotate_kirigakure_feat_foe_attack_event,
+                     :check_add_kirigakure_feat_foe_defense_event,
+                     :check_remove_kirigakure_feat_foe_defense_event,
+                     :check_rotate_kirigakure_feat_foe_defense_event,
+                     :use_kirigakure_feat_calc_event,
+                     :use_kirigakure_feat_phase_init_event,
+                     :use_kirigakure_feat_defense_done_owner_event,
+                     :use_kirigakure_feat_defense_done_foe_event,
+                     :use_kirigakure_feat_event,
+                     :use_kirigakure_feat_det_change_event,
+                     :finish_kirigakure_feat_owner_damaged_event,
+                     :finish_kirigakure_feat_do_damage_event,
+                     :finish_kirigakure_feat_finish_turn_event,
+                    ],
+                    # 333 霧隠れ
+                    [
+                     :check_add_mikagami_feat_event,
+                     :check_remove_mikagami_feat_event,
+                     :check_rotate_mikagami_feat_event,
+                     :use_mikagami_feat_event,
+                     :finish_mikagami_feat_event,
+                    ],
+                    # 334 水鏡
+                    [
+                     :check_add_mutual_love_feat_event,
+                     :check_remove_mutual_love_feat_event,
+                     :check_rotate_mutual_love_feat_event,
+                     :use_mutual_love_feat_event,
+                     :use_mutual_love_feat_damage_event,
+                     :use_mutual_love_feat_const_damage_event,
+                     :finish_mutual_love_feat_event,
+                    ],
+                    # 335 落花流水
+                    [
+                     :check_add_mere_shadow_feat_event,
+                     :check_remove_mere_shadow_feat_event,
+                     :check_rotate_mere_shadow_feat_event,
+                     :use_mere_shadow_feat_event,
+                     :finish_mere_shadow_feat_event,
+                     :finish_mere_shadow_feat_dice_attr_event,
+                    ],
+                    # 336 鏡花水月
+                    [
+                     :check_add_scapulimancy_feat_event,
+                     :check_remove_scapulimancy_feat_event,
+                     :check_rotate_scapulimancy_feat_event,
+                     :finish_scapulimancy_feat_event,
+                    ],
+                    # 337 亀占い
+                    [
+                     :check_add_soil_guard_feat_event,
+                     :check_remove_soil_guard_feat_event,
+                     :check_rotate_soil_guard_feat_event,
+                     :use_soil_guard_feat_event,
+                     :use_soil_guard_feat_damage_event,
+                    ],
+                    # 338 土盾
+                    [
+                     :check_add_carapace_spin_feat_event,
+                     :check_remove_carapace_spin_feat_event,
+                     :check_rotate_carapace_spin_feat_event,
+                     :finish_carapace_spin_feat_event,
+                    ],
+                    # 339 甲羅スピン
+                    [
+                     :check_add_vendetta_feat_event,
+                     :check_remove_vendetta_feat_event,
+                     :check_rotate_vendetta_feat_event,
+                     :use_vendetta_feat_event,
+                     :finish_vendetta_feat_event,
+                    ],
+                    # 340 ヴェンデッタ
+                    [
+                     :check_add_avengers_feat_event,
+                     :check_remove_avengers_feat_event,
+                     :check_rotate_avengers_feat_event,
+                     :use_avengers_feat_event,
+                     :finish_avengers_feat_event,
+                    ],
+                    # 341 アヴェンジャー
+                    [
+                     :check_add_sharpen_edge_feat_event,
+                     :check_remove_sharpen_edge_feat_event,
+                     :check_rotate_sharpen_edge_feat_event,
+                     :use_sharpen_edge_feat_event,
+                     :check_sharpen_edge_state_change_event,
+                     :check_sharpen_edge_state_dead_change_event,
+                     :use_sharpen_edge_state_damage_event,
+                     :finish_sharpen_edge_state_event,
+                    ],
+                    # 342 シャープンエッジ
+                    [
+                     :check_add_hacknine_feat_event,
+                     :check_remove_hacknine_feat_event,
+                     :check_rotate_hacknine_feat_event,
+                     :use_hacknine_feat_event,
+                     :finish_hacknine_feat_event,
+                    ],
+                    # 343 ハックナイン
+                    [
+                     :check_add_black_mageia_feat_event,
+                     :check_remove_black_mageia_feat_event,
+                     :check_rotate_black_mageia_feat_event,
+                     :finish_black_mageia_feat_event,
+                    ],
+                    # 344 ブラックマゲイア
+                    [
+                     :check_add_corps_drain_feat_event,
+                     :check_remove_corps_drain_feat_event,
+                     :check_rotate_corps_drain_feat_event,
+                     :finish_corps_drain_feat_event,
+                     :use_corps_drain_feat_damage_event,
+                    ],
+                    # 345 コープスドレイン
+                    [
+                     :check_add_invert_feat_event,
+                     :check_remove_invert_feat_event,
+                     :check_rotate_invert_feat_event,
+                     :finish_invert_feat_event,
+                    ],
+                    # 346 インヴァート
+                    [
+                     :check_add_night_hawk_feat_event,
+                     :check_remove_night_hawk_feat_event,
+                     :check_rotate_night_hawk_feat_event,
+                     :use_night_hawk_feat_event,
+                     :use_night_hawk_feat_det_mp_before1_event,
+                     :use_night_hawk_feat_det_mp_before2_event,
+                     :use_night_hawk_feat_foe_change_event,
+                     :use_night_hawk_feat_owner_change_event,
+                     :use_night_hawk_feat_dead_change_event,
+                     :finish_night_hawk_feat_change_event,
+                    ],
+                    # 347 追跡する夜鷹
+                    [
+                     :check_add_phantom_barrett_feat_event,
+                     :check_remove_phantom_barrett_feat_event,
+                     :check_rotate_phantom_barrett_feat_event,
+                     :use_phantom_barrett_feat_event,
+                     :finish_phantom_barrett_feat_event,
+                    ],
+                    # 348 幽幻の剛弾
+                    [
+                     :check_add_one_act_feat_event,
+                     :check_remove_one_act_feat_event,
+                     :check_rotate_one_act_feat_event,
+                     :use_one_act_feat_event,
+                     :finish_one_act_feat_event,
+                    ],
+                    # 349 惑わしの一幕
+                    [
+                     :check_add_final_barrett_feat_event,
+                     :check_remove_final_barrett_feat_event,
+                     :check_rotate_final_barrett_feat_event,
+                     :finish_final_barrett_feat_event,
+                    ],
+                    # 350 終極の烈弾
+                    [
+                     :check_add_grimmdead_feat_event,
+                     :check_remove_grimmdead_feat_event,
+                     :check_rotate_grimmdead_feat_event,
+                     :use_grimmdead_feat_calc_event,
+                     :use_grimmdead_feat_event,
+                     :use_grimmdead_feat_move_before_event,
+                     :use_grimmdead_feat_move_after_event,
+                     :finish_grimmdead_feat_event,
+                    ],
+                    # 351 グリムデッド
+                    [
+                     :check_add_wunderkammer_feat_event,
+                     :check_remove_wunderkammer_feat_event,
+                     :check_rotate_wunderkammer_feat_event,
+                     :use_wunderkammer_feat_event,
+                     :use_wunderkammer_feat_damage_event,
+                     :finish_wunderkammer_feat_event,
+                    ],
+                    # 352 ヴンダーカンマー
+                    [
+                     :check_add_constraint_feat_event,
+                     :check_remove_constraint_feat_event,
+                     :check_rotate_constraint_feat_event,
+                     :use_constraint_feat_event,
+                     :use_constraint_feat_damage_event,
+                     :finish_constraint_feat_event,
+                    ],
+                    # 353 コンストレイント
+                    [
+                     :check_add_renovate_atrandom_feat_event,
+                     :check_remove_renovate_atrandom_feat_event,
+                     :check_rotate_renovate_atrandom_feat_event,
+                     :use_renovate_atrandom_feat_event,
+                     :use_renovate_atrandom_feat_damage_event,
+                     :finish_renovate_atrandom_feat_event,
+                    ],
+                    # 354 リノベートアトランダム
+                    [
+                     :check_add_backbeard_feat_event,
+                     :check_remove_backbeard_feat_event,
+                     :check_rotate_backbeard_feat_event,
+                     :use_backbeard_feat_damage_event,
+                     :finish_backbeard_feat_event,
+                    ],
+                    # 355 催眠術
+                    [
+                     :check_add_shadow_stitch_feat_event,
+                     :check_remove_shadow_stitch_feat_event,
+                     :check_rotate_shadow_stitch_feat_event,
+                     :use_shadow_stitch_feat_event,
+                     :use_shadow_stitch_feat_damage_event,
+                     :finish_shadow_stitch_feat_event,
+                    ],
+                    # 356 影縫い
+                    [
+                     :check_add_mextli_feat_event,
+                     :check_remove_mextli_feat_event,
+                     :check_rotate_mextli_feat_event,
+                     :use_mextli_feat_event,
+                     :check_damage_insurance_change_event,
+                     :check_damage_insurance_dead_change_event,
+                     :use_damage_insurance_damage_event,
+                    ],
+                    # 357 ミキストリ
+                    [
+                     :check_add_rivet_and_surge_feat_event,
+                     :check_remove_rivet_and_surge_feat_event,
+                     :check_rotate_rivet_and_surge_feat_event,
+                     :use_rivet_and_surge_feat_attack_event,
+                     :use_rivet_and_surge_feat_defense_event,
+                     :cutin_rivet_and_surge_feat_event,
+                     :finish_rivet_and_surge_feat_event,
+                    ],
+                    # 358 リベットアンドサージ
+                    [
+                     :check_add_phantomas_feat_event,
+                     :check_remove_phantomas_feat_event,
+                     :check_rotate_phantomas_feat_event,
+                     :finish_phantomas_feat_event,
+                    ],
+                    # 359 ファントマ
+                    [
+                     :check_add_danger_drug_feat_event,
+                     :check_remove_danger_drug_feat_event,
+                     :check_rotate_danger_drug_feat_event,
+                     :finish_danger_drug_feat_event,
+                    ],
+                    # 360 危険ドラッグ
+                    [
+                     :check_add_three_thunder_feat_event,
+                     :check_remove_three_thunder_feat_event,
+                     :check_rotate_three_thunder_feat_event,
+                     :use_three_thunder_feat_event,
+                     :finish_three_thunder_feat_event,
+                    ],
+                    # 361 HP3サンダー
+                    [
+                     :check_add_prime_heal_feat_event,
+                     :check_remove_prime_heal_feat_event,
+                     :check_rotate_prime_heal_feat_event,
+                     :use_prime_heal_feat_event,
+                     :finish_prime_heal_feat_event,
+                    ],
+                    # 362 素数ヒール
+                    [
+                     :check_add_four_comet_feat_event,
+                     :check_remove_four_comet_feat_event,
+                     :check_rotate_four_comet_feat_event,
+                     :use_four_comet_feat_event,
+                     :finish_four_comet_feat_event,
+                    ],
+                    # 363 HP4コメット
+                    [
+                     :check_add_club_jugg_feat_event,
+                     :check_remove_club_jugg_feat_event,
+                     :check_rotate_club_jugg_feat_event,
+                     :use_club_jugg_feat_event,
+                     :use_club_jugg_feat_deal_event,
+                     :finish_club_jugg_feat_event,
+                    ],
+                    # 364 クラブジャグ
+                    [
+                     :check_add_knife_jugg_feat_event,
+                     :check_remove_knife_jugg_feat_event,
+                     :check_rotate_knife_jugg_feat_event,
+                     :use_knife_jugg_feat_event,
+                     :use_knife_jugg_feat_deal_event,
+                     :finish_knife_jugg_feat_event,
+                    ],
+                    # 365 ナイフジャグ
+                    [
+                     :check_add_blowing_fire_feat_event,
+                     :check_remove_blowing_fire_feat_event,
+                     :check_rotate_blowing_fire_feat_event,
+                     :use_blowing_fire_feat_event,
+                     :finish_blowing_fire_feat_event,
+                    ],
+                    # 366 火吹き
+                    [
+                     :check_add_balance_ball_feat_event,
+                     :check_remove_balance_ball_feat_event,
+                     :check_rotate_balance_ball_feat_event,
+                     :use_balance_ball_feat_event,
+                     :finish_balance_ball_feat_event,
+                    ],
+                    # 367 バランスボール
+                    [
+                     :check_add_bad_milk_feat_event,
+                     :check_remove_bad_milk_feat_event,
+                     :check_rotate_bad_milk_feat_event,
+                     :use_bad_milk_feat_event,
+                     :use_bad_milk_feat_recalc_event,
+                     :use_ex_bad_milk_feat_event,
+                     :finish_change_bad_milk_feat_event,
+                     :finish_bad_milk_feat_event,
+                     :finish_turn_bad_milk_feat_event,
+                    ],
+                    # 368 劣化ミルク
+                    [
+                     :check_add_mira_hp_feat_event,
+                     :check_remove_mira_hp_feat_event,
+                     :check_rotate_mira_hp_feat_event,
+                     :use_mira_hp_feat_event,
+                     :use_mira_hp_feat_damage_event,
+                     :finish_mira_hp_feat_event,
+                    ],
+                    # 369 ミラHP
+                    [
+                     :check_add_skill_drain_feat_event,
+                     :check_remove_skill_drain_feat_event,
+                     :check_rotate_skill_drain_feat_event,
+                     :use_skill_drain_feat_event,
+                     :use_skill_drain_feat_damage_event,
+                     :finish_skill_drain_feat_event,
+                     :finish_skill_drain_feat_finish_event,
+                     :finish_override_skill_state_event,
+                    ],
+                    # 370 スキルドレイン
+                    [
+                     :check_add_coffin_feat_event,
+                     :check_remove_coffin_feat_event,
+                     :check_rotate_coffin_feat_event,
+                     :use_coffin_feat_event,
+                     :finish_coffin_feat_event,
+                    ],
+                    # 371 コフィン
+                    [
+                     :check_add_dark_eyes_feat_event,
+                     :check_remove_dark_eyes_feat_event,
+                     :check_rotate_dark_eyes_feat_event,
+                     :use_dark_eyes_feat_event,
+                     :use_dark_eyes_feat_move_event,
+                     :use_dark_eyes_feat_damage_event,
+                    ],
+                    # 372 玄青眼
+                    [
+                     :check_add_crows_claw_feat_event,
+                     :check_remove_crows_claw_feat_event,
+                     :check_rotate_crows_claw_feat_event,
+                     :use_crows_claw_feat_event,
+                     :finish_crows_claw_feat_event,
+                    ],
+                    # 373 烏爪一転
+                    [
+                     :check_add_mole_feat_event,
+                     :check_remove_mole_feat_event,
+                     :check_rotate_mole_feat_event,
+                     :use_mole_feat_event,
+                     :use_mole_feat_damage_event,
+                     :finish_mole_feat_event,
+                    ],
+                    # 374 土竜一転
+                    [
+                     :check_add_sunset_feat_event,
+                     :check_remove_sunset_feat_event,
+                     :check_rotate_sunset_feat_event,
+                     :use_sunset_feat_event,
+                     :use_sunset_feat_result_event,
+                     :use_sunset_feat_damage_check_event,
+                     :use_sunset_feat_const_damage_event,
+                    ],
+                    # 375 五彩晩霞
+                    [
+                     :check_add_vine_feat_event,
+                     :check_remove_vine_feat_event,
+                     :check_rotate_vine_feat_event,
+                     :use_vine_feat_event,
+                     :use_vine_feat_damage_event,
+                     :finish_vine_feat_event,
+                     :finish_vine_feat_turn_event
+                    ],
+                    # 376 蔓縛り
+                    [
+                     :check_add_grape_vine_feat_event,
+                     :check_remove_grape_vine_feat_event,
+                     :check_rotate_grape_vine_feat_event,
+                     :use_grape_vine_feat_event,
+                     :use_grape_vine_feat_damage_event,
+                     :use_grape_vine_feat_foe_event
+                    ],
+                    # 377 吸収
+                    [
+                     :check_add_thunder_struck_feat_event,
+                     :check_remove_thunder_struck_feat_event,
+                     :check_rotate_thunder_struck_feat_event,
+                     :use_thunder_struck_feat_event,
+                     :finish_thunder_struck_feat_event,
+                     :finish_thunder_struck_feat_end_event,
+                    ],
+                    # 378 サンダーストラック
+                    [
+                     :check_add_weave_world_feat_event,
+                     :check_remove_weave_world_feat_event,
+                     :check_rotate_weave_world_feat_event,
+                     :use_weave_world_feat_event,
+                     :finish_weave_world_feat_event,
+                    ],
+                    # 379 ウィーヴワールド
+                    [
+                     :check_add_collection_feat_event,
+                     :check_remove_collection_feat_event,
+                     :check_rotate_collection_feat_event,
+                     :check_table_collection_feat_move_event,
+                     :check_table_collection_feat_battle_event,
+                     :use_collection_feat_deal_event,
+                     :use_collection_feat_event,
+                     :finish_collection_feat_event,
+                     :check_ending_collection_feat_event,
+                    ],
+                    # 380 コレクション
+                    [
+                     :check_add_restriction_feat_event,
+                     :check_remove_restriction_feat_event,
+                     :check_rotate_restriction_feat_event,
+                     :use_restriction_feat_event,
+                     :finish_restriction_feat_event,
+                    ],
+                    # 381 Dリストリクション
+                    [
+                     :check_add_dabs_feat_event,
+                     :check_remove_dabs_feat_event,
+                     :check_rotate_dabs_feat_event,
+                     :use_dabs_feat_event,
+                     :finish_dabs_feat_event,
+                    ],
+                    # 382 DABS
+                    [
+                     :check_add_vibration_feat_event,
+                     :check_remove_vibration_feat_event,
+                     :check_rotate_vibration_feat_event,
+                     :use_vibration_feat_event,
+                     :finish_vibration_feat_event,
+                    ],
+                    # 383 VIBRATION
+                    [
+                     :check_add_tot_feat_event,
+                     :check_remove_tot_feat_event,
+                     :check_rotate_tot_feat_event,
+                     :use_tot_feat_event,
+                     :use_tot_feat_damage_event,
+                     :finish_tot_feat_event,
+                    ],
+                    # 384 ToT
+                    [
+                     :check_add_duck_apple_feat_event,
+                     :check_remove_duck_apple_feat_event,
+                     :check_rotate_duck_apple_feat_event,
+                     :finish_duck_apple_feat_event,
+                    ],
+                    # 385 ダックアップル
+                    [
+                     :check_add_rampage_feat_event,
+                     :check_remove_rampage_feat_event,
+                     :check_rotate_rampage_feat_event,
+                     :use_rampage_feat_event,
+                     :use_rampage_feat_damage_event,
+                     :finish_rampage_feat_event,
+                    ],
+                    # 386 ランページ
+                    [
+                     :check_add_scratch_fire_feat_event,
+                     :check_remove_scratch_fire_feat_event,
+                     :check_rotate_scratch_fire_feat_event,
+                     :use_scratch_fire_feat_event,
+                     :use_scratch_fire_feat_damage_event,
+                     :finish_scratch_fire_feat_event,
+                    ],
+                    # 387 スクラッチファイア
+                    [
+                     :check_add_blue_ruin_feat_event,
+                     :check_remove_blue_ruin_feat_event,
+                     :check_rotate_blue_ruin_feat_event,
+                     :use_blue_ruin_feat_event,
+                     :finish_blue_ruin_feat_event,
+                    ],
+                    # 388 ブルールーイン
+                    [
+                     :check_add_third_step_feat_event,
+                     :check_remove_third_step_feat_event,
+                     :check_rotate_third_step_feat_event,
+                     :use_third_step_feat_event,
+                     :use_third_step_feat_damage_event,
+                     :finish_third_step_feat_event,
+                    ],
+                    # 389 サードステップ
+                    [
+                     :check_add_metal_shield_feat_event,
+                     :check_remove_metal_shield_feat_event,
+                     :check_rotate_metal_shield_feat_event,
+                     :use_metal_shield_feat_event,
+                     :finish_metal_shield_feat_event,
+                    ],
+                    # 390 メタルシールド
+                    [
+                     :check_add_magnetic_field_feat_event,
+                     :check_remove_magnetic_field_feat_event,
+                     :check_rotate_magnetic_field_feat_event,
+                     :use_magnetic_field_feat_event,
+                     :finish_magnetic_field_feat_event,
+                     :final_magnetic_field_feat_event,
+                    ],
+                    # 391 滞留する光波
+                    [
+                     :check_add_afterglow_feat_event,
+                     :check_remove_afterglow_feat_event,
+                     :check_rotate_afterglow_feat_event,
+                     :use_afterglow_feat_event,
+                     :use_afterglow_feat_damage_event,
+                     :finish_afterglow_feat_event,
+                    ],
+                    # 392 拒絶の余光
+                    [
+                     :check_add_keeper_feat_event,
+                     :check_remove_keeper_feat_event,
+                     :check_rotate_keeper_feat_event,
+                     :use_keeper_feat_event,
+                     :finish_keeper_feat_event,
+                    ],
+                    # 393 夕暉の番人
+                    [
+                     :check_add_healing_schock_feat_event,
+                     :check_remove_healing_schock_feat_event,
+                     :check_rotate_healing_schock_feat_event,
+                     :use_healing_schock_feat_event,
+                     :finish_healing_schock_feat_event,
+                    ],
+                    # 394 ヒーリングショック
+                    [
+                     :check_add_claymore_feat_event,
+                     :check_remove_claymore_feat_event,
+                     :check_rotate_claymore_feat_event,
+                     :finish_claymore_feat_event,
+                    ],
+                    # 395 クレイモア
+                    [
+                     :check_add_trap_chase_feat_event,
+                     :check_remove_trap_chase_feat_event,
+                     :check_rotate_trap_chase_feat_event,
+                     :use_trap_chase_feat_event,
+                     :use_trap_chase_feat_damage_event,
+                     :finish_trap_chase_feat_event,
+                    ],
+                    # 396トラップチェイス
+                    [
+                     :check_add_panic_feat_event,
+                     :check_remove_panic_feat_event,
+                     :check_rotate_panic_feat_event,
+                     :use_panic_feat_event,
+                     :use_panic_feat_damage_event,
+                     :finish_panic_feat_event,
+                    ],
+                    # 397 パニックグレネード
+                    [
+                     :check_add_bullet_counter_feat_event,
+                     :check_remove_bullet_counter_feat_event,
+                     :check_rotate_bullet_counter_feat_event,
+                     :use_bullet_counter_feat_event,
+                     :finish_bullet_counter_feat_event,
+                    ],
+                    # 398 バレットカウンター
+                    [
+                     :check_add_bean_storm_feat_event,
+                     :check_remove_bean_storm_feat_event,
+                     :check_rotate_bean_storm_feat_event,
+                     :use_bean_storm_feat_event,
+                     :finish_bean_storm_feat_event,
+                    ],
+                    # 399 大菽嵐
+                    [
+                     :check_add_joker_feat_event,
+                     :check_remove_joker_feat_event,
+                     :check_rotate_joker_feat_event,
+                     :finish_joker_feat_event,
+                    ],
+                    # 400 ジョーカー
+                    [
+                     :check_add_familiar_feat_event,
+                     :check_remove_familiar_feat_event,
+                     :check_rotate_familiar_feat_event,
+                     :use_familiar_feat_event,
+                     :finish_familiar_feat_event,
+                    ],
+                    # 401 ファミリア
+                    [
+                     :check_add_crown_crown_feat_event,
+                     :check_remove_crown_crown_feat_event,
+                     :check_rotate_crown_crown_feat_event,
+                     :use_crown_crown_feat_event,
+                     :use_crown_crown_feat_damage_event,
+                     :finish_crown_crown_feat_event,
 
-    ],
-    # 402 クラウンクラウン
-    [
-      :check_add_riddle_box_feat_event,
-      :check_remove_riddle_box_feat_event,
-      :check_rotate_riddle_box_feat_event,
-      :use_riddle_box_feat_event,
-      :use_riddle_box_feat_damage_event,
-      :finish_riddle_box_feat_event,
-    ],
-    # 403 リドルボックス
-    [
-      :check_add_flutter_sword_dance_feat_event,
-      :check_remove_flutter_sword_dance_feat_event,
-      :check_rotate_flutter_sword_dance_feat_event,
-      :finish_flutter_sword_dance_feat_event,
-    ],
-    # 404 翻る剣舞
-    [
-      :check_add_ritual_of_bravery_feat_event,
-      :check_remove_ritual_of_bravery_feat_event,
-      :check_rotate_ritual_of_bravery_feat_event,
-      :use_ritual_of_bravery_feat_event,
-      :finish_ritual_of_bravery_feat_event,
-    ],
-    # 405 勇猛の儀
-    [
-      :check_add_hunting_cheetah_feat_event,
-      :check_remove_hunting_cheetah_feat_event,
-      :check_rotate_hunting_cheetah_feat_event,
-      :use_hunting_cheetah_feat_event,
-      :use_hunting_cheetah_feat_damage_event,
-      :finish_hunting_cheetah_feat_event,
-    ],
-    # 406 狩猟豹の剣
-    [
-      :check_add_probe_feat_event,
-      :check_remove_probe_feat_event,
-      :check_rotate_probe_feat_event,
-      :use_probe_feat_pow_event,
-      :use_probe_feat_event,
-      :finish_probe_feat_event,
-    ],
-    # 407 探りの一手
-    [
-      :check_add_tailoring_feat_event,
-      :check_remove_tailoring_feat_event,
-      :check_rotate_tailoring_feat_event,
-      :use_tailoring_feat_event,
-      :use_tailoring_feat_damage_event,
-      :finish_tailoring_feat_event,
-    ],
-    # 408 仕立
-    [
-      :check_add_cut_feat_event,
-      :check_remove_cut_feat_event,
-      :check_rotate_cut_feat_event,
-      :use_cut_feat_event,
-      :finish_cut_feat_event,
-    ],
-    # 409 裁断
-    [
-      :check_add_sewing_feat_event,
-      :check_remove_sewing_feat_event,
-      :check_rotate_sewing_feat_event,
-      :use_sewing_feat_event,
-      :finish_sewing_feat_event,
-    ],
-    # 410 縫製
-    [
-      :check_add_cancellation_feat_event,
-      :check_remove_cancellation_feat_event,
-      :check_rotate_cancellation_feat_event,
-      :finish_cancellation_feat_event,
-    ],
-    # 411 DofD
-    [
-      :check_add_seiho_feat_event,
-      :check_remove_seiho_feat_event,
-      :check_rotate_seiho_feat_event,
-      :use_seiho_feat_event,
-      :finish_seiho_feat_event,
-    ],
-    # 412 整法
-    [
-      :check_add_dokko_feat_event,
-      :check_remove_dokko_feat_event,
-      :check_rotate_dokko_feat_event,
-      :use_dokko_feat_event,
-      :use_dokko_feat_damage_event,
-      :finish_dokko_feat_event,
-    ],  # 413 独鈷
-    [
-      :check_add_nyoi_feat_event,
-      :check_remove_nyoi_feat_event,
-      :check_rotate_nyoi_feat_event,
-      :use_nyoi_feat_event,
-      :use_nyoi_feat_damage_event,
-      :finish_nyoi_feat_event,
-    ],  # 414 如意
-    [
-      :check_add_kongo_feat_event,
-      :check_remove_kongo_feat_event,
-      :check_rotate_kongo_feat_event,
-      :use_kongo_feat_event,
-      :use_kongo_feat_damage_event,
-      :finish_kongo_feat_event,
-    ],
-    # 415 金剛
-    [
-      :check_add_carp_quake_feat_event,
-      :check_remove_carp_quake_feat_event,
-      :check_rotate_carp_quake_feat_event,
-      :finish_carp_quake_feat_event,
-    ],
-    # 416 鯉震
-    [
-      :check_add_carp_lightning_feat_event,
-      :check_remove_carp_lightning_feat_event,
-      :check_rotate_carp_lightning_feat_event,
-      :use_carp_lightning_feat_event,
-      :use_carp_lightning_feat_damage_event,
-      :finish_carp_lightning_feat_event,
-    ],
-    # 417 鯉光
-    [
-      :check_add_field_lock_feat_event,
-      :check_remove_field_lock_feat_event,
-      :check_rotate_field_lock_feat_event,
-      :use_field_lock_feat_event,
-    ],
-    # 418 フィールドロック
-    [
-      :check_add_arrest_feat_event,
-      :check_remove_arrest_feat_event,
-      :check_rotate_arrest_feat_event,
-      :use_arrest_feat_event,
-      :use_arrest_feat_damage_event,
-      :finish_arrest_feat_event,
-    ],
-    # 419 捕縛
-    [
-      :check_add_quick_draw_feat_event,
-      :check_remove_quick_draw_feat_event,
-      :check_rotate_quick_draw_feat_event,
-      :use_quick_draw_feat_event,
-      :finish_quick_draw_feat_event,
-    ],
-    # 420 クイックドロー
-    [
-      :check_add_gaze_feat_event,
-      :check_remove_gaze_feat_event,
-      :check_rotate_gaze_feat_event,
-      :use_gaze_feat_event,
-      :finish_gaze_feat_event,
-      :finish_chara_change_gaze_feat_event,
-      :finish_foe_chara_change_karmic_time_feat_event,
-    ],
-    # 421 ゲイズ
-    [
-      :check_add_monitoring_feat_event,
-      :check_remove_monitoring_feat_event,
-      :check_rotate_monitoring_feat_event,
-      :use_monitoring_feat_event,
-      :use_monitoring_feat_damage_event,
-      :finish_monitoring_feat_event,
-    ],
-    # 422 監視
-    [
-      :check_add_time_lag_draw_feat_event,
-      :check_remove_time_lag_draw_feat_event,
-      :check_rotate_time_lag_draw_feat_event,
-      :use_time_lag_draw_feat_event,
-      :finish_time_lag_draw_feat_event,
-    ],
-    # 423 時差ドロー
-    [
-      :check_add_time_lag_buff_feat_event,
-      :check_remove_time_lag_buff_feat_event,
-      :check_rotate_time_lag_buff_feat_event,
-      :use_time_lag_buff_feat_event,
-      :finish_time_lag_buff_feat_event,
-    ],
-    # 424 時差バフ
-    [
-      :check_add_damage_transfer_feat_event,
-      :check_remove_damage_transfer_feat_event,
-      :check_rotate_damage_transfer_feat_event,
-      :use_damage_transfer_feat_event,
-      :finish_damage_transfer_feat_event,
-    ],
-    # 425 移転
-    [
-      :check_add_cigarette_feat_event,
-      :check_remove_cigarette_feat_event,
-      :check_rotate_cigarette_feat_event,
-      :use_cigarette_feat_event,
-      :finish_cigarette_feat_event,
-    ],
-    # 426 シガレット
-    [
-      :check_add_three_card_feat_event,
-      :check_remove_three_card_feat_event,
-      :check_rotate_three_card_feat_event,
-      :use_three_card_feat_event,
-      :finish_three_card_feat_event,
-    ],
-    # 427 スリーカード
-    [
-      :check_add_card_search_feat_event,
-      :check_remove_card_search_feat_event,
-      :check_rotate_card_search_feat_event,
-      :finish_card_search_feat_event,
-    ],
-    # 428 カードサーチ
-    [
-      :check_add_all_in_one_feat_event,
-      :check_remove_all_in_one_feat_event,
-      :check_rotate_all_in_one_feat_event,
-      :use_all_in_one_feat_power_event,
-      :use_all_in_one_feat_event,
-      :finish_all_in_one_feat_event,
-    ],
-    # 429 オールインワン
-    [
-      :check_add_fire_bird_feat_event,
-      :check_remove_fire_bird_feat_event,
-      :check_rotate_fire_bird_feat_event,
-      :use_fire_bird_feat_event,
-      :use_after_fire_bird_feat_event,
-      :finish_fire_bird_feat_event,
-    ],
-    # 430 焼鳥
-    [
-      :check_add_brambles_feat_event,
-      :check_remove_brambles_feat_event,
-      :check_rotate_brambles_feat_event,
-      :use_brambles_feat_event,
-      :use_brambles_feat_move_before_event,
-      :use_brambles_feat_move_after_event,
-      :finish_brambles_feat_event,
-    ],
-    # 431 苔蔦
-    [
-      :check_add_franken_tackle_feat_event,
-      :check_remove_franken_tackle_feat_event,
-      :check_rotate_franken_tackle_feat_event,
-      :use_owner_franken_tackle_feat_event,
-      :use_foe_franken_tackle_feat_event,
-      :use_franken_tackle_feat_dice_attr_event,
-      :finish_franken_tackle_feat_event,
-    ],
-    # 432 フランケンタックル
-    [
-      :check_add_franken_charging_feat_event,
-      :check_remove_franken_charging_feat_event,
-      :check_rotate_franken_charging_feat_event,
-      :use_franken_charging_feat_event,
-      :use_franken_charging_feat_damage_event,
-      :finish_franken_charging_feat_event,
-    ],
-    # 433 フランケン充電
-    [
-      :check_add_moving_one_r_feat_event,
-      :check_remove_moving_one_r_feat_event,
-      :check_rotate_moving_one_r_feat_event,
-      :use_moving_one_r_feat_event,
-      :use_moving_one_r_feat_attack_event,
-      :use_moving_one_r_feat_defense_event,
-      :finish_moving_one_r_feat_event,
-      :finish_turn_moving_one_r_feat_event,
-    ],
-    # 434 挑みかかるものR
-    [
-      :check_add_arrogant_one_r_feat_event,
-      :check_remove_arrogant_one_r_feat_event,
-      :check_rotate_arrogant_one_r_feat_event,
-      :use_arrogant_one_r_feat_event,
-      :finish_arrogant_one_r_feat_event,
-    ],
-    # 435 驕りたかぶるものR
-    [
-      :check_add_eating_one_r_feat_event,
-      :check_remove_eating_one_r_feat_event,
-      :check_rotate_eating_one_r_feat_event,
-      :use_eating_one_r_feat_event,
-      :finish_eating_one_r_feat_event,
-    ],
-    # 436 貪り食うものR
-    [
-      :check_add_harf_dead_feat_event,
-      :check_remove_harf_dead_feat_event,
-      :check_rotate_harf_dead_feat_event,
-      :use_harf_dead_feat_event,
-      :finish_harf_dead_feat_event,
-    ],
-    # 437 ハーフデッド
-    [
-      :check_add_machine_cell_feat_event,
-      :check_remove_machine_cell_feat_event,
-      :check_rotate_machine_cell_feat_event,
-      :finish_machine_cell_feat_event,
-    ],
-    # 438 マシンセル
-    [
-      :check_add_heat_seeker_r_feat_event,
-      :check_remove_heat_seeker_r_feat_event,
-      :check_rotate_heat_seeker_r_feat_event,
-      :use_heat_seeker_r_feat_damage_event,
-      :finish_heat_seeker_r_feat_damage_event,
-    ],
-    # 439 ヒートシーカー
-    [
-      :check_add_directional_beam_feat_event,
-      :check_remove_directional_beam_feat_event,
-      :check_rotate_directional_beam_feat_event,
-      :use_directional_beam_feat_event,
-      :use_directional_beam_feat_damage_event,
-      :finish_directional_beam_feat_event,
-    ],
-    # 440 指向性エネルギー兵器
-    [
-      :check_add_delta_feat_event,
-      :check_remove_delta_feat_event,
-      :check_rotate_delta_feat_event,
-      :use_delta_feat_event,
-      :finish_delta_feat_event,
-    ],
-    # 441 デルタ
-    [
-      :check_add_sigma_feat_event,
-      :check_remove_sigma_feat_event,
-      :check_rotate_sigma_feat_event,
-      :use_sigma_feat_event,
-      :ex_sigma0_feat_event,
-      :ex_sigma_feat_event,
-      :finish_sigma_feat_event,
-    ],
-    # 442 シグマ
-    [
-      :check_add_stamp_feat_event,
-      :check_remove_stamp_feat_event,
-      :check_rotate_stamp_feat_event,
-      :use_stamp_feat_event,
-      :finish_stamp_feat_event,
-    ],
-    # 443 スタンプ
-    [
-      :check_add_acceleration_feat_event,
-      :check_remove_acceleration_feat_event,
-      :check_rotate_acceleration_feat_event,
-      :use_acceleration_feat_event,
-      :finish_acceleration_feat_event,
-    ],
-    # 444 アクセラレーション
-    [
-      :check_add_foab_feat_event,
-      :check_remove_foab_feat_event,
-      :check_rotate_foab_feat_event,
-      :finish_foab_feat_event,
-    ],
-    # 445 FOAB
-    [
-      :check_add_white_moon_feat_event,
-      :check_remove_white_moon_feat_event,
-      :check_rotate_white_moon_feat_event,
-      :use_white_moon_feat_event,
-      :use_white_moon_feat_dice_attr_event,
-      :use_white_moon_feat_damage_event,
-      :finish_white_moon_feat_event,
-    ],
-    # 446 白き玉桂
-    [
-      :check_add_anger_back_feat_event,
-      :check_remove_anger_back_feat_event,
-      :check_rotate_anger_back_feat_event,
-      :use_anger_back_feat_event,
-      :use_anger_back_feat_damage_event,
-      :finish_anger_back_feat_event,
-    ],
-    # 447 憤怒の背中
-  ]
+                    ],
+                    # 402 クラウンクラウン
+                    [
+                     :check_add_riddle_box_feat_event,
+                     :check_remove_riddle_box_feat_event,
+                     :check_rotate_riddle_box_feat_event,
+                     :use_riddle_box_feat_event,
+                     :use_riddle_box_feat_damage_event,
+                     :finish_riddle_box_feat_event,
+                    ],
+                    # 403 リドルボックス
+                    [
+                     :check_add_flutter_sword_dance_feat_event,
+                     :check_remove_flutter_sword_dance_feat_event,
+                     :check_rotate_flutter_sword_dance_feat_event,
+                     :finish_flutter_sword_dance_feat_event,
+                    ],
+                    # 404 翻る剣舞
+                    [
+                     :check_add_ritual_of_bravery_feat_event,
+                     :check_remove_ritual_of_bravery_feat_event,
+                     :check_rotate_ritual_of_bravery_feat_event,
+                     :use_ritual_of_bravery_feat_event,
+                     :finish_ritual_of_bravery_feat_event,
+                    ],
+                    # 405 勇猛の儀
+                    [
+                     :check_add_hunting_cheetah_feat_event,
+                     :check_remove_hunting_cheetah_feat_event,
+                     :check_rotate_hunting_cheetah_feat_event,
+                     :use_hunting_cheetah_feat_event,
+                     :use_hunting_cheetah_feat_damage_event,
+                     :finish_hunting_cheetah_feat_event,
+                    ],
+                    # 406 狩猟豹の剣
+                    [
+                     :check_add_probe_feat_event,
+                     :check_remove_probe_feat_event,
+                     :check_rotate_probe_feat_event,
+                     :use_probe_feat_pow_event,
+                     :use_probe_feat_event,
+                     :finish_probe_feat_event,
+                    ],
+                    # 407 探りの一手
+                    [
+                     :check_add_tailoring_feat_event,
+                     :check_remove_tailoring_feat_event,
+                     :check_rotate_tailoring_feat_event,
+                     :use_tailoring_feat_event,
+                     :use_tailoring_feat_damage_event,
+                     :finish_tailoring_feat_event,
+                    ],
+                    # 408 仕立
+                    [
+                     :check_add_cut_feat_event,
+                     :check_remove_cut_feat_event,
+                     :check_rotate_cut_feat_event,
+                     :use_cut_feat_event,
+                     :finish_cut_feat_event,
+                    ],
+                    # 409 裁断
+                    [
+                     :check_add_sewing_feat_event,
+                     :check_remove_sewing_feat_event,
+                     :check_rotate_sewing_feat_event,
+                     :use_sewing_feat_event,
+                     :finish_sewing_feat_event,
+                    ],
+                    # 410 縫製
+                    [
+                     :check_add_cancellation_feat_event,
+                     :check_remove_cancellation_feat_event,
+                     :check_rotate_cancellation_feat_event,
+                     :finish_cancellation_feat_event,
+                    ],
+                    # 411 DofD
+                    [
+                     :check_add_seiho_feat_event,
+                     :check_remove_seiho_feat_event,
+                     :check_rotate_seiho_feat_event,
+                     :use_seiho_feat_event,
+                     :finish_seiho_feat_event,
+                    ],
+                    # 412 整法
+                    [
+                     :check_add_dokko_feat_event,
+                     :check_remove_dokko_feat_event,
+                     :check_rotate_dokko_feat_event,
+                     :use_dokko_feat_event,
+                     :use_dokko_feat_damage_event,
+                     :finish_dokko_feat_event,
+                    ],  # 413 独鈷
+                    [
+                     :check_add_nyoi_feat_event,
+                     :check_remove_nyoi_feat_event,
+                     :check_rotate_nyoi_feat_event,
+                     :use_nyoi_feat_event,
+                     :use_nyoi_feat_damage_event,
+                     :finish_nyoi_feat_event,
+                    ],  # 414 如意
+                    [
+                     :check_add_kongo_feat_event,
+                     :check_remove_kongo_feat_event,
+                     :check_rotate_kongo_feat_event,
+                     :use_kongo_feat_event,
+                     :use_kongo_feat_damage_event,
+                     :finish_kongo_feat_event,
+                    ],
+                    # 415 金剛
+                    [
+                     :check_add_carp_quake_feat_event,
+                     :check_remove_carp_quake_feat_event,
+                     :check_rotate_carp_quake_feat_event,
+                     :finish_carp_quake_feat_event,
+                    ],
+                    # 416 鯉震
+                    [
+                     :check_add_carp_lightning_feat_event,
+                     :check_remove_carp_lightning_feat_event,
+                     :check_rotate_carp_lightning_feat_event,
+                     :use_carp_lightning_feat_event,
+                     :use_carp_lightning_feat_damage_event,
+                     :finish_carp_lightning_feat_event,
+                    ],
+                    # 417 鯉光
+                    [
+                     :check_add_field_lock_feat_event,
+                     :check_remove_field_lock_feat_event,
+                     :check_rotate_field_lock_feat_event,
+                     :use_field_lock_feat_event,
+                    ],
+                    # 418 フィールドロック
+                    [
+                     :check_add_arrest_feat_event,
+                     :check_remove_arrest_feat_event,
+                     :check_rotate_arrest_feat_event,
+                     :use_arrest_feat_event,
+                     :use_arrest_feat_damage_event,
+                     :finish_arrest_feat_event,
+                    ],
+                    # 419 捕縛
+                    [
+                     :check_add_quick_draw_feat_event,
+                     :check_remove_quick_draw_feat_event,
+                     :check_rotate_quick_draw_feat_event,
+                     :use_quick_draw_feat_event,
+                     :finish_quick_draw_feat_event,
+                    ],
+                    # 420 クイックドロー
+                    [
+                     :check_add_gaze_feat_event,
+                     :check_remove_gaze_feat_event,
+                     :check_rotate_gaze_feat_event,
+                     :use_gaze_feat_event,
+                     :finish_gaze_feat_event,
+                     :finish_chara_change_gaze_feat_event,
+                     :finish_foe_chara_change_karmic_time_feat_event,
+                    ],
+                    # 421 ゲイズ
+                    [
+                     :check_add_monitoring_feat_event,
+                     :check_remove_monitoring_feat_event,
+                     :check_rotate_monitoring_feat_event,
+                     :use_monitoring_feat_event,
+                     :use_monitoring_feat_damage_event,
+                     :finish_monitoring_feat_event,
+                    ],
+                    # 422 監視
+                    [
+                     :check_add_time_lag_draw_feat_event,
+                     :check_remove_time_lag_draw_feat_event,
+                     :check_rotate_time_lag_draw_feat_event,
+                     :use_time_lag_draw_feat_event,
+                     :finish_time_lag_draw_feat_event,
+                    ],
+                    # 423 時差ドロー
+                    [
+                     :check_add_time_lag_buff_feat_event,
+                     :check_remove_time_lag_buff_feat_event,
+                     :check_rotate_time_lag_buff_feat_event,
+                     :use_time_lag_buff_feat_event,
+                     :finish_time_lag_buff_feat_event,
+                    ],
+                    # 424 時差バフ
+                    [
+                     :check_add_damage_transfer_feat_event,
+                     :check_remove_damage_transfer_feat_event,
+                     :check_rotate_damage_transfer_feat_event,
+                     :use_damage_transfer_feat_event,
+                     :finish_damage_transfer_feat_event,
+                    ],
+                    # 425 移転
+                    [
+                     :check_add_cigarette_feat_event,
+                     :check_remove_cigarette_feat_event,
+                     :check_rotate_cigarette_feat_event,
+                     :use_cigarette_feat_event,
+                     :finish_cigarette_feat_event,
+                    ],
+                    # 426 シガレット
+                    [
+                     :check_add_three_card_feat_event,
+                     :check_remove_three_card_feat_event,
+                     :check_rotate_three_card_feat_event,
+                     :use_three_card_feat_event,
+                     :finish_three_card_feat_event,
+                    ],
+                    # 427 スリーカード
+                    [
+                     :check_add_card_search_feat_event,
+                     :check_remove_card_search_feat_event,
+                     :check_rotate_card_search_feat_event,
+                     :finish_card_search_feat_event,
+                    ],
+                    # 428 カードサーチ
+                    [
+                     :check_add_all_in_one_feat_event,
+                     :check_remove_all_in_one_feat_event,
+                     :check_rotate_all_in_one_feat_event,
+                     :use_all_in_one_feat_power_event,
+                     :use_all_in_one_feat_event,
+                     :finish_all_in_one_feat_event,
+                    ],
+                    # 429 オールインワン
+                    [
+                     :check_add_fire_bird_feat_event,
+                     :check_remove_fire_bird_feat_event,
+                     :check_rotate_fire_bird_feat_event,
+                     :use_fire_bird_feat_event,
+                     :use_after_fire_bird_feat_event,
+                     :finish_fire_bird_feat_event,
+                    ],
+                    # 430 焼鳥
+                    [
+                     :check_add_brambles_feat_event,
+                     :check_remove_brambles_feat_event,
+                     :check_rotate_brambles_feat_event,
+                     :use_brambles_feat_event,
+                     :use_brambles_feat_move_before_event,
+                     :use_brambles_feat_move_after_event,
+                     :finish_brambles_feat_event,
+                    ],
+                    # 431 苔蔦
+                    [
+                     :check_add_franken_tackle_feat_event,
+                     :check_remove_franken_tackle_feat_event,
+                     :check_rotate_franken_tackle_feat_event,
+                     :use_owner_franken_tackle_feat_event,
+                     :use_foe_franken_tackle_feat_event,
+                     :use_franken_tackle_feat_dice_attr_event,
+                     :finish_franken_tackle_feat_event,
+                    ],
+                    # 432 フランケンタックル
+                    [
+                     :check_add_franken_charging_feat_event,
+                     :check_remove_franken_charging_feat_event,
+                     :check_rotate_franken_charging_feat_event,
+                     :use_franken_charging_feat_event,
+                     :use_franken_charging_feat_damage_event,
+                     :finish_franken_charging_feat_event,
+                    ],
+                    # 433 フランケン充電
+                    [
+                     :check_add_moving_one_r_feat_event,
+                     :check_remove_moving_one_r_feat_event,
+                     :check_rotate_moving_one_r_feat_event,
+                     :use_moving_one_r_feat_event,
+                     :use_moving_one_r_feat_attack_event,
+                     :use_moving_one_r_feat_defense_event,
+                     :finish_moving_one_r_feat_event,
+                     :finish_turn_moving_one_r_feat_event,
+                    ],
+                    # 434 挑みかかるものR
+                    [
+                     :check_add_arrogant_one_r_feat_event,
+                     :check_remove_arrogant_one_r_feat_event,
+                     :check_rotate_arrogant_one_r_feat_event,
+                     :use_arrogant_one_r_feat_event,
+                     :finish_arrogant_one_r_feat_event,
+                    ],
+                    # 435 驕りたかぶるものR
+                    [
+                     :check_add_eating_one_r_feat_event,
+                     :check_remove_eating_one_r_feat_event,
+                     :check_rotate_eating_one_r_feat_event,
+                     :use_eating_one_r_feat_event,
+                     :finish_eating_one_r_feat_event,
+                    ],
+                    # 436 貪り食うものR
+                    [
+                     :check_add_harf_dead_feat_event,
+                     :check_remove_harf_dead_feat_event,
+                     :check_rotate_harf_dead_feat_event,
+                     :use_harf_dead_feat_event,
+                     :finish_harf_dead_feat_event,
+                    ],
+                    # 437 ハーフデッド
+                    [
+                     :check_add_machine_cell_feat_event,
+                     :check_remove_machine_cell_feat_event,
+                     :check_rotate_machine_cell_feat_event,
+                     :finish_machine_cell_feat_event,
+                    ],
+                    # 438 マシンセル
+                    [
+                     :check_add_heat_seeker_r_feat_event,
+                     :check_remove_heat_seeker_r_feat_event,
+                     :check_rotate_heat_seeker_r_feat_event,
+                     :use_heat_seeker_r_feat_damage_event,
+                     :finish_heat_seeker_r_feat_damage_event,
+                    ],
+                    # 439 ヒートシーカー
+                    [
+                     :check_add_directional_beam_feat_event,
+                     :check_remove_directional_beam_feat_event,
+                     :check_rotate_directional_beam_feat_event,
+                     :use_directional_beam_feat_event,
+                     :use_directional_beam_feat_damage_event,
+                     :finish_directional_beam_feat_event,
+                    ],
+                    # 440 指向性エネルギー兵器
+                    [
+                     :check_add_delta_feat_event,
+                     :check_remove_delta_feat_event,
+                     :check_rotate_delta_feat_event,
+                     :use_delta_feat_event,
+                     :finish_delta_feat_event,
+                    ],
+                    # 441 デルタ
+                    [
+                     :check_add_sigma_feat_event,
+                     :check_remove_sigma_feat_event,
+                     :check_rotate_sigma_feat_event,
+                     :use_sigma_feat_event,
+                     :ex_sigma0_feat_event,
+                     :ex_sigma_feat_event,
+                     :finish_sigma_feat_event,
+                    ],
+                    # 442 シグマ
+                    [
+                     :check_add_stamp_feat_event,
+                     :check_remove_stamp_feat_event,
+                     :check_rotate_stamp_feat_event,
+                     :use_stamp_feat_event,
+                     :finish_stamp_feat_event,
+                    ],
+                    # 443 スタンプ
+                    [
+                     :check_add_acceleration_feat_event,
+                     :check_remove_acceleration_feat_event,
+                     :check_rotate_acceleration_feat_event,
+                     :use_acceleration_feat_event,
+                     :finish_acceleration_feat_event,
+                    ],
+                    # 444 アクセラレーション
+                    [
+                     :check_add_foab_feat_event,
+                     :check_remove_foab_feat_event,
+                     :check_rotate_foab_feat_event,
+                     :finish_foab_feat_event,
+                    ],
+                    # 445 FOAB
+                    [
+                     :check_add_white_moon_feat_event,
+                     :check_remove_white_moon_feat_event,
+                     :check_rotate_white_moon_feat_event,
+                     :use_white_moon_feat_event,
+                     :use_white_moon_feat_dice_attr_event,
+                     :use_white_moon_feat_damage_event,
+                     :finish_white_moon_feat_event,
+                    ],
+                    # 446 白き玉桂
+                    [
+                     :check_add_anger_back_feat_event,
+                     :check_remove_anger_back_feat_event,
+                     :check_rotate_anger_back_feat_event,
+                     :use_anger_back_feat_event,
+                     :use_anger_back_feat_damage_event,
+                     :finish_anger_back_feat_event,
+                    ],
+                         # 447 憤怒の背中
+                       ]
 
   #---------------------------------------------------------------------------------------------
   # 強打

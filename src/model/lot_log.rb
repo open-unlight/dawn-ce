@@ -31,14 +31,14 @@ module Unlight
 
     def LotLog::create_log(p_id, l_type, l_no)
       LotLog.new do |i|
-        i.player_id = p_id
+          i.player_id = p_id
         i.lot_type = l_type
         i.geted_lot_no = l_no
         i.description = "[#{i.rare_card_lot.article_kind}:#{i.rare_card_lot.article_id}]" + i.rare_card_lot.description
         d = "[#{i.rare_card_lot.article_kind}:#{i.rare_card_lot.article_id}]" + i.rare_card_lot.description
         t = Time.now.utc
         LotLog.dataset.insert(player_id: p_id, lot_type: l_type, geted_lot_no: l_no, description: d, created_at: t, updated_at: t)
-      end
+        end
     end
 
     # リミットずつのログをもらう(1ページスタート)

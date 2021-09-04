@@ -270,7 +270,7 @@ module Unlight
 
       # 全ての対戦相手にCPUを入れる
       tmp_list.each_with_index do |t, i|
-        unless list[t[0]][:started] # list[t[0]][:waiting_time] > 0
+        unless list[t[0]][:started] #list[t[0]][:waiting_time] > 0
           list[t[0]][:started] = AI_PLAYER_ID if list[t[0]][:started] == false
         end
       end

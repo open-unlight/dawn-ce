@@ -135,16 +135,16 @@ module Unlight
     def check_list_update()
       @check_list = ''
       self.each do |c|
-        a = []
+          a = []
         c[1..-1].each do |f|
-          s = ''
+            s = ''
           s << f[1].to_s << '::' << f.last.to_s
-          a << s
+            a << s
+          end
+         @check_list << a.join('->')
+         @check_list << "\n"
         end
-        @check_list << a.join('->')
-        @check_list << "\n"
-      end
-      @check_list
+       @check_list
     end
 
     def to_s

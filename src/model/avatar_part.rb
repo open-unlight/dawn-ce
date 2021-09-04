@@ -128,13 +128,13 @@ module Unlight
 
     # アイテムの効果、使用関数
     PART_EFFECTS = [
-      nil,
-      :shorten_recovery_time,        # AP回復時間短縮           1 POWは秒数
-      :increase_quest_inventory_max, # クエストインベントリ増加 2
-      :multiply_exp_pow,             # EXP増加                  3
-      :multiply_gem_pow,             # GEM増加                  4
-      :shorten_quest_find_time,      # クエストゲット時間短縮
-    ]
+                   nil,
+                   :shorten_recovery_time,        # AP回復時間短縮           1 POWは秒数
+                   :increase_quest_inventory_max, # クエストインベントリ増加 2
+                   :multiply_exp_pow,             # EXP増加                  3
+                   :multiply_gem_pow,             # GEM増加                  4
+                   :shorten_quest_find_time,      # クエストゲット時間短縮
+                  ]
 
     # AP回復時間を短くする
     def shorten_recovery_time(v, attached = true)
