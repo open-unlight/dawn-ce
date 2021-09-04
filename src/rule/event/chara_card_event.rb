@@ -448,6 +448,7 @@ module Unlight
                      :check_servo_skull_passive_event,
                      :check_servo_skull_passive_change_event,
                      :use_servo_skull_passive_event,
+                     :use_servo_skull_defense_passive_event, # 2020-10-08 - Issue#186
                      :finish_servo_skull_passive_event,
                      :finish_servo_skull_passive_dead_chara_change_event,
                     ],
@@ -2063,6 +2064,13 @@ module Unlight
     func       :use_servo_skull_passive
   end
 
+  # 2020-10-08 - Issue#186
+  class UseServoSkullDefensePassiveEvent < EventRule
+    dsc        'サーボスカルを発動'
+    type       type: :after, obj: 'owner', hook: :dp_calc_resolve, priority: 1
+    func       :use_servo_skull_defense_passive
+  end
+
   class FinishServoSkullPassiveEvent < EventRule
     dsc        'サーボスカルを発動'
     type       type: :after, obj: 'duel', hook: :determine_battle_point_phase
@@ -3601,6 +3609,7 @@ module Unlight
                      :check_add_enlightened_feat_event,
                      :check_remove_enlightened_feat_event,
                      :check_rotate_enlightened_feat_event,
+                     :check_enlightened_point_feat_event,
                      :use_enlightened_feat_event,
                     ],
                     # 42 見切り
@@ -6959,6 +6968,7 @@ module Unlight
                      :check_remove_harf_dead_feat_event,
                      :check_rotate_harf_dead_feat_event,
                      :use_harf_dead_feat_event,
+                     :use_harf_dead_move_event, # 2020-10-08 - Issue#187
                      :finish_harf_dead_feat_event,
                     ],
                     # 437 ハーフデッド
@@ -8942,6 +8952,13 @@ module Unlight
     dsc        '精神力吸収が可能か'
     type       type: :after, obj: 'owner', hook: :move_card_rotate_action
     func       :check_enlightened_feat
+    goal       ['self', :use_end?]
+  end
+
+  class CheckEnlightenedPointFeatEvent < EventRule
+    dsc        '精神力吸収が可能か'
+    type       type: :after, obj: 'owner', hook: :mp_calc_resolve
+    func       :check_enlightened_point_feat
     goal       ['self', :use_end?]
   end
 
@@ -24598,9 +24615,10 @@ module Unlight
     goal       ['self', :use_end?]
   end
 
+  # 2020-10-08 - Issue#182
   class UseTimeLagBuffFeatEvent < EventRule
-    dsc        '時差バフを使用 防御力が+3'
-    type       type: :after, obj: 'owner', hook: :dp_calc_resolve
+    dsc        '時差バフを使用 攻撃力が+3'
+    type       type: :after, obj: 'owner', hook: :bp_calc_resolve
     func       :use_time_lag_buff_feat
     goal       ['self', :use_end?]
   end
@@ -25197,6 +25215,14 @@ module Unlight
     dsc        'ハーフデッドを使用'
     type       type: :before, obj: 'duel', hook: :determine_move_phase, priority: 8
     func       :use_harf_dead_feat
+    goal       ['self', :use_end?]
+  end
+
+  # 2020-10-08 - Issue#187
+  class UseHarfDeadMoveEvent < EventRule
+    dsc        'ハーフデッドを使用'
+    type       type: :after, obj: 'foe', hook: :mp_calc_resolve, priority: 200
+    func       :use_harf_dead_move
     goal       ['self', :use_end?]
   end
 

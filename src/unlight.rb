@@ -53,6 +53,7 @@ require 'constants/locale_constants'
 
 # ルール
 require 'rule/context'
+require 'rule/context_value'
 require 'rule/event/event'
 
 require 'rule/event/entrant_event'
