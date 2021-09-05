@@ -19,11 +19,11 @@ module Unlight
 
     # クエストをマップから取得する
     def cs_get_quest(quest_map_id, time)
-      SERVER_LOG.info("<UID:#{@uid}>QuestServer: [cs_get_quest] #{quest_map_id} time:#{time}");
+      SERVER_LOG.info("<UID:#{@uid}>QuestServer: [cs_get_quest] #{quest_map_id} time:#{time}")
       if @player
         ret = 0
         ret = @player.current_avatar.get_quest(quest_map_id, time)
-        if ret > 0
+        if ret.positive?
           sc_error_no(ret)
         end
       end
@@ -32,9 +32,9 @@ module Unlight
     # 指定地域のクエストマップを要求
     def cs_request_quest_map_info(region)
       list = QuestMap.get_quest_map_list(region)
-      if list.size > 0
+      unless list.empty?
         sc_quest_map_info(region, list.join(','))
-        SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_quest_map_info] #{list.join(",")}")
+        SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_quest_map_info] #{list.join(',')}")
       end
     end
 
@@ -44,11 +44,11 @@ module Unlight
       if @avatar
         e = @avatar.use_item(inv_id, quest_map_no)
         @reward.update if @reward && (@reward.finished == false)
-        if e > 0
+        if e.positive?
           sc_error_no(e)
         else
           it = ItemInventory[inv_id]
-          SERVER_LOG.info("<UID:#{@uid}>QuestServer: [avatar_use_item] use_item_id:#{it.avatar_item_id}");
+          SERVER_LOG.info("<UID:#{@uid}>QuestServer: [avatar_use_item] use_item_id:#{it.avatar_item_id}")
         end
       end
     end
@@ -100,7 +100,7 @@ module Unlight
       ret = 0
       ret = @avatar.quest_start(id, deck_index) if @avatar
 
-      if ret > 0
+      if ret.positive?
         if ret == ERROR_QUEST_INV_IS_NONE
           sc_quest_deleted(id)
         end
@@ -122,12 +122,12 @@ module Unlight
       if @avatar && current_inv
         ret = @avatar.next_land(current_inv, deck_index, @current_no, next_no)
         # 空のデッキで対戦しようとしてないかチェック
-        ret = ERROR_NOT_EXIST_CHARA if @avatar.chara_card_decks[deck_index].cards.size < 1 || @avatar.chara_card_decks[deck_index].cards[0] == nil
+        ret = ERROR_NOT_EXIST_CHARA if @avatar.chara_card_decks[deck_index].cards.empty? || @avatar.chara_card_decks[deck_index].cards[0].nil?
       else
         SERVER_LOG.warn("<UID:#{@uid}>QuestServer: [quest_next_land] FAIL!! @avatar is null!! , #{next_no}")
         return
       end
-      if ret > 0
+      if ret.positive?
         # 存在しなかったらクライアントに削除を送る
         if ret == ERROR_QUEST_INV_IS_NONE
           sc_quest_deleted(id)
@@ -144,7 +144,7 @@ module Unlight
         @current_deck_index = deck_index
 
         ai_chara_card_deck = AI.chara_card_deck(enemy, @player)
-        if enemy != 0 && ai_chara_card_deck.card_inventories.length > 0
+        if enemy != 0 && !ai_chara_card_deck.card_inventories.empty?
           cpu_card_data = CpuCardData[enemy]
           ai_rank = CPU_AI_OLD
           if cpu_card_data && cpu_card_data.ai_rank
@@ -158,9 +158,9 @@ module Unlight
           now_map_id = current_inv.quest.quest_map_id
 
           if now_map_id == QM_EV_INFINITE_TOWER
-            hp_up = (@avatar.floor_count_check - 1) - 10;
-            ap_up = (@avatar.floor_count_check / 5) - 2;
-            dp_up = (@avatar.floor_count_check / 5) - 2;
+            hp_up = (@avatar.floor_count_check - 1) - 10
+            ap_up = (@avatar.floor_count_check / 5) - 2
+            dp_up = (@avatar.floor_count_check / 5) - 2
           end
 
           # 報酬のためにLand番号を覚えておく
@@ -187,11 +187,11 @@ module Unlight
                                @avatar.chara_card_decks[deck_index].cards_id.join(','),
                                ai_chara_card_deck.cards_id.join(','),
                                @avatar.get_land_stage(current_inv, next_no),
-                               @avatar.get_damage_set(current_inv),)
+                               @avatar.get_damage_set(current_inv))
 
           set_duel_handler(0, RULE_3VS3)
           # 1の対戦の時はクライアントのキャラチェンジボタンを消す
-          if @avatar.chara_card_decks[deck_index].card_inventories.size == 1 && ai_chara_card_deck.card_inventories.length == 0
+          if @avatar.chara_card_decks[deck_index].card_inventories.size == 1 && ai_chara_card_deck.card_inventories.empty?
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, @duel.entrants[@no].distance, false)
           else
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, @duel.entrants[@no].distance, true)
@@ -203,8 +203,8 @@ module Unlight
           @avatar.land_clear(current_inv, next_no) if @avatar
           # この地域が最後ならば勝利を送ってクエストを終了
           error_no = @avatar.check_end_position?(current_inv, next_no)
-          if error_no == 0
-            @avatar.quest_all_clear(current_inv, @current_deck_index, @current_no, true, RESULT_WIN);
+          if error_no.zero?
+            @avatar.quest_all_clear(current_inv, @current_deck_index, @current_no, true, RESULT_WIN)
             # 勝ちのデータをおくる
             sc_quest_finish(RESULT_WIN, @current_inv_id)
             reset_current_param
@@ -226,7 +226,7 @@ module Unlight
       # もしNEW状態だったらStateをアップデートする
       current_inv = AvatarQuestInventory[id]
       if @avatar && current_inv
-        @avatar.quest_all_clear(current_inv, deck_index, @current_no, false, RESULT_DELETE);
+        @avatar.quest_all_clear(current_inv, deck_index, @current_no, false, RESULT_DELETE)
         SERVER_LOG.info("<UID:#{@uid}>QuestServer: [quest abort] #{@current_no}, #{id}")
         sc_quest_finish(RESULT_LOSE, id)
       end
@@ -244,8 +244,8 @@ module Unlight
 
         pl_id = CharaCard[player_chara_id.split(',')[0]].parent_id
         foe_id = CharaCard[foe_chara_id.split(',').last].parent_id
-        pl_dialogue_content = DialogueWeight::quest_start_dialogue(pl_id, foe_id, map_id, land_id)
-        foe_dialogue_content = DialogueWeight::quest_start_dialogue(foe_id, pl_id, map_id, land_id)
+        pl_dialogue_content = DialogueWeight.quest_start_dialogue(pl_id, foe_id, map_id, land_id)
+        foe_dialogue_content = DialogueWeight.quest_start_dialogue(foe_id, pl_id, map_id, land_id)
       end
 
       sc_determine_session(-1,
@@ -273,7 +273,7 @@ module Unlight
     def cs_send_quest(a_id, inv_id)
       if @avatar
         e = @avatar.send_quest(a_id, inv_id)
-        if e > 0
+        if e.positive?
           sc_error_no(e)
         end
       end
@@ -498,14 +498,14 @@ module Unlight
     # 送信コマンド
     # =====================================
     # 押し出し関数
-    def pushout()
+    def pushout
       online_list[@player.id].player.logout(true)
       online_list[@player.id].logout
     end
 
     # ログイン時の処理
     def do_login
-      if @player.avatars.size > 0
+      unless @player.avatars.empty?
         @avatar = @player.avatars[0]
         reset_current_param
         regist_avatar_event
@@ -640,16 +640,16 @@ module Unlight
           # この地域が最後ならば勝利を送ってクエストを終了
           error_no = @avatar.check_end_position?(current_inv, @current_no)
 
-          if error_no == 0
+          if error_no.zero?
             SERVER_LOG.info("<UID:#{@uid}>QuestServer: [duel finish quest win] #{@current_no}, #{@current_inv_id}")
-            @avatar.quest_all_clear(current_inv, @current_deck_index, @current_no, true, duel.result[@no][:result]);
+            @avatar.quest_all_clear(current_inv, @current_deck_index, @current_no, true, duel.result[@no][:result])
             # 勝ちのデータをおくる
             sc_quest_finish(RESULT_WIN, @current_inv_id)
             SERVER_LOG.info("<UID:#{@uid}>QuestServer: [duel finish quest win] #{current_inv.quest.kind == QT_BOSS}, #{current_inv.quest.kind},#{QT_BOSS}")
 
             if current_inv.quest.story_no != 0 # もし倒したのがストーリー番号を持っていたらダイアログ情報をわたす
               SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_dialogue_info_update] chara:#{@avatar.chara_card_decks[@current_deck_index].cards.first.charactor_id},map_no#{current_inv.quest.story_no}")
-              d_set = DialogueWeight::quest_clear_dialogue(@avatar.chara_card_decks[@current_deck_index].cards.first.parent_id, current_inv.quest.story_no)
+              d_set = DialogueWeight.quest_clear_dialogue(@avatar.chara_card_decks[@current_deck_index].cards.first.parent_id, current_inv.quest.story_no)
               d_set.each do |d|
                 SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_dialogue_info_update] #{d}")
                 sc_dialogue_info_update(d[0], d[1], d[2])
@@ -667,7 +667,7 @@ module Unlight
           end
         else
           SERVER_LOG.info("<UID:#{@uid}>QuestServer: [duel lose quest failed] #{@current_no}")
-          @avatar.quest_all_clear(current_inv, @current_deck_index, @current_no, false, duel.result[@no][:result]);
+          @avatar.quest_all_clear(current_inv, @current_deck_index, @current_no, false, duel.result[@no][:result])
           # 負け、引き分けの場合はクエストは終了
           sc_quest_finish(RESULT_LOSE, @current_inv_id)
           reset_current_param

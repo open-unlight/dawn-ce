@@ -16,21 +16,21 @@ module Unlight
     @@current_list = []
 
     # すべてのデュエルをアップデート（サーバーから呼ばれます）
-    def AI.update
-      @@current_list.each { |a| a.update }
+    def self.update
+      @@current_list.each(&:update)
     end
 
     # 適当なキャラカードを返す
-    def AI.chara_card_deck(monster_no = 0, pl = nil)
+    def self.chara_card_deck(monster_no = 0, pl = nil)
       AI.init
-      if monster_no == 0
+      if monster_no.zero?
         CharaCardDeck.get_cpu_deck(rand(4))
       else
         CharaCardDeck.get_cpu_deck(monster_no, pl)
       end
     end
 
-    def AI.init
+    def self.init
       unless @@init
         CharaCardDeck.get_cpu_deck(0)
         CharaCardDeck.get_cpu_deck(1)
@@ -40,7 +40,7 @@ module Unlight
       end
     end
 
-    def AI.chara_cards_ids(cards)
+    def self.chara_cards_ids(cards)
       ret = []
       cards.each do |a|
         ret << a.id
@@ -49,7 +49,7 @@ module Unlight
     end
 
     # CPUプレイヤーを返す
-    def AI.player
+    def self.player
       Player.get_cpu_player
     end
 
@@ -96,15 +96,14 @@ module Unlight
       event_resume
     end
 
-    def think
-    end
+    def think; end
     regist_event OneToOneAi
 
     # 終了ハンドラ
     def finish_ai(target, ret)
       SERVER_LOG.info('AI: [Destruct]')
-      self.remove_all_hook
-      self.remove_all_event_listener
+      remove_all_hook
+      remove_all_event_listener
       @@current_list.delete(self)
       @duel = nil
       @entrant = nil
@@ -184,8 +183,7 @@ module Unlight
     end
 
     # 待機
-    def waiting
-    end
+    def waiting; end
     regist_event WaitingAction
 
     # ==============================
@@ -221,7 +219,7 @@ module Unlight
       # 判定結果の中から提出するカードを選んで出す
       chance?
       @hand_value.delete_if do |k, v|
-        @entrant.move_card_add_action([k.id], [v[1]]) if (@entrant.cards.include?(k) && v[0] >= 10)
+        @entrant.move_card_add_action([k.id], [v[1]]) if @entrant.cards.include?(k) && v[0] >= 10
       end
     end
     regist_event DropChanceCardAction
@@ -230,7 +228,7 @@ module Unlight
     def drop_move_card
       # 判定結果の中から提出するカードを選んで出す
       @hand_value.delete_if do |k, v|
-        if (@entrant.cards.include?(k) && v[0] >= 9)
+        if @entrant.cards.include?(k) && v[0] >= 9
           @entrant.move_card_add_action([k.id], [v[1]])
         end
       end
@@ -258,7 +256,7 @@ module Unlight
       useless_card_mearge
       # 判定結果の中から提出するカードを選んで出す
       @hand_value.delete_if do |k, v|
-        @entrant.attack_card_add_action([k.id], [v[1]]) if (@entrant.cards.include?(k) && v[0] >= 3)
+        @entrant.attack_card_add_action([k.id], [v[1]]) if @entrant.cards.include?(k) && v[0] >= 3
       end
     end
     regist_event DropAttackCardAction
@@ -270,7 +268,7 @@ module Unlight
       useless_card_mearge
       # 判定結果の中から提出するカードを選んで出す
       @hand_value.delete_if do |k, v|
-        @entrant.deffence_card_add_action([k.id], [v[1]]) if (@entrant.cards.include?(k) && v[0] >= 3)
+        @entrant.deffence_card_add_action([k.id], [v[1]]) if @entrant.cards.include?(k) && v[0] >= 3
       end
     end
     regist_event DropDeffenceCardAction
@@ -321,7 +319,7 @@ module Unlight
       # フェイズ条件のチェック
       # ここでhand_valueを合成＆書き換え
       @chara_feat_value.each do |k, v|
-        if v && Feat::ai_phase_check(k.feat_id, type) && v[2] && v[2].include?(@entrant.distance)
+        if v && Feat.ai_phase_check(k.feat_id, type) && v[2] && v[2].include?(@entrant.distance)
           v[1].each do |l, w|
             v = 0
             v = @hand_value[l][0] if @hand_value[l]
@@ -359,7 +357,7 @@ module Unlight
       case @think_num
       when 0
         # 必殺技が状態異常に妨害されていないか？
-        if @entrant.current_chara_card.status[Unlight::CharaCardEvent::STATE_SEAL][1] > 0
+        if (@entrant.current_chara_card.status[Unlight::CharaCardEvent::STATE_SEAL][1]).positive?
           finish_think_num
         else
           @think_num += 1
@@ -367,13 +365,13 @@ module Unlight
       when 1
         # カード必須条件を計算
         @entrant.current_chara_card.feat_inventories.each do |f|
-          @chara_feat_value[f] = Feat::ai_card_check(@entrant, f.feat_id)
+          @chara_feat_value[f] = Feat.ai_card_check(@entrant, f.feat_id)
         end
         @think_num += 1
       when 2
         # 必須条件を満たした物がどの距離が必要かをチェック
         @entrant.current_chara_card.feat_inventories.each do |f|
-          @chara_feat_value[f] << Feat::ai_dist_check(f.feat_id, @entrant) if @chara_feat_value[f]
+          @chara_feat_value[f] << Feat.ai_dist_check(f.feat_id, @entrant) if @chara_feat_value[f]
         end
         @think_num += 1
       when 3
@@ -399,7 +397,7 @@ module Unlight
         @arw_p = cards_arw_points
         @think_num += 1
       when 3
-        if @move_p > 0
+        if @move_p.positive?
           if @swd_p > @arw_p
             # 手札のポイントが剣の方多いとき、提出移動カードから剣を取り除く
             @hand_move_value.each do |k, v|
@@ -488,14 +486,14 @@ module Unlight
         @think_num += 1
       when 4
         # ヒットポイントが少ない順にする
-        @chara_change_value = @entrant.hit_points.map { |h|
+        @chara_change_value = @entrant.hit_points.map do |h|
           # ヒットポイント0なら選ばれない
-          if h == 0
+          if h.zero?
             0
           else
             100 - h
           end
-        }
+        end
         @think_num = @rank
       end
     end
@@ -510,12 +508,12 @@ module Unlight
         end
 
         v = c.get_type_value(ActionCard::MOVE, false)
-        if v > 0
+        if v.positive?
           ret += v
           @hand_move_value[c] = [12 - ret, false]
         end
         v = c.get_type_value(ActionCard::MOVE, true)
-        if v > 0
+        if v.positive?
           ret += v
           @hand_move_value[c] = [12 - ret, true]
         end
@@ -528,12 +526,12 @@ module Unlight
       ret = 0
       @entrant.cards.each do |c|
         v = c.get_type_value(ActionCard::SWD, false)
-        if v > 0
+        if v.positive?
           ret += v
           @hand_swd_value[c] = [5 + v, false]
         end
         v = c.get_type_value(ActionCard::SWD, true)
-        if v > 0
+        if v.positive?
           ret += v
           @hand_swd_value[c] = [5 + v, true]
         end
@@ -546,12 +544,12 @@ module Unlight
       ret = 0
       @entrant.cards.each do |c|
         v = c.get_type_value(ActionCard::ARW, false)
-        if v > 0
+        if v.positive?
           ret += v
           @hand_arw_value[c] = [5 + v, false]
         end
         v = c.get_type_value(ActionCard::ARW, true)
-        if v > 0
+        if v.positive?
           ret += v
           @hand_arw_value[c] = [5 + v, true]
         end
@@ -564,12 +562,12 @@ module Unlight
       ret = 0
       @entrant.cards.each do |c|
         v = c.get_type_value(ActionCard::DEF, false)
-        if v > 0
+        if v.positive?
           ret += v
           @hand_def_value[c] = [5 + v, false]
         end
         v = c.get_type_value(ActionCard::DEF, true)
-        if v > 0
+        if v.positive?
           ret += v
           @hand_def_value[c] = [5 + v, true]
         end
@@ -581,49 +579,41 @@ module Unlight
     # 状態判定関数
     # ======================
     # ツモっているか？
-    def reach?
-    end
+    def reach?; end
 
     # 攻撃可能か？
-    def attackable?
-    end
+    def attackable?; end
 
     # 自分は瀕死か？
-    def dying?
-    end
+    def dying?; end
 
     # 相手は瀕死か？
-    def foe_dying?
-    end
+    def foe_dying?; end
 
     # 手札の中で役に関わるカードはあるか。
-    def reachable?
-    end
+    def reachable?; end
 
     # 次がドローフェイズ？
-    def next_draw?
-    end
+    def next_draw?; end
 
     # 次がドローフェイズ？
-    def dead?
-    end
+    def dead?; end
 
     # 十分カードを勘案した？
     def solved?
-      ret = @think_num >= @rank
-      ret
+      @think_num >= @rank
     end
 
     # 手札にチャンスカードがある？
     def chance?
       ret = 0
       @entrant.cards.each do |c|
-        if (c.event_no > 0 && c.event_no < 11)
+        if c.event_no.positive? && c.event_no < 11
           ret += 1
           @hand_value[c] = [10, true]
         end
       end
-      ret = false if ret == 0
+      ret = false if ret.zero?
       ret
     end
 
@@ -636,12 +626,12 @@ module Unlight
     def carce?
       ret = 0
       @entrant.cards.each do |c|
-        if (c.event_no > 10)
+        if c.event_no > 10
           ret += 1
           @hand_value[c] = [10, true]
         end
       end
-      ret = false if ret == 0
+      ret = false if ret.zero?
       ret
     end
 
@@ -659,8 +649,7 @@ module Unlight
     # ==================
 
     # もらったカードからチャンスカードを探す
-    def find_chance_card
-    end
+    def find_chance_card; end
 
     #==================
     # 必殺技検討関数群
@@ -669,8 +658,7 @@ module Unlight
 
     # 条件と威力
     module FeatChecker
-      def check_feat(feat_no)
-      end
+      def check_feat(feat_no); end
 
       GREATER = 0
       EQUAL   = 1

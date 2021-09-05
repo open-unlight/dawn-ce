@@ -28,7 +28,7 @@ module Unlight
   end
 
   # 特定のショップのアイテムIDリストをもらえる
-  def Shop::get_sale_list(shop)
+  def Shop.get_sale_list(shop)
     ret = cache_store.get("shop_type:#{shop}")
     unless ret
       ret = []
@@ -40,7 +40,7 @@ module Unlight
     ret
   end
 
-  def Shop::check_gems_coins_num(item, gems, coins, amount)
+  def Shop.check_gems_coins_num(item, gems, coins, amount)
     ret = false
     if (item[2] * amount) <= gems && (item[3] * amount) <= coins[0].count && (item[4] * amount) <= coins[1].count && (item[5] * amount) <= coins[2].count && (item[6] * amount) <= coins[3].count && (item[7] * amount) <= coins[4].count && (item[8] * amount) <= coins[5].count
       ret = true
@@ -49,7 +49,7 @@ module Unlight
   end
 
   # 商品を買う(種類とIDを指定して、ジェムと使用コインを渡す。返値は変えなかったらfalse, 買えたら残りのGems)
-  def Shop::buy_article(shop, kind, id, gems, coins, amount = 1)
+  def Shop.buy_article(shop, kind, id, gems, coins, amount = 1)
     ret = [false, []]
     # リストにあるなら買えるかつ、渡したGemより値段が安ければ買える
     get_sale_list(shop).each do |a|
@@ -61,11 +61,11 @@ module Unlight
   end
 
   # 特定ショップのキャッシュをクリア
-  def Shop::refresh_cache(shop)
+  def Shop.refresh_cache(shop)
     cache_store.delete("shop_type:#{shop}")
   end
 
-  def Shop::get_sale_list_str(type = 0)
+  def Shop.get_sale_list_str(type = 0)
     ret = ''
     ret += '['
     ret += "#{type},"

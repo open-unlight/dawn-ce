@@ -19,7 +19,7 @@ module Unlight
     end
 
     # 全体データバージョンを返す
-    def QuestMap::data_version
+    def self.data_version
       ret = cache_store.get('QuestMapVersion')
       unless ret
         ret = refresh_data_version
@@ -29,7 +29,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def QuestMap::refresh_data_version
+    def self.refresh_data_version
       m = QuestMap.order(:updated_at).last
       if m
         cache_store.set('QuestMapVersion', m.version)
@@ -41,7 +41,7 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # インサート時の前処理
@@ -57,15 +57,15 @@ module Unlight
     # ランダムにクエストのIDを1つ返す(クリアNumがマップの難易度を超えていたらボスが出るのを許す)
     def get_quest_id(clear_num = 0, time = 0, cleared_map = false)
       SERVER_LOG.info("<UID:#{}>QuestServer: [#{__method__}] clear_num:#{clear_num},time:#{time},cleard:#{cleared_map}")
-      r = QuestMap::get_realty(time)
+      r = QuestMap.get_realty(time)
       s = 0
       boss = false
       boss = (clear_num >= difficulty) || cleared_map
-      until s > 0
-        q = Quest.get_map_in_reality(self.id, r, boss)
+      until s.positive?
+        q = Quest.get_map_in_reality(id, r, boss)
         s = q.count if q
         r -= 1
-        break if r == 0
+        break if r.zero?
       end
       ret = q[rand(q.count)] if q
       SERVER_LOG.info("<UID:#{}>QuestServer: [#{__method__}] ret:#{ret}")
@@ -78,8 +78,8 @@ module Unlight
 
     # ランダムにボスクエストのIDを1つ返す
     def get_boss_quest_id
-      q = Quest.get_map_in_boss(self.id)
-      ret = q[rand(q.count)] if q.size > 0
+      q = Quest.get_map_in_boss(id)
+      ret = q[rand(q.count)] unless q.empty?
       if ret
         ret.id
       else
@@ -89,11 +89,11 @@ module Unlight
 
     # クエストが進行度MAXか？
     def get_clear_capacity(clear_num)
-      self.difficulty <= clear_num
+      difficulty <= clear_num
     end
 
     # レアリティを決定する
-    def QuestMap::get_realty(time = 0)
+    def self.get_realty(time = 0)
       r = rand(MAP_REALITY_NUM)
       ret = 1
       if MAP_REALITY[time]
@@ -110,7 +110,7 @@ module Unlight
     end
 
     # 特定地域のマップIDリストをもらえる
-    def QuestMap::get_quest_map_list(reg)
+    def self.get_quest_map_list(reg)
       ret = cache_store.get("region:#{reg}")
       unless ret
         ret = []
@@ -123,7 +123,7 @@ module Unlight
     end
 
     # 特定地域のキャッシュをクリア
-    def QuestMap::refresh_cache(reg)
+    def self.refresh_cache(reg)
       cache_store.delete("region:#{reg}")
     end
   end

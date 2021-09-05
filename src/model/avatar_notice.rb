@@ -32,22 +32,22 @@ module Unlight
     def clear_body(n)
       refresh
       ret = []
-      s = self.body.split('|')
+      s = body.split('|')
       if n
         n.times do
           ret.push(s.pop)
         end
         self.body = s.join('|').force_encoding('UTF-8')
-        self.save_changes
+        save_changes
       end
       ret
     end
 
     # ログを書く
-    def AvatarNotice::write_notice(an, a_id, b)
+    def self.write_notice(an, a_id, b)
       if an
         if an.body == ''.force_encoding('UTF-8')
-          an.body = "#{b}".force_encoding('UTF-8')
+          an.body = b.to_s.force_encoding('UTF-8')
         else
           an.body += "|#{b}".force_encoding('UTF-8')
         end
@@ -55,14 +55,14 @@ module Unlight
       else
         AvatarNotice.new do |d|
           d.avatar_id = a_id
-          d.body = "#{b}".force_encoding('UTF-8')
+          d.body = b.to_s.force_encoding('UTF-8')
           d.save_changes
         end
       end
     end
 
     # スタックしている未送信のメッセージを配列で取得
-    def AvatarNotice::get_massage_notice(time)
+    def self.get_massage_notice(time)
       AvatarNotice.filter(Sequel.cast_string(:updated_at) > time).and(~{ body: '' }).all
     end
 
@@ -70,9 +70,9 @@ module Unlight
     def get_type_message(types = [])
       refresh
       ret = []
-      if types && types.size > 0
+      if types && !types.empty?
         match_str = types.join('|')
-        body_arr = self.body.split('|')
+        body_arr = body.split('|')
         leave_arr = []
         body_arr.each do |mes|
           mes_arr = mes.split(':') if mes
@@ -85,7 +85,7 @@ module Unlight
         reset_arr = leave_arr + ret
         # 指定のものを引き抜いた分を再度Bodyに入れなおす
         self.body = reset_arr.join('|').force_encoding('UTF-8')
-        self.save_changes
+        save_changes
       end
       ret.join('|')
     end
@@ -94,9 +94,9 @@ module Unlight
     def get_other_type_message(types = [])
       refresh
       ret = []
-      if types && types.size > 0
+      if types && !types.empty?
         match_str = types.join('|')
-        body_arr = self.body.split('|')
+        body_arr = body.split('|')
         leave_arr = []
         body_arr.each do |mes|
           mes_arr = mes.split(':') if mes
@@ -109,7 +109,7 @@ module Unlight
         reset_arr = leave_arr + ret
         # 指定のものを引き抜いた分を再度Bodyに入れなおす
         self.body = reset_arr.join('|').force_encoding('UTF-8')
-        self.save_changes
+        save_changes
       end
       ret.join('|')
     end

@@ -27,7 +27,7 @@ module Unlight
     end
   end
 
-  def CharaCardRequirement::up_tree(cc_id)
+  def CharaCardRequirement.up_tree(cc_id)
     ret = []
     cc = CharaCard[cc_id]
     # モンスターとキャラで分ける
@@ -46,7 +46,7 @@ module Unlight
     ret
   end
 
-  def CharaCardRequirement::down_tree(cc_id)
+  def CharaCardRequirement.down_tree(cc_id)
     ret = []
     if CharaCard[cc_id]
       CharaCardRequirement.filter({ chara_card_id: cc_id }).all.each do |r|
@@ -57,7 +57,7 @@ module Unlight
     ret
   end
 
-  def CharaCardRequirement::exchange(cc_id, list, c_id)
+  def CharaCardRequirement.exchange(cc_id, list, c_id)
     ret = []
     cc = CharaCard[cc_id]
     cc2 = CharaCard[c_id]
@@ -88,10 +88,10 @@ module Unlight
           req << (list[k].size >= v)
         end
       end
-      if req.length > 0
-        ret[0] = not(req.include?(false))
-      else
+      if req.empty?
         ret[0] = false
+      else
+        ret[0] = !req.include?(false)
       end
       ret[1] = down_req
     end
@@ -99,7 +99,7 @@ module Unlight
   end
 
   # 全体データバージョンを返す
-  def CharaCardRequirement::data_version
+  def CharaCardRequirement.data_version
     ret = cache_store.get('CharaCardRequirementVersion')
     unless ret
       ret = refresh_data_version
@@ -109,7 +109,7 @@ module Unlight
   end
 
   # 全体データバージョンを更新（管理ツールが使う）
-  def CharaCardRequirement::refresh_data_versions
+  def CharaCardRequirement.refresh_data_versions
     m = CharaCardRequirement.order(:updated_at).last
     if m
       cache_store.set('CharaCardRequirementVersion', m.version)
@@ -121,6 +121,6 @@ module Unlight
 
   # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
   def version
-    self.updated_at.to_i % MODEL_CACHE_INT if self
+    updated_at.to_i % MODEL_CACHE_INT if self
   end
 end

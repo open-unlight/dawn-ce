@@ -17,21 +17,21 @@ module Unlight
       if @avatar
         e = @avatar.use_item(inv_id)
         @reward.update if @reward && (@reward.finished == false)
-        if e > 0
+        if e.positive?
           sc_error_no(e)
         else
           it = ItemInventory[inv_id]
-          SERVER_LOG.info("<UID:#{@uid}>RaidServer: [avatar_use_item] use_item_id:#{it.avatar_item_id}");
+          SERVER_LOG.info("<UID:#{@uid}>RaidServer: [avatar_use_item] use_item_id:#{it.avatar_item_id}")
         end
       end
     end
 
     # ボス戦開始
     def cs_boss_duel_start(inv_id, turn, use_ap)
-      if @player && @avatar && @duel == nil
+      if @player && @avatar && @duel.nil?
         # 必要なものをそろえる
         err, set_data = @avatar.profound_start_set_up(inv_id, use_ap)
-        if err == 0
+        if err.zero?
           @prf_inv        = set_data[:inv]
           prf_data        = set_data[:data]
           boss_deck       = set_data[:boss_deck]
@@ -42,7 +42,7 @@ module Unlight
 
           # 現在ダメージを取得
           deck_damages = @prf_inv.get_chara_cards_damages
-          boss_damage, @get_log_id = ProfoundLog::get_start_boss_damage(@prf_inv.profound_id)
+          boss_damage, @get_log_id = ProfoundLog.get_start_boss_damage(@prf_inv.profound_id)
           @set_heal_log_ids = nil
 
           @duel = MultiDuel.new(@player.current_avatar,
@@ -66,12 +66,12 @@ module Unlight
                                boss_deck.cards_id.join(','),
                                stage,
                                deck_damages,
-                               boss_damage,)
+                               boss_damage)
           @duel.profound_id = @prf_inv.profound_id
           set_duel_handler(0, RULE_3VS3)
           regist_raid_event
           # 1の対戦の時はクライアントのキャラチェンジボタンを消す
-          if avatar_deck.card_inventories.size == 1 && boss_deck.card_inventories.length == 0
+          if avatar_deck.card_inventories.size == 1 && boss_deck.card_inventories.empty?
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, @duel.entrants[@no].distance, false)
           else
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, @duel.entrants[@no].distance, true)
@@ -80,17 +80,17 @@ module Unlight
 
           @finished_duel_type = PRF_FINISHED_NONE
           @avatar.profound_duel_start(@prf_inv, use_ap, avatar_deck_idx)
-          SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] inv_id:#{inv_id} turn:#{turn} use_ap:#{use_ap}");
+          SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] inv_id:#{inv_id} turn:#{turn} use_ap:#{use_ap}")
           send_score
         else
-          SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] boss duel failed. error code:#{err}");
+          SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] boss duel failed. error code:#{err}")
           sc_error_no(err)
         end
       else
-        SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] not finished duel.");
+        SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] not finished duel.")
         sc_error_no(ERROR_PRF_NOT_FINISHED)
       end
-      SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] *****************");
+      SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] *****************")
     end
 
     # ゲームセッションの決定
@@ -106,7 +106,7 @@ module Unlight
                            alpha_damege_set[2],
                            beta_damege_set[0],
                            beta_damege_set[1],
-                           beta_damege_set[2],)
+                           beta_damege_set[2])
     end
 
     def cs_request_notice
@@ -116,7 +116,7 @@ module Unlight
         @avatar.new_profound_inventory_check
         n = @avatar.get_profound_notice
       end
-      sc_add_notice(n) if n != '' && n != nil
+      sc_add_notice(n) if n != '' && !n.nil?
     end
 
     def cs_request_update_inventory(id_list_str)
@@ -131,7 +131,7 @@ module Unlight
         prf_inv = ProfoundInventory[inv_id]
         if prf_inv
           err = @avatar.profound_duel_finish(prf_inv, true)
-          if err == 0
+          if err.zero?
             @avatar.send_prf_info(prf_inv)
           else
             sc_error_no(err)
@@ -151,10 +151,10 @@ module Unlight
     end
 
     # 報酬配布があるか確認
-    def cs_check_profound_reward()
+    def cs_check_profound_reward
       SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}]")
       if @avatar
-        btl_inv_list = ProfoundInventory::get_avatar_battle_list(@avatar.id)
+        btl_inv_list = ProfoundInventory.get_avatar_battle_list(@avatar.id)
         btl_inv_list.each do |inv|
           is_reward = @avatar.check_profound_reward(inv)
           # 報酬配布があった場合、渦情報をクライアントに送る
@@ -198,9 +198,10 @@ module Unlight
     def regist_raid_event
       if @duel
         # 開始と同時にBuffを設定する
-        if @duel.rule == RULE_1VS1
+        case @duel.rule
+        when RULE_1VS1
           @duel.add_start_listener_three_to_three_duel(method(:send_boss_buff_handler))
-        elsif @duel.rule == RULE_3VS3
+        when RULE_3VS3
           @duel.add_start_listener_three_to_three_duel(method(:send_boss_buff_handler))
         end
 
@@ -264,7 +265,7 @@ module Unlight
 
     # 渦インベントリー情報送信完了
     def resend_profound_inventory_finish_event_handler(target, ret)
-      sc_resend_profound_inventory_finish()
+      sc_resend_profound_inventory_finish
     end
 
     # アイテムを使用した
@@ -378,27 +379,27 @@ module Unlight
     def send_damage_handler
       if @avatar && @prf_inv
         # ダメージ
-        prf_log = ProfoundLog::get_profound_damage_log(@prf_inv.profound_id, @avatar.id, @get_log_id)
-        if prf_log && prf_log.size > 0
+        prf_log = ProfoundLog.get_profound_damage_log(@prf_inv.profound_id, @avatar.id, @get_log_id)
+        if prf_log && !prf_log.empty?
           add_damage = 0
           b_name = @boss_name[@duel.beta.current_chara_card_no].force_encoding('UTF-8')
           prf_log.each do |pl|
-            if pl.avatar_id > 0
+            if pl.avatar_id.positive?
               a_name = pl.avatar_name.force_encoding('UTF-8')
               dmg = pl.damage.to_s.force_encoding('UTF-8')
               add_damage += pl.damage
             else
-              if @set_heal_log_ids == nil || @set_heal_log_ids.index(pl.id) == nil
+              if @set_heal_log_ids.nil? || @set_heal_log_ids.index(pl.id).nil?
                 point = pl.damage.to_s.force_encoding('UTF-8')
                 add_damage -= pl.damage
               end
             end
             @get_log_id = pl.id
           end
-          if add_damage > 0
+          if add_damage.positive?
             @duel.beta.damaged_event(add_damage, false, false)
             set_message_str_data(DUEL_MSGDLG_SUM_DMG_FOR_BOSS, b_name, add_damage)
-          elsif add_damage < 0
+          elsif add_damage.negative?
             add_heal = add_damage.abs # - の状態なので、絶対値で回復ポイントに変換
             @duel.beta.healed_event(add_heal, false)
             set_message_str_data(DUEL_MSGDLG_HEAL_BOSS, b_name, add_heal)
@@ -439,15 +440,15 @@ module Unlight
     end
 
     def party_damage_log_handler(target, ret)
-      set_damage_log(ret[1]) if ret.first == 0 && ret.last # 引数の最後にログ保存フラグをセットしてある
+      set_damage_log(ret[1]) if ret.first.zero? && ret.last # 引数の最後にログ保存フラグをセットしてある
     end
 
     def set_damage_log(ret)
       SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] #{ret} #{@avatar} #{@avatar.event}")
-      if @avatar && @prf_inv && ret > 0 && @finished_duel_type == PRF_FINISHED_NONE
+      if @avatar && @prf_inv && ret.positive? && @finished_duel_type == PRF_FINISHED_NONE
         SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] prf_id:#{@prf_inv.profound_id}")
         # 撃破したか
-        now_all_damage = ProfoundLog::get_all_damage(@prf_inv.profound_id)
+        now_all_damage = ProfoundLog.get_all_damage(@prf_inv.profound_id)
         if !@prf_inv.profound.is_defeat? && now_all_damage + ret >= @duel.beta.current_chara_card.hp
           SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] defeat_update!!!!!!!")
           # 渦を終了状態に 先に変更
@@ -459,7 +460,7 @@ module Unlight
           send_score
 
           # 撃破したのでイベントレコードチェック 2014/06/12
-          if EVENT_PRF_SET_01[0].include?(@prf_inv.profound.p_data.id) && @prf_inv.score > 0
+          if EVENT_PRF_SET_01[0].include?(@prf_inv.profound.p_data.id) && @prf_inv.score.positive?
             @avatar.achievement_check(EVENT_PRF_SET_01[1])
           end
         else
@@ -471,7 +472,7 @@ module Unlight
         chara_no = @duel.beta.current_chara_card_no
         boss_name = @boss_name[chara_no]
         atk_chara = @duel.alpha.current_chara_card.charactor_id
-        ProfoundLog::set_damage(@prf_inv.profound_id, @avatar.id, @avatar.name, chara_no, ret, boss_name, atk_chara)
+        ProfoundLog.set_damage(@prf_inv.profound_id, @avatar.id, @avatar.name, chara_no, ret, boss_name, atk_chara)
         # パラメータ表示チェック
         if @prf_inv.profound.state == PRF_ST_UNKNOWN
           if @duel.beta.total_hit_point <= @prf_inv.profound.param_view_start_damage
@@ -487,14 +488,14 @@ module Unlight
     end
 
     def party_heal_log_handler(target, ret)
-      set_heal_log(ret[1]) if ret.first == 0 && ret.last
+      set_heal_log(ret[1]) if ret.first.zero? && ret.last
     end
 
     def set_heal_log(ret)
-      if @avatar && @prf_inv && ret > 0
-        pl = ProfoundLog::set_damage(@prf_inv.profound_id, 0, @boss_name[@duel.beta.current_chara_card_no], @duel.beta.current_chara_card_no, ret)
+      if @avatar && @prf_inv && ret.positive?
+        pl = ProfoundLog.set_damage(@prf_inv.profound_id, 0, @boss_name[@duel.beta.current_chara_card_no], @duel.beta.current_chara_card_no, ret)
         # 保存したログIDを保持
-        @set_heal_log_ids = [] unless @set_heal_log_ids
+        @set_heal_log_ids ||= []
         @set_heal_log_ids.push(pl.id)
       end
     end
@@ -545,8 +546,7 @@ module Unlight
     end
 
     # 状態異常更新
-    def update_boss_buff_handler(target, ret)
-    end
+    def update_boss_buff_handler(target, ret); end
 
     # 終了時のハンドラ
     # 返値は[alpha, beta, reward]
@@ -560,11 +560,11 @@ module Unlight
         when PRF_FINISHED_NONE
           if duel.beta.total_hit_point <= 0
             # 死んでいるのに撃破が着いていない場合、ここでつける（同時にダメージを与えた場合ここにくるのは運になる）
-            if !@prf_inv.profound.is_defeat?
+            unless @prf_inv.profound.is_defeat?
               # 渦を終了状態に 先に変更
               @prf_inv.profound.finish
               # 撃破を記録
-              @prf_inv.update_defeat()
+              @prf_inv.update_defeat
               # 渦に撃破者のアバターIDを記録
               @prf_inv.profound.set_defeat_avatar_id(@avatar.id)
             end
@@ -625,7 +625,7 @@ module Unlight
           # 渦の待機時間を変更
           @prf_inv.profound.set_losstime if @prf_inv.defeat
           if err != 0
-            SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] boss duel finish failed. error code:#{err}");
+            SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] boss duel finish failed. error code:#{err}")
             sc_error_no(err)
           end
 
@@ -648,30 +648,30 @@ module Unlight
         if @avatar
           @avatar.achievement_check(PRF_ALL_DMG_CHECK_IDS)
           # 他人の渦参加チェック
-          if finder_id != @avatar.id && @prf_inv.score > 0
+          if finder_id != @avatar.id && @prf_inv.score.positive?
             @avatar.achievement_check(PRF_OTHER_RAID_BTL_CHECK_ID)
           end
         end
 
         # 使用済みのものをクリア
-        SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] boss duel finish. inv:#{@prf_inv}");
+        SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] boss duel finish. inv:#{@prf_inv}")
         @prf_inv = nil
         @boss_name = nil
         @use_ap = nil
       end
-      SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] *****************");
+      SERVER_LOG.info("<UID:#{@uid}>RaidServer: [#{__method__}] *****************")
     end
 
     # =====================================
     # 押し出し関数
-    def pushout()
+    def pushout
       online_list[@player.id].player.logout(true)
       online_list[@player.id].logout
     end
 
     # ログイン時の処理
     def do_login
-      if @player.avatars.size > 0
+      unless @player.avatars.empty?
         @avatar = @player.avatars[0]
         regist_avatar_event
       end
@@ -691,7 +691,7 @@ module Unlight
       if @prf_inv
         if @prf_inv.profound.is_defeat?
           # 念のため、ダメージ計算
-          all_damage = ProfoundLog::get_all_damage(@prf_inv.profound_id)
+          all_damage = ProfoundLog.get_all_damage(@prf_inv.profound_id)
           if all_damage >= @prf_inv.profound.p_data.get_boss_max_hp
             # 勝利告知は撃破ユーザが行う
             defeat_avatar = Avatar[@prf_inv.profound.defeat_avatar_id] if @prf_inv.profound.defeat_avatar_id != 0

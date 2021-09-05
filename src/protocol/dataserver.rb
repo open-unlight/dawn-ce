@@ -27,7 +27,7 @@ module Protocol
         if @player
           logout
         end
-      rescue => e
+      rescue StandardError => e
         puts e.message
       end
       SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")

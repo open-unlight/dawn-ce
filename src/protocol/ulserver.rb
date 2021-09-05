@@ -19,7 +19,7 @@ module Unlight
 
       # クラスの初期化
       def self.setup
-        @@class_name = self.name[19..-1] # 最後のクラス名だけにしている
+        @@class_name = name[19..] # 最後のクラス名だけにしている
         SERVER_LOG.info("#{@@class_name}: Start.")
         @@receive_cmd = nil
         @@online_list = {}; # オンラインのリストIDとインスタンスのハッシュ
@@ -39,7 +39,7 @@ module Unlight
         @ip = ''
         begin
           @ip = get_peername[2, 6].unpack('nC4')[1..4].join '.' if get_peername && get_peername[2, 6].unpack('nC4') # 帰ってこない場合あり
-        rescue => e
+        rescue StandardError => e
           SERVER_LOG.fatal("#{@@class_name}: [Got invalid IP] #{e}")
           @ip = '0.0.0.0'
         end
@@ -92,7 +92,7 @@ module Unlight
             method = @func_list[cmd[0]].name
             trace_performance(method) do
               @func_list[cmd[0]].call(cmd[1])
-            rescue => e
+            rescue StandardError => e
               Sentry.capture_exception(e)
               SERVER_LOG.fatal("#{@@class_name}: [docommand:] fatal error #{e}:#{e.backtrace}")
             end
@@ -148,13 +148,13 @@ module Unlight
         # 総サイズ分読み込む
         while i < d_size
           # 最初の2バイトを呼んで長さに変換
-          len = data[i, 2].unpack('n*')[0]
+          len = data[i, 2].unpack1('n*')
           # もしサイズが０ならば全サイズが長さ,またはnilならば全サイズを入れる（とばすため）
-          len = d_size if len == 0 || len == nil
+          len = d_size if [0, nil].include?(len)
           # 長さの後ろに改行が入っているか？（正しいコマンドかをチェック）
           if data[i + len + 2] == "\n"
             d = @crypt.decrypt(data[i + 2, len])
-            a << [d[0, 2].unpack('n')[0], d[2..-1]]
+            a << [d[0, 2].unpack1('n'), d[2..]]
           end
           i += (len + 3)
         end
@@ -177,7 +177,7 @@ module Unlight
             @uid = id
             SERVER_LOG.debug("<UID:#{id}>#{@@class_name}: [login start]")
             # ネゴシエーション用のサインを作る
-            @nego_crypt = rand(10000).to_s
+            @nego_crypt = rand(10_000).to_s
             # 暗号化をON
             if BOT_SESSION
               set_session_key(BOT_SESSION_KEY)
@@ -193,7 +193,7 @@ module Unlight
             close_connection
             # 不正なアクセスなどをはじく処理
           end
-        rescue => e
+        rescue StandardError => e
           SERVER_LOG.fatal("#{@@class_name}: [negotiatin fatal error] #{e}")
         end
       end
@@ -220,7 +220,7 @@ module Unlight
       end
 
       # ログアウト
-      def logout()
+      def logout
         if @player
           delete_connection
           do_logout
@@ -244,7 +244,7 @@ module Unlight
       end
 
       # サーバを終了する
-      def self::exit_server
+      def self.exit_server
         @@online_list.clone.each_value { |o| o.logout if o }
         SERVER_LOG.fatal("#{@@class_name}: [ShutDown!]")
         exit
@@ -258,7 +258,7 @@ module Unlight
       end
 
       # コネクションをチェックする分割リストを取得
-      def self::set_check_split_list
+      def self.set_check_split_list
         @@check_connect_split_list = []
         split_num = 60 / GAME_CHECK_CONNECT_INTERVAL
         60.times do |num|
@@ -269,42 +269,42 @@ module Unlight
       end
 
       # コネクションが生きているか、サーバがらインターバルごとチェックする
-      def self::check_connection
+      def self.check_connection
         t = Time.now.min
-        @@check_list[t].clone.each { |s|
+        @@check_list[t].clone.each do |s|
           s.sc_keep_alive
           SERVER_LOG.info("<UID:#{s.player.id}>#{@@class_name}: [keep alive go]") if s.player
-        }
+        end
         SERVER_LOG.info("#{@@class_name}: [Login Num] #{@@online_list.length}")
       end
 
       # コネクションが生きているか、サーバがらインターバルごとチェックする(秒チェック版)
-      def self::check_connection_sec
+      def self.check_connection_sec
         time_now = Time.now
         t = time_now.sec
         check_idx_list = nil
-        @@check_connect_split_list.each { |l|
+        @@check_connect_split_list.each do |l|
           if l.index(t)
             check_idx_list = l
             break
           end
-        }
+        end
         check_idx_list.each do |idx|
-          @@check_list[idx].clone.each { |s|
+          @@check_list[idx].clone.each do |s|
             s.sc_keep_alive
             # 最終接続チェック時が設定されていない、最終接続から3分以上経過している場合、切断処理を行う
-            if s.last_connect == nil || s.last_connect < time_now - GAME_CHECK_CONNECT_TIME_INTERVAL
+            if s.last_connect.nil? || s.last_connect < time_now - GAME_CHECK_CONNECT_TIME_INTERVAL
               SERVER_LOG.info("<UID:#{s.player.id}>#{@@class_name}: [unbind] last_connect:#{s.last_connect}") if s.player
               s.unbind
             end
             SERVER_LOG.info("<UID:#{s.player.id}>#{@@class_name}: [keep alive go] now:#{time_now}") if s.player
-          }
+          end
         end
         SERVER_LOG.info("#{@@class_name}: [Login Num] #{@@online_list.length}")
       end
 
       # ユーザがいない場合、MySQLとのコネクションが切れないようアクセスをしておく
-      def self::check_db_connection
+      def self.check_db_connection
         if @@online_list.size <= 0
           # CPUのPlayerデータを取るだけ
           cpu_player = Player[AI_PLAYER_ID]
@@ -318,98 +318,102 @@ end
 
 if RUBY_VERSION == '1.9.2'
   #  Dateクラスで重たいmethod_missingを差し替え（クソ重たい処理をクソさぼっているので）
-  class Date::Format::Bag
-    def method_missing(t, *args, &block)
-      t = t.to_s
-      set = t.chomp!('=')
-      t = t.intern
-      ret = nil
-      if set
-        ret = @elem[t] = args[0]
-      else
-        ret = @elem[t]
+  module Date
+    module Format
+      class Bag
+        def method_missing(t, *args, &block)
+          t = t.to_s
+          set = t.chomp!('=')
+          t = t.intern
+          ret = nil
+          if set
+            ret = @elem[t] = args[0]
+          else
+            ret = @elem[t]
+          end
+          ret
+        end
+
+        def year=(v)
+          @elem[:year] = v
+        end
+
+        def mon=(v)
+          @elem[:mon] = v
+        end
+
+        def mday=(v)
+          @elem[:mday] = v
+        end
+
+        def hour=(v)
+          @elem[:hour] = v
+        end
+
+        def min=(v)
+          @elem[:min] = v
+        end
+
+        def sec=(v)
+          @elem[:sec] = v
+        end
+
+        def _comp=(v)
+          @elem[:_comp] = v
+        end
+
+        def sec_fraction=(v)
+          @elem[:sec_fraction] = v
+        end
+
+        def offset=(v)
+          @elem[:offset] = v
+        end
+
+        def zone=(v)
+          @elem[:zone] = v
+        end
+
+        def year
+          @elem[:year]
+        end
+
+        def mon
+          @elem[:mon]
+        end
+
+        def mday
+          @elem[:mday]
+        end
+
+        def hour
+          @elem[:hour]
+        end
+
+        def min
+          @elem[:min]
+        end
+
+        def sec
+          @elem[:sec]
+        end
+
+        def sec_fraction
+          @elem[:sec_fraction]
+        end
+
+        def zone
+          @elem[:zone]
+        end
+
+        def _comp
+          @elem[:_comp]
+        end
+
+        def offset
+          @elem[:offset]
+        end
       end
-      ret
-    end
-
-    def year=(v)
-      @elem[:year] = v
-    end
-
-    def mon=(v)
-      @elem[:mon] = v
-    end
-
-    def mday=(v)
-      @elem[:mday] = v
-    end
-
-    def hour=(v)
-      @elem[:hour] = v
-    end
-
-    def min=(v)
-      @elem[:min] = v
-    end
-
-    def sec=(v)
-      @elem[:sec] = v
-    end
-
-    def _comp=(v)
-      @elem[:_comp] = v
-    end
-
-    def sec_fraction=(v)
-      @elem[:sec_fraction] = v
-    end
-
-    def offset=(v)
-      @elem[:offset] = v
-    end
-
-    def zone=(v)
-      @elem[:zone] = v
-    end
-
-    def year
-      @elem[:year]
-    end
-
-    def mon
-      @elem[:mon]
-    end
-
-    def mday
-      @elem[:mday]
-    end
-
-    def hour
-      @elem[:hour]
-    end
-
-    def min
-      @elem[:min]
-    end
-
-    def sec
-      @elem[:sec]
-    end
-
-    def sec_fraction
-      @elem[:sec_fraction]
-    end
-
-    def zone
-      @elem[:zone]
-    end
-
-    def _comp
-      @elem[:_comp]
-    end
-
-    def offset
-      @elem[:offset]
     end
   end
 end

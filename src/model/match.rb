@@ -37,7 +37,7 @@ module Unlight
 
     # 部屋を作る
     # 失敗ならNil,成功ならMatchObjを返す
-    def Match::create_room(channel, player_id, name, stage, rule, option, level, cpu_card_data_id = PLAYER_MATCH)
+    def self.create_room(channel, player_id, name, stage, rule, option, level, cpu_card_data_id = PLAYER_MATCH)
       # すでにプレイヤーがマッチに入ってないか？
       if room_from_player_id(player_id, channel.id)
         # すでに作っていたら前の部屋から出る(べきか？？)
@@ -60,7 +60,7 @@ module Unlight
 
     # 指定した部屋に入室する
     # 失敗ならnil、成功なら自分のプレイヤーの配列
-    def Match::room_join(channel, room_id, player_id)
+    def self.room_join(channel, room_id, player_id)
       ret = nil
       pl = Player[player_id]
       if DUEL_IP_CHECK && pl && channel.room_list[room_id].player_array.first && pl.last_ip == channel.room_list[room_id].player_array.first.last_ip && (pl.role != ROLE_ADMIN)
@@ -70,7 +70,7 @@ module Unlight
       if channel && channel.room_list[room_id]
         a = channel.room_list[room_id].player_array
         # 部屋が満杯でなく、かつ他の部屋にすでに入室していない場合のみ入室する
-        if a.size < ROOM_CAP && !(room_from_player_id(player_id, channel.id))
+        if a.size < ROOM_CAP && !room_from_player_id(player_id, channel.id)
           channel.room_list[room_id].enter_player(pl)
           ret = []
           a.each { |c| ret << c.id }
@@ -80,8 +80,7 @@ module Unlight
       ret
     end
 
-    def Match::initialize
-    end
+    def self.initialize; end
 
     # 部屋から出る
     def delete_player(player_id)
@@ -89,22 +88,21 @@ module Unlight
       # 人間が残っているかチェックする
       # 一人でも削除されていたら問答無用で全部削除
       # 削除が走ったがJOIN済みがおらずに、残ったプレイヤーがいるならば削除しない（作られた部屋なので）
+      player_exist = false
       if d
-        player_exist = false
       else
-        player_exist = false
         @player_array.each { |pl| player_exist = true if pl } # 一人も削除されずにプレイヤーが残っている？
         # プレイヤーが部屋から空ならばすべて空にする
       end
       # プレイヤーが存在しないならArrayをクリア
-      unless (player_exist)
+      unless player_exist
         @player_array.clear
       end
       !player_exist
     end
 
     # 部屋をでる(exit_room)
-    def Match::exit_room(channel, player_id)
+    def self.exit_room(channel, player_id)
       # 自身を退室
       ret = nil
       if channel
@@ -119,15 +117,15 @@ module Unlight
     end
 
     # 部屋を消す
-    def Match::delete_room(channel, room_id)
-      channel.room_list.reject! { |id, room|
-        room.player_array.size == 0
-      }
+    def self.delete_room(channel, room_id)
+      channel.room_list.reject! do |id, room|
+        room.player_array.empty?
+      end
     end
 
     # 指定した部屋にAIが入室する
     # 失敗ならnil、成功なら自分のプレイヤーの配列
-    def Match::room_ai_join(channel, room_id, ai_id)
+    def self.room_ai_join(channel, room_id, ai_id)
       ret = nil
       if channel && channel.room_list[room_id]
         a = channel.room_list[room_id].player_array
@@ -143,24 +141,24 @@ module Unlight
     end
 
     # 指定した部屋のプレイヤーIDを返す
-    def Match::get_players(channel, room_id)
+    def self.get_players(channel, room_id)
       channel.room_list[room_id].player_array if channel.room_list[room_id]
     end
 
     # 指定したプレイヤーが存在する場合すでにある部屋を返す
-    def Match::room_from_player_id(player_id, ch)
+    def self.room_from_player_id(player_id, ch)
       ret = nil
       room = Channel.channel_list[ch].player_exist?(player_id)
-      ret = room if room if player_id != AI_PLAYER_ID
+      ret = room if player_id != AI_PLAYER_ID && room
       ret
     end
 
     # 部屋の数を返す
-    def Match::room_size(channel)
+    def self.room_size(channel)
       channel.room_list.size
     end
 
-    def Match::room_list_info_str(channel)
+    def self.room_list_info_str(channel)
       ret = []
       channel.room_list.each_value do |r|
         ret << r.room_info_str.force_encoding('UTF-8')

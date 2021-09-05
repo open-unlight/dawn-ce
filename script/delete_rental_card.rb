@@ -1,4 +1,4 @@
-$:.unshift(File.join(File.expand_path('.'), 'src'))
+$LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 require "#{File.expand_path('.')}/script/sql_create.rb"
@@ -9,7 +9,7 @@ module Unlight
   answer = gets.chomp
   if answer == 'y'
     puts '有効なレンタルカードを全て取得'
-    rental_cards = CardInventory.filter { chara_card_id >= 50000 }.filter { chara_card_id < 60000 }.exclude([chara_card_deck_id: 0]).order(Sequel.asc(:chara_card_deck_id)).all
+    rental_cards = CardInventory.filter { chara_card_id >= 50_000 }.filter { chara_card_id < 60_000 }.exclude([chara_card_deck_id: 0]).order(Sequel.asc(:chara_card_deck_id)).all
     puts "rental cards num:#{rental_cards.size}"
     deck_rental_cards = {}
     rental_cards.each do |ci|
@@ -19,7 +19,7 @@ module Unlight
     deck_ids = deck_rental_cards.keys
     # バインダーじゃないデッキIDを吸出し
     use_decks = CharaCardDeck.filter([[:id, deck_ids]]).exclude([name: 'Binder']).all
-    deck_ava_ids = use_decks.map { |ccd| ccd.avatar_id }
+    deck_ava_ids = use_decks.map(&:avatar_id)
     tmp_ava = Avatar.filter([[:id, deck_ava_ids]]).all
     avatars = {}
     tmp_ava.each { |ava| avatars[ava.id] = ava }
@@ -37,13 +37,13 @@ module Unlight
           avatars[ccd.avatar_id].update_chara_card_deck(ci.id, 0, ci.position)
         end
       end
-      if idx > 0 && idx % 50 == 0
+      if idx.positive? && (idx % 50).zero?
         puts 'move to Binder ...'
       end
     end
     puts 'レンタルカードを削除する'
     DB.transaction do
-      CardInventory.where { chara_card_id >= 50000 }.where { chara_card_id < 60000 }.where { chara_card_deck_id > 1 }.update(before_deck_id: :chara_card_deck_id, chara_card_deck_id: 0)
+      CardInventory.where { chara_card_id >= 50_000 }.where { chara_card_id < 60_000 }.where { chara_card_deck_id > 1 }.update(before_deck_id: :chara_card_deck_id, chara_card_deck_id: 0)
     end
   end
 end

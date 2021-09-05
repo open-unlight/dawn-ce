@@ -29,7 +29,7 @@ module Unlight
       self.updated_at = Time.now.utc
     end
 
-    def LotLog::create_log(p_id, l_type, l_no)
+    def self.create_log(p_id, l_type, l_no)
       LotLog.new do |i|
         i.player_id = p_id
         i.lot_type = l_type
@@ -42,7 +42,6 @@ module Unlight
     end
 
     # リミットずつのログをもらう(1ページスタート)
-    def LotLog::get_page(a_id, page)
-    end
+    def self.get_page(a_id, page); end
   end
 end

@@ -26,7 +26,7 @@ module Unlight
     def now_event(r = true)
       ret = nil
       refresh if r
-      self.event_quest_flag_inventories.each do |i|
+      event_quest_flag_inventories.each do |i|
         ret = i if i.event_id == QUEST_EVENT_ID
       end
       ret

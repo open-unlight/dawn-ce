@@ -6,8 +6,8 @@
 # This software is released under the Apache 2.0 License.
 # https://opensource.org/licenses/Apache2.0
 
-$:.unshift Bundler.root.join('lib')
-$:.unshift Bundler.root.join('src')
+$LOAD_PATH.unshift Bundler.root.join('lib')
+$LOAD_PATH.unshift Bundler.root.join('src')
 require 'bundler/setup'
 require 'eventmachine'
 
@@ -21,8 +21,8 @@ $stderr.sync = true
 # TODO: Replace with Dawn::Server.name
 $SERVER_NAME = "GAME_SERVER_#{Dawn::Server.port}"
 
-EM.set_descriptor_table_size(10000) # ソケットMaxを設定
-EM.epoll                            # Epollを使用するように設定。
+EM.set_descriptor_table_size(10_000) # ソケットMaxを設定
+EM.epoll # Epollを使用するように設定。
 
 module Unlight
   include Protocol
@@ -38,7 +38,7 @@ module Unlight
     EM::PeriodicTimer.new(0.3, proc {
       begin
         MultiDuel.update
-      rescue => e
+      rescue StandardError => e
         SERVER_LOG.fatal("GameServer: [DUEL:] fatal error #{e}:#{e.backtrace}")
       end
     })
@@ -47,7 +47,7 @@ module Unlight
     EM::PeriodicTimer.new(1, proc {
       begin
         AI.update
-      rescue => e
+      rescue StandardError => e
         SERVER_LOG.fatal("GameServer: [AI:] fatal error #{e}:#{e.backtrace}")
       end
     })
@@ -56,7 +56,7 @@ module Unlight
     EM::PeriodicTimer.new(60 / GAME_CHECK_CONNECT_INTERVAL, proc {
       begin
         GameServer.check_connection_sec
-      rescue => e
+      rescue StandardError => e
         SERVER_LOG.fatal("GameServer [check_connection:] fatal error #{e}:#{e.backtrace}")
       end
     })
@@ -66,7 +66,7 @@ module Unlight
       EM::PeriodicTimer.new(60 * 60 * 7, proc {
         begin
           GameServer.check_db_connection
-        rescue => e
+        rescue StandardError => e
           SERVER_LOG.fatal("GameServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
         end
       })

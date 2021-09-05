@@ -8,24 +8,24 @@ module Unlight
   puts "OLD_LOT IS  #{OLD_LOT}"
   if OLD_LOT
     LOT_REALITY = [
-      1000000, # Reality 1 32%     99
-      679287,         # Reality 2 26%     66
-      415285,         # Reality 3 17%     40
-      236395,         # Reality 4 12%     23
-      115177,         # Reality 5  6%     11
-      47563,          # Reality 6  3%     5
-      16517,          # Reality 7  1%     2 <-使わない
+      1_000_000, # Reality 1 32%     99
+      679_287,         # Reality 2 26%     66
+      415_285,         # Reality 3 17%     40
+      236_395,         # Reality 4 12%     23
+      115_177,         # Reality 5  6%     11
+      47_563,          # Reality 6  3%     5
+      16_517,          # Reality 7  1%     2 <-使わない
       4783,           # Reality 8  0.3%   1 <-使わない
       1132,           # Reality 9  0.1%
       197,            # Reality 10 0.02%
     ]
   else
     LOT_REALITY = [
-      1000000, # Reality 1 3%      100
-      970000,        # Reality 2 5%      97
-      920000,        # Reality 3 15%     92
-      770000,        # Reality 4 30%     77
-      470000,        # Reality 5  6%     47
+      1_000_000, # Reality 1 3%      100
+      970_000,        # Reality 2 5%      97
+      920_000,        # Reality 3 15%     92
+      770_000,        # Reality 4 30%     77
+      470_000,        # Reality 5  6%     47
       0,             # Reality 6  3%     5
       0,             # Reality 7  1%     2 <-使わない
       0,             # Reality 8  0.3%   1 <-使わない
@@ -34,7 +34,7 @@ module Unlight
     ]
   end
 
-  LOT_REALITY_NUM = 1000000
+  LOT_REALITY_NUM = 1_000_000
   LOT_PERCENT = [
     (LOT_REALITY[0] - LOT_REALITY[1]) / LOT_REALITY_NUM.to_f,
     (LOT_REALITY[1] - LOT_REALITY[2]) / LOT_REALITY_NUM.to_f,
@@ -48,7 +48,7 @@ module Unlight
     LOT_REALITY[9] / LOT_REALITY_NUM.to_f
   ]
 
-  PERCENT_CASH = "percent_cash_#{File.dirname(__FILE__).tr!("/", "_")}"
+  PERCENT_CASH = "percent_cash_#{File.dirname(__FILE__).tr!('/', '_')}"
 
   @@percent = Array.new(10, 0)
 
@@ -70,7 +70,7 @@ module Unlight
     # 同じlot_kind内に同じarticle_kind/article_idがない
     def check_article(lk, a_k, a_i, id)
       ret = false
-      Unlight::RareCardLot::get_lot_list(lk).each do |r|
+      Unlight::RareCardLot.get_lot_list(lk).each do |r|
         if r.article_kind == a_k && r.article_id == a_i && r.id != id
           ret = [:article_kind, "error article no ,id:#{r.id}"]
           puts 'errr'
@@ -101,7 +101,7 @@ module Unlight
     end
 
     # 特定クジの商品リストを返す
-    def RareCardLot::get_lot_list(kind)
+    def self.get_lot_list(kind)
       ret = false
       unless ret
         ret = []
@@ -113,7 +113,7 @@ module Unlight
     end
 
     # レアリティを決定する
-    def RareCardLot::get_realty()
+    def self.get_realty
       r = rand(LOT_REALITY_NUM)
       ret = 1
       if LOT_REALITY
@@ -129,49 +129,44 @@ module Unlight
     end
 
     # 特定種類の 特定リアティのカードを返す
-    def RareCardLot::get_card_in_reality(k, r)
+    def self.get_card_in_reality(k, r)
       RareCardLot.filter({ rarity: r, lot_kind: k }).all
     end
 
     # レアカードクジを引く
-    def RareCardLot::draw_lot(k)
-      r = RareCardLot::get_realty
+    def self.draw_lot(k)
+      r = RareCardLot.get_realty
       s = 0
 
-      until s > 0
+      until s.positive?
         q = RareCardLot.get_card_in_reality(k, r)
         s = q.count if q
         r -= 1
-        break if r == 0
+        break if r.zero?
       end
       ret = q[rand(q.count)] if q
-      if ret
-        ret
-      else
-        RareCardLot[1]
-      end
+      ret || RareCardLot[1]
     end
 
     # 特定ショップのキャッシュをクリア
-    def RareCardLot::refresh_cache(k)
-    end
+    def self.refresh_cache(k); end
 
     # 確率を返す
     def percent
       unless @@rarity
-        RareCardLot::initialize_percent
+        RareCardLot.initialize_percent
       end
       rarity_set = @@rarity
 
-      unless rarity_set[self.lot_kind] && rarity_set[self.lot_kind][self.rarity - 1]
+      unless rarity_set[lot_kind] && rarity_set[lot_kind][rarity - 1]
         return 0
       end
 
-      (rarity_set[self.lot_kind][self.rarity - 1] * 100).round(1)
+      (rarity_set[lot_kind][rarity - 1] * 100).round(1)
     end
 
     # 全体分の確率を保存する
-    def RareCardLot::initialize_percent
+    def self.initialize_percent
       @@rarity = Array.new(10) { |i| Array.new(10, 0) }
       rare_num = Array.new(10) { |i| Array.new(10, 0) }
 
@@ -187,8 +182,8 @@ module Unlight
       rare_num.each_index do |r|
         rem = 0
         (rare_num[r].size - 1).downto(0) do |i|
-          if rare_num[r][i] == 0
-            j = i - 1 < 0 ? 0 : i - 1
+          if (rare_num[r][i]).zero?
+            j = (i - 1).negative? ? 0 : i - 1
             rem += (LOT_PERCENT[i])
           else
             @@rarity[r][i] += (LOT_PERCENT[i]) + rem
@@ -200,11 +195,11 @@ module Unlight
       CACHE.set(PERCENT_CASH, @@rarity)
     end
 
-    def RareCardLot::get_percent(lot_kind, rarity)
+    def self.get_percent(lot_kind, rarity)
       r = CACHE.get(PERCENT_CASH)
       unless r
         puts "cache とるの失敗。#{PERCENT_CASH}更新します"
-        RareCardLot::initialize_percent
+        RareCardLot.initialize_percent
         r = CACHE.get(PERCENT_CASH)
       end
       (r[lot_kind][rarity - 1] * 100).round(1)

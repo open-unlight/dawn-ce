@@ -28,13 +28,13 @@ module Unlight
     end
 
     def delete_from_deck
-      self.before_deck_id = self.chara_card_deck_id
+      self.before_deck_id = chara_card_deck_id
       self.chara_card_deck_id = 0
-      self.save_changes
+      save_changes
     end
 
     # CPU用のキャラカードインベントリを作る
-    def CardInventory.create_cpu_card(no, deck_id)
+    def self.create_cpu_card(no, deck_id)
       no = 0 unless CpuCardData[no]
       if no != 0
         CpuCardData[no].chara_cards_id.each_index do |i|
@@ -49,7 +49,7 @@ module Unlight
     end
 
     # CPU用のキャラカードインベントリを更新する
-    def CardInventory.update_cpu_card(no, deck_id)
+    def self.update_cpu_card(no, deck_id)
       no = 0 unless CpuCardData[no]
       if no != 0
         CpuCardData[no].chara_cards_id.each_index do |i|

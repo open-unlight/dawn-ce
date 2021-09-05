@@ -15,25 +15,25 @@ module Unlight
     # 全体チャットメッセージ
     def cs_message(msg)
       if @avatar_name
-        SERVER_LOG.info("<UID:#{@uid}>ChatServer: [message get] #{@avatar_name}, #{msg.force_encoding("UTF-8")}")
-        online_list.each_value { |v| v.sc_send_message("#{@avatar_name}:#{msg.force_encoding("UTF-8")}", 0) if v }
+        SERVER_LOG.info("<UID:#{@uid}>ChatServer: [message get] #{@avatar_name}, #{msg.force_encoding('UTF-8')}")
+        online_list.each_value { |v| v.sc_send_message("#{@avatar_name}:#{msg.force_encoding('UTF-8')}", 0) if v }
       end
     end
 
     # ルームチャットメッセージ
     def cs_message_room(msg)
       if @avatar_name
-        SERVER_LOG.info("<UID:#{@uid}>ChatServer: [rroom message get] #{@avatar_name}, #{msg.force_encoding("UTF-8")}")
-        online_list.each_value { |v| v.sc_send_message("#{@avatar_name}:#{msg.force_encoding("UTF-8")}", 1) if v }
+        SERVER_LOG.info("<UID:#{@uid}>ChatServer: [rroom message get] #{@avatar_name}, #{msg.force_encoding('UTF-8')}")
+        online_list.each_value { |v| v.sc_send_message("#{@avatar_name}:#{msg.force_encoding('UTF-8')}", 1) if v }
       end
     end
 
     # チャンネルチャットメッセージ
     def cs_message_channel(msg, channel_id = 0)
       if @avatar_name
-        SERVER_LOG.info("<UID:#{@uid}>ChatServer: [channel message get] #{@avatar_name} #{msg.force_encoding("UTF-8")} : #{channel_id}")
+        SERVER_LOG.info("<UID:#{@uid}>ChatServer: [channel message get] #{@avatar_name} #{msg.force_encoding('UTF-8')} : #{channel_id}")
         if channel_id < channel_list.size
-          channel_list[channel_id].each_value { |v| v.sc_send_channel_message(0, "#{@avatar_name}:#{msg.force_encoding("UTF-8")}") if v }
+          channel_list[channel_id].each_value { |v| v.sc_send_channel_message(0, "#{@avatar_name}:#{msg.force_encoding('UTF-8')}") if v }
         end
       end
     end
@@ -41,13 +41,13 @@ module Unlight
     # デュエルチャットメッセージ
     def cs_message_duel(msg, id)
       if @avatar_name
-        SERVER_LOG.info("<UID:#{@uid}>ChatServer: [duel message get] #{@avatar_name} #{msg.force_encoding("UTF-8")}")
+        SERVER_LOG.info("<UID:#{@uid}>ChatServer: [duel message get] #{@avatar_name} #{msg.force_encoding('UTF-8')}")
         a = online_list[id]
         SERVER_LOG.debug("<UID:#{@uid}>ChatServer: [duel message mumumu] #{a}, #{@player}")
         if a && @player
-          a.sc_send_duel_message(@player.id, "#{@avatar_name}:#{msg.force_encoding("UTF-8")}")
-          sc_send_duel_message(@player.id, "#{@avatar_name}:#{msg.force_encoding("UTF-8")}")
-          channel_list[CHAT_CHANNEL_DUEL].each_value { |v| v.sc_send_channel_message(0, "#{@avatar_name}:#{msg.force_encoding("UTF-8")}") if v }
+          a.sc_send_duel_message(@player.id, "#{@avatar_name}:#{msg.force_encoding('UTF-8')}")
+          sc_send_duel_message(@player.id, "#{@avatar_name}:#{msg.force_encoding('UTF-8')}")
+          channel_list[CHAT_CHANNEL_DUEL].each_value { |v| v.sc_send_channel_message(0, "#{@avatar_name}:#{msg.force_encoding('UTF-8')}") if v }
         end
       end
     end
@@ -55,10 +55,10 @@ module Unlight
     # 観戦者チャットメッセージ
     def cs_message_audience(msg)
       if @avatar_name && @watch_room_id
-        SERVER_LOG.info("<UID:#{@uid}>ChatServer: [audience message get] #{@avatar_name} #{msg.force_encoding("UTF-8")} : #{@watch_room_id}")
-        channel_list[CHAT_CHANNEL_WATCH][@watch_room_id].each_value { |v|
-          v.sc_send_audience_message(0, "#{@avatar_name}:#{msg.force_encoding("UTF-8")}") if v
-        }
+        SERVER_LOG.info("<UID:#{@uid}>ChatServer: [audience message get] #{@avatar_name} #{msg.force_encoding('UTF-8')} : #{@watch_room_id}")
+        channel_list[CHAT_CHANNEL_WATCH][@watch_room_id].each_value do |v|
+          v.sc_send_audience_message(0, "#{@avatar_name}:#{msg.force_encoding('UTF-8')}") if v
+        end
       end
     end
 
@@ -70,7 +70,7 @@ module Unlight
     # チャットチャンネルにログアウト
     def cs_channel_out(id)
       # 全部のチャンネルから抜ける
-      channel_all_out()
+      channel_all_out
     end
 
     # 観戦者チャットチャンネルにログイン
@@ -83,7 +83,7 @@ module Unlight
       audience_channel_out(@watch_room_id)
     end
 
-    def pushout()
+    def pushout
       if @player
         online_list[@player.id].logout
       end
@@ -92,7 +92,7 @@ module Unlight
     def do_login
       if @player
         @avatar_name = @player.avatars[0].name
-        @avatar_name.force_encoding('UTF-8');
+        @avatar_name.force_encoding('UTF-8')
       end
       # ログインと同時にチャンネル０に入る(仮：本当はチャンネルにはいったときに切り換える)
       channel_in(0)
@@ -107,7 +107,7 @@ module Unlight
       if id < channel_list.size
         channel_all_out
         channel_list[id][@player.id] = online_list[@player.id] if @player
-        sc_send_channel_message(id, @avatar_name + CHAT_START_DLG_1 + CHAT_CHANNEL_NAME[id] + CHAT_START_DLG_2 + CHAT_START_DLG_3 + channel_list[id].size.to_s + CHAT_START_DLG_4) if id < CHAT_CHANNEL_DUEL if @avatar_name
+        sc_send_channel_message(id, @avatar_name + CHAT_START_DLG_1 + CHAT_CHANNEL_NAME[id] + CHAT_START_DLG_2 + CHAT_START_DLG_3 + channel_list[id].size.to_s + CHAT_START_DLG_4) if @avatar_name && (id < CHAT_CHANNEL_DUEL)
 
       end
     end

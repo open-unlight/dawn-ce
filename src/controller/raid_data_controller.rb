@@ -15,11 +15,11 @@ module Unlight
       if @avatar
         e = @avatar.use_item(inv_id)
         @reward.update if @reward && (@reward.finished == false)
-        if e > 0
+        if e.positive?
           sc_error_no(e)
         else
           it = ItemInventory[inv_id]
-          SERVER_LOG.info("<UID:#{@uid}>RaidServer: [avatar_use_item] use_item_id:#{it.avatar_item_id}");
+          SERVER_LOG.info("<UID:#{@uid}>RaidServer: [avatar_use_item] use_item_id:#{it.avatar_item_id}")
         end
       end
     end
@@ -31,7 +31,7 @@ module Unlight
         @avatar.new_profound_inventory_check # 追加した新規渦の情報をNoticeに追加
         n = @avatar.get_profound_notice
       end
-      sc_add_notice(n) if n != '' && n != nil
+      sc_add_notice(n) if n != '' && !n.nil?
     end
 
     def cs_request_update_inventory(id_list_str)
@@ -40,7 +40,7 @@ module Unlight
       str_list.each { |s| id_list << s.to_i }
       if @avatar
         new_ids = @avatar.new_profound_check
-        id_list = id_list.concat(new_ids)
+        id_list.concat(new_ids)
         @avatar.resend_profound_inventory(id_list)
       end
     end
@@ -51,7 +51,7 @@ module Unlight
         prf_inv = ProfoundInventory[inv_id]
         if prf_inv
           err = @avatar.profound_duel_finish(prf_inv, true)
-          if err == 0
+          if err.zero?
             @avatar.send_prf_info(prf_inv)
           else
             sc_error_no(err)
@@ -71,9 +71,9 @@ module Unlight
     end
 
     # 報酬配布があるか確認
-    def cs_check_profound_reward()
+    def cs_check_profound_reward
       if @avatar
-        inv_list = ProfoundInventory::get_avatar_check_list(@avatar.id)
+        inv_list = ProfoundInventory.get_avatar_check_list(@avatar.id)
         inv_list.each do |inv|
           vanished = @avatar.is_vanished_profound(inv)
           is_reward = @avatar.check_profound_reward(inv)
@@ -95,26 +95,25 @@ module Unlight
     def cs_update_boss_hp(prf_id, now_dmg)
       if @avatar
         prf = Profound[prf_id]
-        view_start_dmg = (prf) ? prf.param_view_start_damage : 0
-        boss_damage, send_log_data = ProfoundLog::get_now_damage(@avatar.id, prf_id, view_start_dmg, now_dmg)
-        prev_view_flag = send_log_data.first[:name_view] if send_log_data && send_log_data.size > 0
+        view_start_dmg = prf ? prf.param_view_start_damage : 0
+        boss_damage, send_log_data = ProfoundLog.get_now_damage(@avatar.id, prf_id, view_start_dmg, now_dmg)
+        prev_view_flag = send_log_data.first[:name_view] if send_log_data && !send_log_data.empty?
         send_log_data.each do |data|
           state_update = false
-          msg_type = (data[:log].avatar_id != 0) ? PRF_MSGDLG_DAMAGE : PRF_MSGDLG_REPAIR
+          msg_type = data[:log].avatar_id.zero? ? PRF_MSGDLG_REPAIR : PRF_MSGDLG_DAMAGE
           msg_data = []
           if msg_type == PRF_MSGDLG_DAMAGE
             msg_data << data[:log].avatar_name.force_encoding('UTF-8')
             boss_name = data[:log].boss_name.force_encoding('UTF-8')
-            msg_data << boss_name
           else
             boss_name = data[:log].avatar_name.force_encoding('UTF-8')
-            msg_data << boss_name
           end
+          msg_data << boss_name
           msg_data << data[:log].damage.to_s.force_encoding('UTF-8')
 
           # 表示状態変更チェック
           state_update = true if prev_view_flag == false && data[:name_view] == true
-          sc_send_boss_damage(prf_id, data[:log].damage, "#{prf_id}:#{msg_type}:#{msg_data.join(",")}", prf.state, state_update)
+          sc_send_boss_damage(prf_id, data[:log].damage, "#{prf_id}:#{msg_type}:#{msg_data.join(',')}", prf.state, state_update)
 
           prev_view_flag = data[:name_view]
         end
@@ -124,15 +123,15 @@ module Unlight
 
     # 渦を取得
     def cs_get_profound(hash)
-      SERVER_LOG.info("<UID:#{@uid}>RaidDataServer: [#{__method__}] hash:#{hash} avatar:#{@avatar}");
+      SERVER_LOG.info("<UID:#{@uid}>RaidDataServer: [#{__method__}] hash:#{hash} avatar:#{@avatar}")
       if @avatar
         ret = @avatar.get_profound_from_hash(hash)
         if ret.instance_of?(ProfoundInventory)
-          SERVER_LOG.info("<UID:#{@uid}>RaidDataServer: [#{__method__}] success! inv_id:#{ret.id}");
+          SERVER_LOG.info("<UID:#{@uid}>RaidDataServer: [#{__method__}] success! inv_id:#{ret.id}")
           # 渦情報を送信
           @avatar.send_prf_info(ret, false)
         else
-          SERVER_LOG.info("<UID:#{@uid}>RaidDataServer: [#{__method__}] e:#{ret}");
+          SERVER_LOG.info("<UID:#{@uid}>RaidDataServer: [#{__method__}] e:#{ret}")
           # 帰ってきたエラーを出す
           sc_error_no(ret)
         end
@@ -170,8 +169,8 @@ module Unlight
               if prf.copy_type == PRF_COPY_TYPE_FRIENDS
                 owner_ava = Avatar[owner_id]
                 if owner_ava
-                  fl = FriendLink::check_already_exist?(owner_ava.player_id, @avatar.player_id, @avatar.server_type)
-                  permission = true if fl != false && fl.size > 0 && fl.first.friend_type == FriendLink::TYPE_FRIEND
+                  fl = FriendLink.check_already_exist?(owner_ava.player_id, @avatar.player_id, @avatar.server_type)
+                  permission = true if fl != false && !fl.empty? && fl.first.friend_type == FriendLink::TYPE_FRIEND
                 end
               end
             end
@@ -240,7 +239,7 @@ module Unlight
 
     # 渦インベントリー情報送信完了
     def resend_profound_inventory_finish_event_handler(target, ret)
-      sc_resend_profound_inventory_finish()
+      sc_resend_profound_inventory_finish
     end
 
     # アイテムを使用した
@@ -268,13 +267,13 @@ module Unlight
       sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 
-    def pushout()
+    def pushout
       online_list[@player.id].player.logout(true)
       online_list[@player.id].logout
     end
 
     def do_login
-      if @player.avatars.size > 0
+      unless @player.avatars.empty?
         @avatar = @player.current_avatar
         regist_avatar_event
         @avatar.new_profound_check

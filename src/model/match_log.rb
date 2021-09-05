@@ -31,7 +31,7 @@ module Unlight
     end
 
     # 部屋を作る
-    def MatchLog::create_room(channel_id, match_name, match_stage, avatar_ids, rule, uid, cpu_card_data_id, server_type, watch_mode = 0, get_bp = 0, channel_rule = CRULE_FREE)
+    def self.create_room(channel_id, match_name, match_stage, avatar_ids, rule, uid, cpu_card_data_id, server_type, watch_mode = 0, get_bp = 0, channel_rule = CRULE_FREE)
       MatchLog.new do |d|
         d.channel_id = channel_id
         d.match_name = match_name
@@ -52,59 +52,58 @@ module Unlight
 
     # キャッシュとUIDを結びつける
     def set_cache(uid)
-      MatchLog::cache_store.set("#{uid}}", self.id)
+      MatchLog.cache_store.set("#{uid}}", id)
       @a_avatar = nil
       @b_avatar = nil
     end
 
     def a_avatar
-      @a_avatar = Avatar[self.a_avatar_id] unless @a_avatar
+      @a_avatar ||= Avatar[a_avatar_id]
       @a_avatar
     end
 
     def b_avatar
-      @b_avatar = Avatar[self.b_avatar_id] unless @b_avatar
+      @b_avatar ||= Avatar[b_avatar_id]
       @b_avatar
     end
 
     def other_avatar_id(self_id)
-      ret = (self_id == self.a_avatar_id) ? self.b_avatar_id : self.a_avatar_id
-      ret
+      self_id == a_avatar_id ? b_avatar_id : a_avatar_id
     end
 
     # UIDと結びついたキャッシュを取り出す
-    def MatchLog::get_cache(uid)
+    def self.get_cache(uid)
       if cache_store.get("#{uid}}")
         MatchLog[cache_store.get("#{uid}}")]
       end
     end
 
     # UIDと結びついたキャッシュを削除
-    def MatchLog::delete_cache(uid)
+    def self.delete_cache(uid)
       if cache_store.get("#{uid}}")
         # nilをいれてしまう
-        MatchLog::cache_store.set("#{uid}}", nil)
+        MatchLog.cache_store.set("#{uid}}", nil)
       end
     end
 
     # マッチ成立
     def match_ok
       self.state = MATCH_OK
-      self.save_changes
+      save_changes
     end
 
     # マッチ中断
     def abort
       self.state = MATCH_ABORT
-      self.save_changes
+      save_changes
     end
 
     # 対戦の開始
-    def start_match()
+    def start_match
       self.start_at = Time.now.utc
       self.state = MATCH_START
-      a_set = self.a_avatar.duel_deck.cards_id
-      b_set = self.b_avatar.duel_deck.cards_id
+      a_set = a_avatar.duel_deck.cards_id
+      b_set = b_avatar.duel_deck.cards_id
       self.a_chara_card_id_0 = a_set[0] if a_set[0]
       self.a_chara_card_id_1 = a_set[1] if a_set[1]
       self.a_chara_card_id_2 = a_set[2] if a_set[2]
@@ -113,18 +112,18 @@ module Unlight
       self.b_chara_card_id_2 = b_set[2] if b_set[2]
 
       # 友達なら
-      if self.a_avatar.player.friend?(self.b_avatar.player.id)
+      if a_avatar.player.friend?(b_avatar.player.id)
         self.match_option = Unlight::DUEL_OPTION_FRIEND
       end
 
-      self.save_changes
-      @before_bp_a = self.a_avatar.point
-      @before_bp_b = self.b_avatar.point
+      save_changes
+      @before_bp_a = a_avatar.point
+      @before_bp_b = b_avatar.point
     end
 
     # 終了処理
     def set_finish(result, turn, state)
-      self.refresh
+      refresh
       if self.state == MATCH_START
         # ちゃんと始まっているものを終わりにする
         self.finish_at = Time.now.utc
@@ -134,19 +133,19 @@ module Unlight
         self.state = state
         self.finish_at = Time.now.utc
       end
-      if self.get_bp
+      if get_bp
         case result[0][:result]
         when RESULT_WIN
-          self.winner_avatar_id = self.a_avatar_id
-          self.get_bp = Avatar[self.a_avatar_id].point - @before_bp_a if @before_bp_a && Avatar[self.a_avatar_id].point
-          self.lose_bp = Avatar[self.b_avatar_id].point - @before_bp_b if @before_bp_b && Avatar[self.b_avatar_id].point
+          self.winner_avatar_id = a_avatar_id
+          self.get_bp = Avatar[a_avatar_id].point - @before_bp_a if @before_bp_a && Avatar[a_avatar_id].point
+          self.lose_bp = Avatar[b_avatar_id].point - @before_bp_b if @before_bp_b && Avatar[b_avatar_id].point
         when RESULT_LOSE
-          self.winner_avatar_id = self.b_avatar_id
-          self.get_bp = Avatar[self.b_avatar_id].point - @before_bp_b if @before_bp_b && Avatar[self.b_avatar_id].point
-          self.lose_bp = Avatar[self.a_avatar_id].point - @before_bp_a if @before_bp_a && Avatar[self.a_avatar_id].point
+          self.winner_avatar_id = b_avatar_id
+          self.get_bp = Avatar[b_avatar_id].point - @before_bp_b if @before_bp_b && Avatar[b_avatar_id].point
+          self.lose_bp = Avatar[a_avatar_id].point - @before_bp_a if @before_bp_a && Avatar[a_avatar_id].point
         end
       end
-      self.save_changes
+      save_changes
     end
 
     # 対戦の終了
@@ -161,27 +160,27 @@ module Unlight
 
     # 対戦の異常終了
     def abort_match(turn)
-      if self.state == MATCH_START
+      if state == MATCH_START
         self.turn_num = turn
         self.state = MATCH_ABORT
         self.finish_at = Time.now.utc
-        self.save_changes
+        save_changes
       end
     end
 
     # 対戦の異常終了
     def abort_match(turn)
-      if self.state == MATCH_START
+      if state == MATCH_START
         self.turn_num = turn
         self.state = MATCH_ABORT
         self.finish_at = Time.now.utc
-        self.save_changes
+        save_changes
       end
     end
 
     def warn_same_ip
       self.warn = (self.warn | Unlight::M_WARN_SAME_IP)
-      self.save_changes
+      save_changes
     end
   end
 end

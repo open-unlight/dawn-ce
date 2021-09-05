@@ -16,7 +16,7 @@ module Unlight
     end
 
     # 全体データバージョンを返す
-    def QuestLand::data_version
+    def self.data_version
       ret = cache_store.get('QuestLandVersion')
       unless ret
         ret = refresh_data_version
@@ -26,7 +26,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def QuestLand::refresh_data_version
+    def self.refresh_data_version
       m = QuestLand.order(:updated_at).last
       if m
         cache_store.set('QuestLandVersion', m.version)
@@ -38,13 +38,13 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # マップから見えるエネミー番号
     def enemy_chara_card_no
-      if CPU_CHARA_CARDS[self.monstar_no]
-        CPU_CHARA_CARDS[self.monstar_no].first
+      if CPU_CHARA_CARDS[monstar_no]
+        CPU_CHARA_CARDS[monstar_no].first
       else
         0000
       end
@@ -52,8 +52,8 @@ module Unlight
 
     # 宝箱のタイプを返す
     def treasure_genre
-      ret = self.treasure_no
-      if ret > 0
+      ret = treasure_no
+      if ret.positive?
         t = TreasureData[ret]
         if t
           ret = t.treasure_type
@@ -64,8 +64,8 @@ module Unlight
 
     # 宝箱のタイプを返す
     def treasure_bonus_level
-      ret = self.treasure_no
-      if ret > 0
+      ret = treasure_no
+      if ret.positive?
         t = TreasureData[ret]
         if t
           ret = t.value
@@ -86,13 +86,13 @@ module Unlight
 
     def get_data_csv_str
       ret = ''
-      ret << self.id.to_s << ','
-      ret << '"' << (self.name || '') << '",'
-      ret << (self.monstar_no || 0).to_s << ','
-      ret << (self.treasure_genre || 0).to_s << ','
-      ret << (self.event_no || 0).to_s << ','
-      ret << (self.stage || 0).to_s << ','
-      ret << '"' << (self.caption || '') << '"'
+      ret << id.to_s << ','
+      ret << '"' << (name || '') << '",'
+      ret << (monstar_no || 0).to_s << ','
+      ret << (treasure_genre || 0).to_s << ','
+      ret << (event_no || 0).to_s << ','
+      ret << (stage || 0).to_s << ','
+      ret << '"' << (caption || '') << '"'
       ret
     end
   end

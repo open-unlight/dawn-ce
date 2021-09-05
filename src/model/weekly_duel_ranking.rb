@@ -31,7 +31,7 @@ module Unlight
     end
 
     # 指定したアバターのランキングを取得する
-    def WeeklyDuelRanking::get_ranking(a_id, server_type, cache = true)
+    def self.get_ranking(a_id, server_type, cache = true)
       if cache
         ret = cache_store.get("weekly_duel_ranking:#{a_id}_#{server_type}")
       end
@@ -48,24 +48,24 @@ module Unlight
     end
 
     # ソート済みのランキングを取得する
-    def WeeklyDuelRanking::get_order_ranking(server_type, st_i = 0, end_i = 99)
+    def self.get_order_ranking(server_type, st_i = 0, end_i = 99)
       ret = cache_store.get("weekly_duel_ranking:all_#{server_type}")
       unless ret
         ret = WeeklyDuelRanking.filter(server_type: server_type).filter(Sequel.cast_string(:id) <= 100).all
         cache_store.set("weekly_duel_ranking:all_#{server_type}", ret, RANK_CACHE_TTL)
-        cache_store.set("weekly_duel_ranking:all_id_#{server_type}", ret.map { |r| r.avatar_id }, RANK_CACHE_TTL)
-        cache_store.set("weekly_duel_ranking:arrow_#{server_type}", ret.map { |r| r.arrow }, RANK_CACHE_TTL)
+        cache_store.set("weekly_duel_ranking:all_id_#{server_type}", ret.map(&:avatar_id), RANK_CACHE_TTL)
+        cache_store.set("weekly_duel_ranking:arrow_#{server_type}", ret.map(&:arrow), RANK_CACHE_TTL)
       end
       ret[st_i..end_i]
     end
 
-    def WeeklyDuelRanking::create_arrow(old_id_set, id, i)
+    def self.create_arrow(old_id_set, id, i)
       # 前回の記録があるならばARROWを作る
       ret = RANK_S_UP
       if old_id_set
         rid = id
         old_rank = old_id_set.index(rid)
-        if old_rank == nil
+        if old_rank.nil?
           ret = RANK_S_UP
         elsif old_rank == i
           ret = RANK_NONE
@@ -88,17 +88,17 @@ module Unlight
       ret
     end
 
-    def WeeklyDuelRanking::get_order_ranking_id(server_type)
+    def self.get_order_ranking_id(server_type)
       ret = cache_store.get("weekly_duel_ranking:all_id_#{server_type}")
       unless ret
-        ret = WeeklyDuelRanking.filter(server_type: server_type).filter(Sequel.cast_string(:id) <= 100).map { |r| r.avatar_id }
+        ret = WeeklyDuelRanking.filter(server_type: server_type).filter(Sequel.cast_string(:id) <= 100).map(&:avatar_id)
         cache_store.set("weekly_duel_ranking:all_id_#{server_type}", ret, RANK_CACHE_TTL)
       end
       ret
     end
 
     # 指定したアバターのランキングを更新する(外部でかつslaveから更新せよ)
-    def WeeklyDuelRanking::update_ranking(server_type)
+    def self.update_ranking(server_type)
       before_rank_id_set = get_order_ranking_id(server_type)
       avatars = {}
       ranking = []
@@ -181,7 +181,7 @@ module Unlight
 
     # 圏外のアバターも更新する（重たいのでたまに）
     # ポイントをもったすべてのアバターを取る(ソート済みのアバターとポイントのArrayを返す)
-    def WeeklyDuelRanking::point_avatars(server_type)
+    def self.point_avatars(server_type)
       avatars = {}
       sunday = Date.today - Date.today.wday
       st = Time.utc(sunday.year, sunday.month, sunday.day)
@@ -195,16 +195,16 @@ module Unlight
     end
 
     # 100位のポイントを返す
-    def WeeklyDuelRanking::last_ranking(server_type)
+    def self.last_ranking(server_type)
       weekly_ranking = WeeklyDuelRanking.filter(server_type: server_type).order(Sequel.asc(:id)).all
       weekly_ranking[100].point
     end
 
     # ランキングを文字列で返す（キャッシュつき）
-    def WeeklyDuelRanking::get_ranking_str(server_type, st_i = 0, end_i = 99)
+    def self.get_ranking_str(server_type, st_i = 0, end_i = 99)
       ret = cache_store.get("weekly_duel_ranking:#{st_i}_#{end_i}_#{server_type}_str")
       unless  ret
-        set = WeeklyDuelRanking::get_order_ranking(server_type, st_i, end_i)
+        set = WeeklyDuelRanking.get_order_ranking(server_type, st_i, end_i)
         ret = []
         if set
           set.each do |s|

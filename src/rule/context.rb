@@ -72,10 +72,10 @@ module Unlight
         if list.size == 1
           @current_context.delete(list)
           list.clear
-          self.send(init_method)
+          send(init_method)
         else
           list[0] = :return
-          self.send(init_method)
+          send(init_method)
           s = "#{list[-1].last}_action_increment"
           list[-1].first.send(s.to_sym)
           list[-1].first.send(list[-1].last) if @resumed

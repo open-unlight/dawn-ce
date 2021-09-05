@@ -28,11 +28,11 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::AvatarPart::refresh_data_version
+      Unlight::AvatarPart.refresh_data_version
     end
 
     # 全体データバージョンを返す
-    def AvatarPart::data_version
+    def self.data_version
       ret = cache_store.get('AvatarPartVersion')
       unless ret
         ret = refresh_data_version
@@ -42,7 +42,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def AvatarPart::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::AvatarPart.order(:updated_at).last
       if m
         cache_store.set('AvatarPartVersion', m.version)
@@ -56,50 +56,50 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # パラメータをCSVのデータで返す
     def get_data_csv_str
       ret = ''
-      ret << self.id.to_s << ','
-      ret << '"' << (self.name || '') << '",'
-      ret << '"' << (self.image_extract || '') << '",'
-      ret << (self.parts_type || 0).to_s << ','
-      ret << (self.color || 0).to_s << ','
-      ret << (self.offset_x || 0).to_s << ','
-      ret << (self.offset_y || 0).to_s << ','
-      ret << (self.offset_scale || 0).to_s << ','
-      ret << (self.power_type || 0).to_s << ','
-      ret << (self.power || 0).to_s << ','
-      ret << (self.duration || 0).to_s << ','
-      ret << '"' << (self.trans_caption || '') << '"'
+      ret << id.to_s << ','
+      ret << '"' << (name || '') << '",'
+      ret << '"' << (image_extract || '') << '",'
+      ret << (parts_type || 0).to_s << ','
+      ret << (color || 0).to_s << ','
+      ret << (offset_x || 0).to_s << ','
+      ret << (offset_y || 0).to_s << ','
+      ret << (offset_scale || 0).to_s << ','
+      ret << (power_type || 0).to_s << ','
+      ret << (power || 0).to_s << ','
+      ret << (duration || 0).to_s << ','
+      ret << '"' << (trans_caption || '') << '"'
       ret
     end
 
     def image_extract
-      self.image.gsub(/\+dummy_.{1,3}/, '')
+      image.gsub(/\+dummy_.{1,3}/, '')
     end
 
     # パーツを装備する
     def attach(a)
       @avatar = a
-      if PART_EFFECTS[self.power_type]
-        self.send(PART_EFFECTS[self.power_type], self.power, true)
+      if PART_EFFECTS[power_type]
+        send(PART_EFFECTS[power_type], power, true)
       end
     end
 
     # パーツを装備から外す
     def detach(a)
       @avatar = a
-      if PART_EFFECTS[self.power_type]
-        self.send(PART_EFFECTS[self.power_type], self.power, false)
+      if PART_EFFECTS[power_type]
+        send(PART_EFFECTS[power_type], power, false)
       end
       @avatar = nil
     end
 
     # パラメータの変更点をまとめて返す
-    def self::all_params_check(parts_set)
+    def self.all_params_check(parts_set)
       ret = {}
       ret[:recovery_interval=] = Unlight::AVATAR_RECOVERY_SEC
       ret[:quest_inventory_max=] = Unlight::QUEST_MAX
@@ -191,8 +191,8 @@ module Unlight
     end
 
     def trans_caption
-      if self.caption
-        self.caption.gsub('__POW__', self.power.to_s)
+      if caption
+        caption.gsub('__POW__', power.to_s)
       else
         ''
       end

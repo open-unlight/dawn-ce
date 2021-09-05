@@ -36,7 +36,7 @@ module Unlight
     end
 
     def to_text
-      ret = QuestLog::cache_store.get("quest_log:#{id}")
+      ret = QuestLog.cache_store.get("quest_log:#{id}")
       unless ret
         a = []
         a << avatar_id
@@ -46,13 +46,13 @@ module Unlight
         a << body
         a << created_at.to_i.to_s
         ret = a.join(',')
-        QuestLog::cache_store.set("quest_log:#{id}", ret)
+        QuestLog.cache_store.set("quest_log:#{id}", ret)
       end
       ret
     end
 
     # リミットずつのログをもらう(1ページスタート)
-    def QuestLog::get_page(a_id, page)
+    def self.get_page(a_id, page)
       ret = []
       ids = []
       content = []
@@ -63,7 +63,7 @@ module Unlight
     end
 
     # ログを書く
-    def QuestLog::write_log(a_id, t, t_id, n, b)
+    def self.write_log(a_id, t, t_id, n, b)
       ret = 0
       QuestLog.new do |d|
         d.avatar_id = a_id

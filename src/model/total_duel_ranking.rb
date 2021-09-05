@@ -29,37 +29,37 @@ module Unlight
       self.updated_at = Time.now.utc
     end
 
-    def TotalDuelRanking::ranking_data
+    def self.ranking_data
       TotalDuelRanking
     end
 
-    def TotalDuelRanking::ranking_data_count(server_type)
+    def self.ranking_data_count(server_type)
       TotalDuelRanking.filter(server_type: server_type).count
     end
 
-    def TotalDuelRanking::data_type
+    def self.data_type
       'duel'
     end
 
     extend TotalRanking
     # 指定したアバターのランキングを取得する
-    def TotalDuelRanking::get_ranking(a_id, server_type, point = 0)
+    def self.get_ranking(a_id, server_type, point = 0)
       index = get_order_ranking_id(server_type).index(a_id)
 
       lr = last_ranking(server_type)
       # 100番より値が低くて
-      if lr >= point && point > 0
-        ret = { rank: EstimationRanking::get_ranking(RANK_TYPE_TD, server_type, point), arrow: RANK_NONE, point: point }
+      if lr >= point && point.positive?
+        ret = { rank: EstimationRanking.get_ranking(RANK_TYPE_TD, server_type, point), arrow: RANK_NONE, point: point }
       elsif index && index < 100
         ret = { rank: index + 1, arrow: get_arrow_set(server_type)[index], point: point }
       else
-        ret = { rank: EstimationRanking::get_ranking(RANK_TYPE_TD, server_type, point), arrow: RANK_NONE, point: point }
+        ret = { rank: EstimationRanking.get_ranking(RANK_TYPE_TD, server_type, point), arrow: RANK_NONE, point: point }
       end
       ret
     end
 
     # ポイントをもったすべてのアバターを取る(ソート済みのアバターとポイントのArrayを返す)
-    def TotalDuelRanking::point_avatars(server_type)
+    def self.point_avatars(server_type)
       avatars = {}
       # 現在から一月アップデートされたことのあるアバターが対象
       last_update = Date.today - 30
@@ -73,13 +73,13 @@ module Unlight
     end
 
     ### 使ってない
-    def TotalDuelRanking::start_up(server_type)
+    def self.start_up(server_type)
       # 現在から一月アップデートされたことのあるアバターが対象
       last_update = Date.today - 30
       st = Time.utc(last_update.year, last_update.month, last_update.day)
       Avatar.filter(server_type: server_type).filter { updated_at > st }.all do |a|
         if a.point
-          TotalDuelRanking::update_ranking(a.id, a.name, a.point, server_type)
+          TotalDuelRanking.update_ranking(a.id, a.name, a.point, server_type)
         end
       end
     end

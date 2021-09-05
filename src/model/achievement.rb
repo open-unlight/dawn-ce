@@ -27,26 +27,26 @@ module Unlight
     end
 
     # クリアしたIDをもらって新しいアチーブメントのリストを返す
-    def Achievement::get_new_list(clear_id)
+    def self.get_new_list(clear_id)
       ret = CACHE.get("achi_new_list#{clear_id}")
       unless ret
         ret = []
-        Achievement.all.each { |a|
-          if a.check_expiration && (a.prerequisite == 0 || clear_id == a.prerequisite)
+        Achievement.all.each do |a|
+          if a.check_expiration && (a.prerequisite.zero? || clear_id == a.prerequisite)
             ret.push(a)
           end
-        }
+        end
         CACHE.set("achi_new_list#{clear_id}", ret)
       end
       ret
     end
 
     # chara_card_checkのアチーブメントIDを取得(card_idsがある場合、card_idsが関係しているもののみ)
-    def Achievement::get_card_check_achievement_ids(card_ids = nil)
+    def self.get_card_check_achievement_ids(card_ids = nil)
       ret = []
       CONDITION_SET.each do |i, value|
         if value[0] == :chara_card_check
-          if card_ids == nil
+          if card_ids.nil?
             ret.push(i)
           else
             hit = false
@@ -61,7 +61,7 @@ module Unlight
     end
 
     # IDからchara_card_checkのアチーブメントか判定
-    def Achievement::is_chara_card_check(a_id = 0)
+    def self.is_chara_card_check(a_id = 0)
       if CONDITION_SET[a_id]
         CONDITION_SET[a_id][0] == :chara_card_check
       else
@@ -70,7 +70,7 @@ module Unlight
     end
 
     # カードレベルチェックレコードチェック
-    def Achievement::get_card_level_record(cards)
+    def self.get_card_level_record(cards)
       clear_record_ids = []
       if cards && cards.size
         CONDITION_SET.each do |i, cond|
@@ -80,7 +80,7 @@ module Unlight
               case cc.kind
               when CC_KIND_CHARA, CC_KIND_BOSS_MONSTAR, CC_KIND_REBORN_CHARA, CC_KIND_EPISODE
                 if cond[1][2]
-                  if cond[1][0] == 0
+                  if (cond[1][0]).zero?
                     clear_record_ids.push(i) if cc.rarity >= cond[1][1]
                   else
                     clear_record_ids.push(i) if cc.rarity >= cond[1][1] && cc.level == cond[1][0]
@@ -89,7 +89,7 @@ module Unlight
                   clear_record_ids.push(i) if cc.level == cond[1][0]
                 end
               end
-              break if clear_record_ids.index(i) != nil
+              break unless clear_record_ids.index(i).nil?
             end
           end
         end
@@ -98,15 +98,15 @@ module Unlight
     end
 
     # end_at指定の入るアチーブメントのリストを返す
-    def Achievement::get_set_end_at_record()
+    def self.get_set_end_at_record
       ret = CACHE.get('achi_end_at_list')
       unless ret
         ret = []
-        Achievement.all.each { |a|
+        Achievement.all.each do |a|
           if a.set_end_type != '0'
             ret.push(a)
           end
-        }
+        end
         CACHE.set('achi_end_at_list', ret)
       end
       ret
@@ -114,8 +114,8 @@ module Unlight
 
     # 排他クエスト
     def get_exclusion_list
-      if self.exclusion
-        self.exclusion.split('+')
+      if exclusion
+        exclusion.split('+')
       else
         []
       end
@@ -123,8 +123,8 @@ module Unlight
 
     # セットループ
     def get_set_loop_list
-      if self.set_loop
-        self.set_loop.split('+')
+      if set_loop
+        set_loop.split('+')
       else
         []
       end
@@ -134,9 +134,9 @@ module Unlight
     # 0/10/1+1/1/20
     def get_items
       ret = []
-      self.items.split('+').each do |i|
+      items.split('+').each do |i|
         if i[0] != 'S'
-          ret.push(Array.new())
+          ret.push([])
           i.split('/').each do |j|
             ret.last.push(j.to_i)
           end
@@ -146,24 +146,24 @@ module Unlight
     end
 
     def get_selectable_items
-      self.items.include?('S')
+      items.include?('S')
     end
 
     def get_selectable_array
-      ret = CACHE.get("selectable_items#{self.id}")
+      ret = CACHE.get("selectable_items#{id}")
       unless ret
         ret = []
-        self.items.split('+').each do |ii|
+        items.split('+').each do |ii|
           if ii[0] == 'S'
-            ii[1..-1].split('|').each do |i|
-              ret.push(Array.new())
+            ii[1..].split('|').each do |i|
+              ret.push([])
               i.split('/').each do |j|
                 ret.last.push(j.to_i)
               end
             end
           end
         end
-        CACHE.set("selectable_items#{self.id}", ret)
+        CACHE.set("selectable_items#{id}", ret)
       end
       ret
     end
@@ -172,7 +172,7 @@ module Unlight
     def get_end_at
       ret = nil
       now = Time.now.utc
-      type, val = self.set_end_type.split(':')
+      type, val = set_end_type.split(':')
       case type.to_i
       when ACHIEVEMENT_END_AT_TYPE_DAY
         d_time = DateTime.new(now.year, now.month, now.day) + val.to_i
@@ -193,15 +193,16 @@ module Unlight
     def cond_check(avatar, no = false, inv = nil, card_list = nil, add_point = 0) # rubocop:disable Metrics/ParameterLists
       ret = false
       if avatar
-        if CONDITION_SET[self.cond] && (CONDITION_SET[self.cond][2] || (no && no.include?(self.cond)))
-          if inv == nil || inv && inv.state == ACHIEVEMENT_STATE_START
-            s_cond = (self.success_cond && self.success_cond > 0) ? self.success_cond : nil
-            if CONDITION_SET[self.cond][0] == :chara_card_check
-              ret = self.send(CONDITION_SET[self.cond][0], avatar, CONDITION_SET[self.cond][1], inv, s_cond, card_list) if card_list != nil
-            elsif CONDITION_SET[self.cond][0] == :event_point_check
-              ret = self.send(CONDITION_SET[self.cond][0], avatar, CONDITION_SET[self.cond][1], inv, s_cond, add_point) if add_point > 0
+        if CONDITION_SET[cond] && (CONDITION_SET[cond][2] || (no && no.include?(cond)))
+          if inv.nil? || inv && inv.state == ACHIEVEMENT_STATE_START
+            s_cond = success_cond && success_cond.positive? ? success_cond : nil
+            case CONDITION_SET[cond][0]
+            when :chara_card_check
+              ret = send(CONDITION_SET[cond][0], avatar, CONDITION_SET[cond][1], inv, s_cond, card_list) unless card_list.nil?
+            when :event_point_check
+              ret = send(CONDITION_SET[cond][0], avatar, CONDITION_SET[cond][1], inv, s_cond, add_point) if add_point.positive?
             else
-              ret = self.send(CONDITION_SET[self.cond][0], avatar, CONDITION_SET[self.cond][1], inv, s_cond)
+              ret = send(CONDITION_SET[cond][0], avatar, CONDITION_SET[cond][1], inv, s_cond)
             end
           end
         end
@@ -212,14 +213,14 @@ module Unlight
     # 有効期限のチェック
     def check_expiration
       ret = true
-      if self.event_start_at
+      if event_start_at
         t = Time.now.utc
-        ret = t > self.event_start_at
+        ret = t > event_start_at
       end
-      if self.event_end_at
+      if event_end_at
         if ret
-          t = Time.now.utc unless t
-          ret = self.event_end_at > t
+          t ||= Time.now.utc
+          ret = event_end_at > t
         end
       end
       ret
@@ -228,9 +229,9 @@ module Unlight
     # progressの更新のみを行う
     def progress_update(avatar, no = false, inv = nil)
       if avatar
-        if CONDITION_SET[self.cond] && (CONDITION_SET[self.cond][2] || (no && no.include?(self.cond)))
+        if CONDITION_SET[cond] && (CONDITION_SET[cond][2] || (no && no.include?(cond)))
           if inv
-            self.send(CONDITION_SET[self.cond][0], avatar, CONDITION_SET[self.cond][1], inv, self.success_cond)
+            send(CONDITION_SET[cond][0], avatar, CONDITION_SET[cond][1], inv, success_cond)
           end
         end
       end
@@ -238,7 +239,7 @@ module Unlight
 
     # いつでもチェックするか確認
     def is_any_time_check
-      CONDITION_SET[self.id][2]
+      CONDITION_SET[id][2]
     end
 
     # 条件のチェック情報
@@ -366,7 +367,7 @@ module Unlight
       117 => [:item_complete_check, [151, 152, 153, 154, 155, 156, 157], true], # 117:秘伝書を集める
       118 => [:duel_clear_check, 50, false], # 118:デュエル50回以上(秘伝書7)
       119 => [:chara_card_check, [[263, 1]], false], # 119:Lv3フロレンス
-      120 => [:quest_no_clear_check, 99999, false], # 120:丘丘人ポイントをカウント
+      120 => [:quest_no_clear_check, 99_999, false], # 120:丘丘人ポイントをカウント
       121 => [:quest_no_clear_check, 10, false],                                                                                                 # 121:小人たちの大行進クエストを10回クリア
       122 => [:quest_no_clear_check, 10, false],                                                                                                 # 122:丘王クエストを10回クリア
       123 => [:quest_no_clear_check, 10, false],                                                                                                 # 123:小人の大宴クエストを10回クリア
@@ -383,7 +384,7 @@ module Unlight
       134 => [:quest_no_clear_check, 50, false],                                                                                                 # 134:コデックスB-5
       135 => [:duel_clear_check, 100, false], # 135:デュエル100回以上(コデックス)
       136 => [:quest_clear_check, 30, true], # 136:アスタロト討伐
-      137 => [:chara_card_check, [[20007, 1]], false], # 137:アスタロト入手
+      137 => [:chara_card_check, [[20_007, 1]], false], # 137:アスタロト入手
       138 => [:duel_clear_check, 10, false],                                                                                                     # 138:アレクサンドルで10回対戦する
       139 => [:duel_clear_check, 20, false],                                                                                                     # 139:アレクサンドルで20回対戦する
       140 => [:duel_clear_check, 30, false],                                                                                                     # 140:アレクサンドルで30回対戦する
@@ -594,7 +595,7 @@ module Unlight
       345 => [:record_clear_check, 3, false],                                                                                                    # 345:3つレアカードレコードをクリアする
       346 => [:chara_card_check, [[433, 1]], false], # 346:Lv3クーンを入手する
       347 => [:duel_clear_check, 10, false], # 347:10回デュエルする
-      348 => [:quest_no_clear_check, 99999, false], # 348:カエル王子ポイントをカウント
+      348 => [:quest_no_clear_check, 99_999, false], # 348:カエル王子ポイントをカウント
       349 => [:quest_no_clear_check, 3, false],                                                                                                  # 349:3pt達成
       350 => [:quest_no_clear_check, 10, false],                                                                                                 # 350:10pt達成
       351 => [:quest_no_clear_check, 20, false],                                                                                                 # 351:20pt達成
@@ -774,7 +775,7 @@ module Unlight
       525 => [:quest_no_clear_check, 30, false], # 526:Infectionクエストを30回クリア
       526 => [:chara_card_check, [[2091, 1]], false],                                                                                             # 526:地上へ復活したブレイズを入手する
       527 => [:chara_card_check, [[2151, 1]], false],                                                                                             # 527:地上へ復活したドニタを入手する
-      528 => [:event_point_check, 99999, false], # 528:20140820イベント用ポイント加算レコード
+      528 => [:event_point_check, 99_999, false], # 528:20140820イベント用ポイント加算レコード
       529 => [:event_point_cnt_check, [528, 50], true],                                                                                          # 529:20140820イベントポイントを50取得する
       530 => [:event_point_cnt_check, [528, 300], true],                                                                                         # 530:20140820イベントポイントを300取得する
       531 => [:event_point_cnt_check, [528, 500], true],                                                                                         # 531:20140820イベントポイントを500取得する
@@ -1043,16 +1044,16 @@ module Unlight
       795 => [:quest_no_clear_check, 2, false],                                                                                                 # 795:人気投票イベントクエストレコード8
       796 => [:quest_no_clear_check, 2, false],                                                                                                 # 796:人気投票イベントクエストレコード9
       797 => [:quest_no_clear_check, 2, false],                                                                                                 # 797:人気投票イベントクエストレコード10
-      798 => [:event_point_check, 99999, false],                                                                                                # 798:人気投票イベントポイント加算レコード1
-      799 => [:event_point_check, 99999, false],                                                                                                # 799:人気投票イベントポイント加算レコード2
-      800 => [:event_point_check, 99999, false],                                                                                                # 800:人気投票イベントポイント加算レコード3
-      801 => [:event_point_check, 99999, false],                                                                                                # 801:人気投票イベントポイント加算レコード4
-      802 => [:event_point_check, 99999, false],                                                                                                # 802:人気投票イベントポイント加算レコード5
-      803 => [:event_point_check, 99999, false],                                                                                                # 803:人気投票イベントポイント加算レコード6
-      804 => [:event_point_check, 99999, false],                                                                                                # 804:人気投票イベントポイント加算レコード7
-      805 => [:event_point_check, 99999, false],                                                                                                # 805:人気投票イベントポイント加算レコード8
-      806 => [:event_point_check, 99999, false],                                                                                                # 806:人気投票イベントポイント加算レコード9
-      807 => [:event_point_check, 99999, false],                                                                                                # 807:人気投票イベントポイント加算レコード10
+      798 => [:event_point_check, 99_999, false],                                                                                                # 798:人気投票イベントポイント加算レコード1
+      799 => [:event_point_check, 99_999, false],                                                                                                # 799:人気投票イベントポイント加算レコード2
+      800 => [:event_point_check, 99_999, false],                                                                                                # 800:人気投票イベントポイント加算レコード3
+      801 => [:event_point_check, 99_999, false],                                                                                                # 801:人気投票イベントポイント加算レコード4
+      802 => [:event_point_check, 99_999, false],                                                                                                # 802:人気投票イベントポイント加算レコード5
+      803 => [:event_point_check, 99_999, false],                                                                                                # 803:人気投票イベントポイント加算レコード6
+      804 => [:event_point_check, 99_999, false],                                                                                                # 804:人気投票イベントポイント加算レコード7
+      805 => [:event_point_check, 99_999, false],                                                                                                # 805:人気投票イベントポイント加算レコード8
+      806 => [:event_point_check, 99_999, false],                                                                                                # 806:人気投票イベントポイント加算レコード9
+      807 => [:event_point_check, 99_999, false],                                                                                                # 807:人気投票イベントポイント加算レコード10
       808 => [:item_num_check, [371, 10], true],                                                                                                 # 808 かえるの置物を10個集める
       809 => [:item_num_check, [371, 20], true],                                                                                                 # 809 かえるの置物を20集める
       810 => [:item_num_check, [371, 30], true],                                                                                                 # 810 かえるの置物を30集める
@@ -1450,7 +1451,7 @@ module Unlight
       1202 => [:item_num_check, [608, 95], true],                                                                                                 # 1202 イベントアイテムを95個集める
       1203 => [:item_num_check, [608, 110], true],                                                                                                # 1203 イベントアイテムを110個集める
       1204 => [:item_num_check, [608, 125], true],                                                                                                # 1204 イベントアイテムを125個集める
-      1205 => [:duel_clear_check, 2, false],                                                                                                      # 1205 デュエルを2回行う
+      1205 => [:duel_clear_check, 2, false] # 1205 デュエルを2回行う
     }
     # キャラカード枚数check、BIT演算用定数
     CHARA_CARD_CHECK_SHIFT_BIT = 8
@@ -1463,7 +1464,7 @@ module Unlight
     def level_check(avatar, v, inv, success_cond = nil)
       inv.progress = avatar.level
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       avatar.level >= v
     end
 
@@ -1471,7 +1472,7 @@ module Unlight
     def duel_win_check(avatar, v, inv, success_cond = nil)
       inv.progress = avatar.win
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       avatar.win >= v
     end
 
@@ -1487,7 +1488,7 @@ module Unlight
     def friend_num_check(avatar, v, inv, success_cond = nil)
       inv.progress = avatar.player.confirmed_friend_num
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       avatar.player.confirmed_friend_num >= v
     end
 
@@ -1495,7 +1496,7 @@ module Unlight
     def item_num_check(avatar, v, inv, success_cond = nil)
       inv.progress = avatar.item_count(v[0])
       inv.save_changes
-      success_cond = v[1] unless success_cond
+      success_cond ||= v[1]
       avatar.item_count(v[0]) >= v[1]
     end
 
@@ -1517,7 +1518,7 @@ module Unlight
     def item_check(avatar, v, inv, success_cond = nil)
       ret = false
       v.each do |i|
-        ret = true if avatar.item_count(i) > 0
+        ret = true if avatar.item_count(i).positive?
       end
       ret
     end
@@ -1527,7 +1528,7 @@ module Unlight
       cnt = 0
       ret = true
       v.each do |i|
-        if avatar.item_count(i) == 0
+        if avatar.item_count(i).zero?
           ret = false
         else
           cnt += 1
@@ -1558,7 +1559,7 @@ module Unlight
         num = avatar.item_count(i)
         ret = false if num < v[1]
         num = ITEM_SET_CALC_CHECK_COMP_NUM if num > ITEM_SET_CALC_CHECK_COMP_NUM
-        cnt = cnt | (num << (ITEM_SET_CALC_CHECK_SHIFT_BIT * idx))
+        cnt |= (num << (ITEM_SET_CALC_CHECK_SHIFT_BIT * idx))
       end
       inv.progress = cnt
       inv.save_changes
@@ -1585,7 +1586,7 @@ module Unlight
             set_cnt = i[1] if set_cnt > i[1]
           end
           # 新しいProgress計算式 2013/01/15
-          cnt = cnt | (set_cnt << (CHARA_CARD_CHECK_SHIFT_BIT * c))
+          cnt |= (set_cnt << (CHARA_CARD_CHECK_SHIFT_BIT * c))
         end
       else
         v.each_with_index do |i, c|
@@ -1602,7 +1603,7 @@ module Unlight
             set_cnt = i[1] if set_cnt > i[1]
           end
           # 新しいProgress計算式 2013/01/15
-          cnt = cnt | (set_cnt << (CHARA_CARD_CHECK_SHIFT_BIT * c))
+          cnt |= (set_cnt << (CHARA_CARD_CHECK_SHIFT_BIT * c))
         end
       end
       inv.progress = cnt
@@ -1614,7 +1615,7 @@ module Unlight
     def chara_card_deck_check(avatar, v, inv, success_cond = nil)
       ret = false
       avatar.chara_card_decks.each_index do |i|
-        unless i == 0
+        unless i.zero?
           ret = v == avatar.chara_card_decks[i].cards_id
           break if ret
         end
@@ -1625,72 +1626,72 @@ module Unlight
     def get_record_clear_quest_no
       ret = 0
       # 初心者レコード
-      ret = ROOKIE_QUEST_01[0] if ret == 0 && ROOKIE_QUEST_01[1].include?(self.id)
+      ret = ROOKIE_QUEST_01[0] if ret.zero? && ROOKIE_QUEST_01[1].include?(id)
       # イベントレコード
-      ret = EVENT_QUEST_01[0] if ret == 0 && EVENT_QUEST_01[1].include?(self.id)
-      ret = EVENT_QUEST_02[0] if ret == 0 && EVENT_QUEST_02[1].include?(self.id)
-      ret = EVENT_QUEST_03[0] if ret == 0 && EVENT_QUEST_03[1].include?(self.id)
-      ret = EVENT_QUEST_04[0] if ret == 0 && EVENT_QUEST_04[1].include?(self.id)
-      ret = EVENT_QUEST_05[0] if ret == 0 && EVENT_QUEST_05[1].include?(self.id)
-      ret = EVENT_QUEST_06[0] if ret == 0 && EVENT_QUEST_06[1].include?(self.id)
-      ret = EVENT_QUEST_07[0] if ret == 0 && EVENT_QUEST_07[1].include?(self.id)
-      ret = EVENT_QUEST_08[0] if ret == 0 && EVENT_QUEST_08[1].include?(self.id)
-      ret = EVENT_QUEST_09[0] if ret == 0 && EVENT_QUEST_09[1].include?(self.id)
-      ret = EVENT_QUEST_10[0] if ret == 0 && EVENT_QUEST_10[1].include?(self.id)
-      ret = EVENT_QUEST_11[0] if ret == 0 && EVENT_QUEST_11[1].include?(self.id)
-      ret = EVENT_QUEST_12[0] if ret == 0 && EVENT_QUEST_12[1].include?(self.id)
-      ret = EVENT_QUEST_13[0] if ret == 0 && EVENT_QUEST_13[1].include?(self.id)
-      ret = EVENT_QUEST_14[0] if ret == 0 && EVENT_QUEST_14[1].include?(self.id)
-      ret = EVENT_QUEST_15[0] if ret == 0 && EVENT_QUEST_15[1].include?(self.id)
-      ret = EVENT_QUEST_16[0] if ret == 0 && EVENT_QUEST_16[1].include?(self.id)
-      ret = EVENT_QUEST_17[0] if ret == 0 && EVENT_QUEST_17[1].include?(self.id)
-      ret = EVENT_QUEST_18[0] if ret == 0 && EVENT_QUEST_18[1].include?(self.id)
-      ret = EVENT_QUEST_19[0] if ret == 0 && EVENT_QUEST_19[1].include?(self.id)
-      ret = EVENT_QUEST_20[0] if ret == 0 && EVENT_QUEST_20[1].include?(self.id)
-      ret = EVENT_QUEST_21[0] if ret == 0 && EVENT_QUEST_21[1].include?(self.id)
-      ret = EVENT_QUEST_22[0] if ret == 0 && EVENT_QUEST_22[1].include?(self.id)
-      ret = EVENT_QUEST_23[0] if ret == 0 && EVENT_QUEST_23[1].include?(self.id)
-      ret = EVENT_QUEST_24[0] if ret == 0 && EVENT_QUEST_24[1].include?(self.id)
-      ret = EVENT_QUEST_25[0] if ret == 0 && EVENT_QUEST_25[1].include?(self.id)
-      ret = EVENT_QUEST_26[0] if ret == 0 && EVENT_QUEST_26[1].include?(self.id)
-      ret = EVENT_QUEST_27[0] if ret == 0 && EVENT_QUEST_27[1].include?(self.id)
-      ret = EVENT_QUEST_28[0] if ret == 0 && EVENT_QUEST_28[1].include?(self.id)
-      ret = EVENT_QUEST_29[0] if ret == 0 && EVENT_QUEST_29[1].include?(self.id)
-      ret = EVENT_QUEST_30[0] if ret == 0 && EVENT_QUEST_30[1].include?(self.id)
-      ret = EVENT_QUEST_31[0] if ret == 0 && EVENT_QUEST_31[1].include?(self.id)
-      ret = EVENT_QUEST_32[0] if ret == 0 && EVENT_QUEST_32[1].include?(self.id)
-      ret = EVENT_QUEST_33[0] if ret == 0 && EVENT_QUEST_33[1].include?(self.id)
-      ret = EVENT_QUEST_34[0] if ret == 0 && EVENT_QUEST_34[1].include?(self.id)
-      ret = EVENT_QUEST_35[0] if ret == 0 && EVENT_QUEST_35[1].include?(self.id)
+      ret = EVENT_QUEST_01[0] if ret.zero? && EVENT_QUEST_01[1].include?(id)
+      ret = EVENT_QUEST_02[0] if ret.zero? && EVENT_QUEST_02[1].include?(id)
+      ret = EVENT_QUEST_03[0] if ret.zero? && EVENT_QUEST_03[1].include?(id)
+      ret = EVENT_QUEST_04[0] if ret.zero? && EVENT_QUEST_04[1].include?(id)
+      ret = EVENT_QUEST_05[0] if ret.zero? && EVENT_QUEST_05[1].include?(id)
+      ret = EVENT_QUEST_06[0] if ret.zero? && EVENT_QUEST_06[1].include?(id)
+      ret = EVENT_QUEST_07[0] if ret.zero? && EVENT_QUEST_07[1].include?(id)
+      ret = EVENT_QUEST_08[0] if ret.zero? && EVENT_QUEST_08[1].include?(id)
+      ret = EVENT_QUEST_09[0] if ret.zero? && EVENT_QUEST_09[1].include?(id)
+      ret = EVENT_QUEST_10[0] if ret.zero? && EVENT_QUEST_10[1].include?(id)
+      ret = EVENT_QUEST_11[0] if ret.zero? && EVENT_QUEST_11[1].include?(id)
+      ret = EVENT_QUEST_12[0] if ret.zero? && EVENT_QUEST_12[1].include?(id)
+      ret = EVENT_QUEST_13[0] if ret.zero? && EVENT_QUEST_13[1].include?(id)
+      ret = EVENT_QUEST_14[0] if ret.zero? && EVENT_QUEST_14[1].include?(id)
+      ret = EVENT_QUEST_15[0] if ret.zero? && EVENT_QUEST_15[1].include?(id)
+      ret = EVENT_QUEST_16[0] if ret.zero? && EVENT_QUEST_16[1].include?(id)
+      ret = EVENT_QUEST_17[0] if ret.zero? && EVENT_QUEST_17[1].include?(id)
+      ret = EVENT_QUEST_18[0] if ret.zero? && EVENT_QUEST_18[1].include?(id)
+      ret = EVENT_QUEST_19[0] if ret.zero? && EVENT_QUEST_19[1].include?(id)
+      ret = EVENT_QUEST_20[0] if ret.zero? && EVENT_QUEST_20[1].include?(id)
+      ret = EVENT_QUEST_21[0] if ret.zero? && EVENT_QUEST_21[1].include?(id)
+      ret = EVENT_QUEST_22[0] if ret.zero? && EVENT_QUEST_22[1].include?(id)
+      ret = EVENT_QUEST_23[0] if ret.zero? && EVENT_QUEST_23[1].include?(id)
+      ret = EVENT_QUEST_24[0] if ret.zero? && EVENT_QUEST_24[1].include?(id)
+      ret = EVENT_QUEST_25[0] if ret.zero? && EVENT_QUEST_25[1].include?(id)
+      ret = EVENT_QUEST_26[0] if ret.zero? && EVENT_QUEST_26[1].include?(id)
+      ret = EVENT_QUEST_27[0] if ret.zero? && EVENT_QUEST_27[1].include?(id)
+      ret = EVENT_QUEST_28[0] if ret.zero? && EVENT_QUEST_28[1].include?(id)
+      ret = EVENT_QUEST_29[0] if ret.zero? && EVENT_QUEST_29[1].include?(id)
+      ret = EVENT_QUEST_30[0] if ret.zero? && EVENT_QUEST_30[1].include?(id)
+      ret = EVENT_QUEST_31[0] if ret.zero? && EVENT_QUEST_31[1].include?(id)
+      ret = EVENT_QUEST_32[0] if ret.zero? && EVENT_QUEST_32[1].include?(id)
+      ret = EVENT_QUEST_33[0] if ret.zero? && EVENT_QUEST_33[1].include?(id)
+      ret = EVENT_QUEST_34[0] if ret.zero? && EVENT_QUEST_34[1].include?(id)
+      ret = EVENT_QUEST_35[0] if ret.zero? && EVENT_QUEST_35[1].include?(id)
       # 炎の聖女
-      ret = GODDESS_OF_FIRE_QUEST_01[0] if ret == 0 && GODDESS_OF_FIRE_QUEST_01[1].include?(self.id)
-      ret = GODDESS_OF_FIRE_QUEST_02[0] if ret == 0 && GODDESS_OF_FIRE_QUEST_02[1].include?(self.id)
-      ret = GODDESS_OF_FIRE_QUEST_03[0] if ret == 0 && GODDESS_OF_FIRE_QUEST_03[1].include?(self.id)
+      ret = GODDESS_OF_FIRE_QUEST_01[0] if ret.zero? && GODDESS_OF_FIRE_QUEST_01[1].include?(id)
+      ret = GODDESS_OF_FIRE_QUEST_02[0] if ret.zero? && GODDESS_OF_FIRE_QUEST_02[1].include?(id)
+      ret = GODDESS_OF_FIRE_QUEST_03[0] if ret.zero? && GODDESS_OF_FIRE_QUEST_03[1].include?(id)
       ret
     end
 
     def get_record_clear_prf_no
       ret = 0
       # ボス討伐チェック
-      ret = EVENT_PRF_SET_01[0] if ret == 0 && EVENT_PRF_SET_01[1].include?(self.id)
+      ret = EVENT_PRF_SET_01[0] if ret.zero? && EVENT_PRF_SET_01[1].include?(id)
       ret
     end
 
     def get_record_part
       ret = 0
       # パーツ取得チェック
-      ret = EVENT_GET_PART_01[0] if ret == 0 && EVENT_GET_PART_01[1].include?(self.id)
-      ret = EVENT_GET_PART_02[0] if ret == 0 && EVENT_GET_PART_02[1].include?(self.id)
-      ret = EVENT_GET_PART_03[0] if ret == 0 && EVENT_GET_PART_03[1].include?(self.id)
+      ret = EVENT_GET_PART_01[0] if ret.zero? && EVENT_GET_PART_01[1].include?(id)
+      ret = EVENT_GET_PART_02[0] if ret.zero? && EVENT_GET_PART_02[1].include?(id)
+      ret = EVENT_GET_PART_03[0] if ret.zero? && EVENT_GET_PART_03[1].include?(id)
       ret
     end
 
     # クリア条件データを文字列にして返す
-    def get_cond_info_str()
+    def get_cond_info_str
       ret = ''
-      if CONDITION_SET[self.id]
+      if CONDITION_SET[id]
         # CondType
-        case CONDITION_SET[self.id][0]
+        case CONDITION_SET[id][0]
         when :level_check
           ret << ACHIEVEMENT_COND_TYPE_LEVEL.to_s << ':'
         when :duel_win_check
@@ -1772,51 +1773,52 @@ module Unlight
         end
 
         # 条件内容数値
-        if CONDITION_SET[self.id][1].instance_of?(Array)
-          if CONDITION_SET[self.id][1][0].instance_of?(Array)
-            if CONDITION_SET[self.id][0] == :item_calc_check || CONDITION_SET[self.id][0] == :item_set_calc_check || CONDITION_SET[self.id][0] == :item_later_calc_check || CONDITION_SET[self.id][0] == :weapon_multi_num_check
-              item_ids = CONDITION_SET[self.id][1][0]
-              count = CONDITION_SET[self.id][1][1]
-              item_ids.each { |e|
+        if CONDITION_SET[id][1].instance_of?(Array)
+          if CONDITION_SET[id][1][0].instance_of?(Array)
+            if CONDITION_SET[id][0] == :item_calc_check || CONDITION_SET[id][0] == :item_set_calc_check || CONDITION_SET[id][0] == :item_later_calc_check || CONDITION_SET[id][0] == :weapon_multi_num_check
+              item_ids = CONDITION_SET[id][1][0]
+              count = CONDITION_SET[id][1][1]
+              item_ids.each do |e|
                 ret << "#{e},#{count}" << '_'
-              }
+              end
             else
-              CONDITION_SET[self.id][1].each { |e|
+              CONDITION_SET[id][1].each do |e|
                 ret << e.join(',') << '_'
-              }
+              end
             end
             ret.chop!
           else
-            if CONDITION_SET[self.id][0] == :event_point_cnt_check
-              ret << CONDITION_SET[self.id][1].last.to_s
+            if CONDITION_SET[id][0] == :event_point_cnt_check
+              ret << CONDITION_SET[id][1].last.to_s
             else
-              ret << CONDITION_SET[self.id][1].join(',')
+              ret << CONDITION_SET[id][1].join(',')
             end
           end
         else
-          if CONDITION_SET[self.id][0] == :quest_no_clear_check
-            q_ids = self.get_record_clear_quest_no
-            if q_ids == 0
+          case CONDITION_SET[id][0]
+          when :quest_no_clear_check
+            q_ids = get_record_clear_quest_no
+            if q_ids.zero?
               ret << q_ids.to_s
             else
               ret << q_ids.join(',')
             end
-          elsif CONDITION_SET[self.id][0] == :raid_boss_defeat_check
-            p_ids = self.get_record_clear_prf_no
-            if p_ids == 0
+          when :raid_boss_defeat_check
+            p_ids = get_record_clear_prf_no
+            if p_ids.zero?
               ret << p_ids.to_s
             else
               ret << p_ids.join(',')
             end
-          elsif CONDITION_SET[self.id][0] == :get_part_check
-            p_ids = self.get_record_part
-            if p_ids == 0
+          when :get_part_check
+            p_ids = get_record_part
+            if p_ids.zero?
               ret << p_ids.to_s
             else
               ret << p_ids.join(',')
             end
           else
-            ret << CONDITION_SET[self.id][1].to_s
+            ret << CONDITION_SET[id][1].to_s
           end
         end
       end
@@ -1825,17 +1827,17 @@ module Unlight
     end
 
     # データをとる
-    def get_data_csv_str()
+    def get_data_csv_str
       ret = ''
-      ret << self.id.to_s << ','
-      ret << self.kind.to_s << ','
-      ret << '"' << (self.caption || '') << '",'
-      ret << '"' << (self.event_end_at && self.event_end_at.strftime('%a %b %d %H:%M:%S %Z %Y') || '') << '",'
-      ret << self.success_cond.to_s << ','
+      ret << id.to_s << ','
+      ret << kind.to_s << ','
+      ret << '"' << (caption || '') << '",'
+      ret << '"' << (event_end_at && event_end_at.strftime('%a %b %d %H:%M:%S %Z %Y') || '') << '",'
+      ret << success_cond.to_s << ','
       ret << '"' << get_cond_info_str << '",'
-      exp_str = (self.explanation != nil) ? self.explanation.delete("\n") : ''
+      exp_str = explanation.nil? ? '' : explanation.delete("\n")
       ret << '"' << exp_str << '"' << ','
-      ret << "#{self.get_selectable_array}"
+      ret << get_selectable_array.to_s
       ret
     end
 
@@ -1854,7 +1856,7 @@ module Unlight
     # レアカードを作成時のアチーブメント
     def get_rare_card_check(avatar, v, inv, success_cond = nil)
       ret = false
-      if CardInventory.graph(CharaCard, id: :chara_card_id).filter(chara_card_deck_id: Range.new(avatar.binder.id, avatar.binder.id + 3)).and(Sequel.cast_string(:card_inventories__created_at) >= self.event_start_at).and([[:chara_cards__rarity, Range.new(6, 10)], [:chara_cards__id, Range.new(1, 1000)]]).all.count >= v
+      if CardInventory.graph(CharaCard, id: :chara_card_id).filter(chara_card_deck_id: Range.new(avatar.binder.id, avatar.binder.id + 3)).and(Sequel.cast_string(:card_inventories__created_at) >= event_start_at).and([[:chara_cards__rarity, Range.new(6, 10)], [:chara_cards__id, Range.new(1, 1000)]]).all.count >= v
         ret = true
       end
       ret
@@ -1865,7 +1867,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= v
         ret = true
       end
@@ -1877,7 +1879,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= v
         ret = true
       end
@@ -1889,7 +1891,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= v
         ret = true
       end
@@ -1901,7 +1903,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= v
         ret = true
       end
@@ -1913,7 +1915,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v[3] unless success_cond
+      success_cond ||= v[3]
       if inv.progress >= v[3]
         ret = true
       end
@@ -1925,7 +1927,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -1936,7 +1938,7 @@ module Unlight
     def quest_point_check(avatar, v, inv, success_cond = nil)
       inv.progress = avatar.quest_point
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       (inv.progress >= success_cond)
     end
 
@@ -1945,7 +1947,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -1962,7 +1964,7 @@ module Unlight
       end
       inv.progress = cnt_set.size
       inv.save_changes
-      success_cond = v[1] unless success_cond
+      success_cond ||= v[1]
       if inv.progress >= success_cond
         ret = true
       end
@@ -1974,7 +1976,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -1986,7 +1988,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -1998,7 +2000,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2010,7 +2012,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2022,7 +2024,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2034,7 +2036,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2051,7 +2053,7 @@ module Unlight
       set_damage = dmg[:sum_damage] if dmg && dmg[:sum_damage]
       inv.progress = set_damage
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2065,7 +2067,7 @@ module Unlight
       days = (now - avatar.created_at).divmod(24 * 60 * 60).first
       inv.progress = days
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2078,7 +2080,7 @@ module Unlight
       inv.progress += point
       inv.save_changes
       CACHE.set("achi_check_inv:#{avatar.id}_#{inv.achievement_id}", inv)
-      success_cond = v unless success_cond
+      success_cond ||= v
       # 加算用レコードなので、クリア判定なし
       # if success_cond != -1 && inv.progress >= success_cond
       #   ret = true
@@ -2098,7 +2100,7 @@ module Unlight
         inv.progress = check_inv.progress
         inv.save_changes
       end
-      success_cond = v[1] unless success_cond
+      success_cond ||= v[1]
       if inv.progress >= success_cond
         ret = true
       end
@@ -2110,7 +2112,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2122,7 +2124,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2134,7 +2136,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2146,7 +2148,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2158,7 +2160,7 @@ module Unlight
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2173,7 +2175,7 @@ module Unlight
       progress = list.size if list
       inv.progress = progress
       inv.save_changes
-      success_cond = v unless success_cond
+      success_cond ||= v
       if inv.progress >= success_cond
         ret = true
       end
@@ -2184,7 +2186,7 @@ module Unlight
     def item_full_num_check(avatar, v, inv, success_cond = nil)
       inv.progress = avatar.full_item_count(v[0])
       inv.save_changes
-      success_cond = v[1] unless success_cond
+      success_cond ||= v[1]
       avatar.full_item_count(v[0]) >= v[1]
     end
 
@@ -2192,7 +2194,7 @@ module Unlight
     def item_later_num_check(avatar, v, inv, success_cond = nil)
       inv.progress = avatar.item_count_later(v[0], inv.created_at)
       inv.save_changes
-      success_cond = v[1] unless success_cond
+      success_cond ||= v[1]
       avatar.item_count_later(v[0], inv.created_at) >= v[1]
     end
 
@@ -2209,11 +2211,11 @@ module Unlight
     def get_inheriting_progress
       ret = 0
       # 2014/12Eventではクエストプレゼントレコードの継承はなし
-      if  CONDITION_SET[self.cond][0] == :invite_count_check ||
-          CONDITION_SET[self.cond][0] == :raid_boss_defeat_check ||
-          CONDITION_SET[self.cond][0] == :other_duel_cnt_check ||
-          CONDITION_SET[self.cond][0] == :item_full_num_check
-        ret = self.prerequisite
+      if  CONDITION_SET[cond][0] == :invite_count_check ||
+          CONDITION_SET[cond][0] == :raid_boss_defeat_check ||
+          CONDITION_SET[cond][0] == :other_duel_cnt_check ||
+          CONDITION_SET[cond][0] == :item_full_num_check
+        ret = prerequisite
       end
       ret
     end
@@ -2248,11 +2250,11 @@ module Unlight
 
     def get_progress(avatar, inv = nil)
       ret = nil
-      case CONDITION_SET[self.id] && CONDITION_SET[self.id][0]
+      case CONDITION_SET[id] && CONDITION_SET[id][0]
       when :chara_card_check
-        ret = get_chara_card_progress(avatar, CONDITION_SET[self.id][1], inv)
+        ret = get_chara_card_progress(avatar, CONDITION_SET[id][1], inv)
       when :item_set_calc_check
-        ret = get_item_set_calc_check(avatar, CONDITION_SET[self.id][1], inv)
+        ret = get_item_set_calc_check(avatar, CONDITION_SET[id][1], inv)
       end
       ret
     end

@@ -22,11 +22,11 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::Quest::refresh_data_version
+      Unlight::Quest.refresh_data_version
     end
 
     # 全体データバージョンを返す
-    def Quest::data_version
+    def self.data_version
       ret = cache_store.get('QuestVersion')
       unless ret
         ret = refresh_data_version
@@ -36,7 +36,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def Quest::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::Quest.order(:updated_at).last
       if m
         cache_store.set('QuestVersion', m.version)
@@ -48,11 +48,11 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # 特定マップの特定リアティのマップを返す
-    def Quest::get_map_in_reality(m, r, boss = false)
+    def self.get_map_in_reality(m, r, boss = false)
       if boss
         Quest.filter({ quest_map_id: m, rarity: r, kind: QT_ADVENTURE..QT_BOSS }).all
       else
@@ -61,7 +61,7 @@ module Unlight
     end
 
     # 特定マップの特定リアティのマップを返す
-    def Quest::get_map_in_boss(m)
+    def self.get_map_in_boss(m)
       Quest.filter({ quest_map_id: m, kind: QT_BOSS }).all
     end
 
@@ -124,7 +124,7 @@ module Unlight
       ret = []
       land_set.each_index do |i|
         # 地形が存在してかつ道に続きがないならばそこは終点
-        if (land_set[i] != 0) && (next_set[i] == 0)
+        if (land_set[i] != 0) && next_set[i].zero?
           ret << i
         end
       end
@@ -158,7 +158,7 @@ module Unlight
       ret = false
       # 行き先が0列目ならば問答無用でOK
       dest_raw = (dest / 3).truncate if dest # 通信で妖しいのが来たときは落とす
-      if dest_raw == 0
+      if dest_raw.zero?
         return true
       end
 
@@ -167,7 +167,7 @@ module Unlight
         path = next_set[dept]
         # 一階層上ならば
         if dept_raw + 1 == dest_raw
-          ret = true if path & COLLUMN_PATH[dest % 3] > 0
+          ret = true if (path & COLLUMN_PATH[dest % 3]).positive?
         end
       end
       ret
@@ -178,12 +178,12 @@ module Unlight
       ret = true
       path = next_set[no]
       n = []
-      n << 0 if path & 0b100 > 0
-      n << 1 if path & 0b010 > 0
-      n << 2 if path & 0b001 > 0
+      n << 0 if (path & 0b100).positive?
+      n << 1 if (path & 0b010).positive?
+      n << 2 if (path & 0b001).positive?
       raw = (no / 3).truncate + 1
       n.each do |i|
-        ret = false if land_set[i + raw * 3] == 0
+        ret = false if land_set[i + raw * 3].zero?
       end
       ret
     end
@@ -193,15 +193,15 @@ module Unlight
       ret = false
       # 行き先が0列目ならば問答無用でOK
       raw = (no / 3).truncate
-      if raw == 0
+      if raw.zero?
         return true
       end
 
       dept_raw = raw - 1
       col = no % 3
-      ret = true if next_set[0 + 3 * dept_raw] & COLLUMN_PATH[col] > 0
-      ret = true if next_set[1 + 3 * dept_raw] & COLLUMN_PATH[col] > 0
-      ret = true if next_set[2 + 3 * dept_raw] & COLLUMN_PATH[col] > 0
+      ret = true if (next_set[0 + 3 * dept_raw] & COLLUMN_PATH[col]).positive?
+      ret = true if (next_set[1 + 3 * dept_raw] & COLLUMN_PATH[col]).positive?
+      ret = true if (next_set[2 + 3 * dept_raw] & COLLUMN_PATH[col]).positive?
       ret
     end
 
@@ -229,9 +229,9 @@ module Unlight
     def next_to_route(raw, collumn, n)
       ret = []
       point = (raw + 1) * 3
-      ret << 0 + point + 1 if n & 0b100 > 0
-      ret << 1 + point + 1 if n & 0b010 > 0
-      ret << 2 + point + 1 if n & 0b001 > 0
+      ret << 0 + point + 1 if (n & 0b100).positive?
+      ret << 1 + point + 1 if (n & 0b010).positive?
+      ret << 2 + point + 1 if (n & 0b001).positive?
       ret
     end
 
@@ -240,7 +240,7 @@ module Unlight
       @route_array = create_route_array
       solve([], 0, pos + 1)
       p @closed
-      @closed.size > 0
+      !@closed.empty?
     end
 
     def solve(c, pos, goal)
@@ -271,17 +271,17 @@ module Unlight
 
     def get_data_csv_str
       ret = ''
-      ret << self.id.to_s << ','
-      ret << '"' << (self.name || '') << '",'
-      ret << '"' << (self.caption || '') << '",'
-      ret << (self.ap || 0).to_s << ','
-      ret << (self.kind || 0).to_s << ','
-      ret << (self.difficulty || 0).to_s << ','
-      ret << (self.rarity || 0).to_s << ','
-      ret << '[' << (self.get_land_ids_str || '') << '],'
-      ret << '[' << (self.get_nexts_str || '') << '],'
-      ret << (self.quest_map_id || 0).to_s << ','
-      ret << (self.story_no || 0).to_s << ''
+      ret << id.to_s << ','
+      ret << '"' << (name || '') << '",'
+      ret << '"' << (caption || '') << '",'
+      ret << (ap || 0).to_s << ','
+      ret << (kind || 0).to_s << ','
+      ret << (difficulty || 0).to_s << ','
+      ret << (rarity || 0).to_s << ','
+      ret << '[' << (get_land_ids_str || '') << '],'
+      ret << '[' << (get_nexts_str || '') << '],'
+      ret << (quest_map_id || 0).to_s << ','
+      ret << (story_no || 0).to_s << ''
       ret
     end
   end

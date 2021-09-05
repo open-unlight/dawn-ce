@@ -1,5 +1,5 @@
 # モデルを削除する
-$:.unshift(File.join(File.expand_path('.'), 'src'))
+$LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 $arg = ARGV.shift
@@ -9,10 +9,10 @@ module Unlight
   puts "#{SV_TYPE_STR[THIS_SERVER]}サーバへ報酬を配布します。(y/n)"
   sns_check = gets.chomp
   fin = true
-  if sns_check == 'y' || sns_check == 'Y' || sns_check == 'yes' || sns_check == 'Yes'
+  if %w[y Y yes Yes].include?(sns_check)
     fin = false
   end
-  exit() if fin
+  exit if fin
 
   # ランキング上位者に対する報酬
   puts 'BPランキング報酬の対象となる最低順位を入力してください(JP3/TCN30/SCN10)'
@@ -63,7 +63,7 @@ module Unlight
     end
 
     # 上限は最初絶対こえない値
-    upper = 10000000000
+    upper = 10_000_000_000
     ranks.each do |rank|
       puts "上限 #{upper}"
       b = Avatar.filter(server_type: THIS_SERVER).order(Sequel.desc(:point)).limit(rank).all.last.point
@@ -89,7 +89,7 @@ module Unlight
   if answer == 'y'
     Avatar.filter { point >= 1800 }.filter(server_type: THIS_SERVER).all.each do |a|
       puts "id:#{a.id}"
-      a.get_chara_card(10011)
+      a.get_chara_card(10_011)
     end
   end
 

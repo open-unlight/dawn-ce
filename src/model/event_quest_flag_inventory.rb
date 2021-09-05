@@ -14,38 +14,37 @@ module Unlight
     validates do
     end
 
-    def EventQuestFlagInventory::create_inv(avatar_id, event_id = QUEST_EVENT_ID, map_start = QUEST_EVENT_MAP_START)
-      inv = EventQuestFlagInventory.new do |d|
+    def self.create_inv(avatar_id, event_id = QUEST_EVENT_ID, map_start = QUEST_EVENT_MAP_START)
+      EventQuestFlagInventory.new do |d|
         d.avatar_id = avatar_id
         d.event_id = event_id
         d.quest_flag = map_start
         d.save_changes
       end
-      inv
     end
 
     # アバターのフラグインベントリリスト取得
-    def EventQuestFlagInventory::get_avatar_event(avatar_id)
-      self.filter([[:avatar_id, avatar_id]]).all
+    def self.get_avatar_event(avatar_id)
+      filter([[:avatar_id, avatar_id]]).all
     end
 
     # クエスト進行度を増やす
     def inc_quest_clear_num(i)
-      self.quest_clear_num = self.quest_clear_num + i
-      self.save_changes
+      self.quest_clear_num = quest_clear_num + i
+      save_changes
       0
     end
 
     # クエストマップ進行度を増やす
     def inc_quest_map_clear_num(i)
       ret = -1
-      map_id = self.quest_flag + i
-      if self.quest_flag < map_id
+      map_id = quest_flag + i
+      if quest_flag < map_id
         self.quest_flag = map_id
         self.quest_clear_num = 0
         ret = 0
       end
-      self.save_changes
+      save_changes
       ret
     end
 
@@ -53,7 +52,7 @@ module Unlight
     def quest_map_clear(map_id)
       self.quest_flag = map_id
       self.quest_clear_num = 0
-      self.save_changes
+      save_changes
     end
 
     # インサート時の前処理

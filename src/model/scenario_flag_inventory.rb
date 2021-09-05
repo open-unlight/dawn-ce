@@ -28,7 +28,7 @@ module Unlight
     end
 
     def set_flag(key, value)
-      if @flag_hash || self.get_flag
+      if @flag_hash || get_flag
         unless @flag_hash[key] == value
           @flag_hash[key] = value
           self.flags = @flag_hash.to_s
@@ -37,7 +37,7 @@ module Unlight
     end
 
     def get_flag
-      @flag_hash = eval(self.flags || '{}')
+      @flag_hash = eval(flags || '{}')
     end
   end
 end

@@ -33,7 +33,7 @@ module Unlight
     end
 
     BASE_RANKING_NUM = 100
-    def EstimationRanking::reset_table
+    def self.reset_table
       cnt = 0
       USE_DB_TYPE[THIS_SERVER].each do |server_type|
         BASE_RANKING_NUM.times do |i|
@@ -73,15 +73,15 @@ module Unlight
     end
 
     # 指定したアバターのランキングを取得する
-    def EstimationRanking::get_ranking(t, stype, p)
+    def self.get_ranking(t, stype, p)
       ret = 0
-      if p > 0
-        er = EstimationRanking.filter(rank_type: t, server_type: stype).and(Sequel.cast_string(:point) <= p).and(Sequel.cast_string(:point) > 0).order(:rank_index).all.first
+      if p.positive?
+        er = EstimationRanking.filter(rank_type: t, server_type: stype).and(Sequel.cast_string(:point) <= p).and(Sequel.cast_string(:point).positive?).order(:rank_index).all.first
         # これだと100位以内も101位になるが、本来100位以内のポイントは来ないはずなので（来ても境界に誓いポイント）なので101を返す
         # （100以内を返してしまうと矛盾がおこる）
-        if er && er.rank_index > 1 && er.point > 0
+        if er && er.rank_index > 1 && er.point.positive?
           before = EstimationRanking[er.id - 1]
-          if before && before.point > 0 && before.point - er.point != 0
+          if before&.point&.positive? && before.point - er.point != 0
             pt = p - er.point
             r = er.ranking + er.user_num
             ret = (r - pt * er.user_num / (before.point - er.point)).to_i
@@ -95,36 +95,36 @@ module Unlight
       ret
     end
 
-    def EstimationRanking::is_reset_table?
+    def self.is_reset_table?
       # テーブルが0じゃなければリセット処理済み
-      EstimationRanking.all.size > 0
+      !EstimationRanking.all.empty?
     end
 
     # 通算Duelランキングを更新する（なるべくSlaveで更新）
-    def EstimationRanking::update_total_duel_ranking(server_type)
+    def self.update_total_duel_ranking(server_type)
       reset_table if is_reset_table? == false
       step_sets = create_step(TotalDuelRanking.last_ranking(server_type), 0)
-      user_num_sets = create_user_num(TotalDuelRanking::point_avatars(server_type), step_sets)
+      user_num_sets = create_user_num(TotalDuelRanking.point_avatars(server_type), step_sets)
       create_estimate_rank(RANK_TYPE_TD, step_sets, user_num_sets, server_type)
     end
 
     # 通算Questランキングを更新する（なるべくSlaveで更新）
-    def EstimationRanking::update_total_quest_ranking(server_type)
+    def self.update_total_quest_ranking(server_type)
       reset_table if is_reset_table? == false
       step_sets = create_step(TotalQuestRanking.last_ranking(server_type), 0)
-      user_num_sets = create_user_num(TotalQuestRanking::point_avatars(server_type), step_sets)
+      user_num_sets = create_user_num(TotalQuestRanking.point_avatars(server_type), step_sets)
       create_estimate_rank(RANK_TYPE_TQ, step_sets, user_num_sets, server_type)
     end
 
     # 通算Questランキングを更新する（なるべくSlaveで更新）
-    def EstimationRanking::update_total_event_ranking
+    def self.update_total_event_ranking
       step_sets = create_step(TotalEventRanking.last_ranking(server_type), 0)
-      user_num_sets = create_user_num(TotalEventRanking::point_avatars(server_type), step_sets)
+      user_num_sets = create_user_num(TotalEventRanking.point_avatars(server_type), step_sets)
       create_estimate_rank(RANK_TYPE_TE, step_sets, user_num_sets, server_type)
     end
 
     # 最低と最高（101位）のポイントをもらってx分割する
-    def EstimationRanking::create_step(s, e)
+    def self.create_step(s, e)
       # ステップのMAXによって分割数を変化させる（基数が少ないのに割りすぎると制度が落ちる）
       if s < 100
         delimit = 10
@@ -145,22 +145,21 @@ module Unlight
     end
 
     # ステップごとのポイントあたりにどれだけアバターが存在するかを数える
-    def EstimationRanking::create_user_num(avatars, step_sets)
+    def self.create_user_num(avatars, step_sets)
       rank_counter = 0
       user_num_set = Array.new(BASE_RANKING_NUM, 0)
       avatars.each do |a|
         if a[1] >= step_sets[rank_counter]
-          user_num_set[rank_counter] += 1
         else
           while a[1] < step_sets[rank_counter]
-            if step_sets[rank_counter + 1] == nil
+            if step_sets[rank_counter + 1].nil?
               break
             else
               rank_counter += 1
             end
           end
-          user_num_set[rank_counter] += 1
         end
+        user_num_set[rank_counter] += 1
       end
       # 概算なのでゲームをやってない連中も100位いないに入る可能性があるので100人以上の場合100に調整
       user_num_set[0] = RANKING_COUNT_NUM if user_num_set[0] > RANKING_COUNT_NUM
@@ -168,10 +167,10 @@ module Unlight
     end
 
     # タイプに合わせて仮想ランキングをつくる
-    def EstimationRanking::create_estimate_rank(rank_type, step_sets, user_num_sets, server_type)
+    def self.create_estimate_rank(rank_type, step_sets, user_num_sets, server_type)
       step_unum_sets = []
       BASE_RANKING_NUM.times do |i|
-        step_unum_sets << [step_sets[i], user_num_sets[i]] unless user_num_sets[i] == 0
+        step_unum_sets << [step_sets[i], user_num_sets[i]] unless (user_num_sets[i]).zero?
       end
       before_er = nil
       c_rank = 1

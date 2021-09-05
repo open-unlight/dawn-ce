@@ -241,7 +241,7 @@ Sequel.migration do # rubocop:disable Metrics/BlockLength
       Integer :weapon_type, default: 0
       Integer :before_deck_id
       Integer :combine_param1, default: 0
-      Integer :combine_param2, default: 536881152
+      Integer :combine_param2, default: 536_881_152
       String :combine_param1_str, default: '0', size: 255
       Integer :level, default: 1
       Integer :exp, default: 0

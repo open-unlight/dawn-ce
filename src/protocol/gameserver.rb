@@ -14,12 +14,12 @@ module Protocol
     attr_accessor :player, :matching, :duel, :opponent_player, :match_log, :watch_duel, :last_connect
 
     # クラスの初期化
-    def self::setup(id, ip, port)
+    def self.setup(id, ip, port)
       super()
       # コマンドクラスをつくる
       @@receive_cmd = Command.new(self, :Game)
       # CPUDECKを初期化
-      CharaCardDeck::preload_CPU_deck
+      CharaCardDeck.preload_CPU_deck
       # コネクションチェック時の分割リスト
       set_check_split_list
     end
@@ -32,7 +32,7 @@ module Protocol
           delete_connection
           logout
         end
-      rescue => e
+      rescue StandardError => e
         puts e.message
       end
       SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")
@@ -42,12 +42,10 @@ module Protocol
       @@online_list
     end
 
-    def self::exit_server
+    def self.exit_server
       super
     end
 
-    def player
-      @player
-    end
+    attr_reader :player
   end
 end

@@ -35,11 +35,11 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::CharaCard::refresh_data_version
+      Unlight::CharaCard.refresh_data_version
     end
 
     # 全体データバージョンを返す
-    def CharaCard::data_version
+    def self.data_version
       ret = cache_store.get('CharaCardVersion')
       unless ret
         ret = refresh_data_version
@@ -49,12 +49,12 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def CharaCard::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::CharaCard.order(:updated_at).last
       if m
-        FeatInventory::refresh_data_version
-        if FeatInventory::data_version
-          cache_store.set('CharaCardVersion', [m.version, FeatInventory::data_version].max)
+        FeatInventory.refresh_data_version
+        if FeatInventory.data_version
+          cache_store.set('CharaCardVersion', [m.version, FeatInventory.data_version].max)
         else
           cache_store.set('CharaCardVersion', m.version)
         end
@@ -66,27 +66,27 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
-    def CharaCard::up_tree(id)
+    def self.up_tree(id)
       CharaCardRequirement.up_tree(id)
     end
 
-    def CharaCard::down_tree(id)
+    def self.down_tree(id)
       CharaCardRequirement.down_tree(id)
     end
 
     # カードの交換条件情報をリストで返す
-    def CharaCard::exchange(id, list, c_id)
+    def self.exchange(id, list, c_id)
       CharaCardRequirement.exchange(id, list, c_id)
     end
 
     def same_person?(cc)
       ret = false
-      if (cc.charactor_id == self.charactor_id) ||
-         (cc.unlight_charactor_id == self.unlight_charactor_id) ||
-         (cc.parent_id == self.parent_id)
+      if (cc.charactor_id == charactor_id) ||
+         (cc.unlight_charactor_id == unlight_charactor_id) ||
+         (cc.parent_id == parent_id)
         ret = true
       end
       ret
@@ -94,7 +94,7 @@ module Unlight
 
     # デュエルのスタート会話を返す
 
-    def CharaCard::duel_start_dialogue(chara_id_str, other_id_str)
+    def self.duel_start_dialogue(chara_id_str, other_id_str)
       ret = []
       a = CharaCard[chara_id_str.split(',')[0]]
       b = CharaCard[other_id_str.split(',')[0]]
@@ -110,7 +110,7 @@ module Unlight
       end
 
       if a && b
-        d = DialogueWeight::get_dialogue(DLG_DUEL_START, a.parent_id, a.charactor_id, b.parent_id, b.charactor_id, level)
+        d = DialogueWeight.get_dialogue(DLG_DUEL_START, a.parent_id, a.charactor_id, b.parent_id, b.charactor_id, level)
         if d
           ret = [d.id, d.content]
         else
@@ -122,18 +122,18 @@ module Unlight
 
     # カードのストーリーを返す
     def story_id
-      chara_card_stories[0].id if chara_card_stories.size > 0
+      chara_card_stories[0].id unless chara_card_stories.empty?
     end
 
     # 台詞IDをゲットする
     def dialogue_id(type, other)
-      DialogueWeight.DialogueWeight::get_dialogue_id
+      DialogueWeight.DialogueWeight.get_dialogue_id
     end
 
     # 必殺技のIDリストを返す
     def feats_id
       ret = []
-      if feat_inventories.size > 0
+      unless feat_inventories.empty?
         feat_inventories.each do |f|
           ret << f.feat_id
         end
@@ -144,7 +144,7 @@ module Unlight
     # パッシブのIDリストを返す
     def passives_id
       ret = []
-      if passive_skill_inventories.size > 0
+      unless passive_skill_inventories.empty?
         passive_skill_inventories.each do |p|
           ret << p.passive_skill_id
         end
@@ -154,38 +154,38 @@ module Unlight
 
     # 親のキャラクターIDを返す
     def parent_id
-      if self.charactor.parent_id.blank? || self.charactor.parent_id == 0
-        self.charactor_id
+      if charactor.parent_id.blank? || charactor.parent_id.zero?
+        charactor_id
       else
-        self.charactor.parent_id
+        charactor.parent_id
       end
     end
 
     # UnlightカードのキャラクターIDを返す
     def unlight_charactor_id
-      if self.kind == CC_KIND_REBORN_CHARA && self.charactor_id > CHARACTOR_ID_OFFSET_REBORN
-        self.charactor_id - CHARACTOR_ID_OFFSET_REBORN
+      if kind == CC_KIND_REBORN_CHARA && charactor_id > CHARACTOR_ID_OFFSET_REBORN
+        charactor_id - CHARACTOR_ID_OFFSET_REBORN
       else
-        self.charactor_id
+        charactor_id
       end
     end
 
     # 復活カードの場合はULカード。子カードの場合は親カードのIDを返す
     def base_charactor_id
-      if self.kind == CC_KIND_REBORN_CHARA
-        self.unlight_charactor_id
+      if kind == CC_KIND_REBORN_CHARA
+        unlight_charactor_id
       else
-        self.parent_id
+        parent_id
       end
     end
 
     # スロットの色数を返す
     def slot_color_num(color_no)
-      ret = CharaCard::cache_store.get("CharaCard:color_num:#{id}")
+      ret = CharaCard.cache_store.get("CharaCard:color_num:#{id}")
       unless ret
         ret = 0
         slot.to_s.each_char { |c| ret += 1 if c == color_no }
-        CharaCard::cache_store.set("CharaCard:color_num:#{id}", ret)
+        CharaCard.cache_store.set("CharaCard:color_num:#{id}", ret)
       end
       ret
     end
@@ -230,7 +230,7 @@ module Unlight
     end
 
     # カードイベントの初期化
-    def init_event()
+    def init_event
       @using = true
       # 必殺技のHookを登録
       @event.get_feat_nos.each do |fno|
@@ -244,7 +244,7 @@ module Unlight
       # パッシブのHookを登録
       inventory_max = 4 # 最大４つまで
       registed_cnt = 0
-      self.passive_skill_inventories.each do |p|
+      passive_skill_inventories.each do |p|
         break if registed_cnt >= inventory_max
 
         if CHARA_PASSIVE_SKILL_EVENT_NO[p.passive_skill.passive_skill_no]
@@ -277,19 +277,19 @@ module Unlight
     ]
     # ステータス状態を初期化
     HAS_PILOTS = [20, 27]
-    def cure_status()
+    def cure_status
       if @status
         @status.each_with_index do |s, i|
           s[1] = 0 unless IRREMEDIABLE_STATE.include?(i)
         end
-        if HAS_PILOTS.include?(self.charactor_id)
+        if HAS_PILOTS.include?(charactor_id)
           check_unseal_active_armor_feat
         end
       end
     end
 
     # 必殺技を初期化
-    def reset_feats()
+    def reset_feats
       if @event
         @event.reset_feats_enable
       end
@@ -305,7 +305,7 @@ module Unlight
     end
 
     # カードイベントの初期化
-    def remove_event()
+    def remove_event
       @using = false
       # ここでFeatEnableをくりあする
       if @event
@@ -338,34 +338,33 @@ module Unlight
       @event.send(message, *arg)
     end
 
-    def feat_event_no_to_id
-    end
+    def feat_event_no_to_id; end
 
     def get_data_csv_str
       ret = ''
-      ret << self.id.to_s << ','
-      ret << '"' << (self.name || '') << '",'
-      ret << '"' << (self.ab_name || '') << '",'
-      ret << (self.level || 0).to_s << ','
-      ret << (self.hp || 0).to_s << ','
-      ret << (self.ap || 0).to_s << ','
-      ret << (self.dp || 0).to_s << ','
-      ret << (self.rarity || 0).to_s << ','
-      ret << (self.deck_cost || 0).to_s << ','
-      ret << (self.slot || 0).to_s << ','
-      ret << '"' << (self.stand_image || '') << '",'
-      ret << '"' << (self.chara_image || '') << '",'
-      ret << '"' << (self.artifact_image || '') << '",'
-      ret << '"' << (self.bg_image || '') << '",'
-      ret << '"' << (self.caption || '') << '",'
-      ret << '"' << (self.feats_id || '') << '",'
-      ret << (self.story_id || 0).to_s << ','
-      ret << (self.charactor_id || 0).to_s << ','
-      ret << (self.next_id || 0).to_s << ','
-      ret << '"' << (CharaCardRequirement.up_tree(self.id).join(',')) << '",'
-      ret << '"' << (CharaCardRequirement.down_tree(self.id).join(',')) << '",'
-      ret << (self.kind || 0).to_s << ','
-      ret << '"' << (self.passives_id || '') << '"'
+      ret << id.to_s << ','
+      ret << '"' << (name || '') << '",'
+      ret << '"' << (ab_name || '') << '",'
+      ret << (level || 0).to_s << ','
+      ret << (hp || 0).to_s << ','
+      ret << (ap || 0).to_s << ','
+      ret << (dp || 0).to_s << ','
+      ret << (rarity || 0).to_s << ','
+      ret << (deck_cost || 0).to_s << ','
+      ret << (slot || 0).to_s << ','
+      ret << '"' << (stand_image || '') << '",'
+      ret << '"' << (chara_image || '') << '",'
+      ret << '"' << (artifact_image || '') << '",'
+      ret << '"' << (bg_image || '') << '",'
+      ret << '"' << (caption || '') << '",'
+      ret << '"' << (feats_id || '') << '",'
+      ret << (story_id || 0).to_s << ','
+      ret << (charactor_id || 0).to_s << ','
+      ret << (next_id || 0).to_s << ','
+      ret << '"' << (CharaCardRequirement.up_tree(id).join(',')) << '",'
+      ret << '"' << (CharaCardRequirement.down_tree(id).join(',')) << '",'
+      ret << (kind || 0).to_s << ','
+      ret << '"' << (passives_id || '') << '"'
       ret
     end
   end

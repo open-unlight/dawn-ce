@@ -1,5 +1,5 @@
 # font
-$:.unshift(File.join(File.expand_path('.'), 'src'))
+$LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'find'
 require 'pathname'
 require 'optparse'
@@ -13,21 +13,21 @@ use_char_no = ''
 delete_mode = true
 mode_reg = /LOCALE_TCN|LOCALE_SCN|LOCALE_EN|LOCALE_KR|LOCALE_FR|LOCALE_ID|LOCALE_TH/
 check_file = nil
-end_reg = /\;/
+end_reg = /;/
 all_griph = false
 
 # オプションがsの時sandbox用のURL
 #
 opt.on('-e', '--english', '英語用') do |v|
   if v
-    delete_mode = true;
+    delete_mode = true
     mode_reg = /LOCALE_TCN|LOCALE_SCN|LOCALE_JP|LOCALE_KR|LOCALE_FR/
   end
 end
 
 opt.on('-c', '--chinese', '繁体中国語') do |v|
   if v
-    delete_mode = true;
+    delete_mode = true
     font_h = 'wt004.ttf'
     font_r = 'cwming.ttf'
     check_file = 'all_griph_HanWangMingHeavy.txt'
@@ -37,7 +37,7 @@ end
 
 opt.on('-sc', '--schinese', '中国大陸版') do |v|
   if v
-    delete_mode = true;
+    delete_mode = true
     font_h = 'SourceHanSansSC-Heavy.otf'
     font_r = 'SourceHanSansSC-Heavy.otf'
     check_file = 'all_griph_SimpleChineseHeavy.txt'
@@ -49,14 +49,14 @@ opt.on('-kr', '--korean', '韓国語') do |v|
   if v
     font_h = 'batang.ttf'
     font_r = 'batang.ttf'
-    delete_mode = true;
+    delete_mode = true
     mode_reg = /LOCALE_TCN|LOCALE_JP|LOCALE_SCN|LOCALE_EN|LOCALE_FR|LOCALE_ID|LOCALE_TH/
   end
 end
 
 opt.on('-fr', '--french', 'フランス語用') do |v|
   if v
-    delete_mode = true;
+    delete_mode = true
     mode_reg = /LOCALE_TCN|LOCALE_JP|LOCALE_SCN|LOCALE_KR|LOCALE_EN|LOCALE_ID|LOCALE_TH/
     check_file = 'all_griph_nbr.txt'
     font_h = 'nbr.otf'
@@ -82,18 +82,18 @@ File.open('./data/backup/string_constants.txt') do |file|
       skip = true
       bracket_check = true
     else
-      if skip || bracket_skip > 0
+      if skip || bracket_skip.positive?
         if line.force_encoding('UTF-8')&.match?(end_reg)
           skip = false
         elsif bracket_check && line.force_encoding('UTF-8').include?('{')
           bracket_skip = +1
-        elsif line.force_encoding('UTF-8').include?('}') && bracket_skip > 0
+        elsif line.force_encoding('UTF-8').include?('}') && bracket_skip.positive?
           bracket_skip = -1
         end
         bracket_check = false
       else
-        line.gsub!(/\/\/.*$/, '')
-        new_const << line if !(line =~ /log.writeLog|TAGS|Embed/) && line =~ /".*"|'.*'/
+        line.gsub!(%r{//.*$}, '')
+        new_const << line if line !~ /log.writeLog|TAGS|Embed/ && line =~ /".*"|'.*'/
       end
     end
   end
@@ -104,20 +104,20 @@ f = file.open('w') { |f| f.puts new_const.each { |a| a } }
 # グリフチェックがある場合
 # ======================
 if check_file
-  check_hash = Hash.new()
+  check_hash = {}
   File.open("../client/data/#{check_file}") do |file|
     while line = file.gets
       p line if OUTPUT
-      line.scan(/./m) { |ch|
+      line.scan(/./m) do |ch|
         check_hash[ch] = 'OK'
-      }
+      end
     end
   end
 end
 # ======================
 
 # 文字をカウント
-h = Hash.new()
+h = {}
 Find.find('./data/backup') do |f|
   next if File.directory?(f)
 
@@ -126,10 +126,10 @@ Find.find('./data/backup') do |f|
   File.open(f) do |file|
     while line = file.gets
       p line if OUTPUT
-      line.scan(/./m) { |ch|
+      line.scan(/./m) do |ch|
         puts ch if OUTPUT
-        h[ch] = sprintf 'U+%04X', ch.unpack('U*')[0]
-      }
+        h[ch] = format 'U+%04X', ch.unpack1('U*')
+      end
     end
   end
 end

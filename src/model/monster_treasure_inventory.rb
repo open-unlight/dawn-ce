@@ -31,16 +31,16 @@ module Unlight
 
     def get_treasure
       ret = { step: 0, item: [0, 0, 0] }
-      t = self.treasure_data
+      t = treasure_data
       if t
         case t.treasure_type
         when TG_NONE
         when TG_CHARA_CARD
-          ret = { step: self.step, item: [Unlight::Reward::RANDOM_CARD, t.value, self.num,] }
+          ret = { step: step, item: [Unlight::Reward::RANDOM_CARD, t.value, num,] }
         when TG_SLOT_CARD
-          ret = { step: self.step, item: [SLOTS2REWARD[t.slot_type], t.value, self.num,] } unless SLOTS2REWARD[t.slot_type] == 0
+          ret = { step: step, item: [SLOTS2REWARD[t.slot_type], t.value, num,] } unless (SLOTS2REWARD[t.slot_type]).zero?
         when TG_AVATAR_ITEM
-          ret = { step: self.step, item: [Unlight::Reward::ITEM, t.value, self.num,] }
+          ret = { step: step, item: [Unlight::Reward::ITEM, t.value, num,] }
         when TG_AVATAR_PART
         when TG_GEM
         when TG_OWN_CARD

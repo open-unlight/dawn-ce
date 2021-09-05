@@ -122,7 +122,7 @@ module Unlight
       if @avatar
         e = @avatar.use_item(inv_id)
         @reward.update if @reward && (@reward.finished == false)
-        if e > 0
+        if e.positive?
           sc_error_no(e)
         else
           it = ItemInventory[inv_id]
@@ -167,7 +167,7 @@ module Unlight
     # =====================================
     # ゲームセッションの決定
     def do_determine_session(id, name, player_chara_id, foe_chara_id)
-      dialogue_id, dialogue_content = CharaCard::duel_start_dialogue(player_chara_id, foe_chara_id)
+      dialogue_id, dialogue_content = CharaCard.duel_start_dialogue(player_chara_id, foe_chara_id)
       sc_determine_session(id, name, player_chara_id, foe_chara_id, dialogue_content, dialogue_id)
       set_message_str_data(DUEL_MSGDLG_START, name.force_encoding('UTF-8'))
     end
@@ -176,17 +176,18 @@ module Unlight
     def set_duel_handler(no, rule)
       # Noはエントリの番号 0:alpha 1:beta
       @no = no
-      @foe = (no == 1) ? 0 : 1
+      @foe = no == 1 ? 0 : 1
 
       # ============================
       # デュエルのハンドラ
       # ============================
       # 部屋のルールに応じたイベントハンドラを設定
-      if rule == RULE_1VS1
+      case rule
+      when RULE_1VS1
         # デュエルの開始の終了を監視
         @duel.add_start_listener_three_to_three_duel(method(:one_to_one_duel_start_handler))
         @duel.add_finish_listener_three_to_three_duel(method(:duel_finish_handler))
-      elsif rule == RULE_3VS3
+      when RULE_3VS3
         # デュエルの開始の終了を監視
         @duel.add_start_listener_three_to_three_duel(method(:three_to_three_duel_start_handler))
         @duel.add_finish_listener_three_to_three_duel(method(:duel_finish_handler))
@@ -423,17 +424,17 @@ module Unlight
 
     # スタート時のハンドラ
     def one_to_one_duel_start_handler(duel)
-      if duel.turn == 0
+      if duel.turn.zero?
         set_message_str_data(DUEL_MSGDLG_DUEL_START)
-        set_cache_act_command()
+        set_cache_act_command
       end
     end
 
     # スタート時のハンドラ
     def three_to_three_duel_start_handler(duel)
-      if duel.turn == 0
+      if duel.turn.zero?
         set_message_str_data(DUEL_MSGDLG_M_DUEL_START)
-        set_cache_act_command()
+        set_cache_act_command
       end
     end
 
@@ -450,7 +451,7 @@ module Unlight
     def duel_refill_card_phase_handler(duel, ret)
       if ret
         size = ret[@foe].size
-        sc_duel_refill_phase(ActionCard.array2str(ret[@no]), ActionCard::array2int_dir(ret[@no]), size)
+        sc_duel_refill_phase(ActionCard.array2str(ret[@no]), ActionCard.array2int_dir(ret[@no]), size)
         ac_arr = []
         ret[@no].each { |ac| ac_arr << 0 }
         set_cache_act_command(ac_arr.join(','), 0, size)
@@ -461,7 +462,7 @@ module Unlight
     def duel_refill_event_card_phase_handler(duel, ret)
       if ret
         ac_arr_str = ActionCard.array2str(ret[@no])
-        ac_arr_int_dir = ActionCard::array2int_dir(ret[@no])
+        ac_arr_int_dir = ActionCard.array2int_dir(ret[@no])
         size = ret[@foe].size
         sc_duel_refill_event_phase(ac_arr_str, ac_arr_int_dir, size)
         ac_arr = []
@@ -473,25 +474,25 @@ module Unlight
     # 移動カード提出フェイズ開始
     def duel_move_card_phase_start_handler(target)
       sc_duel_move_card_drop_phase_start
-      set_cache_act_command()
+      set_cache_act_command
     end
 
     # 移動カード提出フェイズ終了
     def duel_move_card_phase_finish_handler(target, ret)
       sc_duel_move_card_drop_phase_finish
-      set_cache_act_command()
+      set_cache_act_command
     end
 
     # 移動の結果がでた時にハンドラ
     def duel_determine_move_phase_handler(target, ret)
-      name = (target.initi[0] == @no) ? DUEL_NAME_PL : DUEL_NAME_FOE
+      name = target.initi[0] == @no ? DUEL_NAME_PL : DUEL_NAME_FOE
       set_message_str_data(DUEL_MSGDLG_INITIATIVE, name)
 
       initi = (target.initi[0] == @no)
       distance = target.first_entrant.distance_appearance
-      pl_ac_arr_str = ActionCard::array2str(ret[@no])
+      pl_ac_arr_str = ActionCard.array2str(ret[@no])
       pl_ac_arr_int_dir = ActionCard.array2str_dir(ret[@no])
-      foe_ac_arr_str = ActionCard::array2str(ret[@foe])
+      foe_ac_arr_str = ActionCard.array2str(ret[@foe])
       foe_ac_arr_int_dir = ActionCard.array2str_dir(ret[@foe])
       pl_locked = duel.entrants[@no].table_cards_lock
       foe_locked = duel.entrants[@foe].table_cards_lock
@@ -633,8 +634,8 @@ module Unlight
     # 戦闘の結果がでた時のハンドラ
     def duel_battle_result_phase_handler(duel, ret)
       audience_str_data = [DUEL_MSGDLG_BTL_RESULT, DUEL_NAME_WATCH.gsub('__NAME__', duel.avatar_names[duel.initi[0]].force_encoding('UTF-8'))] if duel && duel.avatar_names
-      if ret[0].size == 0
-        name = (duel.initi[0] == @no) ? DUEL_NAME_PL : DUEL_NAME_FOE
+      if ret[0].empty?
+        name = duel.initi[0] == @no ? DUEL_NAME_PL : DUEL_NAME_FOE
         set_message_str_data(DUEL_MSGDLG_BTL_RESULT, name)
       else
         a = audience_str_data = nil
@@ -650,8 +651,8 @@ module Unlight
 
     # 死亡キャラ変更フェイズ開始
     def duel_dead_chara_change_phase_start_handler(duel)
-      pl_change_done = duel.entrants[@no].change_done?;
-      foe_change_done = duel.entrants[@foe].change_done?;
+      pl_change_done = duel.entrants[@no].change_done?
+      foe_change_done = duel.entrants[@foe].change_done?
       pl_ac_arr_str = ActionCard.array2str(duel.entrants[@no].battle_table)
       foe_ac_arr_str = ActionCard.array2str(duel.entrants[@foe].battle_table)
       sc_duel_dead_chara_change_phase_start(pl_change_done, foe_change_done, pl_ac_arr_str, foe_ac_arr_str)
@@ -792,43 +793,42 @@ module Unlight
     end
 
     # 相手のキャラカードを変更する
-    def foe_entrant_chara_change_action_handler(target, ret)
-    end
+    def foe_entrant_chara_change_action_handler(target, ret); end
 
     # 敵側のイニシアチブフェイズの完了アクション
     def foe_entrant_init_done_action_handler(target, ret)
       sc_entrant_init_done_action(false)
-      set_cache_act_command()
+      set_cache_act_command
     end
 
     # 敵側のイニシアチブフェイズの完了アクション
     def pl_entrant_init_done_action_handler(target, ret)
       sc_entrant_init_done_action(true)
-      set_cache_act_command()
+      set_cache_act_command
     end
 
     # 敵側の攻撃フェイズの完了アクション
     def foe_entrant_attack_done_action_handler(target, ret)
       sc_entrant_attack_done_action(false)
-      set_cache_act_command()
+      set_cache_act_command
     end
 
     # 敵側の防御フェイズの完了アクション
     def foe_entrant_deffence_done_action_handler(target, ret)
       sc_entrant_deffence_done_action(false)
-      set_cache_act_command()
+      set_cache_act_command
     end
 
     # プレイヤー側の攻撃フェイズの完了アクション
     def pl_entrant_attack_done_action_handler(target, ret)
-      sc_entrant_attack_done_action(true);
-      set_cache_act_command()
+      sc_entrant_attack_done_action(true)
+      set_cache_act_command
     end
 
     # プレイヤー側の防御フェイズの完了アクション
     def pl_entrant_deffence_done_action_handler(target, ret)
-      sc_entrant_deffence_done_action(true);
-      set_cache_act_command()
+      sc_entrant_deffence_done_action(true)
+      set_cache_act_command
     end
 
     # 自分が移動する
@@ -928,13 +928,13 @@ module Unlight
     # プレイヤーの状態回復イベント
     def plEntrant_cured_event_handler(target, ret)
       sc_entrant_cured_event(true)
-      set_cache_act_command()
+      set_cache_act_command
     end
 
     # 敵の状態回復イベント
     def foeEntrant_cured_event_handler(target, ret)
       sc_entrant_cured_event(false)
-      set_cache_act_command()
+      set_cache_act_command
     end
 
     # プレイヤーの必殺技解除イベント
@@ -1012,8 +1012,8 @@ module Unlight
 
     # プレイヤーが特別にカードを配られる場合のイベント
     def plEntrant_special_dealed_event_handler(target, ret)
-      ac_arr_str = ActionCard::array2str(ret)
-      ac_arr_int_dir = ActionCard::array2int_dir(ret)
+      ac_arr_str = ActionCard.array2str(ret)
+      ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = ret.size
       sc_entrant_special_dealed_event(true, ac_arr_str, ac_arr_int_dir, size)
       set_cache_act_command(ac_arr_str, ac_arr_int_dir, size)
@@ -1028,8 +1028,8 @@ module Unlight
 
     # プレイヤーに墓地のカードが配られる場合のイベント
     def plEntrant_grave_dealed_event_handler(target, ret)
-      ac_arr_str = ActionCard::array2str(ret)
-      ac_arr_int_dir = ActionCard::array2int_dir(ret)
+      ac_arr_str = ActionCard.array2str(ret)
+      ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = ret.size
       sc_entrant_grave_dealed_event(true, ac_arr_str, ac_arr_int_dir, size)
       set_cache_act_command(ac_arr_str, ac_arr_int_dir, size)
@@ -1037,8 +1037,8 @@ module Unlight
 
     # 敵に墓地のカードが配られる場合のイベント
     def foeEntrant_grave_dealed_event_handler(target, ret)
-      ac_arr_str = ActionCard::array2str(ret)
-      ac_arr_int_dir = ActionCard::array2int_dir(ret)
+      ac_arr_str = ActionCard.array2str(ret)
+      ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = ret.size
       sc_entrant_grave_dealed_event(false, ac_arr_str, ac_arr_int_dir, size)
       set_cache_act_command(ac_arr_str, ac_arr_int_dir, size)
@@ -1046,8 +1046,8 @@ module Unlight
 
     # プレイヤーに相手の手札のカードが配られる場合のイベント
     def plEntrant_steal_dealed_event_handler(target, ret)
-      ac_arr_str = ActionCard::array2str(ret)
-      ac_arr_int_dir = ActionCard::array2int_dir(ret)
+      ac_arr_str = ActionCard.array2str(ret)
+      ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = ret.size
       sc_entrant_steal_dealed_event(true, ac_arr_str, ac_arr_int_dir, size)
       set_cache_act_command(ac_arr_str, ac_arr_int_dir, size)
@@ -1055,8 +1055,8 @@ module Unlight
 
     # 敵にプレイヤーの手札のカードが配られる場合のイベント
     def foeEntrant_steal_dealed_event_handler(target, ret)
-      ac_arr_str = ActionCard::array2str(ret)
-      ac_arr_int_dir = ActionCard::array2int_dir(ret)
+      ac_arr_str = ActionCard.array2str(ret)
+      ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = ret.size
       sc_entrant_steal_dealed_event(false, ac_arr_str, ac_arr_int_dir, size)
       set_cache_act_command(ac_arr_str, ac_arr_int_dir, size)
@@ -1064,8 +1064,8 @@ module Unlight
 
     # プレイヤーが特別にイベントカードを配られる場合のイベント
     def plEntrant_special_event_card_dealed_event_handler(target, ret)
-      ac_arr_str = ActionCard::array2str(ret)
-      ac_arr_int_dir = ActionCard::array2int_dir(ret)
+      ac_arr_str = ActionCard.array2str(ret)
+      ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = 0
       sc_entrant_special_event_card_dealed_event(true, ac_arr_str, ac_arr_int_dir, size)
       set_cache_act_command(ac_arr_str, ac_arr_int_dir, size)
@@ -1266,8 +1266,8 @@ module Unlight
 
     # カードロック解除イベント
     def plEntrant_clear_card_locks_event_handler(target, ret)
-      sc_clear_card_locks_event()
-      set_cache_act_command()
+      sc_clear_card_locks_event
+      set_cache_act_command
     end
 
     # =====================
@@ -1286,9 +1286,9 @@ module Unlight
     def action_card_chance_event_handler(target, ret)
       if @duel
         size = ret.size
-        if (@duel.entrants[@no] == target.owner)
-          ac_arr_str = ActionCard::array2str(ret)
-          ac_arr_int_dir = ActionCard::array2int_dir(ret)
+        if @duel.entrants[@no] == target.owner
+          ac_arr_str = ActionCard.array2str(ret)
+          ac_arr_int_dir = ActionCard.array2int_dir(ret)
           sc_actioncard_chance_event(true, ac_arr_str, ac_arr_int_dir, size)
           set_cache_act_command(true, ac_arr_str, ac_arr_int_dir, size)
         else
@@ -1302,8 +1302,7 @@ module Unlight
       target.card_add_event_listener(ret, :add_finish_listener_chance_event, method(:action_card_chance_event_handler))
     end
 
-    def action_card_heal_event_handler(target, ret)
-    end
+    def action_card_heal_event_handler(target, ret); end
 
     # =====================
     # CharaCardEvent
@@ -1311,9 +1310,9 @@ module Unlight
     # 状態付加ON時のプレイヤー側ハンドラ
     def pl_entrant_buff_on_event_handler(target, ret)
       sc_buff_on_event(ret[0], ret[1], ret[2], ret[3], ret[4])
-      name = (ret[0]) ? DUEL_NAME_PL : DUEL_NAME_FOE
+      name = ret[0] ? DUEL_NAME_PL : DUEL_NAME_FOE
       set_message_str_data(DUEL_MSGDLG_STATE, ret[2], name) if duel.entrants[@no].current_chara_card_no == ret[1]
-      name_idx = (ret[0]) ? @no : @foe
+      name_idx = ret[0] ? @no : @foe
       audience_str_data = [DUEL_MSGDLG_STATE, ret[2], DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[name_idx].force_encoding('UTF-8'))] if @duel && @duel.avatar_names
       set_cache_act_command([ret[0], ret[1], ret[2], ret[3], ret[4]], audience_str_data)
     end
@@ -1321,9 +1320,9 @@ module Unlight
     # 状態付加ON時の敵側側ハンドラ
     def foe_entrant_buff_on_event_handler(target, ret)
       sc_buff_on_event(!ret[0], ret[1], ret[2], ret[3], ret[4])
-      name = (!ret[0]) ? DUEL_NAME_PL : DUEL_NAME_FOE
+      name = ret[0] ? DUEL_NAME_FOE : DUEL_NAME_PL
       set_message_str_data(DUEL_MSGDLG_STATE, ret[2], name) if duel.entrants[@foe].current_chara_card_no == ret[1]
-      name_idx = (!ret[0]) ? @no : @foe
+      name_idx = ret[0] ? @foe : @no
       audience_str_data = [DUEL_MSGDLG_STATE, ret[2], DUEL_NAME_WATCH.gsub('__NAME__', @duel.avatar_names[name_idx].force_encoding('UTF-8'))] if @duel && @duel.avatar_names
       set_cache_act_command([!ret[0], ret[1], ret[2], ret[3], ret[4]], audience_str_data)
     end
@@ -1372,8 +1371,7 @@ module Unlight
     end
 
     # 必殺技ON時の敵側側ハンドラ
-    def foe_entrant_feat_on_event_handler(target, ret)
-    end
+    def foe_entrant_feat_on_event_handler(target, ret); end
 
     # 必殺技Off時のプレイヤー側ハンドラ
     def pl_entrant_feat_off_event_handler(target, ret)
@@ -1381,8 +1379,7 @@ module Unlight
     end
 
     # 必殺技Off時の敵側側ハンドラ
-    def foe_entrant_feat_off_event_handler(target, ret)
-    end
+    def foe_entrant_feat_off_event_handler(target, ret); end
 
     # 必殺技が変更された時のプレイヤー側ハンドラ
     def pl_entrant_change_feat_event_handler(target, ret)
@@ -1646,15 +1643,15 @@ module Unlight
       if @watch_duel
         method = nil
         if /^(.+?):(\d+)(?::in `(.*)')?/ =~ caller(1..1).first
-          method = $3
+          method = Regexp.last_match(3)
         end
         @watch_duel.set_cache_act_command(args, method)
       end
     end
 
     def set_message_str_data(msgId, *args)
-      args = [] unless args
-      sc_message_str_data("#{msgId}:#{args.join(",")}")
+      args ||= []
+      sc_message_str_data("#{msgId}:#{args.join(',')}")
     end
   end
 end

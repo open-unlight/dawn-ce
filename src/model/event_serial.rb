@@ -35,29 +35,30 @@ module Unlight
 
     # 済んだかどうか
     def done?
-      self.state > 0
+      state.positive?
     end
 
     def name
-      if rm_item_type == RMI_TYPE_ITEM
+      case rm_item_type
+      when RMI_TYPE_ITEM
         AvatarItem[item_id].name
-      elsif  rm_item_type == RMI_TYPE_PARTS
+      when RMI_TYPE_PARTS
         AvatarPart[item_id].name
-      elsif  rm_item_type == RMI_TYPE_EVENT_CARD
+      when RMI_TYPE_EVENT_CARD
         EventCard[item_id].name
-      elsif  rm_item_type == RMI_TYPE_WEAPON_CARD
+      when RMI_TYPE_WEAPON_CARD
         WeaponCard[item_id].name
-      elsif  rm_item_type == RMI_TYPE_CHARA_CARD
+      when RMI_TYPE_CHARA_CARD
         cc = CharaCard[item_id]
-        "#{cc.name}:LV#{cc.level}#{"R" if cc.rarity > 5}"
+        "#{cc.name}:LV#{cc.level}#{'R' if cc.rarity > 5}"
       end
     end
 
     # 済んだ
-    def self::check(serial, pass)
+    def self.check(serial, pass)
       ret = nil
-      ess = self::filter(serial: serial).all
-      es =  ess.first if ess.size > 0
+      ess = filter(serial: serial).all
+      es =  ess.first unless ess.empty?
       if es && es.state == STATE_OK && (es.pass == pass || es.pass == 'pass')
         es.state = STATE_DONE
         es.save_changes
@@ -115,7 +116,7 @@ module Unlight
       1, 12
     ]
 
-    def self::create_infection_serial(id_str)
+    def self.create_infection_serial(id_str)
       # check_sum 作成SHA1のHEXのうち最初の40bitを使用する
       s = Digest::SHA1.hexdigest(id_str)
       a_cs = s[ES_A[0]..ES_A[0] + 1].hex + s[ES_A[1]..ES_A[1] + 1].hex # 2byte目と6byte目を合計
@@ -130,12 +131,11 @@ module Unlight
       num.times do |i|
         ret[ES_SHUFFLE_SET[i * 2]], ret[ES_SHUFFLE_SET[i * 2 + 1]] = ret[ES_SHUFFLE_SET[i * 2 + 1]], ret[ES_SHUFFLE_SET[i * 2]]
       end
-      ret = "#{ret[0..3]}-#{ret[4..7]}-#{ret[8..12]}"
-      ret
+      "#{ret[0..3]}-#{ret[4..7]}-#{ret[8..12]}"
     end
 
     # ****_****_*****の形式
-    def self::check_infection_serial(s)
+    def self.check_infection_serial(s)
       s.delete!('-')
       ret = s.length == 13
       ret = s.hex != 0 if ret # 0の時はじく
@@ -145,7 +145,7 @@ module Unlight
       end
       # 正しく作られているかチェックサムを検証する
       ret = (s[ES_A[0]..ES_A[0] + 1].hex + s[ES_A[1]..ES_A[1] + 1].hex) % ES_NUM_A == s[8].hex if ret
-      ret = (s[(ES_B[0] + 1)..ES_B[0] + 2].hex) % ES_NUM_B == s[11].hex if ret
+      ret = s[(ES_B[0] + 1)..ES_B[0] + 2].hex % ES_NUM_B == s[11].hex if ret
       ret = (s[ES_C[0]..ES_C[0] + 1].hex + s[ES_C[1]..ES_C[1] + 1].hex) % ES_NUM_C == s[12].hex if ret
       ret
     end

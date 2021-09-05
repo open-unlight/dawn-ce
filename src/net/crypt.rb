@@ -24,7 +24,7 @@ module Unlight
         des_a = []
         i = 0
         while i < alen
-          des_a[i] = a[i] ^ @session_key[(i) % @session_key_len]
+          des_a[i] = a[i] ^ @session_key[i % @session_key_len]
           i += 1
         end
         des_a.pack('C*')

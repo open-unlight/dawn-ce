@@ -1,4 +1,4 @@
-$:.unshift(File.join(File.expand_path('.'), 'src'))
+$LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 $arg = ARGV.shift
@@ -14,19 +14,19 @@ module Unlight
     st = Time.new(2016, 9, 14, 17).utc
     et = Time.new(2016, 9, 28, 13).utc
     prf_list = Profound.filter([[:state, [PRF_ST_FINISH, PRF_ST_VANISH]]]).filter { created_at > st }.filter { created_at < et }.all
-    prf_id_list = prf_list.map { |prf| prf.id }
-    pi_set = ProfoundInventory.filter([[:profound_id, prf_id_list], [:state, PRF_INV_ST_SOLVED]]).filter { score > 0 }.select_append { sum(damage_count).as(all_damage) }.all
+    prf_id_list = prf_list.map(&:id)
+    pi_set = ProfoundInventory.filter([[:profound_id, prf_id_list], [:state, PRF_INV_ST_SOLVED]]).filter { score.positive? }.select_append { sum(damage_count).as(all_damage) }.all
     total_damage = pi_set.first.values[:all_damage]
 
     ITEM_SET_LIST = {
-      250000 => { genr: TG_SLOT_CARD, id: 5025, num: 1, stype: SCT_WEAPON },
-      750000 => { genr: TG_SLOT_CARD, id: 6000, num: 1, stype: SCT_WEAPON },
-      1250000 => { genr: TG_AVATAR_PART, id: 752, num: 1, stype: SCT_WEAPON },
-      1750000 => { genr: TG_SLOT_CARD, id: 6001, num: 1, stype: SCT_WEAPON },
-      2500000 => { genr: TG_AVATAR_PART, id: 751, num: 1, stype: SCT_WEAPON },
-      2750000 => { genr: TG_AVATAR_ITEM, id: 4, num: 2, stype: SCT_WEAPON },
-      3000000 => { genr: TG_AVATAR_ITEM, id: 7, num: 2, stype: SCT_WEAPON },
-      3250000 => { genr: TG_AVATAR_ITEM, id: 9, num: 5, stype: SCT_WEAPON },
+      250_000 => { genr: TG_SLOT_CARD, id: 5025, num: 1, stype: SCT_WEAPON },
+      750_000 => { genr: TG_SLOT_CARD, id: 6000, num: 1, stype: SCT_WEAPON },
+      1_250_000 => { genr: TG_AVATAR_PART, id: 752, num: 1, stype: SCT_WEAPON },
+      1_750_000 => { genr: TG_SLOT_CARD, id: 6001, num: 1, stype: SCT_WEAPON },
+      2_500_000 => { genr: TG_AVATAR_PART, id: 751, num: 1, stype: SCT_WEAPON },
+      2_750_000 => { genr: TG_AVATAR_ITEM, id: 4, num: 2, stype: SCT_WEAPON },
+      3_000_000 => { genr: TG_AVATAR_ITEM, id: 7, num: 2, stype: SCT_WEAPON },
+      3_250_000 => { genr: TG_AVATAR_ITEM, id: 9, num: 5, stype: SCT_WEAPON }
     }
 
     puts "total_damage:#{total_damage}"
@@ -45,7 +45,7 @@ module Unlight
     end
     puts 'reward list ====================='
 
-    exit()
+    exit
 
     puts '上記の内容を全アバターに配付しますか？(y/n)'
     lanswer = gets.chomp
@@ -53,31 +53,31 @@ module Unlight
 
       item_import_list = []
       item_set_list = []
-      item_columns = [:avatar_id, :avatar_item_id, :created_at, :updated_at]
+      item_columns = %i[avatar_id avatar_item_id created_at updated_at]
       part_import_list = []
       part_set_list = []
-      part_columns = [:avatar_id, :avatar_part_id, :created_at, :updated_at]
+      part_columns = %i[avatar_id avatar_part_id created_at updated_at]
       weapon_import_list = []
       weapon_set_list = []
-      weapon_columns = [:chara_card_deck_id, :kind, :card_id, :created_at, :updated_at]
+      weapon_columns = %i[chara_card_deck_id kind card_id created_at updated_at]
 
       CLEARED_RECORD_ID = 1033
       list = AchievementInventory.filter([[:achievement_id, CLEARED_RECORD_ID], [:state, ACHIEVEMENT_STATE_FINISH]]).all
       aid_list = []
-      list.each { |l|
+      list.each do |l|
         puts "id:#{l.id} aid:#{l.achievement_id} state:#{l.state}, avatar_id:#{l.avatar_id} before_avatar_id:#{l.before_avatar_id}"
-        if l.avatar_id == 0
+        if l.avatar_id.zero?
           aid_list << l.before_avatar_id
         else
           aid_list << l.avatar_id
         end
-      }
+      end
       p aid_list
       p aid_list.size
       # avatars = Avatar.filter{ id > 1}.all
       avatars = Avatar.filter([[:id, aid_list]]).all
 
-      exit()
+      exit
 
       nt = Time.now.utc
       avatars.each do |ava|
@@ -123,15 +123,15 @@ module Unlight
         end
       end
 
-      if item_set_list.size > 0
+      unless item_set_list.empty?
         item_import_list << item_set_list
         item_set_list = []
       end
-      if part_set_list.size > 0
+      unless part_set_list.empty?
         part_import_list << part_set_list
         part_set_list = []
       end
-      if weapon_set_list.size > 0
+      unless weapon_set_list.empty?
         weapon_import_list << weapon_set_list
         weapon_set_list = []
       end

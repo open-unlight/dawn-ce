@@ -18,7 +18,7 @@ module Protocol
       super
       # コマンドクラスをつくる
       @@receive_cmd = Command.new(self, :Quest)
-      CharaCardDeck::preload_CPU_deck
+      CharaCardDeck.preload_CPU_deck
     end
 
     # 切断時
@@ -30,7 +30,7 @@ module Protocol
           do_logout
           @player = nil
         end
-      rescue => e
+      rescue StandardError => e
         puts e.message
       end
       SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")

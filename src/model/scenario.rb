@@ -35,13 +35,13 @@ module Unlight
 
     # スクリプトの命令リストを取得する
     def get_script_set
-      if @@script_str_set[self.id] != self.script
+      if @@script_str_set[id] != script
         eval_script
         p command_set
-        @@script_set[self.id] = [@command_set.clone, @jump_set.clone]
-        @@script_str_set[self.id] == self.script
+        @@script_set[id] = [@command_set.clone, @jump_set.clone]
+        @@script_str_set[id] == script
       end
-      @@script_set[self.id]
+      @@script_set[id]
     end
 
     # スクリプトを評価する
@@ -51,18 +51,18 @@ module Unlight
       # 飛び先リスト ジャンプラベルとコマンドの配列の位置
       @jump_set = {}
       num = 0
-      self.script.each_line do |s|
+      script.each_line do |s|
         s = s.force_encoding('utf-8')
         s.delete!("\r")
         case s
           # ダイアログの場合
         when /^\s*"(.*)"\s*$/
-          puts $1
-          @command_set << dialogue_to_proc($1)
+          puts Regexp.last_match(1)
+          @command_set << dialogue_to_proc(Regexp.last_match(1))
           num += 1
           # パネルの場合
         when /^Panel:(.*)\n$/
-          set = eval("[#{$1}]")
+          set = eval("[#{Regexp.last_match(1)}]")
           @command_set << panel_to_proc(set)
           num += 1
           @command_set << stop_to_proc(set)
@@ -70,30 +70,30 @@ module Unlight
           # ラベルの場合
         when /^=(.*)$/
           # 終わり
-          if $1.size == 0
+          if Regexp.last_match(1).empty?
             @command_set << finish_to_proc
             num += 1
           else
-            @jump_set[$1] = num
+            @jump_set[Regexp.last_match(1)] = num
           end
         when /^FlagCheck:(.*)\n$/
-          set = eval("[#{$1}]")
+          set = eval("[#{Regexp.last_match(1)}]")
           @command_set << flag_check_to_proc(set)
           num += 1
         when /^FlagSet:(.*)\n$/
-          set = eval($1)
+          set = eval(Regexp.last_match(1))
           @command_set << flag_set_to_proc(set)
           num += 1
         when /^Jump:(.*)\n$/
-          set = $1.delete('[').delete(']')
+          set = Regexp.last_match(1).delete('[').delete(']')
           @command_set << jump_to_proc(set)
           num += 1
         when /^Rand:(.*)\n$/
-          set = eval($1)
+          set = eval(Regexp.last_match(1))
           @command_set << rand_to_proc(set)
           num += 1
         when /^GiveItem:(.*)\n$/
-          set = eval($1)
+          set = eval(Regexp.last_match(1))
           @command_set << give_item_proc(set)
           num += 1
         end
@@ -146,12 +146,12 @@ module Unlight
       [:give_item_lobby_chara, [set]]
     end
 
-    def self::get_scenarios(favorite_chara_id)
+    def self.get_scenarios(favorite_chara_id)
       ret = []
       Scenario.filter(chara_id: favorite_chara_id).all do |s|
         t = Time.now
-        if (s.event_start_at == nil) || s.event_start_at < t && s.event_end_at > t
-          ret << s if s.count > 0
+        if s.event_start_at.nil? || s.event_start_at < t && s.event_end_at > t
+          ret << s if s.count.positive?
         end
       end
       ret

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module Unlight
   # RaidRankServerコマンド一覧
   class Command

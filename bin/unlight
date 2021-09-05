@@ -11,7 +11,7 @@ require 'logger'
 require 'bundler/setup'
 require 'sequel'
 
-$:.unshift Bundler.root.join('lib')
+$LOAD_PATH.unshift Bundler.root.join('lib')
 
 require 'dawn/database'
 

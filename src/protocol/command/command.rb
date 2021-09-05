@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # 通信コマンド生成クラス
 # サーバごとの受信・送信コマンドを動的に生成する
 require 'zlib'
@@ -72,15 +70,15 @@ module Unlight
       if val
         val.each do |i|
           c = @cmd_val.new(i[0], i[1], i[2])
-          if c.size == 0
-            ret << "            #{c.name}_len = data[#{s unless s == ""}#{pos},2].unpack('n*')[0]\n"
+          if c.empty?
+            ret << "            #{c.name}_len = data[#{s unless s == ''}#{pos},2].unpack('n*')[0]\n"
             #            ret << "p data[#{pos},2]\n"
             pos += 2
             #            ret << "p #{c.name}_len\n"
-            ret << "            #{c.name} = data[#{s unless s == ""}#{pos},#{c.name}_len]#{type_rec_res(c.type)}\n"
+            ret << "            #{c.name} = data[#{s unless s == ''}#{pos},#{c.name}_len]#{type_rec_res(c.type)}\n"
             s << "#{c.name}_len+"
           else
-            ret << "            #{c.name} = data[#{s unless s == ""}#{pos},#{c.size}]#{type_rec_res(c.type)}\n"
+            ret << "            #{c.name} = data[#{s unless s == ''}#{pos},#{c.size}]#{type_rec_res(c.type)}\n"
             pos += c.size
           end
           q << "#{c.name},"
@@ -149,10 +147,10 @@ module Unlight
       if val
         val.each do |i|
           c = @cmd_val.new(i[0], i[1], i[2])
-          if c.size == 0 && c.type != :int
+          if c.empty? && c.type != :int
             ret << "            #{d} << [#{c.name}.bytesize].pack('N')\n"
           end
-          ret << ("            #{c.name}.force_encoding" + '("ASCII-8BIT")' + "\n") if c.type == :String
+          ret << ("            #{c.name}.force_encoding(\"ASCII-8BIT\")\n") if c.type == :String
           ret << "            #{d} << #{type_send_res(c.type, c.name)}\n"
         end
       end

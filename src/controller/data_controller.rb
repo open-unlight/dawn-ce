@@ -10,11 +10,11 @@ module Unlight
     # =====================================
 
     # アバターの作製報告
-    def cs_create_avatar_success()
+    def cs_create_avatar_success
       SERVER_LOG.info("<UID:#{@uid}>DataServer: [#{__method__}] ")
       # 作製完了したので、アバターデータを取得しなおす
       @player.refresh
-      if @player.avatars.size > 0
+      unless @player.avatars.empty?
         @avatar = @player.avatars[0]
       end
     end
@@ -34,14 +34,13 @@ module Unlight
 
     # ストーリー情報を送る
     def cs_request_story_info(rnd0, id, rnd1)
-      SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_request_story_info] #{id}");
-      story = CharaCardStory[id];
+      SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_request_story_info] #{id}")
+      story = CharaCardStory[id]
       sc_story_info(id, story.book_type || 0, story.title || '', story.content || '', story.image || '', story.age_no || '', story.version || 0) if story
     end
 
     # フレンド情報のリクエスト
-    def cs_request_friends_info
-    end
+    def cs_request_friends_info; end
 
     def cs_request_friend_list(type, offset, count)
       SERVER_LOG.info("<UID:#{@uid}>DataServer: [#{__method__}] type:#{type} offset:#{offset} count:#{count}")
@@ -88,7 +87,7 @@ module Unlight
     # そのUIDをもった人はゲームを始めているか？
     def cs_check_exist_player(uid)
       ret = Player.filter({ name: uid }).all
-      if ret.size > 0 && ret[0] && ret[0].avatars.size > 0
+      if !ret.empty? && ret[0] && !ret[0].avatars.empty?
         sc_exist_player_info(uid, ret[0].id, ret[0].current_avatar.id)
       end
     end
@@ -102,24 +101,24 @@ module Unlight
       SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_request_ranking_list],#{kind},#{offset},#{server_type},#{count}")
       case kind
       when RANK_TYPE_TD
-        ret = Unlight::TotalDuelRanking.get_ranking_str(server_type, offset, offset + count - 1);
+        ret = Unlight::TotalDuelRanking.get_ranking_str(server_type, offset, offset + count - 1)
         sc_update_total_duel_ranking_list(offset, ret) if ret && ret.size > 1
       when RANK_TYPE_TQ
-        ret = Unlight::TotalQuestRanking.get_ranking_str(server_type, offset, offset + count - 1);
+        ret = Unlight::TotalQuestRanking.get_ranking_str(server_type, offset, offset + count - 1)
         sc_update_total_quest_ranking_list(offset, ret) if ret && ret.size > 1
       when RANK_TYPE_WD
-        ret = Unlight::WeeklyDuelRanking.get_ranking_str(server_type, offset, offset + count - 1);
+        ret = Unlight::WeeklyDuelRanking.get_ranking_str(server_type, offset, offset + count - 1)
         sc_update_weekly_duel_ranking_list(offset, ret) if ret && ret.size > 1
       when RANK_TYPE_WQ
-        ret = Unlight::WeeklyQuestRanking.get_ranking_str(server_type, offset, offset + count - 1);
+        ret = Unlight::WeeklyQuestRanking.get_ranking_str(server_type, offset, offset + count - 1)
         sc_update_weekly_quest_ranking_list(offset, ret) if ret && ret.size > 1
       when RANK_TYPE_TE
-        ret = Unlight::TotalEventRanking.get_ranking_str(server_type, offset, offset + count - 1);
+        ret = Unlight::TotalEventRanking.get_ranking_str(server_type, offset, offset + count - 1)
         sc_update_total_event_ranking_list(offset, ret) if ret && ret.size > 1
       when RANK_TYPE_TV
         now = Time.now.utc
         if now < CHARA_VOTE_RANKING_HIDE_TIME
-          ret = Unlight::TotalCharaVoteRanking.get_ranking_str(server_type, offset, offset + count - 1, false);
+          ret = Unlight::TotalCharaVoteRanking.get_ranking_str(server_type, offset, offset + count - 1, false)
           sc_update_total_chara_vote_ranking_list(offset, ret) if ret && ret.size > 1
         end
       end
@@ -132,15 +131,15 @@ module Unlight
 
     # 渦を取得
     def cs_get_profound(hash)
-      SERVER_LOG.info("<UID:#{@uid}>DataServer: [#{__method__}] hash:#{hash} avatar:#{@avatar}");
+      SERVER_LOG.info("<UID:#{@uid}>DataServer: [#{__method__}] hash:#{hash} avatar:#{@avatar}")
       if @avatar
         ret = @avatar.get_profound_from_hash(hash)
         if ret.instance_of?(ProfoundInventory)
-          SERVER_LOG.info("<UID:#{@uid}>DataServer: [#{__method__}] success! inv_id:#{ret.id}");
+          SERVER_LOG.info("<UID:#{@uid}>DataServer: [#{__method__}] success! inv_id:#{ret.id}")
           # 渦情報を送信
           @avatar.send_prf_info(ret, false)
         else
-          SERVER_LOG.info("<UID:#{@uid}>DataServer: [#{__method__}] e:#{ret}");
+          SERVER_LOG.info("<UID:#{@uid}>DataServer: [#{__method__}] e:#{ret}")
           # 帰ってきたエラーを出す
           sc_error_no(ret)
         end
@@ -149,10 +148,10 @@ module Unlight
 
     # アバター検索
     def cs_find_avatar(avatar_name)
-      SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_find_avatar] #{avatar_name}");
+      SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_find_avatar] #{avatar_name}")
       if @player
         st = @player.server_type
-        a = Avatar.filter { [Sequel.like(:name, "#{avatar_name}%"), player_id > 0, server_type => st] }.all
+        a = Avatar.filter { [Sequel.like(:name, "#{avatar_name}%"), player_id.positive?, { server_type => st }] }.all
         ret = []
         a.each do |a|
           if @player.id != a.player_id
@@ -196,7 +195,7 @@ module Unlight
     # 送信コマンド
     # =====================================
     # 押し出し関数
-    def pushout()
+    def pushout
       online_list[@player.id].close_connection
       online_list[@player.id].player = nil
     end
@@ -217,22 +216,22 @@ module Unlight
                            0,
                            0,
                            0,
-                           0,)
-      if @player.avatars.size > 0
+                           0)
+      if @player.avatars.empty?
+        SERVER_LOG.info("<UID:#{@uid}>DataServer: [regist start]")
+        sc_regist_info(REGIST_PARTS.join(','), REGIST_CARDS.join(','))
+      else
         @avatar = @player.avatars[0]
         @avatar.deck_clean_up_all
         @avatar.quest_all_out
         # していない人セール時間にする
-        @avatar.set_one_day_sale_start_check()
+        @avatar.set_one_day_sale_start_check
         regist_avatar_event
         # お詫びアイテムがあれば配付
         @avatar.get_apology_items
         sc_avatar_info(*@avatar.get_avatar_info_set)
         # アチーブメント情報をあとから送る 2013/01/16 yamagishi
         sc_achievement_info(*@avatar.get_achievement_info_set)
-      else
-        SERVER_LOG.info("<UID:#{@uid}>DataServer: [regist start]")
-        sc_regist_info(REGIST_PARTS.join(','), REGIST_CARDS.join(','))
       end
     end
 

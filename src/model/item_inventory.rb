@@ -31,19 +31,18 @@ module Unlight
     def use(avt, quest_map_no = 0)
       ret = ERROR_ITEM_NOT_EXIST
       # 重たい処理が走るとアイテムが何度も使えるので最初に
-      if self.state == ITEM_STATE_NOT_USE
-        if self.avatar_item.duration > 0
-          self.state = ITEM_STATE_USING   # 使用中
-          self.use_at = Time.now.utc      # 使用時間
-        else
-          self.state = ITEM_STATE_USED    # 使用した
-          self.use_at = Time.now.utc      # 使用時間
-        end
-        self.save_changes
-        ret = self.avatar_item.use(avt, quest_map_no)
+      if state == ITEM_STATE_NOT_USE
+        self.state = if avatar_item.duration.positive?
+                       ITEM_STATE_USING # 使用中
+                     else
+                       ITEM_STATE_USED # 使用した
+                     end
+        self.use_at = Time.now.utc
+        save_changes
+        ret = avatar_item.use(avt, quest_map_no)
         if ret != 0
           self.state = ITEM_STATE_NOT_USE   # 未使用に戻す
-          self.save_changes
+          save_changes
         end
       end
       ret

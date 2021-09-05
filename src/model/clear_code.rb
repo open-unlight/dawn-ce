@@ -35,17 +35,17 @@ module Unlight
 
     # 済んだかどうか
     def done?
-      self.state > 0
+      state.positive?
     end
 
     # 済んだ
-    def self::get_code(kind, max)
+    def self.get_code(kind, max)
       ret = ''
-      if self::filter(kind: kind, state: STATE_USED).count > max
+      if filter(kind: kind, state: STATE_USED).count > max
         return ret
       else
-        ccs = self::filter(kind: kind, state: STATE_UNUSE).all
-        if ccs.size > 0
+        ccs = filter(kind: kind, state: STATE_UNUSE).all
+        unless ccs.empty?
           cc =  ccs.first
           ret = cc.code
           cc.state = STATE_USED

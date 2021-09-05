@@ -31,64 +31,62 @@ module Unlight
 
       self.state = ACHIEVEMENT_STATE_START
       self.progress = 0
-      self.save_changes
+      save_changes
       SERVER_LOG.info('<>Avatar: achievement inv restart end')
     end
 
     def finish
       self.state = ACHIEVEMENT_STATE_FINISH
-      if self.achievement
-        self.code = self.achievement.get_code
+      if achievement
+        self.code = achievement.get_code
       end
-      self.save_changes
+      save_changes
     end
 
     def failed
       self.state = ACHIEVEMENT_STATE_FAILED
-      self.save_changes
+      save_changes
     end
 
     # 終了済みとして、avatar_idをbefore_avatar_idに移す
     def finish_delete
-      self.before_avatar_id = self.avatar_id
+      self.before_avatar_id = avatar_id
       self.avatar_id = 0
       # 達成してない場合は、ステータスを失敗に変更しておく
-      self.state = ACHIEVEMENT_STATE_FAILED if self.state != ACHIEVEMENT_STATE_FINISH
-      self.save_changes
+      self.state = ACHIEVEMENT_STATE_FAILED if state != ACHIEVEMENT_STATE_FINISH
+      save_changes
     end
 
     def is_end
       ret = true
-      if self.end_at
+      if end_at
         t = Time.now.utc
-        ret = self.end_at < t
+        ret = end_at < t
       end
       ret
     end
 
     def check_time_over?
       ret = false
-      if self.achievement
-        ret = self.is_end if self.end_at
-        unless ret
-          ret = (self.achievement.check_expiration == false)
-        end
+      if achievement
+        ret = is_end if end_at
+        ret ||= (achievement.check_expiration == false)
         if ret
-          self.before_avatar_id = self.avatar_id
+          self.before_avatar_id = avatar_id
           self.avatar_id = 0
           self.state = ACHIEVEMENT_STATE_FAILED
-          self.save_changes
+          save_changes
         end
       end
       ret
     end
 
     def progress_inheriting
-      prev_id = self.achievement.get_inheriting_progress
+      prev_id = achievement.get_inheriting_progress
       if prev_id != 0
-        prev_ai = AchievementInventory.filter([avatar_id: self.avatar_id, achievement_id: prev_id]).all.first
+        prev_ai = AchievementInventory.filter([avatar_id: avatar_id, achievement_id: prev_id]).all.first
         self.progress = prev_ai.progress
-        self.save_changes
+        save_changes
       end
     end
   end

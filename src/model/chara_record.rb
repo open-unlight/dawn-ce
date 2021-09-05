@@ -23,7 +23,7 @@ module Unlight
     # インサート時の前処理
     before_create do
       # アバターとキャラが存在するときにはHPに現在の最大カードを保存する
-      cc = self.avatar.max_cc_level_get(charactor_id) if self.avatar
+      cc = avatar.max_cc_level_get(charactor_id) if avatar
       if cc
         self.hit_point = cc.hp
         self.chara_card = cc

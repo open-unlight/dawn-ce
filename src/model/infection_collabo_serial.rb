@@ -35,17 +35,17 @@ module Unlight
 
     # 済んだかどうか
     def done?
-      self.state > 0
+      state.positive?
     end
 
-    def self::present_names
+    def self.present_names
       name_list = []
       INFECTION_COLLABO_PRESENTS.each do |item|
         case item[:type]
         when TG_CHARA_CARD
           cc = CharaCard[item[:id]]
           cc_name = cc.name
-          if cc.level > 0
+          if cc.level.positive?
             cc_name += ":LV#{cc.level}"
             cc_name += 'R' if cc.rarity > 5
           end
@@ -64,17 +64,17 @@ module Unlight
     end
 
     # 取得可能か
-    def self::check(serial, player_id, server_type)
+    def self.check(serial, player_id, server_type)
       # 保存用にSerial文字列をコピー（意味がわからん…）
       set_serial = ''
       set_serial += serial.delete('-')
       ret = false
       # 同一シリアル、または同一プレイヤーのデータがあるか
-      icss = self::filter(Sequel.|({ serial: set_serial }, { player_id: player_id })).filter(server_type: server_type).all
+      icss = filter(Sequel.|({ serial: set_serial }, { player_id: player_id })).filter(server_type: server_type).all
       # データがない
       if icss.size <= 0
         # Infectionコラボシリアル判定
-        if self::check_infection_serial(serial)
+        if check_infection_serial(serial)
           ret = InfectionCollaboSerial.new do |ics|
             ics.serial = set_serial
             ics.player_id = player_id
@@ -135,7 +135,7 @@ module Unlight
       1, 12
     ]
 
-    def self::create_infection_serial(id_str)
+    def self.create_infection_serial(id_str)
       # check_sum 作成SHA1のHEXのうち最初の40bitを使用する
       s = Digest::SHA1.hexdigest(id_str)
       a_cs = s[ES_A[0]..ES_A[0] + 1].hex + s[ES_A[1]..ES_A[1] + 1].hex # 2byte目と6byte目を合計
@@ -150,12 +150,11 @@ module Unlight
       num.times do |i|
         ret[ES_SHUFFLE_SET[i * 2]], ret[ES_SHUFFLE_SET[i * 2 + 1]] = ret[ES_SHUFFLE_SET[i * 2 + 1]], ret[ES_SHUFFLE_SET[i * 2]]
       end
-      ret = "#{ret[0..3]}-#{ret[4..7]}-#{ret[8..12]}"
-      ret
+      "#{ret[0..3]}-#{ret[4..7]}-#{ret[8..12]}"
     end
 
     # ****_****_*****の形式
-    def self::check_infection_serial(s)
+    def self.check_infection_serial(s)
       s.delete!('-')
       ret = s.length == 13
       ret = s.hex != 0 if ret # 0の時はじく
@@ -165,7 +164,7 @@ module Unlight
       end
       # 正しく作られているかチェックサムを検証する
       ret = (s[ES_A[0]..ES_A[0] + 1].hex + s[ES_A[1]..ES_A[1] + 1].hex) % ES_NUM_A == s[8].hex if ret
-      ret = (s[(ES_B[0] + 1)..ES_B[0] + 2].hex) % ES_NUM_B == s[11].hex if ret
+      ret = s[(ES_B[0] + 1)..ES_B[0] + 2].hex % ES_NUM_B == s[11].hex if ret
       ret = (s[ES_C[0]..ES_C[0] + 1].hex + s[ES_C[1]..ES_C[1] + 1].hex) % ES_NUM_C == s[12].hex if ret
       ret
     end

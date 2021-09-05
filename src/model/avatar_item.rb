@@ -33,7 +33,7 @@ module Unlight
     end
 
     # 全体データバージョンを返す
-    def AvatarItem::data_version
+    def self.data_version
       ret = cache_store.get('AvatarItemVersion')
       unless ret
         ret = refresh_data_version
@@ -43,7 +43,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def AvatarItem::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::AvatarItem.order(:updated_at).last
       if m
         cache_store.set('AvatarItemVersion', m.version)
@@ -55,7 +55,7 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # ===============================
@@ -123,7 +123,7 @@ module Unlight
       53 => [:get_gems, 1000],                           # 53:1000GEM小切手
       54 => [:get_gems, 3000],                           # 54:3000GEM
       55 => [:get_gems, 5000],                           # 55:5000GEM
-      56 => [:get_gems, 10000],                          # 56:10000GEM
+      56 => [:get_gems, 10_000], # 56:10000GEM
       57 => [:get_ev_acolyte_land, 0],                   # 57:アコライト通行証0分
       58 => [:get_ev_acolyte_land, 7],                   # 58:アコライト通行証8時間
       59 => [:get_ev_acolyte_land, 10],                  # 59:アコライト通行証3日
@@ -151,10 +151,10 @@ module Unlight
       81 => [:get_ev_land, [QM_RARE_LAND, 0]], # 81:ムネメの栞（R1）
       82 => [:find_group_profound, [400, 0]],             # 82:α型渦探知機4
       83 => [:find_group_profound, [500, 0]],             # 83:α型渦探知機5
-      84 => [:get_new_deck, 0],                          # 84:デッキ追加（Lv 1）
-      85 => [:get_new_deck, 114060],                     # 85:デッキ追加（Lv 31）
-      86 => [:get_new_deck, 1316560],                    # 86:デッキ追加（Lv 56）
-      87 => [:get_ev_land, [QM_EV_ABYSS_LAND, 0]],       # 87:深淵の書（2014/5月イベント用）
+      84 => [:get_new_deck, 0], # 84:デッキ追加（Lv 1）
+      85 => [:get_new_deck, 114_060], # 85:デッキ追加（Lv 31）
+      86 => [:get_new_deck, 1_316_560], # 86:デッキ追加（Lv 56）
+      87 => [:get_ev_land, [QM_EV_ABYSS_LAND, 0]], # 87:深淵の書（2014/5月イベント用）
       88 => [:find_group_profound, [106, 0]],             # 88:ダウジングロッド1
       89 => [:find_group_profound, [206, 0]],             # 89:ダウジングロッド2
       90 => [:find_group_profound, [306, 0]],             # 90:ダウジングロッド3
@@ -516,11 +516,11 @@ module Unlight
       604 => [:not_use, 0],                                         # 490:17/04:イベント収集アイテム
       605 => [:reward_dice_amend, 3],                               # 605:翠色の硝子玉
       606 => [:get_ev_land, [QM_EV_201707_LAND, 0]],                # 481:17/07:イベントクエスト取得アイテム
-      607 => [:not_use, 0],                                         # 482:17/07:イベント収集アイテム
+      607 => [:not_use, 0] # 482:17/07:イベント収集アイテム
     }
 
     # クエストマップNoを参照するメソッドリスト
-    USE_QUEST_MAP_NO_METHOD = [:quest_get_boss, :event_quest_get_boss, :quest_map_skip, :event_quest_map_skip]
+    USE_QUEST_MAP_NO_METHOD = %i[quest_get_boss event_quest_get_boss quest_map_skip event_quest_map_skip]
 
     # アイテムを使う。種類によって呼び出す関数を変えるOKの場合0失敗の場合エラーコードを返す(-1はエラーコードなし)
 
@@ -528,14 +528,14 @@ module Unlight
       ret = false
       @owner = avatar
       if avatar
-        if ITEM_EFFECTS[self.item_no]
+        if ITEM_EFFECTS[item_no]
           # 1があるとき引数となる値があるので渡す
-          if ITEM_EFFECTS[self.item_no][1]
-            ret = self.send(ITEM_EFFECTS[self.item_no][0], ITEM_EFFECTS[self.item_no][1])
-          elsif USE_QUEST_MAP_NO_METHOD.include?(ITEM_EFFECTS[self.item_no][0])
-            ret = self.send(ITEM_EFFECTS[self.item_no][0], quest_map_no)
+          if ITEM_EFFECTS[item_no][1]
+            ret = send(ITEM_EFFECTS[item_no][0], ITEM_EFFECTS[item_no][1])
+          elsif USE_QUEST_MAP_NO_METHOD.include?(ITEM_EFFECTS[item_no][0])
+            ret = send(ITEM_EFFECTS[item_no][0], quest_map_no)
           else
-            ret = self.send(ITEM_EFFECTS[self.item_no][0])
+            ret = send(ITEM_EFFECTS[item_no][0])
           end
         end
       end
@@ -644,10 +644,8 @@ module Unlight
     # クエストMAXを増やす
     def quest_max_up(v)
       if @owner
-        -1
-      else
-        -1
       end
+      -1
     end
 
     # フレンドMAXを増やす
@@ -669,7 +667,7 @@ module Unlight
     end
 
     # クエストをリスタート
-    def quest_restart()
+    def quest_restart
       if @owner && @owner.quest_progress_and_start?
         @owner.quest_restart
       else
@@ -712,7 +710,7 @@ module Unlight
     def quest_get_boss(v)
       return ERROR_ITEM_UNABLE_MAP if v >= QUEST_TUTORIAL_MAP_START # 通常クエスト画面じゃない場合はエラー
 
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_boss_quest(v)
       else
         if @owner.quest_inventory_capacity?
@@ -729,7 +727,7 @@ module Unlight
     def event_quest_get_boss(v)
       return ERROR_ITEM_UNABLE_MAP if v < QUEST_EVENT_MAP_START || v >= QUEST_CHARA_VOTE_MAP_START # イベントクエスト画面じゃない場合はエラー
 
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_boss_quest(v)
       else
         if @owner.quest_inventory_capacity?
@@ -744,7 +742,7 @@ module Unlight
 
     # EXShadowLandのクエストを獲得
     def get_ex_shadow_land(v)
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_ex_quest(QM_EX_SHADOW_LAND, v)
       else
         -1
@@ -753,7 +751,7 @@ module Unlight
 
     # EXMoonLandのクエストを獲得
     def get_ex_moon_land(v)
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_ex_quest(QM_EX_MOON_LAND, v)
       else
         -1
@@ -762,7 +760,7 @@ module Unlight
 
     # EXAnemoneaのクエストを獲得
     def get_ex_anemonea(v)
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_ex_quest(QM_EX_ANEMONEA, v)
       else
         -1
@@ -771,7 +769,7 @@ module Unlight
 
     # EXXmasLandのクエストを獲得
     def get_ev_xmas_land(v)
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_ex_quest(QM_EV_XMAS_LAND, v)
       else
         -1
@@ -780,7 +778,7 @@ module Unlight
 
     # EXValentineLandのクエストを獲得
     def get_ev_valentine_land(v)
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_ex_quest(QM_EV_VALENTINE_LAND, v)
       else
         -1
@@ -789,7 +787,7 @@ module Unlight
 
     # EXWhiteLandのクエストを獲得
     def get_ev_white_land(v)
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_ex_quest(QM_EV_WHITE_LAND, v)
       else
         -1
@@ -798,7 +796,7 @@ module Unlight
 
     # EXCodexLandのクエストを獲得
     def get_ev_codex_land(v)
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_ex_quest(QM_EV_CODEX_LAND, v)
       else
         -1
@@ -807,7 +805,7 @@ module Unlight
 
     # EXArkLandのクエストを獲得
     def get_ev_ark_land(v)
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_ex_quest(QM_EV_ARK_LAND, v)
       else
         -1
@@ -816,7 +814,7 @@ module Unlight
 
     # EXAcolyteLandのクエストを獲得
     def get_ev_acolyte_land(v)
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_ex_quest(QM_EV_ACOLYTE_LAND, v)
       else
         -1
@@ -825,7 +823,7 @@ module Unlight
 
     # EventLandのクエストを獲得
     def get_ev_land(v)
-      if @owner && not(@owner.quest_inventory_capacity?)
+      if @owner && !@owner.quest_inventory_capacity?
         @owner.get_ex_quest(v[0], v[1])
       else
         -1
@@ -864,10 +862,10 @@ module Unlight
       if @owner
         # 渦所持数をチェック
         if @owner.get_prf_inv_num < PROFOUND_MAX
-          pr = Profound::get_new_profound_for_map(@owner.id, v[0], @owner.server_type, v[1])
+          pr = Profound.get_new_profound_for_map(@owner.id, v[0], @owner.server_type, v[1])
           if pr
             inv = @owner.get_profound(pr, true)
-            (inv.instance_of?(ProfoundInventory)) ? 0 : -1
+            inv.instance_of?(ProfoundInventory) ? 0 : -1
           else
             ERROR_PRF_DATA_NOT_EXIST
           end
@@ -884,10 +882,10 @@ module Unlight
       if @owner
         # 渦所持数をチェック
         if @owner.get_prf_inv_num < PROFOUND_MAX
-          pr = Profound::get_new_profound_for_group(@owner.id, v[0], @owner.server_type, v[1])
+          pr = Profound.get_new_profound_for_group(@owner.id, v[0], @owner.server_type, v[1])
           if pr
             inv = @owner.get_profound(pr, true)
-            (inv.instance_of?(ProfoundInventory)) ? 0 : -1
+            inv.instance_of?(ProfoundInventory) ? 0 : -1
           else
             ERROR_PRF_DATA_NOT_EXIST
           end

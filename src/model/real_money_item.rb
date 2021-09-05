@@ -31,7 +31,7 @@ module Unlight
     end
 
     # 特定のショップのアイテムIDリストをもらえる
-    def RealMoneyItem::get_sale_list
+    def self.get_sale_list
       ret = cache_store.get('real_mone_item_sale_list:')
       unless ret
         ret = []
