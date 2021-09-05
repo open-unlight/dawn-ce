@@ -19,7 +19,7 @@ module Dawn
   def logger
     if ENV['DAWN_LOG_TO_STDOUT']
       $stdout.sync = true
-      @logger ||= Logger.new(STDOUT)
+      @logger ||= Logger.new($stdout)
     else
       @logger ||= Logger.new(root.join("log/#{env}.log"))
     end

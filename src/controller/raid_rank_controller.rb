@@ -25,13 +25,13 @@ module Unlight
     def cs_get_profound_result_ranking(prf_id)
       SERVER_LOG.info("<UID:#{@uid}>RaidRankServer: [#{__method__}] prf_id:#{prf_id}")
       if @avatar
-        self_inv = ProfoundInventory::get_avatar_profound_for_id(@avatar.id, prf_id)
+        self_inv = ProfoundInventory.get_avatar_profound_for_id(@avatar.id, prf_id)
         prf = Profound[prf_id]
         if self_inv && prf
           defeat_avatar = Avatar[prf.found_avatar_id]
           if defeat_avatar
             ranking_str_list, self_rank = self_inv.get_finish_ranking_notice_str(defeat_avatar, false)
-            if ranking_str_list.size > 0
+            unless ranking_str_list.empty?
               set_data = [prf_id, NOTICE_TYPE_FIN_PRF_RANKING, self_rank, ranking_str_list.join(',')]
               sc_profound_result_ranking(set_data.join('+'))
             end
@@ -40,14 +40,14 @@ module Unlight
       end
     end
 
-    def pushout()
+    def pushout
       online_list[@player.id].player.logout(true)
       online_list[@player.id].logout
     end
 
     def do_login
       SERVER_LOG.info("<UID:#{@uid}>RaidRankServer: [#{__method__}]")
-      if @player.avatars.size > 0
+      unless @player.avatars.empty?
         @avatar = @player.current_avatar
       end
     end

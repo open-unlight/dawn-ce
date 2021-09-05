@@ -64,8 +64,7 @@ class SRP
     a << Time.now.to_s
     a << rand(1000).to_s
     a << 'takuramakuran'
-    ret = Digest::SHA1.hexdigest(a)
-    ret
+    Digest::SHA1.hexdigest(a)
   end
 
   def srp_compute_x(u, p, s)
@@ -82,7 +81,7 @@ class SRP
     hashin = ''
     if @proto != :SPR3
       if @proto == :SPR6
-        if ((ahex.length & 1) == 0)
+        if (ahex.length & 1).zero?
           hashin += ahex
         else
           hashin += "0#{ahex}"
@@ -92,8 +91,8 @@ class SRP
         hashin += nzero(nlen - ahex.length) + ahex
       end
     end
-    if (@proto == :SPR3 || @proto == :SPR6)
-      if ((bhex.length & 1) == 0)
+    if @proto == :SPR3 || @proto == :SPR6
+      if (bhex.length & 1).zero?
         hashin += bhex
       else
         hashin += "0#{bhex}"
@@ -101,7 +100,7 @@ class SRP
     else
       hashin += nzero(nlen - bhex.length) + bhex
     end
-    if (@proto == :SPR3)
+    if @proto == :SPR3
       utmp = sha1_hash_hex(hashin)[0, 8]
     else
       utmp = sha1_hash_hex(hashin)
@@ -115,20 +114,21 @@ class SRP
 
   def srp_compute_k(n, g)
     hashin = ''
-    if @proto == :SPR3
+    case @proto
+    when :SPR3
       1
-    elsif @proto == :SPR6
+    when :SPR6
       3
     else
       nhex = n.to_s(16)
-      if ((nhex.length & 1) == 0)
+      if (nhex.length & 1).zero?
         hashin += nhex
       else
         hashin += "0#{nhex}"
       end
       ghex = g.to_s(16)
-      hashin += nzero(nhex.length - ghex.length);
-      hashin += ghex;
+      hashin += nzero(nhex.length - ghex.length)
+      hashin += ghex
       ktmp = sha1_hash_hex(hashin)
       if ktmp.hex < n
         ktmp.hex
@@ -174,7 +174,7 @@ class SRP
   def power_modulo_old(b, p, m)
     if p == 1
       b % m
-    elsif (p & 0x1) == 0
+    elsif (p & 0x1).zero?
       t = power_modulo_old(b, p >> 1, m)
       (t * t) % m
     else
@@ -192,9 +192,9 @@ class SRP
   end
 
   def srp_validate_N(n)
-    if !(prime?(n))
+    if !prime?(n)
       raise 'N is not prime'
-    elsif !(prime?((n - 1) / 2))
+    elsif !prime?((n - 1) / 2)
       raise '(N-1)2 is not prime'
     end
   end
@@ -214,35 +214,35 @@ class SRP
   # HexからArray
   def hex2array(h)
     a = []
-    h.length.times { |i| a << h[i, 2].hex if (i % 2 == 0) }
+    h.length.times { |i| a << h[i, 2].hex if i.even? }
     a
   end
 
   # ArrayからHex
   def array2hex(h)
     a = ''
-    h.each { |i|
+    h.each do |i|
       if i > 15
         a << i.to_s(16)
       else
-        a << "0#{(i.to_s(16))}"
+        a << "0#{i.to_s(16)}"
       end
-    }
+    end
     a
   end
 
   # Miller-Rabin Test  (Prime Test)
   # See, http://www.cs.albany.edu/~berg/csi445/Assignments/pa4.html
   def bitarray(n)
-    b = Array::new
+    b = []
     i = 0
     v = n
-    while v > 0
+    while v.positive?
       b[i] = (0x1 & v)
-      v = v / 2
-      i = i + 1
+      v /= 2
+      i += 1
     end
-    return b
+    b
   end
 
   def miller_rabin(n, s)
@@ -250,36 +250,36 @@ class SRP
     i = b.size
     j = 1
     while j <= s
-      a = 1 + (rand(n - 2).to_i)
+      a = 1 + rand(n - 2).to_i
       if witness(a, n, i, b) == true
         return false
       end
 
       j += 1
     end
-    return true
+    true
   end
 
   def witness(a, n, i, b)
     d = 1
     x = 0
-    while i > 0
+    while i.positive?
       x = d
       d = (d**2) % n
-      if ((d == 1) && (x != 1) && (x != (n - 1)))
+      if (d == 1) && (x != 1) && (x != (n - 1))
         return true
       end
 
-      if (b[i - 1] == 1)
+      if b[i - 1] == 1
         d = (d * a) % n
       end
       i -= 1
     end
-    if (d != 1)
+    if d != 1
       return true
     end
 
-    return false
+    false
   end
 
   def prime?(a)
@@ -291,8 +291,8 @@ class Array
   def ^(other)
     des_a = []
     ln = other.size
-    self.each_index do |i|
-      des_a[i] = self[i] ^ other[(i) % ln]
+    each_index do |i|
+      des_a[i] = self[i] ^ other[i % ln]
     end
     des_a
   end

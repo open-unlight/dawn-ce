@@ -14,6 +14,6 @@ namespace :data do
 
   desc 'Initialize CPU Decks'
   task initialize_cpu_decks: :environment do
-    Unlight::CharaCardDeck::initialize_CPU_deck
+    Unlight::CharaCardDeck.initialize_CPU_deck
   end
 end

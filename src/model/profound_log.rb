@@ -29,7 +29,7 @@ module Unlight
     NOW_DMG_CHECKED_LAST_ID_CACHE_TIME = 60 * 60 * 2
 
     # ログの保存
-    def ProfoundLog::set_damage(prf_id, a_id, a_name, c_no, dmg, b_name = '', atk_chara = 0)
+    def self.set_damage(prf_id, a_id, a_name, c_no, dmg, b_name = '', atk_chara = 0)
       ret = ProfoundLog.new do |pl|
         pl.profound_id   = prf_id
         pl.avatar_id     = a_id
@@ -46,48 +46,47 @@ module Unlight
     end
 
     # Duel開始時のBossのダメージを取得(avatar_idが0の場合、Boss回復)
-    def ProfoundLog::get_start_boss_damage(prf_id)
+    def self.get_start_boss_damage(prf_id)
       ret = [[], 0]
       dmg = [0, 0, 0]
       id  = 0
       list = ProfoundLog.filter([profound_id: prf_id]).order(:id).all
       list.each do |log|
-        if log.avatar_id == 0
+        if log.avatar_id.zero?
           dmg[log.chara_no] -= log.damage
         else
           dmg[log.chara_no] += log.damage
         end
         id = log.id
       end
-      ret = [dmg, id]
-      ret
+      [dmg, id]
     end
 
     # ダメージをマイナスで保存しないとだめだろ。
     # 総ダメージを取得
-    def ProfoundLog::get_all_damage(prf_id)
+    def self.get_all_damage(prf_id)
       dmg = ProfoundLog.filter([profound_id: prf_id])
                        .select_append { sum(damage).as(sum_damage) }
-                       .filter { avatar_id > 0 }.all.first
+                       .filter { avatar_id.positive? }.all.first
       heal = ProfoundLog.filter([profound_id: prf_id, avatar_id: 0])
                         .select_append { sum(damage).as(sum_damage) }.all.first
-      add_dmg = (dmg && dmg[:sum_damage]) ? dmg[:sum_damage] : 0
-      add_heal = (heal && heal[:sum_damage]) ? heal[:sum_damage] : 0
+      add_dmg = dmg && dmg[:sum_damage] ? dmg[:sum_damage] : 0
+      add_heal = heal && heal[:sum_damage] ? heal[:sum_damage] : 0
       add_dmg - add_heal
     end
 
     # 現在ダメージを取得
-    def ProfoundLog::get_now_damage(a_id, prf_id, view_start_dmg = 0, now_dmg = 0)
+    def self.get_now_damage(a_id, prf_id, view_start_dmg = 0, now_dmg = 0)
       log_data = []
       last_id = CACHE.get("prf_log_nowdmg_#{a_id}_#{prf_id}")
-      last_id = 0 if last_id == nil || now_dmg == 0
-      damage = (last_id == 0) ? 0 : now_dmg
+      last_id = 0 if last_id.nil? || now_dmg.zero?
+      damage = last_id.zero? ? 0 : now_dmg
       log_set = (damage == now_dmg)
       name_view = false
       list = ProfoundLog.filter([profound_id: prf_id]).filter { id > last_id }.order(:id).all
       list.each do |log|
         log_set = true if damage == now_dmg
-        if log.avatar_id == 0
+        if log.avatar_id.zero?
           damage -= log.damage
         else
           damage += log.damage
@@ -104,18 +103,17 @@ module Unlight
     end
 
     # ダメージログを取得
-    def ProfoundLog::get_profound_damage_log(prf_id, a_id, p_log_id = 0)
+    def self.get_profound_damage_log(prf_id, a_id, p_log_id = 0)
       ret = nil
-      ret = ProfoundLog.filter([profound_id: prf_id]).filter { id > p_log_id }.exclude(avatar_id: a_id).order(:id).all
-      ret
+      ProfoundLog.filter([profound_id: prf_id]).filter { id > p_log_id }.exclude(avatar_id: a_id).order(:id).all
     end
 
     # キャラランキングを取ってくる（デフォルトは5位まで）
-    def ProfoundLog::get_chara_ranking(prf_id, rank_limit = 5)
+    def self.get_chara_ranking(prf_id, rank_limit = 5)
       ret = CACHE.get("prf_log_chara_ranking_#{prf_id}")
       unless ret
         ret = ProfoundLog.filter([profound_id: prf_id])
-                         .filter { avatar_id > 0 }
+                         .filter { avatar_id.positive? }
                          .select_group(:atk_charactor)
                          .select_append { sum(damage).as(sum_damage) }
                          .order(Sequel.desc(:sum_damage))
@@ -127,9 +125,9 @@ module Unlight
     end
 
     # キャラランキングを取ってくる（デフォルトは5位まで）
-    def ProfoundLog::get_chara_ranking_no_set(prf_id, rank_limit = 5)
+    def self.get_chara_ranking_no_set(prf_id, rank_limit = 5)
       ret = []
-      ProfoundLog::get_chara_ranking(prf_id, rank_limit).each do |v|
+      ProfoundLog.get_chara_ranking(prf_id, rank_limit).each do |v|
         ret << v.atk_charactor
       end
       ret

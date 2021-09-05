@@ -123,11 +123,11 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::Feat::refresh_data_version
+      Unlight::Feat.refresh_data_version
     end
 
     # 全体データバージョンを返す
-    def Feat::data_version
+    def self.data_version
       ret = cache_store.get('FeatVersion')
       unless ret
         ret = refresh_data_version
@@ -137,7 +137,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def Feat::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::Feat.order(:updated_at).last
       if m
         cache_store.set('FeatVersion', m.version)
@@ -149,11 +149,11 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # 条件節の初期化
-    def self::initialize_condition_method
+    def self.initialize_condition_method
       @@condition_set = []
       @@condition_str_set = []
       @@pow_set = []
@@ -165,7 +165,7 @@ module Unlight
 
       Feat.all.each do |f|
         # 文字列を作る
-        cap_str = Feat::condition_str_gen(f.condition)
+        cap_str = Feat.condition_str_gen(f.condition)
         # puts cap_str
         @@condition_str_set[f.id] = f.orig_caption.force_encoding('UTF-8').gsub('__CONDITION__', cap_str) if f.orig_caption
         @@condition_str_set[f.id] = @@condition_str_set[f.id].gsub('__POW__', f.pow.to_s) if f.pow.to_s && @@condition_str_set[f.id]
@@ -175,7 +175,7 @@ module Unlight
         @@condition_set[f.id] = method_name.to_sym
         e = <<-EOF
         def self::#{method_name}(owner,range_free=false)
-            #{condition_check_gen(f.condition).gsub("__FEAT__", f.feat_no.to_s)}
+            #{condition_check_gen(f.condition).gsub('__FEAT__', f.feat_no.to_s)}
         end
         EOF
         instance_eval(e)
@@ -185,7 +185,7 @@ module Unlight
         @@ai_dist_cond_set[f.id] = method_name.to_sym
         e = <<-EOF
         def self::#{method_name}(range_free=false)
-            #{ai_dist_cond_gen(f.condition).gsub("__FEAT__", f.feat_no.to_s)}
+            #{ai_dist_cond_gen(f.condition).gsub('__FEAT__', f.feat_no.to_s)}
         end
         EOF
         instance_eval(e)
@@ -210,13 +210,13 @@ module Unlight
     end
 
     # 条件説をプログラムに変換
-    def self::condition_check_gen(str)
+    def self.condition_check_gen(str)
       s = []
       COND_DIST.each do |e|
         s << e[0].match(str).to_a[0]
         if s[-1]
           s[-1].sub!(e[0], e[1])
-          if s[-1].strip.length > 0
+          unless s[-1].strip.empty?
             s[-1] = "(range_free || #{s[-1]})"
           end
         end
@@ -226,11 +226,11 @@ module Unlight
         m = e[0].match(str)
         s << m.to_a[0]
         if s[-1]
-          another_wild_cards = (s.size == WILD_CARD + 1 && s[WILD_TYPE_AND_CERTAIN_VALUE]) ? 1 : 0
-          cond = another_wild_cards > 0 ? "#{e[1]}+#{another_wild_cards}" : e[1]
+          another_wild_cards = s.size == WILD_CARD + 1 && s[WILD_TYPE_AND_CERTAIN_VALUE] ? 1 : 0
+          cond = another_wild_cards.positive? ? "#{e[1]}+#{another_wild_cards}" : e[1]
           s[-1].sub!(e[0], cond)
         end
-        while (m && m.post_match)
+        while m && m.post_match
           m = e[0].match(m.post_match)
           s << m.to_a[0]
           s[-1].sub!(e[0], e[1]) if s[-1]
@@ -243,26 +243,26 @@ module Unlight
     end
 
     # AI判定用の距離関数を返す
-    def self::ai_dist_cond_gen(str)
+    def self.ai_dist_cond_gen(str)
       s = []
       COND_DIST.each do |e|
         s << e[0].match(str).to_a[0]
         if s[-1]
           s[-1].sub!(e[0], e[3])
-          if s[-1].strip.length > 0 && s[-1] != '[1, 2, 3]'
+          if !s[-1].strip.empty? && s[-1] != '[1, 2, 3]'
             s[-1] = "range_free ? [1, 2, 3] : #{s[-1]}"
           end
         end
       end
       s.delete(nil)
       s.delete('')
-      s << 'true' if s.size == 0
-      s.join('')
+      s << 'true' if s.empty?
+      s.join
     end
 
     # アクションカードの配列から特定カードを探し出す
     # 返り値は削除済みのカード配列と削除したカードのキーに裏表とそのバリューのハッシュ
-    def self::search_card(cards, type, value)
+    def self.search_card(cards, type, value)
       del = {}
       cards.each do |c|
         r = c.get_exist_value?(type, value)
@@ -279,7 +279,7 @@ module Unlight
 
     # アクションカードの配列から特定数値のカードを探し出す
     # 返り値は削除済みのカード配列と削除したカードのキーに裏表とそのバリューのハッシュ
-    def self::search_wld_card(cards, value, dummy = 0)
+    def self.search_wld_card(cards, value, dummy = 0)
       del = {}
       cards.each do |c|
         r = c.get_exist_wld_card_value?(value)
@@ -296,7 +296,7 @@ module Unlight
 
     # アクションカードの配列から特定タイプがValue以上かになるかを
     # 返り値は削除済みのカード配列と削除したカードの配列
-    def self::greater_card(cards, type, value)
+    def self.greater_card(cards, type, value)
       del = {}
       cv = 0
       cards.each do |c|
@@ -319,7 +319,7 @@ module Unlight
       [cards, del]
     end
 
-    def self::below_card(cards, type, value)
+    def self.below_card(cards, type, value)
       del = {}
       cv = 0
       cards.each do |c|
@@ -345,9 +345,9 @@ module Unlight
 
     # アクションカードの符号セットから特定タイプがValue以上かになるか
     # 返り値は削除済みのカード配列と削除したカードの配列
-    def self::greater_card_set(cards, sign, value)
+    def self.greater_card_set(cards, sign, value)
       del = {}
-      return [cards, del] if sign == 0
+      return [cards, del] if sign.zero?
 
       cv = 0
       type = nil
@@ -394,7 +394,7 @@ module Unlight
 
     # アクションカードを表す符合(SAEDM)を漢字に変換して返す
     # クライアントでカード裏の表示に使う
-    def self::sign_to_string(condition_str)
+    def self.sign_to_string(condition_str)
       dist_str = ''
       ac_str = ''
 
@@ -423,7 +423,7 @@ module Unlight
 
     # アクションカードの配列からなんでもいいのでそのカードが存在するか？をチェック
     # 返り値は削除済みのカード配列と削除したカードの配列
-    def self::wild_card(cards, value, opt)
+    def self.wild_card(cards, value, opt)
       del = {}
       cv = 0
       cards.each do |c|
@@ -444,14 +444,14 @@ module Unlight
     end
 
     # 必殺技の条件が機能してるかを返す（失敗はfalse, 成功は元カードと使用するカードの配列）
-    def self::ai_card_check(owner, feat_no)
+    def self.ai_card_check(owner, feat_no)
       funcs = @@ai_card_cond_set[feat_no]
       c = owner.cards.clone
       ret = [[], {}]
       funcs.each do |f|
         func = method(f[0])
         r = func.call(c, f[1], f[2])
-        if r[1].size == 0
+        if r[1].empty?
           ret = false
           break
         end
@@ -462,12 +462,12 @@ module Unlight
     end
 
     # 必殺技の条件が機能してるかを返す（失敗はfalse, 成功は元カードと使用するカードの配列）
-    def self::ai_dist_check(i, owner)
-      method(@@ai_dist_cond_set[i]).call()
+    def self.ai_dist_check(i, owner)
+      method(@@ai_dist_cond_set[i]).call
     end
 
     # AI判定用のカード条件を返す
-    def self::ai_card_cond_gen(str)
+    def self.ai_card_cond_gen(str)
       s = []
       str.delete!('M0', 'E0', 'S0', 'A0')
       COND_CARD.each do |e|
@@ -475,7 +475,7 @@ module Unlight
         s << m.to_a[0]
         s[-1].sub!(e[0], e[3]) if s[-1] && e[3]
 
-        while (m && m.post_match)
+        while m && m.post_match
           m = e[0].match(m.post_match)
           s << m.to_a[0]
           s[-1].sub!(e[0], e[3]) if s[-1] && e[3]
@@ -499,12 +499,12 @@ module Unlight
     end
 
     # 必殺技の条件が機能してるかを返す（失敗はfalse, 成功は元カードと使用するカードの配列）
-    def self::ai_phase_check(i, phase)
+    def self.ai_phase_check(i, phase)
       method(@@ai_phase_cond_set[i]).call(phase)
     end
 
     # AI判定用のフェイズ条件を返す
-    def self::ai_phase_cond_gen(str)
+    def self.ai_phase_cond_gen(str)
       s = []
       COND_PHASE.each do |e|
         s << e[0].match(str).to_a[0]
@@ -514,23 +514,22 @@ module Unlight
     end
 
     # AI判定用のアンチカード条件を返す
-    def self::ai_anti_card_cond_gen(str)
-    end
+    def self.ai_anti_card_cond_gen(str); end
 
     # チェック関数呼び出し（ID,Entrant,DistCheck無効化）
-    def self::check_feat(i, owner, range_free = false)
+    def self.check_feat(i, owner, range_free = false)
       method(@@condition_set[i]).call(owner, range_free)
     end
 
     # caption関数を差し替え
-    alias :orig_caption :caption
+    alias orig_caption caption
     # initで作ったキャプションを返す
     def caption
-      @@condition_str_set[self.id]
+      @@condition_str_set[id]
     end
 
     # 条件説を文字列に変換
-    def self::condition_str_gen(str)
+    def self.condition_str_gen(str)
       ret = []
       COND_DIST.each do |e|
         ret << e[0].match(str).to_a[0]
@@ -544,7 +543,7 @@ module Unlight
         m = e[0].match(str)
         s << m.to_a[0]
         s[-1].sub!(e[0], e[2]) if s[-1]
-        while (m && m.post_match)
+        while m && m.post_match
           m = e[0].match(m.post_match)
           s << m.to_a[0]
           s[-1].sub!(e[0], e[2]) if s[-1]
@@ -566,21 +565,21 @@ module Unlight
     end
 
     # 実際のPOWを返す
-    def self::pow(id)
+    def self.pow(id)
       @@pow_set[id]
     end
 
     # 属性を返す
-    def self::dice_attribute(id)
+    def self.dice_attribute(id)
       @@dice_attribute_set[id].split(',')
     end
 
     def get_data_csv_str
       ret = ''
-      ret << self.id.to_s.force_encoding('UTF-8') << ','
-      ret << '"' << (self.name || '').force_encoding('UTF-8') << '",'
-      ret << '"' << (self.effect_image || '').force_encoding('UTF-8') << '",'
-      ret << '"' << (self.caption || '').force_encoding('UTF-8') << '"'
+      ret << id.to_s.force_encoding('UTF-8') << ','
+      ret << '"' << (name || '').force_encoding('UTF-8') << '",'
+      ret << '"' << (effect_image || '').force_encoding('UTF-8') << '",'
+      ret << '"' << (caption || '').force_encoding('UTF-8') << '"'
       ret
     end
 

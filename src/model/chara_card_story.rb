@@ -28,11 +28,11 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::CharaCardStory::refresh_data_version
+      Unlight::CharaCardStory.refresh_data_version
     end
 
     # 全体データバージョンを返す
-    def CharaCardStory::data_version
+    def self.data_version
       ret = cache_store.get('CharaCardStoryVersion')
       unless ret
         ret = refresh_data_version
@@ -42,7 +42,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def CharaCardStory::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::CharaCardStory.order(:updated_at).last
       if m
         cache_store.set('CharaCardStoryVersion', m.version)
@@ -54,11 +54,11 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # データを並べた文字列を返す
-    def self::get_data_str(data)
+    def self.get_data_str(data)
       ret = ''
       ret << data.id.to_s << ','
       ret << '"' << (data.title || '') << '",'
@@ -67,13 +67,13 @@ module Unlight
     end
 
     # キャラIDからストーリー情報の一部を文字列で返す
-    def self::get_data_csv_str(id)
+    def self.get_data_csv_str(id)
       ret = '['
       list = CharaCardStory.filter(chara_card_id: id).order(:id).all
-      list.each { |ccs|
+      list.each do |ccs|
         ret << CharaCardStory.get_data_str(ccs) << ','
-      }
-      if list.length > 0
+      end
+      unless list.empty?
         ret.delete!("\n")
         ret.chop! if ret
       end

@@ -13,7 +13,7 @@ module Unlight
     EXP, GEM, ITEM, OWN_CARD, RANDOM_CARD, RARE_CARD, EVENT_CARD, WEAPON_CARD, = (0..7).to_a
 
     attr_accessor :avatar_id, :final_result
-    attr_reader :finished, :challenged, :lose, :total_exp, :total_gems, :add_point
+    attr_reader :finished, :challenged, :lose, :total_exp, :total_gems, :add_point, :win_num, :step_num
 
     # コンストラクタ
     def initialize(pl_deck, foe_deck, duel_result, ai_type, duel_bonus = 0, reward_level = 0, wild_items_id = 0)
@@ -57,7 +57,7 @@ module Unlight
       @before_genre = []                                # 過去3回の報酬のタイプ
       @before_max = 2                                   # 過去ジャンルの保存数
       @wild_items = []
-      ccd = CpuCardData[wild_items_id] unless wild_items_id == 0
+      ccd = CpuCardData[wild_items_id] unless wild_items_id.zero?
       if ccd && WILD_ITEM_GET[duel_result]
         @wild_items = ccd.treasure_items
       end
@@ -74,7 +74,7 @@ module Unlight
       @duel_bonus = duel_bonus
 
       # クエストの報酬かを判定
-      if reward_level == 0
+      if reward_level.zero?
         @step_num = START_END_TABLE[duel_result][0]       # 現在の報酬のステップ値
         @step_min = @step_num                             # 最小のステップ値
         @step_cap = START_END_TABLE[duel_result][1]       # 報酬の限界ステップ
@@ -105,9 +105,7 @@ module Unlight
     regist_event RewardEvent
 
     # Guard用アクセサ
-    def win_skip
-      @win_skip
-    end
+    attr_reader :win_skip
 
     def not_win_skip
       !@win_skip
@@ -193,7 +191,7 @@ module Unlight
           #         puts @candidate_list
           #         puts @win_num
           cc = @candidate_list[@win_num]
-          cc = @candidate_list.last unless cc # おそらくMAXの時には最後を返す
+          cc ||= @candidate_list.last # おそらくMAXの時には最後を返す
           @add_point = 0
           case cc[0]
           when EXP
@@ -240,7 +238,7 @@ module Unlight
               add_cards.push(cc[1])
             end
             # 取得したカードに関係しているもののみ、更新チェック 2013/01/16 yamagishi
-            @avatar.achievement_check(Achievement::get_card_check_achievement_ids(add_cards), { is_update: true, list: add_cards }) if add_cards != []
+            @avatar.achievement_check(Achievement.get_card_check_achievement_ids(add_cards), { is_update: true, list: add_cards }) if add_cards != []
             # Lv、レアカード作成レコードチェック
             @avatar.get_card_level_record_check(add_cards)
           end
@@ -321,22 +319,19 @@ module Unlight
     end
 
     # 勝敗結果
-    def duel_result
-      @duel_result
-    end
+    attr_reader :duel_result
 
     # 取得カード候補リスト
     def candidate_cards
       ret = []
+      ret << get_candidate
       if @initialized
-        ret << get_candidate
       else
-        ret << get_candidate
         ret << get_candidate
         ret << get_candidate
         if CHARA_VOTE_EVENT
           set = get_chara_vote_item_data
-          set = get_candidate if set == nil
+          set = get_candidate if set.nil?
           ret << set
         # By_K2 (BP 1600 이상인경우 코채에서 승리시 무한의탑 입장권 2장 출현)
         # elsif @card_bonus_pow == RADDER_DUEL_CARD_BONUS_POW && RESULT_3VS3_WIN == duel_result && @avatar.get_bp >= 1600
@@ -354,13 +349,13 @@ module Unlight
 
     # 最初期基本ダイス値
     def first_bottom_dice_num
-      @bottom_dice = [rand(6) + 1, rand(6) + 1]
+      @bottom_dice = [rand(1..6), rand(1..6)]
       @result_dice = @bottom_dice
     end
 
     # 結果ダイス値
     def result_dice_num
-      @result_dice = [rand(6) + 1, rand(6) + 1]
+      @result_dice = [rand(1..6), rand(1..6)]
     end
     regist_event ResultDiceEvent
 
@@ -427,16 +422,6 @@ module Unlight
       select_genre
     end
 
-    def win_num
-      @win_num
-      #     (@win_num/3).to_i
-    end
-
-    def step_num
-      @step_num
-      #     (@step_num/3).to_i
-    end
-
     def bonus_num
       # 本当は変換が必要。いまのバランスだと
       @step_num - 3
@@ -456,7 +441,7 @@ module Unlight
         done = true if ret
       end
 
-      while !done
+      until done
         case g
         when :exp
           ret = [EXP, 0, RewardData[step_num].exps]
@@ -478,7 +463,7 @@ module Unlight
           ret = get_wild_item
         end
         #        puts "select genre !!!!!! #{ret}"
-        if ret[2] == 0
+        if (ret[2]).zero?
           g = reselect_genre
         else
           done = true
@@ -493,11 +478,11 @@ module Unlight
     def get_wild_item
       ret = [0, 0, 0]
       # アイテムはハッシュの配列 指定ステップの最大値のアイテムを返す
-      @wild_items.each { |w|
+      @wild_items.each do |w|
         #       puts "#step is #{@step_min+w[:step]},#{step_num}"
         #       ret = w[:item] if (w[:step]+@step_min) < step_num
         ret = w[:item] if (w[:step] + @step_min) == step_num
-      }
+      end
       ret
     end
 
@@ -541,7 +526,7 @@ module Unlight
       elsif @pl_cc.rarity <= 5
         # ノーマルカード
         ret = get_search_card_id(@pl_cc.name, level, 1..5, cid)
-      elsif dec == 0
+      elsif dec.zero?
         # レアカード
         ret = get_search_tip_id
       else
@@ -591,7 +576,7 @@ module Unlight
       end
     end
 
-    HIGH_LOW_RARE_ITEMS = [10006, 10007, 10008, 10009, 10010, 10017]
+    HIGH_LOW_RARE_ITEMS = [10_006, 10_007, 10_008, 10_009, 10_010, 10_017]
     # 欠片カードをランダムで返す
     def get_search_tip_id
       HIGH_LOW_RARE_ITEMS[rand(HIGH_LOW_RARE_ITEMS.size)]
@@ -601,9 +586,10 @@ module Unlight
       ret = nil
       if RESULT_3VS3_WIN == duel_result || RESULT_3VS3_LOSE == duel_result
         top_cc = @pl_deck[0] # 先頭のキャラカードを取得
-        if top_cc.kind == CC_KIND_CHARA
+        case top_cc.kind
+        when CC_KIND_CHARA
           ret = [ITEM, (CHARA_VOTE_ITEM_START_ID + top_cc.charactor_id - 1), 1]
-        elsif top_cc.kind == CC_KIND_REBORN_CHARA
+        when CC_KIND_REBORN_CHARA
           c_id = top_cc.charactor_id - 4000
           ret = [ITEM, (CHARA_VOTE_ITEM_START_ID + c_id - 1), 1]
         end
@@ -614,8 +600,7 @@ module Unlight
     # By_K2 (무한의탑 입장권)
     def get_tower_item_data
       ret = nil
-      ret = [2, 102, 2]
-      ret
+      [2, 102, 2]
     end
 
     def set_avatar(a)
@@ -644,7 +629,7 @@ module Unlight
 
     # タグアイテムのIDを設定
     def set_tag_item_id(opponent_id = 0)
-      if opponent_id > 0
+      if opponent_id.positive?
         @tag_item_id = EVENT_REWARD_ITEM[@duel_result][opponent_id.to_s[-1].to_i]
       else
         @tag_item_id = 0
@@ -655,7 +640,7 @@ module Unlight
     def get_event_item_key
       ret = nil
       idx = EVENT_REWARD_ITEM_STEPS.index(@candidate_list.size + 1)
-      if idx != nil && EVENT_REWARD_ITEM[@duel_result].size > 0 && @tag_item_id != 0
+      if !idx.nil? && !EVENT_REWARD_ITEM[@duel_result].empty? && @tag_item_id != 0
         item_id = @tag_item_id
         set_item_num = EVENT_REWARD_ITEM_STEP_NUM[idx]
         ret = [2, item_id, set_item_num]
@@ -666,12 +651,12 @@ module Unlight
     # キャラ指定イベントアイテム
     def get_event_chara_item
       ret = nil
-      return ret if EVENT_REWARD_ITEM[@duel_result].size == 0
+      return ret if EVENT_REWARD_ITEM[@duel_result].empty?
 
       step = @candidate_list.size + 1
-      chara_ids = @pl_deck.map { |c| c.charactor_id }
+      chara_ids = @pl_deck.map(&:charactor_id)
 
-      if EVENT_CHARA_REWARD_ITEM_STEPS.index(step) && (chara_ids & EVENT_CHARA_IDS).size > 0
+      if EVENT_CHARA_REWARD_ITEM_STEPS.index(step) && !(chara_ids & EVENT_CHARA_IDS).empty?
         ret = [2, EVENT_REWARD_ITEM[@duel_result][0], EVENT_CHARA_REWARD_ITEM_STEP_NUM[EVENT_CHARA_REWARD_ITEM_STEPS.index(step)]]
       elsif EVENT_REWARD_ITEM_STEPS.index(step)
         ret = [2, EVENT_REWARD_ITEM[@duel_result][0], EVENT_REWARD_ITEM_STEP_NUM[EVENT_REWARD_ITEM_STEPS.index(step)]]

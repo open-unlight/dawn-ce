@@ -28,11 +28,11 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::PassiveSkill::refresh_data_version
+      Unlight::PassiveSkill.refresh_data_version
     end
 
     # 全体データバージョンを返す
-    def PassiveSkill::data_version
+    def self.data_version
       ret = cache_store.get('PassiveSkillVersion')
       unless ret
         ret = refresh_data_version
@@ -42,7 +42,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def PassiveSkill::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::PassiveSkill.order(:updated_at).last
       if m
         cache_store.set('PassiveSkillVersion', m.version)
@@ -54,11 +54,11 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # 条件節の初期化
-    def self::initialize_condition_method
+    def self.initialize_condition_method
       @@pow_set = []
       PassiveSkill.all.each do |f|
         # POWを作る
@@ -67,22 +67,22 @@ module Unlight
     end
 
     # 実際のPOWを返す
-    def self::pow(id)
+    def self.pow(id)
       @@pow_set[id]
     end
 
     # caption文を返す
     def replaced_caption
-      self.pow.to_s && self.caption ? self.caption.gsub('__POW__', self.pow.to_s).gsub('__NAME__', self.name.delete('+')) : self.caption
+      pow.to_s && caption ? caption.gsub('__POW__', pow.to_s).gsub('__NAME__', name.delete('+')) : caption
     end
 
     def get_data_csv_str
       ret = ''
-      ret << self.id.to_s.force_encoding('UTF-8') << ','
-      ret << self.passive_skill_no.to_s.force_encoding('UTF-8') << ','
-      ret << '"' << (self.name || '').force_encoding('UTF-8') << '",'
-      ret << '"' << (self.replaced_caption || '').force_encoding('UTF-8') << '",'
-      ret << '"' << (self.effect_image || '').force_encoding('UTF-8') << '"'
+      ret << id.to_s.force_encoding('UTF-8') << ','
+      ret << passive_skill_no.to_s.force_encoding('UTF-8') << ','
+      ret << '"' << (name || '').force_encoding('UTF-8') << '",'
+      ret << '"' << (replaced_caption || '').force_encoding('UTF-8') << '",'
+      ret << '"' << (effect_image || '').force_encoding('UTF-8') << '"'
       ret
     end
 

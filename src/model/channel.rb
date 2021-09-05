@@ -29,36 +29,36 @@ module Unlight
       self.updated_at = Time.now.utc
     end
 
-    def Channel::all_order
-      self.order(:order)
+    def self.all_order
+      order(:order)
     end
 
-    def Channel::channel_list
+    def self.channel_list
       @@channel_list
     end
 
-    def Channel::order_id(channel_id)
+    def self.order_id(channel_id)
       @@channel_list.order(:order)[channel_id].id
     end
 
-    def Channel::destroy_all_list
+    def self.destroy_all_list
       # 現在の部屋リスト
       @@channel_list = {}
-      Channel.all.each { |a|
+      Channel.all.each do |a|
         @@channel_list[a.id] = a
-      }
+      end
     end
 
     def boot(update = true)
       self.count = 0 if update
       self.state = DSS_OK
-      self.save_changes
+      save_changes
     end
 
     # ゲームサーバ終了時に自分のIDのチャンネルを閉じる
     def shut_down
       self.state = DSS_DOWN
-      self.save_changes
+      save_changes
     end
 
     def room_list
@@ -75,7 +75,7 @@ module Unlight
 
     # クイックマッチのチャンネルか判定
     def is_radder?
-      (self.rule == CRULE_HIGH || self.rule == CRULE_RADDER || self.rule == CRULE_COST_A || self.rule == CRULE_COST_B)
+      (rule == CRULE_HIGH || rule == CRULE_RADDER || rule == CRULE_COST_A || rule == CRULE_COST_B)
     end
 
     # プレイヤーを入場させる
@@ -89,7 +89,7 @@ module Unlight
     end
 
     # 全てのチャンネル情報を取得する
-    def Channel::get_channel_list_info(server_type)
+    def self.get_channel_list_info(server_type)
       ret = CACHE.get("channel_list_info_#{server_type}")
       unless ret
         ret_id = []
@@ -111,7 +111,7 @@ module Unlight
         ret_cost_limit_min = []
         ret_cost_limit_max = []
         ret_watch_mode = []
-        self.all_order.each do |c|
+        all_order.each do |c|
           if c.server_type == server_type
             ret_id << c.id
             ret_name << c.name
@@ -164,9 +164,9 @@ module Unlight
     # 返値:存在する場合そのマッチクラスのID
     def player_exist?(player_id)
       ret = nil
-      if room_list.size > 0
+      unless room_list.empty?
         room_list.each_value do |r|
-          ret = r if r.include_player?(player_id) if r
+          ret = r if r&.include_player?(player_id)
         end
       end
       ret
@@ -179,19 +179,19 @@ module Unlight
 
     # 混雑率
     def congestion_rate
-      self.count / self.max * 100
+      count / max * 100
     end
 
     # 自分の次のチャンネルを返す存在しなければnil
     def next_channel
       ret = nil
-      cs = Channel::filter({ rule: self.rule }).filter(server_type: self.server_type).order(:order).all
+      cs = Channel.filter({ rule: rule }).filter(server_type: server_type).order(:order).all
       i = false
       cs.each do |c|
         if i
           ret = c
         else
-          i = true if c.id == self.id
+          i = true if c.id == id
         end
       end
       ret
@@ -200,22 +200,22 @@ module Unlight
     # 自分の前のチャンネルを返す存在しなければnil
     def before_channel
       ret = nil
-      cs = Channel::filter({ rule: self.rule }).filter(server_type: self.server_type).order(:order).all
+      cs = Channel.filter({ rule: rule }).filter(server_type: server_type).order(:order).all
       i = false
       cs.each_index do |i|
-        if cs[i].id == self.id
-          ret = cs[i - 1] if cs[i - 1] && i > 0
+        if cs[i].id == id
+          ret = cs[i - 1] if cs[i - 1] && i.positive?
         end
       end
       ret
     end
 
     def cpu_matching_type?
-      self.cpu_matching_type
+      cpu_matching_type
     end
 
     def cpu_matching_condition?
-      self.cpu_matching_condition
+      cpu_matching_condition
     end
   end
 end

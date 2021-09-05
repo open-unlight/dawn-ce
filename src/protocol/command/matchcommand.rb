@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module Unlight
   # GameServerコマンド一覧
   class Command

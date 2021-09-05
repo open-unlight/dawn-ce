@@ -32,7 +32,8 @@ module Unlight
       self.updated_at = Time.now.utc
     end
 
-    def QuestClearLog::create_log(a_id, q_iv, f_p, r, server_type, floor_count = 0) # By_K2 (무한의탑인 경우 층수 기록)
+    # By_K2 (무한의탑인 경우 층수 기록)
+    def self.create_log(a_id, q_iv, f_p, r, server_type, floor_count = 0)
       ret = 0
       QuestClearLog.new do |i|
         aqi = AvatarQuestInventory[q_iv]
@@ -57,7 +58,7 @@ module Unlight
 
           num = i.avatar.chara_card_decks[aqi.deck_index].cards.size
           # Duel勝利時か、マップの先端に行き着いた場合
-          if (r == RESULT_WIN || r == RESULT_DEAD_END) && VALUE[num]
+          if [RESULT_WIN, RESULT_DEAD_END].include?(r) && VALUE[num]
             i.quest_point = (aqi.quest.difficulty * VALUE[num]).to_i
             qp = (aqi.quest.difficulty * VALUE[num]).to_i
           else
@@ -66,7 +67,7 @@ module Unlight
           end
 
           # By_K2 (무한의탑인 경우 층수 기록)
-          if qp == 0 && aqi.quest.quest_map_id == QM_EV_INFINITE_TOWER
+          if qp.zero? && aqi.quest.quest_map_id == QM_EV_INFINITE_TOWER
             qp = floor_count
           end
 
@@ -90,7 +91,6 @@ module Unlight
     end
 
     # リミットずつのログをもらう(1ページスタート)
-    def QuestClearLog::get_page(a_id, page)
-    end
+    def self.get_page(a_id, page); end
   end
 end

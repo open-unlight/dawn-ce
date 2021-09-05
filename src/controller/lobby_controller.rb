@@ -21,7 +21,7 @@ module Unlight
           end
           break if erro_no != 0
         end
-        if erro_no == 0
+        if erro_no.zero?
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [cs_update_card_inventory_info] ///// update success ///// e:#{erro_no} #{index}, #{inv_id_0}, #{inv_id_1}, #{inv_id_2}")
           sc_update_deck_success(index, inv_id_0, inv_id_1, inv_id_2)
         else
@@ -37,7 +37,7 @@ module Unlight
       if @avatar
         CACHE.set("update_card_inventory_info_#{@avatar.player_id}", true, 60 * 60 * 1)
         e = @avatar.update_chara_card_deck(inv_id, index, position)
-        if e == 0
+        if e.zero?
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [cs_update_card_inventory_info] ///// update success ///// e:#{e} ")
         else
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [cs_update_card_inventory_info] ///// error ///// e:#{e}")
@@ -46,7 +46,7 @@ module Unlight
       end
       # 設定終了を報告
       CACHE.delete("update_card_inventory_info_#{@avatar.player_id}")
-      sc_update_card_inventory_info_finish()
+      sc_update_card_inventory_info_finish
     end
 
     # カード情報を設定
@@ -55,25 +55,25 @@ module Unlight
       if @avatar
         CACHE.set("update_slot_card_inventory_info_#{@avatar.player_id}", true, 60 * 60 * 1)
         ret = @avatar.update_slot_card_deck(inv_id, index, kind, deck_position, card_position)
-        unless ret[0] == 0
+        unless (ret[0]).zero?
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [cs_update_slot_cardinventory_info] ///// error ///// e:#{ret[0]}")
           sc_update_slot_card_inventory_failed(kind, ret[0], ret[1].id, @avatar.get_deck_index(ret[1].chara_card_deck), ret[1].deck_position, ret[1].card_position)
         end
       end
       # 設定終了を報告
       CACHE.delete("update_slot_card_inventory_info_#{@avatar.player_id}")
-      sc_update_slot_card_inventory_info_finish()
+      sc_update_slot_card_inventory_info_finish
     end
 
     # カード情報更新中判定
-    def cs_inventory_update_check()
+    def cs_inventory_update_check
       chara_card_inv_info = false
       slot_card_inv_info = false
       if @avatar
         cache_tmp = CACHE.get("update_card_inventory_info_#{@avatar.player_id}")
-        chara_card_inv_info = (cache_tmp != nil) ? cache_tmp : false
+        chara_card_inv_info = cache_tmp.nil? ? false : cache_tmp
         cache_tmp = CACHE.get("update_slot_card_inventory_info_#{@avatar.player_id}")
-        slot_card_inv_info = (cache_tmp != nil) ? cache_tmp : false
+        slot_card_inv_info = cache_tmp.nil? ? false : cache_tmp
       end
       sc_inventory_update_check(chara_card_inv_info, slot_card_inv_info)
     end
@@ -109,12 +109,11 @@ module Unlight
     end
 
     # 新規にデッキを作る
-    def cs_create_deck()
-    end
+    def cs_create_deck; end
 
     # 既存デッキを削除する
     def cs_delete_deck(index)
-      sc_delete_deck_success(index) if @avatar.delete_deck(index) if @avatar
+      sc_delete_deck_success(index) if @avatar && @avatar.delete_deck(index)
       @avatar.update_current_deck_index(1) if @avatar
     end
 
@@ -128,7 +127,7 @@ module Unlight
 
     # カード合成ツリーのリクエスト
     def cs_request_growth_tree_info(id)
-      sc_growth_tree_info(id, CharaCard.up_tree(id).join(','), CharaCard.down_tree(id).join(','), CharaCardRequirement::data_version) if CharaCard[id]
+      sc_growth_tree_info(id, CharaCard.up_tree(id).join(','), CharaCard.down_tree(id).join(','), CharaCardRequirement.data_version) if CharaCard[id]
     end
 
     # 合成可能か調べるのリクエスト
@@ -151,11 +150,11 @@ module Unlight
 
     # 合成リクエスト
     def cs_request_combine(inv_id_list_str)
-      SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [:#{__method__}] #{inv_id_list_str}");
+      SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [:#{__method__}] #{inv_id_list_str}")
       if @avatar
         ret = @avatar.combine(inv_id_list_str.split(','))
         sc_combine_result(ret[0], ret[1], ret[2])
-        SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [:#{__method__}] ret:#{ret}");
+        SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [:#{__method__}] ret:#{ret}")
       end
     end
 
@@ -168,9 +167,9 @@ module Unlight
     def cs_avatar_use_item(inv_id)
       if @avatar
         e = @avatar.use_item(inv_id)
-        unless e > 0
+        unless e.positive?
           it = ItemInventory[inv_id]
-          SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [avatar_use_item] use_item_id:#{it.avatar_item_id}");
+          SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [avatar_use_item] use_item_id:#{it.avatar_item_id}")
         end
       end
     end
@@ -178,32 +177,32 @@ module Unlight
     # ショップの情報を要求
     def cs_request_shop_info(shop_type)
       list = Shop.get_sale_list(shop_type)
-      if list.size > 0
+      unless list.empty?
         sc_shop_info(shop_type, list.join(','))
-        SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_shop_info] #{list.join(",")}")
+        SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_shop_info] #{list.join(',')}")
       end
     end
 
     # アイテムを購入する
     def cs_avatar_buy_item(shop, inv_id, amount)
-      sc_error_no(ERROR_GEM_DEFICIT) unless @avatar.buy_item(shop, inv_id, amount) if @avatar
+      sc_error_no(ERROR_GEM_DEFICIT) if @avatar && !@avatar.buy_item(shop, inv_id, amount)
     end
 
     # スロットカードを購入する
     def cs_avatar_buy_slot_card(shop, kind, inv_id, amount)
-      sc_error_no(ERROR_GEM_DEFICIT) unless @avatar.buy_slot_card(shop, kind, inv_id, amount) if @avatar
+      sc_error_no(ERROR_GEM_DEFICIT) if @avatar && !@avatar.buy_slot_card(shop, kind, inv_id, amount)
     end
 
     # キャラカードを購入する
     def cs_avatar_buy_chara_card(shop, inv_id, amount)
-      sc_error_no(ERROR_GEM_DEFICIT) unless @avatar.buy_chara_card(shop, inv_id, amount) if @avatar
+      sc_error_no(ERROR_GEM_DEFICIT) if @avatar && !@avatar.buy_chara_card(shop, inv_id, amount)
     end
 
     # パーツを購入する
     def cs_avatar_buy_part(shop, part_id)
       if @avatar
         ret = @avatar.buy_part(shop, part_id)
-        unless ret == 0
+        unless ret.zero?
           sc_error_no(ret)
         end
       end
@@ -211,8 +210,8 @@ module Unlight
 
     # 課金アイテムを取得する
     def cs_request_real_money_item_info
-      list = RealMoneyItem.get_sale_list()
-      if list[0] > 0
+      list = RealMoneyItem.get_sale_list
+      if (list[0]).positive?
         sc_real_money_item_info(list[0], list[1].join(','))
       end
     end
@@ -220,10 +219,10 @@ module Unlight
     # 課金アイテムをチェックする
     def cs_real_money_item_result_check(id)
       if @avatar
-        ret = @avatar.get_real_money_item()
-        ret.each { |r|
+        ret = @avatar.get_real_money_item
+        ret.each do |r|
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [real_money_item_get_result] result#{r}")
-        }
+        end
       end
     end
 
@@ -234,7 +233,7 @@ module Unlight
       if @player && @avatar
         ret = @player.create_friend_link(id)
       end
-      if ret == 0
+      if ret.zero?
         sc_friend_apply_success(id)
       else
         sc_error_no(ret)
@@ -248,7 +247,7 @@ module Unlight
       if @player && @avatar
         ret = @player.create_block_link(id)
       end
-      if ret[0] == 0
+      if (ret[0]).zero?
         sc_friend_block_success(ret[1].related_player_id)
       else
         sc_error_no(ret[0])
@@ -316,9 +315,9 @@ module Unlight
     def cs_set_avatar_part(id)
       if @avatar
         ret = @avatar.equip_part(id)
-        if ret[0] == 0
-          remainTime = ret[3] ? ret[3] : 0
-          used = ret[4] ? ret[4] : 0
+        if (ret[0]).zero?
+          remainTime = ret[3] || 0
+          used = ret[4] || 0
           sc_equip_change_succ(ret[1], ret[2].join(','), remainTime, used)
         else
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_equip_change_succ] error id:#{id}, error_no:#{ret[0]}")
@@ -349,7 +348,7 @@ module Unlight
       if @avatar
         @avatar.achievement_check
         n = @avatar.get_notice if notice_check
-        sc_add_notice(n) if n != '' && n != nil
+        sc_add_notice(n) if n != '' && !n.nil?
       end
     end
 
@@ -373,7 +372,7 @@ module Unlight
     end
 
     # アチーブメント情報の取得
-    def cs_request_achievement_info()
+    def cs_request_achievement_info
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}]")
       if @avatar
         ret = @avatar.get_achievement_info_set
@@ -388,11 +387,11 @@ module Unlight
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer:serial error_count [#{error_count}]")
         return
       end
-      es = EventSerial::check(serial, pass)
+      es = EventSerial.check(serial, pass)
       if es
         @avatar.real_money_item_to_item(es) if @avatar
-        s = "#{es.name}"
-        if es.extra_id > 0
+        s = es.name.to_s
+        if es.extra_id.positive?
           rmi = RealMoneyItem[es.extra_id]
           s += "+#{rmi.name}" if rmi
         end
@@ -413,7 +412,7 @@ module Unlight
       if @avatar
         @avatar.new_profound_inventory_check
         n = @avatar.get_profound_notice
-        sc_add_notice(n) if n != '' && n != nil
+        sc_add_notice(n) if n != '' && !n.nil?
       end
     end
 
@@ -438,7 +437,7 @@ module Unlight
       return if c.nil?
       return if c.first == :stop
 
-      self.send(c.first, *c.last)
+      send(c.first, *c.last)
     end
 
     # ロビー会話のupdate
@@ -447,7 +446,7 @@ module Unlight
       if @avatar
         c = @avatar.run_lobby_chara_script
         unless c.first == :stop
-          self.send(c.first, *c.last)
+          send(c.first, *c.last)
         end
       end
     end
@@ -512,7 +511,7 @@ module Unlight
         return
       end
       if @avatar
-        ics = InfectionCollaboSerial::check(serial, @avatar.player_id, @avatar.server_type)
+        ics = InfectionCollaboSerial.check(serial, @avatar.player_id, @avatar.server_type)
         if ics
           notice_str = ''
           item_no_set = []
@@ -520,7 +519,7 @@ module Unlight
             @avatar.get_treasures(item[:type], item[:id], item[:sct_type], item[:num])
             item_no_set << "#{item[:type]}_#{item[:id]}_#{item[:num]}"
           end
-          sc_infection_collabo_serial_success(InfectionCollaboSerial::present_names)
+          sc_infection_collabo_serial_success(InfectionCollaboSerial.present_names)
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer:serial success [#{s}]")
         else
           SERVER_LOG.info("<UID:#{@uid}>LobbyServer:collabo serial failed!!!!")
@@ -544,17 +543,17 @@ module Unlight
       # 経過時間によって判定回数を増やす
       num = @avatar.get_num_of_retries
       num.times do
-        if rand(EVENT_201412_RATE) == 0
+        if rand(EVENT_201412_RATE).zero?
           @avatar.present_has_received = false
           return true
         end
       end
 
-      return false
+      false
     end
 
     # クランプスクリック
-    def cs_clamps_click()
+    def cs_clamps_click
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}]")
       msg = ''
 
@@ -571,7 +570,7 @@ module Unlight
           when TG_CHARA_CARD
             cc = CharaCard[item[:id]]
             cc_name = cc.name
-            if cc.level > 0
+            if cc.level.positive?
               cc_name += ":LV#{cc.level}"
               cc_name += 'R' if cc.rarity > 5
             end
@@ -589,7 +588,7 @@ module Unlight
           @avatar.present_has_received = true
         end
 
-        SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}] #{name_list.join("+")}")
+        SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}] #{name_list.join('+')}")
         msg = name_list.join('+').force_encoding('UTF-8')
 
       end
@@ -862,14 +861,14 @@ module Unlight
     # 送信コマンド
     # =====================================
     # 押し出し関数
-    def pushout()
+    def pushout
       online_list[@player.id].close_connection
       online_list[@player.id].player = nil
     end
 
     # ログイン時の処理
     def do_login
-      if @player.avatars.size > 0
+      unless @player.avatars.empty?
         @avatar = @player.avatars[0]
         regist_avatar_event
         # タグの収集イベントONの時のみログインしたときに
@@ -908,8 +907,6 @@ module Unlight
         @avatar.update_check(false)
 
         SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_avatar_info] ##{@avatar.name} ap:#{@avatar.energy}, #{@avatar.get_next_recovery_time(false)}")
-      else
-
       end
     end
 

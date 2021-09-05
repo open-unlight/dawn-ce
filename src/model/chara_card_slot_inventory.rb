@@ -82,7 +82,7 @@ module Unlight
       base_sap: { 0 => 9005, :base_sdp => 9000, :base_aap => 9002, :base_adp => 9005 },
       base_sdp: { 0 => 9003, :base_aap => 9004, :base_adp => 9003 },
       base_aap: { 0 => 9004, :base_adp => 9001 },
-      base_adp: { 0 => 9003 },
+      base_adp: { 0 => 9003 }
     }
 
     # 経験値移譲時調整係数
@@ -119,30 +119,30 @@ module Unlight
     end
 
     def update_combine_param1(num, bit, shifter)
-      if (num < 0)
+      if num.negative?
         num = -num + 128
       end
-      param_num = self.combine_param1_str.to_i
+      param_num = combine_param1_str.to_i
       param_num = point_to_param64(param_num, num, bit, shifter)
       self.combine_param1_str = param_num.to_s
     end
 
     def update_combine_param2(num, bit, shifter)
-      if (num < 0)
+      if num.negative?
         num = -num + 128
       end
-      self.combine_param2 = point_to_param32(self.combine_param2, num, bit, shifter)
+      self.combine_param2 = point_to_param32(combine_param2, num, bit, shifter)
     end
 
     def update_combine_param3(num, bit, shifter)
-      if (num < 0)
+      if num.negative?
         num = -num + 128
       end
-      self.combine_param3 = point_to_param32(self.combine_param3, num, bit, shifter)
+      self.combine_param3 = point_to_param32(combine_param3, num, bit, shifter)
     end
 
     # CPU用のカードインベントリを作る
-    def CharaCardSlotInventory.create_cpu_card(no, deck_id)
+    def self.create_cpu_card(no, deck_id)
       no = 0 unless CpuCardData[no]
       if no != 0
         wc = CpuCardData[no].weapon_cards_id
@@ -191,11 +191,11 @@ module Unlight
 
     def have_exp
       ret = 0
-      if self.combined?
-        ret = self.exp / COMB_SEND_EXP_COEFFICIENT if self.exp > 0
+      if combined?
+        ret = exp / COMB_SEND_EXP_COEFFICIENT if exp.positive?
       end
-      if self.card.material_exp > ret
-        ret = self.card.material_exp
+      if card.material_exp > ret
+        ret = card.material_exp
       end
       ret
     end
@@ -216,17 +216,17 @@ module Unlight
         set_level += 1
       end
       set_level = COMB_LEVEL_MAX if set_level > COMB_LEVEL_MAX
-      self.level = set_level if self.level < COMB_LEVEL_MAX
+      self.level = set_level if level < COMB_LEVEL_MAX
       # passive_num
       set_psv_num = 0
       COMB_PASSIVE_RELEASE_LEVEL_RULE.reverse.each_with_index do |l, i|
-        if self.level > l
+        if level > l
           set_psv_num = COMB_PASSIVE_RELEASE_LEVEL_RULE.length - i
           break
         end
       end
       self.combine_passive_num_max = set_psv_num
-      self.save_changes if is_save
+      save_changes if is_save
     end
 
     inline do |builder|
@@ -304,7 +304,7 @@ module Unlight
 
     # expが0以上なら合成武器
     def combined?
-      self.exp > 0
+      self.exp.positive?
     end
 
     def combine_base_sap=(n)
@@ -316,7 +316,7 @@ module Unlight
     end
 
     def param1_to_point(bit, shifter)
-      param_num = self.combine_param1_str.to_i
+      param_num = combine_param1_str.to_i
       param64_to_point(param_num, bit, shifter)
     end
 
@@ -370,7 +370,7 @@ module Unlight
 
     # 合成専用武器の場合、合成パラメータに加算
     def restriction_add_param
-      (self.card.restriction != '') ? COMB_ADD_PARAM_REST_SET : 0
+      card.restriction == '' ? 0 : COMB_ADD_PARAM_REST_SET
     end
 
     def combine_add_sap=(n)
@@ -430,7 +430,7 @@ module Unlight
     end
 
     def combine_cnt_a
-      @combine_cnt_a ||= param32_to_point(self.combine_param2, *COMB_PARAM_MASK_CNT_A)
+      @combine_cnt_a ||= param32_to_point(combine_param2, *COMB_PARAM_MASK_CNT_A)
       @combine_cnt_a
     end
 
@@ -443,7 +443,7 @@ module Unlight
     end
 
     def combine_cnt_a_max
-      @combine_cnt_a_max ||= param32_to_point(self.combine_param2, *COMB_PARAM_MASK_CNT_A_MAX)
+      @combine_cnt_a_max ||= param32_to_point(combine_param2, *COMB_PARAM_MASK_CNT_A_MAX)
       @combine_cnt_a_max
     end
 
@@ -456,7 +456,7 @@ module Unlight
     end
 
     def combine_cnt_b
-      @combine_cnt_b ||= param32_to_point(self.combine_param3, *COMB_PARAM_MASK_CNT_B)
+      @combine_cnt_b ||= param32_to_point(combine_param3, *COMB_PARAM_MASK_CNT_B)
       @combine_cnt_b
     end
 
@@ -469,7 +469,7 @@ module Unlight
     end
 
     def combine_cnt_b_max
-      @combine_cnt_b_max ||= param32_to_point(self.combine_param3, *COMB_PARAM_MASK_CNT_B_MAX)
+      @combine_cnt_b_max ||= param32_to_point(combine_param3, *COMB_PARAM_MASK_CNT_B_MAX)
       @combine_cnt_b_max
     end
 
@@ -514,7 +514,7 @@ module Unlight
     end
 
     def combine_base_max
-      @combine_base_max ||= param32_to_point(self.combine_param2, *COMB_PARAM_MASK_BASE_MAX)
+      @combine_base_max ||= param32_to_point(combine_param2, *COMB_PARAM_MASK_BASE_MAX)
       @combine_base_max
     end
 
@@ -526,7 +526,7 @@ module Unlight
     end
 
     def combine_add_max
-      @combine_add_max ||= param32_to_point(self.combine_param2, *COMB_PARAM_MASK_ADD_MAX)
+      @combine_add_max ||= param32_to_point(combine_param2, *COMB_PARAM_MASK_ADD_MAX)
       @combine_add_max
     end
 
@@ -539,7 +539,7 @@ module Unlight
     end
 
     def combine_pass_a
-      @combine_pass_a ||= param32_to_point(self.combine_param2, *COMB_PARAM_MASK_PASS_A)
+      @combine_pass_a ||= param32_to_point(combine_param2, *COMB_PARAM_MASK_PASS_A)
       @combine_pass_a
     end
 
@@ -552,7 +552,7 @@ module Unlight
     end
 
     def combine_pass_b
-      @combine_pass_b ||= param32_to_point(self.combine_param3, *COMB_PARAM_MASK_PASS_B)
+      @combine_pass_b ||= param32_to_point(combine_param3, *COMB_PARAM_MASK_PASS_B)
       @combine_pass_b
     end
 
@@ -576,23 +576,23 @@ module Unlight
     end
 
     def combine_passive_num_max
-      @combine_passive_num_max ||= param32_to_point(self.combine_param3, *COMB_PARAM_MASK_PSV_NUM_MAX)
+      @combine_passive_num_max ||= param32_to_point(combine_param3, *COMB_PARAM_MASK_PSV_NUM_MAX)
       puts "#{__method__} @combine_num:#{@combine_passive_num_max}"
       @combine_passive_num_max
     end
 
     def combine_passive_num
       cnt = 0
-      self.combine_passive_num_max.times do |i|
-        cnt += 1 if self.combine_cnt(i) > 0
+      combine_passive_num_max.times do |i|
+        cnt += 1 if combine_cnt(i).positive?
       end
       cnt
     end
 
     def combine_passive_set_idx
       list = []
-      self.combine_passive_num_max.times do |i|
-        list << combine_pass(i) if self.combine_cnt(i) > 0
+      combine_passive_num_max.times do |i|
+        list << combine_pass(i) if combine_cnt(i).positive?
       end
       puts "#{__method__} list.size:#{list.size}"
       list.size
@@ -600,14 +600,14 @@ module Unlight
 
     def combine_passive_pass_set
       list = []
-      self.combine_passive_num_max.times do |i|
-        list << combine_pass(i) if self.combine_cnt(i) > 0
+      combine_passive_num_max.times do |i|
+        list << combine_pass(i) if combine_cnt(i).positive?
       end
       list
     end
 
     def combine_passive_id(idx = 0)
-      if COMB_PASSIVE_SET[combine_pass(idx)] && self.combine_cnt(idx) > 0
+      if COMB_PASSIVE_SET[combine_pass(idx)] && combine_cnt(idx).positive?
         COMB_PASSIVE_SET[combine_pass(idx)][0]
       else
         0
@@ -615,7 +615,7 @@ module Unlight
     end
 
     def combine_passive_cost(idx = 0)
-      if COMB_PASSIVE_SET[combine_pass(idx)] && self.combine_cnt(idx) > 0
+      if COMB_PASSIVE_SET[combine_pass(idx)] && combine_cnt(idx).positive?
         COMB_PASSIVE_SET[combine_pass(idx)][1]
       else
         0
@@ -626,34 +626,34 @@ module Unlight
     def use_combine_passive
       vani_psv_ids = []
       # カウントを減らす
-      self.combine_passive_num.times do |i|
-        a = self.combine_cnt(i)
-        if a > 0
-          self.set_combine_cnt(a - 1, i)
-          if self.combine_cnt(i) <= 0
+      combine_passive_num.times do |i|
+        a = combine_cnt(i)
+        if a.positive?
+          set_combine_cnt(a - 1, i)
+          if combine_cnt(i) <= 0
             # 使用回数が0になったから、パッシブを消す
-            vani_psv_ids << COMB_PASSIVE_SET[self.combine_pass(i)][0] # 削除するpsvのIDを送る
-            self.set_combine_pass(0, i)
-            self.set_combine_cnt(0, i)
-            self.set_combine_cnt_max(0, i)
+            vani_psv_ids << COMB_PASSIVE_SET[combine_pass(i)][0] # 削除するpsvのIDを送る
+            set_combine_pass(0, i)
+            set_combine_cnt(0, i)
+            set_combine_cnt_max(0, i)
           end
         end
       end
       # passiveAが消えてでpassiveBが残ってる場合移す
-      if self.combine_cnt_a <= 0 && self.combine_cnt_b > 0
-        v = self.combine_pass_b
+      if combine_cnt_a <= 0 && combine_cnt_b.positive?
+        v = combine_pass_b
         self.combine_pass_a = v
-        v = self.combine_cnt_b
+        v = combine_cnt_b
         self.combine_cnt_a = v
-        v = self.combine_cnt_b_max
+        v = combine_cnt_b_max
         self.combine_cnt_a_max = v
         # Bを削除
         self.combine_pass_b = 0
         self.combine_cnt_b = 0
         self.combine_cnt_b_max = 0
       end
-      self.save_changes
-      SERVER_LOG.info("CCSI [#{__method__}] after cntA:#{self.combine_cnt(0)} cntB:#{self.combine_cnt(1)} vani_id:#{vani_psv_ids}")
+      save_changes
+      SERVER_LOG.info("CCSI [#{__method__}] after cntA:#{combine_cnt(0)} cntB:#{combine_cnt(1)} vani_id:#{vani_psv_ids}")
       vani_psv_ids
     end
 
@@ -666,7 +666,7 @@ module Unlight
           break
         end
       end
-      self.combine_passive_num_max.times do |i|
+      combine_passive_num_max.times do |i|
         ret + combine_passive_cost(i)
       end
       ret
@@ -674,10 +674,10 @@ module Unlight
 
     def deck_cost
       ret = 0
-      case self.kind
+      case kind
       when SCT_WEAPON
-        if self.combined?
-          ret = self.combine_cost
+        if combined?
+          ret = combine_cost
           a = WeaponCard[card_id]
           ret += a.card_cost if a
         else
@@ -696,7 +696,7 @@ module Unlight
 
     def card
       ret = nil
-      case self.kind
+      case kind
       when SCT_WEAPON
         ret = WeaponCard[card_id]
       when SCT_EQUIP
@@ -708,18 +708,18 @@ module Unlight
     end
 
     def delete_from_deck
-      SERVER_LOG.info("CharaCardSlotInventory: [delete_from_deck] deck_id:#{self.chara_card_deck_id} inv_id:#{self.id}")
-      self.before_deck_id = self.chara_card_deck_id
+      SERVER_LOG.info("CharaCardSlotInventory: [delete_from_deck] deck_id:#{chara_card_deck_id} inv_id:#{id}")
+      self.before_deck_id = chara_card_deck_id
       self.chara_card_deck_id = 0
-      self.save_changes
+      save_changes
     end
 
     # 合成のパッシブIDを返す
     def get_passive_id(ai = :none)
       ret = card.get_passive_id
-      if (ai == :quest_ai || ai == :profound_ai)
-        self.combine_passive_num_max.times do |i|
-          ret << self.combine_passive_id(i) if combine_cnt(i) > 0
+      if %i[quest_ai profound_ai].include?(ai)
+        combine_passive_num_max.times do |i|
+          ret << combine_passive_id(i) if combine_cnt(i).positive?
         end
       end
       ret
@@ -728,15 +728,15 @@ module Unlight
     # 合成のパッシブIDを返す 必ず全て
     def get_all_passive_id
       ret = card.get_passive_id
-      self.combine_passive_num_max.times do |i|
-        ret << self.combine_passive_id(i) if combine_cnt(i) > 0
+      combine_passive_num_max.times do |i|
+        ret << combine_passive_id(i) if combine_cnt(i).positive?
       end
       ret
     end
 
     # 近距離攻撃力増加
     def sword_ap(ai = :none)
-      (ai != :quest_ai && ai != :profound_ai) ? self.combine_base_sap : (self.combine_base_sap + self.combine_add_sap)
+      ai != :quest_ai && ai != :profound_ai ? combine_base_sap : (combine_base_sap + combine_add_sap)
     end
 
     # 近距離ダイス攻撃力増加
@@ -746,7 +746,7 @@ module Unlight
 
     # 近距離防御力増加
     def sword_dp(ai = :none)
-      (ai != :quest_ai && ai != :profound_ai) ? self.combine_base_sdp : (self.combine_base_sdp + self.combine_add_sdp)
+      ai != :quest_ai && ai != :profound_ai ? combine_base_sdp : (combine_base_sdp + combine_add_sdp)
     end
 
     # 近距離ダイス防御力増加
@@ -756,7 +756,7 @@ module Unlight
 
     # 遠距離攻撃力増加
     def arrow_ap(ai = :none)
-      (ai != :quest_ai && ai != :profound_ai) ? self.combine_base_aap : (self.combine_base_aap + self.combine_add_aap)
+      ai != :quest_ai && ai != :profound_ai ? combine_base_aap : (combine_base_aap + combine_add_aap)
     end
 
     # 遠距離ダイス増加
@@ -766,7 +766,7 @@ module Unlight
 
     # 遠距離防御力増加
     def arrow_dp(ai = :none)
-      (ai != :quest_ai && ai != :profound_ai) ? self.combine_base_adp : (self.combine_base_adp + self.combine_add_adp)
+      ai != :quest_ai && ai != :profound_ai ? combine_base_adp : (combine_base_adp + combine_add_adp)
     end
 
     # 遠距離ダイス防御力増加
@@ -775,12 +775,12 @@ module Unlight
     end
 
     def combine_param1_upper
-      param_num = self.combine_param1_str.to_i
+      param_num = combine_param1_str.to_i
       param_num >> 32
     end
 
     def combine_param1_lower
-      param_num = self.combine_param1_str.to_i
+      param_num = combine_param1_str.to_i
       param_num & 0B0000_0000_0000_0000_0000_0000_0000_0000_1111_1111_1111_1111_1111_1111_1111_1111
     end
 
@@ -794,7 +794,7 @@ module Unlight
     end
 
     def add_param_limit_check(v, base_v)
-      limit_check(v, self.level + restriction_add_param, COMB_ADD_PARAM_MIN)
+      limit_check(v, level + restriction_add_param, COMB_ADD_PARAM_MIN)
     end
 
     def combine_update(result)
@@ -802,56 +802,56 @@ module Unlight
       result.each do |k, v|
         case k
         when :base_sap
-          a = self.combine_base_sap
+          a = combine_base_sap
           self.combine_base_sap = a + v
-          self.combine_base_sap = limit_check(self.combine_base_sap, COMB_BASE_PARAM_MAX, COMB_BASE_PARAM_MIN)
+          self.combine_base_sap = limit_check(combine_base_sap, COMB_BASE_PARAM_MAX, COMB_BASE_PARAM_MIN)
         when :base_sdp
-          a = self.combine_base_sdp
+          a = combine_base_sdp
           self.combine_base_sdp = a + v
-          self.combine_base_sdp = limit_check(self.combine_base_sdp, COMB_BASE_PARAM_MAX, COMB_BASE_PARAM_MIN)
+          self.combine_base_sdp = limit_check(combine_base_sdp, COMB_BASE_PARAM_MAX, COMB_BASE_PARAM_MIN)
         when :base_aap
-          a = self.combine_base_aap
+          a = combine_base_aap
           self.combine_base_aap = a + v
-          self.combine_base_aap = limit_check(self.combine_base_aap, COMB_BASE_PARAM_MAX, COMB_BASE_PARAM_MIN)
+          self.combine_base_aap = limit_check(combine_base_aap, COMB_BASE_PARAM_MAX, COMB_BASE_PARAM_MIN)
         when :base_adp
-          a = self.combine_base_adp
+          a = combine_base_adp
           self.combine_base_adp = a + v
-          self.combine_base_adp = limit_check(self.combine_base_adp, COMB_BASE_PARAM_MAX, COMB_BASE_PARAM_MIN)
+          self.combine_base_adp = limit_check(combine_base_adp, COMB_BASE_PARAM_MAX, COMB_BASE_PARAM_MIN)
         when :add_sap
-          a = self.combine_add_sap
+          a = combine_add_sap
           self.combine_add_sap = a + v
-          self.combine_add_sap = add_param_limit_check(self.combine_add_sap, self.combine_base_sap)
+          self.combine_add_sap = add_param_limit_check(combine_add_sap, combine_base_sap)
         when :add_sdp
-          a = self.combine_add_sdp
+          a = combine_add_sdp
           self.combine_add_sdp = a + v
-          self.combine_add_sdp = add_param_limit_check(self.combine_add_sdp, self.combine_base_sdp)
+          self.combine_add_sdp = add_param_limit_check(combine_add_sdp, combine_base_sdp)
         when :add_aap
-          a = self.combine_add_aap
+          a = combine_add_aap
           self.combine_add_aap = a + v
-          self.combine_add_aap = add_param_limit_check(self.combine_add_aap, self.combine_base_aap)
+          self.combine_add_aap = add_param_limit_check(combine_add_aap, combine_base_aap)
         when :add_adp
-          a = self.combine_add_adp
+          a = combine_add_adp
           self.combine_add_adp = a + v
-          self.combine_add_adp = add_param_limit_check(self.combine_add_adp, self.combine_base_adp)
+          self.combine_add_adp = add_param_limit_check(combine_add_adp, combine_base_adp)
         when :base_max
           self.combine_base_max = v
         when :add_max
           self.combine_add_max = v
         when :passive_id
-          puts "#{__method__} passive_id idx:#{self.combine_passive_set_idx}"
-          if self.combine_passive_set_idx > -1
-            idx = self.combine_passive_set_idx
+          puts "#{__method__} passive_id idx:#{combine_passive_set_idx}"
+          if combine_passive_set_idx > -1
+            idx = combine_passive_set_idx
             puts "#{__method__} passive_id idx:#{idx}"
-            self.set_combine_pass(v, idx)
-            self.set_combine_cnt(COMB_PASSIVE_SET[v][2], idx)
-            self.set_combine_cnt_max(COMB_PASSIVE_SET[v][2], idx)
+            set_combine_pass(v, idx)
+            set_combine_cnt(COMB_PASSIVE_SET[v][2], idx)
+            set_combine_cnt_max(COMB_PASSIVE_SET[v][2], idx)
           end
         when :new_weapon_id
           self.card_id = v
         end
 
         # 数値が上がったパラメータを記憶
-        incre_param_keys << "combine_#{k}" if k != :set && v > 0
+        incre_param_keys << "combine_#{k}" if k != :set && v.positive?
       end
       over_check(incre_param_keys)
       normal_combine_id_check
@@ -883,9 +883,9 @@ module Unlight
     # 汎用合成武器のIDチェック
     def normal_combine_id_check
       # 専用武器ならこの処理はしない
-      return if self.card.restriction != ''
+      return if card.restriction != ''
 
-      set_list = { base_sap: self.combine_base_sap, base_sdp: self.combine_base_sdp, base_aap: self.combine_base_aap, base_adp: self.combine_base_adp }
+      set_list = { base_sap: combine_base_sap, base_sdp: combine_base_sdp, base_aap: combine_base_aap, base_adp: combine_base_adp }
       max_key_list = [:base_sdp] # デフォルトはリング
       max = 0
       set_list.each do |k, v|
@@ -899,26 +899,26 @@ module Unlight
       end
       # 一つしか選択されてなければ、0を追加
       max_key_list << 0 if max_key_list.size <= 1
-      first_key = max_key_list.shift()
-      second_key = max_key_list.shift()
+      first_key = max_key_list.shift
+      second_key = max_key_list.shift
       self.card_id = COMB_NORMAL_TYPE_PARAM_ID_RULE[first_key][second_key]
     end
 
     # 汎用から専用武器に変化した際の処理
     def change_restriction_act
-      a = self.combine_add_sap
+      a = combine_add_sap
       self.combine_add_sap = a + restriction_add_param
-      self.combine_add_sap = add_param_limit_check(self.combine_add_sap, self.combine_base_sap)
-      a = self.combine_add_sdp
+      self.combine_add_sap = add_param_limit_check(combine_add_sap, combine_base_sap)
+      a = combine_add_sdp
       self.combine_add_sdp = a + restriction_add_param
-      self.combine_add_sdp = add_param_limit_check(self.combine_add_sdp, self.combine_base_sdp)
-      a = self.combine_add_aap
+      self.combine_add_sdp = add_param_limit_check(combine_add_sdp, combine_base_sdp)
+      a = combine_add_aap
       self.combine_add_aap = a + restriction_add_param
-      self.combine_add_aap = add_param_limit_check(self.combine_add_aap, self.combine_base_aap)
-      a = self.combine_add_adp
+      self.combine_add_aap = add_param_limit_check(combine_add_aap, combine_base_aap)
+      a = combine_add_adp
       self.combine_add_adp = a + restriction_add_param
-      self.combine_add_adp = add_param_limit_check(self.combine_add_adp, self.combine_base_adp)
-      self.save_changes
+      self.combine_add_adp = add_param_limit_check(combine_add_adp, combine_base_adp)
+      save_changes
     end
 
     # ログにパラメータを表示
@@ -926,28 +926,28 @@ module Unlight
       add_txt = 'pre'
       add_txt = 'after' if after
       set_param = []
-      set_param << "inv_id:#{self.id}"
-      set_param << "lv:#{self.level}"
+      set_param << "inv_id:#{id}"
+      set_param << "lv:#{level}"
       set_param << "exp:#{self.exp}"
-      set_param << "restriction:#{self.card.restriction}"
-      set_param << "base_max:#{self.combine_base_max}"
-      set_param << "add_max:#{self.level + self.restriction_add_param}"
-      set_param << "passive_slot:#{self.combine_passive_num_max}"
-      set_param << "base_sap:#{self.combine_base_sap}"
-      set_param << "base_sdp:#{self.combine_base_sdp}"
-      set_param << "base_aap:#{self.combine_base_aap}"
-      set_param << "base_adp:#{self.combine_base_adp}"
-      set_param << "add_sap:#{self.combine_add_sap}"
-      set_param << "add_sdp:#{self.combine_add_sdp}"
-      set_param << "add_aap:#{self.combine_add_aap}"
-      set_param << "add_adp:#{self.combine_add_adp}"
-      self.combine_passive_num.times do |idx|
-        set_param << "passive_id[#{idx + 1}]:#{self.combine_passive_id(idx)}"
-        set_param << "passive_cnt[#{idx + 1}]:#{self.combine_cnt(idx)}"
-        set_param << "passive_cnt_max[#{idx + 1}]:#{self.combine_cnt_max(idx)}"
+      set_param << "restriction:#{card.restriction}"
+      set_param << "base_max:#{combine_base_max}"
+      set_param << "add_max:#{level + restriction_add_param}"
+      set_param << "passive_slot:#{combine_passive_num_max}"
+      set_param << "base_sap:#{combine_base_sap}"
+      set_param << "base_sdp:#{combine_base_sdp}"
+      set_param << "base_aap:#{combine_base_aap}"
+      set_param << "base_adp:#{combine_base_adp}"
+      set_param << "add_sap:#{combine_add_sap}"
+      set_param << "add_sdp:#{combine_add_sdp}"
+      set_param << "add_aap:#{combine_add_aap}"
+      set_param << "add_adp:#{combine_add_adp}"
+      combine_passive_num.times do |idx|
+        set_param << "passive_id[#{idx + 1}]:#{combine_passive_id(idx)}"
+        set_param << "passive_cnt[#{idx + 1}]:#{combine_cnt(idx)}"
+        set_param << "passive_cnt_max[#{idx + 1}]:#{combine_cnt_max(idx)}"
       end
 
-      SERVER_LOG.info("<UID:#{pl_id}>Avatar: [combine_result_#{add_txt}_status] #{set_param.join(",")}")
+      SERVER_LOG.info("<UID:#{pl_id}>Avatar: [combine_result_#{add_txt}_status] #{set_param.join(',')}")
     end
 
     # ================================================
@@ -981,7 +981,7 @@ module Unlight
     # 専用化アイテム使用可能数
     CMB_CREST_CAN_USE_NUM = 2
 
-    def self::combine_check(base_sci, use_sci_list)
+    def self.combine_check(base_sci, use_sci_list)
       # ベースが武器カードでないならアウト
       return false if base_sci.card.weapon_type == WEAPON_TYPE_MATERIAL
 

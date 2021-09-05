@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module Unlight
   # LobbyServeコマンド一覧
   class Command

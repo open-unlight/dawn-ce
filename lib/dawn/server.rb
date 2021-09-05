@@ -40,7 +40,7 @@ module Dawn
     # @return [Integer] the server listen port
     #
     # @since 0.1.0
-    def port(default = 12000)
+    def port(default = 12_000)
       (@port || default).to_i
     end
 

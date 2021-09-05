@@ -20,7 +20,7 @@ module Unlight
     end
 
     # カムバック依頼をする
-    def ComebackLog::comeback(pid, uid)
+    def self.comeback(pid, uid)
       if check_already_exist?(pid, uid)
         ret = false
       else
@@ -35,26 +35,26 @@ module Unlight
     end
 
     # カムバック済みか？
-    def ComebackLog::check_comebacked?(uid)
+    def self.check_comebacked?(uid)
       ret = false
       links = ComebackLog.filter({ comebacked_player_id: uid, comebacked: false }).all
-      ret = links if links.size > 0
+      ret = links unless links.empty?
       ret
     end
 
     # 招待アイテムゲット済みか？
-    def ComebackLog::check_already_comebacked?(uid)
+    def self.check_already_comebacked?(uid)
       ret = false
       links = ComebackLog.filter({ comebacked_player_id: uid, comebacked: true }).all
-      ret = links if links.size > 0
+      ret = links unless links.empty?
       ret
     end
 
     # リンクがすでに存在するかしなかったFalse,存在したらそのリンクを返す
-    def ComebackLog::check_already_exist?(pid, uid)
+    def self.check_already_exist?(pid, uid)
       ret = false
       links = ComebackLog.filter({ send_player_id: pid, comebacked_player_id: uid }).all
-      ret = links if links.size > 0
+      ret = links unless links.empty?
       ret
     end
 

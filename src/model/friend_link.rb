@@ -32,7 +32,7 @@ module Unlight
     @@link_cache = []
 
     # リンクをゲット出来る(リンクを五分間キャッシュする)
-    def FriendLink::get_link(p_id, server_type)
+    def self.get_link(p_id, server_type)
       link = CACHE.get("friend_link_get:#{p_id}")
       unless link = FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).exclude(friend_type: TYPE_BLOCK).filter(server_type: server_type).all
         CACHE.set("friend_link_get:#{p_id}", link, 300)
@@ -41,59 +41,59 @@ module Unlight
     end
 
     # リンクをゲット出来る
-    def FriendLink::get_all_link(p_id, server_type)
+    def self.get_all_link(p_id, server_type)
       FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).filter(server_type: server_type).all
     end
 
     # BlackListゲット出来る
-    def FriendLink::get_black_list(p_id, server_type)
+    def self.get_black_list(p_id, server_type)
       FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).filter(friend_type: TYPE_BLOCK).filter(server_type: server_type).all
     end
 
     # RequestListゲット出来る
-    def FriendLink::get_request_list(p_id, server_type)
+    def self.get_request_list(p_id, server_type)
       FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).filter(friend_type: TYPE_CONFIRM).filter(server_type: server_type).all
     end
 
     # リンクをゲット出来る
-    def FriendLink::get_link_offset(p_id, offset, count, server_type)
+    def self.get_link_offset(p_id, offset, count, server_type)
       FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).filter(friend_type: TYPE_FRIEND).filter(server_type: server_type).order(Sequel.asc(:id)).limit(count, offset).all
     end
 
-    def FriendLink::get_link_num(p_id, server_type)
+    def self.get_link_num(p_id, server_type)
       FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).filter(friend_type: TYPE_FRIEND).filter(server_type: server_type).order(Sequel.asc(:id)).count
     end
 
     # BlackListゲット出来る
-    def FriendLink::get_black_list_offset(p_id, offset, count, server_type)
+    def self.get_black_list_offset(p_id, offset, count, server_type)
       FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).filter(friend_type: TYPE_BLOCK).filter(server_type: server_type).order(Sequel.asc(:id)).limit(count, offset).all
     end
 
-    def FriendLink::get_black_link_num(p_id, server_type)
+    def self.get_black_link_num(p_id, server_type)
       FriendLink.filter(relating_player_id: p_id).filter(friend_type: TYPE_BLOCK).filter(server_type: server_type).order(Sequel.asc(:id)).count
     end
 
     # RequestedListゲット出来る
-    def FriendLink::get_request_list_offset(p_id, offset, count, server_type)
+    def self.get_request_list_offset(p_id, offset, count, server_type)
       FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).filter(friend_type: TYPE_CONFIRM).filter(server_type: server_type).order(Sequel.asc(:id)).limit(count, offset).all
     end
 
-    def FriendLink::get_request_list_num(p_id, server_type)
+    def self.get_request_list_num(p_id, server_type)
       FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).filter(friend_type: TYPE_CONFIRM).filter(server_type: server_type).order(Sequel.asc(:id)).count
     end
 
     # キャッシュを削除する（ログアウト時に仕様：リークになるので）
-    def FriendLink::cache_delete(p_id)
+    def self.cache_delete(p_id)
       @@link_cache[p_id] = nil
     end
 
     # キャッシュのアップデート
-    def FriendLink::cache_update(p_id, server_type)
+    def self.cache_update(p_id, server_type)
       @@link_cache[p_id] = FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).filter(server_type: server_type).all
     end
 
     # リンクを作る
-    def FriendLink::create_link(p_a, p_b, server_type)
+    def self.create_link(p_a, p_b, server_type)
       if p_a == p_b || check_already_exist?(p_a, p_b, server_type)
         false
       else
@@ -110,12 +110,12 @@ module Unlight
     end
 
     # ブロックリンクを作る
-    def FriendLink::create_block_link(p_a, p_b, server_type)
+    def self.create_block_link(p_a, p_b, server_type)
       ret = []
       ret << 0
       # すでに自分がブロックされていたら抜ける
       a = FriendLink.filter(Sequel.&({ relating_player_id: p_b }, { related_player_id: p_a }, { friend_type: TYPE_BLOCK })).filter(server_type: server_type).all
-      unless a.size == 0
+      unless a.empty?
         ret[0] = ERROR_BLOCK_APPLY
         return ret
       end
@@ -139,11 +139,11 @@ module Unlight
     end
 
     # リンクをタイプを変更（成功True,失敗False）
-    def FriendLink::change_link_type(p_a, p_b, type, server_type)
+    def self.change_link_type(p_a, p_b, type, server_type)
       ret = false
       if p_a != p_b
         links = check_already_exist?(p_a, p_b, server_type)
-        if links && links.size > 0
+        if links && !links.empty?
           links.each do |li|
             li.change_type(type)
             ret = true
@@ -154,11 +154,11 @@ module Unlight
     end
 
     # リンクを削除
-    def FriendLink::delete_link(p_a, p_b, server_type)
+    def self.delete_link(p_a, p_b, server_type)
       ret = false
       if p_a != p_b
         links = check_already_exist?(p_a, p_b, server_type)
-        if links && links.size > 0
+        if links && !links.empty?
           links.each do |li|
             li.destroy
             ret = true
@@ -172,29 +172,29 @@ module Unlight
 
     # タイプ変更
     def change_type(t)
-      a_id = self.relating_player_id
-      b_id = self.related_player_id
+      a_id = relating_player_id
+      b_id = related_player_id
       self.friend_type = t
-      self.save_changes
+      save_changes
       CACHE.delete("friend_link_get:#{a_id}")
       CACHE.delete("friend_link_get:#{b_id}")
     end
 
     # リンクがすでに存在するかしなかったFalse,存在したらそのリンクを返す
-    def FriendLink::check_already_exist?(p_a, p_b, server_type)
+    def self.check_already_exist?(p_a, p_b, server_type)
       ret = false
       links =  FriendLink.filter(Sequel.&({ relating_player_id: p_a }, { related_player_id: p_b })).filter(server_type: server_type).all
-      links =  FriendLink.filter(Sequel.&({ relating_player_id: p_b }, { related_player_id: p_a })).filter(server_type: server_type).all if links.size == 0
-      ret = links if links.size > 0
+      links =  FriendLink.filter(Sequel.&({ relating_player_id: p_b }, { related_player_id: p_a })).filter(server_type: server_type).all if links.empty?
+      ret = links unless links.empty?
       ret
     end
 
     # 比較演算子をオーバライド
     def ==(f_link)
       ret = false
-      if f_link.kind_of?(FriendLink)
-        ret = true if f_link.relating_player_id == self.relating_player_id && f_link.related_player_id == self.related_player_id
-        ret = true if f_link.relating_player_id == self.related_player_id && f_link.related_player_id == self.relating_player_id
+      if f_link.is_a?(FriendLink)
+        ret = true if f_link.relating_player_id == relating_player_id && f_link.related_player_id == related_player_id
+        ret = true if f_link.relating_player_id == related_player_id && f_link.related_player_id == relating_player_id
       end
       ret
     end
@@ -202,13 +202,13 @@ module Unlight
     def status(me_id)
       begin
         refresh
-      rescue => e
+      rescue StandardError => e
         SERVER_LOG.fatal('FriendLink: errot link is deleted.')
         return 0
       end
-      case self.friend_type
+      case friend_type
       when TYPE_CONFIRM
-        if me_id == self.relating_player_id
+        if me_id == relating_player_id
           ret = FR_ST_OTHER_CONFIRM
         else
           ret = FR_ST_MINE_CONFIRM
@@ -216,7 +216,7 @@ module Unlight
       when TYPE_FRIEND
         ret = FR_ST_FRIEND
       when TYPE_BLOCK
-        if me_id == self.relating_player_id
+        if me_id == relating_player_id
           ret = FR_ST_BLOCK
         else
           ret = FR_ST_BLOCKED
@@ -226,18 +226,18 @@ module Unlight
     end
 
     def other_id(me_id)
-      if me_id == self.relating_player_id
-        ret = self.related_player_id
+      if me_id == relating_player_id
+        ret = related_player_id
       else
-        ret = self.relating_player_id
+        ret = relating_player_id
       end
       ret
     end
 
     # p_idにother_p_idがBlockされてるか
-    def FriendLink::is_blocked(p_id, other_p_id, server_type)
+    def self.is_blocked(p_id, other_p_id, server_type)
       ret = false
-      list = self::get_black_list(p_id, server_type)
+      list = get_black_list(p_id, server_type)
       list.each do |l|
         if l.relating_player_id == other_p_id || l.related_player_id == other_p_id
           ret = true

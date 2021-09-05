@@ -15,17 +15,17 @@ module Protocol
     attr_accessor :player, :matching, :opponent_player
 
     # クラスの初期化
-    def self::setup(id, ip, port)
+    def self.setup(id, ip, port)
       super()
       # コマンドクラスをつくる
       @@receive_cmd = Command.new(self, :Match)
       @@server_channel = nil
-      unless self::server_channel
+      unless server_channel
         SERVER_LOG.fatal("#{@@class_name}: not regist Channel!!")
       end
       # コネクションチェック時の分割リスト
       set_check_split_list
-      MatchController::init
+      MatchController.init
     end
 
     # 切断時
@@ -36,7 +36,7 @@ module Protocol
           delete_connection
           logout
         end
-      rescue => e
+      rescue StandardError => e
         puts e.message
       end
       SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")
@@ -46,26 +46,26 @@ module Protocol
       @@online_list
     end
 
-    def self::match_list
+    def self.match_list
       @@online_list
     end
 
-    def self::radder_match_update
-      MatchController::radder_match_update
+    def self.radder_match_update
+      MatchController.radder_match_update
     end
 
-    def self::check_boot
-      MatchController::check_boot(server_channel)
+    def self.check_boot
+      MatchController.check_boot(server_channel)
     end
 
     # サーバを終了する
-    def self::exit_server
+    def self.exit_server
       # 自分のチャンネルのステートをOFFにする
-      self::server_channel.shut_down
+      server_channel.shut_down
       super
     end
 
-    def self::server_channel
+    def self.server_channel
       unless @@server_channel
         @@server_channel = Channel.filter(host: Dawn::Server.hostname, port: Dawn::Server.port).all.first
         @@server_channel.boot if @@server_channel
@@ -74,14 +74,14 @@ module Protocol
     end
 
     def server_channel
-      MatchServer::server_channel
+      MatchServer.server_channel
     end
 
-    def self::match_channel
+    def self.match_channel
       @@server_channel
     end
 
-    def self::update_login_count
+    def self.update_login_count
       @@server_channel.update_count
     end
   end

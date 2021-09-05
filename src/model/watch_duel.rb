@@ -33,21 +33,21 @@ module Unlight
 
       # 観戦希望ならコマンド取得、保存ならデータをキャッシュに保存
       if is_watch == true
-        @act_command = WatchDuel::get_cache_act_command(@key)
+        @act_command = WatchDuel.get_cache_act_command(@key)
         SERVER_LOG.info("WatchServer: [WatchDuel.#{__method__}] key:#{@key}")
       else
-        self.set_cache_duel_data(match_uid, pl_id, foe_id)
+        set_cache_duel_data(match_uid, pl_id, foe_id)
         SERVER_LOG.info("GameServer: [WatchDuel.#{__method__}] key:#{@key}")
       end
     end
 
     # キャッシュからDuelデータを取得
-    def WatchDuel::get_cache_duel_data(key)
+    def self.get_cache_duel_data(key)
       CACHE.get("watch_duel:#{key}")
     end
 
     # キャッシュから実行コマンド一覧を取得
-    def WatchDuel::get_cache_act_command(key)
+    def self.get_cache_act_command(key)
       CACHE.get("watch_duel_command:#{key}")
     end
 
@@ -60,47 +60,44 @@ module Unlight
       }
       CACHE.set("watch_duel:#{@key}", set_data, WATCH_DATA_CACHE_TIME)
       # コマンドをクリアしておく
-      self.all_clear_add_command
+      all_clear_add_command
     end
 
     # キャッシュからDuelデータを取得
     def get_cache_duel_data
-      WatchDuel::get_cache_duel_data(@key)
+      WatchDuel.get_cache_duel_data(@key)
     end
 
     # キャッシュから実行コマンド一覧を取得
     def get_cache_act_command
-      WatchDuel::get_cache_act_command(@key)
+      WatchDuel.get_cache_act_command(@key)
     end
 
     # 保存形式にコマンド履歴を変換
     def convert_commands(commands)
-      ret = (commands) ? commands.join('-') : ''
-      ret
+      commands ? commands.join('-') : ''
     end
 
     # 受け取ったコマンドを配列に保存
     def make_set_act_command(method = nil, args = nil)
       if @act_command && method
-        if @act_command.length > 0
-          if @act_command.first[:func] != DUEL_ABORT_FUNC_STR
-            # コマンド配列の末尾が終了なら一度抜く
-            pop_command = @act_command.pop if @act_command[-1][:func] == DUEL_FINISH_FUNC_STR
-            # コマンドを追加
-            @act_command.push({ func: method, args: args })
-            # 抜いた場合、入れなおす
-            @act_command.push(pop_command) if pop_command != nil
-          end
-        else
+        if @act_command.empty?
           # 最初なのでそのまま追加
           @act_command.push({ func: method, args: args })
+        elsif @act_command.first[:func] != DUEL_ABORT_FUNC_STR
+          pop_command = @act_command.pop if @act_command[-1][:func] == DUEL_FINISH_FUNC_STR
+          # コマンドを追加
+          @act_command.push({ func: method, args: args })
+          # 抜いた場合、入れなおす
+          @act_command.push(pop_command) unless pop_command.nil?
+          # コマンド配列の末尾が終了なら一度抜く
         end
       end
     end
 
     # 実行コマンドを保存
     def set_cache_act_command(args = nil, method = nil)
-      method = parse_caller(caller(1..1)) unless method
+      method ||= parse_caller(caller(1..1))
       make_set_act_command(method, args)
       CACHE.set("watch_duel_command:#{@key}", @act_command, COMMAND_CACHE_TIME)
     end
@@ -121,27 +118,27 @@ module Unlight
     def parse_caller(at)
       ret = ''
       if /^(.+?):(\d+)(?::in `(.*)')?/ =~ at
-        ret = $3
+        ret = Regexp.last_match(3)
       end
       ret
     end
 
     # 待機時間の更新
     def update_wait_count
-      @wait_count -= 1 if @wait_count > 0
-      (@wait_count > 0)
+      @wait_count -= 1 if @wait_count.positive?
+      @wait_count.positive?
     end
 
     # 次のコマンドを取得
     def get_next_act_command(get_cnt = UPDATE_COMMAND_MAX)
       # 常に更新していく
       @act_command = get_cache_act_command
-      ret = get_finish_command                          # 終了コマンドを優先して取得
-      ret = get_init_commands if @real_duel_data != nil # 初期設定コマンドを優先して取得
-      if ret == nil && @act_command && get_cnt > 0
+      ret = get_finish_command # 終了コマンドを優先して取得
+      ret = get_init_commands unless @real_duel_data.nil? # 初期設定コマンドを優先して取得
+      if ret.nil? && @act_command && get_cnt.positive?
         ret = []
         cnt = 0
-        get_cnt.times {
+        get_cnt.times do
           if @act_command.length > @command_idx
             ret.push(@act_command[@command_idx])
             @command_idx += 1
@@ -151,7 +148,7 @@ module Unlight
               cnt = 0
             end
           end
-        }
+        end
       end
       ret
     end
@@ -161,7 +158,7 @@ module Unlight
       # 常に更新していく
       @act_command = get_cache_act_command
       ret = get_finish_command # 終了コマンドを優先して取得
-      if ret == nil && @act_command && get_cnt > 0
+      if ret.nil? && @act_command && get_cnt.positive?
         ret = []
         if @act_command.length > @command_idx
           ret.push(@act_command[@command_idx])
@@ -175,7 +172,7 @@ module Unlight
     def get_finish_command
       ret = nil
       # コマンド履歴の先頭が戦闘終了コマンドか
-      if @act_command && @act_command.length > 0 && @act_command.first[:func] == DUEL_ABORT_FUNC_STR
+      if @act_command && !@act_command.empty? && @act_command.first[:func] == DUEL_ABORT_FUNC_STR
         ret = [@act_command.first]
         @watch_finish = true
       end
@@ -185,7 +182,7 @@ module Unlight
     # 初期設定コマンドがあれば取得
     def get_init_commands
       ret = nil
-      if @real_duel_data.init_commands && @real_duel_data.init_commands.length > 0
+      if @real_duel_data.init_commands && !@real_duel_data.init_commands.empty?
         ret = @real_duel_data.init_commands
       end
       # 取得してしまったら、データを消してしまう

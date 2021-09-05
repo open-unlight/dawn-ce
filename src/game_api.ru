@@ -13,7 +13,7 @@ use Rack::Cors do
     end
 
     # TODO: Add POST / PUT / DELETE support in the future
-    resource '*', headers: :any, methods: [:get, :options]
+    resource '*', headers: :any, methods: %i[get options]
   end
 end
 

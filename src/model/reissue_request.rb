@@ -39,26 +39,25 @@ module Unlight
       self.updated_at = Time.now.utc
     end
 
-    def ReissueRequest::create_request(email, player_id = 0)
-      rreq = ReissueRequest.new do |r|
+    def self.create_request(email, player_id = 0)
+      ReissueRequest.new do |r|
         r.uniq_str = get_uniq_str
         r.email = email
         r.player_id = player_id
         r.limit_at = Time.now.utc + NEXT_LIMIT_TIME
         r.save_changes
       end
-      rreq
     end
 
-    def ReissueRequest::get_uniq_str()
-      used_list = ReissueRequest.all.map { |rr| rr.uniq_str }
+    def self.get_uniq_str
+      used_list = ReissueRequest.all.map(&:uniq_str)
       ret = ''
       while ret == ''
         trade_no_list = Digest::MD5.hexdigest("#{Time.now}ReissueRequest#{rand(1024)}")
         start_idx = 0
         str = ''
         UNIQ_STR_SPLIT_SET.each_with_index do |num, idx|
-          str += UNIQ_STR_USE_STR_PT if UNIQ_STR_USE_STR_PT && idx > 0
+          str += UNIQ_STR_USE_STR_PT if UNIQ_STR_USE_STR_PT && idx.positive?
           str += trade_no_list[start_idx..(start_idx + num - 1)].upcase
           start_idx += num
         end
@@ -69,17 +68,17 @@ module Unlight
 
     def set_player_id(pl_id)
       self.player_id = pl_id
-      self.save_changes
+      save_changes
     end
 
     def update_status(st)
       self.status = st
       self.limit_at = Time.now.utc + NEXT_LIMIT_TIME
-      self.save_changes
+      save_changes
     end
 
     def is_time_over?
-      self.limit_at < Time.now.utc
+      limit_at < Time.now.utc
     end
   end
 end

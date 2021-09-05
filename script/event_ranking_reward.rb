@@ -1,4 +1,4 @@
-$:.unshift(File.join(File.expand_path('.'), 'src'))
+$LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 $arg = ARGV.shift
@@ -9,10 +9,10 @@ module Unlight
   puts 'イベントランキングを更新します（y/n）'
   answer = gets.chomp
   if answer == 'y'
-    TotalEventRanking::start_up
+    TotalEventRanking.start_up
   end
 
-  while true
+  loop do
     puts 'イベントランキング報酬の対象となる最高順位を入力してください(1～)'
     max = gets.chomp
     puts 'イベントランキング報酬の対象となる最低順位を入力してください(10000～)'

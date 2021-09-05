@@ -50,7 +50,7 @@ module Dawn
       datasets.each do |dataset|
         yield dataset if block_given?
         # TODO: Use `only` options to select necessary columns
-        json_data = dataset.to_json(except: [:created_at, :updated_at])
+        json_data = dataset.to_json(except: %i[created_at updated_at])
         File.write(destination.join("#{dataset.table_name}.json"), json_data)
       end
     end

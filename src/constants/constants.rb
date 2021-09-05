@@ -10,7 +10,7 @@
 
 module Unlight
   # ライブラリのパス
-  $:.unshift __dir__
+  $LOAD_PATH.unshift __dir__
   LIB_PATH = "#{File.dirname(__FILE__).gsub('src/constants', '')}lib"
   # BotTest用セッションキー固定
   BOT_SESSION = false
@@ -193,24 +193,24 @@ module Unlight
   # モンスターカード
   MONSTAR_CARD_ID = 1001
   # コインカード
-  COIN_CARD_ID = 10001
+  COIN_CARD_ID = 10_001
   # かけらカード
-  TIPS_CARD_ID = 10006
+  TIPS_CARD_ID = 10_006
   # ボスモンスターカード
-  BOSS_MONSTAR_CARD_ID = 20001
+  BOSS_MONSTAR_CARD_ID = 20_001
   # ===== 捨てる予定 ========
 
   # コインのセット
-  COIN_IRON_ID     = 10001
-  COIN_BRONZE_ID   = 10002
-  COIN_SILVER_ID   = 10003
-  COIN_GOLD_ID     = 10004
-  COIN_PLATINUM_ID = 10005
+  COIN_IRON_ID     = 10_001
+  COIN_BRONZE_ID   = 10_002
+  COIN_SILVER_ID   = 10_003
+  COIN_GOLD_ID     = 10_004
+  COIN_PLATINUM_ID = 10_005
 
   # EXコインカード
-  EX_COIN_CARD_ID = 10011
+  EX_COIN_CARD_ID = 10_011
   # EXかけらカード
-  EX_TIPS_CARD_ID = 10012
+  EX_TIPS_CARD_ID = 10_012
 
   # コインのセット
   COIN_SET = [1, COIN_IRON_ID, COIN_BRONZE_ID, COIN_SILVER_ID, COIN_PLATINUM_ID]
@@ -352,8 +352,8 @@ module Unlight
   PN_SAME_IP = 256              # 0000_0001_0000_0000
   # PN_COMEBACK = 4096            # 0001_0000_0000_0000 # 2012/08/23 カムバックしてきた
   # PN_COMEBACK = 8192            # 0010_0000_0000_0000 # 2013/06/05 カムバックしてきた
-  PN_COMEBACK = 16384           # 0100_0000_0000_0000 # 2015/01/07 カムバックしてきた
-  PN_2015_NY = 32768            # 1000_0000_0000_0000 # 2015/01/01 新年ログイン
+  PN_COMEBACK = 16_384           # 0100_0000_0000_0000 # 2015/01/07 カムバックしてきた
+  PN_2015_NY = 32_768            # 1000_0000_0000_0000 # 2015/01/01 新年ログイン
 
   # プレイヤーの自動セーブ間隔(秒)
   SAVE_INTERVAL = 60 * 10
@@ -363,7 +363,7 @@ module Unlight
 
   # ============== モデル関連定数 ==================
   #
-  MODEL_CACHE_INT = 10000000
+  MODEL_CACHE_INT = 10_000_000
 
   # ============== DB関連定数 ==================
 
@@ -396,9 +396,7 @@ module Unlight
   Sequel.default_timezone = :utc
 
   # ============== 関連定数 ==================
-  unless $SERVER_NAME
-    $SERVER_NAME = 'none'
-  end
+  $SERVER_NAME ||= 'none'
 
   # ログの出力先
   SERVER_LOG = Dawn.logger
@@ -420,27 +418,28 @@ class Time
           (?:\.(\d+))?
           (Z|[+-]\d\d(?::?\d\d)?)?
           \s*\z/ix =~ date
-        year = $1.to_i
-        mon = $2.to_i
-        day = $3.to_i
-        hour = $4.to_i
-        min = $5.to_i
-        sec = $6.to_i
-        usec = $7 ? "#{$7}000000"[0, 6].to_i : 0
-        if $8
-          zone = $8
-          if zone == 'Z'
+        year = Regexp.last_match(1).to_i
+        mon = Regexp.last_match(2).to_i
+        day = Regexp.last_match(3).to_i
+        hour = Regexp.last_match(4).to_i
+        min = Regexp.last_match(5).to_i
+        sec = Regexp.last_match(6).to_i
+        usec = Regexp.last_match(7) ? "#{Regexp.last_match(7)}000000"[0, 6].to_i : 0
+        if Regexp.last_match(8)
+          zone = Regexp.last_match(8)
+          case zone
+          when 'Z'
             offset = 0
-          elsif zone =~ /^([+-])(\d\d):?(\d\d)?$/
-            offset = ($1 == '+' ? 1 : -1) * ($2.to_i * 3600 + ($3 || 0).to_i * 60)
+          when /^([+-])(\d\d):?(\d\d)?$/
+            offset = (Regexp.last_match(1) == '+' ? 1 : -1) * (Regexp.last_match(2).to_i * 3600 + (Regexp.last_match(3) || 0).to_i * 60)
           end
           year, mon, day, hour, min, sec =
             apply_offset(year, mon, day, hour, min, sec, offset)
-          t = self.utc(year, mon, day, hour, min, sec, usec)
+          t = utc(year, mon, day, hour, min, sec, usec)
           t.localtime unless /Z|-00:?(00)?/.match?(zone)
           t
         else
-          self.local(year, mon, day, hour, min, sec, usec)
+          local(year, mon, day, hour, min, sec, usec)
         end
       end
     end
@@ -456,7 +455,7 @@ module Sequel
     else
       datetime_class.parse(string)
     end
-  rescue => e
+  rescue StandardError => e
     raise convert_exception_class(e, InvalidValue)
   end
 end
@@ -489,58 +488,58 @@ class OrderHash < Hash
   end
 
   def each
-    @keys.each { |k|
+    @keys.each do |k|
       arr_tmp = []
       arr_tmp << k
       arr_tmp << self[k]
       yield(arr_tmp)
-    }
+    end
     self
   end
 
   def each_pair
-    @keys.each { |k|
+    @keys.each do |k|
       yield(k, self[k])
-    }
+    end
     self
   end
 
   def reject!(&block)
     del = ''
-    @keys.each { |k|
+    @keys.each do |k|
       del = k if yield(k, self[k])
-    }
+    end
     @keys.delete(del)
     super(&block)
   end
 
   def each_value
-    @keys.each { |k|
+    @keys.each do |k|
       yield(self[k])
-    }
+    end
     self
   end
 
   def map
     arr_tmp = []
-    @keys.each { |k|
+    @keys.each do |k|
       arg_arr = []
       arg_arr << k
       arg_arr << self[k]
       arr_tmp << yield(arg_arr)
-    }
+    end
     arr_tmp
   end
 
   def sort_hash(&block)
     if block
-      arr_tmp = self.sort(&block)
-    elsif arr_tmp = self.sort
+      arr_tmp = sort(&block)
+    elsif arr_tmp = sort
     end
     hash_tmp = OrderHash.new
-    arr_tmp.each { |item|
+    arr_tmp.each do |item|
       hash_tmp[item[0]] = item[1]
-    }
+    end
     hash_tmp
   end
 end

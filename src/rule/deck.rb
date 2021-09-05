@@ -6,7 +6,7 @@
 module Unlight
   # デッキクラス
   class Deck < BaseEvent
-    attr_reader :deck_cards
+    attr_reader :deck_cards, :used_cards
 
     def initialize(c, stage = 0)
       super
@@ -18,12 +18,12 @@ module Unlight
       @deck_cards = @cards.clone.shuffle!
     end
 
-    def init_cards()
+    def init_cards
       @cards = ActionCard.deck_with_context(context, self, @stage) # デッキの保存カード
     end
     private :init_cards
 
-    def deck_init()
+    def deck_init
       @used_cards.shuffle!
       @deck_cards = @used_cards.clone
       @used_cards = []
@@ -35,8 +35,8 @@ module Unlight
       ret_cards = []
       # デッキの残りが引く数より少ない場合捨て札を再シャッフル
       while ret_cards.size != num
-        if @deck_cards.size < 1
-          break if deck_init_event == 0 # シャッフルしてもデッキがからならやめる
+        if @deck_cards.empty?
+          break if deck_init_event.zero? # シャッフルしてもデッキがからならやめる
         end
         c = @deck_cards.last
         ret_cards << c
@@ -55,11 +55,11 @@ module Unlight
       while ret_cards.size < num
 
         # 指定タイプがなくなり次第抜ける
-        card_list = type == 0 ? @used_cards : @used_cards.select { |c| c.get_types.include?(type) }
+        card_list = type.zero? ? @used_cards : @used_cards.select { |c| c.get_types.include?(type) }
 
-        break if card_list.size == 0
+        break if card_list.empty?
 
-        c = card_list.shuffle.last
+        c = card_list.sample
 
         ret_cards << c if c
         use_grave_card(c)
@@ -74,15 +74,15 @@ module Unlight
       ret_cards = []
       # デッキの残りが引く数より少ない場合捨て札を再シャッフル
       while ret_cards.size != num
-        if @deck_cards.size < 1
-          break if deck_init_event == 0 # シャッフルしてもデッキがからならやめる
+        if @deck_cards.empty?
+          break if deck_init_event.zero? # シャッフルしてもデッキがからならやめる
         end
 
         c = nil
-        if borderline > 0
-          c = @deck_cards.shuffle.find { |ac| ac.event_no == 0 && ac.u_value <= borderline && ac.b_value <= borderline }
+        if borderline.positive?
+          c = @deck_cards.shuffle.find { |ac| ac.event_no.zero? && ac.u_value <= borderline && ac.b_value <= borderline }
         else
-          c = @deck_cards.sort_by { |ac| [ac.u_value, ac.b_value] }.first
+          c = @deck_cards.min_by { |ac| [ac.u_value, ac.b_value] }
         end
 
         break if c.nil?
@@ -120,7 +120,7 @@ module Unlight
     end
 
     def empty?
-      @deck_cards.size == 0
+      @deck_cards.empty?
     end
 
     # Specにしか使われていない関数注意されたし
@@ -138,29 +138,28 @@ module Unlight
     end
 
     # すべてのカードのイベントリスナーをリムーブする
-    def all_cards_remove_all_event_listener()
-      @cards.each { |c|
+    def all_cards_remove_all_event_listener
+      @cards.each do |c|
         c.remove_all_event_listener
         c.remove_all_hook
         c.finalize_event
-      }
+      end
     end
 
     # 墓地にあるカードの枚数を返す カード数値num以上
     def get_grave_card_count(num = 1)
-      ret = @used_cards.count { |c| c.get_value_max >= num }
-      ret
+      @used_cards.count { |c| c.get_value_max >= num }
     end
 
     def get_joker_card
       @joker_num ||= 0
-      ret = ActionCard::get_joker_card(@joker_num, context, self)
+      ret = ActionCard.get_joker_card(@joker_num, context, self)
       # Jokerが品切の場合そっと墓場から返す
       if ret
         @cards << ret
         @joker_num += 1
       else
-        ret = @used_cards.find { |c| c.joker? }
+        ret = @used_cards.find(&:joker?)
         # デッキが完全シャッフル後は墓場に存在しない場合あり。append側で入れ替えが必要
         @used_cards.delete(ret) if ret
       end
@@ -172,7 +171,7 @@ module Unlight
       jac = get_joker_card
       # カードを新規または墓場から追加出来ない場合デッキの頭から抜き出す
       unless jac
-        jac = @deck_cards.find { |c| c.joker? }
+        jac = @deck_cards.find(&:joker?)
         @deck_cards.delete(jac) if jac
       end
       if top
@@ -186,9 +185,5 @@ module Unlight
       1
     end
     regist_event AppendJokerCardEvent
-
-    def used_cards
-      @used_cards
-    end
   end
 end

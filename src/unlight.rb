@@ -4,8 +4,8 @@
 # This software is released under the Apache 2.0 License.
 # https://opensource.org/licenses/Apache2.0
 
-$:.unshift Bundler.root.join('src')
-$:.unshift Bundler.root.join('lib')
+$LOAD_PATH.unshift Bundler.root.join('src')
+$LOAD_PATH.unshift Bundler.root.join('lib')
 d = File.dirname(__FILE__).gsub!('src', '')
 ENV['INLINEDIR'] = "#{d}lib/ruby_inline"
 
@@ -154,14 +154,14 @@ require 'rule/ai'
 module Unlight
   require 'objspace'
 
-  def self::puts_obj_count(c)
+  def self.puts_obj_count(c)
     count = ObjectSpace.each_object(c) { |x| x }
     SERVER_LOG.info("LEAK_CHECK:#{c.name} num is #{count}")
   end
 
-  def self::debug_memory_leak
+  def self.debug_memory_leak
     GC::Profiler.enable
-    GC.start()
+    GC.start
     GC::Profiler.report
     p Time.now
     puts "OBJ COUNT  #{ObjectSpace.count_objects}"

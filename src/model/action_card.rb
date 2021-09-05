@@ -33,20 +33,18 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::ActionCard::refresh_data_version
+      Unlight::ActionCard.refresh_data_version
     end
 
     # 全体データバージョンを返す
-    def ActionCard::data_version
+    def self.data_version
       ret = cache_store.get('ActionCardVersion')
-      unless ret
-        ret = refresh_data_version
-      end
+      ret ||= refresh_data_version
       ret
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def ActionCard::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::ActionCard.order(:updated_at).last
       if m
         cache_store.set('ActionCardVersion', m.version)
@@ -57,15 +55,15 @@ module Unlight
     end
 
     # アクションカードをテキスト化する。デバッグ用
-    def ActionCard::cards2str(cards)
-      cards.map { |c| ac2str(c) }.join('')
+    def self.cards2str(cards)
+      cards.map { |c| ac2str(c) }.join
     end
 
-    def ActionCard::ac2str(ac)
+    def self.ac2str(ac)
       "【#{ac.id}:#{type2str(ac.u_type)}#{ac.u_value}/#{type2str(ac.b_type)}#{ac.b_value}】"
     end
 
-    def ActionCard::type2str(type)
+    def self.type2str(type)
       case type
       when BLNK
         '無'
@@ -88,7 +86,7 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # 移動ポイント取得
@@ -125,11 +123,11 @@ module Unlight
     def get_type_value(type, u)
       ret = 0
       if u
-        if self.u_type == type
-          ret = self.u_value
+        if u_type == type
+          ret = u_value
         end
-      elsif self.b_type == type
-        ret = self.b_value
+      elsif b_type == type
+        ret = b_value
       end
       ret
     end
@@ -139,10 +137,10 @@ module Unlight
     # ないときnil
     def get_exist_value?(type, value = nil)
       ret = nil
-      if self.u_type == type
-        ret = [true, self.u_value]
-      elsif self.b_type == type
-        ret = [false, self.b_value]
+      if u_type == type
+        ret = [true, u_value]
+      elsif b_type == type
+        ret = [false, b_value]
       end
 
       # valueがあるとき同じでなければNilにする
@@ -157,9 +155,9 @@ module Unlight
     # ないときnil
     def get_exist_wld_card_value?(value)
       ret = nil
-      if self.u_value == value
+      if u_value == value
         ret = [true, value]
-      elsif self.b_value == value
+      elsif b_value == value
         ret = [false, value]
       end
 
@@ -172,8 +170,7 @@ module Unlight
 
     # entrantが使うワイルドカードが存在するかのチェック
     def check_exist_wld_card_value?(value)
-      ret = up? ? self.u_value == value : self.b_value == value
-      ret
+      up? ? u_value == value : b_value == value
     end
 
     # カード内の最大ポイントを取得
@@ -182,9 +179,9 @@ module Unlight
       if type
 
         uv = 0
-        uv = self.u_value if self.u_type == type
+        uv = u_value if u_type == type
         bv = 0
-        bv = self.b_value if self.b_type == type
+        bv = b_value if b_type == type
         if uv > bv
           ret = uv
         else
@@ -193,10 +190,10 @@ module Unlight
 
       else
 
-        if self.u_value > self.b_value
-          ret = self.u_value
+        if u_value > b_value
+          ret = u_value
         else
-          ret = self.b_value
+          ret = b_value
         end
 
       end
@@ -205,14 +202,14 @@ module Unlight
 
     # 現在のタイプ
     def current_type
-      up? ? (self.u_type) : (self.b_type)
+      up? ? u_type : b_type
     end
 
     # カードが保有するタイプを配列で返す
     def get_types
       ret = []
-      ret << self.u_type
-      ret << self.b_type if ret[0] != self.b_type
+      ret << u_type
+      ret << b_type if ret[0] != b_type
       ret
     end
 
@@ -241,14 +238,14 @@ module Unlight
 
     def refresh_values
       if @rewritten
-        self.refresh
+        refresh
         @rewritten = false
         update_card_value(true) if @event
       end
     end
 
     # カードの配列をIDのカンマ区切りStringにして返す
-    def ActionCard::array2str(a)
+    def self.array2str(a)
       ids = []
       a.each do |cc|
         ids << cc.id
@@ -257,7 +254,7 @@ module Unlight
     end
 
     # カードの配列を向きのカンマ区切りStringにして返す
-    def ActionCard::array2str_dir(a)
+    def self.array2str_dir(a)
       ids = []
       a.each do |cc|
         ids << (cc.up?) ? 0 : 1
@@ -266,24 +263,24 @@ module Unlight
     end
 
     # カードの配列を向きのIntにして返す(32枚まで限定)
-    def ActionCard::array2int_dir(a)
+    def self.array2int_dir(a)
       ids = 0
       a.each_index do |i|
-        u = (a[i].up?) ? 1 : 0
+        u = a[i].up? ? 1 : 0
         ids += (u << i)
       end
       ids
     end
 
     # デッキカードのインスタンスを初期化してから配列で返す
-    def ActionCard::deck_with_context(ctxt, dk, stage)
+    def self.deck_with_context(ctxt, dk, stage)
       # 特定ステージに使用されるカード集める
       d = STAGE_DECK[stage]
       ret = []
       d.each do |c|
         begin
           ac = ActionCard[c]
-        rescue => e
+        rescue StandardError => e
           SERVER_LOG.fatal(e.message)
         end
 
@@ -295,7 +292,7 @@ module Unlight
       ret
     end
 
-    def ActionCard::get_joker_card(num, ctxt, dk)
+    def self.get_joker_card(num, ctxt, dk)
       ret = false
       j = EventCard[JOKER_EVENT_CARD]
       if num < j.max_in_deck
@@ -306,7 +303,7 @@ module Unlight
     end
 
     # デッキカードのインスタンスを初期化してから配列で返す
-    def ActionCard::event_deck_with_context(ctxt, dk, duel, cards)
+    def self.event_deck_with_context(ctxt, dk, duel, cards)
       # 特定ステージに使用されるカード集める
       ret = []
       cards.each do |c|
@@ -319,7 +316,7 @@ module Unlight
     end
 
     # イベントカートをアクションカードに変換していく
-    def ActionCard::event_cards_to_action_cards(cards1, cards2)
+    def self.event_cards_to_action_cards(cards1, cards2)
       c_num = Hash.new(0) # 使用済み枚数
       # 与えられたカードが所持制限を超えていないかをチェック
       check_event_card_max(cards1)
@@ -330,7 +327,7 @@ module Unlight
     end
 
     # もらったカードをアクションカードに単に変換
-    def ActionCard::get_from_event_card(cards, num)
+    def self.get_from_event_card(cards, num)
       ret = []
       cards.each do |c|
         ret << ActionCard[c.event_no + num[c.event_no]]
@@ -341,7 +338,7 @@ module Unlight
     end
 
     # カードからMAX数を超えていたら超過分を削除
-    def ActionCard::check_event_card_max(cards)
+    def self.check_event_card_max(cards)
       c_num = Hash.new(0) # 枚数
       cards.reject! do |c|
         c_num[c.event_no] += 1
@@ -373,8 +370,8 @@ module Unlight
     # イベントの登録
     def regist_action_card_event
       # フックを登録
-      if ACTION_EVENT_NO[self.event_no]
-        @event.send(ACTION_EVENT_NO[self.event_no][0])
+      if ACTION_EVENT_NO[event_no]
+        @event.send(ACTION_EVENT_NO[event_no][0])
       end
     end
 
@@ -384,7 +381,8 @@ module Unlight
     end
 
     # カードイベントの後処理
-    def finalize_event() #
+    #
+    def finalize_event
       # 全てのイベントをリムーブする
       @event.remove_all_event_listener
       @event.remove_all_hook
@@ -428,8 +426,7 @@ module Unlight
     regist_event ThrowedEvent
 
     # カードが場に出された
-    def droped
-    end
+    def droped; end
     regist_event DropedEvent
 
     def occur_chance
@@ -448,12 +445,11 @@ module Unlight
     regist_event OccurDamageEvent
 
     def occur_cure
-      cure_event()
+      cure_event
     end
     regist_event OccurCureEvent
 
-    def occur_defeat
-    end
+    def occur_defeat; end
     regist_event OccurDefeatEvent
 
     def occur_curse
@@ -461,8 +457,7 @@ module Unlight
     end
     regist_event OccurCurseEvent
 
-    def occur_idea
-    end
+    def occur_idea; end
     regist_event OccurIdeaEvent
 
     def occur_chalice
@@ -523,7 +518,7 @@ module Unlight
     # ステータス状態回復
     # 返値:成功
     def cure
-      ret = @owner.cured_event()
+      ret = @owner.cured_event
       @owner.use_action_card_event(@ac)
       ret
     end
@@ -532,14 +527,14 @@ module Unlight
     # 聖杯イベント
     # 返値:なし
     def chalice
-      @owner.cured_event()
+      @owner.cured_event
     end
     regist_event ChaliceEvent
 
     # 毒杯イベント
     # 返値:なし
     def poison
-      @owner.foe.cured_event()
+      @owner.foe.cured_event
     end
     regist_event PoisonEvent
 

@@ -33,7 +33,7 @@ module Unlight
             logout
             @player = nil
           end
-        rescue => e
+        rescue StandardError => e
           puts e.message
         end
         SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}.player#{@player.id}") if @player

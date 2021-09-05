@@ -14,10 +14,10 @@ module Unlight
     # =====================================
 
     def cs_match_start(match_uid)
-      SERVER_LOG.info("<UID:#{@uid}>GameServer: [cs_match_start] #{match_uid}");
-      @match_log = MatchLog::get_cache(match_uid)
+      SERVER_LOG.info("<UID:#{@uid}>GameServer: [cs_match_start] #{match_uid}")
+      @match_log = MatchLog.get_cache(match_uid)
 
-      if @player && @match_log && @duel == nil
+      if @player && @match_log && @duel.nil?
         @opponent_player = online_list[@match_log.b_avatar.player_id]
         if @opponent_player
           @opponent_player.oppnent_event_destructor
@@ -38,11 +38,12 @@ module Unlight
           @opponent_player.player.same_ip_check
           @player.same_ip_check
           @match_log.warn_same_ip
-          SERVER_LOG.info("<UID:#{@uid}>GameServer: [warn] same IP");
+          SERVER_LOG.info("<UID:#{@uid}>GameServer: [warn] same IP")
         end
 
         if @match_log.cpu_card_data_id == PLAYER_MATCH
-          if @match_log.match_rule == RULE_1VS1
+          case @match_log.match_rule
+          when RULE_1VS1
 
             # カレントのアバターが持つカレントカードでデュエル開始
             @duel = MultiDuel.new(@player.current_avatar, @opponent_player.player.current_avatar, @player.current_avatar.duel_deck, @opponent_player.player.current_avatar.duel_deck, @match_log.match_rule, @match_log.get_bp, :none, @match_log.match_stage)
@@ -53,9 +54,9 @@ module Unlight
             @opponent_player.set_duel_handler(1, RULE_1VS1)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, @duel.entrants[@no].distance, false)
             @opponent_player.sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@foe].size, @duel.event_decks[@no].size, @duel.entrants[@foe].distance, false)
-            @match_log.start_match()
+            @match_log.start_match
             @duel.three_to_three_duel
-          elsif @match_log.match_rule == RULE_3VS3
+          when RULE_3VS3
             # カレントのアバターが持つカレントデッキでデュエル開始
             @duel = MultiDuel.new(@player.current_avatar, @opponent_player.player.current_avatar, @player.current_avatar.duel_deck, @opponent_player.player.current_avatar.duel_deck, @match_log.match_rule, @match_log.get_bp, :none, @match_log.match_stage)
             @opponent_player.duel = @duel
@@ -65,21 +66,22 @@ module Unlight
             @opponent_player.set_duel_handler(1, RULE_3VS3)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, @duel.entrants[@no].distance, true)
             @opponent_player.sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@foe].size, @duel.event_decks[@no].size, @duel.entrants[@foe].distance, true)
-            @match_log.start_match()
+            @match_log.start_match
             @duel.three_to_three_duel
           end
         else
           # CPUルールで開始する
-          if @match_log.match_rule == RULE_1VS1
+          case @match_log.match_rule
+          when RULE_1VS1
             # カレントのアバターが持つカレントカードでデュエル開始
             @duel = MultiDuel.new(AI, @opponent_player.player.current_avatar, AI.chara_card_deck(@match_log.cpu_card_data_id), @opponent_player.player.current_avatar.duel_deck, @match_log.match_rule, 0, :duel_ai, @match_log.match_stage, [0, 0, 0], [0, 0, 0], 0, @match_log.cpu_card_data_id)
             @opponent_player.duel = @duel
             @opponent_player.do_determine_session(AI_PLAYER_ID, 'CPU', @opponent_player.player.current_avatar.duel_deck_cards_id_str, AI.chara_card_deck(@match_log.cpu_card_data_id).mask_cards_id.join(','))
             @opponent_player.set_duel_handler(1, RULE_1VS1)
             @opponent_player.sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@foe].size, @duel.event_decks[@no].size, @duel.entrants[@foe].distance, false)
-            @match_log.start_match()
+            @match_log.start_match
             @duel.three_to_three_duel
-          elsif @match_log.match_rule == RULE_3VS3
+          when RULE_3VS3
 
             # カレントのアバターが持つカレントデッキでデュエル開始
             @duel = MultiDuel.new(AI, @opponent_player.player.current_avatar, AI.chara_card_deck(@match_log.cpu_card_data_id), @opponent_player.player.current_avatar.duel_deck, @match_log.match_rule, 0, :duel_ai, @match_log.match_stage, [0, 0, 0], [0, 0, 0], 0, @match_log.cpu_card_data_id)
@@ -87,7 +89,7 @@ module Unlight
             @opponent_player.do_determine_session(AI_PLAYER_ID, 'CPU', @opponent_player.player.current_avatar.duel_deck.cards_id.join(','), AI.chara_card_deck(@match_log.cpu_card_data_id).mask_cards_id.join(','))
             @opponent_player.set_duel_handler(1, RULE_3VS3)
             @opponent_player.sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@foe].size, @duel.event_decks[@no].size, @duel.entrants[@foe].distance, true) if @duel && @foe
-            @match_log.start_match()
+            @match_log.start_match
             @duel.three_to_three_duel
           end
         end
@@ -98,7 +100,7 @@ module Unlight
         # 使用デッキをログに書き出し
         player_deck_cards = @player.current_avatar.duel_deck.cards_id(true)
         opponent_player_deck_cards = @opponent_player.player.current_avatar.duel_deck.cards_id(true)
-        SERVER_LOG.info("<UID:#{@uid}>GameServer: [duel_use_deck_cards] player_cards#{player_deck_cards},opponent_player_cards#{opponent_player_deck_cards}");
+        SERVER_LOG.info("<UID:#{@uid}>GameServer: [duel_use_deck_cards] player_cards#{player_deck_cards},opponent_player_cards#{opponent_player_deck_cards}")
       end
     end
 
@@ -171,7 +173,7 @@ module Unlight
         use_ap = DUEL_AP[duel.rule]
         use_ap = @match_log.match_option == DUEL_OPTION_FRIEND ? FRIEND_DUEL_AP[duel.rule] : DUEL_AP[duel.rule] if @match_log
         # ラダーマッチの時のAP消費量
-        use_ap = RADDER_DUEL_AP[duel.rule] if duel.is_get_bp == 1 || @match_log.cpu_card_data_id != PLAYER_MATCH if @match_log
+        use_ap = RADDER_DUEL_AP[duel.rule] if @match_log && (duel.is_get_bp == 1 || @match_log.cpu_card_data_id != PLAYER_MATCH)
 
         is_free_count = @player.current_avatar.duel_energy_use(use_ap)
         # フリーデュエルポイントを使用している場合、人気投票にポイント加算
@@ -209,7 +211,7 @@ module Unlight
         # 週間レコードクリアチェック (プレイヤー同士の対戦のみ)
         @avatar.week_record_clear_check(WEEK_DUEL_ACHIEVEMENT_IDS) if @match_log && @match_log.cpu_card_data_id == PLAYER_MATCH
         # チャンネルルール別レコードチェック (プレイヤー同士の対戦のみ)
-        @avatar.achievement_check(DUEL_RULE_ACHIEVEMENTS[@match_log.channel_set_rule]) if @match_log && DUEL_RULE_ACHIEVEMENTS[@match_log.channel_set_rule].size > 0 && @match_log.cpu_card_data_id == PLAYER_MATCH
+        @avatar.achievement_check(DUEL_RULE_ACHIEVEMENTS[@match_log.channel_set_rule]) if @match_log && !DUEL_RULE_ACHIEVEMENTS[@match_log.channel_set_rule].empty? && @match_log.cpu_card_data_id == PLAYER_MATCH
         # 対戦相手カウントレコードチェック
         @avatar.achievement_check(RECORD_OTHER_AVATAR_DUEL_IDS)
 
@@ -217,10 +219,10 @@ module Unlight
 
         if @match_log && HIGH_LOW_EVENT_REWARD_ENABLE
           if @match_log.cpu_card_data_id == PLAYER_MATCH
-            @reward.set_tag_item_id(@match_log.a_avatar_id) if @foe == 0
-            @reward.set_tag_item_id(@match_log.b_avatar_id) if @no == 0
+            @reward.set_tag_item_id(@match_log.a_avatar_id) if @foe.zero?
+            @reward.set_tag_item_id(@match_log.b_avatar_id) if @no.zero?
           else
-            @reward.set_tag_item_id()
+            @reward.set_tag_item_id
           end
         end
 
@@ -251,14 +253,15 @@ module Unlight
       if @watch_duel
         player_ids = @watch_duel.get_cache_duel_data
         winner = ''
-        if RESULT_WIN == duel.result[@no][:result]
+        case duel.result[@no][:result]
+        when RESULT_WIN
           if @player
             winner = @player.current_avatar.name
           else
             pl = Player[player_ids[:pl_id]] if player_ids && player_ids[:pl_id]
             winner = pl.current_avatar.name if pl
           end
-        elsif RESULT_LOSE == duel.result[@no][:result]
+        when RESULT_LOSE
           if opponent_player && opponent_player.player
             winner = opponent_player.player.current_avatar.name
           else
@@ -282,7 +285,7 @@ module Unlight
 
     # アバターイベントの設定
     def regist_avatar_event
-      @avatar = @player.current_avatar unless @avatar
+      @avatar ||= @player.current_avatar
       @avatar.init unless @avatar.event
       # アチーブメントのハンドラ関係追加
       @avatar.add_finish_listener_achievement_clear_event(method(:achievement_clear_event_handler))
@@ -307,7 +310,7 @@ module Unlight
 
     # =========================================================================================================
 
-    def pushout()
+    def pushout
       online_list[@player.id].logout
     end
 
@@ -323,7 +326,7 @@ module Unlight
       # 相手がいる場合、ペナルティ
       # デュエルを削除する
       if @duel
-        channel = Channel::channel_list[@match_log.channel_id]
+        channel = Channel.channel_list[@match_log.channel_id]
         SERVER_LOG.info("<UID:#{@uid}>GameServer: [Abort Game] turn #{@duel.turn} ,PenaltyType:#{channel.penalty_type}")
 
         # 一時的にペナルティは、他人の部屋に入れなくなる
@@ -351,7 +354,7 @@ module Unlight
           if @duel.game_start_ok? && @duel.ai_type == :none && @duel.turn >= DUEL_PENALTY_TURN
             @opponent_player.opponent_duel_out if @opponent_player
             SERVER_LOG.info("<UID:#{@uid}>GameServer: [Abort Game]")
-            ai_index = (@no == 0) ? 1 : 0
+            ai_index = @no.zero? ? 1 : 0
             @duel.change_player_to_ai(ai_index)
             # ペナルティの記述
             # 一時的にペナルティは、部屋が作れなくなるのみに
@@ -394,7 +397,7 @@ module Unlight
     # 0ターン切断をした回数をチェック
     def check_zero_turn_cut(cnt = 0)
       cnt = CACHE.get("zero_turn_cut_cnt_player_id:#{@uid}")
-      cnt = 0 unless cnt
+      cnt ||= 0
       cnt += 1
       if cnt >= DUEL_ABORT_CNT_NUM
         CACHE.set("penalty_id:#{@uid}", true, DUEL_CNT_ABORT_PENALTY_TIME)

@@ -28,8 +28,8 @@ module Unlight
       :set_passive,              # 8 一時パッシブをつけるになる(引数 passive_id:int)
       :change_weapon,            # 9 合成武器になるようパラメータ調整(引数 type:Symbol,num:int)
     ]
-    MOD_POINT_BASE_LIST = [:base_sap, :base_sdp, :base_aap, :base_adp]
-    MOD_POINT_ADD_LIST = [:add_sap, :add_sdp, :add_aap, :add_adp]
+    MOD_POINT_BASE_LIST = %i[base_sap base_sdp base_aap base_adp]
+    MOD_POINT_ADD_LIST = %i[add_sap add_sdp add_aap add_adp]
     MOD_POINT_LIST = MOD_POINT_ADD_LIST + MOD_POINT_BASE_LIST
 
     @@condition_base_proc = []
@@ -54,12 +54,12 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::CombineCase::refresh_case_version
-      Unlight::CombineCase::cache_store.delete("weapon_card:cond:#{id}")
+      Unlight::CombineCase.refresh_case_version
+      Unlight::CombineCase.cache_store.delete("weapon_card:cond:#{id}")
     end
 
     # 全体データバージョンを返す
-    def CombineCase::case_version
+    def self.case_version
       ret = cache_store.get('CombineCaseVersion')
       unless ret
         ret = refresh_case_version
@@ -69,7 +69,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def CombineCase::refresh_case_version
+    def self.refresh_case_version
       m = Unlight::CombineCase.order(:updated_at).last
       if m
         cache_store.set('CombineCaseVersion', m.version)
@@ -81,11 +81,11 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # 合成を行う。変更後のweaon_idと変化値をハッシュで返す
-    def self::combine(base_id, add_id_list, case_list)
+    def self.combine(base_id, add_id_list, case_list)
       case_list
       # ベースに適応するかチェック
       ok = {}
@@ -116,8 +116,8 @@ module Unlight
       # 排他条件が重なるものが複数あるならば一つ選ぶ()
       list.each do |i, r|
         # 排他0はすべて重複、またはリストが1つならそのまま追加
-        if i == 0 || r.size < 2
-          ret = ret + r
+        if i.zero? || r.size < 2
+          ret += r
         else
           c = choose_one(r)
         end
@@ -127,23 +127,23 @@ module Unlight
     end
 
     # 更新パラメータをまとめて返す
-    def self::get_update_param_hash(r)
+    def self.get_update_param_hash(r)
       ret = {}
       r.each do |cc|
-        ret = ret.merge(cc.get_result_combined_param) { |k, old, new|
+        ret = ret.merge(cc.get_result_combined_param) do |k, old, new|
           # ポイントならば合算してしまう
           if MOD_POINT_LIST.include?(k)
             new + old
           else
             new
           end
-        }
+        end
       end
       ret
     end
 
     # 確率の重みから特定の値を引く
-    def self::choose_one(set)
+    def self.choose_one(set)
       prob = 0
       prob_list = Array.new(set.size) { 0 }
       set.each_with_index do |s, i|
@@ -188,97 +188,99 @@ module Unlight
 
     # 条件を取り出す
     def condition
-      ret = CombineCase::cache_store.get("combine_case:cond:#{id}")
+      ret = CombineCase.cache_store.get("combine_case:cond:#{id}")
       unless ret
         ret = { base: [], add: [[]] }
-        ret = ret.merge(eval(self.requirement.tr('|', ','))) if self.requirement.length > 0
-        CombineCase::cache_store.set("combine_case:cond:#{id}", ret)
-        @@condition_base_proc[self.id] = nil
-        @@condition_add_proc[self.id] = nil
+        ret = ret.merge(eval(requirement.tr('|', ','))) unless requirement.empty?
+        CombineCase.cache_store.set("combine_case:cond:#{id}", ret)
+        @@condition_base_proc[id] = nil
+        @@condition_add_proc[id] = nil
       end
       ret
     end
 
     def get_range_judge_proc(c)
       if c.instance_of?(Range)
-        Proc.new { |base| c.include?(base) }
+        proc { |base| c.include?(base) }
       else
-        Proc.new { |base| c == base }
+        proc { |base| c == base }
       end
     end
 
     # baseアイテムの条件を取り出すことが出来る
-    def get_condition_base_proc()
-      return @@condition_base_proc[self.id] if @@condition_base_proc[self.id]
+    def get_condition_base_proc
+      return @@condition_base_proc[id] if @@condition_base_proc[id]
 
       cond_set = []
       condition[:base].each do |c|
         cond_set << get_range_judge_proc(c)
       end
-      @@condition_base_proc[self.id] = Proc.new { |base|
+      @@condition_base_proc[id] = proc do |base|
         ret = false
         cond_set.each do |prc|
           r = prc.call(base)
           ret = true if r
         end
-        ret = true if cond_set.size == 0
+        ret = true if cond_set.empty?
         ret
-      }
-      @@condition_base_proc[self.id]
+      end
+      @@condition_base_proc[id]
     end
 
     # baseアイテムの条件を取り出すことが出来る
-    def get_condition_add_proc()
-      return @@condition_add_proc[self.id] if @@condition_add_proc[self.id]
+    def get_condition_add_proc
+      return @@condition_add_proc[id] if @@condition_add_proc[id]
 
-      @@condition_add_proc[self.id] = []
+      @@condition_add_proc[id] = []
       condition[:add].each do |c|
         set = []
         c.each do |cc|
           set << get_range_judge_proc(cc)
         end
-        set << Proc.new { |base| true } if c.size == 0
-        @@condition_add_proc[self.id] << Proc.new { |base|
+        set << proc { |base| true } if c.empty?
+        @@condition_add_proc[id] << proc do |base|
           rt = false
           set.each do |prc|
             r = prc.call(base)
             rt = true if r
           end
           rt
-        }
+        end
       end
-      @@condition_add_proc[self.id]
+      @@condition_add_proc[id]
     end
 
     # 変更パラメータリスト
     def get_result_combined_param
       ret = {}
-      ret = self.method(MOD_LIST[self.mod_type]).call(*self.get_mod_args) if self.mod_type > 0
-      ret[:new_weapon_id] = self.combined_w_id if self.combined_w_id > 0
+      ret = method(MOD_LIST[mod_type]).call(*get_mod_args) if mod_type.positive?
+      ret[:new_weapon_id] = combined_w_id if combined_w_id.positive?
       ret
     end
 
     # mod の引数をとる
     def get_mod_args
-      return @@combine_param[self.id] if @@combine_param[self.id]
+      return @@combine_param[id] if @@combine_param[id]
 
       ret = []
-      self.mod_args.split('|').each do |c|
+      mod_args.split('|').each do |c|
         if c[0] == ':'
-          ret << c[1..-1].to_sym
+          ret << c[1..].to_sym
         else
           ret << c.to_i
         end
       end
-      @@combine_param[self.id] = ret
+      @@combine_param[id] = ret
       ret
     end
 
-    def add_point(t, n) # 0
+    # 0
+    def add_point(t, n)
       ret = { t => n }
     end
 
-    def add_point_rnd(t, min, max) # 1
+    # 1
+    def add_point_rnd(t, min, max)
       ret = { t => rand(max) + min }
     end
 
@@ -294,31 +296,38 @@ module Unlight
       ret
     end
 
-    def shift_base_point_rnd(t, n)   # 2
+    # 2
+    def shift_base_point_rnd(t, n)
       shift_point_rnd(MOD_POINT_BASE_LIST, t, n)
     end
 
-    def shift_add_point_rnd(t, n)    # 3
+    # 3
+    def shift_add_point_rnd(t, n)
       shift_point_rnd(MOD_POINT_ADD_LIST, t, n)
     end
 
-    def shift_base_point(f, t, n) # 4
+    # 4
+    def shift_base_point(f, t, n)
       { f => -n, t => n }
     end
 
-    def shift_add_point(f, t, n) # 5
+    # 5
+    def shift_add_point(f, t, n)
       shift_base_point(f, t, n)
     end
 
-    def set_max(t, n) # 6
+    # 6
+    def set_max(t, n)
       ret = { :set => true, t => n }
     end
 
-    def set_passive(n) # 7
+    # 7
+    def set_passive(n)
       ret = { set: true, passive_id: n }
     end
 
-    def change_weapon(t, n) # 9
+    # 9
+    def change_weapon(t, n)
       ret = shift_point_rnd(MOD_POINT_BASE_LIST, t, n) # パラメータが変更されるようシフト
       # 初期値が必要なものをセット
       ret[:base_max] = COMB_BASE_TOTAL_MAX

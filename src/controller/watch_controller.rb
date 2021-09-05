@@ -7,11 +7,11 @@ module Unlight
   # Watch部分のコントローラ
 
   module WatchController
-    def self::init
+    def self.init
       @@audience_list = {} # 観客リスト
     end
 
-    def self::audience_list
+    def self.audience_list
       @@audience_list
     end
 
@@ -21,9 +21,9 @@ module Unlight
 
     # 観戦開始
     def cs_watch_start(match_uid)
-      match_log = MatchLog::get_cache(match_uid)
+      match_log = MatchLog.get_cache(match_uid)
       # 観戦データを取得する
-      watch_data = WatchDuel::get_cache_duel_data(match_uid)
+      watch_data = WatchDuel.get_cache_duel_data(match_uid)
       SERVER_LOG.info("<UID:#{@uid}>WatchServer: [cs_watch_start] match_uid:#{match_uid} watch_data:#{watch_data} ")
 
       player_a = Player[watch_data[:pl_id]] if watch_data
@@ -39,7 +39,7 @@ module Unlight
 
         player_b = Player[watch_data[:foe_id]]
 
-        SERVER_LOG.info("<UID:#{@uid}>WatchServer: [cs_match_start] player_a:#{player_a} player_b:#{player_b}");
+        SERVER_LOG.info("<UID:#{@uid}>WatchServer: [cs_match_start] player_a:#{player_a} player_b:#{player_b}")
 
         unless player_b
           sc_error_no(ERROR_GAME_QUIT)
@@ -55,8 +55,9 @@ module Unlight
 
         # 部屋のルールを見て決める
         if match_log.cpu_card_data_id == PLAYER_MATCH
-          if match_log.match_rule == RULE_1VS1
-            SERVER_LOG.info("<UID:#{@uid}>WatchServer: [cs_watch_start] 1");
+          case match_log.match_rule
+          when RULE_1VS1
+            SERVER_LOG.info("<UID:#{@uid}>WatchServer: [cs_watch_start] 1")
             # カレントのアバターが持つカレントカードでデュエル開始
             @duel = MultiDuel.new(a_avatar,
                                   b_avatar,
@@ -79,7 +80,7 @@ module Unlight
             set_duel_handler(0, RULE_1VS1)
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, false)
             @duel.three_to_three_duel
-          elsif match_log.match_rule == RULE_3VS3
+          when RULE_3VS3
             # カレントのアバターが持つカレントデッキでデュエル開始
             @duel = MultiDuel.new(a_avatar,
                                   b_avatar,
@@ -110,7 +111,8 @@ module Unlight
           b_deck = AI.chara_card_deck(match_log.cpu_card_data_id)
 
           # CPUルールで開始する
-          if match_log.match_rule == RULE_1VS1
+          case match_log.match_rule
+          when RULE_1VS1
             # カレントのアバターが持つカレントカードでデュエル開始
             @duel = MultiDuel.new(a_avatar,
                                   b_avatar,
@@ -134,7 +136,7 @@ module Unlight
             sc_three_to_three_duel_start(@duel.deck.size, @duel.event_decks[@no].size, @duel.event_decks[@foe].size, watch_r_duel.dist, false)
             @duel.three_to_three_duel
 
-          elsif match_log.match_rule == RULE_3VS3
+          when RULE_3VS3
             # カレントのアバターが持つカレントデッキでデュエル開始
             @duel = MultiDuel.new(a_avatar,
                                   b_avatar,
@@ -168,7 +170,7 @@ module Unlight
         # 使用デッキをログに書き出し
         player_deck_cards = a_deck.cards_id(true)
         opponent_player_deck_cards = b_deck.cards_id(true)
-        SERVER_LOG.info("<UID:#{@uid}>WatchServer: [duel_use_deck_cards] player_cards#{player_deck_cards},opponent_player_cards#{opponent_player_deck_cards}");
+        SERVER_LOG.info("<UID:#{@uid}>WatchServer: [duel_use_deck_cards] player_cards#{player_deck_cards},opponent_player_cards#{opponent_player_deck_cards}")
 
         @@audience_list[@player.id] = self
       end
@@ -177,7 +179,7 @@ module Unlight
     # 観戦キャンセル依頼
     def cs_watch_cancel
       SERVER_LOG.info("<UID:#{@uid}>WatchServer: [#{__method__}]")
-      if @duel == nil
+      if @duel.nil?
         # Duelの設定がされる前（cs_watch_startに入る前）ならキャンセル
         sc_watch_cancel
       end
@@ -204,7 +206,7 @@ module Unlight
 
     # ゲームセッションの決定
     def do_determine_session(id, p_name, foe_name, player_chara_id, foe_chara_id, stage, pl_hp, foe_hp)
-      dialogue_id, dialogue_content = CharaCard::duel_start_dialogue(player_chara_id, foe_chara_id)
+      dialogue_id, dialogue_content = CharaCard.duel_start_dialogue(player_chara_id, foe_chara_id)
       sc_determine_session(id, foe_name, player_chara_id, foe_chara_id, dialogue_content, dialogue_id, stage, pl_hp, foe_hp)
       set_message_str_data(DUEL_MSGDLG_WATCH_START, p_name.force_encoding('UTF-8'), foe_name.force_encoding('UTF-8'))
     end
@@ -213,17 +215,18 @@ module Unlight
     def set_duel_handler(no, rule)
       # Noはエントリの番号 0:alpha 1:beta
       @no = no
-      @foe = (no == 1) ? 0 : 1
+      @foe = no == 1 ? 0 : 1
 
       # ============================
       # デュエルのハンドラ
       # ============================
       # 部屋のルールに応じたイベントハンドラを設定
-      if rule == RULE_1VS1
+      case rule
+      when RULE_1VS1
         # デュエルの開始の終了を監視
         @duel.add_start_listener_three_to_three_duel(method(:one_to_one_duel_start_handler))
         @duel.add_finish_listener_three_to_three_duel(method(:duel_finish_handler))
-      elsif rule == RULE_3VS3
+      when RULE_3VS3
         # デュエルの開始の終了を監視
         @duel.add_start_listener_three_to_three_duel(method(:three_to_three_duel_start_handler))
         @duel.add_finish_listener_three_to_three_duel(method(:duel_finish_handler))
@@ -440,14 +443,14 @@ module Unlight
 
     # スタート時のハンドラ
     def one_to_one_duel_start_handler(args)
-      if duel.turn == 0
+      if duel.turn.zero?
         set_message_str_data(DUEL_MSGDLG_DUEL_START)
       end
     end
 
     # スタート時のハンドラ
     def three_to_three_duel_start_handler(args)
-      if duel.turn == 0
+      if duel.turn.zero?
         set_message_str_data(DUEL_MSGDLG_M_DUEL_START)
       end
     end
@@ -547,7 +550,7 @@ module Unlight
 
     # 戦闘の結果がでた時のハンドラ
     def duel_battle_result_phase_handler(args)
-      set_message_str_data(args[0][0], args[0][1]) if args[0] != nil
+      set_message_str_data(args[0][0], args[0][1]) unless args[0].nil?
       sc_duel_battle_result_phase(args[1][0], args[1][1], args[1][2])
     end
 
@@ -566,7 +569,8 @@ module Unlight
     end
 
     # ターン終了のハンドラ
-    def duel_finish_turn_phase_handler(args) #
+    #
+    def duel_finish_turn_phase_handler(args)
       # 移動ボタンをリセット
       sc_entrant_set_direction_action(true, args[0])
     end
@@ -645,8 +649,7 @@ module Unlight
     end
 
     # 相手のキャラカードを変更する
-    def foe_entrant_chara_change_action_handler(args)
-    end
+    def foe_entrant_chara_change_action_handler(args); end
 
     # 敵側のイニシアチブフェイズの完了アクション
     def foe_entrant_init_done_action_handler(args)
@@ -670,12 +673,12 @@ module Unlight
 
     # プレイヤー側の攻撃フェイズの完了アクション
     def pl_entrant_attack_done_action_handler(args)
-      sc_entrant_attack_done_action(true);
+      sc_entrant_attack_done_action(true)
     end
 
     # プレイヤー側の防御フェイズの完了アクション
     def pl_entrant_deffence_done_action_handler(args)
-      sc_entrant_deffence_done_action(true);
+      sc_entrant_deffence_done_action(true)
     end
 
     # 自分が移動する
@@ -797,7 +800,7 @@ module Unlight
 
     # プレイヤーのポイントが更新された場合のイベント
     def plEntrant_point_update_event_handler(args)
-      if args.length > 0
+      unless args.empty?
         sc_entrant_point_update_event(true, args[0], args[1], args[2])
       end
     end
@@ -974,12 +977,10 @@ module Unlight
     end
 
     # カードロックイベント
-    def plEntrant_card_lock_event_handler(args)
-    end
+    def plEntrant_card_lock_event_handler(args); end
 
     # カードロック解除イベント
-    def plEntrant_clear_card_locks_event_handler(args)
-    end
+    def plEntrant_clear_card_locks_event_handler(args); end
 
     # =====================
     # DeckEvent
@@ -994,13 +995,12 @@ module Unlight
     # ActionCardEvent
     # =====================
     def action_card_chance_event_handler(args)
-      if args.length > 0
+      unless args.empty?
         sc_actioncard_chance_event(args[0], args[1], args[2], args[3])
       end
     end
 
-    def action_card_heal_event_handler(args)
-    end
+    def action_card_heal_event_handler(args); end
 
     # =====================
     # CharaCardEvent
@@ -1048,20 +1048,16 @@ module Unlight
     end
 
     # 必殺技ON時のプレイヤー側ハンドラ
-    def pl_entrant_feat_on_event_handler(args)
-    end
+    def pl_entrant_feat_on_event_handler(args); end
 
     # 必殺技ON時の敵側側ハンドラ
-    def foe_entrant_feat_on_event_handler(args)
-    end
+    def foe_entrant_feat_on_event_handler(args); end
 
     # 必殺技Off時のプレイヤー側ハンドラ
-    def pl_entrant_feat_off_event_handler(args)
-    end
+    def pl_entrant_feat_off_event_handler(args); end
 
     # 必殺技Off時の敵側側ハンドラ
-    def foe_entrant_feat_off_event_handler(args)
-    end
+    def foe_entrant_feat_off_event_handler(args); end
 
     # 必殺技が変更された時のプレイヤー側ハンドラ
     def pl_entrant_change_feat_event_handler(args)
@@ -1247,20 +1243,19 @@ module Unlight
     # 内部用関数
     # ==========
     def set_message_str_data(msgId, *args)
-      args = [] unless args
-      sc_message_str_data("#{msgId}:#{args.join(",")}")
+      args ||= []
+      sc_message_str_data("#{msgId}:#{args.join(',')}")
     end
 
     def set_message_str_data_handler(args)
       set_message_str_data(args[0], args[1])
     end
 
-    def pushout()
+    def pushout
       online_list[@player.id].logout
     end
 
-    def do_login
-    end
+    def do_login; end
 
     # ログアウト時の処理
     def do_logout
@@ -1281,11 +1276,11 @@ module Unlight
     end
 
     # 更新関数
-    def self::all_duel_update
+    def self.all_duel_update
       if WATCH_MODE_ON
-        @@audience_list.each_value { |audience|
+        @@audience_list.each_value do |audience|
           audience.duel_update if audience
-        }
+        end
       end
     end
 
@@ -1295,9 +1290,9 @@ module Unlight
         cmds = @watch_duel.get_next_act_command
         if cmds
           cmds.each do |cmd|
-            self.send(cmd[:func], cmd[:args]) if cmd
+            send(cmd[:func], cmd[:args]) if cmd
             # 取得したコマンドが終了コマンドなら抜ける
-            break if @watch_duel == nil || @watch_duel.watch_finish
+            break if @watch_duel.nil? || @watch_duel.watch_finish
           end
         end
       end

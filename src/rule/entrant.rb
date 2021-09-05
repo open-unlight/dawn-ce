@@ -27,18 +27,13 @@ module Unlight
     # 場の状態
     FIELD_STATUS = {
       'BLANK' => 0,
-      'FOG' => 1,     # 霧状態 位置不明
-      'AC_LOCK' => 2, # カードロック カードの移動
+      'FOG' => 1, # 霧状態 位置不明
+      'AC_LOCK' => 2 # カードロック カードの移動
     }
 
-    attr_accessor :cards_max, :cards, :hit_points, :hit_points_max,
-                  :distance, :initiative, :exit, :foe, :direction, :result_exp, :result_gems,
-                  :event_card_draw_num, :chara_change_index, :chara_change_force, :trap,
-                  :instant_kill_damage, :is_indomitable, :indomitable_dice_damage, :transformable, :is_transforming,
-                  :is_highgate, :magnification_hurt_const_damage, :magnification_cause_const_damage,
-                  :field_status, :seconds, :bp_calc_range_free, :determined_damage, :hiding_was_finished,
-                  :special_gem_bonus_multi, :monitoring
-    attr_reader :reward_bonus, :base_exp, :exp_bonus, :before_damage, :damaged_times
+    attr_accessor :cards_max, :cards, :hit_points, :hit_points_max, :distance, :initiative, :exit, :foe, :direction, :result_exp, :result_gems, :event_card_draw_num, :chara_change_index, :chara_change_force, :trap, :instant_kill_damage, :is_indomitable, :indomitable_dice_damage, :transformable, :is_transforming,
+                  :is_highgate, :magnification_hurt_const_damage, :magnification_cause_const_damage, :field_status, :seconds, :bp_calc_range_free, :determined_damage, :hiding_was_finished, :special_gem_bonus_multi, :monitoring, :tmp_power, :tmp_focus, :damage_pow, :invincible, :const_damage_guard, :table_cards_lock
+    attr_reader :reward_bonus, :base_exp, :exp_bonus, :before_damage, :damaged_times, :field_status, :cards_max
 
     # By_K2
     def initialize(c, ccs, wcs, qcs, ecs, dist, d_set, hp_up = 0, ap_up = 0, dp_up = 0, ai = :none)	# rubocop:disable Metrics/ParameterLists
@@ -80,12 +75,12 @@ module Unlight
         if @chara_cards[s] # 念のためのチェック
 
           # By_K2 START (무한의탑 몬스터인 경우 층수만큼 POWER 증가)
-          @chara_cards[s].hp += hp_up;
-          @chara_cards[s].ap += ap_up;
-          @chara_cards[s].dp += dp_up;
+          @chara_cards[s].hp += hp_up
+          @chara_cards[s].ap += ap_up
+          @chara_cards[s].dp += dp_up
           # By_K2 END
 
-          @hit_points << (@chara_cards[s].hp - (d_set[s] ? d_set[s] : 0)) # 現在のヒットポイントを格納
+          @hit_points << (@chara_cards[s].hp - (d_set[s] || 0)) # 現在のヒットポイントを格納
           @hit_points_max << @chara_cards[s].hp                                 # 最大のヒットポイントを格納
 
           if @weapon_cards[s]
@@ -107,9 +102,9 @@ module Unlight
             @arrow_deffence_dice_bonus[s] = 0                                   # 遠ダイス防御ボーナス
             @weapon_cards[s].each { |w| @arrow_deffence_dice_bonus[s] += w.arrow_deffence_dice_bonus(ai) }
 
-            @weapon_cards[s].each { |w|
+            @weapon_cards[s].each do |w|
               @weapon_passives[s] = w.get_passive_id(ai)
-            }
+            end
             @chara_cards[s].weapon_passive = (@weapon_passives[s])
           end
           @default_weapon_bonus[s] = weapon_bonus(s)
@@ -117,9 +112,9 @@ module Unlight
       end
 
       @field_status = [] # [power, turn]
-      FIELD_STATUS.each_key { |key|
+      FIELD_STATUS.each_key do |key|
         @field_status << [1, 0]
-      }
+      end
 
       @current_chara_card_no = 0     # 現在使用中のキャラカード番号
 
@@ -185,14 +180,12 @@ module Unlight
     # 現在のカードの不足分
     def cards_lack_num
       ret = @cards_max - @cards.size
-      ret = 0 if ret < 0
+      ret = 0 if ret.negative?
       ret
     end
 
     # デッキ内のキャラカード
-    def chara_cards
-      @chara_cards
-    end
+    attr_reader :chara_cards
 
     # 使用中のキャラカード
     def current_chara_card
@@ -200,9 +193,7 @@ module Unlight
     end
 
     # 使用中のキャラカード番号
-    def current_chara_card_no
-      @current_chara_card_no
-    end
+    attr_reader :current_chara_card_no
 
     # 使用中のキャラカードの現在ヒットポイント
     def current_hit_point
@@ -264,23 +255,23 @@ module Unlight
     end
 
     # 武器ステータスを再設定
-    def reset_current_weapon_bonus()
-      @sword_ap[@current_chara_card_no],
-      @sword_dice_bonus[@current_chara_card_no],
-      @sword_dp[@current_chara_card_no],
-      @sword_deffence_dice_bonus[@current_chara_card_no],
-      @arrow_ap[@current_chara_card_no],
-      @arrow_dice_bonus[@current_chara_card_no],
-      @arrow_dp[@current_chara_card_no],
-      @arrow_deffence_dice_bonus[@current_chara_card_no] = [0, 0, 0, 0, 0, 0, 0, 0]
+    def reset_current_weapon_bonus
+      @sword_ap[@current_chara_card_no] = 0
+      @sword_dice_bonus[@current_chara_card_no] = 0
+      @sword_dp[@current_chara_card_no] = 0
+      @sword_deffence_dice_bonus[@current_chara_card_no] = 0
+      @arrow_ap[@current_chara_card_no] = 0
+      @arrow_dice_bonus[@current_chara_card_no] = 0
+      @arrow_dp[@current_chara_card_no] = 0
+      @arrow_deffence_dice_bonus[@current_chara_card_no] = 0
       @weapon_cards[@current_chara_card_no] = nil
     end
 
-    def reset_current_default_weapon_bonus()
+    def reset_current_default_weapon_bonus
       @default_weapon_bonus[@current_chara_card_no][0][0, 7] = [0, 0, 0, 0, 0, 0, 0, 0]
     end
 
-    def set_current_default_weapon_bonus()
+    def set_current_default_weapon_bonus
       @sword_ap[@current_chara_card_no],
       @sword_dice_bonus[@current_chara_card_no],
       @sword_dp[@current_chara_card_no],
@@ -292,7 +283,7 @@ module Unlight
     end
 
     # 有値の武器を持ってるか
-    def has_weapon_status()
+    def has_weapon_status
       ret = false
       unless @weapon_cards[@current_chara_card_no].blank?
         if @sword_ap[@current_chara_card_no] != 0 ||
@@ -306,20 +297,19 @@ module Unlight
     end
 
     # なんらかの武器を持ってるか
-    def has_weapon()
+    def has_weapon
       !@weapon_cards[@current_chara_card_no].blank?
     end
 
     # 武器の所持がない場合に、あるように見せかける
-    def set_dummy_weapon()
+    def set_dummy_weapon
       @weapon_cards[@current_chara_card_no] = ['dummy_weapon'] if @weapon_cards[@current_chara_card_no].blank?
     end
 
     # 使用中の装備補正を返す
     def current_weapon_bonus
       ret = []
-      ret = weapon_bonus(@current_chara_card_no)
-      ret
+      weapon_bonus(@current_chara_card_no)
     end
 
     # 使用中のキャラの初期化直後の装備補正を返す
@@ -380,17 +370,17 @@ module Unlight
 
     def damage_set
       ret = []
-      @hit_points_max.each_index { |h|
-        ret << @hit_points_max[h] - ((@hit_points[h] < 1) ? 1 : @hit_points[h])
-      }
+      @hit_points_max.each_index do |h|
+        ret << @hit_points_max[h] - (@hit_points[h] < 1 ? 1 : @hit_points[h])
+      end
       ret
     end
 
     def remain_hp_set
       ret = []
-      @hit_points_max.each_index { |h|
-        ret << ((@hit_points[h] < 1) ? 0 : @hit_points[h])
-      }
+      @hit_points_max.each_index do |h|
+        ret << (@hit_points[h] < 1 ? 0 : @hit_points[h])
+      end
       ret
     end
 
@@ -399,10 +389,6 @@ module Unlight
       @chara_cards[@current_chara_card_no] = Unlight::CharaCard[ccId]
       @hit_points[@current_chara_card_no] = @chara_cards[@current_chara_card_no].hp
       @hit_points_max[@current_chara_card_no] = @chara_cards[@current_chara_card_no].hp
-    end
-
-    def field_status
-      @field_status
     end
 
     # ================================
@@ -566,7 +552,7 @@ module Unlight
     regist_event CardLockEvent
 
     def clear_card_locks
-      ret = @locked_cards_id.size > 0
+      ret = !@locked_cards_id.empty?
       @locked_cards_id = []
       ret
     end
@@ -586,13 +572,13 @@ module Unlight
     def move(i)
       i = 0 if current_chara_card.is_magnetic? || @foe.current_chara_card.is_magnetic?
 
-      if @direction == DIRECTION_CHARA_CHANGE && @hit_points.count { |v| v > 0 } > 1
+      if @direction == DIRECTION_CHARA_CHANGE && @hit_points.count(&:positive?) > 1
         @change_done = false
         @change_need = true
       elsif @direction == DIRECTION_STAY
-        self.healed_event(1);
+        healed_event(1)
       end
-      mp = (i.abs < DISTANCE_MAX) ? i.abs : DISTANCE_MAX
+      mp = i.abs < DISTANCE_MAX ? i.abs : DISTANCE_MAX
       mp *= i <=> 0
       old_distance = @distance
       @distance += mp
@@ -606,7 +592,7 @@ module Unlight
 
       ret = 0
 
-      if (@field_status[FIELD_STATUS['FOG']][1] == 0 && @foe.field_status[FIELD_STATUS['FOG']][1] == 0) ||
+      if ((@field_status[FIELD_STATUS['FOG']][1]).zero? && (@foe.field_status[FIELD_STATUS['FOG']][1]).zero?) ||
          hiding_was_finished || foe.hiding_was_finished
         ret = @distance
       elsif current_chara_card.hiding?
@@ -633,9 +619,9 @@ module Unlight
       # 強制キャラチェンジかどうかを調べる2
       i = @chara_change_index if @chara_change_force
       # 値がない場合に仮カードを代入
-      i = @hit_points.index { |v| v > 0 } if i == nil
+      i = @hit_points.index(&:positive?) if i.nil?
 
-      if !@change_done && @chara_cards[i] && @hit_points[i] > 0
+      if !@change_done && @chara_cards[i] && (@hit_points[i]).positive?
         # イベントを外してすぐに登録すると2重にイベントが登録されてしまうみたい
         if i != @current_chara_card_no || @transformable
           current_chara_card.remove_event    # イベントを削除
@@ -719,7 +705,7 @@ module Unlight
     # 返値:ダメージポイント
     def damaged(d, is_not_hostile = false, set_log = true)
       val = d
-      if @hit_points[@current_chara_card_no] > 0
+      if (@hit_points[@current_chara_card_no]).positive?
         @foe.damaged_event(d) if @monitoring && is_not_hostile
         if (@hit_points[@current_chara_card_no] - val) < 1
           val = @hit_points[@current_chara_card_no] # 現在のヒットポイント
@@ -727,10 +713,10 @@ module Unlight
           init_done_action
           @hit_points[@current_chara_card_no] = 0
           # 生存キャラがある場合にキャラ変更フェイズのフラグを立てる
-          if @hit_points.index { |v| v > 0 }
+          if @hit_points.index(&:positive?)
             @change_done = false
             @change_need = true
-            self.cards_max = self.cards_max + 1
+            self.cards_max = cards_max + 1
           else
             @dead = true
           end
@@ -742,7 +728,7 @@ module Unlight
       end
       unless is_not_hostile
         determine_damage_event(val)
-        if val > 0
+        if val.positive?
           @before_damage = val
           @damaged_times += 1
         end
@@ -788,17 +774,17 @@ module Unlight
     # 返値:カード位置,ダメージポイント
     def party_damaged(idx, d, is_not_hostile = false, set_log = true)
       val = 0
-      if @hit_points[idx] > 0
+      if (@hit_points[idx]).positive?
         if (@hit_points[idx] - d) < 1
           val = @hit_points[idx] # 受けるダメージ
           @hit_points[idx] = 0
           # 生存キャラがある場合にキャラ変更フェイズのフラグを立てる
-          if idx == @current_chara_card_no && @hit_points.index { |v| v > 0 }
+          if idx == @current_chara_card_no && @hit_points.index(&:positive?)
             @change_done = false
             @change_need = true
-            self.cards_max = self.cards_max + 1
-          elsif @hit_points.index { |v| v > 0 }
-            self.cards_max = self.cards_max + 1
+            self.cards_max = cards_max + 1
+          elsif @hit_points.index(&:positive?)
+            self.cards_max = cards_max + 1
           else
             @dead = true
           end
@@ -809,7 +795,7 @@ module Unlight
       end
       unless is_not_hostile
         determine_damage_event(val)
-        if val > 0
+        if val.positive?
           @before_damage = val
           @damaged_times += 1
         end
@@ -824,7 +810,7 @@ module Unlight
       return [0, set_log] if is_dark?(@current_chara_card_no) # 回復禁止状態をチェックする
 
       ret = d
-      if @hit_points[@current_chara_card_no] > 0 || @transformable
+      if (@hit_points[@current_chara_card_no]).positive? || @transformable
         if (@hit_points[@current_chara_card_no] + d) > current_hit_point_max
           ret = current_hit_point_max - @hit_points[@current_chara_card_no] # 回復するヒットポイント
           @hit_points[@current_chara_card_no] = current_hit_point_max
@@ -858,7 +844,7 @@ module Unlight
       return [idx, 0, set_log] if is_dark?(idx) # 回復禁止状態をチェックする
 
       val = 0
-      if @hit_points[idx] > 0
+      if (@hit_points[idx]).positive?
         if (@hit_points[idx] + d) > @hit_points_max[idx]
           val = @hit_points_max[idx] - @hit_points[idx] # 回復するヒットポイント
           @hit_points[idx] = @hit_points_max[idx]
@@ -875,16 +861,16 @@ module Unlight
 
     # 全ての状態を回復
     # 返値:回復ポイント
-    def cured()
-      current_chara_card.cure_status()
+    def cured
+      current_chara_card.cure_status
     end
     regist_event CuredEvent
 
     # 全ての必殺技を解除
     # 返値:Boolean
-    def sealed()
-      current_chara_card.reset_feats()
-      current_chara_card.off_feat_all()
+    def sealed
+      current_chara_card.reset_feats
+      current_chara_card.off_feat_all
     end
     regist_event SealedEvent
 
@@ -945,7 +931,7 @@ module Unlight
 
     # 現在のポイントがアップデートされた
     def point_update
-      self.tmp_power
+      tmp_power
     end
     regist_event PointUpdateEvent
 
@@ -953,7 +939,7 @@ module Unlight
     # calc_resolv after で最後に更新される値は画面に反映されない
     # 反映するべき場合はこれを用いる。updateのスリム版
     def point_rewrite
-      self.tmp_power
+      tmp_power
     end
     regist_event PointRewriteEvent
 
@@ -997,7 +983,7 @@ module Unlight
 
     # 戦闘フェイズ終了時の初期化
     def battle_phase_init
-      @table.each { |c| c.throw }
+      @table.each(&:throw)
       @table.clear
       @attack_done = false
       @deffence_done = false
@@ -1007,7 +993,7 @@ module Unlight
 
     # 最大カード所持数が更新された
     def cards_max_update
-      self.cards_max
+      cards_max
     end
     regist_event CardsMaxUpdateEvent
 
@@ -1044,13 +1030,11 @@ module Unlight
     regist_event SetTurnEvent
 
     # 移動点に対するフック処理用(単純加算以外)
-    def alter_mp
-    end
+    def alter_mp; end
     regist_event AlterMpEvent
 
     # 移動点の最速評価用
-    def mp_evaluation
-    end
+    def mp_evaluation; end
     regist_event MpEvaluationEvent
 
     # ================================
@@ -1141,9 +1125,7 @@ module Unlight
     end
 
     # キャラの変更の強制変更
-    def change_done=(d)
-      @change_done = d
-    end
+    attr_writer :change_done
 
     # キャラの変更が終わったか？
     def not_change_done?
@@ -1156,9 +1138,7 @@ module Unlight
     end
 
     # キャラチェンジが必要か？
-    def change_need=(b)
-      @change_need = b
-    end
+    attr_writer :change_need
 
     # 戦闘のフェイズが終わったか？
     def dead?
@@ -1167,7 +1147,7 @@ module Unlight
 
     # 戦闘のフェイズが終わったか？
     def live?
-      total_hit_point > 0
+      total_hit_point.positive?
     end
 
     # 戦闘のフェイズが終わったか？
@@ -1177,7 +1157,7 @@ module Unlight
 
     # 戦闘のフェイズが終わったか？
     def current_live?
-      hit_point > 0
+      hit_point.positive?
     end
 
     # イニシアチブをとっているのか？
@@ -1191,8 +1171,7 @@ module Unlight
     end
 
     # イニシアチブセット完了通知用
-    def set_initiative
-    end
+    def set_initiative; end
     regist_event SetInitiativeEvent
 
     # 進行方向をゲット
@@ -1228,11 +1207,11 @@ module Unlight
         mp_calc
       end
       # 有効カードの内容、ポイント、テーブルのサイズが変わっていた場合にポイントをアップデートする
-      if (@before_on_cards != self.current_on_card_value) || (@before_point != self.tmp_power)
+      if (@before_on_cards != current_on_card_value) || (@before_point != tmp_power)
         point_update_event unless update_skip
       end
-      @before_on_cards = self.current_on_card_value unless update_skip
-      @before_point = self.tmp_power
+      @before_on_cards = current_on_card_value unless update_skip
+      @before_point = tmp_power
     end
 
     def point_check_silence(type = POINT_CHECK_BATTLE)
@@ -1247,39 +1226,14 @@ module Unlight
         mp_calc
       end
       # 有効カードの内容、ポイント、テーブルのサイズが変わっていた場合もポイントをアップデートしない
-      @before_on_cards = self.current_on_card_value
-      @before_point = self.tmp_power
+      @before_on_cards = current_on_card_value
+      @before_point = tmp_power
     end
 
-    def move_point_check
-    end
+    def move_point_check; end
 
     def move_point_abs
       @move_point.abs
-    end
-
-    def tmp_power=(pow)
-      @tmp_power = pow
-    end
-
-    def tmp_power
-      @tmp_power
-    end
-
-    def tmp_focus=(focus)
-      @tmp_focus = focus
-    end
-
-    def tmp_focus
-      @tmp_focus
-    end
-
-    def damage_pow=(pow)
-      @damage_pow = pow
-    end
-
-    def damage_pow
-      @damage_pow
     end
 
     def cards_max=(num)
@@ -1287,51 +1241,23 @@ module Unlight
       cards_max_update_event
     end
 
-    def cards_max
-      @cards_max
-    end
-
     def move_point=(point)
       @tmp_power = point
     end
 
-    def invincible
-      @invincible
-    end
-
-    def invincible=(flg)
-      @invincible = flg
-    end
-
-    def const_damage_guard
-      @const_damage_guard
-    end
-
-    def const_damage_guard=(flg)
-      @const_damage_guard = flg
-    end
-
-    def table_cards_lock
-      @table_cards_lock
-    end
-
-    def table_cards_lock=(flg)
-      @table_cards_lock = flg
-    end
-
     # 現在の移動ポイント
     def move_point
-      self.tmp_power
+      tmp_power
     end
 
     # クライアントに表示する見かけの移動ポイント
     def move_point_appearance(mp)
-      @field_status[FIELD_STATUS['FOG']][1] > 0 ? 0 : mp
+      (@field_status[FIELD_STATUS['FOG']][1]).positive? ? 0 : mp
     end
 
     # クライアントに表示する見かけの現在距離
     def distance_appearance
-      if @field_status[FIELD_STATUS['FOG']][1] > 0 || @foe.field_status[FIELD_STATUS['FOG']][1] > 0
+      if (@field_status[FIELD_STATUS['FOG']][1]).positive? || (@foe.field_status[FIELD_STATUS['FOG']][1]).positive?
         4
       else
         @distance
@@ -1344,7 +1270,7 @@ module Unlight
       # テーブルのったカードをタイプで集計
       ret += get_battle_table_point(type) unless @bp_calc_unenabled
       # テーブルのポイントが１以上ならばまたは0以下でもディフェンスの場合カードのポイントを加算
-      if ret > 0 || (type == ActionCard::DEF)
+      if ret.positive? || (type == ActionCard::DEF)
         ret += point
         unless ignore_weapon_status
           if distance == 1
@@ -1361,27 +1287,27 @@ module Unlight
             end
           end
         end
-        ret = 0 if ret < 0
-      elsif ((ret < 1) && (type != ActionCard::DEF))
+        ret = 0 if ret.negative?
+      elsif (ret < 1) && (type != ActionCard::DEF)
         ret = 0
       end
       ret
     end
 
     # 現在のフェイズ・距離における実質的な武器補正
-    def get_effective_weapon_status()
+    def get_effective_weapon_status
       ret = 0
 
       return ret if ignore_weapon_status
 
       if distance == 1
-        if self.initiative
+        if initiative
           ret = @sword_ap[@current_chara_card_no] if @sword_ap[@current_chara_card_no]
         else
           ret = @sword_dp[@current_chara_card_no] if @sword_dp[@current_chara_card_no]
         end
       else
-        if self.initiative
+        if initiative
           ret = @arrow_ap[@current_chara_card_no] if @arrow_ap[@current_chara_card_no]
         else
           ret = @arrow_dp[@current_chara_card_no] if @arrow_dp[@current_chara_card_no]
@@ -1393,20 +1319,18 @@ module Unlight
 
     # 武器補正を加えたくない場合
     def ignore_weapon_status
-      self.bp_calc_range_free || @foe.bp_calc_range_free
+      bp_calc_range_free || @foe.bp_calc_range_free
     end
 
     # 計算の無効化
-    def bp_calc_unenabled=(unenabled)
-      @bp_calc_unenabled = unenabled
-    end
+    attr_writer :bp_calc_unenabled
 
     def bp_calc_unenabled?
       @bp_calc_unenabled
     end
 
     def move_phase_init
-      @table.each { |c| c.throw }
+      @table.each(&:throw)
       @table.clear
       @init_done = false
       @move_done = false
@@ -1426,8 +1350,8 @@ module Unlight
       @table_on_list = 0
       @table.each do |a|
         tmp = a.move_point
-        unless tmp == 0
-          @table_on_list = @table_on_list | (1 << counter)
+        unless tmp.zero?
+          @table_on_list |= (1 << counter)
           ret += tmp
         end
         counter += 1
@@ -1439,15 +1363,15 @@ module Unlight
     # テーブルに置いたカードからフォーカスポイントを換算する
     def get_move_table_focus_point
       self.tmp_focus = get_table_max_value(ActionCard::FCS)
-      return self.tmp_focus if self.tmp_focus == 0
+      return tmp_focus if tmp_focus.zero?
 
       counter = 0
       detected = false
 
       @table.each do |a|
         if a.u_type == ActionCard::FCS
-          if a.u_value == self.tmp_focus
-            @table_on_list = @table_on_list | (1 << counter)
+          if a.u_value == tmp_focus
+            @table_on_list |= (1 << counter)
             break
           end
         end
@@ -1462,9 +1386,9 @@ module Unlight
       @table_on_list = 0
       @table.each do |a|
         tmp = a.battle_point(type)
-        if tmp > 0
+        if tmp.positive?
           # ポイントとして換算したので有効ビットを立てる
-          @table_on_list = @table_on_list | (1 << counter)
+          @table_on_list |= (1 << counter)
           ret += tmp
         end
         counter += 1
@@ -1493,7 +1417,7 @@ module Unlight
       ret = 0
       @table.each do |a|
         tmp = a.battle_point(type)
-        unless tmp == 0
+        unless tmp.zero?
           ret += 1
         end
       end
@@ -1516,7 +1440,7 @@ module Unlight
 
       if equal
 
-        if type == 0
+        if type.zero?
           @table.each do |a|
             ret += 1 if (a.up? && a.u_value == point) || (!a.up? && a.b_value == point)
           end
@@ -1528,7 +1452,7 @@ module Unlight
 
       else
 
-        if type == 0
+        if type.zero?
           @table.each do |a|
             ret += 1 if (a.up? && a.u_value >= point) || (!a.up? && a.b_value >= point)
           end
@@ -1562,9 +1486,7 @@ module Unlight
 
     # テーブルにあるカードのうち、タイプと数値が一致するカードの枚数を返す
     def get_equal_type_point_table_count(type, point)
-      ret = 0
-
-      ret
+      0
     end
 
     # 手札にあるカードのうち、該当タイプの枚数を返す(両面見て判定)
@@ -1616,10 +1538,10 @@ module Unlight
       ret = 0
       swords = []
       @table.each do |a|
-        swords << a.battle_point(typeA) if !swords.include?(a.battle_point(typeA))
+        swords << a.battle_point(typeA) unless swords.include?(a.battle_point(typeA))
       end
       @table.each do |a|
-        ret = a.battle_point(typeB) if (swords.include?(a.battle_point(typeB)) && ret < a.battle_point(typeB))
+        ret = a.battle_point(typeB) if swords.include?(a.battle_point(typeB)) && ret < a.battle_point(typeB)
       end
       ret
     end
@@ -1717,7 +1639,7 @@ module Unlight
       value = 0
       @table.each do |a|
         v = a.battle_point(type)
-        if v > 0
+        if v.positive?
           value += v
           @feat_battle_table_on_list[feat_no] |= (1 << counter)
         end
@@ -1737,7 +1659,7 @@ module Unlight
       tmp_on_list = 0
       @table.each do |a|
         v = a.battle_point(type)
-        if v > 0
+        if v.positive?
           if value + v > point
             ret = false
           end
@@ -1746,10 +1668,9 @@ module Unlight
         end
         counter += 1
       end
+      @feat_battle_table_on_list[feat_no] |= tmp_on_list
       if ret
-        @feat_battle_table_on_list[feat_no] |= tmp_on_list
       else
-        @feat_battle_table_on_list[feat_no] |= tmp_on_list
         @feat_battle_table_on_list[feat_no] ^= tmp_on_list
       end
       ret
@@ -1761,7 +1682,7 @@ module Unlight
       value = 0
       @table.each do |a|
         v = a.battle_point(type)
-        value += v if v > 0
+        value += v if v.positive?
         if value >= point
           ret = true
           break
@@ -1777,7 +1698,7 @@ module Unlight
       max_value_type = []
       max_value_type = get_max_value_type(typeSigns, point)
 
-      return max_value_type.size != 0
+      !max_value_type.empty?
     end
 
     # on_listを書き換える 距離に対応するカードが意味を持たない場合
@@ -1785,7 +1706,7 @@ module Unlight
       max_value_type = []
       max_value_type = get_max_value_type(typeSigns, point, min)
 
-      return if max_value_type.size == 0
+      return if max_value_type.empty?
 
       @table_on_list = 0
       max_value_type.each do |t|
@@ -1820,7 +1741,7 @@ module Unlight
       result_value = 0
       if min
         result_value = base_line
-        while result_value <= value_list.max do
+        while result_value <= value_list.max
           if value_list.include?(result_value)
             break
           else
@@ -1830,7 +1751,7 @@ module Unlight
       else
         result_value = value_list.max
       end
-      return [] if result_value == 0
+      return [] if result_value.zero?
 
       value_list.each_with_index do |v, i|
         if v == result_value
@@ -1838,10 +1759,10 @@ module Unlight
         end
       end
 
-      return result_value_type
+      result_value_type
     end
 
-    def get_feat_battle_table_on_list()
+    def get_feat_battle_table_on_list
       @feat_battle_table_on_list
     end
 
@@ -1860,7 +1781,7 @@ module Unlight
       ret = 0
       @table.each do |a|
         v = a.battle_point(type)
-        if v > 0
+        if v.positive?
           ret += v
         end
       end
@@ -1871,7 +1792,7 @@ module Unlight
     def on_card_by_type(feat_no, type)
       counter = 0
       @table.each do |a|
-        @feat_battle_table_on_list[feat_no] |= (1 << counter) if a.battle_point(type) > 0
+        @feat_battle_table_on_list[feat_no] |= (1 << counter) if a.battle_point(type).positive?
         counter += 1
       end
     end
@@ -1885,7 +1806,7 @@ module Unlight
 
     def current_on_card_value
       ret = 0
-      ret = ret | @table_on_list
+      ret |= @table_on_list
       @feat_battle_table_on_list.each_value { |v| ret |= v }
       ret
     end
@@ -1941,7 +1862,7 @@ module Unlight
       @exit = true
       remove_all_event_listener
       remove_all_hook
-      SERVER_LOG.info('Entrant: [exit_game]');
+      SERVER_LOG.info('Entrant: [exit_game]')
     end
 
     # トラップ発動エフェクトをクライアントに表示させる
@@ -1958,7 +1879,7 @@ module Unlight
 
     # 攻撃属性の登録
     def dice_attribute_regist
-      self.current_chara_card.regist_dice_attribute
+      current_chara_card.regist_dice_attribute
     end
     regist_event DiceAttributeRegistEvent
 
@@ -1972,15 +1893,16 @@ module Unlight
 
   # 経験値を計算
   def update_exp(result)
-    if result == RESULT_WIN
+    case result
+    when RESULT_WIN
       @base_exp = @result_exp * 1 * @exp_pow
       @exp_bonus = DUEL_BONUS_POW * @reward_bonus
       (@base_exp + @exp_bonus).ceil
-    elsif result == RESULT_LOSE
+    when RESULT_LOSE
       @base_exp = (@result_exp * 0.3 * @exp_pow).round
       @exp_bonus = 0
       @base_exp.round
-    elsif result == RESULT_DRAW
+    when RESULT_DRAW
       @base_exp = (@result_exp * 0.5 * @exp_pow).round
       @exp_bonus = 0
       @base_exp.round
@@ -1989,11 +1911,12 @@ module Unlight
 
   # 獲得ジェムを計算
   def update_gems(result)
-    if result == RESULT_WIN
+    case result
+    when RESULT_WIN
       (@result_gems * 1 * (0.4 + dice(0.3, 4)) * @special_gem_bonus_multi).ceil
-    elsif result == RESULT_LOSE
+    when RESULT_LOSE
       (@result_gems * 0.3 * (0.4 + dice(0.3, 4)) * @special_gem_bonus_multi).truncate
-    elsif result == RESULT_DRAW
+    when RESULT_DRAW
       (@result_gems * 0.5 * (0.4 + dice(0.3, 4)) * @special_gem_bonus_multi).round
     end
   end

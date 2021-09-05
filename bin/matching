@@ -6,8 +6,8 @@
 # This software is released under the Apache 2.0 License.
 # https://opensource.org/licenses/Apache2.0
 
-$:.unshift Bundler.root.join('lib')
-$:.unshift Bundler.root.join('src')
+$LOAD_PATH.unshift Bundler.root.join('lib')
+$LOAD_PATH.unshift Bundler.root.join('src')
 require 'bundler/setup'
 require 'eventmachine'
 
@@ -21,8 +21,8 @@ $stderr.sync = true
 # TODO: Replace with Dawn::Server.name
 $SERVER_NAME = "MATCHING_SERVER_#{Dawn::Server.port}"
 
-EM.set_descriptor_table_size(10000) # ソケットMaxを設定
-EM.epoll                            # Epollを使用するように設定。
+EM.set_descriptor_table_size(10_000) # ソケットMaxを設定
+EM.epoll # Epollを使用するように設定。
 
 module Unlight
   include Protocol
@@ -44,7 +44,7 @@ module Unlight
           c.times { MatchController.cpu_room_update }
           @@current_time = h
         end
-      rescue => e
+      rescue StandardError => e
         SERVER_LOG.fatal("MatchServer: [MATCH:] fatal error #{e}:#{e.backtrace}")
       end
     })
@@ -53,7 +53,7 @@ module Unlight
       begin
         MatchServer.check_boot
         MatchServer.update_login_count
-      rescue => e
+      rescue StandardError => e
         SERVER_LOG.fatal("MatchServer [check_connection:] fatal error #{e}:#{e.backtrace}")
       end
     })
@@ -61,7 +61,7 @@ module Unlight
     EM::PeriodicTimer.new(60 / GAME_CHECK_CONNECT_INTERVAL, proc {
       begin
         MatchServer.check_connection_sec
-      rescue => e
+      rescue StandardError => e
         SERVER_LOG.fatal("MatchServer [check_connection:] fatal error #{e}:#{e.backtrace}")
       end
     })
@@ -69,15 +69,15 @@ module Unlight
     EM::PeriodicTimer.new(5, proc {
       begin
         MatchServer.radder_match_update
-      rescue => e
+      rescue StandardError => e
         SERVER_LOG.fatal("MatchServer [check_connection:] fatal error #{e}:#{e.backtrace}")
       end
     })
     # RadderMatchにCPUでメインループを更新
     EM::PeriodicTimer.new(RADDER_CPU_POP_TIME, proc {
       begin
-        MatchController.cpu_radder_match_update if RADDER_CPU_POP_ENABLE && rand(RADDER_CPU_POP_RAND) == 0
-      rescue => e
+        MatchController.cpu_radder_match_update if RADDER_CPU_POP_ENABLE && rand(RADDER_CPU_POP_RAND).zero?
+      rescue StandardError => e
         SERVER_LOG.fatal("MatchServer: [MATCH:] fatal error #{e}:#{e.backtrace}")
       end
     })
@@ -87,7 +87,7 @@ module Unlight
       EM::PeriodicTimer.new(60 * 60 * 7, proc {
         begin
           MatchServer.check_db_connection
-        rescue => e
+        rescue StandardError => e
           SERVER_LOG.fatal("MatchServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
         end
       })

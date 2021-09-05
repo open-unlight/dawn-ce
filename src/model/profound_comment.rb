@@ -27,8 +27,8 @@ module Unlight
     COMMENT_CACHE_TIME = 10
 
     # コメントの保存
-    def ProfoundComment::set_comment(prf_id, a_id, a_name, comment)
-      puts "#{__method__}"
+    def self.set_comment(prf_id, a_id, a_name, comment)
+      puts __method__.to_s
       ret = ProfoundComment.new do |pc|
         pc.profound_id = prf_id
         pc.avatar_id   = a_id
@@ -47,7 +47,7 @@ module Unlight
     end
 
     # コメントの取得
-    def ProfoundComment::get_comment(prf_id, last_id = 0, cache = true)
+    def self.get_comment(prf_id, last_id = 0, cache = true)
       ret = []
       cache_key = "prf_comment_#{prf_id}"
       list = CACHE.get(cache_key) if cache
@@ -64,7 +64,7 @@ module Unlight
           last_id = pc[:id]
         end
       end
-      CACHE.set(cache_key, list, COMMENT_CACHE_TIME) if list && list.size > 0
+      CACHE.set(cache_key, list, COMMENT_CACHE_TIME) if list && !list.empty?
       [ret, last_id]
     end
   end

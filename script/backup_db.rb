@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-
 # DBからバックアップファイルを作るスクリプト
 # rakeから使う。
-$:.unshift(File.join(File.expand_path('.'), 'src'))
+$LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'find'
 require 'pathname'
 require 'optparse'
@@ -52,7 +50,7 @@ def csv_output(dataset, include_column_titles = true)
   tsv << "#{cols.join(SEPARATOR)}\r\n" if include_column_titles
   n.each do |r|
     a = ''
-    cols.collect { |c| r[c] }.each { |f| a << "\"#{f}\"#{(SEPARATOR)}" }
+    cols.collect { |c| r[c] }.each { |f| a << "\"#{f}\"#{SEPARATOR}" }
     a << "\r\n"
     tsv << a
   end
@@ -76,10 +74,10 @@ Find.find('./src/model') do |f|
   next unless FILE_LIST.match?(m)
   next if /^[^A-Z]/.match?(m)
 
-  require "#{req}"
+  require req.to_s
   puts "BackUp #{m}"
-  filename = "./data/backup/#{m}_#{Time.now.strftime("%y%m%d")}"
-  oldname = "./data/backup/old/#{m}_#{Time.now.strftime("%y%m%d")}"
+  filename = "./data/backup/#{m}_#{Time.now.strftime('%y%m%d')}"
+  oldname = "./data/backup/old/#{m}_#{Time.now.strftime('%y%m%d')}"
   doc = <<-END
      Unlight::#{m}.db = BDB unless ORIG
       file = Pathname.new("#{filename}.csv")

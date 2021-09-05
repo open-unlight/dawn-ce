@@ -35,13 +35,13 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::WeaponCard::refresh_data_version
-      Unlight::WeaponCard::cache_store.delete("weapon_card:restricrt:#{id}")
-      Unlight::WeaponCard::cache_store.delete("weapon_card:passive_id:#{id}")
+      Unlight::WeaponCard.refresh_data_version
+      Unlight::WeaponCard.cache_store.delete("weapon_card:restricrt:#{id}")
+      Unlight::WeaponCard.cache_store.delete("weapon_card:passive_id:#{id}")
     end
 
     # 全体データバージョンを返す
-    def WeaponCard::data_version
+    def self.data_version
       ret = cache_store.get('WeaponCardVersion')
       unless ret
         ret = refresh_data_version
@@ -51,7 +51,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def WeaponCard::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::WeaponCard.order(:updated_at).last
       if m
         cache_store.set('WeaponCardVersion', m.version)
@@ -63,7 +63,7 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # material_add_paramの数値変換用
@@ -84,27 +84,27 @@ module Unlight
     # CSVで返す
     def get_data_csv_str
       ret = ''
-      ret << self.id.to_s << ','
-      ret << '"' << (self.name || '') << '",'
-      ret << (self.weapon_no || 0).to_s << ','
-      ret << (self.card_cost || 0).to_s << ','
-      ret << '[' << '"' << (self.restriction || '') << '"' << '],'
-      ret << '"' << (self.image || '') << '",'
-      ret << '"' << (self.caption || '') << '",'
-      ret << (self.weapon_type || 0).to_s << ','
-      ret << (self.material_use_cnt || 0).to_s << ','
-      ret << (param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_SA) || 0).to_s << ','
-      ret << (param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_SD) || 0).to_s << ','
-      ret << (param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_AA) || 0).to_s << ','
-      ret << (param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_AD) || 0).to_s << ','
-      ret << '[' << '"' << (self.passive_id || '') << '"' << ']'
+      ret << id.to_s << ','
+      ret << '"' << (name || '') << '",'
+      ret << (weapon_no || 0).to_s << ','
+      ret << (card_cost || 0).to_s << ','
+      ret << '[' << '"' << (restriction || '') << '"' << '],'
+      ret << '"' << (image || '') << '",'
+      ret << '"' << (caption || '') << '",'
+      ret << (weapon_type || 0).to_s << ','
+      ret << (material_use_cnt || 0).to_s << ','
+      ret << (param_to_point(material_add_param, *MAT_ADD_PARAM_MASK_ADD_SA) || 0).to_s << ','
+      ret << (param_to_point(material_add_param, *MAT_ADD_PARAM_MASK_ADD_SD) || 0).to_s << ','
+      ret << (param_to_point(material_add_param, *MAT_ADD_PARAM_MASK_ADD_AA) || 0).to_s << ','
+      ret << (param_to_point(material_add_param, *MAT_ADD_PARAM_MASK_ADD_AD) || 0).to_s << ','
+      ret << '[' << '"' << (passive_id || '') << '"' << ']'
       ret
     end
 
     # キャラで使えるかチェック
     def check_using_chara(chara_no)
       ret = true
-      if restriction_charas.size > 0
+      unless restriction_charas.empty?
         ret = restriction_charas.include?(chara_no)
       end
       ret
@@ -112,7 +112,7 @@ module Unlight
 
     # キャラ制限のリストを返す
     def restriction_charas
-      ret = WeaponCard::cache_store.get("weapon_card:restricrt:#{id}")
+      ret = WeaponCard.cache_store.get("weapon_card:restricrt:#{id}")
       unless ret
         ret = []
         if CHARA_GROUP_MEMBERS.key?(restriction)
@@ -120,20 +120,20 @@ module Unlight
         else
           ret = restriction.split('|') if restriction
         end
-        ret.map! { |c| c.to_i }
-        WeaponCard::cache_store.set("weapon_card:restricrt:#{id}", ret)
+        ret.map!(&:to_i)
+        WeaponCard.cache_store.set("weapon_card:restricrt:#{id}", ret)
       end
       ret
     end
 
     # パッシブIDを返す
     def get_passive_id(ai = :none)
-      ret = WeaponCard::cache_store.get("weapon_card:passive_id:#{id}")
+      ret = WeaponCard.cache_store.get("weapon_card:passive_id:#{id}")
       unless ret
         ret = []
-        ret = self.passive_id.split('|') if self.passive_id
-        ret.map! { |p| p.to_i }
-        WeaponCard::cache_store.set("weapon_card:passive_id:#{id}", ret)
+        ret = passive_id.split('|') if passive_id
+        ret.map!(&:to_i)
+        WeaponCard.cache_store.set("weapon_card:passive_id:#{id}", ret)
       end
       ret
     end
@@ -258,7 +258,7 @@ module Unlight
       102 => { arrow_ap: 3, arrow_dp: 2 }, # 102
       103 => { sword_ap: 1, arrow_ap: 1, sword_dp: 2, arrow_dp: 2 }, # 103
       104 => { arrow_dp: 4 }, # 104
-      105 => { sword_ap: 5, }, # 105
+      105 => { sword_ap: 5 }, # 105
       106 => { sword_ap: 1, arrow_ap: 1, sword_dp: 2, arrow_dp: 2 }, # 106
       107 => { sword_dp: 2, arrow_dp: 2 },                                    # 107
       108 => { arrow_ap: 3, sword_dp: 2 },                                    # 108
@@ -275,53 +275,53 @@ module Unlight
       119 => { sword_dp: 2, arrow_dp: 2 },                                    # 119
       120 => { arrow_ap: 4, arrow_dp: 1 },                                    # 120
       121 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 }, # 121
-      122 => { arrow_ap: 7, sword_dp: -1, arrow_dp: -1, },                 # 122
-      123 => { sword_ap: 3, sword_dp: 1, arrow_dp: 1 },                    # 123
+      122 => { arrow_ap: 7, sword_dp: -1, arrow_dp: -1 }, # 122
+      123 => { sword_ap: 3, sword_dp: 1, arrow_dp: 1 }, # 123
       124 => { sword_ap: 1, arrow_ap: 1, sword_dp: 2, arrow_dp: 2 }, # 124
-      125 => { sword_dp: 2, arrow_dp: 2, }, # 125
+      125 => { sword_dp: 2, arrow_dp: 2 }, # 125
       126 => { sword_ap: 3, sword_dp: 1, arrow_dp: 1 }, # 126
       127 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 }, # 127
-      128 => { arrow_ap: 4, }, # 128
+      128 => { arrow_ap: 4 }, # 128
       129 => { arrow_ap: 1, sword_dp: 2, arrow_dp: 2 }, # 129
       130 => { sword_ap: 1, arrow_ap: 1, sword_dp: 2, arrow_dp: 2 }, # 130
-      131 => { sword_ap: 2, arrow_ap: 2, },                                   # 131
-      132 => { arrow_ap: 2, arrow_dp: 3  },                                   # 132
+      131 => { sword_ap: 2, arrow_ap: 2 }, # 131
+      132 => { arrow_ap: 2, arrow_dp: 3  }, # 132
       133 => { sword_ap: 1, arrow_ap: 1, sword_dp: 2, arrow_dp: 2 }, # 133
-      134 => { sword_dp: 4, }, # 134
+      134 => { sword_dp: 4 }, # 134
       135 => { sword_ap: 2, arrow_ap: 2, arrow_dp: 1  }, # 135
       136 => { sword_ap: 1, arrow_ap: 1, sword_dp: 2, arrow_dp: 2 }, # 136
       137 => { arrow_ap: 5, arrow_dp: -1 }, # 137
       138 => { sword_ap: 1, arrow_ap: 1, sword_dp: 3  }, # 138
       139 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 }, # 139
-      140 => { sword_ap: 3, sword_dp: 1, }, # 140
+      140 => { sword_ap: 3, sword_dp: 1 }, # 140
       141 => { sword_ap: 1, arrow_ap: 1, arrow_dp: 3  }, # 141
       142 => { sword_ap: 1, arrow_ap: 1, sword_dp: 2, arrow_dp: 2 }, # 142
-      143 => { arrow_ap: 4, }, # 143
+      143 => { arrow_ap: 4 }, # 143
       144 => { arrow_ap: 1, sword_dp: 4  }, # 144
       145 => { sword_ap: 1, arrow_ap: 1, sword_dp: 2, arrow_dp: 2 }, # 145
-      146 => { sword_dp: 4, }, # 146
+      146 => { sword_dp: 4 }, # 146
       147 => { arrow_ap: 4, arrow_dp: 1  }, # 147
       148 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 }, # 148
-      149 => { sword_dp: 2, arrow_dp: 2, }, # 149
+      149 => { sword_dp: 2, arrow_dp: 2 }, # 149
       150 => { sword_ap: 3, arrow_ap: 3, arrow_dp: -1 }, # 150
-      151 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 },    # 151
-      152 => { sword_ap: -1, arrow_ap: -1, sword_dp: 3, arrow_dp: 3, }, # 152
+      151 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 }, # 151
+      152 => { sword_ap: -1, arrow_ap: -1, sword_dp: 3, arrow_dp: 3 }, # 152
       153 => { arrow_ap: 3, sword_dp: 1, arrow_dp: 1  }, # 153
       154 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 }, # 154
-      155 => { sword_dp: 2, arrow_dp: 2, },                                   # 155
-      156 => { arrow_ap: 3, sword_dp: 2  },                                   # 156
+      155 => { sword_dp: 2, arrow_dp: 2 }, # 155
+      156 => { arrow_ap: 3, sword_dp: 2  }, # 156
       157 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 }, # 157
-      158 => { sword_ap: 3, arrow_ap: 3, sword_dp: -1, }, # 158
-      159 => { sword_ap: 2, sword_dp: 3, }, # 159
+      158 => { sword_ap: 3, arrow_ap: 3, sword_dp: -1 }, # 158
+      159 => { sword_ap: 2, sword_dp: 3 }, # 159
       160 => { sword_ap: 1, arrow_ap: 1, sword_dp: 2, arrow_dp: 2 }, # 160
-      161 => { arrow_dp: 4, }, # 161
-      162 => { arrow_ap: 4, arrow_dp: 1, }, # 162
+      161 => { arrow_dp: 4 }, # 161
+      162 => { arrow_ap: 4, arrow_dp: 1 }, # 162
       163 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 }, # 163
       164 => { sword_ap: 3, arrow_ap: 3 },                                    # 164
       165 => { sword_ap: 4, arrow_dp: -3 },                                   # 165
       166 => { arrow_ap: 4, sword_dp: -3 },                                   # 166
-      167 => { sword_ap: 4, }, # 167
-      168 => { sword_dp: 2, arrow_ap: 3, }, # 168
+      167 => { sword_ap: 4 }, # 167
+      168 => { sword_dp: 2, arrow_ap: 3 }, # 168
       169 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 }, # 169
       170 => { sword_dp: 2, arrow_dp: 2 },                                    # 170
       171 => { sword_ap: -2, arrow_dp: 3 },                                   # 171
@@ -330,13 +330,13 @@ module Unlight
       174 => { arrow_ap: 3, arrow_dp: 2 },                                    # 174
       175 => { sword_ap: 3, arrow_ap: 3 },                                    # 175
       176 => { sword_dp: 3, arrow_dp: 3, arrow_ap: -2 }, # 176
-      177 => { sword_dp: 5, }, # 177
+      177 => { sword_dp: 5 }, # 177
       178 => { sword_dp: 3, arrow_dp: 3 },                                    # 178
       179 => { sword_ap: 2, arrow_ap: 2 },                                    # 179
       180 => { sword_ap: 3, arrow_dp: 2 },                                    # 180
       181 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 }, # 181
-      182 => { sword_dp: 4, },                                                   # 182
-      183 => { arrow_ap: 5, },                                                   # 183
+      182 => { sword_dp: 4 },                                                   # 182
+      183 => { arrow_ap: 5 },                                                   # 183
       184 => { sword_ap: 2, arrow_ap: 2, sword_dp: 1, arrow_dp: 1 }, # 184
       185 => { arrow_dp: 4  }, # 185
       186 => { arrow_ap: 3, arrow_dp: 2 },                                    # 186
@@ -406,47 +406,47 @@ module Unlight
       1013 => {},                                     # 1013
       1014 => {},                                     # 1014
       1015 => {},                                     # 1015
-      1016 => {},                                     # 1016
+      1016 => {} # 1016
     }
 
     # 近距離攻撃力増加
     def sword_ap(ai = :none)
-      (WEAPON_EFFECTS[self.weapon_no][:sword_ap] || 0) if WEAPON_EFFECTS[self.weapon_no]
+      (WEAPON_EFFECTS[weapon_no][:sword_ap] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 近距離ダイス攻撃力増加
     def sword_dice_bonus(ai = :none)
-      (WEAPON_EFFECTS[self.weapon_no][:sword_dice_bonus] || 0) if WEAPON_EFFECTS[self.weapon_no]
+      (WEAPON_EFFECTS[weapon_no][:sword_dice_bonus] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 近距離防御力増加
     def sword_dp(ai = :none)
-      (WEAPON_EFFECTS[self.weapon_no][:sword_dp] || 0) if WEAPON_EFFECTS[self.weapon_no]
+      (WEAPON_EFFECTS[weapon_no][:sword_dp] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 近距離ダイス防御力増加
     def sword_deffence_dice_bonus(ai = :none)
-      (WEAPON_EFFECTS[self.weapon_no][:sword_deffence_dice_bonus] || 0) if WEAPON_EFFECTS[self.weapon_no]
+      (WEAPON_EFFECTS[weapon_no][:sword_deffence_dice_bonus] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 遠距離攻撃力増加
     def arrow_ap(ai = :none)
-      (WEAPON_EFFECTS[self.weapon_no][:arrow_ap] || 0) if WEAPON_EFFECTS[self.weapon_no]
+      (WEAPON_EFFECTS[weapon_no][:arrow_ap] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 遠距離ダイス増加
     def arrow_dice_bonus(ai = :none)
-      (WEAPON_EFFECTS[self.weapon_no][:arrow_dice_bonus] || 0) if WEAPON_EFFECTS[self.weapon_no]
+      (WEAPON_EFFECTS[weapon_no][:arrow_dice_bonus] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 遠距離防御力増加
     def arrow_dp(ai = :none)
-      (WEAPON_EFFECTS[self.weapon_no][:arrow_dp] || 0) if WEAPON_EFFECTS[self.weapon_no]
+      (WEAPON_EFFECTS[weapon_no][:arrow_dp] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 遠距離ダイス防御力増加
     def arrow_deffence_dice_bonus(ai = :none)
-      (WEAPON_EFFECTS[self.weapon_no][:arrow_deffence_dice_bonus] || 0) if WEAPON_EFFECTS[self.weapon_no]
+      (WEAPON_EFFECTS[weapon_no][:arrow_deffence_dice_bonus] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 近距離攻撃力
@@ -470,13 +470,13 @@ module Unlight
     end
 
     def material_add_param_list
-      @material_add_params = CACHE.get("wc_mat_add_prm_#{self.id}")
+      @material_add_params = CACHE.get("wc_mat_add_prm_#{id}")
       unless @material_add_params
         @material_add_params = []
-        @material_add_params << param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_SA)
-        @material_add_params << param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_SD)
-        @material_add_params << param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_AA)
-        @material_add_params << param_to_point(self.material_add_param, *MAT_ADD_PARAM_MASK_ADD_AD)
+        @material_add_params << param_to_point(material_add_param, *MAT_ADD_PARAM_MASK_ADD_SA)
+        @material_add_params << param_to_point(material_add_param, *MAT_ADD_PARAM_MASK_ADD_SD)
+        @material_add_params << param_to_point(material_add_param, *MAT_ADD_PARAM_MASK_ADD_AA)
+        @material_add_params << param_to_point(material_add_param, *MAT_ADD_PARAM_MASK_ADD_AD)
       end
       @material_add_params
     end

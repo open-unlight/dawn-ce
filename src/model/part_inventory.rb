@@ -19,19 +19,19 @@ module Unlight
 
     # 装備しているか？
     def equiped?
-      if self.avatar_id == 0
+      if avatar_id.zero?
         false
       else
-        self.used & Unlight::APS_USED == Unlight::APS_USED
+        used & Unlight::APS_USED == Unlight::APS_USED
       end
     end
 
     # アクティベートされているか
     def activated?
-      if self.avatar_id == 0
+      if avatar_id.zero?
         false
       else
-        self.used & Unlight::APS_ACTIVATED == Unlight::APS_ACTIVATED
+        used & Unlight::APS_ACTIVATED == Unlight::APS_ACTIVATED
       end
     end
 
@@ -41,8 +41,8 @@ module Unlight
       unless equiped?
         self.used |= Unlight::APS_USED
         activate
-        self.avatar_part.attach(self.avatar) if self.avatar && self.avatar_part
-        self.save_changes if saving
+        avatar_part.attach(avatar) if avatar && avatar_part
+        save_changes if saving
       end
     end
 
@@ -51,17 +51,17 @@ module Unlight
       # 装備していたら外す
       if equiped?
         self.used ^= Unlight::APS_USED
-        self.avatar_part.detach(self.avatar)
-        self.save_changes if saving
+        avatar_part.detach(avatar)
+        save_changes if saving
       end
     end
 
     # アクティベート（タイマーを動かす）
-    def activate()
+    def activate
       # アクティベート済みでないなら
-      unless self.activated?
-        if self.avatar_part && self.avatar_part.duration != 0
-          self.end_at = Time.now.utc + self.avatar_part.duration * 60
+      unless activated?
+        if avatar_part && avatar_part.duration != 0
+          self.end_at = Time.now.utc + avatar_part.duration * 60
           self.used |= Unlight::APS_ACTIVATED
         end
       end
@@ -70,11 +70,11 @@ module Unlight
     # 機能が消失したか？
     def work_end?
       ret = false
-      if self.end_at
-        ret = Time.now.utc > self.end_at
+      if end_at
+        ret = Time.now.utc > end_at
         if ret
-          self.unequip(false)
-          self.vanish_part
+          unequip(false)
+          vanish_part
         end
       end
       ret
@@ -82,15 +82,15 @@ module Unlight
 
     # パーツの消滅
     def vanish_part
-      self.before_avatar_id = self.avatar_id
+      self.before_avatar_id = avatar_id
       self.avatar_id = 0
-      self.save_changes
+      save_changes
     end
 
     def get_end_at(now)
       ret = 0
-      if self.end_at
-        ret = (self.end_at - now).to_i
+      if end_at
+        ret = (end_at - now).to_i
       else
         ret = 0
       end

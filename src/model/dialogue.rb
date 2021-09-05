@@ -27,11 +27,11 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::Dialogue::refresh_data_version
+      Unlight::Dialogue.refresh_data_version
     end
 
     # 全体データバージョンを返す
-    def Dialogue::data_version
+    def self.data_version
       ret = cache_store.get('DialogueVersion')
       unless ret
         ret = refresh_data_version
@@ -41,7 +41,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def Dialogue::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::Dialogue.order(:updated_at).last
       if m
         cache_store.set('DialogueVersion', m.version)
@@ -53,7 +53,7 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
   end
 end

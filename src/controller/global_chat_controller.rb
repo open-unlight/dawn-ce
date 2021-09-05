@@ -23,7 +23,7 @@ module Unlight
       end
     end
 
-    def pushout()
+    def pushout
       if @player
         online_list[@player.id].logout
         @@recipient_list.delete(@player.id)
@@ -48,7 +48,7 @@ module Unlight
     # リストに追加
     def add_help_list(key, help)
       success = false
-      if !@@help_key_list.include?(key)
+      unless @@help_key_list.include?(key)
         set_help_cache(key, help)
         @@help_key_list << key
         success = true
@@ -60,14 +60,14 @@ module Unlight
     def get_now_help
       key = nil
       help = nil
-      if @@help_key_list.size > 0
+      unless @@help_key_list.empty?
         key = @@help_key_list.first
         help = get_help_cache(key)
       end
       [key, help]
     end
 
-    def self::init
+    def self.init
       @@recipient_list = {} # オンラインのリスト 管理の問題でonline_listとは別に用意
       @@help_key_list = []      # 保持しているヘルプを管理するキーリスト
       @@sending_key_list = []   # 送信時に使用するキーリスト
@@ -84,20 +84,20 @@ module Unlight
     end
 
     # 一斉送信
-    def self::sending_help_list
+    def self.sending_help_list
       # ヘルプが積まれているなら
-      if @@help_key_list.size > 0
+      unless @@help_key_list.empty?
         key, help = sending_init # 送信管理変数の初期化判定
 
         # keyもhelpもとれなければ処理しない
-        return if key == nil || help == nil
+        return if key.nil? || help.nil?
 
         # 受信者がいないなら処理しない
         SERVER_LOG.info("GlobalChatController: [#{__method__}] #{@@recipient_list.keys.size}")
         return if @@recipient_list.keys.size <= 0
 
         # 渦が終了済みなら処理しない
-        prf = Profound::get_profound_for_hash(help)
+        prf = Profound.get_profound_for_hash(help)
         return if prf.is_finished? || prf.is_vanished?
 
         owner = Player[key.to_i]
@@ -114,7 +114,7 @@ module Unlight
           recipient = @@recipient_list[list_key]
           if recipient && recipient.player.server_type == owner.server_type
             # 発見者のBlackListに入っていたら、送信しない
-            if !FriendLink::is_blocked(key.to_i, recipient.player.id, owner.server_type)
+            unless FriendLink.is_blocked(key.to_i, recipient.player.id, owner.server_type)
               recipient.sending_help(key, name, help) if recipient && recipient.player.id != key.to_i
             end
             cnt += 1
@@ -132,11 +132,11 @@ module Unlight
     end
 
     # 送信管理
-    def self::sending_init
+    def self.sending_init
       init = false
 
       # 送信キーリストの最後まで送信した
-      if @@sending_key_list && @@sending_key_list.size > 0
+      if @@sending_key_list && !@@sending_key_list.empty?
         init = true
         pop_key = @@help_key_list.shift    # 先頭のキーを抜く
         del_help = get_help_cache(pop_key) # 削除予定のヘルプを一時取得 ログ表示の為
@@ -151,8 +151,8 @@ module Unlight
       help = get_help_cache(key) if key
 
       # 送信キーリストなどをリセット
-      if key != nil && help != nil
-        prf = Profound::get_profound_for_hash(help)
+      if !key.nil? && !help.nil?
+        prf = Profound.get_profound_for_hash(help)
         if prf && prf.p_data
           member_limit = prf.p_data.member_limit
         else
@@ -182,15 +182,15 @@ module Unlight
       [key, help]
     end
 
-    def self::get_help_cache(key)
+    def self.get_help_cache(key)
       CACHE.get("global_chat_help_list:#{key}") if key
     end
 
-    def self::set_help_cache(key, data)
+    def self.set_help_cache(key, data)
       CACHE.set("global_chat_help_list:#{key}", data, HELP_CACHE_TTL) if key && data
     end
 
-    def self::delete_help_cache(key)
+    def self.delete_help_cache(key)
       CACHE.delete("global_chat_help_list:#{key}") if key
     end
 
@@ -207,7 +207,7 @@ module Unlight
     end
 
     # 自動渦の発生
-    def self::auto_create_prf
+    def self.auto_create_prf
       # 曜日確認
       now = Time.now.utc
       if PRF_AUTO_PRF_WDAY.include?(now.wday)
@@ -215,10 +215,10 @@ module Unlight
         owner = Player.get_prf_owner_player
         if owner && owner.current_avatar
           if owner.current_avatar.get_prf_inv_num < PRF_AUTO_PRF_MAX
-            pr = Profound::get_new_profound_for_group(owner.current_avatar.id, RAID_EVENT_AUTO_CREATE_GROUP_ID, 10, PRF_TYPE_MMO_EVENT)
-            pr = Profound::get_new_profound_for_group(owner.current_avatar.id, RAID_EVENT_AUTO_CREATE_GROUP_ID, owner.server_type, 10, PRF_TYPE_MMO_EVENT)
+            pr = Profound.get_new_profound_for_group(owner.current_avatar.id, RAID_EVENT_AUTO_CREATE_GROUP_ID, 10, PRF_TYPE_MMO_EVENT)
+            pr = Profound.get_new_profound_for_group(owner.current_avatar.id, RAID_EVENT_AUTO_CREATE_GROUP_ID, owner.server_type, 10, PRF_TYPE_MMO_EVENT)
             start_score = pr.p_data.finder_start_point
-            inv = ProfoundInventory::get_new_profound_inventory(owner.current_avatar.id, pr.id, true, start_score)
+            inv = ProfoundInventory.get_new_profound_inventory(owner.current_avatar.id, pr.id, true, start_score)
             SERVER_LOG.info("GlobalChatController: [#{__method__}] create auto profound hash:#{pr.profound_hash}")
           end
         end
@@ -226,7 +226,7 @@ module Unlight
     end
 
     # 自動渦の救援送信
-    def self::auto_prf_send_help
+    def self.auto_prf_send_help
       # 自動渦のオーナー取得
       owner = Player.get_prf_owner_player
       if owner && owner.current_avatar
@@ -235,7 +235,7 @@ module Unlight
         prf_inv_list.each do |pi|
           is_vanish = owner.current_avatar.is_vanished_profound(pi)
           if pi && pi.profound && pi.profound.state != PRF_ST_FINISH && pi.profound.state != PRF_ST_VANISH && !is_vanish
-            if !@@help_key_list.include?(owner.id.to_s)
+            unless @@help_key_list.include?(owner.id.to_s)
               set_help_cache(owner.id.to_s, pi.profound.profound_hash)
               @@help_key_list << owner.id.to_s
               SERVER_LOG.info("GlobalChatController: [#{__method__}] set auto prf help hash:#{pr.profound_hash}")

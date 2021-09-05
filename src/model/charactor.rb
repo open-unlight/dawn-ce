@@ -16,14 +16,14 @@ module Unlight
     validates do
     end
 
-    def Charactor::initialize_charactor_param
+    def self.initialize_charactor_param
       @@chara_attribute_set = []
       Charactor.all.each do |c|
         @@chara_attribute_set[c.id] = c.chara_attribute if c.chara_attribute
       end
     end
 
-    def Charactor::attribute(id)
+    def self.attribute(id)
       @@chara_attribute_set[id].split(',') if @@chara_attribute_set[id]
     end
 
@@ -38,13 +38,13 @@ module Unlight
     end
 
     # データをとる
-    def get_data_csv_str()
+    def get_data_csv_str
       ret = ''
-      ret << self.id.to_s << ','
-      ret << '"' << (self.name || '') << '",'
-      ret << '"' << (self.lobby_image || '') << '",'
-      ret << '"' << (self.chara_voice || '') << '",'
-      ret << (self.parent_id || 0).to_s
+      ret << id.to_s << ','
+      ret << '"' << (name || '') << '",'
+      ret << '"' << (lobby_image || '') << '",'
+      ret << '"' << (chara_voice || '') << '",'
+      ret << (parent_id || 0).to_s
       ret
     end
 

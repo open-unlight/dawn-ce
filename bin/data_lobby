@@ -6,8 +6,8 @@
 # This software is released under the Apache 2.0 License.
 # https://opensource.org/licenses/Apache2.0
 
-$:.unshift Bundler.root.join('lib')
-$:.unshift Bundler.root.join('src')
+$LOAD_PATH.unshift Bundler.root.join('lib')
+$LOAD_PATH.unshift Bundler.root.join('src')
 require 'bundler/setup'
 require 'eventmachine'
 
@@ -21,8 +21,8 @@ $stderr.sync = true
 # TODO: Replace with Dawn::Server.name
 $SERVER_NAME = "DATA_LOBBY_SERVER_#{Dawn::Server.port}"
 
-EM.set_descriptor_table_size(10000) # ソケットMaxを設定
-EM.epoll                            # Epollを使用するように設定。
+EM.set_descriptor_table_size(10_000) # ソケットMaxを設定
+EM.epoll # Epollを使用するように設定。
 
 module Unlight
   include Protocol
@@ -38,7 +38,7 @@ module Unlight
     EM::PeriodicTimer.new(60, proc {
       begin
         DataServer.check_connection
-      rescue => e
+      rescue StandardError => e
         SERVER_LOG.fatal("DataServer: [check_connection:] fatal error #{e}:#{e.backtrace}")
       end
     })
@@ -48,7 +48,7 @@ module Unlight
       EM::PeriodicTimer.new(60 * 60 * 7, proc {
         begin
           DataServer.check_db_connection
-        rescue => e
+        rescue StandardError => e
           SERVER_LOG.fatal("DataServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
         end
       })

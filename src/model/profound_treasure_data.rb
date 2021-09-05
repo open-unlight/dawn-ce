@@ -20,7 +20,7 @@ module Unlight
       self.updated_at = Time.now.utc
     end
 
-    def ProfoundTreasureData::get_level_treasure_list(lv)
+    def self.get_level_treasure_list(lv)
       ret = CACHE.get("prf_level_#{lv}_treasure_list")
       unless ret
         list = ProfoundTreasureData.filter([level: lv]).order(:prf_trs_type, :rank_min).all

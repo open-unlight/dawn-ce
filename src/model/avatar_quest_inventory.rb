@@ -19,11 +19,11 @@ module Unlight
 
     def clear_land(no)
       self.progress |= (1 << no)
-      self.save_changes
+      save_changes
     end
 
     def land_cleared?(no)
-      (self.progress & (1 << no)) > 0
+      (self.progress & (1 << no)).positive?
     end
 
     def clear_all(succ = true)
@@ -32,14 +32,14 @@ module Unlight
       else
         self.status = QS_FAILED
       end
-      self.before_avatar_id = self.avatar_id
+      self.before_avatar_id = avatar_id
       self.avatar_id = 0
-      SERVER_LOG.info("QUEST_INV: [clear_all]inv_id:#{self.id},succ #{succ}")
-      self.save_changes
+      SERVER_LOG.info("QUEST_INV: [clear_all]inv_id:#{id},succ #{succ}")
+      save_changes
     end
 
     def get_damage_set
-      [self.hp0, self.hp1, self.hp2]
+      [hp0, hp1, hp2]
     end
 
     # キャラクタのダメージ量をセットする
@@ -47,34 +47,34 @@ module Unlight
       self.hp0 = set[0] if set[0]
       self.hp1 = set[1] if set[1]
       self.hp2 = set[2] if set[2]
-      self.save_changes
+      save_changes
     end
 
     def restart_quest
       self.progress = 0
-      self.save_changes
+      save_changes
     end
 
     # キャラクタの回復量をセットする
     def damage_heal(set)
       if set[0]
-        self.hp0 = self.hp0 - set[0]
-        self.hp0 = 0 if self.hp0 < 0
+        self.hp0 = hp0 - set[0]
+        self.hp0 = 0 if hp0.negative?
       end
       if set[1]
-        self.hp1 = self.hp1 - set[1]
-        self.hp1 = 0 if self.hp1 < 0
+        self.hp1 = hp1 - set[1]
+        self.hp1 = 0 if hp1.negative?
       end
       if set[2]
-        self.hp2 = self.hp2 - set[2]
-        self.hp2 = 0 if self.hp2 < 0
+        self.hp2 = hp2 - set[2]
+        self.hp2 = 0 if hp2.negative?
       end
-      self.save_changes
+      save_changes
     end
 
     def damaged?
       refresh
-      (self.hp0 + self.hp1 + self.hp2) > 0
+      (hp0 + hp1 + hp2).positive?
     end
 
     # 見つかる時間を保存
@@ -84,39 +84,39 @@ module Unlight
       else
         self.find_at = Time.now.utc + QFT_SET[10] * pow / 100
       end
-      self.save_changes
+      save_changes
     end
 
     # 発見されたか？
     def quest_find?
-      ret = Time.now.utc > self.find_at
+      ret = Time.now.utc > find_at
       if ret
         self.status = QS_NEW
-        self.save_changes
+        save_changes
       end
       ret
     end
 
     # 発見時間を分単位で進める（目標時間を縮める）
     def shorten_find_time(min)
-      self.find_at = self.find_at - (min * 60)
-      self.save_changes
+      self.find_at = find_at - (min * 60)
+      save_changes
     end
 
     # 別のアバターに送る
     def send_avatar(a_id)
-      self.before_avatar_id = self.avatar_id
+      self.before_avatar_id = avatar_id
       self.avatar_id = a_id
       self.status = QS_PRESENTED
-      self.save_changes
+      save_changes
     end
 
     def unsolved?
-      (self.status == QS_UNSOLVE || self.status == QS_NEW || self.status == QS_PRESENTED)
+      (status == QS_UNSOLVE || status == QS_NEW || status == QS_PRESENTED)
     end
 
     def presented?
-      self.avatar_id != self.before_avatar_id
+      avatar_id != before_avatar_id
     end
 
     # インサート時の前処理

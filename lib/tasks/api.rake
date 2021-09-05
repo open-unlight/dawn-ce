@@ -7,7 +7,7 @@ require 'grape-swagger-entity'
 # :nodoc:
 class APIDocumentGenerator
   extend Forwardable
-  delegate [:combined_namespace_routes, :endpoints, :add_swagger_documentation] => :@klass
+  delegate %i[combined_namespace_routes endpoints add_swagger_documentation] => :@klass
 
   def initialize(klass, options = {})
     @klass = klass

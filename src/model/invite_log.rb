@@ -20,7 +20,7 @@ module Unlight
     end
 
     # 招待する
-    def InviteLog::invite(pid, uid, check = true)
+    def self.invite(pid, uid, check = true)
       if check_already_exist?(pid, uid) && check
         ret = false
       else
@@ -35,7 +35,7 @@ module Unlight
     end
 
     # 後から招待情報を更新する（ニコニコ用）
-    def InviteLog::invite_after_update(pid, uid, log_id)
+    def self.invite_after_update(pid, uid, log_id)
       exist = false
       links = InviteLog.filter({ invited_user_id: uid }).all
       exist = links if links.size >= 3
@@ -55,28 +55,28 @@ module Unlight
     end
 
     # 招待済みか？
-    def InviteLog::check_invited?(uid)
+    def self.check_invited?(uid)
       ret = false
       links = InviteLog.filter({ invited_user_id: uid, invited: false }).all
-      ret = links if links.size > 0
+      ret = links unless links.empty?
       ret
     end
 
     # 招待アイテムゲット済みか？
-    def InviteLog::check_already_invited?(uid)
+    def self.check_already_invited?(uid)
       ret = false
       links = InviteLog.filter({ invited_user_id: uid, invited: true }).all
-      ret = links if links.size > 0
+      ret = links unless links.empty?
       ret
     end
 
     # リンクがすでに存在するかしなかったFalse,存在したらそのリンクを返す
-    def InviteLog::check_already_exist?(pid, uid)
+    def self.check_already_exist?(pid, uid)
       return true if Player[name: uid]
 
       ret = false
       links = InviteLog.filter({ invite_player_id: pid, invited_user_id: uid }).all
-      ret = links if links.size > 0
+      ret = links unless links.empty?
       ret
     end
 

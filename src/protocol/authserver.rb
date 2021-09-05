@@ -17,7 +17,7 @@ module Unlight
         # コマンドクラスをつくる
         @@receive_cmd = Command.new(self, :Auth)
         # 暗号化クラスを作る
-        @@srp = SRP.new()
+        @@srp = SRP.new
         @@invited_id_set = []
       end
 
@@ -34,7 +34,7 @@ module Unlight
       # IDからソルトとサーバ公開鍵を返す
       def auth_start(name, client_pub_key)
         # 人数制限チェック
-        if SERVER_USER_LIMIT > 0 && @@online_list.size >= SERVER_USER_LIMIT
+        if SERVER_USER_LIMIT.positive? && @@online_list.size >= SERVER_USER_LIMIT
           SERVER_LOG.error("#{@@class_name}: [auth_fail] user limit over")
           auth_user_limit
         else
@@ -149,7 +149,7 @@ module Unlight
         u = users.split(',')
         if @player
           SERVER_LOG.info("<UID:#{@player.id}>AUTHServer: [cs_update_invited_users] #{users}")
-          a = InviteLog::check_already_invited?(@player.name) # すでに自分がインバイトアイテムをもらっているか？
+          a = InviteLog.check_already_invited?(@player.name) # すでに自分がインバイトアイテムをもらっているか？
           t = @player.update_invited_users(u)
         end
       end
@@ -181,7 +181,7 @@ module Unlight
       end
 
       # 押し出し関数
-      def pushout()
+      def pushout
         @@online_list[@player.id].sc_error_no(ERROR_DOUBLE_LOGIN)
         @@online_list[@player.id].player.logout(true)
         @@online_list[@player.id].sc_keep_alive # Zombieだったらここで切れる
@@ -198,14 +198,14 @@ module Unlight
             delete_connection
             SERVER_LOG.info("#{@@class_name}: [online num] #{@@online_list.size}")
           end
-        rescue => e
+        rescue StandardError => e
           puts e.message
         end
         SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")
       end
 
       # サーバを終了する
-      def self::exit_server
+      def self.exit_server
         Player.auth_off_all
         Player.logout_all
         SERVER_LOG.fatal("#{@@class_name}: ShutDown!")

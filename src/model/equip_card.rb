@@ -28,12 +28,12 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::EquipCard::refresh_data_version
-      Unlight::EquipCard::cache_store.delete("equip_card:restricrt:#{id}")
+      Unlight::EquipCard.refresh_data_version
+      Unlight::EquipCard.cache_store.delete("equip_card:restricrt:#{id}")
     end
 
     # 全体データバージョンを返す
-    def EquipCard::data_version
+    def self.data_version
       ret = cache_store.get('EquipCardVersion')
       unless ret
         ret = refresh_data_version
@@ -43,10 +43,10 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def EquipCard::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::EquipCard.order(:updated_at).last
       if m
-        cache_store.set('EquipCardVersion', m.version);
+        cache_store.set('EquipCardVersion', m.version)
         m.version
       else
         0
@@ -55,13 +55,13 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # キャラで使えるかチェック
     def check_using_chara(chara_no)
       ret = true
-      if restriction_charas.size > 0
+      unless restriction_charas.empty?
         ret = restriction_charas.include?(chara_no)
       end
       ret
@@ -69,10 +69,10 @@ module Unlight
 
     # キャラ制限のリストを返す
     def restriction_charas
-      ret = EquipCard::cache_store.get("equip_card:restricrt:#{id}")
+      ret = EquipCard.cache_store.get("equip_card:restricrt:#{id}")
       unless ret
         ret = restriction.split('|')
-        EquipCard::cache_store.set("equip_card:restricrt:#{id}", ret)
+        EquipCard.cache_store.set("equip_card:restricrt:#{id}", ret)
       end
       ret
     end

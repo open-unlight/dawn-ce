@@ -28,12 +28,12 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::CpuRoomData::refresh_data_version
-      Unlight::CpuRoomData::cache_store.delete("cpu_room_data:restricrt:#{id}")
+      Unlight::CpuRoomData.refresh_data_version
+      Unlight::CpuRoomData.cache_store.delete("cpu_room_data:restricrt:#{id}")
     end
 
     # 全体データバージョンを返す
-    def CpuRoomData::data_version
+    def self.data_version
       ret = cache_store.get('CpuRoomDataVersion')
       unless ret
         ret = refresh_data_version
@@ -43,7 +43,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def CpuRoomData::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::CpuRoomData.order(:updated_at).last
       if m
         cache_store.set('CpuRoomDataVersion', m.version)
@@ -55,15 +55,15 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # CPUカードデータをかえす
     def cpu_card_data_id
-      if self.cpu_card_data_no == ''
+      if cpu_card_data_no == ''
         101
       else
-        self.cpu_card_data_no
+        cpu_card_data_no
       end
     end
   end

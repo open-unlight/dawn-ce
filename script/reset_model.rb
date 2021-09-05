@@ -1,12 +1,12 @@
 # モデルを削除する
-$:.unshift(File.join(File.expand_path('.'), 'src'))
+$LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 $arg = ARGV.shift
 puts $arg
 class String
   def camelize
-    self.split(/[^a-z0-9]/i).map { |w| w.capitalize }.join
+    split(/[^a-z0-9]/i).map(&:capitalize).join
   end
 end
 

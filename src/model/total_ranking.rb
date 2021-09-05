@@ -17,7 +17,7 @@ module Unlight
       @ranking_arrow = "total_#{data_type}_ranking:arrow"
       sv_types = []
       case THIS_SERVER
-      when SERVER_SB then
+      when SERVER_SB
         sv_types << SERVER_SB
       end
 
@@ -36,7 +36,7 @@ module Unlight
       unless ret
         ret = ranking_data.filter(server_type: server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all
         CACHE.set("#{@ranking_all}_#{server_type}", ret, RANK_CACHE_TTL)
-        CACHE.set("#{@ranking_all_id}_#{server_type}", ret.map { |r| r.avatar_id }, RANK_CACHE_TTL)
+        CACHE.set("#{@ranking_all_id}_#{server_type}", ret.map(&:avatar_id), RANK_CACHE_TTL)
         create_arrow(server_type)
       end
       ret[st_i..end_i]
@@ -48,16 +48,16 @@ module Unlight
       if before
         arrow_set = []
         a_id_set = CACHE.get("#{@ranking_all_id}_#{server_type}")
-        a_id_set = ranking_data.filter(server_type: server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all.map { |r| r.avatar_id } unless a_id_set
-        a_id_set.each_index { |i|
+        a_id_set ||= ranking_data.filter(server_type: server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all.map(&:avatar_id)
+        a_id_set.each_index do |i|
           rid = a_id_set[i]
           old_rank = before.index(rid)
-          if old_rank == nil
+          if old_rank.nil?
             arrow_set << RANK_S_UP
           elsif old_rank == i
             arrow_set << RANK_NONE
           elsif old_rank > i
-            if ((old_rank - i) >= RANK_SUPER_DIFF)
+            if (old_rank - i) >= RANK_SUPER_DIFF
               arrow_set << RANK_S_UP
             else
               arrow_set << RANK_UP
@@ -71,7 +71,7 @@ module Unlight
           else
             arrow_set << RANK_NONE
           end
-        }
+        end
         CACHE.set("#{@ranking_arrow}_#{server_type}", arrow_set, RANK_CACHE_TTL)
       else
         CACHE.set("#{@ranking_arrow}_#{server_type}", [], RANK_CACHE_TTL)
@@ -92,7 +92,7 @@ module Unlight
     def get_order_ranking_id(server_type)
       ret = CACHE.get("#{@ranking_all_id}_#{server_type}")
       unless ret
-        ret = ranking_data.filter(server_type: server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all.map { |r| r.avatar_id }
+        ret = ranking_data.filter(server_type: server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all.map(&:avatar_id)
         CACHE.set("#{@ranking_all_id}_#{server_type}", ret, RANK_CACHE_TTL)
         create_arrow(server_type)
       end
@@ -107,7 +107,7 @@ module Unlight
         # すでに登録済みな
         if r
         # 新規なら
-        elsif lr == 0
+        elsif lr.zero?
           r = ranking_data.new
         else
           # いっぱいならケツと交換
@@ -140,7 +140,7 @@ module Unlight
     # キャッシュを削除（矢印作成のために前のランキングを残す）
     def all_cache_delete(server_type)
       b = CACHE.get("#{@ranking_all_id_before}_#{server_type}")
-      unless b && b.size > 0
+      unless b && !b.empty?
         CACHE.set("#{@ranking_all_id_before}_#{server_type}", CACHE.get("#{@ranking_all_id}_#{server_type}"), RANK_ARROW_TTL)
       end
       CACHE.delete("#{@ranking_all}_#{server_type}")
@@ -157,7 +157,7 @@ module Unlight
         ret = CACHE.get("total_#{data_type}_ranking:#{st_i}_#{end_i}_#{server_type}_str")
       end
       unless  ret
-        set = ranking_data::get_order_ranking(server_type, st_i, end_i, cache)
+        set = ranking_data.get_order_ranking(server_type, st_i, end_i, cache)
         arrow_set = get_arrow_set(server_type)
         ret = []
         if set

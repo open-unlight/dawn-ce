@@ -1,4 +1,4 @@
-$:.unshift(File.join(File.expand_path('.'), 'src'))
+$LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 $arg = ARGV.shift
@@ -8,8 +8,6 @@ module Unlight
   answer = gets.chomp
   if answer == 'y'
     decks = CharaCardDeck.filter({ avatar_id: Unlight::Player.get_cpu_player.current_avatar.id }).filter(Sequel.like(:name, 'Monster: %')).all
-    decks.each do |d|
-      d.destroy
-    end
+    decks.each(&:destroy)
   end
 end

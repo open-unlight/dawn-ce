@@ -33,12 +33,12 @@ module Unlight
     end
 
     # ログインしていたプレイヤー全員をログアウト
-    def Player.logout_all
-      Player.filter({ state: Unlight::ST_LOGIN }).all { |a| a.logout }
+    def self.logout_all
+      Player.filter({ state: Unlight::ST_LOGIN }).all(&:logout)
     end
 
     # すべてのプレイヤーの状態をクリア
-    def Player.state_clear_all
+    def self.state_clear_all
       Player.filter(~{ state: Unlight::ST_LOGOUT }).all do |a|
         a.state = Unlight::ST_LOGOUT
         a.save_changes
@@ -46,7 +46,7 @@ module Unlight
     end
 
     # プレイヤーを登録
-    def Player.regist(name, email, salt, verifier, server_type)
+    def self.regist(name, email, salt, verifier, server_type)
       ret = RG_NG[:none]
       pl = Player.new
       pl.name = name
@@ -68,7 +68,7 @@ module Unlight
     end
 
     # プレイヤーのパスを再登録
-    def Player.reregist(name, email, salt, verifier, server_type)
+    def self.reregist(name, email, salt, verifier, server_type)
       pl = Player[name: name]
       if pl
         pl.email = email
@@ -81,34 +81,34 @@ module Unlight
     end
 
     # プレイヤーのなかからCPU専用キャラを返す。なければでっち上げる
-    def Player.get_cpu_player
+    def self.get_cpu_player
       ret = CACHE.get('cpu_player')
       unless ret
         ai = Player.filter({ role: ROLE_CPU }).all
-        if ai.size > 0
-          ret = ai[rand(ai.size)]
-        else
+        if ai.empty?
           ret = Player.create(name: 'CPU', role: ROLE_CPU, email: 'auto_create_mska@be.to', salt: '6600342d86408afb5b82')
           # CPU用のアバターを作る
           Avatar.regist('CPU', ret.id, [], [], ret.server_type)
           ret.save_changes
+        else
+          ret = ai[rand(ai.size)]
         end
         CACHE.set('cpu_player', ret)
       end
       ret
     end
 
-    def Player.get_prf_owner_player
+    def self.get_prf_owner_player
       ret = CACHE.get('prf_owner')
       unless ret
         pl = Player.filter({ name: 'prf_owner' }).all
-        if pl.size > 0
-          ret = pl.first
-        else
+        if pl.empty?
           ret = Player.create(name: 'prf_owner', role: ROLE_ADMIN, email: 'auto_create_mska@be.to', salt: '6600342d86408afb5b82')
           # CPU用のアバターを作る
           Avatar.regist('prf_owner', ret.id, [1], [1], ret.server_type)
           ret.save_changes
+        else
+          ret = pl.first
         end
         CACHE.set('prf_owner', ret)
       end
@@ -129,47 +129,47 @@ module Unlight
           SERVER_LOG.info("Player: Login id:#{id}")
 
           # idが入っていない場合は、アバター自体の作成が完了していない為、判定しない
-          if self.current_avatar && self.current_avatar.id
+          if current_avatar && current_avatar.id
             # 久しぶりに戻ってきた場合の処理
-            if self && !self.comeback? && self.comebacked?
-              self.comeback_succeed
+            if self && !comeback? && comebacked?
+              comeback_succeed
               # 自分にも追加する
-              notice_str = "#{self.current_avatar.name},"
+              notice_str = "#{current_avatar.name},"
               pre_no_set = []
               COMEBACKED_PRESENTS.each do |pre|
                 is_set_pre = true
                 case pre[:type]
                 when TG_AVATAR_ITEM
-                  pre[:num].times { |i|
-                    self.current_avatar.get_item(pre[:id])
-                  }
+                  pre[:num].times do |i|
+                    current_avatar.get_item(pre[:id])
+                  end
                 when TG_AVATAR_PART
-                  pre[:num].times { |i|
-                    if self.current_avatar.get_part(pre[:id], true) == ERROR_PARTS_DUPE
+                  pre[:num].times do |i|
+                    if current_avatar.get_part(pre[:id], true) == ERROR_PARTS_DUPE
                       is_set_pre = false
                     end
-                  }
+                  end
                 when TG_SLOT_CARD
                   pre[:num].times do |i|
-                    self.current_avatar.get_slot_card(pre[:sct_type], pre[:id])
+                    current_avatar.get_slot_card(pre[:sct_type], pre[:id])
                   end
                 end
                 pre_no_set << "#{pre[:type]}_#{pre[:id]}_#{pre[:num]}_#{pre[:sct_type]}" if is_set_pre
                 ret = true
               end
               notice_str += pre_no_set.join(',')
-              self.current_avatar.write_notice(NOTICE_TYPE_COMEBKED_SUCC, notice_str)
-              self.comeback # ペナルティフラグにカムバックフラグを立てる
+              current_avatar.write_notice(NOTICE_TYPE_COMEBKED_SUCC, notice_str)
+              comeback # ペナルティフラグにカムバックフラグを立てる
             end
 
             if RANDOM_SALE_FLAG
               # セール発生条件を満たす
-              if !self.current_avatar.is_sale_time && (self.login_at == nil || self.login_at.yday != Time.now.utc.yday)
+              if !current_avatar.is_sale_time && (login_at.nil? || login_at.yday != Time.now.utc.yday)
                 # ランダムで発生
                 r = rand(RANDOM_SALE_PROBABILITY)
-                if r == 0
-                  self.current_avatar.write_notice(NOTICE_TYPE_SALE_START, [SALE_TYPE_TEN, RANDOM_SALE_TIME].join(','))
-                  SERVER_LOG.info("Player: RandomSaleStartSet id:#{self.id}")
+                if r.zero?
+                  current_avatar.write_notice(NOTICE_TYPE_SALE_START, [SALE_TYPE_TEN, RANDOM_SALE_TIME].join(','))
+                  SERVER_LOG.info("Player: RandomSaleStartSet id:#{id}")
                 end
               end
             end
@@ -177,7 +177,7 @@ module Unlight
           end
 
         end
-        self.auth_off
+        auth_off
         true
       else
         false
@@ -189,7 +189,7 @@ module Unlight
       # 排他処理の確認
       refresh
       # FrindLinkのキャッシュを削除する
-      FriendLink::cache_delete(self.id)
+      FriendLink.cache_delete(id)
 
       # ログインしていなければログアウトしない
       if login?
@@ -202,7 +202,7 @@ module Unlight
           self.state &= ~Unlight::ST_LOGIN
           SERVER_LOG.info("Player: Logout id:#{id}")
         end
-        self.save_changes
+        save_changes
         true
       else
         false
@@ -213,43 +213,41 @@ module Unlight
     def login_bonus_set
       ret = false
       refresh
-      if self.login_at && (self.login_at.utc + LOGIN_BONUS_OFFSET_TIME).yday != (Time.now.utc + LOGIN_BONUS_OFFSET_TIME).yday || self.login_at.utc + 60 * 60 * 24 < Time.now.utc # 60*60*9時間ずらす
+      if login_at && (login_at.utc + LOGIN_BONUS_OFFSET_TIME).yday != (Time.now.utc + LOGIN_BONUS_OFFSET_TIME).yday || login_at.utc + 60 * 60 * 24 < Time.now.utc # 60*60*9時間ずらす
         ret = true
       else
         ret = false
       end
-      self.update_login_at
+      update_login_at
       ret
     end
 
     # ログイン時間を更新
     def update_login_at
       self.login_at = Time.now.utc
-      self.save_changes
+      save_changes
     end
 
     # トータル接続時間を計算
     def count_total_time
-      self.logout_at = Time.now.utc unless self.logout_at
-      self.login_at = self.created_at unless self.login_at
-      self.total_time += (self.logout_at - self.login_at)
+      self.logout_at = Time.now.utc unless logout_at
+      self.login_at = created_at unless login_at
+      self.total_time += (logout_at - login_at)
     end
 
     def auth_on
       self.state |= Unlight::ST_AUTH
-      self.save_changes
+      save_changes
     end
 
     def auth_off
       self.state &= ~Unlight::ST_AUTH
-      self.save_changes
+      save_changes
     end
 
-    def Player.auth_off_all
+    def self.auth_off_all
       SERVER_LOG.debug('Player: Auth all off')
-      Player.filter("state >= #{Unlight::ST_AUTH}").all do |a|
-        a.auth_off
-      end
+      Player.filter("state >= #{Unlight::ST_AUTH}").all(&:auth_off)
     end
 
     def login?
@@ -262,55 +260,52 @@ module Unlight
 
     # ロック処理
     def lock
-      self.penalty = (self.penalty | Unlight::PN_LOCK)
-      self.save_changes
+      self.penalty = (penalty | Unlight::PN_LOCK)
+      save_changes
     end
 
     # パス失敗
     def pass_failed
-      self.penalty = (self.penalty | Unlight::PN_PASS_FAIL)
-      self.save_changes
+      self.penalty = (penalty | Unlight::PN_PASS_FAIL)
+      save_changes
     end
 
     # 認証に失敗
-    def auth_failed
-    end
+    def auth_failed; end
 
     def same_ip_check
-      self.penalty = (self.penalty | Unlight::PN_SAME_IP)
-      self.save_changes
+      self.penalty = (penalty | Unlight::PN_SAME_IP)
+      save_changes
     end
 
     # カムバック
     def comeback
-      self.penalty = (self.penalty | Unlight::PN_COMEBACK)
-      self.save_changes
+      self.penalty = (penalty | Unlight::PN_COMEBACK)
+      save_changes
     end
 
     # ペナルティの状況を確認
     # （今は恒常的なロックのみ
     def penalty?
-      self.penalty & Unlight::PN_LOCK != 0
+      penalty & Unlight::PN_LOCK != 0
     end
 
     # カムバックして来たか
     def comeback?
-      self.penalty & Unlight::PN_COMEBACK != 0
+      penalty & Unlight::PN_COMEBACK != 0
     end
 
     # 現在使用中のアバターを返す（現在は問答無用で0番）
     def current_avatar
       if @current_avatar
-        @current_avatar
       else
-        if avatars.size > 0
-          @current_avatar = self.avatars[0]
-          @current_avatar
+        if avatars.empty?
+          @current_avatar = Avatar.new(name: name, player_id: id)
         else
-          @current_avatar = Avatar.new(name: self.name, player_id: self.id)
-          @current_avatar
+          @current_avatar = avatars[0]
         end
       end
+      @current_avatar
     end
 
     # フレンドリストとステータスをペアで返す
@@ -320,27 +315,27 @@ module Unlight
       av_set = []
       sns_id_set = []
       # ここだけブロックリストも考慮して渡す
-      fl_set =  FriendLink::get_all_link(self.id, self.server_type)
+      fl_set =  FriendLink.get_all_link(id, server_type)
       fl_list = []
       other_id_list = []
       fl_set.each do |fl|
         fl_list << fl
-        other_id_list << fl.other_id(self.id)
+        other_id_list << fl.other_id(id)
       end
-      other_pls = Player.filter([[:id, other_id_list]]).all if other_id_list.size > 0
+      other_pls = Player.filter([[:id, other_id_list]]).all unless other_id_list.empty?
       pl_cache = {}
       other_pls.each do |opl|
         pl_cache[opl.id] = opl
       end
       fl_list.each do |f|
-        unless pl_cache[f.other_id(self.id)]
-          pl_cache[f.other_id(self.id)] = Player[f.other_id(self.id)] unless pl_cache[f.other_id(self.id)]
+        unless pl_cache[f.other_id(id)]
+          pl_cache[f.other_id(id)] = Player[f.other_id(id)] unless pl_cache[f.other_id(id)]
         end
-        pl = pl_cache[f.other_id(self.id)]
+        pl = pl_cache[f.other_id(id)]
         if pl
           av = pl.current_avatar
-          id_set << f.other_id(self.id)
-          st_set << f.status(self.id)
+          id_set << f.other_id(id)
+          st_set << f.status(id)
           sns_id_set << pl.name
           st_set[-1] = FR_ST_LOGIN if (st_set.last == FR_ST_FRIEND) && pl.login?
           if av.id
@@ -361,35 +356,35 @@ module Unlight
       sns_id_set = []
       fl_set = []
       # フレンド数、ブロック数のみ取得
-      fl_num = FriendLink::get_link_num(self.id, self.server_type)
-      bl_num = FriendLink::get_black_link_num(self.id, self.server_type)
-      rq_num = FriendLink::get_request_list_num(self.id, self.server_type)
+      fl_num = FriendLink.get_link_num(id, server_type)
+      bl_num = FriendLink.get_black_link_num(id, server_type)
+      rq_num = FriendLink.get_request_list_num(id, server_type)
       case type
       when FriendLink::TYPE_FRIEND
-        fl_set = FriendLink::get_link_offset(self.id, offset, count, self.server_type)
+        fl_set = FriendLink.get_link_offset(id, offset, count, server_type)
       when FriendLink::TYPE_CONFIRM
-        fl_set = FriendLink::get_request_list_offset(self.id, offset, count, self.server_type)
+        fl_set = FriendLink.get_request_list_offset(id, offset, count, server_type)
       when FriendLink::TYPE_BLOCK
-        fl_set = FriendLink::get_black_list_offset(self.id, offset, count, self.server_type)
+        fl_set = FriendLink.get_black_list_offset(id, offset, count, server_type)
       end
-      if fl_set.size > 0
-        other_id_list = fl_set.map { |fl| fl.other_id(self.id) }
-        SERVER_LOG.info("DataServer <UID:#{self.id}> [#{__method__}] other_id_list:#{other_id_list}")
-        other_pls = Player.filter([[:id, other_id_list]]).all if other_id_list.size > 0
+      unless fl_set.empty?
+        other_id_list = fl_set.map { |fl| fl.other_id(id) }
+        SERVER_LOG.info("DataServer <UID:#{id}> [#{__method__}] other_id_list:#{other_id_list}")
+        other_pls = Player.filter([[:id, other_id_list]]).all unless other_id_list.empty?
         pl_cache = {}
         other_pls.each { |opl| pl_cache[opl.id] = opl }
-        other_avas = Avatar.filter([[:player_id, other_id_list]]).all if other_id_list.size > 0
+        other_avas = Avatar.filter([[:player_id, other_id_list]]).all unless other_id_list.empty?
         ava_cache = {}
         other_avas.each { |oava| ava_cache[oava.player_id] = oava }
         fl_set.each do |f|
-          unless pl_cache[f.other_id(self.id)]
-            pl_cache[f.other_id(self.id)] = Player[f.other_id(self.id)] unless pl_cache[f.other_id(self.id)]
+          unless pl_cache[f.other_id(id)]
+            pl_cache[f.other_id(id)] = Player[f.other_id(id)] unless pl_cache[f.other_id(id)]
           end
-          pl = pl_cache[f.other_id(self.id)]
+          pl = pl_cache[f.other_id(id)]
           if pl
-            av = (ava_cache[f.other_id(self.id)]) ? ava_cache[f.other_id(self.id)] : pl.current_avatar
-            id_set << f.other_id(self.id)
-            st_set << f.status(self.id)
+            av = ava_cache[f.other_id(id)] || pl.current_avatar
+            id_set << f.other_id(id)
+            st_set << f.status(id)
             sns_id_set << pl.name
             st_set[-1] = FR_ST_LOGIN if (st_set.last == FR_ST_FRIEND) && pl.login?
             if av.id
@@ -408,51 +403,52 @@ module Unlight
       f_num = 10
       o_num = 10
       o_p = Player[o_id]
-      f_set = FriendLink::get_link(self.id, self.server_type)
-      o_set = FriendLink::get_link(o_id, self.server_type)
-      f_num = self.current_avatar.friend_max if self.current_avatar.friend_max
+      f_set = FriendLink.get_link(id, server_type)
+      o_set = FriendLink.get_link(o_id, server_type)
+      f_num = current_avatar.friend_max if current_avatar.friend_max
       o_num = o_p.current_avatar.friend_max if o_p && o_p.current_avatar && o_p.current_avatar.friend_max
       f_ok = f_num > f_set.size
       o_ok = o_num > o_set.size
       return ERROR_FRIEND_OWN_MAX unless f_ok
       return ERROR_FRIEND_OTHER_MAX unless o_ok
-      if FriendLink::create_link(self.id, o_id, self.server_type)
-        return 0
+
+      if FriendLink.create_link(id, o_id, server_type)
+        0
       else
-        return ERROR_FRIEND_APPLY
+        ERROR_FRIEND_APPLY
       end
     end
 
     # フレンドリンクを認証する
     def confirm_friend_link(o_id)
-      FriendLink::change_link_type(self.id, o_id, FriendLink::TYPE_FRIEND, self.server_type)
+      FriendLink.change_link_type(id, o_id, FriendLink::TYPE_FRIEND, server_type)
     end
 
     # フレンドリンクを削除する
     def delete_friend_link(o_id)
-      FriendLink::delete_link(self.id, o_id, self.server_type)
+      FriendLink.delete_link(id, o_id, server_type)
     end
 
     #  ブロックリンクを作る
     def create_block_link(o_id)
-      ret = FriendLink::create_block_link(self.id, o_id, self.server_type)
+      ret = FriendLink.create_block_link(id, o_id, server_type)
     end
 
     # フレンドを招待した
     def invite_friend(uid, check = true)
-      InviteLog::invite(self.id, uid, check)
+      InviteLog.invite(id, uid, check)
     end
 
     # フレンドにカムバック依頼を出す
     def send_comeback_friend(uid)
-      ComebackLog::comeback(self.id, uid)
+      ComebackLog.comeback(id, uid)
     end
 
     # ログイン成功
     def login_check
-      SERVER_LOG.debug("<UID:#{self.id}>#{$SERVER_NAME}: [player.login_check] ")
+      SERVER_LOG.debug("<UID:#{id}>#{$SERVER_NAME}: [player.login_check] ")
       # 招待されていた場合すべて招待してくれた人にプレゼントを登録
-      self.invite_succeed
+      invite_succeed
       # ログインボーナスをあげる
 
       # 連続ログイン記録ボーナス
@@ -461,18 +457,18 @@ module Unlight
     end
 
     def invited?
-      InviteLog::check_invited?(self.name) # .size > 0
+      InviteLog.check_invited?(name) # .size > 0
     end
 
     # フレンドを招待した相手へ登録プレゼント
     def invite_succeed(my_name)
       ret = false
-      SERVER_LOG.debug("<UID:#{self.id}>#{$SERVER_NAME}: [player.invite_succeed] ")
+      SERVER_LOG.debug("<UID:#{id}>#{$SERVER_NAME}: [player.invite_succeed] ")
 
       item_counter = 0
 
       # 自分を招待したプレイヤーのカレントアバターにアイテムをつける
-      in_set = InviteLog::check_invited?(self.name)
+      in_set = InviteLog.check_invited?(name)
       if in_set
         in_set.each do |i|
           pl = Player[i.invite_player_id]
@@ -488,11 +484,11 @@ module Unlight
                 ret = true
               end
               # NoticeにIDと個数を渡す
-              pre_nums.each { |k, i|
+              pre_nums.each do |k, i|
                 pre_no_set << "#{k}_#{i}"
-              }
+              end
               notice_str += pre_no_set.join(',')
-              SERVER_LOG.info("<UID:#{self.id}>#{$SERVER_NAME}: [player.invite_succeed]#{pl.id}: #{notice_str}")
+              SERVER_LOG.info("<UID:#{id}>#{$SERVER_NAME}: [player.invite_succeed]#{pl.id}: #{notice_str}")
               pl.current_avatar.write_notice(NOTICE_TYPE_INVITE_SUCC, notice_str)
             end
             item_counter += 1
@@ -510,8 +506,8 @@ module Unlight
       ret = false
       check_date = Time.now
       if COMEBACK_EVENT
-        check_date = check_date - COMEBACK_CHECK_PERIOD
-        ret = (self.logout_at != nil) ? (self.logout_at < check_date) : false;
+        check_date -= COMEBACK_CHECK_PERIOD
+        ret = logout_at.nil? ? false : (logout_at < check_date)
       end
       ret
     end
@@ -520,23 +516,23 @@ module Unlight
     def comeback_succeed
       ret = false
 
-      fl_set = FriendLink::get_link(self.id, self.server_type)
+      fl_set = FriendLink.get_link(id, server_type)
       if fl_set
 
         # プレイヤーのフレンド全員にアイテムをつける
         fl_set.each do |f|
           if f.friend_type == FriendLink::TYPE_FRIEND
-            pl = Player[f.other_id(self.id)]
+            pl = Player[f.other_id(id)]
             pre_no_set = []
             if pl && pl.current_avatar
-              notice_str = "#{self.current_avatar.name},"
+              notice_str = "#{current_avatar.name},"
               COMEBACK_SEND_PRESENTS.each do |pre|
                 pl.current_avatar.get_item(pre)
                 pre_no_set << pre.to_s
                 ret = true
               end
               notice_str += pre_no_set.join(',')
-              SERVER_LOG.info("<UID:#{self.id}>#{$SERVER_NAME}: [player.comeback_succeed]#{pl.id}: #{notice_str}")
+              SERVER_LOG.info("<UID:#{id}>#{$SERVER_NAME}: [player.comeback_succeed]#{pl.id}: #{notice_str}")
               pl.current_avatar.write_notice(NOTICE_TYPE_COMEBK_SUCC, notice_str)
             end
           end
@@ -547,38 +543,38 @@ module Unlight
 
     def friend?(f_id)
       ret = false
-      f_set = FriendLink::get_link(self.id, self.server_type)
-      f_set.each { |f|
+      f_set = FriendLink.get_link(id, server_type)
+      f_set.each do |f|
         # タイプがフレンドで相手が存在するとき
-        if f.friend_type == FriendLink::TYPE_FRIEND && f.other_id(self.id) == f_id
+        if f.friend_type == FriendLink::TYPE_FRIEND && f.other_id(id) == f_id
           ret = true
         end
-      }
+      end
       ret
     end
 
     def friend_num
-      FriendLink::get_link(self.id, self.server_type).length
+      FriendLink.get_link(id, server_type).length
     end
 
     def confirmed_friend_num
       ret = 0
-      f_set = FriendLink::get_link(self.id, self.server_type)
-      f_set.each { |f|
+      f_set = FriendLink.get_link(id, server_type)
+      f_set.each do |f|
         # タイプがフレンドで相手が存在するとき
         if f.friend_type == FriendLink::TYPE_FRIEND
           ret += 1
         end
-      }
+      end
       ret
     end
 
     def update_invited_users(users)
       users.each do |u|
         pls = Player.filter(name: u).all
-        if pls.size > 0
+        unless pls.empty?
           p_id = pls.first.id
-          t = InviteLog::invite(p_id, self.name)
+          t = InviteLog.invite(p_id, name)
           SERVER_LOG.info("Player: invited (update).:#{p_id}") if t
         end
       end
@@ -587,9 +583,9 @@ module Unlight
     def update_comebacked_users(users)
       users.each do |u|
         pls = Player.filter(name: u).all
-        if pls.size > 0
+        unless pls.empty?
           p_id = pls.first.id
-          t = ComebackLog::comeback(p_id, self.name)
+          t = ComebackLog.comeback(p_id, name)
           SERVER_LOG.info("Player: comebacked (update).:#{p_id}") if t
         end
       end
@@ -597,7 +593,7 @@ module Unlight
 
     def update_played_tutorial(t)
       self.tutorial = t
-      self.save_changes
+      save_changes
     end
   end
 end

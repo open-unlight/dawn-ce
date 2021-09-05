@@ -28,12 +28,12 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::EventCard::refresh_data_version
-      Unlight::EventCard::cache_store.delete("event_card:restricrt:#{id}")
+      Unlight::EventCard.refresh_data_version
+      Unlight::EventCard.cache_store.delete("event_card:restricrt:#{id}")
     end
 
     # 全体データバージョンを返す
-    def EventCard::data_version
+    def self.data_version
       ret = cache_store.get('EventCardVersion')
       unless ret
         ret = refresh_data_version
@@ -43,7 +43,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def EventCard::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::EventCard.order(:updated_at).last
       if m
         cache_store.set('EventCardVersion', m.version)
@@ -55,13 +55,13 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # キャラで使えるかチェック
     def check_using_chara(chara_no)
       ret = true
-      if restriction_charas.size > 0
+      unless restriction_charas.empty?
         ret = restriction_charas.include?(chara_no)
       end
       ret
@@ -69,11 +69,11 @@ module Unlight
 
     # キャラ制限のリストを返す
     def restriction_charas
-      ret = EventCard::cache_store.get("event_card:restricrt:#{id}")
+      ret = EventCard.cache_store.get("event_card:restricrt:#{id}")
       unless ret
         ret = []
-        ret = self.restriction.split('|') if self.restriction
-        EventCard::cache_store.set("event_card:restricrt:#{id}", ret)
+        ret = restriction.split('|') if restriction
+        EventCard.cache_store.set("event_card:restricrt:#{id}", ret)
       end
       ret
     end
@@ -81,20 +81,20 @@ module Unlight
     # キャラで使えるかチェック
     def check_using_color(color_no)
       ret = true
-      unless color_no == 0
-        ret = self.color == color
+      unless color_no.zero?
+        ret = color == color
       end
       ret
     end
 
     # ランダムで埋め草カードを返す
-    def self::get_random_filler_card()
+    def self.get_random_filler_card
       @@filler_cards[rand(@@filler_cards.size)]
     end
 
-    def self::initialize_event_card()
+    def self.initialize_event_card
       @@filler_cards = EventCard.filter(filler: true).all
-      @@filler_cards << EventCard[1] if @@filler_cards.size == 0
+      @@filler_cards << EventCard[1] if @@filler_cards.empty?
     end
 
     initialize_event_card

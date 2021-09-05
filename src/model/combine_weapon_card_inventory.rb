@@ -25,7 +25,7 @@ module Unlight
       self.updated_at = Time.now.utc
     end
 
-    def CombineWeaponCardInventory::create_data(base_sap, base_sdp, base_aap, base_adp, sap, sdp, aap, adp, cost, passive_id = '', restriction = '')
+    def self.create_data(base_sap, base_sdp, base_aap, base_adp, sap, sdp, aap, adp, cost, passive_id = '', restriction = '')
       ret = CombineWeaponCardInventory.new do |d|
         d.combine_cnt = 1
         d.base_sap = base_sap
@@ -45,7 +45,7 @@ module Unlight
       ret
     end
 
-    def CombineWeaponCardInventory::combine(base_id, base_type, material_id_list)
+    def self.combine(base_id, base_type, material_id_list)
       ret = nil
       base = nil
       if base_type == COMBINE_WEAPON_TYPE_COMBINE
@@ -150,9 +150,9 @@ module Unlight
 
     # 近距離攻撃力
     def sword_ap(ai = :none)
-      ret = self.base_sap
+      ret = base_sap
       if ai != :none
-        ret += self.add_sap.floor
+        ret += add_sap.floor
       end
       ret
     end
@@ -164,9 +164,9 @@ module Unlight
 
     # 近距離防御力
     def sword_dp(ai = :none)
-      ret = self.base_sdp
+      ret = base_sdp
       if ai != :none
-        ret += self.add_sdp.floor
+        ret += add_sdp.floor
       end
       ret
     end
@@ -178,9 +178,9 @@ module Unlight
 
     # 遠距離攻撃力
     def arrow_ap(ai = :none)
-      ret = self.base_aap
+      ret = base_aap
       if ai != :none
-        ret += self.add_aap.floor
+        ret += add_aap.floor
       end
       ret
     end
@@ -192,9 +192,9 @@ module Unlight
 
     # 遠距離防御力
     def arrow_dp(ai = :none)
-      ret = self.base_adp
+      ret = base_adp
       if ai != :none
-        ret += self.add_adp.floor
+        ret += add_adp.floor
       end
       ret
     end
@@ -208,30 +208,30 @@ module Unlight
     def get_passive_id(ai = :none)
       ret = []
       if ai != :none
-        ret = self.passive_id.split('|') if self.passive_id
-        ret.map! { |p| p.to_i }
+        ret = passive_id.split('|') if passive_id
+        ret.map!(&:to_i)
       end
       ret
     end
 
     # 近距離攻撃力
     def combine_sword_ap
-      self.add_sap
+      add_sap
     end
 
     # 近距離防御力
     def combine_sword_dp
-      self.add_sdp
+      add_sdp
     end
 
     # 遠距離攻撃力
     def combine_arrow_ap
-      self.add_aap
+      add_aap
     end
 
     # 遠距離防御力
     def combine_arrow_dp
-      self.add_adp
+      add_adp
     end
   end
 end

@@ -36,7 +36,7 @@ module Unlight
 
     def item_got
       self.result = STATE_END
-      self.save_changes
+      save_changes
     end
   end
 end

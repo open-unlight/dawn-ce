@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-$:.unshift(File.join(File.expand_path('.'), 'src'))
+$LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 require "#{File.expand_path('.')}/script/sql_create.rb"
@@ -9,7 +7,7 @@ $arg = ARGV.shift
 module Unlight
   puts '合成武器のパラメータチェックをしますか？（y/n）'
   answer = gets.chomp
-  if answer == 'y' || answer == 'Y' || answer == 'Yes' || answer == 'yes'
+  if %w[y Y Yes yes].include?(answer)
 
     list = CharaCardSlotInventory.filter([[:kind, SCT_WEAPON]]).exclude([[:chara_card_deck_id, 0], [:exp, 0]]).order(Sequel.desc(:exp)).all
 
@@ -23,9 +21,9 @@ module Unlight
 
     file = Pathname.new(FILE)
 
-    file.open('w') { |f|
+    file.open('w') do |f|
       puts_data.each { |str| f.puts str }
-    }
+    end
 
   end
 end

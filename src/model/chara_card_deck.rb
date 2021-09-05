@@ -26,7 +26,7 @@ module Unlight
 
     # 削除時の後処理
     before_destroy do
-      self.card_inventories.each do |c|
+      card_inventories.each do |c|
         c.chara_card_deck_id = avatar.chara_card_decks[0].id if avatar && avatar.chara_card_decks[0]
         c.save_changes
       end
@@ -37,10 +37,10 @@ module Unlight
     def cards(r = true)
       ret = []
       refresh if r
-      self.card_inventories.each do |i|
+      card_inventories.each do |i|
         i.refresh if r
       end
-      c_set = self.card_inventories.sort { |a, b|
+      c_set = card_inventories.sort do |a, b|
         # もしpositionがNullで来たらケツに突っ込む
         if a && b
           unless a.position
@@ -53,13 +53,13 @@ module Unlight
           end
           (a.position <=> b.position)
         end
-      }
+      end
 
       c_set.each do |i|
         c = Unlight::CharaCard[i.chara_card_id]
         ret << c if c
-      rescue => e
-        SERVER_LOG.fatal("CharaCardDeck:#{self.id} #{e.message}")
+      rescue StandardError => e
+        SERVER_LOG.fatal("CharaCardDeck:#{id} #{e.message}")
         ret << Unlight::CharaCard[i.chara_card_id]
       end
       ret
@@ -97,7 +97,7 @@ module Unlight
 
     def slot_inventories_id_list
       ret = []
-      self.chara_card_slot_inventories.each do |i|
+      chara_card_slot_inventories.each do |i|
         ret << i.id
       end
       ret
@@ -105,11 +105,9 @@ module Unlight
 
     # 完全削除(カードインベントリをバインダに戻さずに削除する)
     def complete_destroy
-      self.card_inventories.each do |c|
-        c.destroy
-      end
+      card_inventories.each(&:destroy)
       refresh # このあとのbefore_destroyに影響の内容に更新しておく
-      self.destroy
+      destroy
     end
 
     # デッキが保有するキャラカード
@@ -127,7 +125,7 @@ module Unlight
       ret = []
       refresh
       cards.each do |c|
-        if ret.size == 0
+        if ret.empty?
           ret << c.id
         else
           ret << 0
@@ -211,18 +209,18 @@ module Unlight
     end
 
     # CPU戦用のキャラカードデッキを返す
-    def CharaCardDeck::get_cpu_deck(no, player = nil)
+    def self.get_cpu_deck(no, player = nil)
       # CPUのアバターが持っているデッキを探す
       ccd = CpuCardData[no]
       ccd_id = ccd && player ? ccd.get_allocation_id(player) : no
-      if @@CPU_DECK[ccd_id] && @@CPU_DECK[ccd_id].card_inventories.length > 0
+      if @@CPU_DECK[ccd_id] && !@@CPU_DECK[ccd_id].card_inventories.empty?
         @@CPU_DECK[ccd_id]
       else
         CharaCardDeck.filter({ name: "Monster: #{ccd_id}", avatar_id: Unlight::Player.get_cpu_player.current_avatar.id }).all.first
       end
     end
 
-    def CharaCardDeck::initialize_CPU_deck
+    def self.initialize_CPU_deck
       # 登録されているCPUデータを全部なめる
       CpuCardData.all.each do |ccd|
         # データのデッキがあるか確認する
@@ -232,9 +230,9 @@ module Unlight
           # CPUDATAと同じか？
           if check_CPU_deck(decks.first, ccd)
             ret = decks.first
-            decks[1..-1].each { |d| d.complete_destroy }
+            decks[1..].each(&:complete_destroy)
           else
-            decks.each { |d| d.complete_destroy }
+            decks.each(&:complete_destroy)
           end
         end
         unless ret
@@ -246,7 +244,7 @@ module Unlight
       end
     end
 
-    def CharaCardDeck::preload_CPU_deck
+    def self.preload_CPU_deck
       @@CPU_DECK = []
       # 登録されているCPUデータを全部なめる
       CpuCardData.all.each do |ccd|
@@ -260,7 +258,7 @@ module Unlight
       end
     end
 
-    def CharaCardDeck::check_CPU_deck(deck, cpudata)
+    def self.check_CPU_deck(deck, cpudata)
       ret = false
       if deck && cpudata
         ret = deck.cards_id == cpudata.chara_cards_id && deck.equip_cards_id == cpudata.equip_cards_id && deck.weapon_cards_id == cpudata.weapon_cards_id && deck.event_cards_id == cpudata.event_cards_id
@@ -280,10 +278,10 @@ module Unlight
     end
 
     # デッキ内のポジション配列を返す
-    def position_list_card()
+    def position_list_card
       ret = []
-      self.refresh
-      self.card_inventories.sort { |a, b| (a.position <=> b.position) if a && b && a.position && b.position }.each do |i|
+      refresh
+      card_inventories.sort { |a, b| (a.position <=> b.position) if a && b && a.position && b.position }.each do |i|
         ret << i.id
       end
       ret
@@ -296,7 +294,7 @@ module Unlight
       card_inventories.each do |ci|
         cic = CharaCard[ci.chara_card_id]
         # インベントリは違うが、キャラカード同じ
-        if ((ci.id != cci.id) && cic.same_person?(c))
+        if (ci.id != cci.id) && cic.same_person?(c)
           ret = ERROR_DECK_DUBBLE_CHARA
         end
       end
@@ -327,7 +325,7 @@ module Unlight
           ret = ERROR_SLOT_MAX if w_cards[pos].length >= SLOT_MAX_WEAPON
           # MAX数ぴったりの場合でかつすでに装備されている場合エラーを無効にする
           if w_cards[pos].length == SLOT_MAX_WEAPON
-            c_ids = self.slot_inventories_id_list
+            c_ids = slot_inventories_id_list
             ret = 0 if c_ids.include?(inv.id)
           end
 
@@ -344,7 +342,7 @@ module Unlight
           # MAX数ぴったりの場合でかつすでに装備されている場合エラーを無効にする
           if e_cards[pos][pos].length == (SLOT_MAX_EQUIP * 2)
             # # MAX数ぴったりの場合でかつすでに装備されている場合エラーを無効にする
-            c_ids = self.slot_inventories_id_list
+            c_ids = slot_inventories_id_list
             ret = 0 if c_ids.include?(inv.id)
           end
 
@@ -364,7 +362,7 @@ module Unlight
           if ev_cards[pos].length == (SLOT_MAX_EVENT * 3)
             # # MAX数ぴったりの場合でかつすでに装備されている場合エラーを無効にする
             # if ev_cards[pos].length == SLOT_MAX_EVENT
-            c_ids = self.slot_inventories_id_list
+            c_ids = slot_inventories_id_list
             ret = 0 if c_ids.include?(inv.id)
           end
         end
@@ -375,15 +373,15 @@ module Unlight
     # 現在の総コストを返す
     def current_cost
       ret = 0
-      return ret if self.card_inventories.size > CHARA_CARD_DECK_MAX # 総コストが意味を持たないときは計算しない
+      return ret if card_inventories.size > CHARA_CARD_DECK_MAX # 総コストが意味を持たないときは計算しない
 
-      if self.card_inventories.size == 1
+      if card_inventories.size == 1
         cc = CharaCard[card_inventories[0].chara_card_id]
         ret += cc.deck_cost if cc
-      elsif self.card_inventories.size > 1
+      elsif card_inventories.size > 1
 
         costs = []
-        self.card_inventories.each do |i|
+        card_inventories.each do |i|
           cc = CharaCard[i.chara_card_id]
           costs << cc.deck_cost if cc
         end
@@ -399,7 +397,7 @@ module Unlight
 
       end
 
-      self.chara_card_slot_inventories.each do |c|
+      chara_card_slot_inventories.each do |c|
         ret += c.deck_cost
       end
 
@@ -409,19 +407,19 @@ module Unlight
     # 現在のキャラ総コストを返す（モンスターを省く）
     def current_chara_cost
       ret = 0
-      return ret if self.card_inventories.size > CHARA_CARD_DECK_MAX # 総コストが意味を持たないときは計算しない
+      return ret if card_inventories.size > CHARA_CARD_DECK_MAX # 総コストが意味を持たないときは計算しない
 
       check_idx_list = []
-      if self.card_inventories.size == 1
+      if card_inventories.size == 1
         cc = CharaCard[card_inventories[0].chara_card_id]
         if cc && (cc.kind == CC_KIND_CHARA || cc.kind == CC_KIND_REBORN_CHARA || cc.kind == CC_KIND_EPISODE)
           ret += cc.deck_cost
           check_idx_list << card_inventories[0].position
         end
-      elsif self.card_inventories.size > 1
+      elsif card_inventories.size > 1
 
         costs = []
-        self.card_inventories.each do |i|
+        card_inventories.each do |i|
           cc = CharaCard[i.chara_card_id]
           if cc && (cc.kind == CC_KIND_CHARA || cc.kind == CC_KIND_REBORN_CHARA || cc.kind == CC_KIND_EPISODE)
             costs << cc.deck_cost
@@ -440,7 +438,7 @@ module Unlight
 
       end
 
-      self.chara_card_slot_inventories.each do |c|
+      chara_card_slot_inventories.each do |c|
         ret += c.deck_cost if check_idx_list.include?(c.deck_position)
       end
 
@@ -454,28 +452,26 @@ module Unlight
     # 現在の総レベルを返す
     def current_level
       ret = 0
-      self.card_inventories.each do |i|
+      card_inventories.each do |i|
         ret += i.chara_card.level
       end
       ret
     end
 
     def invaid_slot_card_check
-      m = self.cards.size - 1
+      m = cards.size - 1
 
-      self.chara_card_slot_inventories.each do |ccs|
-        ccs.position
-      end
+      chara_card_slot_inventories.each(&:position)
     end
 
     # デッキの中身を全部リセット
     def deck_reset(binder)
-      self.chara_card_slot_inventories.clone.each do |ccs|
+      chara_card_slot_inventories.clone.each do |ccs|
         ccs.chara_card_deck = binder
         ccs.deck_position = 0
         ccs.save_changes
       end
-      self.card_inventories.clone.each do |ci|
+      card_inventories.clone.each do |ci|
         ci.chara_card_deck = binder
         ci.position = 0
         ci.save_changes
@@ -483,34 +479,34 @@ module Unlight
     end
 
     def deck_max_check
-      if self.card_inventories.size > CHARA_CARD_DECK_MAX
+      if card_inventories.size > CHARA_CARD_DECK_MAX
         deck_reset
       end
     end
 
     # 最大コストに納まっているか？
     def cost_max_check
-      self.current_cost <= self.max_cost
+      current_cost <= max_cost
     end
 
     # デッキ経験値をセット
     def set_deck_exp(i, is_get_bp = 0, update = true)
       calc = i + i * is_get_bp * (RADDER_DUEL_DECK_EXP_POW - 1)
-      puts "selfexpis #{self.exp}, #{calc}"
-      self.exp = 0 unless self.exp
+      puts "selfexpis #{exp}, #{calc}"
+      self.exp = 0 unless exp
       self.exp += calc
-      self.save_changes if update
+      save_changes if update
     end
 
     # デッキレベルアップをチェック
     def check_deck_level_up(update = true)
       ret = false
-      self.max_cost = 45 unless self.max_cost
-      self.level = 1 unless self.level
-      if self.exp >= DECK_LEVEL_EXP_TABLE[self.level]
+      self.max_cost = 45 unless max_cost
+      self.level = 1 unless level
+      if self.exp >= DECK_LEVEL_EXP_TABLE[level]
         self.max_cost += 1
         self.level += 1
-        self.save_changes if update
+        save_changes if update
         ret = true
       end
     end

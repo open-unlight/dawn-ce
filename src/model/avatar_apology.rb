@@ -32,13 +32,13 @@ module Unlight
     def clear_body(n)
       refresh
       ret = []
-      s = self.body.split('|')
+      s = body.split('|')
       if n
         n.times do
           ret.push(s.pop)
         end
         self.body = s.join('|').force_encoding('UTF-8')
-        self.save_changes
+        save_changes
       end
       ret
     end
@@ -47,14 +47,14 @@ module Unlight
     def all_clear_body
       refresh
       self.body = ''.force_encoding('UTF-8')
-      self.save_changes
+      save_changes
     end
 
     # 内容を取得
     def get_body
       refresh
       ret = {}
-      self.body.split('|').each do |str|
+      body.split('|').each do |str|
         if str != ''
           date_str, item_str = str.split('_')
           y, m, d = date_str.split('-')

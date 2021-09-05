@@ -30,12 +30,12 @@ module Unlight
 
     # アップデート後の後理処
     after_save do
-      Unlight::CpuCardData::refresh_data_version
-      Unlight::CpuCardData::cache_store.delete("cpu_card_data:restricrt:#{id}")
+      Unlight::CpuCardData.refresh_data_version
+      Unlight::CpuCardData.cache_store.delete("cpu_card_data:restricrt:#{id}")
     end
 
     # 全体データバージョンを返す
-    def CpuCardData::data_version
+    def self.data_version
       ret = cache_store.get('CpuCardDataVersion')
       unless ret
         ret = refresh_data_version
@@ -45,7 +45,7 @@ module Unlight
     end
 
     # 全体データバージョンを更新（管理ツールが使う）
-    def CpuCardData::refresh_data_version
+    def self.refresh_data_version
       m = Unlight::CpuCardData.order(:updated_at).last
       if m
         cache_store.set('CpuCardDataVersion', m.version)
@@ -57,52 +57,52 @@ module Unlight
 
     # バージョン情報(３ヶ月で循環するのでそれ以上クライアント側で保持してはいけない)
     def version
-      self.updated_at.to_i % MODEL_CACHE_INT
+      updated_at.to_i % MODEL_CACHE_INT
     end
 
     # プレイヤー情報を評価しcpuデータを割り付ける idを返す
     def get_allocation_id(player)
       allocation_id = 0
-      case self.allocation_type
+      case allocation_type
       when QUEST_ALLOC_TYPE_COST
-        cost_conditions = self.chara_card_id.split(',').map { |s| s.scan(/([\d~]+):(\d+)/)[0] }
+        cost_conditions = chara_card_id.split(',').map { |s| s.scan(/([\d~]+):(\d+)/)[0] }
         cost_conditions.each do |cond|
-          range = cond[0].split('~', 2).map { |n| n.to_i }
+          range = cond[0].split('~', 2).map(&:to_i)
           avatar = player.current_avatar
           if check_condition(range, avatar.chara_card_decks[avatar.current_deck].current_cost)
             allocation_id = cond[1].to_i
             break
           end
         end
-        allocation_id = self.id unless allocation_id > 0
+        allocation_id = id unless allocation_id.positive?
       else
-        allocation_id = self.id
+        allocation_id = id
       end
       allocation_id
     end
 
     # value が range の範囲にあるかチェックする
     def check_condition(range, value)
-      if range[1] == 0
-        return range[0] < value
+      if (range[1]).zero?
+        range[0] < value
       else
-        return range[0] <= value && value <= range[1]
+        range[0] <= value && value <= range[1]
       end
     end
 
     # キャラカードのIDをかえす
     def chara_cards_id
-      if self.chara_card_id == ''
+      if chara_card_id == ''
         1001
       else
-        self.chara_card_id.split('+').map! { |s| s.to_i }
+        chara_card_id.split('+').map!(&:to_i)
       end
     end
 
     def current_cards_ids
       ret = [-1, -1, -1]
-      if self.chara_card_id != ''
-        ids = self.chara_card_id.split('+')
+      if chara_card_id != ''
+        ids = chara_card_id.split('+')
         ids.each_index do |i|
           ret[i] = ids[i]
         end
@@ -113,9 +113,9 @@ module Unlight
     # 武器カードのIDをかえす
     def weapon_cards_id
       ret = [[], [], []]
-      wcs = self.weapon_card_id.split('+')
+      wcs = weapon_card_id.split('+')
       wcs.each_index do |i|
-        wcs[i].split('/').map! { |s| s.to_i }.each do |c|
+        wcs[i].split('/').map!(&:to_i).each do |c|
           ret[i] << c if c != 0
         end
       end
@@ -125,9 +125,9 @@ module Unlight
     # 装備カードのIDをかえす
     def equip_cards_id
       ret = [[], [], []]
-      ecs = self.equip_card_id.split('+')
+      ecs = equip_card_id.split('+')
       ecs.each_index do |i|
-        ecs[i].split('/').map! { |s| s.to_i }.each do |c|
+        ecs[i].split('/').map!(&:to_i).each do |c|
           ret[i] << c if c != 0
         end
       end
@@ -137,9 +137,9 @@ module Unlight
     # イベントカードのIDをかえす
     def event_cards_id
       ret = [[], [], []]
-      ecs = self.event_card_id.split('+')
+      ecs = event_card_id.split('+')
       ecs.each_index do |i|
-        ecs[i].split('/').map! { |s| s.to_i }.each do |c|
+        ecs[i].split('/').map!(&:to_i).each do |c|
           ret[i] << c if c != 0
         end
       end
@@ -148,7 +148,7 @@ module Unlight
 
     def treasure_items
       ret = []
-      self.monster_treasure_inventories.sort_by(&:step).each do |mt|
+      monster_treasure_inventories.sort_by(&:step).each do |mt|
         ret << mt.get_treasure
       end
       ret

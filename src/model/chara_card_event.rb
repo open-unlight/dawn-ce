@@ -152,9 +152,9 @@ module Unlight
     AI_RANGE_NOTHING = [].freeze
 
     # カメのID
-    TURTLES_ID = (30036..30039).to_a.concat((30119..30121).to_a)
+    TURTLES_ID = (30_036..30_039).to_a.concat((30_119..30_121).to_a)
     # 巨人岩石
-    ROCK_SPIRITS_ID = (30125..30128).to_a
+    ROCK_SPIRITS_ID = (30_125..30_128).to_a
 
     # ノイクローム
     NOICHROME_ID = 57
@@ -621,7 +621,7 @@ module Unlight
         @cc.owner.instant_kill_damage = PassiveSkill.pow(@passives[PASSIVE_CREATOR])
         on_passive_event(true, PASSIVE_CREATOR) unless @passives_enable[PASSIVE_CREATOR]
         @passives_enable[PASSIVE_CREATOR] = true
-        transform_of_fire if duel.turn == 18 && owner.chara_cards[owner.current_chara_card_no].id != 20011
+        transform_of_fire if duel.turn == 18 && owner.chara_cards[owner.current_chara_card_no].id != 20_011
       end
     end
     regist_event CheckCreatorPassiveStartTurnEvent
@@ -641,7 +641,7 @@ module Unlight
     regist_event FinishCreatorPassiveFinishTurnEvent
 
     def use_creator_passive
-      transform_of_fire if @passives_enable[PASSIVE_CREATOR] && @cc.owner.hit_point <= 0 && owner.chara_cards[owner.current_chara_card_no].id != 20011
+      transform_of_fire if @passives_enable[PASSIVE_CREATOR] && @cc.owner.hit_point <= 0 && owner.chara_cards[owner.current_chara_card_no].id != 20_011
     end
     regist_event UseCreatorPassiveDamageEvent
     regist_event UseCreatorPassiveMovePhaseEvent
@@ -2426,11 +2426,10 @@ module Unlight
         if (@cc.status[STATE_STIGMATA][1]).positive?
           @cc.status[STATE_STIGMATA][1] += PassiveSkill.pow(@passives[PASSIVE_GUARDIAN_OF_LIFE])
           @cc.status[STATE_STIGMATA][1] = 9 if @cc.status[STATE_STIGMATA][1] > 9
-          on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         else
           set_state(@cc.status[STATE_STIGMATA], 1, PassiveSkill.pow(@passives[PASSIVE_GUARDIAN_OF_LIFE]))
-          on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         end
+        on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
       end
     end
     regist_event UseGuardianOfLifePassiveDefenseEvent
@@ -2441,11 +2440,10 @@ module Unlight
         if (@cc.status[STATE_STIGMATA][1]).positive?
           @cc.status[STATE_STIGMATA][1] += PassiveSkill.pow(@passives[PASSIVE_GUARDIAN_OF_LIFE])
           @cc.status[STATE_STIGMATA][1] = 9 if @cc.status[STATE_STIGMATA][1] > 9
-          on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         else
           set_state(@cc.status[STATE_STIGMATA], 1, PassiveSkill.pow(@passives[PASSIVE_GUARDIAN_OF_LIFE]))
-          on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         end
+        on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
       end
     end
     regist_event UseGuardianOfLifePassiveAttackEvent
@@ -4496,7 +4494,7 @@ module Unlight
         # 相手のカードを回転する
         if Feat.pow(@feats[FEAT_KARMIC_RING]).positive?
           foe.battle_table.each do |a|
-            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, a.up? ? false : true)
+            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, !a.up?)
           end
         else
           foe.battle_table.each do |a|
@@ -9165,11 +9163,10 @@ module Unlight
         if (@cc.status[STATE_STIGMATA][1]).positive?
           @cc.status[STATE_STIGMATA][1] += Feat.pow(@feats[FEAT_ANGER_NAIL])
           @cc.status[STATE_STIGMATA][1] = 9 if @cc.status[STATE_STIGMATA][1] > 9
-          on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         else
           set_state(@cc.status[STATE_STIGMATA], 1, Feat.pow(@feats[FEAT_ANGER_NAIL]))
-          on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         end
+        on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
       end
     end
     regist_event FinishAngerNailFeatEvent
@@ -9252,11 +9249,10 @@ module Unlight
         if (@cc.status[STATE_STIGMATA][1]).positive?
           @cc.status[STATE_STIGMATA][1] += stigma
           @cc.status[STATE_STIGMATA][1] = 9 if @cc.status[STATE_STIGMATA][1] > 9
-          on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         else
           set_state(@cc.status[STATE_STIGMATA], 1, stigma)
-          on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         end
+        on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         heal_pt = Feat.pow(@feats[FEAT_BLUE_EYES])
         heal_pt -= 1 if heal_pt == 3 && owner.get_battle_table_point(ActionCard::SWD) < 8
         owner.healed_event(heal_pt)
@@ -9549,11 +9545,10 @@ module Unlight
         up_turn = Feat.pow(@feats[FEAT_CASABLANCA]) > 1 ? 4 : 3
         if (@cc.status[STATE_MOVE_UP][1]).positive?
           set_state(@cc.status[STATE_MOVE_UP], (@cc.status[STATE_MOVE_UP][0] + mov_up), up_turn)
-          on_buff_event(true, owner.current_chara_card_no, STATE_MOVE_UP, @cc.status[STATE_MOVE_UP][0], @cc.status[STATE_MOVE_UP][1])
         else
           set_state(@cc.status[STATE_MOVE_UP], mov_up, up_turn)
-          on_buff_event(true, owner.current_chara_card_no, STATE_MOVE_UP, @cc.status[STATE_MOVE_UP][0], @cc.status[STATE_MOVE_UP][1])
         end
+        on_buff_event(true, owner.current_chara_card_no, STATE_MOVE_UP, @cc.status[STATE_MOVE_UP][0], @cc.status[STATE_MOVE_UP][1])
       end
     end
     regist_event FinishCasablancaFeatEvent
@@ -11155,20 +11150,18 @@ module Unlight
       if @feats_enable[FEAT_DESPAIR_SHOUT]
         use_feat_event(@feats[FEAT_DESPAIR_SHOUT])
         @feats_enable[FEAT_DESPAIR_SHOUT] = false
-        if (foe.current_chara_card.status[STATE_ATK_DOWN][1]).positive?
-          buffed = set_state(foe.current_chara_card.status[STATE_ATK_DOWN], (foe.current_chara_card.status[STATE_ATK_DOWN][0] + Feat.pow(@feats[FEAT_DESPAIR_SHOUT])), 3)
-          on_buff_event(false, foe.current_chara_card_no, STATE_ATK_DOWN, foe.current_chara_card.status[STATE_ATK_DOWN][0], foe.current_chara_card.status[STATE_ATK_DOWN][1]) if buffed
-        else
-          buffed = set_state(foe.current_chara_card.status[STATE_ATK_DOWN], Feat.pow(@feats[FEAT_DESPAIR_SHOUT]), 3)
-          on_buff_event(false, foe.current_chara_card_no, STATE_ATK_DOWN, foe.current_chara_card.status[STATE_ATK_DOWN][0], foe.current_chara_card.status[STATE_ATK_DOWN][1]) if buffed
-        end
-        if (foe.current_chara_card.status[STATE_DEF_DOWN][1]).positive?
-          buffed = set_state(foe.current_chara_card.status[STATE_DEF_DOWN], (foe.current_chara_card.status[STATE_DEF_DOWN][0] + Feat.pow(@feats[FEAT_DESPAIR_SHOUT])), 3)
-          on_buff_event(false, foe.current_chara_card_no, STATE_DEF_DOWN, foe.current_chara_card.status[STATE_DEF_DOWN][0], foe.current_chara_card.status[STATE_DEF_DOWN][1]) if buffed
-        else
-          buffed = set_state(foe.current_chara_card.status[STATE_DEF_DOWN], Feat.pow(@feats[FEAT_DESPAIR_SHOUT]), 3)
-          on_buff_event(false, foe.current_chara_card_no, STATE_DEF_DOWN, foe.current_chara_card.status[STATE_DEF_DOWN][0], foe.current_chara_card.status[STATE_DEF_DOWN][1]) if buffed
-        end
+        buffed = if (foe.current_chara_card.status[STATE_ATK_DOWN][1]).positive?
+                   set_state(foe.current_chara_card.status[STATE_ATK_DOWN], (foe.current_chara_card.status[STATE_ATK_DOWN][0] + Feat.pow(@feats[FEAT_DESPAIR_SHOUT])), 3)
+                 else
+                   set_state(foe.current_chara_card.status[STATE_ATK_DOWN], Feat.pow(@feats[FEAT_DESPAIR_SHOUT]), 3)
+                 end
+        on_buff_event(false, foe.current_chara_card_no, STATE_ATK_DOWN, foe.current_chara_card.status[STATE_ATK_DOWN][0], foe.current_chara_card.status[STATE_ATK_DOWN][1]) if buffed
+        buffed = if (foe.current_chara_card.status[STATE_DEF_DOWN][1]).positive?
+                   set_state(foe.current_chara_card.status[STATE_DEF_DOWN], (foe.current_chara_card.status[STATE_DEF_DOWN][0] + Feat.pow(@feats[FEAT_DESPAIR_SHOUT])), 3)
+                 else
+                   set_state(foe.current_chara_card.status[STATE_DEF_DOWN], Feat.pow(@feats[FEAT_DESPAIR_SHOUT]), 3)
+                 end
+        on_buff_event(false, foe.current_chara_card_no, STATE_DEF_DOWN, foe.current_chara_card.status[STATE_DEF_DOWN][0], foe.current_chara_card.status[STATE_DEF_DOWN][1]) if buffed
       end
     end
     regist_event FinishDespairShoutFeatEvent
@@ -11229,11 +11222,10 @@ module Unlight
         @feats_enable[FEAT_GUARD_SPIRIT] = false
         if (@cc.status[STATE_DEF_UP][1]).positive?
           set_state(@cc.status[STATE_DEF_UP], (@cc.status[STATE_DEF_UP][0] + Feat.pow(@feats[FEAT_GUARD_SPIRIT])), 3)
-          on_buff_event(true, owner.current_chara_card_no, STATE_DEF_UP, @cc.status[STATE_DEF_UP][0], @cc.status[STATE_DEF_UP][1])
         else
           set_state(@cc.status[STATE_DEF_UP], Feat.pow(@feats[FEAT_GUARD_SPIRIT]), 3)
-          on_buff_event(true, owner.current_chara_card_no, STATE_DEF_UP, @cc.status[STATE_DEF_UP][0], @cc.status[STATE_DEF_UP][1])
         end
+        on_buff_event(true, owner.current_chara_card_no, STATE_DEF_UP, @cc.status[STATE_DEF_UP][0], @cc.status[STATE_DEF_UP][1])
       end
     end
     regist_event FinishGuardSpiritFeatEvent
@@ -12000,11 +11992,10 @@ module Unlight
         if (@cc.status[STATE_STATE_DOWN][1]).positive?
           @cc.status[STATE_STATE_DOWN][1] += 1
           @cc.status[STATE_STATE_DOWN][1] = 9 if @cc.status[STATE_STATE_DOWN][1] > 9
-          on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         else
           set_state(@cc.status[STATE_STATE_DOWN], 1, 1)
-          on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         end
+        on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
       end
     end
     regist_event UseIdleGraveFeatEvent
@@ -12045,11 +12036,10 @@ module Unlight
         if (@cc.status[STATE_STATE_DOWN][1]).positive?
           @cc.status[STATE_STATE_DOWN][1] += Feat.pow(@feats[FEAT_SORROW_SONG])
           @cc.status[STATE_STATE_DOWN][1] = 9 if @cc.status[STATE_STATE_DOWN][1] > 9
-          on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         else
           set_state(@cc.status[STATE_STATE_DOWN], 1, Feat.pow(@feats[FEAT_SORROW_SONG]))
-          on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         end
+        on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
       end
     end
     regist_event FinishSorrowSongFeatEvent
@@ -12063,11 +12053,10 @@ module Unlight
           if (@cc.status[STATE_STATE_DOWN][1]).positive?
             @cc.status[STATE_STATE_DOWN][1] += 1
             @cc.status[STATE_STATE_DOWN][1] = 9 if @cc.status[STATE_STATE_DOWN][1] > 9
-            on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
           else
             set_state(@cc.status[STATE_STATE_DOWN], 1, 1)
-            on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
           end
+          on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         end
       end
     end
@@ -12115,11 +12104,10 @@ module Unlight
         if (@cc.status[STATE_STATE_DOWN][1]).positive?
           @cc.status[STATE_STATE_DOWN][1] += 1
           @cc.status[STATE_STATE_DOWN][1] = 9 if @cc.status[STATE_STATE_DOWN][1] > 9
-          on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         else
           set_state(@cc.status[STATE_STATE_DOWN], 1, 1)
-          on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         end
+        on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         @feats_enable[FEAT_RED_WHEEL] = false
       end
     end
@@ -12231,12 +12219,12 @@ module Unlight
     end
 
     # 柘榴用のメッセージ定数と番号を合わせる
-    RED_PEMEGRANTE_RAND_MOVE_MESS_SET = [
-      :RED_POMEGRANATE_RANDOME_MOVE_M2,
-      :RED_POMEGRANATE_RANDOME_MOVE_M1,
-      :RED_POMEGRANATE_RANDOME_MOVE_0,
-      :RED_POMEGRANATE_RANDOME_MOVE_2,
-      :RED_POMEGRANATE_RANDOME_MOVE_1
+    RED_PEMEGRANTE_RAND_MOVE_MESS_SET = %i[
+      RED_POMEGRANATE_RANDOME_MOVE_M2
+      RED_POMEGRANATE_RANDOME_MOVE_M1
+      RED_POMEGRANATE_RANDOME_MOVE_0
+      RED_POMEGRANATE_RANDOME_MOVE_2
+      RED_POMEGRANATE_RANDOME_MOVE_1
     ].freeze
     # ランダムに移動
     def random_move(_v = 0)
@@ -12455,13 +12443,12 @@ module Unlight
             if @cc.status_update
               off_buff_event(false, foe.current_chara_card_no, STATE_DEAD_COUNT, @cc.status[STATE_DEAD_COUNT][0])
               foe.current_chara_card.status[STATE_DEAD_COUNT][1] = 0
-              foe.damaged_event(attribute_damage(ATTRIBUTE_DEATH, foe))
             else
               (foe.current_chara_card.status[STATE_DEAD_COUNT][1]).times { update_buff_event(false, STATE_DEAD_COUNT, foe.current_chara_card.status[STATE_DEAD_COUNT][0]) }
               # レイド戦の場合は、OnBuffイベントで更新するのみ
               on_buff_event(false, foe.current_chara_card_no, STATE_DEAD_COUNT, foe.current_chara_card.status[STATE_DEAD_COUNT][0], 0)
-              foe.damaged_event(attribute_damage(ATTRIBUTE_DEATH, foe))
             end
+            foe.damaged_event(attribute_damage(ATTRIBUTE_DEATH, foe))
           else
             3.times { update_buff_event(false, STATE_DEAD_COUNT, foe.current_chara_card.status[STATE_DEAD_COUNT][0]) }
             foe.current_chara_card.status[STATE_DEAD_COUNT][1] -= 3
@@ -13024,11 +13011,10 @@ module Unlight
         end
         if (@cc.status[STATE_STICK][1]).positive?
           change_stick_state
-          on_buff_event(true, owner.current_chara_card_no, STATE_STICK, @cc.status[STATE_STICK][0], @cc.status[STATE_STICK][1])
         else
           set_state(@cc.status[STATE_STICK], rand(1..2), 1)
-          on_buff_event(true, owner.current_chara_card_no, STATE_STICK, @cc.status[STATE_STICK][0], @cc.status[STATE_STICK][1])
         end
+        on_buff_event(true, owner.current_chara_card_no, STATE_STICK, @cc.status[STATE_STICK][0], @cc.status[STATE_STICK][1])
 
         @feats_enable[FEAT_NAME_OF_CHARITY] = false
       end
@@ -13980,11 +13966,10 @@ module Unlight
         if (@cc.status[STATE_STATE_DOWN][1]).positive?
           @cc.status[STATE_STATE_DOWN][1] += rand_num
           @cc.status[STATE_STATE_DOWN][1] = 9 if @cc.status[STATE_STATE_DOWN][1] > 9
-          on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         else
           set_state(@cc.status[STATE_STATE_DOWN], 1, rand_num)
-          on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
         end
+        on_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0], @cc.status[STATE_STATE_DOWN][1])
       end
     end
     regist_event FinishEffectMutationFeatEvent
@@ -14068,13 +14053,12 @@ module Unlight
           @cc.status[STATE_STATE_DOWN][1] = 0
           off_buff_event(true, owner.current_chara_card_no, STATE_STATE_DOWN, @cc.status[STATE_STATE_DOWN][0])
 
-          if (foe.current_chara_card.status[STATE_STATE_DOWN][1]).positive?
-            buffed = set_state(foe.current_chara_card.status[STATE_STATE_DOWN], 1, foe.current_chara_card.status[STATE_STATE_DOWN][1] + down_point)
-            on_buff_event(false, foe.current_chara_card_no, STATE_STATE_DOWN, foe.current_chara_card.status[STATE_STATE_DOWN][0], foe.current_chara_card.status[STATE_STATE_DOWN][1]) if buffed
-          else
-            buffed = set_state(foe.current_chara_card.status[STATE_STATE_DOWN], 1, down_point)
-            on_buff_event(false, foe.current_chara_card_no, STATE_STATE_DOWN, foe.current_chara_card.status[STATE_STATE_DOWN][0], foe.current_chara_card.status[STATE_STATE_DOWN][1]) if buffed
-          end
+          buffed = if (foe.current_chara_card.status[STATE_STATE_DOWN][1]).positive?
+                     set_state(foe.current_chara_card.status[STATE_STATE_DOWN], 1, foe.current_chara_card.status[STATE_STATE_DOWN][1] + down_point)
+                   else
+                     set_state(foe.current_chara_card.status[STATE_STATE_DOWN], 1, down_point)
+                   end
+          on_buff_event(false, foe.current_chara_card_no, STATE_STATE_DOWN, foe.current_chara_card.status[STATE_STATE_DOWN][0], foe.current_chara_card.status[STATE_STATE_DOWN][1]) if buffed
 
         end
 
@@ -14396,17 +14380,16 @@ module Unlight
 
         if Feat.pow(@feats[FEAT_EVIL_EYE]) > 5
 
-          if (foe.current_chara_card.status[STATE_CURSE][1]).positive?
+          buffed = if (foe.current_chara_card.status[STATE_CURSE][1]).positive?
 
-            buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1] + 1)
-            on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
+                     set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1] + 1)
 
-          else
+                   else
 
-            buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, 1)
-            on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
+                     set_state(foe.current_chara_card.status[STATE_CURSE], 1, 1)
 
-          end
+                   end
+          on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
 
         end
 
@@ -14421,17 +14404,16 @@ module Unlight
 
         if duel.tmp_damage.positive?
           add_pt = Feat.pow(@feats[FEAT_EVIL_EYE]) == 9 ? 2 : 1
-          if (foe.current_chara_card.status[STATE_CURSE][1]).positive?
+          buffed = if (foe.current_chara_card.status[STATE_CURSE][1]).positive?
 
-            buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1] + add_pt)
-            on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
+                     set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1] + add_pt)
 
-          else
+                   else
 
-            buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, add_pt)
-            on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
+                     set_state(foe.current_chara_card.status[STATE_CURSE], 1, add_pt)
 
-          end
+                   end
+          on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
 
         end
 
@@ -14466,17 +14448,16 @@ module Unlight
         set_state(@cc.status[STATE_DEF_UP], Feat.pow(@feats[FEAT_BLACK_ARTS]), 3)
         on_buff_event(true, owner.current_chara_card_no, STATE_DEF_UP, @cc.status[STATE_DEF_UP][0], @cc.status[STATE_DEF_UP][1])
 
-        if (foe.current_chara_card.status[STATE_CURSE][1]).positive?
+        buffed = if (foe.current_chara_card.status[STATE_CURSE][1]).positive?
 
-          buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1] + 1)
-          on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
+                   set_state(foe.current_chara_card.status[STATE_CURSE], 1, foe.current_chara_card.status[STATE_CURSE][1] + 1)
 
-        else
+                 else
 
-          buffed = set_state(foe.current_chara_card.status[STATE_CURSE], 1, 1)
-          on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
+                   set_state(foe.current_chara_card.status[STATE_CURSE], 1, 1)
 
-        end
+                 end
+        on_buff_event(false, foe.current_chara_card_no, STATE_CURSE, foe.current_chara_card.status[STATE_CURSE][0], foe.current_chara_card.status[STATE_CURSE][1]) if buffed
 
         alpha = Feat.pow(@feats[FEAT_BLACK_ARTS]) == 7 ? 10 : 5
         rand_num = rand(100)
@@ -15682,7 +15663,7 @@ module Unlight
         # 相手のカードを回転する
         if Feat.pow(@feats[FEAT_KARMIC_DOR]).positive?
           foe.battle_table.each do |a|
-            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, a.up? ? false : true)
+            foe.event_card_rotate_action(a.id, Entrant::TABLE_BATTLE, 0, !a.up?)
           end
         else
           foe.battle_table.each do |a|
@@ -23650,11 +23631,10 @@ module Unlight
         if s.positive?
           if (@cc.status[STATE_STIGMATA][1]).positive?
             @cc.status[STATE_STIGMATA][1] = s
-            on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
           else
             set_state(@cc.status[STATE_STIGMATA], 1, s)
-            on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
           end
+          on_buff_event(true, owner.current_chara_card_no, STATE_STIGMATA, @cc.status[STATE_STIGMATA][0], @cc.status[STATE_STIGMATA][1])
         end
       end
     end
@@ -24320,8 +24300,8 @@ module Unlight
       owner.chara_change_force = true
       owner.chara_change_index = owner.current_chara_card_no
       owner.current_chara_card.remove_event
-      owner.change_current_chara_card(20011)
-      change_chara_card_event(20011)
+      owner.change_current_chara_card(20_011)
+      change_chara_card_event(20_011)
       duel.init_chara_card(owner.current_chara_card, owner, foe, owner.current_chara_card_no)
       use_passive_event(@passives[PASSIVE_CREATOR])
     end

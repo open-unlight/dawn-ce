@@ -87,31 +87,31 @@ module Unlight
     end
 
     # イベント定義の名前を登録
-    def EventRule::dsc(name)
+    def self.dsc(name)
       instance.dsc = name
     end
 
     # イベントとしてHookするメインの関数
-    def EventRule::func(f)
+    def self.func(f)
       instance.func = f
     end
 
     # ハンドラのメソッド名
-    def EventRule::func_name
+    def self.func_name
       instance.func.to_s
     end
 
     # hook_funcの名称
-    def EventRule::hook_func_name
+    def self.hook_func_name
       "#{instance.hook_func[0]}.#{instance.hook_func[1]}_#{instance.type}_hook_func"
     end
 
-    def EventRule::dispose
+    def self.dispose
       instance.func = nil
     end
 
     # 許可するコンテキストを登録
-    def EventRule::context(*cont)
+    def self.context(*cont)
       s = []
       cont.each do |a|
         s << "Unlight::#{a[0]}::#{a[1]}"
@@ -120,7 +120,7 @@ module Unlight
     end
 
     # タイプの登録
-    def EventRule::type(t)
+    def self.type(t)
       t = { type: t, obj: nil, hook: nil, priority: 0 } if t.instance_of?(Symbol)
       pri = t[:priority] || 0
       instance.type = t[:type]
@@ -128,14 +128,14 @@ module Unlight
     end
 
     # タイムアウトの登録
-    def EventRule::duration(t)
+    def self.duration(t)
       t = { type: t, value: 0 } if t.instance_of?(Symbol)
       instance.duration_type = t[:type]
       instance.duration_value = t[:value]
     end
 
     # イベントの登録
-    def EventRule::event(*arg)
+    def self.event(*arg)
       arg.each do |a|
         instance.event_type[:start] = true if a == :start
         instance.event_type[:finish] = true if a == :finish
@@ -143,22 +143,22 @@ module Unlight
     end
 
     # ゴールの設定
-    def EventRule::goal(*args)
+    def self.goal(*args)
       add_decision(instance.goal_list, args)
     end
 
     # ガードの設定
-    def EventRule::guard(*args)
+    def self.guard(*args)
       add_decision(instance.guard_list, args)
     end
 
     # 追加実行関数
-    def EventRule::act(func)
+    def self.act(func)
       instance.act_list << func
     end
 
     # ガードとゴール関数登録関数
-    def EventRule::add_decision(list, args)
+    def self.add_decision(list, args)
       ret = []
       args.each do |a|
         ret << a
@@ -167,17 +167,17 @@ module Unlight
     end
 
     # イベントの説明
-    def EventRule::describe()
+    def self.describe
       instance.dsc
     end
 
     # オブジェクトが含まれているか？
-    def EventRule::obj_list_include?(list, arg)
+    def self.obj_list_include?(list, arg)
       list.index { |item| item[0].to_s == arg.to_s }
     end
 
     # クラスにインスタンスメソッドが存在するか？
-    def EventRule::instance_method_include?(klass_name, method_name)
+    def self.instance_method_include?(klass_name, method_name)
       eval("Unlight::#{klass_name}.instance_methods.include?(:#{method_name})")
     end
   end
@@ -193,21 +193,21 @@ module Unlight
     # Hook削除メソッドのリスト
     @@hook_removers = {}
 
-    def self::init_list
+    def self.init_list
       @@init_list
     end
 
     def initialize(*args)
       # フックするイベントの初期化
-      @@init_list[self.class.name].each { |a| self.send(a) } if @@init_list[self.class.name]
+      @@init_list[self.class.name].each { |a| send(a) } if @@init_list[self.class.name]
     end
 
     # フックされた関数を実行する
     def send_all_hook(list)
       li = list.clone
       all_end = true
-      while (all_end)
-        li.each_index { |i|
+      while all_end
+        li.each_index do |i|
           li[i][0].call
           if li.size == list.size
             all_end = false if i + 1 == li.size
@@ -215,8 +215,8 @@ module Unlight
             li = list.clone
             break
           end
-        }
-        all_end = false if li.size == 0
+        end
+        all_end = false if li.empty?
       end
     end
 
@@ -230,18 +230,18 @@ module Unlight
       if dist == 'self'
         self
       else
-        self.send(dist.to_sym)
+        send(dist.to_sym)
       end
     end
 
     # 登録されたすべてのイベントをリムーブする
     def remove_all_event_listener
-      @@event_removers[self.class.name].each { |a| self.send(a) } if @@event_removers[self.class.name]
+      @@event_removers[self.class.name].each { |a| send(a) } if @@event_removers[self.class.name]
     end
 
     # 登録されたすべてのイベントをフックをリムーブする
     def remove_all_hook
-      @@hook_removers[self.class.name].each { |a| self.send(a) } if @@hook_removers[self.class.name]
+      @@hook_removers[self.class.name].each { |a| send(a) } if @@hook_removers[self.class.name]
     end
 
     # ゴールしたかをしらべる
@@ -262,7 +262,7 @@ module Unlight
     end
 
     # 初期化部分を返す
-    def self::init_gen
+    def self.init_gen
       <<~END
         # 初化期
               a = Module.nesting[0].to_s
@@ -346,8 +346,8 @@ module Unlight
     end
 
     # コンテキストチェック部分を返す
-    def self::context_check_gen(doc)
-      if @event_rule.allow_context.size > 0
+    def self.context_check_gen(doc)
+      unless @event_rule.allow_context.empty?
         c = @event_rule.allow_context.map { |a| "context_check(\"#{a}\")" }.join('||')
         st = "if #{c}\n"
         en = ''
@@ -359,11 +359,11 @@ module Unlight
     end
 
     # 開始条件チェック部分を返す
-    def self::guard_check_gen(doc)
+    def self.guard_check_gen(doc)
       st = ''
       st += "guarded = false\n"
       en = ''
-      if @event_rule.guard_list.size > 0
+      unless @event_rule.guard_list.empty?
         c = @event_rule.guard_list.to_s
         st += "if list_check?(#{c})\n"
         en = "\n else\n"
@@ -376,10 +376,18 @@ module Unlight
     end
 
     # 終了条件チェック部分を返す
-    def self::goal_check_gen()
+    def self.goal_check_gen
       f = @event_rule.func
       if @event_rule.type == :instant
-        if @event_rule.goal_list.size > 0
+        if @event_rule.goal_list.empty?
+          <<-END
+        if (@#{@f}_context[0] == :active||@#{@f}_context.first == :return)&&(@#{@f}_context.last == nil ||@#{@f}_context.last.last == :#{@f})
+            #{finish_event_gen}
+            event_finish(@#{@f}_context,:#{@f}_init)
+            #{@f}_init
+        end
+          END
+        else
           c = @event_rule.goal_list.to_s
           <<~END
             # もしコンテキストが実行中でかつこのイベントが最後ならばイベントを終了する
@@ -396,21 +404,13 @@ module Unlight
                     end
           END
 
-        else
-          <<-END
-        if (@#{@f}_context[0] == :active||@#{@f}_context.first == :return)&&(@#{@f}_context.last == nil ||@#{@f}_context.last.last == :#{@f})
-            #{finish_event_gen}
-            event_finish(@#{@f}_context,:#{@f}_init)
-            #{@f}_init
-        end
-          END
         end
       else
         "\n"
       end
     end
 
-    def self::finish_event_gen
+    def self.finish_event_gen
       if @event_rule.event_type[:finish]
         <<-END
             @#{@f}_finish_event_handlers.each {|i| i.call(self, ret)}  unless guarded
@@ -418,7 +418,7 @@ module Unlight
       end
     end
 
-    def self::start_event_gen
+    def self.start_event_gen
       if @event_rule.event_type[:start]
         <<-END
         #{@f}_start_event_do
@@ -426,7 +426,7 @@ module Unlight
       end
     end
 
-    def self::type_main_gen
+    def self.type_main_gen
       case @event_rule.type
       when :instant
         instant_main_gen
@@ -440,7 +440,7 @@ module Unlight
     end
 
     # メイン実行部分を返す
-    def self::instant_main_gen
+    def self.instant_main_gen
       <<-END
           @#{@f}_context = event_start(:#{@f}) if @#{@f}_context == []
           if @#{@f}_context.first == :active
@@ -459,7 +459,7 @@ module Unlight
       END
     end
 
-    def self::act_list_gen
+    def self.act_list_gen
       ret = []
       ret << ' '
       ret << "      if @#{@f}_context.first == :active||@#{@f}_context.first == :return"
@@ -470,11 +470,11 @@ module Unlight
         ret << '          end'
       end
       ret << '       end'
-      ret = [] if @event_rule.act_list.size == 0
+      ret = [] if @event_rule.act_list.empty?
       ret.join("\n")
     end
 
-    def self::before_main_gen
+    def self.before_main_gen
       h = @event_rule.hook_func
       <<-END
 
@@ -490,7 +490,7 @@ module Unlight
       END
     end
 
-    def self::after_main_gen
+    def self.after_main_gen
       h = @event_rule.hook_func
       <<-END
 
@@ -505,7 +505,7 @@ module Unlight
       END
     end
 
-    def self::proxy_main_gen
+    def self.proxy_main_gen
       h = @event_rule.hook_func
       <<-END
 
@@ -516,9 +516,9 @@ module Unlight
       END
     end
 
-    def self::hook_add_remove_gen
+    def self.hook_add_remove_gen
       h = @event_rule.hook_func
-      if @event_rule.goal_list.size > 0
+      unless @event_rule.goal_list.empty?
         case @event_rule.type
         when :before
           <<-END
@@ -538,8 +538,8 @@ module Unlight
       end
     end
 
-    def self::hook_remove_gen
-      if @event_rule.goal_list.size > 0
+    def self.hook_remove_gen
+      unless @event_rule.goal_list.empty?
         case @event_rule.type
         when :before
           before_remove_gen
@@ -551,7 +551,7 @@ module Unlight
       end
     end
 
-    def self::before_remove_gen
+    def self.before_remove_gen
       h = @event_rule.hook_func
       c = @event_rule.goal_list
       <<-END
@@ -566,7 +566,7 @@ module Unlight
       END
     end
 
-    def self::after_remove_gen
+    def self.after_remove_gen
       h = @event_rule.hook_func
       c = @event_rule.goal_list
       <<-END
@@ -581,7 +581,7 @@ module Unlight
       END
     end
 
-    def self::proxy_remove_gen
+    def self.proxy_remove_gen
       h = @event_rule.hook_func
       c = @event_rule.goal_list
       <<-END
@@ -597,7 +597,7 @@ module Unlight
       END
     end
 
-    def self::duration_result_gen
+    def self.duration_result_gen
       case @event_rule.duration_type
       when :times
         <<~END
@@ -610,7 +610,7 @@ module Unlight
       end
     end
 
-    def self::duration_check_gen
+    def self.duration_check_gen
       case @event_rule.duration_type
       when :times
         <<-END
@@ -620,11 +620,10 @@ module Unlight
         <<-END
         @#{@f}_timer || @#{@f}_timer =Time.now
         END
-      else
       end
     end
 
-    def self::regist_event(eventrule)
+    def self.regist_event(eventrule)
       @event_rule = eventrule.instance
       @f = underscore(eventrule.to_s.gsub(/Unlight::|.*::/, ''))
       doc = <<-END
@@ -640,10 +639,10 @@ module Unlight
       puts doc if EVAL_OUTPUT
       module_eval doc
       @event_rule = nil
-      EventRule::dispose
+      EventRule.dispose
     end
 
-    def self::underscore(camel_cased_word)
+    def self.underscore(camel_cased_word)
       camel_cased_word
         .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
         .gsub(/([a-z\d])([A-Z])/, '\1_\2')

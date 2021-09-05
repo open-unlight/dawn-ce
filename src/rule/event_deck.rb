@@ -7,8 +7,8 @@ module Unlight
   # イベントデッキクラス
   class EventDeck < Deck
     # 対戦者同士のイベントカードデッキをもらってIDの重複がないようにデッキを作る
-    def EventDeck::create_decks(c, cards1, cards2, duel)
-      acs = ActionCard::event_cards_to_action_cards(cards1.flatten, cards2.flatten)
+    def self.create_decks(c, cards1, cards2, duel)
+      acs = ActionCard.event_cards_to_action_cards(cards1.flatten, cards2.flatten)
       [EventDeck.new(c, acs[0], duel, true), EventDeck.new(c, acs[1], duel, false)]
     end
 
@@ -30,7 +30,7 @@ module Unlight
       ret_cards = []
       # デッキの残りが引く数より少ない場合捨て札を再シャッフル
       while ret_cards.size != num
-        if @deck_cards.size < 1
+        if @deck_cards.empty?
           break
         end
 
@@ -82,7 +82,7 @@ module Unlight
         @deck_cards << c
       end
 
-      return c_size
+      c_size
     end
 
     # イベントカードのドローを保留
@@ -103,19 +103,19 @@ module Unlight
     end
 
     # すべてのカードのイベントリスナーをリムーブする
-    def all_cards_remove_all_event_listener()
-      @cards.each { |c|
+    def all_cards_remove_all_event_listener
+      @cards.each do |c|
         c.remove_all_event_listener
         c.remove_all_hook
-      }
-      @special_event_cards.each_value { |c|
+      end
+      @special_event_cards.each_value do |c|
         c.remove_all_event_listener
         c.remove_all_hook
-      }
+      end
       @duel = nil
     end
 
-    def deck_init()
+    def deck_init
       0
     end
     regist_event DeckInitEvent

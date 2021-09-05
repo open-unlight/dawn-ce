@@ -1,4 +1,4 @@
-$:.unshift(File.join(File.expand_path('.'), 'src'))
+$LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 $arg = ARGV.shift
@@ -7,7 +7,7 @@ module Unlight
   # デバッグ用アイテム追加
   puts 'アイテムを追加しますか？(y/n)'
   answer = gets.chomp
-  if answer == 'y' || answer == 'Y' || answer == 'yes' || answer == 'Yes'
+  if %w[y Y yes Yes].include?(answer)
 
     puts '追加するアバターのIDを指定してください'
     avatar_id = gets.chomp.to_i
@@ -32,15 +32,15 @@ module Unlight
         set_list = []
       end
       cnt += 1
-      if cnt > 0 && cnt % 1000 == 0
+      if cnt.positive? && (cnt % 1000).zero?
         puts "ins set cnt:#{cnt} ..."
       end
     end
-    if set_list.size > 0
+    unless set_list.empty?
       import_list << set_list
       set_list = []
     end
-    columns = [:avatar_id, :avatar_item_id, :created_at, :updated_at]
+    columns = %i[avatar_id avatar_item_id created_at updated_at]
     puts "import_list:#{import_list.size}"
 
     DB.transaction do
