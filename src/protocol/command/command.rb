@@ -70,7 +70,7 @@ module Unlight
       if val
         val.each do |i|
           c = @cmd_val.new(i[0], i[1], i[2])
-          if c.empty?
+          if c.size.zero?
             ret << "            #{c.name}_len = data[#{s unless s == ''}#{pos},2].unpack('n*')[0]\n"
             #            ret << "p data[#{pos},2]\n"
             pos += 2
@@ -147,7 +147,7 @@ module Unlight
       if val
         val.each do |i|
           c = @cmd_val.new(i[0], i[1], i[2])
-          if c.empty? && c.type != :int
+          if c.size.zero? && c.type != :int
             ret << "            #{d} << [#{c.name}.bytesize].pack('N')\n"
           end
           ret << ("            #{c.name}.force_encoding(\"ASCII-8BIT\")\n") if c.type == :String
