@@ -711,7 +711,7 @@ module Unlight
       ret = []
       refresh if r
       avatar_quest_inventories.each do |p|
-        if p.before_avatar_id.zero? || p.before_avatar_id.nil?
+        if p.before_avatar_id&.zero? || p.before_avatar_id.nil?
           ret << QUEST_PRESENT_AVATAR_NAME_NIL
         elsif defined?(Avatar[p.before_avatar_id].name)
           ret << Avatar[p.before_avatar_id].name
