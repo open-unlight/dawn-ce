@@ -40,7 +40,7 @@ module Unlight
         begin
           @ip = get_peername[2, 6].unpack('nC4')[1..4].join '.' if get_peername && get_peername[2, 6].unpack('nC4') # 帰ってこない場合あり
         rescue StandardError => e
-          SERVER_LOG.fatal("#{@@class_name}: [Got invalid IP] #{e}")
+          SERVER_LOG.fatal("#{@@class_name}: [Got invalid IP]", e)
           @ip = '0.0.0.0'
         end
         SERVER_LOG.info("#{@@class_name}: [Connected IP:] #{@ip}")
@@ -94,7 +94,7 @@ module Unlight
               @func_list[cmd[0]].call(cmd[1])
             rescue StandardError => e
               Sentry.capture_exception(e)
-              SERVER_LOG.fatal("#{@@class_name}: [docommand:] fatal error #{e}:#{e.backtrace}")
+              SERVER_LOG.fatal("#{@@class_name}: [docommand:]", e)
             end
           end
         end
@@ -194,7 +194,7 @@ module Unlight
             # 不正なアクセスなどをはじく処理
           end
         rescue StandardError => e
-          SERVER_LOG.fatal("#{@@class_name}: [negotiatin fatal error] #{e}")
+          SERVER_LOG.fatal("#{@@class_name}: [negotiatin fatal error]", e)
         end
       end
 
