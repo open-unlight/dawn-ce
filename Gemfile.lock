@@ -209,6 +209,8 @@ GEM
       rubocop (>= 0.53.0)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
+    semantic_logger (4.8.2)
+      concurrent-ruby (~> 1.0)
     sentry-ruby (4.7.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       faraday (>= 1.0)
@@ -273,6 +275,7 @@ DEPENDENCIES
   rubocop-rspec (>= 2.4.0)
   rubocop-sequel (>= 0.3.1)
   rubocop-thread_safety (>= 0.4.2)
+  semantic_logger
   sentry-ruby
   sequel (~> 4.0)
   simplecov (~> 0.17.1)

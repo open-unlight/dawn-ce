@@ -34,6 +34,7 @@ gem 'activesupport'
 gem 'gmp'
 gem 'rake'
 gem 'RubyInline', '~> 3.12.4'
+gem 'semantic_logger'
 
 group :build do
   gem 'RocketAMF', '~> 0.2.1'

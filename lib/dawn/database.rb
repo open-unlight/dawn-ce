@@ -47,7 +47,7 @@ module Dawn
       @mutex.synchronize do
         return @current if @current
 
-        @current = Sequel.connect(config, logger: Dawn.logger)
+        @current = Sequel.connect(config, logger: SemanticLogger['Database'])
       end
 
       @current

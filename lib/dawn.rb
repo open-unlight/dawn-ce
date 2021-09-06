@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'semantic_logger'
+
 require 'dawn/version'
 
 module Dawn
@@ -15,13 +17,20 @@ module Dawn
     ENV['DAWN_ENV'] || 'development'
   end
 
-  # @return [Logger] the game logger
+  # @return [SemanticLogger] the game logger
   def logger
-    if ENV['DAWN_LOG_TO_STDOUT']
-      $stdout.sync = true
-      @logger ||= Logger.new($stdout)
-    else
-      @logger ||= Logger.new(root.join("log/#{env}.log"))
-    end
+    @logger ||= SemanticLogger['Dawn']
   end
+
+  # @return [Symbol] the game logger format
+  def logger_format
+    ENV.fetch('DAWN_LOG_FORMAT', :color).to_sym
+  end
+end
+
+# TODO: Allow multiple output
+if ENV['DAWN_LOG_TO_STDOUT']
+  SemanticLogger.add_appender(io: $stdout, formatter: Dawn.logger_format)
+else
+  SemanticLogger.add_appender(file_name: "log/#{Dawn.env}.log", formatter: Dawn.logger_format)
 end
