@@ -442,14 +442,14 @@ module Unlight
     # =========
 
     # スタート時のハンドラ
-    def one_to_one_duel_start_handler(args)
+    def one_to_one_duel_start_handler(_args)
       if duel.turn.zero?
         set_message_str_data(DUEL_MSGDLG_DUEL_START)
       end
     end
 
     # スタート時のハンドラ
-    def three_to_three_duel_start_handler(args)
+    def three_to_three_duel_start_handler(_args)
       if duel.turn.zero?
         set_message_str_data(DUEL_MSGDLG_M_DUEL_START)
       end
@@ -478,12 +478,12 @@ module Unlight
     end
 
     # 移動カード提出フェイズ開始
-    def duel_move_card_phase_start_handler(args)
+    def duel_move_card_phase_start_handler(_args)
       sc_duel_move_card_drop_phase_start
     end
 
     # 移動カード提出フェイズ終了
-    def duel_move_card_phase_finish_handler(args)
+    def duel_move_card_phase_finish_handler(_args)
       sc_duel_move_card_drop_phase_finish
     end
 
@@ -652,32 +652,32 @@ module Unlight
     def foe_entrant_chara_change_action_handler(args); end
 
     # 敵側のイニシアチブフェイズの完了アクション
-    def foe_entrant_init_done_action_handler(args)
+    def foe_entrant_init_done_action_handler(_args)
       sc_entrant_init_done_action(false)
     end
 
     # 敵側のイニシアチブフェイズの完了アクション
-    def pl_entrant_init_done_action_handler(args)
+    def pl_entrant_init_done_action_handler(_args)
       sc_entrant_init_done_action(true)
     end
 
     # 敵側の攻撃フェイズの完了アクション
-    def foe_entrant_attack_done_action_handler(args)
+    def foe_entrant_attack_done_action_handler(_args)
       sc_entrant_attack_done_action(false)
     end
 
     # 敵側の防御フェイズの完了アクション
-    def foe_entrant_deffence_done_action_handler(args)
+    def foe_entrant_deffence_done_action_handler(_args)
       sc_entrant_deffence_done_action(false)
     end
 
     # プレイヤー側の攻撃フェイズの完了アクション
-    def pl_entrant_attack_done_action_handler(args)
+    def pl_entrant_attack_done_action_handler(_args)
       sc_entrant_attack_done_action(true)
     end
 
     # プレイヤー側の防御フェイズの完了アクション
-    def pl_entrant_deffence_done_action_handler(args)
+    def pl_entrant_deffence_done_action_handler(_args)
       sc_entrant_deffence_done_action(true)
     end
 
@@ -759,12 +759,12 @@ module Unlight
     end
 
     # プレイヤーの状態回復イベント
-    def plEntrant_cured_event_handler(args)
+    def plEntrant_cured_event_handler(_args)
       sc_entrant_cured_event(true)
     end
 
     # 敵の状態回復イベント
-    def foeEntrant_cured_event_handler(args)
+    def foeEntrant_cured_event_handler(_args)
       sc_entrant_cured_event(false)
     end
 

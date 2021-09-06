@@ -127,7 +127,7 @@ module Unlight
     end
 
     # パッシブIDを返す
-    def get_passive_id(ai = :none)
+    def get_passive_id(_ai = :none)
       ret = WeaponCard.cache_store.get("weapon_card:passive_id:#{id}")
       unless ret
         ret = []
@@ -410,42 +410,42 @@ module Unlight
     }
 
     # 近距離攻撃力増加
-    def sword_ap(ai = :none)
+    def sword_ap(_ai = :none)
       (WEAPON_EFFECTS[weapon_no][:sword_ap] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 近距離ダイス攻撃力増加
-    def sword_dice_bonus(ai = :none)
+    def sword_dice_bonus(_ai = :none)
       (WEAPON_EFFECTS[weapon_no][:sword_dice_bonus] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 近距離防御力増加
-    def sword_dp(ai = :none)
+    def sword_dp(_ai = :none)
       (WEAPON_EFFECTS[weapon_no][:sword_dp] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 近距離ダイス防御力増加
-    def sword_deffence_dice_bonus(ai = :none)
+    def sword_deffence_dice_bonus(_ai = :none)
       (WEAPON_EFFECTS[weapon_no][:sword_deffence_dice_bonus] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 遠距離攻撃力増加
-    def arrow_ap(ai = :none)
+    def arrow_ap(_ai = :none)
       (WEAPON_EFFECTS[weapon_no][:arrow_ap] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 遠距離ダイス増加
-    def arrow_dice_bonus(ai = :none)
+    def arrow_dice_bonus(_ai = :none)
       (WEAPON_EFFECTS[weapon_no][:arrow_dice_bonus] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 遠距離防御力増加
-    def arrow_dp(ai = :none)
+    def arrow_dp(_ai = :none)
       (WEAPON_EFFECTS[weapon_no][:arrow_dp] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 
     # 遠距離ダイス防御力増加
-    def arrow_deffence_dice_bonus(ai = :none)
+    def arrow_deffence_dice_bonus(_ai = :none)
       (WEAPON_EFFECTS[weapon_no][:arrow_deffence_dice_bonus] || 0) if WEAPON_EFFECTS[weapon_no]
     end
 

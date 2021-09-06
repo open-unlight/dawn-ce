@@ -427,7 +427,7 @@ module Unlight
       d = Array.new(2, 0)
       @initi.each do |i|
         res = []
-        @bp[i].times do |b|
+        @bp[i].times do |_b|
           res << rand(6)
         end
         res.each_index { |j| d[i] += 1 if res[j] > 3 }
@@ -504,7 +504,7 @@ module Unlight
 
     # ゲームの終了
     # 返値:参加者の勝敗
-    def finish_game(*arg)
+    def finish_game(*_arg)
       ret = []
       SERVER_LOG.info("MultiDuel: [end_game] ai:#{@ai_type}")
       if @entrants[0].total_hit_point == @entrants[1].total_hit_point # &&@turn == BATTLE_TIMEOUT_TURN

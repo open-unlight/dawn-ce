@@ -76,7 +76,7 @@ module Unlight
         @c_num[ec.event_no] += 1
       end
 
-      c_size.times do |i|
+      c_size.times do |_i|
         c = new_cards.pop
         use_card(@deck_cards.shift) unless insert
         @deck_cards << c
@@ -87,7 +87,7 @@ module Unlight
 
     # イベントカードのドローを保留
     def freez_event_cards(n)
-      n.times do |i|
+      n.times do |_i|
         @deck_cards << nil
       end
     end

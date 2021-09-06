@@ -202,7 +202,7 @@ class SRP
   # ゼロをn個並べた文字列を返す
   def nzero(n)
     c = ''
-    n.times { |i| c += '0' }
+    n.times { |_i| c += '0' }
     c
   end
 

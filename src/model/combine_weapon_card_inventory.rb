@@ -72,7 +72,7 @@ module Unlight
 
       # 特定の組み合わせがない場合の処理
       add_params = []
-      use_materials.each do |id, data|
+      use_materials.each do |_id, data|
         mat = data[:mat]
         num = data[:num]
         sap = mat.combine_sword_ap.to_f / 10 * num
@@ -128,11 +128,11 @@ module Unlight
                           passives.join('|'),
                           restrictions.join('|'))
       end
-      SERVER_LOG.info("<UID:#{}>CombineWeaponCardInventory [#{__method__}] ret:#{ret} ret id:#{ret.id}")
+      SERVER_LOG.info("<UID:>CombineWeaponCardInventory [#{__method__}] ret:#{ret} ret id:#{ret.id}")
       { type: COMBINE_WEAPON_TYPE_COMBINE, data: ret }
     end
 
-    def update_data(sap, sdp, aap, adp, cost, image, passive_id = '', restriction = '')
+    def update_data(sap, sdp, aap, adp, cost, _image, passive_id = '', restriction = '')
       data = CombineWeaponCardInventory[id]
       if data
         data.add_sap     = sap
@@ -158,7 +158,7 @@ module Unlight
     end
 
     # 近距離ダイス攻撃力増加
-    def sword_dice_bonus(ai = :none)
+    def sword_dice_bonus(_ai = :none)
       0
     end
 
@@ -172,7 +172,7 @@ module Unlight
     end
 
     # 近距離ダイス防御力増加
-    def sword_deffence_dice_bonus(ai = :none)
+    def sword_deffence_dice_bonus(_ai = :none)
       0
     end
 
@@ -186,7 +186,7 @@ module Unlight
     end
 
     # 遠距離ダイス増加
-    def arrow_dice_bonus(ai = :none)
+    def arrow_dice_bonus(_ai = :none)
       0
     end
 
@@ -200,7 +200,7 @@ module Unlight
     end
 
     # 遠距離ダイス防御力増加
-    def arrow_deffence_dice_bonus(ai = :none)
+    def arrow_deffence_dice_bonus(_ai = :none)
       0
     end
 

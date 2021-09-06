@@ -14,9 +14,6 @@ module Unlight
     plugin :hook_class_methods
 
     # バリデーションの設定
-    def validate
-      super
-    end
 
     # インサート時の前処理
     before_create do
@@ -190,11 +187,11 @@ module Unlight
     end
 
     # 比較演算子をオーバライド
-    def ==(f_link)
+    def ==(other)
       ret = false
-      if f_link.is_a?(FriendLink)
-        ret = true if f_link.relating_player_id == relating_player_id && f_link.related_player_id == related_player_id
-        ret = true if f_link.relating_player_id == related_player_id && f_link.related_player_id == relating_player_id
+      if other.is_a?(FriendLink)
+        ret = true if other.relating_player_id == relating_player_id && other.related_player_id == related_player_id
+        ret = true if other.relating_player_id == related_player_id && other.related_player_id == relating_player_id
       end
       ret
     end

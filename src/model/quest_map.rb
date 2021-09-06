@@ -56,7 +56,7 @@ module Unlight
 
     # ランダムにクエストのIDを1つ返す(クリアNumがマップの難易度を超えていたらボスが出るのを許す)
     def get_quest_id(clear_num = 0, time = 0, cleared_map = false)
-      SERVER_LOG.info("<UID:#{}>QuestServer: [#{__method__}] clear_num:#{clear_num},time:#{time},cleard:#{cleared_map}")
+      SERVER_LOG.info("<UID:>QuestServer: [#{__method__}] clear_num:#{clear_num},time:#{time},cleard:#{cleared_map}")
       r = QuestMap.get_realty(time)
       s = 0
       boss = false
@@ -68,7 +68,7 @@ module Unlight
         break if r.zero?
       end
       ret = q[rand(q.count)] if q
-      SERVER_LOG.info("<UID:#{}>QuestServer: [#{__method__}] ret:#{ret}")
+      SERVER_LOG.info("<UID:>QuestServer: [#{__method__}] ret:#{ret}")
       if ret
         ret.id
       else

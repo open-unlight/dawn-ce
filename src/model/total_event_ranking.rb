@@ -92,7 +92,7 @@ module Unlight
 
       # 計算したポイントを各々のフレンドに加算
       friend_point_hash = {}
-      hash_clone.each do |key, val|
+      hash_clone.each do |key, _val|
         # フレンド一覧を取得
         links = FriendLink.get_link(key, server_type)
         links.each do |fl|
@@ -113,7 +113,7 @@ module Unlight
       end
 
       ranking_cnt = 0
-      set_hash.sort_by { |key, value| -value[:value] }.each do |key, value|
+      set_hash.sort_by { |_key, value| -value[:value] }.each do |_key, value|
         TotalEventRanking.update_ranking(value[:a_id], value[:a_name], value[:value], server_type)
         ranking_cnt += 1
         break if ranking_cnt >= RANKING_COUNT_NUM
@@ -123,7 +123,7 @@ module Unlight
     # アチーブメントでポイント管理する場合のイベント時の処理
     def self.start_up_achievement(server_type)
       av_set = Avatar.join(AchievementInventory.filter([[:achievement_id, TOTAL_EVENT_RANKING_ACHIEVEMENT_ID]]).order(Sequel.desc(:progress)).limit(RANKING_COUNT_NUM), avatar_id: :id, server_type: server_type).all
-      av_set.each_with_index do |av, i|
+      av_set.each_with_index do |av, _i|
         TotalEventRanking.update_ranking(av.values[:avatar_id], av.values[:name], av.values[:progress], server_type)
       end
     end
@@ -195,7 +195,7 @@ module Unlight
       end
 
       # 計算したポイントを各々のフレンドに加算
-      hash_clone.each do |key, val|
+      hash_clone.each do |key, _val|
         # フレンド一覧を取得
         links = FriendLink.get_link(key, server_type)
         links.each do |fl|
@@ -210,7 +210,7 @@ module Unlight
       end
 
       avatars = {}
-      set_hash.sort_by { |key, value| -value[:value] }.each do |key, value|
+      set_hash.sort_by { |_key, value| -value[:value] }.each do |_key, value|
         avatars[value[:a_id]] = value[:value]
       end
       avatars
@@ -219,12 +219,12 @@ module Unlight
     # アチーブメントでポイント管理する場合のイベント時の処理
     def self.point_avatars_achievement(server_type)
       av_set = Avatar.join(AchievementInventory.filter([[:achievement_id, TOTAL_EVENT_RANKING_ACHIEVEMENT_ID]]).order(Sequel.desc(:progress)), avatar_id: :id, server_type: server_type).all
-      av_set.each_with_index do |av, i|
+      av_set.each_with_index do |av, _i|
         TotalEventRanking.update_ranking(av.values[:avatar_id], av.values[:name], av.values[:progress], server_type)
       end
 
       avatars = {}
-      av_set.each_with_index do |av, i|
+      av_set.each_with_index do |av, _i|
         avatars[av.values[:avatar_id]] = av.values[:progress]
       end
       avatars

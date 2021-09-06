@@ -6,6 +6,6 @@ require 'database_cleaner-sequel'
 DatabaseCleaner[:sequel].db = Dawn::Database.current
 DatabaseCleaner[:sequel].strategy = :truncation
 
-Around do |scenario, block|
+Around do |_scenario, block|
   DatabaseCleaner[:sequel].cleaning(&block)
 end

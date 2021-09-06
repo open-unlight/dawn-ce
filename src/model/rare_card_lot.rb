@@ -167,8 +167,8 @@ module Unlight
 
     # 全体分の確率を保存する
     def self.initialize_percent
-      @@rarity = Array.new(10) { |i| Array.new(10, 0) }
-      rare_num = Array.new(10) { |i| Array.new(10, 0) }
+      @@rarity = Array.new(10) { |_i| Array.new(10, 0) }
+      rare_num = Array.new(10) { |_i| Array.new(10, 0) }
 
       RareCardLot.all.each do |rc|
         # TODO: Ensure disable refresh not breaks reload rare card lot

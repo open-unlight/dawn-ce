@@ -324,19 +324,19 @@ module Unlight
     end
 
     # 行動力を使用する
-    def use_energy_event_handler(target, ret)
+    def use_energy_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_use_energy] #{ret}")
       sc_energy_info(ret[0], ret[1])
     end
 
     # 行動力のMAXが更新
-    def update_energy_max_event_handler(target, ret)
+    def update_energy_max_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_update_energy_max] #{ret}")
       sc_update_energy_max(ret[0])
     end
 
     # クエストを取得した
-    def get_quest_event_handler(target, ret)
+    def get_quest_event_handler(_target, ret)
       if ret
         SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_get_quest] invID:#{ret[0]} questID:#{ret[1]} before avatar name:#{ret[5]}")
         sc_get_quest(ret[0], ret[1], ret[2], ret[3], ret[4], ret[5])
@@ -346,150 +346,150 @@ module Unlight
     end
 
     # クエストの進行度の更新
-    def quest_flag_update_event_handler(target, ret)
+    def quest_flag_update_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_quest_flag_update] #{ret}")
       sc_quest_flag_update(ret)
     end
 
     # By_K2 (무한의탑 층수 UP)
-    def floor_count_update_event_handler(target, ret)
+    def floor_count_update_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_floor_count_update] #{ret}")
       sc_floor_count_update(ret)
     end
 
     # クエスト達成度の更新
-    def quest_clear_num_update_event_handler(target, ret)
+    def quest_clear_num_update_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_quest_clear_num_update] #{ret}")
       sc_quest_clear_num_update(ret)
     end
 
     # クエストの探索時間の更新
-    def quest_find_at_update_event_handler(target, ret)
+    def quest_find_at_update_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_quest_find_at_update] #{ret}")
       sc_quest_find_at_update(ret[0], ret[1])
     end
 
     # イベントクエスト達成度の更新
-    def event_quest_clear_num_update_event_handler(target, ret)
+    def event_quest_clear_num_update_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_event_quest_clear_num_update] #{ret}")
       sc_event_quest_clear_num_update(*ret)
     end
 
     # イベントクエストの進行度の更新
-    def event_quest_flag_update_event_handler(target, ret)
+    def event_quest_flag_update_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_event_quest_flag_update] #{ret}")
       sc_event_quest_flag_update(*ret)
     end
 
     # 経験値獲得
-    def get_exp_event_handler(target, ret)
+    def get_exp_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_get_exp] #{ret}")
       sc_get_exp(ret)
     end
 
     # レベルアップ
-    def level_up_event_handler(target, ret)
+    def level_up_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_level_up] #{ret}")
       sc_level_up(ret)
     end
 
     # Gemの更新
-    def update_gems_event_handler(target, ret)
+    def update_gems_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_update_gems] #{ret}")
       sc_update_gems(ret)
     end
 
     # アイテムゲット
-    def item_get_event_handler(target, ret)
+    def item_get_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_get_item] invID:#{ret[0]} itemID:#{ret[1]}")
       sc_get_item(ret[0], ret[1])
     end
 
     # パーツゲット
-    def part_get_event_handler(target, ret)
+    def part_get_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_part_item] invID:#{ret[0]} itemID:#{ret[1]}")
       sc_get_part(ret[0], ret[1])
     end
 
     # スロットカードを取得する
-    def slot_card_get_event_handler(target, ret)
+    def slot_card_get_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_get_slot_card] invID:#{ret[0]} type:#{ret[1]} cardID:#{ret[2]}")
       sc_get_slot_card(ret[0], ret[1], ret[2])
     end
 
     # キャラカードを取得する
-    def chara_card_get_event_handler(target, ret)
+    def chara_card_get_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_get_chara_card] invID:#{ret[0]} cardID:#{ret[1]}")
       sc_get_chara_card(ret[0], ret[1])
     end
 
     # アイテムを使用した
-    def item_use_event_handler(target, ret)
+    def item_use_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_use_item] #{ret}")
       sc_use_item(ret)
     end
 
     # クエストの状態が更新された
-    def quest_state_update_handler(target, ret)
+    def quest_state_update_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_quest_state_update] #{ret}")
       sc_quest_state_update(ret[0], ret[1], ret[2])
     end
 
     # 行動力のMAXが更新
-    def update_quest_max_event_handler(target, ret)
+    def update_quest_max_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_update_quest_max] #{ret}")
       sc_update_quest_max(ret)
     end
 
     # クエスト宝箱をゲット
-    def get_quest_treasure_handler(target, ret)
+    def get_quest_treasure_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_get_quest_treasure] #{ret}")
       sc_get_quest_treasure(*ret)
     end
 
     # クエストデッキの状態が更新された
-    def quest_deck_state_update_handler(target, ret)
+    def quest_deck_state_update_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_quest_deck_state_update] #{ret}")
       sc_deck_state_update(ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 
     # クエストの進行状況が更新された
-    def quest_progress_update_handler(target, ret)
+    def quest_progress_update_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_quest_map progress_update] #{ret}")
       sc_quest_map_progress_update(ret[0], ret[1])
     end
 
     # クエストが消去された
-    def quest_deleted_handler(target, ret)
+    def quest_deleted_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_quest_deleted] #{ret}")
       sc_quest_deleted(ret)
     end
 
     # アチーブメントがクリアされた
-    def achievement_clear_event_handler(target, ret)
+    def achievement_clear_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_achievement_clear] #{ret}")
       sc_achievement_clear(*ret)
     end
 
     # アチーブメントが追加された
-    def add_new_achievement_event_handler(target, ret)
+    def add_new_achievement_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_add_new_achievement] ID: #{ret}")
       sc_add_new_achievement(ret)
     end
 
     # アチーブメントが追加された
-    def delete_achievement_event_handler(target, ret)
+    def delete_achievement_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [sc_delete_achievement] ID: #{ret}")
       sc_delete_achievement(ret)
     end
 
     # アチーブメントが更新された
-    def update_achievement_info_event_handler(target, ret)
+    def update_achievement_info_event_handler(_target, ret)
       sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 
     # 合成武器情報を更新する
-    def update_combine_weapon_data_event_handler(target, ret)
+    def update_combine_weapon_data_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}]  #{ret}")
       sc_update_combine_weapon_data(*ret)
     end
@@ -542,7 +542,7 @@ module Unlight
 
     # 終了時のハンドラ
     # 返値は[alpha, beta, reward]
-    def duel_finish_handler(duel, ret)
+    def duel_finish_handler(duel, _ret)
       @duel = nil
       current_inv = AvatarQuestInventory[@current_inv_id]
       # 結果を送る

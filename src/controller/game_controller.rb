@@ -117,37 +117,37 @@ module Unlight
     end
 
     # アチーブメントがクリアされた
-    def achievement_clear_event_handler(target, ret)
+    def achievement_clear_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>GameServer: [sc_achievement_clear] #{ret}")
       sc_achievement_clear(*ret)
     end
 
     # アチーブメントが追加された
-    def add_new_achievement_event_handler(target, ret)
+    def add_new_achievement_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>GameServer: [sc_add_new_achievement] ID: #{ret}")
       sc_add_new_achievement(ret)
     end
 
     # アチーブメントが追加された
-    def delete_achievement_event_handler(target, ret)
+    def delete_achievement_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>GameServer: [sc_delete_achievement] ID: #{ret}")
       sc_delete_achievement(ret)
     end
 
     # アチーブメントが更新された
-    def update_achievement_info_event_handler(target, ret)
+    def update_achievement_info_event_handler(_target, ret)
       sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 
     # アチーブメントを完全削除
-    def drop_achievement_event_handler(target, ret)
+    def drop_achievement_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_drop_achievement] ID: #{ret}")
       sc_drop_achievement(ret)
     end
 
     # 終了時のハンドラ
     # 返値は[alpha, beta, reward]
-    def duel_finish_handler(duel, ret)
+    def duel_finish_handler(duel, _ret)
       opponent_player = @opponent_player
       @duel = nil
       @opponent_player = nil

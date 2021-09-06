@@ -1477,7 +1477,7 @@ module Unlight
     end
 
     # クエストクリアチェック
-    def quest_clear_check(avatar, v, inv, success_cond = nil)
+    def quest_clear_check(avatar, v, inv, _success_cond = nil)
       check_flag = avatar.get_quest_flag(v)
       inv.progress = check_flag
       inv.save_changes
@@ -1501,7 +1501,7 @@ module Unlight
     end
 
     # 固有アイテム数チェック
-    def halloween_check(avatar, v, inv, success_cond = nil)
+    def halloween_check(avatar, v, inv, _success_cond = nil)
       r_list = []
       avatar.avatar_quest_inventories.each do |qi|
         if qi.status == QS_NEW || qi.status == QS_UNSOLVE
@@ -1515,7 +1515,7 @@ module Unlight
     end
 
     # 所持アイテム数チェック
-    def item_check(avatar, v, inv, success_cond = nil)
+    def item_check(avatar, v, _inv, _success_cond = nil)
       ret = false
       v.each do |i|
         ret = true if avatar.item_count(i).positive?
@@ -1524,7 +1524,7 @@ module Unlight
     end
 
     # アイテムコンプリートチェック
-    def item_complete_check(avatar, v, inv, success_cond = nil)
+    def item_complete_check(avatar, v, inv, _success_cond = nil)
       cnt = 0
       ret = true
       v.each do |i|
@@ -1540,7 +1540,7 @@ module Unlight
     end
 
     # 複数アイテム集計チェック
-    def item_calc_check(avatar, v, inv, success_cond = nil)
+    def item_calc_check(avatar, v, inv, _success_cond = nil)
       count = 0
       avatar.item_inventories
       v[0].each do |i|
@@ -1552,7 +1552,7 @@ module Unlight
     end
 
     # 複数アイテムセット集計チェック
-    def item_set_calc_check(avatar, v, inv, success_cond = nil)
+    def item_set_calc_check(avatar, v, inv, _success_cond = nil)
       ret = true
       cnt = 0
       v[0].each_with_index do |i, idx|
@@ -1567,7 +1567,7 @@ module Unlight
     end
 
     # 所持キャラカード数チェック
-    def chara_card_check(avatar, v, inv, success_cond = nil, card_list = nil)
+    def chara_card_check(_avatar, v, inv, _success_cond = nil, card_list = nil)
       r_list = {}
       ret = 0
       cnt = 0
@@ -1612,7 +1612,7 @@ module Unlight
     end
 
     # デッキ内容チェック
-    def chara_card_deck_check(avatar, v, inv, success_cond = nil)
+    def chara_card_deck_check(avatar, v, _inv, _success_cond = nil)
       ret = false
       avatar.chara_card_decks.each_index do |i|
         unless i.zero?
@@ -1842,7 +1842,7 @@ module Unlight
     end
 
     # クエストクリアチェック
-    def quest_no_clear_check(avatar, v, inv, success_cond = nil)
+    def quest_no_clear_check(avatar, v, inv, _success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -1854,7 +1854,7 @@ module Unlight
     end
 
     # レアカードを作成時のアチーブメント
-    def get_rare_card_check(avatar, v, inv, success_cond = nil)
+    def get_rare_card_check(avatar, v, _inv, _success_cond = nil)
       ret = false
       if CardInventory.graph(CharaCard, id: :chara_card_id).filter(chara_card_deck_id: Range.new(avatar.binder.id, avatar.binder.id + 3)).and(Sequel.cast_string(:card_inventories__created_at) >= event_start_at).and([[:chara_cards__rarity, Range.new(6, 10)], [:chara_cards__id, Range.new(1, 1000)]]).all.count >= v
         ret = true
@@ -1863,7 +1863,7 @@ module Unlight
     end
 
     # デュエルクリアチェック
-    def duel_clear_check(avatar, v, inv, success_cond = nil)
+    def duel_clear_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -1875,7 +1875,7 @@ module Unlight
     end
 
     # デュエル勝利チェック
-    def duel_clear_win_check(avatar, v, inv, success_cond = nil)
+    def duel_clear_win_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -1887,7 +1887,7 @@ module Unlight
     end
 
     # クエストをプレゼントしたときのチェック
-    def quest_present_check(avatar, v, inv, success_cond = nil)
+    def quest_present_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -1899,7 +1899,7 @@ module Unlight
     end
 
     # レコードクリアチェックチェック
-    def record_clear_check(avatar, v, inv, success_cond = nil)
+    def record_clear_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -1911,7 +1911,7 @@ module Unlight
     end
 
     # 取得カードレベルチェック
-    def get_card_level_check(avatar, v, inv, success_cond = nil)
+    def get_card_level_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -1923,7 +1923,7 @@ module Unlight
     end
 
     # 週間デュエルクリアチェック
-    def week_duel_clear_check(avatar, v, inv, success_cond = nil)
+    def week_duel_clear_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -1943,7 +1943,7 @@ module Unlight
     end
 
     # 装備カード取得チェック
-    def get_weapon_check(avatar, v, inv, success_cond = nil)
+    def get_weapon_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -1972,7 +1972,7 @@ module Unlight
     end
 
     # 週間クエストクリアチェック
-    def week_quest_clear_check(avatar, v, inv, success_cond = nil)
+    def week_quest_clear_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -1984,7 +1984,7 @@ module Unlight
     end
 
     # 渦発見チェック
-    def find_raid_profound(avatar, v, inv, success_cond = nil)
+    def find_raid_profound(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -1996,7 +1996,7 @@ module Unlight
     end
 
     # レイド戦参加チェック
-    def raid_btl_cnt(avatar, v, inv, success_cond = nil)
+    def raid_btl_cnt(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -2008,7 +2008,7 @@ module Unlight
     end
 
     # 複数条件のクエストクリアチェック
-    def multi_quest_clear_check(avatar, v, inv, success_cond = nil)
+    def multi_quest_clear_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -2020,7 +2020,7 @@ module Unlight
     end
 
     # 招待人数チェック
-    def invite_count_check(avatar, v, inv, success_cond = nil)
+    def invite_count_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -2032,7 +2032,7 @@ module Unlight
     end
 
     # レイドボスの討伐数チェック
-    def raid_boss_defeat_check(avatar, v, inv, success_cond = nil)
+    def raid_boss_defeat_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -2108,7 +2108,7 @@ module Unlight
     end
 
     # パーツ取得チェック
-    def get_part_check(avatar, v, inv, success_cond = nil)
+    def get_part_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -2120,7 +2120,7 @@ module Unlight
     end
 
     # 日間クエストレコードとデュエルレコードを両方クリアする
-    def daily_record_clear_check(avatar, v, inv, success_cond = nil)
+    def daily_record_clear_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -2132,7 +2132,7 @@ module Unlight
     end
 
     # 他人の渦戦に参加する
-    def other_raid_btl_cnt(avatar, v, inv, success_cond = nil)
+    def other_raid_btl_cnt(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -2144,7 +2144,7 @@ module Unlight
     end
 
     # イベント渦発見アイテムを使用する
-    def use_item_check(avatar, v, inv, success_cond = nil)
+    def use_item_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -2156,7 +2156,7 @@ module Unlight
     end
 
     # 自分で発見した渦の討伐に成功する
-    def self_raid_claer_check(avatar, v, inv, success_cond = nil)
+    def self_raid_claer_check(_avatar, v, inv, success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
@@ -2199,7 +2199,7 @@ module Unlight
     end
 
     # 複数アイテムの新規取得集計チェック
-    def item_later_calc_check(avatar, v, inv, success_cond = nil)
+    def item_later_calc_check(avatar, v, inv, _success_cond = nil)
       count = 0
       count += avatar.set_item_count_later(v[0], inv.created_at, true)
       inv.progress = count
@@ -2220,9 +2220,9 @@ module Unlight
       ret
     end
 
-    def get_chara_card_progress(avatar, v, inv)
+    def get_chara_card_progress(_avatar, v, inv)
       ret = []
-      v.each_with_index do |val, i|
+      v.each_with_index do |_val, i|
         if inv
           bit_num = inv.progress & (CHARA_CARD_CHECK_COMP_NUM << (CHARA_CARD_CHECK_SHIFT_BIT * i))
           num = bit_num >> (CHARA_CARD_CHECK_SHIFT_BIT * i)
@@ -2234,9 +2234,9 @@ module Unlight
       ret.join(',')
     end
 
-    def get_item_set_calc_check(avatar, v, inv)
+    def get_item_set_calc_check(_avatar, v, inv)
       ret = []
-      v[0].each_with_index do |i, idx|
+      v[0].each_with_index do |_i, idx|
         if inv
           bit_num = inv.progress & (ITEM_SET_CALC_CHECK_COMP_NUM << (ITEM_SET_CALC_CHECK_SHIFT_BIT * idx))
           num = bit_num >> (ITEM_SET_CALC_CHECK_SHIFT_BIT * idx)

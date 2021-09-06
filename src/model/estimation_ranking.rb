@@ -36,7 +36,7 @@ module Unlight
     def self.reset_table
       cnt = 0
       USE_DB_TYPE[THIS_SERVER].each do |server_type|
-        BASE_RANKING_NUM.times do |i|
+        BASE_RANKING_NUM.times do |_i|
           unless EstimationRanking[cnt + 1]
             # TDを作る
             EstimationRanking.new do |e|
@@ -47,7 +47,7 @@ module Unlight
           end
           cnt += 1
         end
-        BASE_RANKING_NUM.times do |i|
+        BASE_RANKING_NUM.times do |_i|
           unless EstimationRanking[cnt + 1]
             # TQを作る
             EstimationRanking.new do |e|
@@ -58,7 +58,7 @@ module Unlight
           end
           cnt += 1
         end
-        BASE_RANKING_NUM.times do |i|
+        BASE_RANKING_NUM.times do |_i|
           unless EstimationRanking[cnt + 1]
             # TEを作る
             EstimationRanking.new do |e|

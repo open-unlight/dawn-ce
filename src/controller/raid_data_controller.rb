@@ -228,42 +228,42 @@ module Unlight
     end
 
     # 渦情報イベント
-    def send_profound_info_event_handler(target, ret)
+    def send_profound_info_event_handler(_target, ret)
       sc_resend_profound_inventory(*ret)
     end
 
     # 渦インベントリー情報を送信
-    def resend_profound_inventory_event_handler(target, ret)
+    def resend_profound_inventory_event_handler(_target, ret)
       sc_resend_profound_inventory(*ret)
     end
 
     # 渦インベントリー情報送信完了
-    def resend_profound_inventory_finish_event_handler(target, ret)
+    def resend_profound_inventory_finish_event_handler(_target, _ret)
       sc_resend_profound_inventory_finish
     end
 
     # アイテムを使用した
-    def item_use_event_handler(target, ret)
+    def item_use_event_handler(_target, ret)
       sc_use_item(ret)
     end
 
     # アチーブメントがクリアされた
-    def achievement_clear_event_handler(target, ret)
+    def achievement_clear_event_handler(_target, ret)
       sc_achievement_clear(*ret)
     end
 
     # アチーブメントが追加された
-    def add_new_achievement_event_handler(target, ret)
+    def add_new_achievement_event_handler(_target, ret)
       sc_add_new_achievement(ret)
     end
 
     # アチーブメントが追加された
-    def delete_achievement_event_handler(target, ret)
+    def delete_achievement_event_handler(_target, ret)
       sc_delete_achievement(ret)
     end
 
     # アチーブメントが更新された
-    def update_achievement_info_event_handler(target, ret)
+    def update_achievement_info_event_handler(_target, ret)
       sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 

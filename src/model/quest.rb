@@ -226,7 +226,7 @@ module Unlight
       ]
     end
 
-    def next_to_route(raw, collumn, n)
+    def next_to_route(raw, _collumn, n)
       ret = []
       point = (raw + 1) * 3
       ret << 0 + point + 1 if (n & 0b100).positive?

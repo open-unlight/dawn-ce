@@ -32,45 +32,45 @@ module Unlight
     end
 
     # カードだしの終了
-    def cs_init_done(card_event, chara_event)
+    def cs_init_done(_card_event, _chara_event)
       @duel.entrants[@no].init_done_action if @duel
     end
 
     # -------- イニシアチブ決定 ---------
     # 移動の決定
-    def cs_move_done(m, card_events, chara_events)
+    def cs_move_done(m, _card_events, _chara_events)
       @duel.entrants[@no].move_action(m) if @duel
     end
 
     # -------- 戦闘フェイズ ---------
 
     # 攻撃のカードをテーブルに出す
-    def cs_attack_card_add(card, index, dir)
+    def cs_attack_card_add(card, _index, dir)
       @duel.entrants[@no].attack_card_add_action([card], [dir]) if @duel
     end
 
     # 攻撃のカードをテーブルから戻す
-    def cs_attack_card_remove(card, index)
+    def cs_attack_card_remove(card, _index)
       @duel.entrants[@no].attack_card_remove_action([card]) if @duel
     end
 
     # 防御のカードをテーブルに出す
-    def cs_deffence_card_add(card, index, dir)
+    def cs_deffence_card_add(card, _index, dir)
       @duel.entrants[@no].deffence_card_add_action([card], [dir]) if @duel
     end
 
     # 防御のカードをテーブルから戻す
-    def cs_deffence_card_remove(card, index)
+    def cs_deffence_card_remove(card, _index)
       @duel.entrants[@no].deffence_card_remove_action([card]) if @duel
     end
 
     # 攻撃カードだしの終了
-    def cs_attack_done(card_event, chara_event)
+    def cs_attack_done(_card_event, _chara_event)
       @duel.entrants[@no].attack_done_action if @duel
     end
 
     # 防御カードだしの終了
-    def cs_deffence_done(card_event, chara_event)
+    def cs_deffence_done(_card_event, _chara_event)
       @duel.entrants[@no].deffence_done_action if @duel
     end
 
@@ -442,43 +442,43 @@ module Unlight
     # DuelPhase
     # =========
     # ターンスタートのハンドラ
-    def duel_start_turn_phase_handler(target, ret)
+    def duel_start_turn_phase_handler(_target, ret)
       sc_duel_start_turn_phase(ret)
       set_cache_act_command(ret)
     end
 
     # カードが配られた場合のハンドラ
-    def duel_refill_card_phase_handler(duel, ret)
+    def duel_refill_card_phase_handler(_duel, ret)
       if ret
         size = ret[@foe].size
         sc_duel_refill_phase(ActionCard.array2str(ret[@no]), ActionCard.array2int_dir(ret[@no]), size)
         ac_arr = []
-        ret[@no].each { |ac| ac_arr << 0 }
+        ret[@no].each { |_ac| ac_arr << 0 }
         set_cache_act_command(ac_arr.join(','), 0, size)
       end
     end
 
     # イベントカードが配られた場合のハンドラ
-    def duel_refill_event_card_phase_handler(duel, ret)
+    def duel_refill_event_card_phase_handler(_duel, ret)
       if ret
         ac_arr_str = ActionCard.array2str(ret[@no])
         ac_arr_int_dir = ActionCard.array2int_dir(ret[@no])
         size = ret[@foe].size
         sc_duel_refill_event_phase(ac_arr_str, ac_arr_int_dir, size)
         ac_arr = []
-        ret[@no].each { |ac| ac_arr << 0 }
+        ret[@no].each { |_ac| ac_arr << 0 }
         set_cache_act_command(ac_arr.join(','), 0, size)
       end
     end
 
     # 移動カード提出フェイズ開始
-    def duel_move_card_phase_start_handler(target)
+    def duel_move_card_phase_start_handler(_target)
       sc_duel_move_card_drop_phase_start
       set_cache_act_command
     end
 
     # 移動カード提出フェイズ終了
-    def duel_move_card_phase_finish_handler(target, ret)
+    def duel_move_card_phase_finish_handler(_target, _ret)
       sc_duel_move_card_drop_phase_finish
       set_cache_act_command
     end
@@ -515,7 +515,7 @@ module Unlight
     end
 
     # キャラ変更フェイズ終了
-    def duel_chara_change_phase_finish_handler(duel, ret)
+    def duel_chara_change_phase_finish_handler(duel, _ret)
       # フェイズ終了時に変更キャラが選択されてない場合は適当なキャラに変更する
       duel.entrants.each { |e| e.chara_change_action if e.not_change_done? }
       # 敵のキャラチェンジ情報は最後に送る
@@ -660,7 +660,7 @@ module Unlight
     end
 
     # 死亡キャラ変更フェイズ終了
-    def duel_dead_chara_change_phase_finish_handler(duel, ret)
+    def duel_dead_chara_change_phase_finish_handler(duel, _ret)
       # フェイズ終了時に変更キャラが選択されてない場合は適当なキャラに変更する
       duel.entrants.each { |e| e.chara_change_action if e.not_change_done? }
       foe_current_cc_no = duel.entrants[@foe].current_chara_card_no
@@ -693,13 +693,13 @@ module Unlight
     # EntrantAction
     # ===================
     # 自分が移動方向を決定する
-    def pl_entrant_set_direction_action_handler(target, ret)
+    def pl_entrant_set_direction_action_handler(_target, ret)
       sc_entrant_set_direction_action(true, ret)
       set_cache_act_command(ret)
     end
 
     # 自分が移動カードを出す
-    def pl_entrant_move_card_add_action_handler(target, ret)
+    def pl_entrant_move_card_add_action_handler(_target, ret)
       return unless ret
 
       sc_entrant_move_card_add_action(true, ret[0], ret[1])
@@ -707,7 +707,7 @@ module Unlight
     end
 
     # 敵側が移動カードを出す
-    def foe_entrant_move_card_add_action_handler(target, ret)
+    def foe_entrant_move_card_add_action_handler(_target, ret)
       return unless ret
 
       sc_entrant_move_card_add_action(false, ret[0], 0)
@@ -715,19 +715,19 @@ module Unlight
     end
 
     # 敵側が移動カードを取り除く
-    def foe_entrant_move_card_remove_action_handler(target, ret)
+    def foe_entrant_move_card_remove_action_handler(_target, ret)
       sc_entrant_move_card_remove_action(false, ret[0], 0)
       set_cache_act_command(ret[0], 0)
     end
 
     # 自分側が移動カードを取り除く
-    def pl_entrant_move_card_remove_action_handler(target, ret)
+    def pl_entrant_move_card_remove_action_handler(_target, ret)
       sc_entrant_move_card_remove_action(true, ret[0], ret[1])
       set_cache_act_command(ret[0], 0)
     end
 
     # 敵側がカードを回転させる
-    def foe_entrant_card_rotate_action_handler(target, ret)
+    def foe_entrant_card_rotate_action_handler(_target, ret)
       return unless ret
 
       sc_entrant_card_rotate_action(false, ret[0], ret[1], 0, ret[3])
@@ -735,7 +735,7 @@ module Unlight
     end
 
     # 自分がカードを回転させる
-    def pl_entrant_card_rotate_action_handler(target, ret)
+    def pl_entrant_card_rotate_action_handler(_target, ret)
       return unless ret
 
       sc_entrant_card_rotate_action(true, ret[0], ret[1], ret[2], ret[3])
@@ -743,7 +743,7 @@ module Unlight
     end
 
     # 敵側がイベントでカードを回転させる
-    def foe_entrant_event_card_rotate_action_handler(target, ret)
+    def foe_entrant_event_card_rotate_action_handler(_target, ret)
       return unless ret
 
       sc_entrant_event_card_rotate_action(false, ret[0], ret[1], ret[2], ret[3])
@@ -751,7 +751,7 @@ module Unlight
     end
 
     # 自分がイベントでカードを回転させる
-    def pl_entrant_event_card_rotate_action_handler(target, ret)
+    def pl_entrant_event_card_rotate_action_handler(_target, ret)
       return unless ret
 
       sc_entrant_event_card_rotate_action(true, ret[0], ret[1], ret[2], ret[3])
@@ -759,7 +759,7 @@ module Unlight
     end
 
     # 自分が戦闘カードを出す
-    def pl_entrant_battle_card_add_action_handler(target, ret)
+    def pl_entrant_battle_card_add_action_handler(_target, ret)
       return unless ret
 
       sc_entrant_battle_card_add_action(true, ret[0], ret[1])
@@ -767,7 +767,7 @@ module Unlight
     end
 
     # 敵側が戦闘カードを出す
-    def foe_entrant_battle_card_add_action_handler(target, ret)
+    def foe_entrant_battle_card_add_action_handler(_target, ret)
       return unless ret
 
       sc_entrant_battle_card_add_action(false, ret[0], 0)
@@ -775,19 +775,19 @@ module Unlight
     end
 
     # 自分が戦闘カードを取り除く
-    def pl_entrant_battle_card_remove_action_handler(target, ret)
+    def pl_entrant_battle_card_remove_action_handler(_target, ret)
       sc_entrant_battle_card_remove_action(true, ret[0], ret[1])
       set_cache_act_command(ret[0], 0)
     end
 
     # 敵側が戦闘カードを取り除く
-    def foe_entrant_battle_card_remove_action_handler(target, ret)
+    def foe_entrant_battle_card_remove_action_handler(_target, ret)
       sc_entrant_battle_card_remove_action(false, ret[0], 0)
       set_cache_act_command(ret[0], 0)
     end
 
     # 自分のキャラカードを変更する
-    def pl_entrant_chara_change_action_handler(target, ret)
+    def pl_entrant_chara_change_action_handler(_target, ret)
       sc_entrant_chara_change_action(true, ret[0], ret[1], ret[2].join(','))
       set_cache_act_command(ret[0], ret[1], ret[2].join(','))
     end
@@ -796,49 +796,49 @@ module Unlight
     def foe_entrant_chara_change_action_handler(target, ret); end
 
     # 敵側のイニシアチブフェイズの完了アクション
-    def foe_entrant_init_done_action_handler(target, ret)
+    def foe_entrant_init_done_action_handler(_target, _ret)
       sc_entrant_init_done_action(false)
       set_cache_act_command
     end
 
     # 敵側のイニシアチブフェイズの完了アクション
-    def pl_entrant_init_done_action_handler(target, ret)
+    def pl_entrant_init_done_action_handler(_target, _ret)
       sc_entrant_init_done_action(true)
       set_cache_act_command
     end
 
     # 敵側の攻撃フェイズの完了アクション
-    def foe_entrant_attack_done_action_handler(target, ret)
+    def foe_entrant_attack_done_action_handler(_target, _ret)
       sc_entrant_attack_done_action(false)
       set_cache_act_command
     end
 
     # 敵側の防御フェイズの完了アクション
-    def foe_entrant_deffence_done_action_handler(target, ret)
+    def foe_entrant_deffence_done_action_handler(_target, _ret)
       sc_entrant_deffence_done_action(false)
       set_cache_act_command
     end
 
     # プレイヤー側の攻撃フェイズの完了アクション
-    def pl_entrant_attack_done_action_handler(target, ret)
+    def pl_entrant_attack_done_action_handler(_target, _ret)
       sc_entrant_attack_done_action(true)
       set_cache_act_command
     end
 
     # プレイヤー側の防御フェイズの完了アクション
-    def pl_entrant_deffence_done_action_handler(target, ret)
+    def pl_entrant_deffence_done_action_handler(_target, _ret)
       sc_entrant_deffence_done_action(true)
       set_cache_act_command
     end
 
     # 自分が移動する
-    def pl_entrant_move_action_handler(target, ret)
+    def pl_entrant_move_action_handler(_target, ret)
       sc_entrant_move_action(ret)
       set_cache_act_command(ret)
     end
 
     # ハイド中に自分が移動する
-    def pl_entrant_hide_move_action_handler(target, ret)
+    def pl_entrant_hide_move_action_handler(_target, ret)
       sc_entrant_hide_move_action(ret)
       set_cache_act_command(ret)
     end
@@ -848,143 +848,143 @@ module Unlight
     # ===================
 
     # プレイヤーダメージのイベント
-    def plEntrant_damaged_event_handler(target, ret)
+    def plEntrant_damaged_event_handler(_target, ret)
       sc_entrant_damaged_event(true, ret[0], ret[1])
       set_cache_act_command(ret)
     end
 
     # 敵ダメージのハンドラのイベント
-    def foeEntrant_damaged_event_handler(target, ret)
+    def foeEntrant_damaged_event_handler(_target, ret)
       sc_entrant_damaged_event(false, ret[0], ret[1])
       set_cache_act_command(ret)
     end
 
     # プレイヤーの回復イベント
-    def plEntrant_healed_event_handler(target, ret)
+    def plEntrant_healed_event_handler(_target, ret)
       sc_entrant_healed_event(true, ret.first)
       set_cache_act_command(ret.first)
     end
 
     # 敵の回復イベント
-    def foeEntrant_healed_event_handler(target, ret)
+    def foeEntrant_healed_event_handler(_target, ret)
       sc_entrant_healed_event(false, ret.first)
       set_cache_act_command(ret.first)
     end
 
     # プレイヤーのパーティ回復イベント
-    def plEntrant_party_healed_event_handler(target, ret)
+    def plEntrant_party_healed_event_handler(_target, ret)
       sc_entrant_party_healed_event(true, ret[0], ret[1])
       set_cache_act_command(ret[0], ret[1])
     end
 
     # 敵のパーティ回復イベント
-    def foeEntrant_party_healed_event_handler(target, ret)
+    def foeEntrant_party_healed_event_handler(_target, ret)
       sc_entrant_party_healed_event(false, ret[0], ret[1])
       set_cache_act_command(ret[0], ret[1])
     end
 
     # プレイヤーのパーティ蘇生イベント
-    def plEntrant_revive_event_handler(target, ret)
+    def plEntrant_revive_event_handler(_target, ret)
       sc_entrant_revive_event(true, ret[0], ret[1])
       set_cache_act_command(ret[0], ret[1])
     end
 
     # 敵のパーティ蘇生イベント
-    def foeEntrant_revive_event_handler(target, ret)
+    def foeEntrant_revive_event_handler(_target, ret)
       sc_entrant_revive_event(false, ret[0], ret[1])
       set_cache_act_command(ret[0], ret[1])
     end
 
     # プレイヤーの行動制限イベント
-    def plEntrant_constraint_event_handler(target, ret)
+    def plEntrant_constraint_event_handler(_target, ret)
       sc_entrant_constraint_event(true, ret)
       set_cache_act_command(ret)
     end
 
     # プレイヤーのHP変更イベント
-    def plEntrant_hit_point_changed_event_handler(target, ret)
+    def plEntrant_hit_point_changed_event_handler(_target, ret)
       sc_entrant_hit_point_changed_event(true, ret.first)
       set_cache_act_command(ret.first)
     end
 
     # 敵のHP変更イベント
-    def foeEntrant_hit_point_changed_event_handler(target, ret)
+    def foeEntrant_hit_point_changed_event_handler(_target, ret)
       sc_entrant_hit_point_changed_event(false, ret.first)
       set_cache_act_command(ret.first)
     end
 
     # プレイヤーのパーティダメージイベント
-    def plEntrant_party_damaged_event_handler(target, ret)
+    def plEntrant_party_damaged_event_handler(_target, ret)
       sc_entrant_party_damaged_event(true, ret[0], ret[1], ret[2])
       set_cache_act_command(ret[0], ret[1], ret[2])
     end
 
     # 敵のパーティダメージイベント
-    def foeEntrant_party_damaged_event_handler(target, ret)
+    def foeEntrant_party_damaged_event_handler(_target, ret)
       sc_entrant_party_damaged_event(false, ret[0], ret[1], ret[2])
       set_cache_act_command(ret[0], ret[1], ret[2])
     end
 
     # プレイヤーの状態回復イベント
-    def plEntrant_cured_event_handler(target, ret)
+    def plEntrant_cured_event_handler(_target, _ret)
       sc_entrant_cured_event(true)
       set_cache_act_command
     end
 
     # 敵の状態回復イベント
-    def foeEntrant_cured_event_handler(target, ret)
+    def foeEntrant_cured_event_handler(_target, _ret)
       sc_entrant_cured_event(false)
       set_cache_act_command
     end
 
     # プレイヤーの必殺技解除イベント
-    def plEntrant_sealed_event_handler(target, ret)
+    def plEntrant_sealed_event_handler(_target, _ret)
       sc_entrant_sealed_event(true)
     end
 
     # 敵の必殺技解除イベント
-    def foeEntrant_sealed_event_handler(target, ret)
+    def foeEntrant_sealed_event_handler(_target, _ret)
       sc_entrant_sealed_event(false)
     end
 
     # プレイヤーアクションカード使用イベント
-    def plEntrant_use_action_card_event_handler(target, ret)
+    def plEntrant_use_action_card_event_handler(_target, ret)
       sc_entrant_use_action_card_event(true, ret)
       set_cache_act_command(ret)
     end
 
     # プレイヤーアクションカード使用イベント
-    def foeEntrant_use_action_card_event_handler(target, ret)
+    def foeEntrant_use_action_card_event_handler(_target, ret)
       sc_entrant_use_action_card_event(false, ret)
       set_cache_act_command(ret)
     end
 
     # プレイヤーアクションカード破棄イベント
-    def plEntrant_discard_event_handler(target, ret)
+    def plEntrant_discard_event_handler(_target, ret)
       sc_entrant_discard_event(true, ret)
       set_cache_act_command(ret)
     end
 
     # 敵のアクションカード破棄イベント
-    def foeEntrant_discard_event_handler(target, ret)
+    def foeEntrant_discard_event_handler(_target, ret)
       sc_entrant_discard_event(false, ret)
       set_cache_act_command(ret)
     end
 
     # プレイヤーアクションカードをテーブルから破棄するイベント
-    def plEntrant_discard_table_event_handler(target, ret)
+    def plEntrant_discard_table_event_handler(_target, ret)
       sc_entrant_discard_table_event(true, ret)
       set_cache_act_command(ret)
     end
 
     # 敵のアクションカードをテーブルから破棄するイベント
-    def foeEntrant_discard_table_event_handler(target, ret)
+    def foeEntrant_discard_table_event_handler(_target, ret)
       sc_entrant_discard_table_event(false, ret)
       set_cache_act_command(ret)
     end
 
     # プレイヤーのポイントが更新された場合のイベント
-    def plEntrant_point_update_event_handler(target, ret)
+    def plEntrant_point_update_event_handler(_target, ret)
       if @duel
         p_on = @duel.entrants[@no].current_on_cards
         if p_on
@@ -995,7 +995,7 @@ module Unlight
     end
 
     # プレイヤーのポイントが上書きされた場合のイベント
-    def plEntrant_point_rewrite_event_handler(target, ret)
+    def plEntrant_point_rewrite_event_handler(_target, ret)
       if @duel
         sc_entrant_point_rewrite_event(true, ret)
         set_cache_act_command(ret)
@@ -1003,7 +1003,7 @@ module Unlight
     end
 
     # 相手のポイントが上書きされた場合のイベント
-    def foeEntrant_point_rewrite_event_handler(target, ret)
+    def foeEntrant_point_rewrite_event_handler(_target, ret)
       if @duel
         sc_entrant_point_rewrite_event(false, ret)
         set_cache_act_command(ret)
@@ -1011,7 +1011,7 @@ module Unlight
     end
 
     # プレイヤーが特別にカードを配られる場合のイベント
-    def plEntrant_special_dealed_event_handler(target, ret)
+    def plEntrant_special_dealed_event_handler(_target, ret)
       ac_arr_str = ActionCard.array2str(ret)
       ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = ret.size
@@ -1020,14 +1020,14 @@ module Unlight
     end
 
     # 敵が特別にカードを配られる場合のイベント
-    def foeEntrant_special_dealed_event_handler(target, ret)
+    def foeEntrant_special_dealed_event_handler(_target, ret)
       size = ret.size
       sc_entrant_special_dealed_event(false, '', 0, size)
       set_cache_act_command('', 0, size)
     end
 
     # プレイヤーに墓地のカードが配られる場合のイベント
-    def plEntrant_grave_dealed_event_handler(target, ret)
+    def plEntrant_grave_dealed_event_handler(_target, ret)
       ac_arr_str = ActionCard.array2str(ret)
       ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = ret.size
@@ -1036,7 +1036,7 @@ module Unlight
     end
 
     # 敵に墓地のカードが配られる場合のイベント
-    def foeEntrant_grave_dealed_event_handler(target, ret)
+    def foeEntrant_grave_dealed_event_handler(_target, ret)
       ac_arr_str = ActionCard.array2str(ret)
       ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = ret.size
@@ -1045,7 +1045,7 @@ module Unlight
     end
 
     # プレイヤーに相手の手札のカードが配られる場合のイベント
-    def plEntrant_steal_dealed_event_handler(target, ret)
+    def plEntrant_steal_dealed_event_handler(_target, ret)
       ac_arr_str = ActionCard.array2str(ret)
       ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = ret.size
@@ -1054,7 +1054,7 @@ module Unlight
     end
 
     # 敵にプレイヤーの手札のカードが配られる場合のイベント
-    def foeEntrant_steal_dealed_event_handler(target, ret)
+    def foeEntrant_steal_dealed_event_handler(_target, ret)
       ac_arr_str = ActionCard.array2str(ret)
       ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = ret.size
@@ -1063,7 +1063,7 @@ module Unlight
     end
 
     # プレイヤーが特別にイベントカードを配られる場合のイベント
-    def plEntrant_special_event_card_dealed_event_handler(target, ret)
+    def plEntrant_special_event_card_dealed_event_handler(_target, ret)
       ac_arr_str = ActionCard.array2str(ret)
       ac_arr_int_dir = ActionCard.array2int_dir(ret)
       size = 0
@@ -1072,7 +1072,7 @@ module Unlight
     end
 
     # 敵が特別にイベントカードを配られる場合のイベント
-    def foeEntrant_special_event_card_dealed_event_handler(target, ret)
+    def foeEntrant_special_event_card_dealed_event_handler(_target, ret)
       ac_arr_str = ''
       ac_arr_int_dir = 0
       size = ret.size
@@ -1081,19 +1081,19 @@ module Unlight
     end
 
     # プレイヤーのカードの値が変更される場合のイベント
-    def plEntrant_update_card_value_event_handler(target, ret)
+    def plEntrant_update_card_value_event_handler(_target, ret)
       sc_entrant_update_card_value_event(true, ret[0], ret[1], ret[2], ret[3])
       set_cache_act_command(ret[0], ret[1], ret[2], ret[3])
     end
 
     # 敵のカードの値が変更される場合のイベント
-    def foeEntrant_update_card_value_event_handler(target, ret)
+    def foeEntrant_update_card_value_event_handler(_target, ret)
       sc_entrant_update_card_value_event(false, ret[0], ret[1], ret[2], ret[3])
       set_cache_act_command(ret[0], ret[1], ret[2], ret[3])
     end
 
     # プレイヤーに仮のダイスが振られるときのイベント
-    def plEntrant_dice_roll_event_handler(target, ret)
+    def plEntrant_dice_roll_event_handler(_target, ret)
       arr_str_0 = ret[0].join(',')
       arr_str_1 = ret[1].join(',')
       sc_duel_battle_result_phase(true, arr_str_0, arr_str_1)
@@ -1101,7 +1101,7 @@ module Unlight
     end
 
     # 敵に仮のダイスが振られるときのイベント
-    def foeEntrant_dice_roll_event_handler(target, ret)
+    def foeEntrant_dice_roll_event_handler(_target, ret)
       arr_str_0 = ret[0].join(',')
       arr_str_1 = ret[1].join(',')
       sc_duel_battle_result_phase(false, arr_str_0, arr_str_1)
@@ -1109,7 +1109,7 @@ module Unlight
     end
 
     # プレイヤーの装備カードが更新されるときのイベント
-    def plEntrant_update_weapon_event_handler(target, ret)
+    def plEntrant_update_weapon_event_handler(_target, ret)
       arr_str_0 = ret[0].join(',')
       arr_str_1 = ret[1].join(',')
       sc_entrant_update_weapon_event(true, arr_str_0, arr_str_1)
@@ -1117,43 +1117,43 @@ module Unlight
     end
 
     # プレイヤーの最大カード枚数が更新された場合のイベント
-    def plEntrant_cards_max_update_event_handler(target, ret)
+    def plEntrant_cards_max_update_event_handler(_target, ret)
       sc_entrant_cards_max_update_event(true, ret)
       set_cache_act_command(ret)
     end
 
     # プレイヤーの最大カード枚数が更新された場合のイベント
-    def plEntrant_duel_bonus_event_handler(target, ret)
+    def plEntrant_duel_bonus_event_handler(_target, ret)
       sc_duel_bonus_event(ret[0], ret[1])
       set_cache_act_command(ret[0], ret[1])
     end
 
     # プレイヤーの特殊メッセージのイベント
-    def plEntrant_special_message_event_handler(target, ret)
+    def plEntrant_special_message_event_handler(_target, ret)
       sc_message(ret.force_encoding('UTF-8'))
       set_cache_act_command(ret)
     end
 
     # プレイヤーの特殊メッセージのイベント
-    def foeEntrant_special_message_event_handler(target, ret)
+    def foeEntrant_special_message_event_handler(_target, ret)
       sc_message(ret.force_encoding('UTF-8'))
       set_cache_act_command(ret)
     end
 
     # プレイヤーの属性抵抗メッセージのイベント
-    def plEntrant_attribute_regist_message_event_handler(target, ret)
+    def plEntrant_attribute_regist_message_event_handler(_target, ret)
       sc_message(ret.force_encoding('UTF-8'))
       set_cache_act_command(ret)
     end
 
     # プレイヤーの属性抵抗メッセージのイベント
-    def foeEntrant_attribute_regist_message_event_handler(target, ret)
+    def foeEntrant_attribute_regist_message_event_handler(_target, ret)
       sc_message(ret.force_encoding('UTF-8'))
       set_cache_act_command(ret)
     end
 
     # デュエル中の汎用メッセージ
-    def plEntrant_duel_message_event_handler(target, ret)
+    def plEntrant_duel_message_event_handler(_target, ret)
       case ret[0]
       when DUEL_MSGDLG_WEAPON_STATUS_UP, DUEL_MSGDLG_SWORD_DEF_UP, DUEL_MSGDLG_ARROW_DEF_UP
         set_message_str_data(ret[0], DUEL_NAME_PL)
@@ -1168,7 +1168,7 @@ module Unlight
     end
 
     # デュエル中の汎用メッセージ
-    def foeEntrant_duel_message_event_handler(target, ret)
+    def foeEntrant_duel_message_event_handler(_target, ret)
       case ret[0]
       when DUEL_MSGDLG_WEAPON_STATUS_UP, DUEL_MSGDLG_SWORD_DEF_UP, DUEL_MSGDLG_ARROW_DEF_UP
         set_message_str_data(ret[0], DUEL_NAME_FOE)
@@ -1183,7 +1183,7 @@ module Unlight
     end
 
     # プレイヤーのトラップ発動イベント
-    def plEntrant_trap_action_event_handler(target, ret)
+    def plEntrant_trap_action_event_handler(_target, ret)
       audience_str_data = ''
 
       case ret[0]
@@ -1203,7 +1203,7 @@ module Unlight
     end
 
     # 敵のトラップ発動イベント
-    def foeEntrant_trap_action_event_handler(target, ret)
+    def foeEntrant_trap_action_event_handler(_target, ret)
       audience_str_data = ''
 
       case ret[0]
@@ -1223,49 +1223,49 @@ module Unlight
     end
 
     # プレイヤーのトラップ遷移イベント
-    def plEntrant_trap_update_event_handler(target, ret)
+    def plEntrant_trap_update_event_handler(_target, ret)
       sc_entrant_trap_update_event(true, ret[0], ret[1], ret[2], ret[3])
       set_cache_act_command(ret)
     end
 
     # 敵のトラップ遷移イベント
-    def foeEntrant_trap_update_event_handler(target, ret)
+    def foeEntrant_trap_update_event_handler(_target, ret)
       sc_entrant_trap_update_event(false, ret[0], ret[1], ret[2], ret[3])
       set_cache_act_command(ret)
     end
 
     # フィールド状態変更イベント
-    def plEntrant_set_field_status_event_handler(target, ret)
+    def plEntrant_set_field_status_event_handler(_target, ret)
       sc_set_field_status_event(ret[0], ret[1], ret[2])
       set_cache_act_command(ret)
     end
 
     # フィールド状態変更イベント
-    def foeEntrant_set_field_status_event_handler(target, ret)
+    def foeEntrant_set_field_status_event_handler(_target, ret)
       sc_set_field_status_event(ret[0], ret[1], ret[2])
       set_cache_act_command(ret)
     end
 
     # 現在ターン数変更のイベント
-    def plEntrant_set_turn_event_handler(target, ret)
+    def plEntrant_set_turn_event_handler(_target, ret)
       sc_set_turn_event(ret)
       set_cache_act_command(ret)
     end
 
     # 現在ターン数変更のイベント
-    def foeEntrant_set_turn_event_handler(target, ret)
+    def foeEntrant_set_turn_event_handler(_target, ret)
       sc_set_turn_event(ret)
       set_cache_act_command(ret)
     end
 
     # カードロックイベント
-    def plEntrant_card_lock_event_handler(target, ret)
+    def plEntrant_card_lock_event_handler(_target, ret)
       sc_card_lock_event(ret)
       set_cache_act_command(ret)
     end
 
     # カードロック解除イベント
-    def plEntrant_clear_card_locks_event_handler(target, ret)
+    def plEntrant_clear_card_locks_event_handler(_target, _ret)
       sc_clear_card_locks_event
       set_cache_act_command
     end
@@ -1275,7 +1275,7 @@ module Unlight
     # =====================
 
     # デッキの初期化のハンドラ
-    def deck_init_handler(target, ret)
+    def deck_init_handler(_target, ret)
       sc_deck_init_event(ret)
       set_cache_act_command(ret)
     end
@@ -1308,7 +1308,7 @@ module Unlight
     # CharaCardEvent
     # =====================
     # 状態付加ON時のプレイヤー側ハンドラ
-    def pl_entrant_buff_on_event_handler(target, ret)
+    def pl_entrant_buff_on_event_handler(_target, ret)
       sc_buff_on_event(ret[0], ret[1], ret[2], ret[3], ret[4])
       name = ret[0] ? DUEL_NAME_PL : DUEL_NAME_FOE
       set_message_str_data(DUEL_MSGDLG_STATE, ret[2], name) if duel.entrants[@no].current_chara_card_no == ret[1]
@@ -1318,7 +1318,7 @@ module Unlight
     end
 
     # 状態付加ON時の敵側側ハンドラ
-    def foe_entrant_buff_on_event_handler(target, ret)
+    def foe_entrant_buff_on_event_handler(_target, ret)
       sc_buff_on_event(!ret[0], ret[1], ret[2], ret[3], ret[4])
       name = ret[0] ? DUEL_NAME_FOE : DUEL_NAME_PL
       set_message_str_data(DUEL_MSGDLG_STATE, ret[2], name) if duel.entrants[@foe].current_chara_card_no == ret[1]
@@ -1328,43 +1328,43 @@ module Unlight
     end
 
     # 状態付加Off時のプレイヤー側ハンドラ
-    def pl_entrant_buff_off_event_handler(target, ret)
+    def pl_entrant_buff_off_event_handler(_target, ret)
       sc_buff_off_event(ret[0], ret[1], ret[2], ret[3])
       set_cache_act_command(ret[0], ret[1], ret[2], ret[3])
     end
 
     # 状態付加Off時の敵側側ハンドラ
-    def foe_entrant_buff_off_event_handler(target, ret)
+    def foe_entrant_buff_off_event_handler(_target, ret)
       sc_buff_off_event(!ret[0], ret[1], ret[2], ret[3])
       set_cache_act_command(!ret[0], ret[1], ret[2], ret[3])
     end
 
     # 状態付加Update時のプレイヤー側ハンドラ
-    def pl_entrant_buff_update_event_handler(target, ret)
+    def pl_entrant_buff_update_event_handler(_target, ret)
       sc_buff_update_event(ret[0], ret[1], ret[2], ret[3], ret[4])
       set_cache_act_command(ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 
     # 状態付加Update時の敵側側ハンドラ
-    def foe_entrant_buff_update_event_handler(target, ret)
+    def foe_entrant_buff_update_event_handler(_target, ret)
       sc_buff_update_event(!ret[0], ret[1], ret[2], ret[3], ret[4])
       set_cache_act_command(!ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 
     # 猫状態Update時のプレイヤー側ハンドラ
-    def pl_entrant_cat_state_update_event_handler(target, ret)
+    def pl_entrant_cat_state_update_event_handler(_target, ret)
       sc_cat_state_update_event(ret[0], ret[1], ret[2])
       set_cache_act_command(ret[0], ret[1], ret[2])
     end
 
     # 猫状態Update時の敵側側ハンドラ
-    def foe_entrant_cat_state_update_event_handler(target, ret)
+    def foe_entrant_cat_state_update_event_handler(_target, ret)
       sc_cat_state_update_event(!ret[0], ret[1], ret[2])
       set_cache_act_command(!ret[0], ret[1], ret[2])
     end
 
     # 必殺技ON時のプレイヤー側ハンドラ
-    def pl_entrant_feat_on_event_handler(target, ret)
+    def pl_entrant_feat_on_event_handler(_target, ret)
       sc_pl_feat_on_event(ret)
       # 観戦時はOn/Offしない
       # set_cache_act_command(ret)
@@ -1374,7 +1374,7 @@ module Unlight
     def foe_entrant_feat_on_event_handler(target, ret); end
 
     # 必殺技Off時のプレイヤー側ハンドラ
-    def pl_entrant_feat_off_event_handler(target, ret)
+    def pl_entrant_feat_off_event_handler(_target, ret)
       sc_pl_feat_off_event(ret)
     end
 
@@ -1382,37 +1382,37 @@ module Unlight
     def foe_entrant_feat_off_event_handler(target, ret); end
 
     # 必殺技が変更された時のプレイヤー側ハンドラ
-    def pl_entrant_change_feat_event_handler(target, ret)
+    def pl_entrant_change_feat_event_handler(_target, ret)
       sc_entrant_change_feat_event(true, ret[0], ret[1], ret[2], ret[3])
       set_cache_act_command(ret)
     end
 
     # 必殺技が変更された時の敵側ハンドラ
-    def foe_entrant_change_feat_event_handler(target, ret)
+    def foe_entrant_change_feat_event_handler(_target, ret)
       sc_entrant_change_feat_event(false, ret[0], ret[1], ret[2], ret[3])
       set_cache_act_command(ret)
     end
 
     # 必殺技が実行された時のプレイヤー側ハンドラ
-    def pl_entrant_use_feat_event_handler(target, ret)
+    def pl_entrant_use_feat_event_handler(_target, ret)
       sc_entrant_use_feat_event(true, ret)
       set_cache_act_command(ret)
     end
 
     # 必殺技が実行された時の敵側ハンドラ
-    def foe_entrant_use_feat_event_handler(target, ret)
+    def foe_entrant_use_feat_event_handler(_target, ret)
       sc_entrant_use_feat_event(false, ret)
       set_cache_act_command(ret)
     end
 
     # パッシブが実行された時のプレイヤー側ハンドラ
-    def pl_entrant_use_passive_event_handler(target, ret)
+    def pl_entrant_use_passive_event_handler(_target, ret)
       sc_entrant_use_passive_event(true, ret)
       set_cache_act_command(ret)
     end
 
     # パッシブが実行された時の敵側ハンドラ
-    def foe_entrant_use_passive_event_handler(target, ret)
+    def foe_entrant_use_passive_event_handler(_target, ret)
       sc_entrant_use_passive_event(false, ret)
       # パッシブがCREATEER立った場合
       if ret == Unlight::CharaCardEvent::PASSIVE_CREATOR
@@ -1439,67 +1439,67 @@ module Unlight
     end
 
     # キャラカードを更新するプレイヤー側ハンドラ 変身用
-    def pl_entrant_change_chara_card_event_handler(target, ret)
+    def pl_entrant_change_chara_card_event_handler(_target, ret)
       sc_entrant_change_chara_card_event(true, ret)
       set_cache_act_command(ret)
     end
 
     # キャラカードを更新するプレイヤー側ハンドラ 変身用
-    def foe_entrant_change_chara_card_event_handler(target, ret)
+    def foe_entrant_change_chara_card_event_handler(_target, ret)
       sc_entrant_change_chara_card_event(false, ret)
       set_cache_act_command(ret)
     end
 
     # キャラカード変身時のプレイヤー側ハンドラ
-    def pl_entrant_on_transform_event_handler(target, ret)
+    def pl_entrant_on_transform_event_handler(_target, ret)
       sc_entrant_on_transform_event(ret[0], ret[1])
       set_cache_act_command(ret[0], ret[1])
     end
 
     # キャラカード変身時の敵側側ハンドラ
-    def foe_entrant_on_transform_event_handler(target, ret)
+    def foe_entrant_on_transform_event_handler(_target, ret)
       sc_entrant_on_transform_event(!ret[0], ret[1])
       set_cache_act_command(!ret[0], ret[1])
     end
 
     # キャラカード変身時のプレイヤー側ハンドラ
-    def pl_entrant_off_transform_event_handler(target, ret)
+    def pl_entrant_off_transform_event_handler(_target, ret)
       sc_entrant_off_transform_event(ret)
       set_cache_act_command(ret)
     end
 
     # キャラカード変身時の敵側側ハンドラ
-    def foe_entrant_off_transform_event_handler(target, ret)
+    def foe_entrant_off_transform_event_handler(_target, ret)
       sc_entrant_off_transform_event(!ret)
       set_cache_act_command(!ret)
     end
 
     # きりがくれプレイヤー側ON
-    def pl_entrant_on_lost_in_the_fog_event_handler(target, ret)
+    def pl_entrant_on_lost_in_the_fog_event_handler(_target, ret)
       sc_entrant_on_lost_in_the_fog_event(ret[0], ret[1], ret[2])
       set_cache_act_command(ret[0], ret[1], ret[2])
     end
 
     # きりがくれ的側ON
-    def foe_entrant_on_lost_in_the_fog_event_handler(target, ret)
+    def foe_entrant_on_lost_in_the_fog_event_handler(_target, ret)
       sc_entrant_on_lost_in_the_fog_event(!ret[0], ret[1], 0)
       set_cache_act_command(!ret[0], ret[1])
     end
 
     # きりがくれプレイヤー側OFF
-    def pl_entrant_off_lost_in_the_fog_event_handler(target, ret)
+    def pl_entrant_off_lost_in_the_fog_event_handler(_target, ret)
       sc_entrant_off_lost_in_the_fog_event(ret[0], ret[1])
       set_cache_act_command(ret[0], ret[1])
     end
 
     # きりがくれ的側OFF
-    def foe_entrant_off_lost_in_the_fog_event_handler(target, ret)
+    def foe_entrant_off_lost_in_the_fog_event_handler(_target, ret)
       sc_entrant_off_lost_in_the_fog_event(!ret[0], ret[1])
       set_cache_act_command(!ret[0], ret[1])
     end
 
     # プレイヤー側 霧ライト
-    def pl_entrant_in_the_fog_event_handler(target, ret)
+    def pl_entrant_in_the_fog_event_handler(_target, ret)
       return if ret[1].nil?
 
       sc_entrant_in_the_fog_event(ret[0], ret[1])
@@ -1507,7 +1507,7 @@ module Unlight
     end
 
     # 敵側霧ライト
-    def foe_entrant_in_the_fog_event_handler(target, ret)
+    def foe_entrant_in_the_fog_event_handler(_target, ret)
       return if ret[1].nil?
 
       sc_entrant_in_the_fog_event(!ret[0], ret[1])
@@ -1515,59 +1515,59 @@ module Unlight
     end
 
     # 技の発動条件を更新 PL
-    def pl_entrant_update_feat_condition_event_handler(target, ret)
+    def pl_entrant_update_feat_condition_event_handler(_target, ret)
       sc_entrant_update_feat_condition_event(ret[0], ret[1], ret[2], ret[3])
       set_cache_act_command(ret[0], ret[1], ret[2], ret[3])
     end
 
     # 技の発動条件を更新 FOE
-    def foe_entrant_update_feat_condition_event_handler(target, ret)
+    def foe_entrant_update_feat_condition_event_handler(_target, ret)
       sc_entrant_update_feat_condition_event(!ret[0], ret[1], ret[2], ret[3])
       set_cache_act_command(!ret[0], ret[1], ret[2], ret[3])
     end
 
     # ヌイグルミセット 自分側
-    def pl_entrant_stuffed_toys_set_event_handler(target, ret)
+    def pl_entrant_stuffed_toys_set_event_handler(_target, ret)
       sc_entrant_stuffed_toys_set_event(ret[0], ret[1])
       set_cache_act_command(ret[0], ret[1])
     end
 
     # ヌイグルミセット 敵側
-    def foe_entrant_stuffed_toys_set_event_handler(target, ret)
+    def foe_entrant_stuffed_toys_set_event_handler(_target, ret)
       sc_entrant_stuffed_toys_set_event(!ret[0], ret[1])
       set_cache_act_command(!ret[0], ret[1])
     end
 
     # 必殺技が実行された時のプレイヤー側ハンドラ
-    def pl_entrant_use_feat_event_handler(target, ret)
+    def pl_entrant_use_feat_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>GameServer: [CC pl Feat use  id:#{ret}")
       sc_entrant_use_feat_event(true, ret)
       set_cache_act_command(ret)
     end
 
     # パッシブスキル発動時のプレイヤー側ハンドラ
-    def pl_entrant_on_passive_event_handler(target, ret)
+    def pl_entrant_on_passive_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>GameServer: [#{__method__}] #{ret}")
       sc_entrant_on_passive_event(true, ret[1])
       set_cache_act_command(true, ret[1])
     end
 
     # パッシブスキル発動時の敵側ハンドラ
-    def foe_entrant_on_passive_event_handler(target, ret)
+    def foe_entrant_on_passive_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>GameServer: [#{__method__}] #{ret}")
       sc_entrant_on_passive_event(false, ret[1])
       set_cache_act_command(false, ret[1])
     end
 
     # パッシブスキル終了時のプレイヤー側ハンドラ
-    def pl_entrant_off_passive_event_handler(target, ret)
+    def pl_entrant_off_passive_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>GameServer: [#{__method__}] #{ret}")
       sc_entrant_off_passive_event(true, ret[1])
       set_cache_act_command(true, ret[1])
     end
 
     # パッシブスキル終了時の敵側ハンドラ
-    def foe_entrant_off_passive_event_handler(target, ret)
+    def foe_entrant_off_passive_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>GameServer: [#{__method__}] #{ret}")
       sc_entrant_off_passive_event(false, ret[1])
       set_cache_act_command(false, ret[1])
@@ -1578,20 +1578,20 @@ module Unlight
     # =====================
     # 報酬イベントのハンドラ
     # アイテムを使用した
-    def item_use_event_handler(target, ret)
+    def item_use_event_handler(_target, ret)
       sc_use_item(ret)
     end
 
-    def item_get_event_handler(target, ret)
+    def item_get_event_handler(_target, ret)
       sc_get_item(ret[0], ret[1])
     end
 
-    def slot_card_get_event_handler(target, ret)
+    def slot_card_get_event_handler(_target, ret)
       sc_get_slot_card(ret[0], ret[1], ret[2])
     end
 
     # 候補カードのリストを送る
-    def candidate_cards_list_phase_handler(target, ret)
+    def candidate_cards_list_phase_handler(_target, ret)
       if ret
         ret_a = ret[0][0].join(',')
         ret_b = (ret[0][1] ? ret[0][1].join(',') : '')
@@ -1602,14 +1602,14 @@ module Unlight
     end
 
     # 基本ダイスの結果を送る
-    def bottom_dice_num_phase_handler(target, ret)
+    def bottom_dice_num_phase_handler(_target, ret)
       if ret
         sc_bottom_dice_num(ret.join(','))
       end
     end
 
     # ハイローフェイズの結果ハンドラ
-    def high_low_phase_handler(target, ret)
+    def high_low_phase_handler(_target, ret)
       if ret && ret[3]
         get_card = ret[1] ? ret[1].join(',') : ''
         next_card = ret[2] ? ret[2].join(',') : ''
@@ -1618,7 +1618,7 @@ module Unlight
     end
 
     # 報酬ゲームの終了
-    def reward_finish_handler(target, ret)
+    def reward_finish_handler(target, _ret)
       r = target.final_result
       if r[1]
         get_card =  r[1].join(',')
@@ -1632,7 +1632,7 @@ module Unlight
     end
 
     # 結果ダイスのハンドラ
-    def reward_result_dice_event_handler(target, ret)
+    def reward_result_dice_event_handler(_target, ret)
       sc_reward_result_dice(ret.join(','))
     end
 

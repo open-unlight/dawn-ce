@@ -161,7 +161,7 @@ module Unlight
         a
       end
 
-      def method_missing(msg, *arg)
+      def method_missing(msg, *_arg)
         SERVER_LOG.warn("#{@@class_name}:Command [#{msg}] is Undefined")
       end
 
@@ -199,7 +199,7 @@ module Unlight
       end
 
       # ログイン（認証済みであればログイン）
-      def login(ok, crypted_sign)
+      def login(_ok, crypted_sign)
         if @nego_crypt == crypted_sign
           # ログイン済みの場合押し出し処理を行う
           if @player && @@online_list.include?(@player.id)
@@ -321,7 +321,7 @@ if RUBY_VERSION == '1.9.2'
   module Date
     module Format
       class Bag
-        def method_missing(t, *args, &block)
+        def method_missing(t, *args)
           t = t.to_s
           set = t.chomp!('=')
           t = t.intern

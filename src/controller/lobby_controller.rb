@@ -217,7 +217,7 @@ module Unlight
     end
 
     # 課金アイテムをチェックする
-    def cs_real_money_item_result_check(id)
+    def cs_real_money_item_result_check(_id)
       if @avatar
         ret = @avatar.get_real_money_item
         ret.each do |r|
@@ -661,198 +661,198 @@ module Unlight
     end
 
     # 行動力を使用する
-    def use_energy_event_handler(target, ret)
+    def use_energy_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_use_energy] #{ret}")
       sc_energy_info(ret[0], ret[1])
     end
 
     # フリーデュエル回数をアップデート
-    def use_free_duel_count_event_handler(target, ret)
+    def use_free_duel_count_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_use_fdc] #{ret}")
       sc_free_duel_count_info(ret)
     end
 
     # 行動力のMAXが更新
-    def update_energy_max_event_handler(target, ret)
+    def update_energy_max_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_energy_max] #{ret}")
       sc_update_energy_max(ret)
     end
 
     # フレンドのMAXが更新
-    def update_friend_max_event_handler(target, ret)
+    def update_friend_max_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_friend_max] #{ret}")
       sc_update_friend_max(ret)
     end
 
     # パーツのMAXが更新
-    def update_part_max_event_handler(target, ret)
+    def update_part_max_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_part_max] #{ret}")
       sc_update_part_max(ret)
     end
 
     # 残り時間が更新
-    def update_remain_time_event_handler(target, ret)
+    def update_remain_time_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_remain_time_update] #{ret}")
       sc_energy_info(ret[0], ret[1])
     end
 
     # 経験値獲得
-    def get_exp_event_handler(target, ret)
+    def get_exp_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_get_exp] #{ret}")
       sc_get_exp(ret)
     end
 
     # レベルアップ
-    def level_up_event_handler(target, ret)
+    def level_up_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_level_up] #{ret}")
       sc_level_up(ret)
     end
 
     # デッキ経験値獲得
-    def get_deck_exp_event_handler(target, ret)
+    def get_deck_exp_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_get_deck_exp] #{ret}")
       sc_get_deck_exp(ret)
     end
 
     # デッキレベルアップ
-    def deck_level_up_event_handler(target, ret)
+    def deck_level_up_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_deck_level_up] #{ret}")
       sc_deck_level_up(ret)
     end
 
     # Gemの更新
-    def update_gems_event_handler(target, ret)
+    def update_gems_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_gems] #{ret}")
       sc_update_gems(ret)
     end
 
     # 勝敗の更新
-    def update_result_event_handler(target, ret)
+    def update_result_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_result] #{ret}")
       sc_update_result(ret[0], ret[1], ret[2], ret[3])
     end
 
     # アイテムゲット
-    def item_get_event_handler(target, ret)
+    def item_get_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_get_item] invID:#{ret[0]} itemID:#{ret[1]}")
       sc_get_item(ret[0], ret[1])
     end
 
     # アイテムを使用した
-    def item_use_event_handler(target, ret)
+    def item_use_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_use_item] #{ret}")
       sc_use_item(ret)
     end
 
     # パーツゲット
-    def part_get_event_handler(target, ret)
+    def part_get_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_part_item] invID:#{ret[0]} itemID:#{ret[1]}")
       sc_get_part(ret[0], ret[1])
     end
 
     # コインを使用した
-    def coin_use_event_handler(target, ret)
+    def coin_use_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_use_coin] #{ret}")
       sc_use_coin(ret.join(','))
     end
 
     # スロットカードを取得する
-    def slot_card_get_event_handler(target, ret)
+    def slot_card_get_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_get_slot_card] invID:#{ret[0]} type:#{ret[1]} cardID:#{ret[2]}")
       sc_get_slot_card(ret[0], ret[1], ret[2])
     end
 
     # キャラカードを取得する
-    def chara_card_get_event_handler(target, ret)
+    def chara_card_get_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_get_chara_card] invID:#{ret[0]} cardID:#{ret[1]}")
       sc_get_chara_card(ret[0], ret[1])
     end
 
     # AP回復時間が更新された
-    def update_recovery_interval_event_handler(target, ret)
+    def update_recovery_interval_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_rec_int] #{ret}")
       sc_update_recovery_interval(ret)
     end
 
     # クエスト所持数が更新された
-    def update_quest_inventory_max_event_handler(target, ret)
+    def update_quest_inventory_max_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_quest_inv_max] #{ret}")
       sc_update_quest_inv_max(ret)
     end
 
     # EXPの倍率が更新された
-    def update_exp_pow_event_handler(target, ret)
+    def update_exp_pow_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_exp_pow] #{ret}")
       sc_update_exp_pow(ret)
     end
 
     # GEMの倍率が更新された
-    def update_gem_pow_event_handler(target, ret)
+    def update_gem_pow_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_gem_pow] #{ret}")
       sc_update_gem_pow(ret)
     end
 
     # クエストゲット時間が更新された
-    def update_quest_find_pow_event_handler(target, ret)
+    def update_quest_find_pow_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_find_pow] #{ret}")
       sc_update_quest_find_pow(ret)
     end
 
     # パーツが消滅した
-    def vanish_part_event_handler(target, ret)
+    def vanish_part_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_vasnish_parts] invID #{ret}")
       sc_vanish_part(ret[0], ret[1])
     end
 
     # アチーブメントがクリアされた
-    def achievement_clear_event_handler(target, ret)
+    def achievement_clear_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_achievement_clear] #{ret}")
       sc_achievement_clear(*ret)
     end
 
     # アチーブメントが追加された
-    def add_new_achievement_event_handler(target, ret)
+    def add_new_achievement_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_add_new_achievement] ID: #{ret}")
       sc_add_new_achievement(ret)
     end
 
     # アチーブメントが追加された
-    def delete_achievement_event_handler(target, ret)
+    def delete_achievement_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_delete_achievement] ID: #{ret}")
       sc_delete_achievement(ret)
     end
 
     # セールが開始された
-    def start_sale_event_handler(target, ret)
+    def start_sale_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_update_sale_rest_time] ret: #{ret}")
       sc_update_sale_rest_time(ret[0], ret[1])
     end
 
     # アイテムゲット
-    def deck_get_event_handler(target, ret)
+    def deck_get_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_get_deck] #{ret}")
       sc_create_deck_success(*ret)
     end
 
     # アチーブメントが更新された
-    def update_achievement_info_event_handler(target, ret)
+    def update_achievement_info_event_handler(_target, ret)
       sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 
     # アチーブメントを完全削除
-    def drop_achievement_event_handler(target, ret)
+    def drop_achievement_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_drop_achievement] ID: #{ret}")
       sc_drop_achievement(ret)
     end
 
     # お気に入りキャラIDを設定する
-    def change_favorite_chara_id_event_handler(target, ret)
+    def change_favorite_chara_id_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}] ID: #{ret}")
       sc_change_favorite_chara_id(ret)
     end
 
     # 合成武器情報を更新する
-    def update_combine_weapon_data_event_handler(target, ret)
+    def update_combine_weapon_data_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}]  #{ret}")
       sc_update_combine_weapon_data(*ret)
     end
