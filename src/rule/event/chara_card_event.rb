@@ -73,7 +73,7 @@ module Unlight
     ],
     # 4 剣聖
     [
-      :check_instant_kill_guard_passive_start_turn_event,
+      :check_instant_kill_guard_passive_start_turn_event
     ],
     # 5 千古不朽
     %i[
@@ -163,7 +163,7 @@ module Unlight
     ],
     # 16 C・ミステイク
     [
-      :check_status_resistance_passive_event,
+      :check_status_resistance_passive_event
     ],
     # 17 スライムカバー
     %i[
@@ -213,7 +213,7 @@ module Unlight
     ],
     # 23 溟海符
     [
-      :check_resist_skylla_passive_event,
+      :check_resist_skylla_passive_event
     ],
     # 24 状態抵抗 スキュラ
     %i[
@@ -347,7 +347,7 @@ module Unlight
     ],
     # 42 豊穣符
     [
-      :check_resist_pumpkin_passive_event,
+      :check_resist_pumpkin_passive_event
     ],
     # 43 状態抵抗 クエカボチャ
     %i[
@@ -356,7 +356,7 @@ module Unlight
     ],
     # 44 AWCS
     [
-      :check_resist_dw_passive_event,
+      :check_resist_dw_passive_event
     ],
     # 45 状態抵抗 DW
     %i[
@@ -399,7 +399,7 @@ module Unlight
     ],
     # 50 2016.6イベント
     [
-      :check_status_resistance_aquamarine_passive_event,
+      :check_status_resistance_aquamarine_passive_event
     ],
     # 51 アクアマリン
     %i[
@@ -421,7 +421,7 @@ module Unlight
     ],
     # 53 2016.9イベント
     [
-      :check_resist_byakhee_passive_event,
+      :check_resist_byakhee_passive_event
     ],
     # 54 状態抵抗 ビヤーキー
     %i[
@@ -450,7 +450,7 @@ module Unlight
       :use_servo_skull_passive_event,
       :use_servo_skull_defense_passive_event, # 2020-10-08 - Issue#186
       :finish_servo_skull_passive_event,
-      :finish_servo_skull_passive_dead_chara_change_event,
+      :finish_servo_skull_passive_dead_chara_change_event
     ],
     # 58 サーボスカル
     %i[
@@ -508,7 +508,7 @@ module Unlight
       use_burning_embers_passive_attack_event
       use_burning_embers_passive_defense_event
       use_burning_embers_passive_defense_det_chara_change_event
-    ],
+    ]
     # 65 余焔符
   ]
 
@@ -2442,7 +2442,7 @@ module Unlight
       finish_stick_state_event
     ],    # 棍術状態
     [
-      :check_curse_attack_state_event,
+      :check_curse_attack_state_event
     ],    # 詛呪状態
     %i[
       check_bless_attack_state_event
@@ -2462,11 +2462,11 @@ module Unlight
     ],    # 操想状態
     [], # 正鵠状態
     [
-      :finish_dark_state_event,
-    ],    # 暗黒状態
+      :finish_dark_state_event
+    ], # 暗黒状態
     [
-      :finish_doll_state_event,
-    ],    # 人形状態
+      :finish_doll_state_event
+    ] # 人形状態
   ]
 
   #---------------------------------------------------------------------------------------------
@@ -2949,14 +2949,14 @@ module Unlight
       check_started_trap_det_change_event
     ],    # トラップチェック
     [
-      :check_barrier_state_event,
+      :check_barrier_state_event
     ],    # 無敵状態
     [
-      :check_harbour_event,
+      :check_harbour_event
     ],    # かばわれ状態
     [
-      :check_field_status_finish_turn_event,
-    ],    # フィールド状態チェック
+      :check_field_status_finish_turn_event
+    ] # フィールド状態チェック
   ]
 
   #---------------------------------------------------------------------------------------------
@@ -3081,7 +3081,7 @@ module Unlight
     [],    # 7 ダメージ追加常態 技の方で実装
     [],    # 8 スキル上書き状態 技の方で実装
     [
-      :finish_magnetic_field_state_event,
+      :finish_magnetic_field_state_event
     ], # 9 スキル移動禁止 終了チェック
     [], # 10 固定ダメージカウンター ワザの方で実装
     %i[
@@ -3096,10 +3096,10 @@ module Unlight
       finish_monitoring_state_event
     ],    # 12 監視 終了チェック
     [
-      :finish_time_lag_draw_state_event,
+      :finish_time_lag_draw_state_event
     ],    # 13 時差ドロー 終了チェック
     [
-      :finish_time_lag_buff_state_change_event,
+      :finish_time_lag_buff_state_change_event
     ],    # 14 時差バフ 終了チェック
     %i[
       check_machine_cell_state_event
@@ -3110,7 +3110,7 @@ module Unlight
       check_ax_guard_state_event
       use_ax_guard_state_event
       finish_ax_guard_state_event
-    ],    # 16 アクスガード 終了チェック Rフロレ
+    ] # 16 アクスガード 終了チェック Rフロレ
   ]
 
   #---------------------------------------------------------------------------------------------
@@ -3331,110 +3331,95 @@ module Unlight
        check_rotate_thorn_feat_event
        use_thorn_feat_event
        use_thorn_feat_damage_event
-       finish_thorn_feat_event
-    ],
+       finish_thorn_feat_event],
     # 5
     %i[check_add_charge_feat_event
        check_remove_charge_feat_event
        check_rotate_charge_feat_event
        use_charge_feat_event
-       finish_charge_feat_event
-    ],
+       finish_charge_feat_event],
     # 6
     %i[check_add_mirage_feat_event
        check_remove_mirage_feat_event
        check_rotate_mirage_feat_event
        check_move_mirage_feat_event
        use_mirage_feat_event
-       finish_mirage_feat_event
-    ],
+       finish_mirage_feat_event],
     # 7
     %i[check_add_frenzy_eyes_feat_event
        check_remove_frenzy_eyes_feat_event
        check_rotate_frenzy_eyes_feat_event
        use_frenzy_eyes_feat_event
        use_frenzy_eyes_feat_damage_event
-       finish_frenzy_eyes_feat_event
-    ],
+       finish_frenzy_eyes_feat_event],
     # 8 狂気の眼窩
     %i[check_add_abyss_feat_event
        check_remove_abyss_feat_event
        check_rotate_abyss_feat_event
        use_abyss_feat_event
-       finish_abyss_feat_event
-    ],
+       finish_abyss_feat_event],
     # 9 深淵
     %i[check_add_rapid_sword_feat_event
        check_remove_rapid_sword_feat_event
        check_rotate_rapid_sword_feat_event
        use_rapid_sword_feat_event
-       finish_rapid_sword_feat_event
-    ],
+       finish_rapid_sword_feat_event],
     # 10 神速の剣
     %i[check_add_anger_feat_event
        check_remove_anger_feat_event
        check_rotate_anger_feat_event
        use_anger_feat_event
-       finish_anger_feat_event
-    ],
+       finish_anger_feat_event],
     # 11 怒りの一撃
     %i[check_add_power_stock_feat_event
        check_remove_power_stock_feat_event
        check_rotate_power_stock_feat_event
-       finish_power_stock_feat_event
-    ],
+       finish_power_stock_feat_event],
     # 12 必殺の構え
     %i[check_add_shadow_shot_feat_event
        check_remove_shadow_shot_feat_event
        check_rotate_shadow_shot_feat_event
        use_shadow_shot_feat_event
        use_shadow_shot_feat_damage_event
-       finish_shadow_shot_feat_event
-    ],
+       finish_shadow_shot_feat_event],
     # 13 影撃ち
     %i[check_add_red_fang_feat_event
        check_remove_red_fang_feat_event
        check_rotate_red_fang_feat_event
        use_red_fang_feat_event
        use_red_fang_feat_damage_event
-       finish_red_fang_feat_event
-    ],
+       finish_red_fang_feat_event],
     # 14
     %i[check_add_blessing_blood_feat_event
        check_remove_blessing_blood_feat_event
        check_rotate_blessing_blood_feat_event
        use_blessing_blood_feat_event
        use_blessing_blood_feat_damage_event
-       finish_blessing_blood_feat_event
-    ],
+       finish_blessing_blood_feat_event],
     # 15
     %i[check_add_counter_preparation_feat_event
        check_remove_counter_preparation_feat_event
        check_rotate_counter_preparation_feat_event
        use_counter_preparation_feat_damage_event
-       finish_counter_preparation_feat_event
-    ],
+       finish_counter_preparation_feat_event],
     # 16
     %i[check_add_karmic_time_feat_event
        check_remove_karmic_time_feat_event
        check_rotate_karmic_time_feat_event
        use_karmic_time_feat_event
        finish_chara_change_karmic_time_feat_event
-       finish_foe_chara_change_karmic_time_feat_event
-    ],
+       finish_foe_chara_change_karmic_time_feat_event],
     # 17
     %i[check_add_karmic_ring_feat_event
        check_remove_karmic_ring_feat_event
        check_rotate_karmic_ring_feat_event
        use_karmic_ring_feat_event
-       finish_karmic_ring_feat_event
-    ],
+       finish_karmic_ring_feat_event],
     # 18 因果の輪
     %i[check_add_karmic_string_feat_event
        check_remove_karmic_string_feat_event
        check_rotate_karmic_string_feat_event
-       use_karmic_string_feat_event
-    ],
+       use_karmic_string_feat_event],
     # 19
     %i[
       check_add_hi_smash_feat_event
@@ -3463,36 +3448,31 @@ module Unlight
        check_remove_hi_rapid_sword_feat_event
        check_rotate_hi_rapid_sword_feat_event
        use_hi_rapid_sword_feat_event
-       finish_hi_rapid_sword_feat_event
-    ],
+       finish_hi_rapid_sword_feat_event],
     # 23
     %i[check_add_hi_karmic_string_feat_event
        check_remove_hi_karmic_string_feat_event
        check_rotate_hi_karmic_string_feat_event
-       use_hi_karmic_string_feat_event
-    ],
+       use_hi_karmic_string_feat_event],
     # 24
     %i[check_add_hi_frenzy_eyes_feat_event
        check_remove_hi_frenzy_eyes_feat_event
        check_rotate_hi_frenzy_eyes_feat_event
        use_hi_frenzy_eyes_feat_event
        use_hi_frenzy_eyes_feat_damage_event
-       finish_hi_frenzy_eyes_feat_event
-    ],
+       finish_hi_frenzy_eyes_feat_event],
     # 25
     %i[check_add_hi_shadow_shot_feat_event
        check_remove_hi_shadow_shot_feat_event
        check_rotate_hi_shadow_shot_feat_event
        use_hi_shadow_shot_feat_event
        use_hi_shadow_shot_feat_damage_event
-       finish_hi_shadow_shot_feat_event
-    ],
+       finish_hi_shadow_shot_feat_event],
     # 26
     %i[check_add_land_mine_feat_event
        check_remove_land_mine_feat_event
        check_rotate_land_mine_feat_event
-       use_land_mine_feat_event
-    ],
+       use_land_mine_feat_event],
     # 27 地雷
     %i[
       check_add_desperado_feat_event
@@ -3539,8 +3519,7 @@ module Unlight
        check_rotate_seal_chain_feat_event
        use_seal_chain_feat_event
        use_seal_chain_feat_damage_event
-       finish_seal_chain_feat_event
-    ],
+       finish_seal_chain_feat_event],
     # 33 封印の鎖
     %i[
       check_add_purification_light_feat_event
@@ -3554,14 +3533,12 @@ module Unlight
     %i[check_add_craftiness_feat_event
        check_remove_craftiness_feat_event
        check_rotate_craftiness_feat_event
-       finish_craftiness_feat_event
-    ],
+       finish_craftiness_feat_event],
     # 35 知略
     %i[check_add_land_bomb_feat_event
        check_remove_land_bomb_feat_event
        check_rotate_land_bomb_feat_event
-       use_land_bomb_feat_event
-    ],
+       use_land_bomb_feat_event],
     # 36 地雷2
     %i[
       check_add_reject_blade_feat_event
@@ -3679,14 +3656,12 @@ module Unlight
        check_rotate_misfit_feat_event
        use_misfit_feat_event
        use_misfit_feat_damage_event
-       finish_misfit_feat_event
-    ],
+       finish_misfit_feat_event],
     # 51 ミスフィット
     %i[check_add_big_bragg_feat_event
        check_remove_big_bragg_feat_event
        check_rotate_big_bragg_feat_event
-       finish_big_bragg_feat_event
-    ],
+       finish_big_bragg_feat_event],
     # 52 ビッグブラッグ
     %i[
       check_add_lets_knife_feat_event
@@ -3716,8 +3691,7 @@ module Unlight
        check_remove_nine_soul_feat_event
        check_rotate_nine_soul_feat_event
        use_nine_soul_feat_event
-       finish_nine_soul_feat_event
-    ],
+       finish_nine_soul_feat_event],
     # 56 9つの魂
 
     %i[
@@ -3735,23 +3709,20 @@ module Unlight
        check_rotate_life_drain_feat_event
        use_life_drain_feat_event
        use_life_drain_feat_damage_event
-       finish_life_drain_feat_event
-    ],
+       finish_life_drain_feat_event],
     # 58 ライフドレイン
     %i[check_add_random_curse_feat_event
        check_remove_random_curse_feat_event
        check_rotate_random_curse_feat_event
        use_random_curse_feat_event
        use_random_curse_feat_damage_event
-       finish_random_curse_feat_event
-    ],
+       finish_random_curse_feat_event],
     # 59 ランダムカース
     %i[check_add_heal_voice_feat_event
        check_remove_heal_voice_feat_event
        check_rotate_heal_voice_feat_event
        use_heal_voice_feat_event
-       finish_heal_voice_feat_event
-    ],
+       finish_heal_voice_feat_event],
     # 60 癒しの声
     %i[
       check_add_double_attack_feat_event
@@ -3924,16 +3895,14 @@ module Unlight
     %i[check_add_white_light_feat_event
        check_remove_white_light_feat_event
        check_rotate_white_light_feat_event
-       finish_white_light_feat_event
-    ],
+       finish_white_light_feat_event],
     # 81 ホワイトライト
     %i[check_add_crystal_shield_feat_event
        check_remove_crystal_shield_feat_event
        check_rotate_crystal_shield_feat_event
        use_crystal_shield_feat_event
        use_after_crystal_shield_feat_event
-       finish_crystal_shield_feat_event
-    ],
+       finish_crystal_shield_feat_event],
     # 82 クリスタル・M
     %i[
       check_add_snow_balling_feat_event
@@ -4027,8 +3996,7 @@ module Unlight
        check_remove_roar_feat_event
        check_rotate_roar_feat_event
        use_roar_feat_event
-       finish_roar_feat_event
-    ],
+       finish_roar_feat_event],
     # 94 咆哮
     %i[
       check_add_fire_breath_feat_event
@@ -4041,8 +4009,7 @@ module Unlight
        check_remove_whirl_wind_feat_event
        check_rotate_whirl_wind_feat_event
        use_whirl_wind_feat_event
-       finish_whirl_wind_feat_event
-    ],
+       finish_whirl_wind_feat_event],
     # 96 ワールウインド
     %i[
       check_add_active_armor_feat_event
@@ -4096,8 +4063,7 @@ module Unlight
        check_rotate_jack_pot_feat_event
        use_jack_pot_feat_event
        use_after_jack_pot_feat_event
-       finish_jack_pot_feat_event
-    ],
+       finish_jack_pot_feat_event],
     # 102 ジャックポット
     %i[
       check_add_low_ball_feat_event
@@ -4145,8 +4111,7 @@ module Unlight
        check_remove_puppet_master_feat_event
        check_rotate_puppet_master_feat_event
        use_puppet_master_feat_event
-       finish_puppet_master_feat_event
-    ],
+       finish_puppet_master_feat_event],
     # 108 パペットマスター
     %i[
       check_add_ctl_feat_event
@@ -6968,7 +6933,7 @@ module Unlight
       :check_rotate_harf_dead_feat_event,
       :use_harf_dead_feat_event,
       :use_harf_dead_move_event, # 2020-10-08 - Issue#187
-      :finish_harf_dead_feat_event,
+      :finish_harf_dead_feat_event
     ],
     # 437 ハーフデッド
     %i[
@@ -7053,7 +7018,7 @@ module Unlight
       use_anger_back_feat_event
       use_anger_back_feat_damage_event
       finish_anger_back_feat_event
-    ],
+    ]
     # 447 憤怒の背中
   ]
 

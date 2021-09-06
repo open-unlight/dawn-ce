@@ -273,7 +273,7 @@ module Unlight
     # 治癒できないステータス
     STATE_CONTROL = 25
     IRREMEDIABLE_STATE = [
-      STATE_CONTROL,
+      STATE_CONTROL
     ]
     # ステータス状態を初期化
     HAS_PILOTS = [20, 27]

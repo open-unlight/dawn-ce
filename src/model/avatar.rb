@@ -3867,7 +3867,7 @@ module Unlight
         get_event_quest_clear_num(QUEST_TUTORIAL_ID) || 0,
 
         get_event_quest_flag(QUEST_CHARA_VOTE_ID) || 0,
-        get_event_quest_clear_num(QUEST_CHARA_VOTE_ID) || 0,
+        get_event_quest_clear_num(QUEST_CHARA_VOTE_ID) || 0
       ]
 
       # キャラカードに関するアチーブメントのチェックをしてしまう

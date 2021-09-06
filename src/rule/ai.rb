@@ -688,7 +688,7 @@ module Unlight
           # AIMING
           #    check_feat(@cc.owner.greater_check(FEAT_AIMING,ActionCard::ARW, 4)&&(@cc.owner.distance != 1), FEAT_AIMING)
           {
-            Cond: [[ActionCard::ARW, 4, GREATER],],
+            Cond: [[ActionCard::ARW, 4, GREATER]],
             Distance: [SHORT, EQUAL],
             Pow: 2
           },
@@ -804,7 +804,7 @@ module Unlight
           {
             Cond: [[ActionCard::SPC, 1, GREATER]],
             Pow: 10
-          },
+          }
 
         ]
     end

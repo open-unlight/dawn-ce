@@ -47,7 +47,7 @@ module Unlight
     #    { :type => TG_AVATAR_PART, :id => 334,  :num => 1, :sct_type => SCT_WEAPON }, # 儚きワンド III
     { type: TG_SLOT_CARD,   id: 5000, num: 2, sct_type: SCT_WEAPON }, # オルタサイト
     { type: TG_SLOT_CARD,   id: 5026, num: 1, sct_type: SCT_WEAPON }, # 銀の妖精のレリーフ
-    { type: TG_SLOT_CARD,   id: 6002, num: 1, sct_type: SCT_WEAPON }, # クロリスクレスト
+    { type: TG_SLOT_CARD,   id: 6002, num: 1, sct_type: SCT_WEAPON } # クロリスクレスト
   ]
 
   ROOKIE_SALE_CHECK_ACHEVEMENT_ID = 43 # 課金停止後に出現しないよう変更
@@ -65,7 +65,7 @@ module Unlight
     { type: TG_AVATAR_ITEM,  id: 4,  num: 5 },  # ラッキークローバー*5
     { type: TG_AVATAR_ITEM,  id: 9,  num: 10 }, # チケット*10
     { type: TG_CHARA_CARD, id: { 1 => 6, 21 => 26, 31 => 36, 101 => 106, 111 => 116 }, num: 1 }, # 初期キャラのR1
-    { type: TG_GEM, id: 0, num: 3000 }, # 3000GEM
+    { type: TG_GEM, id: 0, num: 3000 } # 3000GEM
   ]
 
   CHARA_VOTE_EVENT = false # キャラ人気投票イベントフラグ
@@ -369,7 +369,7 @@ module Unlight
     [TG_AVATAR_ITEM, 0, 2, 1],
     [TG_AVATAR_ITEM, 0, 4, 1],
     [TG_AVATAR_ITEM, 0, 9, 1],
-    [TG_AVATAR_ITEM, 0, 367, 1],
+    [TG_AVATAR_ITEM, 0, 367, 1]
 
     # 2012クリスマスイベント用のログインボーナス
     #                      [TG_AVATAR_ITEM, 0, 69, 1],

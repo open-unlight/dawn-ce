@@ -6,32 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 924
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: symmetrical, new_line, same_line
-Layout/MultilineArrayBraceLayout:
-  Exclude:
-    - 'src/constants/constants.rb'
-    - 'src/constants/cpu_data_constants.rb'
-    - 'src/constants/reward_constants.rb'
-    - 'src/model/chara_card_slot_inventory.rb'
-    - 'src/model/watch_real_duel.rb'
-    - 'src/protocol/command/authcommand.rb'
-    - 'src/protocol/command/chatcommand.rb'
-    - 'src/protocol/command/datacommand.rb'
-    - 'src/protocol/command/gamecommand.rb'
-    - 'src/protocol/command/globalchatcommand.rb'
-    - 'src/protocol/command/lobbycommand.rb'
-    - 'src/protocol/command/matchcommand.rb'
-    - 'src/protocol/command/questcommand.rb'
-    - 'src/protocol/command/raidchatcommand.rb'
-    - 'src/protocol/command/raidcommand.rb'
-    - 'src/protocol/command/raiddatacommand.rb'
-    - 'src/protocol/command/raidrankcommand.rb'
-    - 'src/protocol/command/watchcommand.rb'
-    - 'src/rule/event/chara_card_event.rb'
-
 # Offense count: 1
 # Configuration parameters: IgnoredMethods.
 Lint/AmbiguousBlockAssociation:
@@ -1434,44 +1408,6 @@ Style/SoleNestedConditional:
     - 'src/model/total_event_ranking.rb'
     - 'src/rule/deck.rb'
     - 'src/rule/entrant.rb'
-
-# Offense count: 916
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInArrayLiteral:
-  Exclude:
-    - 'src/constants/common_constants.rb'
-    - 'src/constants/constants.rb'
-    - 'src/constants/cpu_data_constants.rb'
-    - 'src/constants/locale_constants.rb'
-    - 'src/constants/reward_constants.rb'
-    - 'src/model/avatar.rb'
-    - 'src/model/avatar_part.rb'
-    - 'src/model/chara_card.rb'
-    - 'src/model/chara_card_slot_inventory.rb'
-    - 'src/model/combine_case.rb'
-    - 'src/model/feat.rb'
-    - 'src/model/monster_treasure_inventory.rb'
-    - 'src/model/quest.rb'
-    - 'src/model/rare_card_lot.rb'
-    - 'src/model/watch_real_duel.rb'
-    - 'src/protocol/command/authcommand.rb'
-    - 'src/protocol/command/chatcommand.rb'
-    - 'src/protocol/command/datacommand.rb'
-    - 'src/protocol/command/gamecommand.rb'
-    - 'src/protocol/command/globalchatcommand.rb'
-    - 'src/protocol/command/lobbycommand.rb'
-    - 'src/protocol/command/matchcommand.rb'
-    - 'src/protocol/command/questcommand.rb'
-    - 'src/protocol/command/raidchatcommand.rb'
-    - 'src/protocol/command/raidcommand.rb'
-    - 'src/protocol/command/raiddatacommand.rb'
-    - 'src/protocol/command/raidrankcommand.rb'
-    - 'src/protocol/command/watchcommand.rb'
-    - 'src/rule/ai.rb'
-    - 'src/rule/event/action_card_event.rb'
-    - 'src/rule/event/chara_card_event.rb'
 
 # Offense count: 175
 ThreadSafety/InstanceVariableInClassMethod:

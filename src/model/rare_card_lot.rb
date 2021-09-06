@@ -17,7 +17,7 @@ module Unlight
       16_517,          # Reality 7  1%     2 <-使わない
       4783,           # Reality 8  0.3%   1 <-使わない
       1132,           # Reality 9  0.1%
-      197,            # Reality 10 0.02%
+      197 # Reality 10 0.02%
     ]
   else
     LOT_REALITY = [
@@ -30,7 +30,7 @@ module Unlight
       0,             # Reality 7  1%     2 <-使わない
       0,             # Reality 8  0.3%   1 <-使わない
       0,             # Reality 9  0.1%
-      0,             # Reality 10 0.02%
+      0 # Reality 10 0.02%
     ]
   end
 

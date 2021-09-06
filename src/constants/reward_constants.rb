@@ -12,7 +12,7 @@ module Unlight
     [51, 70], # 3VS3 LOSE
     [71, 100], # 3VS3 WIN
     [101, 140], # CPU LOSE (枠40)
-    [141, 200], # CPU WIN（枠60）
+    [141, 200] # CPU WIN（枠60）
   ]
   # 特殊アイテムをゲットできるか
   WILD_ITEM_GET = [
@@ -21,7 +21,7 @@ module Unlight
     true, # 3VS3 LOSE
     true, # 3VS3 WIN
     false, # CPU LOSE (枠40)
-    false, # CPU WIN（枠60）
+    false # CPU WIN（枠60）
   ]
 
   RESULT_1VS1_LOSE = 0
@@ -39,8 +39,7 @@ module Unlight
                     [20, 30],             # LV5
                     [24, 34],             # LV6
                     [28, 38],             # LV7
-                    [32, 39],             # LV8
-                   ]
+                    [32, 39]] # LV8
 
   LEVEL_CAP_WIN = [[0, 25], # LV0(未使用)幅25
                    [0, 25],              # LV1 幅25
@@ -50,8 +49,7 @@ module Unlight
                    [16, 41],             # LV5
                    [20, 45],             # LV6
                    [24, 45],             # LV7
-                   [28, 45],             # LV8
-]
+                   [28, 45]] # LV8
 
   # ============== イベントアイテムの設定 ==================
 
@@ -65,7 +63,7 @@ module Unlight
     [490],
     [490],
     [],
-    [],
+    []
   ]
 
   # CPUの場合の個数
