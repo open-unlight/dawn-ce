@@ -281,7 +281,7 @@ module Unlight
         begin
           ac = ActionCard[c]
         rescue StandardError => e
-          SERVER_LOG.fatal(e.message)
+          SERVER_LOG.fatal(e)
         end
 
         if ac
