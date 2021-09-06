@@ -14,7 +14,7 @@ module Protocol
     attr_accessor :player, :matching, :duel, :opponent_player, :match_log, :watch_duel, :last_connect
 
     # クラスの初期化
-    def self.setup(id, ip, port)
+    def self.setup(_id, _ip, _port)
       super()
       # コマンドクラスをつくる
       @@receive_cmd = Command.new(self, :Game)
@@ -40,10 +40,6 @@ module Protocol
 
     def online_list
       @@online_list
-    end
-
-    def self.exit_server
-      super
     end
 
     attr_reader :player

@@ -68,7 +68,7 @@ module Unlight
     end
 
     # チャットチャンネルにログアウト
-    def cs_channel_out(id)
+    def cs_channel_out(_id)
       # 全部のチャンネルから抜ける
       channel_all_out
     end

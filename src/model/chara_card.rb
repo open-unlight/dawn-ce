@@ -126,7 +126,7 @@ module Unlight
     end
 
     # 台詞IDをゲットする
-    def dialogue_id(type, other)
+    def dialogue_id(_type, _other)
       DialogueWeight.DialogueWeight.get_dialogue_id
     end
 
@@ -202,7 +202,7 @@ module Unlight
       @special_status = []
       @event.singleton_class # NOTE: Create singleton class to ensure `method` get same object
       # ステータス状態を初期化
-      CHARA_STATE_EVENT_NO.each_index do |i|
+      CHARA_STATE_EVENT_NO.each_index do |_i|
         @status << [1, 0, 0]
       end
       # ステータス状態のHookを登録
@@ -212,7 +212,7 @@ module Unlight
         end
       end
       # 特殊ステータス状態を初期化
-      CHARA_SPECIAL_STATE_EVENT_NO.each_index do |i|
+      CHARA_SPECIAL_STATE_EVENT_NO.each_index do |_i|
         @special_status << [1, 0, 0]
       end
       # 特殊ステータス状態のHookを登録
@@ -298,7 +298,7 @@ module Unlight
     # 特殊ステータスを初期化
     def reset_special_status
       if @special_status
-        @special_status.each_with_index do |s, i|
+        @special_status.each_with_index do |s, _i|
           s[1] = 0
         end
       end

@@ -33,7 +33,7 @@ module Unlight
     end
 
     # ストーリー情報を送る
-    def cs_request_story_info(rnd0, id, rnd1)
+    def cs_request_story_info(_rnd0, id, _rnd1)
       SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_request_story_info] #{id}")
       story = CharaCardStory[id]
       sc_story_info(id, story.book_type || 0, story.title || '', story.content || '', story.image || '', story.age_no || '', story.version || 0) if story
@@ -172,22 +172,22 @@ module Unlight
     end
 
     # アチーブメントがクリアされた
-    def achievement_clear_event_handler(target, ret)
+    def achievement_clear_event_handler(_target, ret)
       sc_achievement_clear(*ret)
     end
 
     # アチーブメントが追加された
-    def add_new_achievement_event_handler(target, ret)
+    def add_new_achievement_event_handler(_target, ret)
       sc_add_new_achievement(ret)
     end
 
     # アチーブメントが追加された
-    def delete_achievement_event_handler(target, ret)
+    def delete_achievement_event_handler(_target, ret)
       sc_delete_achievement(ret)
     end
 
     # アチーブメントが更新された
-    def update_achievement_info_event_handler(target, ret)
+    def update_achievement_info_event_handler(_target, ret)
       sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 

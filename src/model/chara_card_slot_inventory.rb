@@ -210,7 +210,7 @@ module Unlight
       self.exp += add_exp
       # level
       set_level = 0
-      SC_LEVEL_EXP_TABLE.each_with_index do |prm, idx|
+      SC_LEVEL_EXP_TABLE.each_with_index do |prm, _idx|
         break if self.exp < prm
 
         set_level += 1
@@ -740,7 +740,7 @@ module Unlight
     end
 
     # 近距離ダイス攻撃力増加
-    def sword_dice_bonus(ai = :none)
+    def sword_dice_bonus(_ai = :none)
       0
     end
 
@@ -750,7 +750,7 @@ module Unlight
     end
 
     # 近距離ダイス防御力増加
-    def sword_deffence_dice_bonus(ai = :none)
+    def sword_deffence_dice_bonus(_ai = :none)
       0
     end
 
@@ -760,7 +760,7 @@ module Unlight
     end
 
     # 遠距離ダイス増加
-    def arrow_dice_bonus(ai = :none)
+    def arrow_dice_bonus(_ai = :none)
       0
     end
 
@@ -770,7 +770,7 @@ module Unlight
     end
 
     # 遠距離ダイス防御力増加
-    def arrow_deffence_dice_bonus(ai = :none)
+    def arrow_deffence_dice_bonus(_ai = :none)
       0
     end
 
@@ -793,7 +793,7 @@ module Unlight
       v
     end
 
-    def add_param_limit_check(v, base_v)
+    def add_param_limit_check(v, _base_v)
       limit_check(v, level + restriction_add_param, COMB_ADD_PARAM_MIN)
     end
 

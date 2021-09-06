@@ -100,7 +100,7 @@ module Unlight
     regist_event OneToOneAi
 
     # 終了ハンドラ
-    def finish_ai(target, ret)
+    def finish_ai(_target, _ret)
       SERVER_LOG.info('AI: [Destruct]')
       remove_all_hook
       remove_all_event_listener
@@ -129,37 +129,37 @@ module Unlight
     end
 
     # 移動フェイズのハンドラ。移動カードを判定アクションを実行
-    def duel_move_card_drop_handler(ret)
+    def duel_move_card_drop_handler(_ret)
       @chara_feat_value = {}
       choice_move_card_action
     end
 
     # 攻撃フェイズのハンドラ。攻撃カード判定アクションを実行
-    def duel_attack_card_phase_handler(ret)
+    def duel_attack_card_phase_handler(_ret)
       if @entrant.initiative?
         choice_attack_card_action
       end
     end
 
     # 防御フェイズのハンドラ。防御カード判定アクションを実行
-    def duel_deffence_card_phase_handler(ret)
+    def duel_deffence_card_phase_handler(_ret)
       if @entrant.not_initiative?
         choice_deffence_card_action
       end
     end
 
     # キャラ変更フェイズのハンドラ。防御カード判定アクションを実行
-    def duel_chara_change_phase_handler(ret)
+    def duel_chara_change_phase_handler(_ret)
       choice_chara_card_action
     end
 
     # キャラ変更フェイズのハンドラ。防御カード判定アクションを実行
-    def duel_dead_chara_change_phase_handler(ret)
+    def duel_dead_chara_change_phase_handler(_ret)
       choice_chara_card_action
     end
 
     # イニシアチブ変更フェイズ
-    def duel_change_initiative_phase_handler(*arg)
+    def duel_change_initiative_phase_handler(*_arg)
       # CPUの強さがMEDIUMより下なら判定しない
       if @rank < CPU_AI_MEDIUM
         return
@@ -173,9 +173,9 @@ module Unlight
       end
 
       # 役がそろっているカードは捨てない
-      @chara_feat_value.each do |k, v|
+      @chara_feat_value.each do |_k, v|
         if v
-          v[1].each do |l, w|
+          v[1].each do |l, _w|
             @hand_useless_value[l] = 0 if @hand_value[l]
           end
         end
@@ -417,7 +417,7 @@ module Unlight
         @think_num += 1
       when 4
         # 必殺技がONになる可能性を判断
-        @chara_feat_value.each do |k, v|
+        @chara_feat_value.each do |_k, v|
           if v
             case [v][1]
             when [1]

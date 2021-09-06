@@ -52,7 +52,7 @@ module Unlight
     end
 
     # キャッシュにDuelデータを保存
-    def set_cache_duel_data(match_uid, pl_id, foe_id)
+    def set_cache_duel_data(_match_uid, pl_id, foe_id)
       # キャッシュ保存用データ
       set_data = {
         pl_id: pl_id,

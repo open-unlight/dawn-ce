@@ -14,14 +14,14 @@ require "model/#{$arg}"
 
 module Unlight
   if eval("#{$arg.camelize}.table_exists?")
-    col = eval ("#{$arg.camelize}.columns")
+    col = eval("#{$arg.camelize}.columns")
     puts "既存のモデルデータ#{$arg}のテーブルをリセットしますか(#{col})(y/n)"
     answer = gets.chomp
     if answer == 'y'
-      eval ("#{$arg.camelize}.create_table!")
+      eval("#{$arg.camelize}.create_table!")
     end
   else
     puts 'モデルデータが存在しないのでテーブルを作ります'
-    eval ("#{$arg.camelize}.create_table")
+    eval("#{$arg.camelize}.create_table")
   end
 end

@@ -396,7 +396,7 @@ module Unlight
       end
       # 確率
       num = 0
-      @current_genre_odds.each { |k, v| num += v }
+      @current_genre_odds.each { |_k, v| num += v }
       # ランダムの結果
       r = rand(num)
       # 前回の値をいれる一時変数
@@ -620,7 +620,7 @@ module Unlight
     end
 
     # イベントアイテムの設定
-    def set_event_item(val = 0)
+    def set_event_item(_val = 0)
       a = []
       a << { item: EVENT_REWARD_ITEM, step: EVENT_REWARD_ITEM_STEP }
       # a << {:item=>EVENT_REWARD_ITEM[val % EVENT_REWARD_ITEM.count], :step=>EVENT_REWARD_ITEM_STEP }

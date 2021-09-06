@@ -15,7 +15,7 @@ module Protocol
     attr_accessor :player, :matching, :opponent_player
 
     # クラスの初期化
-    def self.setup(id, ip, port)
+    def self.setup(_id, _ip, _port)
       super()
       # コマンドクラスをつくる
       @@receive_cmd = Command.new(self, :Match)

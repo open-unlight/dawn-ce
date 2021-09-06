@@ -224,7 +224,7 @@ module Unlight
     end
 
     # ルーキースタートアップ
-    def rookie_present(player, cards)
+    def rookie_present(_player, cards)
       # 初心者キャンペーンフラグ（2016年11月から恒常化）
       if ROOKIE_PRESENT_FLAG
         if self
@@ -237,17 +237,17 @@ module Unlight
             when TG_GEM
               set_gems(pre[:num])
             when TG_AVATAR_ITEM
-              pre[:num].times do |i|
+              pre[:num].times do |_i|
                 get_item(pre[:id])
               end
               set_id = pre[:id]
             when TG_CHARA_CARD
-              pre[:num].times do |i|
+              pre[:num].times do |_i|
                 get_chara_card(pre[:id][first_choice_card_id])
               end
               set_id = pre[:id][first_choice_card_id]
             when TG_AVATAR_PART
-              pre[:num].times do |i|
+              pre[:num].times do |_i|
                 get_part(pre[:id])
               end
               set_id = pre[:id]
@@ -397,7 +397,7 @@ module Unlight
       inv_id = 0
       if ex[0]
         ex[1].each do |k, v|
-          v.times do |i|
+          v.times do |_i|
             ret << nums[k].last.id
             nums[k].pop.delete_from_deck
           end
@@ -1457,7 +1457,7 @@ module Unlight
 
     def set_deck_exp(d, i, is_get_bp = 0)
       d.set_deck_exp(i, is_get_bp)
-      @event.deck_level_up_event if @event while d.check_deck_level_up
+      @event&.deck_level_up_event while d.check_deck_level_up
       @event.get_deck_exp_event if @event
     end
 
@@ -1939,7 +1939,7 @@ module Unlight
     end
 
     # 渦を取得する
-    def get_profound(profound, owner, owner_name = nil)
+    def get_profound(profound, owner, _owner_name = nil)
       ret = 0
       # 既に所持しているか
       have_prf = ProfoundInventory.get_avatar_profound_for_id(id, profound.id)
@@ -2131,7 +2131,7 @@ module Unlight
     end
 
     # 渦戦闘開始処理
-    def profound_duel_start(inv, use_ap, deck_idx)
+    def profound_duel_start(inv, use_ap, _deck_idx)
       # 渦戦闘回数レコード
       check_raid_btl_cnt_record(inv.profound.p_data.id) if inv.btl_count <= 0
 
@@ -2190,15 +2190,15 @@ module Unlight
       case genr
       when TG_NONE
       when TG_CHARA_CARD
-        num.times do |i|
+        num.times do |_i|
           get_chara_card(id)
         end
       when TG_SLOT_CARD
-        num.times do |i|
+        num.times do |_i|
           get_slot_card(type, id, weapon_record_check)
         end
       when TG_AVATAR_ITEM
-        num.times do |i|
+        num.times do |_i|
           get_item(id)
         end
       when TG_AVATAR_PART
@@ -2206,7 +2206,7 @@ module Unlight
         if parts_dupe_check(id)
           ret = ERROR_PARTS_DUPE
         else
-          num.times do |i|
+          num.times do |_i|
             get_part(id, true)
           end
         end
@@ -2237,7 +2237,7 @@ module Unlight
         cname = RENAME_CHARACTORS.include?(cid) ? Charactor[cid].name : van_card.name
         own_card = CharaCard.filter([[:name, cname], [:level, lv], [:rarity, 1..5], [:charactor_id, cid]]).first
         unless own_card.nil?
-          num.times do |i|
+          num.times do |_i|
             get_chara_card(own_card.id)
             get_quest_treasure_event(TG_OWN_CARD, TG_CHARA_CARD, own_card.id)
           end
@@ -2392,7 +2392,7 @@ module Unlight
           cid = EX_COIN_CARD_ID
         elsif cid = (COIN_CARD_ID + i).to_i
         end
-        uses[i].times do |c|
+        uses[i].times do |_c|
           ret << nums[cid].last.id
           nums[cid].pop.delete_from_deck
         end
@@ -2407,7 +2407,7 @@ module Unlight
       refresh
       ret = Shop.buy_article(shop_id, SHOP_ITEM, item_id, self.gems, coins, amount)
       if ret[0]
-        amount.times do |c|
+        amount.times do |_c|
           get_item(item_id)
         end
         use_coin(ret[1])
@@ -2430,7 +2430,7 @@ module Unlight
       end
       if ret[0]
         refresh
-        amount.times do |c|
+        amount.times do |_c|
           get_slot_card(ntype, card_id)
         end
         use_coin(ret[1])
@@ -2448,7 +2448,7 @@ module Unlight
       ret = Shop.buy_article(shop_id, SHOP_CHARA_CARD, card_id, self.gems, coins, amount)
       if ret[0]
         refresh
-        amount.times do |c|
+        amount.times do |_c|
           get_chara_card(card_id)
         end
         use_coin(ret[1])
@@ -2648,7 +2648,7 @@ module Unlight
       # 先に削除リストから現行渦IDHashを更新する
       @@playing_prf_hash = CACHE.get('playing_prf_hash') # 念のため再取得
       if @@playing_prf_hash
-        @@playing_prf_hash.reject! { |key, val| delete_id_list.include?(key) }
+        @@playing_prf_hash.reject! { |key, _val| delete_id_list.include?(key) }
         CACHE.set('playing_prf_hash', @@playing_prf_hash, PRF_PLAYING_HASH_CACHE_TTL)
       end
       # 発見者IDリストからAvatarを取得
@@ -3351,7 +3351,7 @@ module Unlight
       end
 
       if (20_568..20_618).cover?(inv.quest_id) && r == RESULT_WIN
-        1.times { achievement_check([348, 349, 350, 351, 352, 353]) }
+        achievement_check([348, 349, 350, 351, 352, 353])
       elsif (20_619..20_643).cover?(inv.quest_id) && r == RESULT_WIN
         3.times { achievement_check([348, 349, 350, 351, 352, 353]) }
       elsif (10_001..10_288).cover?(inv.quest_id) && r == RESULT_WIN
@@ -4074,7 +4074,7 @@ module Unlight
               # 一度すべてを削除する
               records.each { |row| delete_ids.push(row.achievement_id) }
               delete_ids.each do |id|
-                records.each_with_index do |row, i|
+                records.each_with_index do |_row, i|
                   if id == records[i].achievement_id
                     records[i].finish_delete
                     records.delete_at(i)
@@ -4559,7 +4559,7 @@ module Unlight
       if avatar_apology
         apologies = avatar_apology.get_body
         add_apology = false
-        apologies.each do |k, param|
+        apologies.each do |_k, param|
           notice_set = [param[:date]]
           param[:items].each do |i|
             r = get_treasures(i[0], i[1], i[3], i[2])
@@ -4589,7 +4589,7 @@ module Unlight
         noncheck_types = PRF_NOTICE_TYPES.clone.push(NOTICE_TYPE_GET_SELECTABLE_ITEM)
         avatar_notice.get_other_type_message(noncheck_types)
         cleared_notice_set = avatar_notice.clear_body(n)
-        cleared_notice_set.each_with_index do |nc, i|
+        cleared_notice_set.each_with_index do |nc, _i|
           a = nc.split(':') if nc
           if a
             case a.first.to_i
@@ -4615,7 +4615,7 @@ module Unlight
       cnt = avatar_notice.get_type_message([NOTICE_TYPE_GET_SELECTABLE_ITEM]).split('|').size
       if cnt.positive? && !arg_set.keys.empty?
         cleared_notice_set = avatar_notice.clear_body(cnt)
-        cleared_notice_set.each_with_index do |nc, i|
+        cleared_notice_set.each_with_index do |nc, _i|
           a = nc.split(':') if nc
           if a
             case a.first.to_i

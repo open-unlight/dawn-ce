@@ -270,7 +270,7 @@ module Unlight
       end
 
       # 全ての対戦相手にCPUを入れる
-      tmp_list.each_with_index do |t, i|
+      tmp_list.each_with_index do |t, _i|
         unless list[t[0]][:started] # list[t[0]][:waiting_time] > 0
           list[t[0]][:started] = AI_PLAYER_ID if list[t[0]][:started] == false
         end
@@ -504,7 +504,7 @@ module Unlight
     end
 
     # CPUROOMから1つランダムでかえす
-    def self.get_cpu_room(low = 0, high = 99, player = nil)
+    def self.get_cpu_room(_low = 0, _high = 99, player = nil)
       case Unlight::MatchServer.match_channel.cpu_matching_type?
       when CPU_MATCHING_TYPE_COST
         avatar = player.current_avatar
@@ -859,25 +859,25 @@ module Unlight
     end
 
     # アチーブメントがクリアされた
-    def achievement_clear_event_handler(target, ret)
+    def achievement_clear_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_achievement_clear] #{ret}")
       sc_achievement_clear(*ret)
     end
 
     # アチーブメントが追加された
-    def add_new_achievement_event_handler(target, ret)
+    def add_new_achievement_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_add_new_achievement] ID: #{ret}")
       sc_add_new_achievement(ret)
     end
 
     # アチーブメントが追加された
-    def delete_achievement_event_handler(target, ret)
+    def delete_achievement_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_delete_achievement] ID: #{ret}")
       sc_delete_achievement(ret)
     end
 
     # アチーブメントが更新された
-    def update_achievement_info_event_handler(target, ret)
+    def update_achievement_info_event_handler(_target, ret)
       sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 

@@ -12,7 +12,7 @@ module Unlight
     answer = gets.chomp
     if answer
       num = answer.to_i
-      puts "#{num.to_s}時間伸ばします"
+      puts "#{num}時間伸ばします"
       yday = Date.today - 1
       st = Time.utc(yday.year, yday.month, yday.day)
       # 昨日以降に消えるはずのend_atを抽出

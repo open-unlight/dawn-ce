@@ -271,7 +271,7 @@ module Unlight
           break
         end
       end
-      del.each do |k, v|
+      del.each do |k, _v|
         cards.delete(k)
       end
       [cards, del]
@@ -279,7 +279,7 @@ module Unlight
 
     # アクションカードの配列から特定数値のカードを探し出す
     # 返り値は削除済みのカード配列と削除したカードのキーに裏表とそのバリューのハッシュ
-    def self.search_wld_card(cards, value, dummy = 0)
+    def self.search_wld_card(cards, value, _dummy = 0)
       del = {}
       cards.each do |c|
         r = c.get_exist_wld_card_value?(value)
@@ -288,7 +288,7 @@ module Unlight
           break
         end
       end
-      del.each do |k, v|
+      del.each do |k, _v|
         cards.delete(k)
       end
       [cards, del]
@@ -310,7 +310,7 @@ module Unlight
         end
       end
       if cv >= value
-        del.each do |k, v|
+        del.each do |k, _v|
           cards.delete(k)
         end
       else
@@ -334,7 +334,7 @@ module Unlight
         end
       end
       if cv <= value
-        del.each do |k, v|
+        del.each do |k, _v|
           cards.delete(k)
         end
       else
@@ -382,7 +382,7 @@ module Unlight
       end
 
       if cv >= value
-        del.each do |k, v|
+        del.each do |k, _v|
           cards.delete(k)
         end
       else
@@ -423,7 +423,7 @@ module Unlight
 
     # アクションカードの配列からなんでもいいのでそのカードが存在するか？をチェック
     # 返り値は削除済みのカード配列と削除したカードの配列
-    def self.wild_card(cards, value, opt)
+    def self.wild_card(cards, value, _opt)
       del = {}
       cv = 0
       cards.each do |c|
@@ -434,7 +434,7 @@ module Unlight
         end
       end
       if cv >= value
-        del.each do |k, v|
+        del.each do |k, _v|
           cards.delete(k)
         end
       else
@@ -462,7 +462,7 @@ module Unlight
     end
 
     # 必殺技の条件が機能してるかを返す（失敗はfalse, 成功は元カードと使用するカードの配列）
-    def self.ai_dist_check(i, owner)
+    def self.ai_dist_check(i, _owner)
       method(@@ai_dist_cond_set[i]).call
     end
 
@@ -488,7 +488,7 @@ module Unlight
         a = s[i].split(',')
         t = 1
         t = a[3].to_i if a[3]
-        t.times do |x|
+        t.times do |_x|
           ret << []
           ret.last <<  a[0].to_sym
           ret.last <<  a[1].to_i

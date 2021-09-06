@@ -605,12 +605,12 @@ module Unlight
     end
 
     # チケットを追買う
-    def ticket_use(v)
+    def ticket_use(_v)
       0
     end
 
     # 使用不可アイテム
-    def not_use(v)
+    def not_use(_v)
       -1
     end
 
@@ -642,7 +642,7 @@ module Unlight
     end
 
     # クエストMAXを増やす
-    def quest_max_up(v)
+    def quest_max_up(_v)
       if @owner
       end
       -1
@@ -831,7 +831,7 @@ module Unlight
     end
 
     # 勝敗をリセットする
-    def reset_result(v)
+    def reset_result(_v)
       if @owner
         @owner.reset_result
       else
@@ -840,7 +840,7 @@ module Unlight
     end
 
     # BPをリセットする
-    def reset_bp(v)
+    def reset_bp(_v)
       if @owner
         @owner.reset_bp
       else

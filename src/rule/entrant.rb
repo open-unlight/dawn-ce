@@ -112,7 +112,7 @@ module Unlight
       end
 
       @field_status = [] # [power, turn]
-      FIELD_STATUS.each_key do |key|
+      FIELD_STATUS.each_key do |_key|
         @field_status << [1, 0]
       end
 
@@ -1408,7 +1408,7 @@ module Unlight
     end
 
     # 未実装
-    def get_battle_table_focus_point(type)
+    def get_battle_table_focus_point(_type)
       self.tmp_focus = 0
     end
 
@@ -1485,7 +1485,7 @@ module Unlight
     end
 
     # テーブルにあるカードのうち、タイプと数値が一致するカードの枚数を返す
-    def get_equal_type_point_table_count(type, point)
+    def get_equal_type_point_table_count(_type, _point)
       0
     end
 
@@ -1694,7 +1694,7 @@ module Unlight
     # 与えられたタイプの中で一定ポイント以上あるか調べる。
     # 与えられたタイプの中で最高値のタイプを調べる。
     # bp_calcと衝突しないよう、ビットを立てる処理は後ろに分離する。
-    def greater_check_type_set(feat_no, typeSigns, point)
+    def greater_check_type_set(_feat_no, typeSigns, point)
       max_value_type = []
       max_value_type = get_max_value_type(typeSigns, point)
 

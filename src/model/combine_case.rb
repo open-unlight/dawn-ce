@@ -237,7 +237,7 @@ module Unlight
         c.each do |cc|
           set << get_range_judge_proc(cc)
         end
-        set << proc { |base| true } if c.empty?
+        set << proc { |_base| true } if c.empty?
         @@condition_add_proc[id] << proc do |base|
           rt = false
           set.each do |prc|
@@ -288,7 +288,7 @@ module Unlight
       l = list.clone
       l.delete(t)
       ret = { t => -n }
-      n.times do |i|
+      n.times do |_i|
         r = rand(l.size)
         ret[l[r]] ||= 0
         ret[l[r]] += 1

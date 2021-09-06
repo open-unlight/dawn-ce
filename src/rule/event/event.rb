@@ -197,7 +197,7 @@ module Unlight
       @@init_list
     end
 
-    def initialize(*args)
+    def initialize(*_args)
       # フックするイベントの初期化
       @@init_list[self.class.name].each { |a| send(a) } if @@init_list[self.class.name]
     end

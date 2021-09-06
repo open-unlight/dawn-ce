@@ -223,53 +223,53 @@ module Unlight
     end
 
     # アチーブメントがクリアされた
-    def achievement_clear_event_handler(target, ret)
+    def achievement_clear_event_handler(_target, ret)
       sc_achievement_clear(*ret)
     end
 
     # アチーブメントが追加された
-    def add_new_achievement_event_handler(target, ret)
+    def add_new_achievement_event_handler(_target, ret)
       sc_add_new_achievement(ret)
     end
 
     # アチーブメントが追加された
-    def delete_achievement_event_handler(target, ret)
+    def delete_achievement_event_handler(_target, ret)
       sc_delete_achievement(ret)
     end
 
     # アチーブメントが更新された
-    def update_achievement_info_event_handler(target, ret)
+    def update_achievement_info_event_handler(_target, ret)
       sc_update_achievement_info(ret[0], ret[1], ret[2], ret[3], ret[4])
     end
 
     # 合成武器情報を更新する
-    def update_combine_weapon_data_event_handler(target, ret)
+    def update_combine_weapon_data_event_handler(_target, ret)
       SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [#{__method__}]  #{ret}")
       sc_update_combine_weapon_data(*ret)
     end
 
     # パッシブスキル発動時のボス側ハンドラ
-    def boss_on_rage_against_event_handler(target, ret)
+    def boss_on_rage_against_event_handler(_target, ret)
       sc_raid_rage_info(ret.join(','))
     end
 
     # 渦情報イベント
-    def send_profound_info_event_handler(target, ret)
+    def send_profound_info_event_handler(_target, ret)
       sc_resend_profound_inventory(*ret)
     end
 
     # 渦インベントリー情報を送信
-    def resend_profound_inventory_event_handler(target, ret)
+    def resend_profound_inventory_event_handler(_target, ret)
       sc_resend_profound_inventory(*ret)
     end
 
     # 渦インベントリー情報送信完了
-    def resend_profound_inventory_finish_event_handler(target, ret)
+    def resend_profound_inventory_finish_event_handler(_target, _ret)
       sc_resend_profound_inventory_finish
     end
 
     # アイテムを使用した
-    def item_use_event_handler(target, ret)
+    def item_use_event_handler(_target, ret)
       sc_use_item(ret)
     end
 
@@ -368,7 +368,7 @@ module Unlight
     end
 
     # ボーナスゲット時のハンドラ
-    def duel_bonus_handler(target, ret)
+    def duel_bonus_handler(_target, ret)
       if @avatar && @prf_inv
         @prf_inv.update_score(ret.last * RAID_BONUS_SCORE_RATIO) # retのlastがボーナス量
         send_score
@@ -408,7 +408,7 @@ module Unlight
       end
     end
 
-    def reset_buff_data_handler(target)
+    def reset_buff_data_handler(_target)
       if @avatar && @prf_inv
         # 状態異常
         cc = @duel.beta.current_chara_card
@@ -435,11 +435,11 @@ module Unlight
     end
 
     # ダメージ保存ハンドラ
-    def damage_log_handler(target, ret)
+    def damage_log_handler(_target, ret)
       set_damage_log(ret.first) if ret.last # 引数の最後にログ保存フラグをセットしてある
     end
 
-    def party_damage_log_handler(target, ret)
+    def party_damage_log_handler(_target, ret)
       set_damage_log(ret[1]) if ret.first.zero? && ret.last # 引数の最後にログ保存フラグをセットしてある
     end
 
@@ -483,11 +483,11 @@ module Unlight
     end
 
     # 回復保存ハンドラ
-    def heal_log_handler(target, ret)
+    def heal_log_handler(_target, ret)
       set_heal_log(ret.first) if ret.last
     end
 
-    def party_heal_log_handler(target, ret)
+    def party_heal_log_handler(_target, ret)
       set_heal_log(ret[1]) if ret.first.zero? && ret.last
     end
 
@@ -501,7 +501,7 @@ module Unlight
     end
 
     # 状態異常の初期設定
-    def send_boss_buff_handler(duel)
+    def send_boss_buff_handler(_duel)
       if @prf_inv
         buffs = @prf_inv.profound.get_boss_buff
         if buffs
@@ -523,7 +523,7 @@ module Unlight
     end
 
     # 状態異常付加
-    def set_boss_buff_handler(target, ret)
+    def set_boss_buff_handler(_target, ret)
       if @prf_inv && ret[0] == false
         b_id, buff = @prf_inv.profound.set_boss_buff(ret[2], ret[3], ret[4])
         now = Time.now.utc
@@ -533,13 +533,13 @@ module Unlight
     end
 
     # 状態異常解除
-    def unset_boss_buff_handler(target, ret)
+    def unset_boss_buff_handler(_target, ret)
       if @prf_inv
         buffs = @prf_inv.profound.unset_boss_buff(ret[1])
       end
     end
 
-    def reset_boss_buff_handler(target, ret)
+    def reset_boss_buff_handler(_target, _ret)
       if @prf_inv
         @prf_inv.profound.reset_boss_buff
       end

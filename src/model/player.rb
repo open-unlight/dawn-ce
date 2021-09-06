@@ -140,17 +140,17 @@ module Unlight
                 is_set_pre = true
                 case pre[:type]
                 when TG_AVATAR_ITEM
-                  pre[:num].times do |i|
+                  pre[:num].times do |_i|
                     current_avatar.get_item(pre[:id])
                   end
                 when TG_AVATAR_PART
-                  pre[:num].times do |i|
+                  pre[:num].times do |_i|
                     if current_avatar.get_part(pre[:id], true) == ERROR_PARTS_DUPE
                       is_set_pre = false
                     end
                   end
                 when TG_SLOT_CARD
-                  pre[:num].times do |i|
+                  pre[:num].times do |_i|
                     current_avatar.get_slot_card(pre[:sct_type], pre[:id])
                   end
                 end

@@ -60,13 +60,13 @@ module Unlight
     end
 
     # 撃破者のインベントリ取得
-    def self.get_defeat_user_data(prf_id, r = true)
+    def self.get_defeat_user_data(prf_id, _r = true)
       inv_list = ProfoundInventory.filter([profound_id: prf_id, defeat: true]).all
       inv_list.first if inv_list
     end
 
     # 撃破判定
-    def self.is_defeat_boss(prf_id, inv_id, r = true)
+    def self.is_defeat_boss(prf_id, _inv_id, _r = true)
       cnt = ProfoundInventory.filter([profound_id: prf_id, defeat: true]).count
       cnt.positive?
     end
@@ -561,7 +561,7 @@ module Unlight
       end
       rank_cache_delete(@ranking_all)
       rank_cache_delete(@ranking_all_id)
-      @@prf_ranking_str_set.each do |k, v|
+      @@prf_ranking_str_set.each do |k, _v|
         rank_cache_delete(k)
       end
       @@prf_ranking_str_set = {}
@@ -637,7 +637,7 @@ module Unlight
         end
         rank = 1
         ret = {}
-        data_list.each do |dmg, data|
+        data_list.each do |_dmg, data|
           count = 0
           data.each do |d|
             ret[rank] = [] unless ret[rank]
@@ -665,7 +665,7 @@ module Unlight
         end
         rank = 1
         ret = {}
-        data_list.each do |dmg, data|
+        data_list.each do |_dmg, data|
           count = 0
           data.each do |d|
             ret[d[:a_id]] = { rank: rank, damage: d[:score] }

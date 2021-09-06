@@ -117,8 +117,8 @@ module Unlight
     end
 
     # 部屋を消す
-    def self.delete_room(channel, room_id)
-      channel.room_list.reject! do |id, room|
+    def self.delete_room(channel, _room_id)
+      channel.room_list.reject! do |_id, room|
         room.player_array.empty?
       end
     end

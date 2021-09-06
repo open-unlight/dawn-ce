@@ -68,7 +68,7 @@ module Dawn
     # @param block [Proc]
     #
     # @since 0.1.0
-    def each(&block)
+    def each
       items.each { |row| yield process(row.to_h) }
     end
 
