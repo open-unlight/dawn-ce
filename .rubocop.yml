@@ -20,6 +20,9 @@ Layout/LineLength:
   Exclude:
     - src/constants/common_constants.rb
 
+Style/AsciiComments:
+  Severity: info
+
 # Use Rails-like style
 RSpec/FilePath:
   Enabled: false
