@@ -86,7 +86,7 @@ module Unlight
       # 防御で０
       [/D(0)/, '!(owner.greater_check(__FEAT__,ActionCard::DEF,1))', '防0', ''],
       # 移動で０
-      [/M(0)/, '!(owner.greater_check(__FEAT__,ActionCard::MOVE,1))', '移0', ''],
+      [/M(0)/, '!(owner.greater_check(__FEAT__,ActionCard::MOVE,1))', '移0', '']
 
     ]
 
@@ -94,7 +94,7 @@ module Unlight
       # 攻撃、防御、移動のフェイズ分け（キャプションから作り出す）
       [/攻撃:/, ':attack == phase'],
       [/防御:/, ':deffence == phase'],
-      [/移動:/, ':move == phase'],
+      [/移動:/, ':move == phase']
 
     ]
 

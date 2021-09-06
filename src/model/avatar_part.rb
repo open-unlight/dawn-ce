@@ -133,7 +133,7 @@ module Unlight
       :increase_quest_inventory_max, # クエストインベントリ増加 2
       :multiply_exp_pow,             # EXP増加                  3
       :multiply_gem_pow,             # GEM増加                  4
-      :shorten_quest_find_time,      # クエストゲット時間短縮
+      :shorten_quest_find_time # クエストゲット時間短縮
     ]
 
     # AP回復時間を短くする

@@ -9,7 +9,7 @@ module Unlight
     [1000],         # Monster No.01 森の小人1体
     [1003],         # Monster No.02 蝙蝠1体
     [1006],         # Monster No.03 大蛙1体
-    [1009],         # Monster No.04 鬼火1体
+    [1009] # Monster No.04 鬼火1体
   ]
 
   CPU_WEAPON_CARDS = [
@@ -17,7 +17,7 @@ module Unlight
     [[], [], []],       # Monster No.00
     [[], [], []],       # Monster No.00
     [[], [], []],       # Monster No.00
-    [[], [], []],       # Monster No.00
+    [[], [], []] # Monster No.00
   ]
 
   CPU_EQUIP_CARDS = [
@@ -25,7 +25,7 @@ module Unlight
     [[], [], []],       # Monster No.00
     [[], [], []],       # Monster No.00
     [[], [], []],       # Monster No.00
-    [[], [], []],       # Monster No.00
+    [[], [], []] # Monster No.00
   ]
 
   CPU_EVENT_CARDS = [
@@ -33,7 +33,7 @@ module Unlight
     [[1, 1, 1, 2, 2, 2], [], []],             # Monster No.01
     [[1, 1, 1, 2, 2, 2], [], []],             # Monster No.02
     [[1, 1, 1, 2, 2, 2], [], []],             # Monster No.03
-    [[1, 1, 1, 2, 2, 2], [], []],             # Monster No.04
+    [[1, 1, 1, 2, 2, 2], [], []] # Monster No.04
   ]
 
   LAND_TREASURE = [
@@ -42,7 +42,7 @@ module Unlight
     [TG_SLOT_CARD, SCT_EVENT, 1],         #  No.00
     [TG_AVATAR_ITEM, 0, 1],               #  No.00
     [TG_AVATAR_PART, 0, 1],               #  No.00
-    [TG_GEM, 0, 100],                     # No.00
+    [TG_GEM, 0, 100] # No.00
   ]
 
   # 1000000が基数
@@ -56,7 +56,7 @@ module Unlight
     16_517,          # Reality 7  1%
     4783,           # Reality 8  0.3%
     1132,           # Reality 9  0.1%
-    197,            # Reality 10 0.02%
+    197 # Reality 10 0.02%
   ],
                  [
                    1_000_000, # Reality 1 23%
@@ -79,8 +79,8 @@ module Unlight
                    89_438,          # Reality 6  5%
                    37_028,          # Reality 7  2%
                    13_197,          # Reality 8  1%
-                   3941,           # Reality 9  0.3%
-                   870,            # Reality 10 0.08%
+                   3941, # Reality 9  0.3%
+                   870 # Reality 10 0.08%
                  ],
                  [
                    1_000_000, # Reality 1 13%
@@ -91,8 +91,8 @@ module Unlight
                    129_128,         # Reality 6  7%
                    57_584,          # Reality 7  4%
                    22_385,          # Reality 8  2%
-                   7357,           # Reality 9  0.6%
-                   1790,           # Reality 10 0.18%
+                   7357, # Reality 9  0.6%
+                   1790 # Reality 10 0.18%
                  ],
                  [
                    1_000_000, # Reality 1 9%
@@ -104,7 +104,7 @@ module Unlight
                    89_994,          # Reality 7  5%
                    37_779,          # Reality 8  2%
                    13_507,          # Reality 9  1%
-                   3576, # Reality 10 0.35%
+                   3576 # Reality 10 0.35%
                  ],
                  [
                    1_000_000, # Reality 1 8%
@@ -116,7 +116,7 @@ module Unlight
                    119_667,          # Reality 7  7%
                    53_769,           # Reality 8  3%
                    20_697,           # Reality 9  1.5%
-                   5901, # Reality 10 0.6%
+                   5901 # Reality 10 0.6%
                  ],
                  [
                    1_000_000, # Reality 1 5%
@@ -128,7 +128,7 @@ module Unlight
                    181_928,          # Reality 7 10%
                    86_796,           # Reality 8  5%
                    35_645,           # Reality 9  2%
-                   10_844,           # Reality 10 1%
+                   10_844 # Reality 10 1%
 
                  ],
                  [
@@ -141,7 +141,7 @@ module Unlight
                    227_588,          # Reality 7 11%
                    114_470,          # Reality 8  6%
                    49_755,           # Reality 9  3%
-                   16_021,           # Reality 10 2%
+                   16_021 # Reality 10 2%
                  ],
                  [
                    1_000_000, # Reality 1 2%
@@ -165,7 +165,7 @@ module Unlight
                    397_932,          # Reality 7 18%
                    218_422,          # Reality 8 11%
                    104_227,          # Reality 9  7%
-                   36_858,           # Reality 10 4%
+                   36_858 # Reality 10 4%
                  ],
                  [
                    1_000_000, # Reality 1 1%
@@ -177,10 +177,8 @@ module Unlight
                    541_055,          # Reality 7 22%
                    322_836,          # Reality 8 16%
                    160_061,          # Reality 9 10%
-                   58_828,           # Reality 10 6%
-                 ],
-
-              ]
+                   58_828           # Reality 10 6%
+                 ]]
 
   MAP_REALITY_NUM = 1_000_000
 end

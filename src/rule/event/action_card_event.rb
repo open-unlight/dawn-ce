@@ -64,7 +64,7 @@ module Unlight
     [:occur_chalice_event, 1],    # 16 聖杯カード1
     [:occur_poison_event, 1],     # 17 毒杯カード1
     nil,                          # 18 ?
-    [:occur_damage_event, 2],     # 19 ウイルス
+    [:occur_damage_event, 2]     # 19 ウイルス
   ]
 
   class DealedEvent < EventRule

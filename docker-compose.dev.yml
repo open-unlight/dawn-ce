@@ -47,6 +47,12 @@ services:
     command: lobby -p 12002
     ports:
       - '12002:12002'
+  quest:
+    <<: *image
+    hostname: quest.lvh.me
+    command: quest -p 12005
+    ports:
+      - '12005:12005'
   data:
     <<: *image
     hostname: data.lvh.me
@@ -59,7 +65,54 @@ services:
     command: game -p 12008
     ports:
       - '12008:12008'
-  # TODO: Add servers
+  match:
+    <<: *image
+    hostname: match.lvh.me
+    command: matching -p 12018
+    ports:
+      - '12018:12018'
+  chat:
+    <<: *image
+    hostname: chat.lvh.me
+    command: chat -p 12012
+    ports:
+      - '12012:12012'
+  watch:
+    <<: *image
+    hostname: watch.lvh.me
+    command: watch -p 12080
+    ports:
+      - '12080:12080'
+  global_chat:
+    <<: *image
+    hostname: global-chat.lvh.me
+    command: global_chat -p 12020
+    ports:
+      - '12020:12020'
+  raid:
+    <<: *image
+    hostname: raid.lvh.me
+    command: raid -p 12050
+    ports:
+      - '12050:12050'
+  raid_rank:
+    <<: *image
+    hostname: raid-rank.lvh.me
+    command: raid_rank -p 12070
+    ports:
+      - '12070:12070'
+  raid_chat:
+    <<: *image
+    hostname: raid-chat.lvh.me
+    command: raid_chat -p 12090
+    ports:
+      - '12090:12090'
+  raid_data:
+    <<: *image
+    hostname: raid-data.lvh.me
+    command: raid_data -p 12100
+    ports:
+      - '12100:12100'
   # API
   game-api:
     <<: *image
