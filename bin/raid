@@ -5,69 +5,37 @@
 # This software is released under the MIT License.
 # http://opensource.org/licenses/mit-license.php
 
+require 'bundler'
+
 $LOAD_PATH.unshift Bundler.root.join('lib')
 $LOAD_PATH.unshift Bundler.root.join('src')
-require 'bundler/setup'
-require 'eventmachine'
 
-require 'dawn/server'
-require 'unlight'
+require 'bootstrap'
 require 'protocol/raid_server'
-
-$stdout.sync = true
-$stderr.sync = true
 
 # TODO: Replace with Dawn::Server.name
 $SERVER_NAME = "RAID_SERVER_#{Dawn::Server.port}"
 
-EM.set_descriptor_table_size(10_000) # ソケットMaxを設定
-EM.epoll # Epollを使用するように設定。
-
 module Unlight
   include Protocol
 
-  EM.run do
-    RaidServer.setup
-    EM.start_server '0.0.0.0', Dawn::Server.port, RaidServer
-    SERVER_LOG.info("RaidServer Start: port[#{Dawn::Server.port}]")
-    # タイマの制度を上げる
-    EM.set_quantum(10)
-    # 1/24でメインループを更新
-    EM::PeriodicTimer.new(0.3, proc {
-      begin
-        MultiDuel.update
-      rescue StandardError => e
-        SERVER_LOG.fatal("RaidServer: [RAID:] fatal error #{e}:#{e.backtrace}")
-      end
-    })
+  Dawn::Bootstrap.new(RaidServer).start do
+    EM::PeriodicTimer.new(0.3) do
+      MultiDuel.update
+    rescue StandardError => e
+      Dawn.logger.fatal('MultiDuel update failed', e)
+    end
 
-    # 1/10でAIループを更新
-    EM::PeriodicTimer.new(1, proc {
-      begin
-        AI.update
-      rescue StandardError => e
-        SERVER_LOG.fatal("RaidServer: [AI:] fatal error #{e}:#{e.backtrace}")
-      end
-    })
+    EM::PeriodicTimer.new(1) do
+      AI.update
+    rescue StandardError => e
+      Dawn.logger.fatal('AI update failed', e)
+    end
 
-    # 1分に一回でソケットの生き死にをチェック
-    EM::PeriodicTimer.new(60, proc {
-      begin
-        RaidServer.check_connection
-      rescue StandardError => e
-        SERVER_LOG.fatal("RaidServer: [check_connection:] fatal error #{e}:#{e.backtrace}")
-      end
-    })
-
-    if DB_CONNECT_CHECK
-      # 7時間に一回でDBとの接続をチェック
-      EM::PeriodicTimer.new(60 * 60 * 7, proc {
-        begin
-          RaidServer.check_db_connection
-        rescue StandardError => e
-          SERVER_LOG.fatal("RaidServer: [check_db_connection:] fatal error #{e}:#{e.backtrace}")
-        end
-      })
+    EM::PeriodicTimer.new(60) do
+      RaidServer.check_connection
+    rescue StandardError => e
+      Dawn.logger.fatal('Check connection failed', e)
     end
   end
 end

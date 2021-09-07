@@ -17,9 +17,11 @@ services:
   memcached:
     image: memcached:alpine
     command: memcached -m 1024
+    restart: unless-stopped
   mysql:
     image: mysql:8.0
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: unless-stopped
     environment:
       MYSQL_USER: unlight
       MYSQL_PASSWORD: unlight

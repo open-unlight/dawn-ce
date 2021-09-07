@@ -19,41 +19,35 @@ module Dawn
   class Bootstrap
     attr_reader :name, :server
 
-    def initialize(server)
+    def initialize(server, *args)
       @server = server
       @name = server.name.split('::').last
+      @args = args
+
+      Dawn.logger.name = @name
     end
 
     def start
       EM.run do
-        Dawn.logger.tagged(name) do
-          server.setup
-          EM.start_server '0.0.0.0', Dawn::Server.port, server
-          EM.set_quantum(10)
+        server.setup(*@args)
+        EM.start_server '0.0.0.0', Dawn::Server.port, server
+        EM.set_quantum(10)
 
-          Dawn.logger.info("#{name} started #{Dawn::Server.hostname}:#{Dawn::Server.port}")
+        Dawn.logger.info("#{name} started #{Dawn::Server.hostname}:#{Dawn::Server.port}")
 
-          start_connection_checker
-          start_database_connection_checker
-        end
+        start_database_connection_checker
+
+        yield if defined?(yield)
       end
     end
 
     private
 
-    def start_connection_checker
-      EM::PeriodicTimer.new(60) do
-        server.check_connection
-      rescue StandardError => e
-        Dawn.logger.fatal('Check connection failed', e)
-      end
-    end
-
     def start_database_connection_checker
       return unless Unlight::DB_CONNECT_CHECK
 
       EM::PeriodicTimer.new(60 * 60 * 7) do
-        ChatServer.check_db_connection
+        server.check_db_connection
       rescue StandardError => e
         Dawn.logger.fatal('Check database connection failed', e)
       end
