@@ -1,8 +1,7 @@
 image: ruby:2.6.8
 
 variables:
-  BUNDLER_VERSION: 2.2.5
-  LICENSED_VERSION: 3.1.0
+  BUNDLER_VERSION: 2.2.27
   # Rubocop Cache for Large Project
   XDG_CACHE_HOME: $CI_PROJECT_DIR/.cache
   CUCUMBER_PUBLISH_QUIET: 'true'
@@ -18,7 +17,8 @@ variables:
 
 .install_ruby_gems: &install_ruby_gems
   - gem install bundler -v ${BUNDLER_VERSION}
-  - bundle install --path vendor
+  - bundle config set --local path 'vendor'
+  - bundle install
 
 .base_test: &base_test
   stage: test
@@ -72,8 +72,9 @@ licensed:
   before_script:
     - apt-get update
     - apt-get install -y cmake pkg-config
+    - gem install bundler -v ${BUNDLER_VERSION}
+    - bundle install
     - gem install licensed
-    - *install_ruby_gems
   script:
     - licensed cache
     - licensed status
