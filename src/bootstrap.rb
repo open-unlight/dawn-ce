@@ -25,6 +25,9 @@ module Dawn
       @args = args
 
       Dawn.logger.name = @name
+
+      Signal.trap(:INT) { stop }
+      Signal.trap(:TERM) { stop }
     end
 
     def start
@@ -33,12 +36,18 @@ module Dawn
         EM.start_server '0.0.0.0', Dawn::Server.port, server
         EM.set_quantum(10)
 
-        Dawn.logger.info("#{name} started #{Dawn::Server.hostname}:#{Dawn::Server.port}")
+        Dawn.logger.info("Listening... #{Dawn::Server.hostname}:#{Dawn::Server.port}")
 
         start_database_connection_checker
 
         yield if defined?(yield)
       end
+    end
+
+    def stop
+      Dawn.logger.info('Stopping...')
+      SemanticLogger.flush
+      EM.stop_event_loop
     end
 
     private
