@@ -4,6 +4,8 @@
 # This software is released under the Apache 2.0 License.
 # https://opensource.org/licenses/Apache2.0
 
+require 'bundler'
+
 $LOAD_PATH.unshift Bundler.root.join('src')
 $LOAD_PATH.unshift Bundler.root.join('lib')
 d = File.dirname(__FILE__).gsub!('src', '')
@@ -21,11 +23,14 @@ require 'active_support/core_ext/object/blank'
 Sequel::Model.require_valid_table = false
 Sequel::Model.plugin :json_serializer
 
+require 'dawn'
+
 # Initialize Extensions
 require_relative '../config/initializers/sentry'
 # TODO: Require necessary library for Game / API mode
 require_relative '../config/initializers/oj'
 require_relative '../config/initializers/pagy'
+require_relative '../config/initializers/logger'
 
 # db_config.rb
 module Unlight
