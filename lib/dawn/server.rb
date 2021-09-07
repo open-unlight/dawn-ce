@@ -48,7 +48,7 @@ module Dawn
     #
     # @since 0.1.0
     def hostname
-      @hostname || ENV['HOSTNAME']
+      @hostname ||= ENV['HOSTNAME'] || Socket.gethostname
     end
   end
 end
