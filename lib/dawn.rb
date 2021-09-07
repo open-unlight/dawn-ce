@@ -27,10 +27,3 @@ module Dawn
     ENV.fetch('DAWN_LOG_FORMAT', :color).to_sym
   end
 end
-
-# TODO: Allow multiple output
-if ENV['DAWN_LOG_TO_STDOUT']
-  SemanticLogger.add_appender(io: $stdout, formatter: Dawn.logger_format)
-else
-  SemanticLogger.add_appender(file_name: "log/#{Dawn.env}.log", formatter: Dawn.logger_format)
-end
