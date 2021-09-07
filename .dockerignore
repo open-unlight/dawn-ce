@@ -9,17 +9,28 @@ Dockerfile
 docker-compose*.yml
 
 # CI/CD
+.github/
 .cache/
 coverage/
 spec/
 features/
+.licensed.yml
 .gitlab-ci.yml
+.travis.yml
 .overcommit.yml
 .rubocop*.yml
+.codeclimate.yml
 rspec.xml
 
 # Application
+.bundle/
 backup/
 vendor/
+log/*
+tmp/*
 config/database.yml
+.env
 .env*
+
+# Licensed
+.licenses
