@@ -76,7 +76,13 @@ module Unlight
     def self.get_ranking(t, stype, p)
       ret = 0
       if p.positive?
-        er = EstimationRanking.filter(rank_type: t, server_type: stype).and(Sequel.cast_string(:point) <= p).and(Sequel.cast_string(:point).positive?).order(:rank_index).all.first
+        er = EstimationRanking
+             .filter(rank_type: t, server_type: stype)
+             .and(Sequel.cast_string(:point) <= p)
+             .and(Sequel.cast_string(:point) > 0) # rubocop:disable Style/NumericPredicate
+             .order(:rank_index)
+             .all
+             .first
         # これだと100位以内も101位になるが、本来100位以内のポイントは来ないはずなので（来ても境界に誓いポイント）なので101を返す
         # （100以内を返してしまうと矛盾がおこる）
         if er && er.rank_index > 1 && er.point.positive?
