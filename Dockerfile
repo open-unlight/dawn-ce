@@ -21,6 +21,7 @@ RUN mkdir -p $UNLIGHT_HOME
 WORKDIR $UNLIGHT_HOME
 
 COPY Gemfile* $UNLIGHT_HOME/
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 RUN gem install bundler:2.2.5 \
     && bundle config --local deployment 'true' \
     && bundle config --local frozen 'true' \
@@ -30,6 +31,11 @@ RUN gem install bundler:2.2.5 \
     && bundle install -j "$(getconf _NPROCESSORS_ONLN)" \
     && find /${UNLIGHT_HOME}/vendor/bundle -type f -name '*.c' -delete \
     && find /${UNLIGHT_HOME}/vendor/bundle -type f -name '*.o' -delete \
+    && find /${UNLIGHT_HOME}/vendor/bundle -type d -name 'spec' -print0 | xargs -0 rm -rf \
+    && find /${UNLIGHT_HOME}/vendor/bundle -type d -name 'tests' -print0 | xargs -0 rm -rf \
+    # Remove unnecessary asc files in mysql gem
+    && find /${UNLIGHT_HOME}/vendor/bundle -type f -name '*.asc' -delete \
+    && find /${UNLIGHT_HOME}/vendor/bundle -type f -name 'Dockerfile*' -delete \
     && find /usr/local/bundle -type f -name '*.c' -delete \
     && find /usr/local/bundle -type f -name '*.o' -delete \
     && rm -rf /usr/local/bundle/cache/*.gem
