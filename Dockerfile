@@ -30,8 +30,17 @@ RUN gem install bundler:2.2.5 \
     && bundle install -j "$(getconf _NPROCESSORS_ONLN)" \
     && find /${UNLIGHT_HOME}/vendor/bundle -type f -name '*.c' -delete \
     && find /${UNLIGHT_HOME}/vendor/bundle -type f -name '*.o' -delete \
+    && find /${UNLIGHT_HOME}/vendor/bundle -type d -name 'spec' | xargs rm -rf \
+    && find /${UNLIGHT_HOME}/vendor/bundle -type d -name 'tests' | xargs rm -rf \
+    # Remove unnecessary asc files in mysql gem
+    && find /${UNLIGHT_HOME}/vendor/bundle -type f -name '*.asc' -delete \
+    && find /${UNLIGHT_HOME}/vendor/bundle -type f -name 'Dockerfile*' -delete \
     && find /usr/local/bundle -type f -name '*.c' -delete \
     && find /usr/local/bundle -type f -name '*.o' -delete \
+    && find /usr/local/lib/ruby -type f -name '*.c' -delete \
+    && find /usr/local/lib/ruby -type f -name '*.o' -delete \
+    && find /usr/local/lib/ruby -type d -name 'spec' | xargs rm -rf \
+    && find /usr/local/lib/ruby -type d -name 'tests' | xargs rm -rf \
     && rm -rf /usr/local/bundle/cache/*.gem
 
 # Server
