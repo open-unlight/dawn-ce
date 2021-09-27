@@ -45,7 +45,5 @@ module Protocol
     end
 
     # サーバを終了する
-
-    attr_reader :player
   end
 end

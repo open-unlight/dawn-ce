@@ -99,7 +99,7 @@ File.open('./data/backup/string_constants.txt') do |file|
   end
 end
 file = Pathname.new('./data/backup/string_constants.txt')
-f = file.open('w') { |f| f.puts new_const.each { |a| a } }
+f = file.open('w') { |f| new_const.each { |a| f.puts a } }
 
 # グリフチェックがある場合
 # ======================

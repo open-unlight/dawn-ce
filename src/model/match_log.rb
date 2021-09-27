@@ -168,16 +168,6 @@ module Unlight
       end
     end
 
-    # 対戦の異常終了
-    def abort_match(turn)
-      if state == MATCH_START
-        self.turn_num = turn
-        self.state = MATCH_ABORT
-        self.finish_at = Time.now.utc
-        save_changes
-      end
-    end
-
     def warn_same_ip
       self.warn = (self.warn | Unlight::M_WARN_SAME_IP)
       save_changes

@@ -1393,12 +1393,6 @@ module Unlight
       set_cache_act_command(ret)
     end
 
-    # 必殺技が実行された時のプレイヤー側ハンドラ
-    def pl_entrant_use_feat_event_handler(_target, ret)
-      sc_entrant_use_feat_event(true, ret)
-      set_cache_act_command(ret)
-    end
-
     # 必殺技が実行された時の敵側ハンドラ
     def foe_entrant_use_feat_event_handler(_target, ret)
       sc_entrant_use_feat_event(false, ret)

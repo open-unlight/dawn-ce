@@ -31,9 +31,9 @@ module Unlight
       'AC_LOCK' => 2 # カードロック カードの移動
     }
 
-    attr_accessor :cards_max, :cards, :hit_points, :hit_points_max, :distance, :initiative, :exit, :foe, :direction, :result_exp, :result_gems, :event_card_draw_num, :chara_change_index, :chara_change_force, :trap, :instant_kill_damage, :is_indomitable, :indomitable_dice_damage, :transformable, :is_transforming,
+    attr_accessor :cards, :hit_points, :hit_points_max, :distance, :initiative, :exit, :foe, :direction, :result_exp, :result_gems, :event_card_draw_num, :chara_change_index, :chara_change_force, :trap, :instant_kill_damage, :is_indomitable, :indomitable_dice_damage, :transformable, :is_transforming,
                   :is_highgate, :magnification_hurt_const_damage, :magnification_cause_const_damage, :field_status, :seconds, :bp_calc_range_free, :determined_damage, :hiding_was_finished, :special_gem_bonus_multi, :monitoring, :tmp_power, :tmp_focus, :damage_pow, :invincible, :const_damage_guard, :table_cards_lock
-    attr_reader :reward_bonus, :base_exp, :exp_bonus, :before_damage, :damaged_times, :field_status, :cards_max
+    attr_reader :reward_bonus, :base_exp, :exp_bonus, :before_damage, :damaged_times, :cards_max
 
     # By_K2
     def initialize(c, ccs, wcs, qcs, ecs, dist, d_set, hp_up = 0, ap_up = 0, dp_up = 0, ai = :none)	# rubocop:disable Metrics/ParameterLists
