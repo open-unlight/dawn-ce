@@ -80,11 +80,9 @@ module Unlight
 
     # キャラで使えるかチェック
     def check_using_color(color_no)
-      ret = true
-      unless color_no.zero?
-        ret = color == color
-      end
-      ret
+      return true if color_no.zero?
+
+      color == color_no
     end
 
     # ランダムで埋め草カードを返す

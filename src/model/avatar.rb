@@ -3098,12 +3098,6 @@ module Unlight
       ret
     end
 
-    # 地形の敵を引いてくる
-    def get_land_enemy(id, next_no)
-      inv = AvatarQuestInventory[id]
-      inv.quest.get_position_enemy(next_no) if inv && inv.quest
-    end
-
     # 地形のステージを引いてくる
     def get_land_enemy(id, next_no)
       inv = AvatarQuestInventory[id]

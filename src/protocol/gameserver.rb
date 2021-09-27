@@ -41,7 +41,5 @@ module Protocol
     def online_list
       @@online_list
     end
-
-    attr_reader :player
   end
 end

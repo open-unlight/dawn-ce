@@ -305,14 +305,6 @@ module Unlight
       self.exp.positive?
     end
 
-    def combine_base_sap=(n)
-      if @combine_base_sap != n
-        @combine_base_sap = n
-        # modified!(:combine_param1)
-        modified!
-      end
-    end
-
     def param1_to_point(bit, shifter)
       param_num = combine_param1_str.to_i
       param64_to_point(param_num, bit, shifter)

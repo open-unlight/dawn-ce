@@ -225,7 +225,7 @@ module Unlight
       tmp_list.each do |k, v|
         unless v[:started] == false || v[:started] == true
           # すでにDuelを開始しているか？
-          unless Match.room_from_player_id(k, channel.id) || Match.room_from_player_id(k, channel.id)
+          unless Match.room_from_player_id(k, channel.id)
             # 部屋作成及び部屋に強制参加
             if match_list[k]
               room_id = match_list[k].create_quickmatch_room(v[:rule])
@@ -289,7 +289,7 @@ module Unlight
         if channel.cpu_matching_type? != 0 || rand(RADDER_CPU_CREATE_RAND).zero?
           if v[:started] == AI_PLAYER_ID
             # すでにDuelを開始しているか？
-            unless Match.room_from_player_id(k, channel.id) || Match.room_from_player_id(k, channel.id)
+            unless Match.room_from_player_id(k, channel.id)
               # CPU部屋を作成
               if channel
                 room = get_cpu_room(0, 99, Player[k])
