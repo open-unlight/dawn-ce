@@ -15,10 +15,6 @@ module Unlight
 
     attr_accessor :a_point, :b_point
 
-    # バリデーションの設定
-    validates do
-    end
-
     # カムバック依頼をする
     def self.comeback(pid, uid)
       if check_already_exist?(pid, uid)

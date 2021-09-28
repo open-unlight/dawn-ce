@@ -15,10 +15,6 @@ module Unlight
     @@script_str_set = []
     @@script_set = []
 
-    # バリデーションの設定
-    validates do
-    end
-
     # インサート時の前処理
     before_create do
       self.created_at = Time.now.utc
@@ -27,10 +23,6 @@ module Unlight
     # インサートとアップデート時の前処理
     before_save do
       self.updated_at = Time.now.utc
-    end
-
-    # アップデート後の後理処
-    after_save do
     end
 
     # スクリプトの命令リストを取得する

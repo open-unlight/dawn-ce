@@ -13,8 +13,6 @@ module Unlight
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-    validates do
-    end
 
     def self.initialize_charactor_param
       @@chara_attribute_set = []

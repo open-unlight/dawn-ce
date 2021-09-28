@@ -15,10 +15,6 @@ module Unlight
 
     attr_accessor :a_point, :b_point
 
-    # バリデーションの設定
-    validates do
-    end
-
     # 招待する
     def self.invite(pid, uid, check = true)
       if check_already_exist?(pid, uid) && check

@@ -11,10 +11,6 @@ module Unlight
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # バリデーションの設定
-    validates do
-    end
-
     # 全体データバージョンを返す
     def self.data_version
       ret = cache_store.get('QuestLandVersion')

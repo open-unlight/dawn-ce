@@ -15,10 +15,6 @@ module Unlight
     plugin :hook_class_methods
     plugin :caching, CACHE, ignore_exceptions: true
 
-    # バリデーションの設定
-    validates do
-    end
-
     # インサート時の前処理
     before_create do
       self.created_at = Time.now.utc

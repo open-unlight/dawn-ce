@@ -16,10 +16,6 @@ module Unlight
 
     attr_accessor :a_point, :b_point
 
-    # バリデーションの設定
-    validates do
-    end
-
     # インサート時の前処理
     before_create do
       self.created_at = Time.now.utc

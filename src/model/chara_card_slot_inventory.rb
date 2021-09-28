@@ -86,9 +86,6 @@ module Unlight
     # 経験値移譲時調整係数
     COMB_SEND_EXP_COEFFICIENT = 2
 
-    validates do
-    end
-
     # インサート時の前処理
     before_create do
       self.updated_at = Time.now.utc

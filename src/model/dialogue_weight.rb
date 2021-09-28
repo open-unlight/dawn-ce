@@ -12,11 +12,6 @@ module Unlight
     plugin :validation_class_methods
     plugin :hook_class_methods
 
-    # バリデーションの設定
-    #    include Validation
-    validates do
-    end
-
     # インサート時の前処理
     before_create do
       self.created_at = Time.now.utc

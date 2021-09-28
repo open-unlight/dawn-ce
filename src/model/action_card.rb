@@ -17,10 +17,6 @@ module Unlight
     # 0:ブランク,1:近接 2:遠距離, 3:防御, 4:移動 5:特殊, 6:イベント, 7:フォーカス
     BLNK, SWD, ARW, DEF, MOVE, SPC, EVT, FCS = (0..7).to_a
 
-    # バリデーションの設定
-    validates do
-    end
-
     # インサート時の前処理
     before_create do
       self.created_at = Time.now.utc
