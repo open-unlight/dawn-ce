@@ -13,10 +13,6 @@ module Unlight
     plugin :validation_class_methods
     plugin :hook_class_methods
 
-    # バリデーションの設定
-    validates do
-    end
-
     def clear_land(no)
       self.progress |= (1 << no)
       save_changes

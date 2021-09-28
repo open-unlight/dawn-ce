@@ -16,10 +16,6 @@ module Unlight
     # 他クラスのアソシエーション
     many_to_one :quest_map # クエストに複数所持される
 
-    # バリデーションの設定
-    validates do
-    end
-
     # アップデート後の後理処
     after_save do
       Unlight::Quest.refresh_data_version

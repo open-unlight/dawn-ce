@@ -15,8 +15,6 @@ module Unlight
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-    validates do
-    end
 
     # インサート時の前処理
     before_create do
@@ -26,10 +24,6 @@ module Unlight
     # インサートとアップデート時の前処理
     before_save do
       self.updated_at = Time.now.utc
-    end
-
-    # アップデート後の後理処
-    after_save do
     end
 
     # 全体データバージョンを返す

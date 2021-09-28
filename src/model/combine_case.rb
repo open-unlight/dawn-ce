@@ -37,8 +37,6 @@ module Unlight
     @@combine_param = []
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-    validates do
-    end
 
     # インサート時の前処理
     before_create do

@@ -12,8 +12,6 @@ module Unlight
 
     # バリデーションの設定
     Sequel::Model.plugin :validation_class_methods
-    validates do
-    end
 
     # 現在の部屋リスト
     @@channel_list = {}

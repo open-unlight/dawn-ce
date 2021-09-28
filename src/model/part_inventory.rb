@@ -13,10 +13,6 @@ module Unlight
     plugin :validation_class_methods
     plugin :hook_class_methods
 
-    # バリデーションの設定
-    validates do
-    end
-
     # 装備しているか？
     def equiped?
       if avatar_id.zero?

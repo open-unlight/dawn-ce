@@ -14,10 +14,6 @@ module Unlight
     # 他クラスのアソシエーション
     one_to_many :quests # 複数のクエストデータを保持
 
-    # バリデーションの設定
-    validates do
-    end
-
     # 全体データバージョンを返す
     def self.data_version
       ret = cache_store.get('QuestMapVersion')

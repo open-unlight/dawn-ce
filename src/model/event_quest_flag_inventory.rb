@@ -10,10 +10,6 @@ module Unlight
     plugin :validation_class_methods
     plugin :hook_class_methods
 
-    # バリデーションの設定
-    validates do
-    end
-
     def self.create_inv(avatar_id, event_id = QUEST_EVENT_ID, map_start = QUEST_EVENT_MAP_START)
       EventQuestFlagInventory.new do |d|
         d.avatar_id = avatar_id

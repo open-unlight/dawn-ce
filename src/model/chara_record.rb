@@ -16,10 +16,6 @@ module Unlight
     many_to_one :avatar # キャラデータを持つ
     many_to_one :chara_card # キャラデータを持つ
 
-    # バリデーションの設定
-    validates do
-    end
-
     # インサート時の前処理
     before_create do
       # アバターとキャラが存在するときにはHPに現在の最大カードを保存する
