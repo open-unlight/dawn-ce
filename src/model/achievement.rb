@@ -177,7 +177,6 @@ module Unlight
         ret = Time.gm(d_time.year, d_time.month, d_time.day) + LOGIN_BONUS_OFFSET_TIME
       when ACHIEVEMENT_END_AT_TYPE_HOUR
         ret = now + val.to_i * 60
-      when ACHIEVEMENT_END_AT_TYPE_NONE
       end
       ret
     end

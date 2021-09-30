@@ -153,8 +153,7 @@ module Unlight
       rank_counter = 0
       user_num_set = Array.new(BASE_RANKING_NUM, 0)
       avatars.each do |a|
-        if a[1] >= step_sets[rank_counter]
-        else
+        unless a[1] >= step_sets[rank_counter]
           while a[1] < step_sets[rank_counter]
             if step_sets[rank_counter + 1].nil?
               break

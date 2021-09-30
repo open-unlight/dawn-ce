@@ -187,7 +187,6 @@ class SRP
       true
     else
       raise 'g is not a primitive root'
-      false
     end
   end
 

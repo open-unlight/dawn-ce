@@ -90,8 +90,6 @@ module Unlight
         @init_commands = []
         make_init_commands
       end
-
-      debug_last_puts(__method__)
     end
 
     def finalize
@@ -362,13 +360,11 @@ module Unlight
     # スタート時のハンドラ
     def one_to_one_duel_start(_args)
       @log_list << [DUEL_MSGDLG_DUEL_START, nil]
-      debug_puts(__method__)
     end
 
     # スタート時のハンドラ
     def three_to_three_duel_start(_args)
       @log_list << [DUEL_MSGDLG_M_DUEL_START, nil]
-      debug_puts(__method__)
     end
 
     # =========
@@ -380,7 +376,6 @@ module Unlight
       @turn = args[0]
       @phase = __method__
       @phase_args = args
-      debug_puts(__method__)
     end
 
     # カードが配られた場合のハンドラ
@@ -396,7 +391,6 @@ module Unlight
       decre_deck_num(pl_ac_arr.size, args[2]) if !pl_ac_arr.empty? || (args[2]).positive?
       @phase = __method__
       @phase_args = args
-      debug_puts(__method__)
     end
 
     # イベントカードが配られた場合のハンドラ
@@ -411,21 +405,18 @@ module Unlight
       end
       @phase = __method__
       @phase_args = args
-      debug_puts(__method__)
     end
 
     # 移動カード提出フェイズ開始
     def duel_move_card_phase_start(args)
       @phase = __method__
       @phase_args = args
-      debug_puts(__method__)
     end
 
     # 移動カード提出フェイズ終了
     def duel_move_card_phase_finish(args)
       @phase = __method__
       @phase_args = args
-      debug_puts(__method__)
     end
 
     # 移動の結果がでた時にハンドラ
@@ -439,7 +430,6 @@ module Unlight
       @log_list << [args[0][0], [args[0][1]]]
       @log_list << [args[2][0], [args[2][1]]]
       state_check(false)
-      debug_puts(__method__)
     end
 
     # キャラ変更フェイズ開始
@@ -447,7 +437,6 @@ module Unlight
       # args 0:plキャラチェンジ:Boolean,1:foeキャラチェンジ:Boolean
       @phase = __method__
       @phase_args = args
-      debug_puts(__method__)
     end
 
     # キャラ変更フェイズ終了
@@ -458,7 +447,6 @@ module Unlight
       @phase = __method__
       @phase_args = args
       @log_list << [DUEL_MSGDLG_CHANGE_CHARA, nil]
-      debug_puts(__method__)
     end
 
     # 攻撃カード提出フェイズ開始
@@ -467,7 +455,6 @@ module Unlight
       @pl_initi = args[2]
       @phase = __method__
       @phase_args = args
-      debug_puts(__method__)
     end
 
     # 防御カード提出フェイズ開始
@@ -476,7 +463,6 @@ module Unlight
       @pl_initi = args[2]
       @phase = __method__
       @phase_args = args
-      debug_puts(__method__)
     end
 
     # 攻撃カード提出フェイズ終了
@@ -484,7 +470,6 @@ module Unlight
       # args 0:foeArray[0:AClist:String,1:ACONList:int(BIT演算),2:point:int],1:plArray[0:AClist:String,1:ACONList:int(BIT演算),2:point:int],2:Array[0:plの場AC:String,1:plの場AC方向:int(BIT演算),2:foeの場AC:String,3:foeの場AC方向:String]
       @phase = __method__
       @phase_args = args
-      debug_puts(__method__)
     end
 
     # 防御カード提出フェイズ終了
@@ -492,7 +477,6 @@ module Unlight
       # args 0:foeArray[0:AClist:String,1:ACONList:int(BIT演算),2:point:int],1:plArray[0:AClist:String,1:ACONList:int(BIT演算),2:point:int],2:Array[0:plの場AC:String,1:plの場AC方向:int(BIT演算),2:foeの場AC:String,3:foeの場AC方向:String]
       @phase = __method__
       @phase_args = args
-      debug_puts(__method__)
     end
 
     # 戦闘ポイント決定フェイズの時のハンドラ
@@ -503,7 +487,6 @@ module Unlight
       @phase = __method__
       @phase_args = args
       @log_list << [args[0][0], [args[0][1]]]
-      debug_puts(__method__)
     end
 
     # 戦闘の結果がでた時のハンドラ
@@ -512,7 +495,6 @@ module Unlight
       @phase = __method__
       @phase_args = args
       @log_list << [args[0][0], [args[0][1]]] unless args[0].nil?
-      debug_puts(__method__)
     end
 
     # 死亡キャラ変更フェイズ開始
@@ -520,7 +502,6 @@ module Unlight
       # args 0:plキャラチェンジ:Boolean,1:foeキャラチェンジ:Boolean
       @phase = __method__
       @phase_args = args
-      debug_puts(__method__)
     end
 
     # 死亡キャラ変更フェイズ終了
@@ -531,7 +512,6 @@ module Unlight
       @phase = __method__
       @phase_args = args
       @log_list << [DUEL_MSGDLG_CHANGE_CHARA, nil]
-      debug_puts(__method__)
     end
 
     # ターン終了のハンドラ
@@ -544,7 +524,6 @@ module Unlight
       @phase_args = args
       @log_list << [DUEL_MSGDLG_TURN_END, [args[1]]]
       state_check
-      debug_puts(__method__)
     end
 
     # ===================
@@ -553,7 +532,6 @@ module Unlight
     # 自分が移動方向を決定する
     def pl_entrant_set_direction_action(_args)
       # args 0:方向:int
-      debug_puts(__method__)
     end
 
     # 自分が移動カードを出す
@@ -563,7 +541,6 @@ module Unlight
         ac = @pl_ac.pop
         @pl_table.push(ac) unless ac.nil?
       end
-      debug_puts(__method__)
     end
 
     # 敵側が移動カードを出す
@@ -573,7 +550,6 @@ module Unlight
         ac = @foe_ac.pop
         @foe_table.push(ac) unless ac.nil?
       end
-      debug_puts(__method__)
     end
 
     # 敵側が移動カードを取り除く
@@ -583,7 +559,6 @@ module Unlight
         ac = @foe_table.pop
         @foe_ac.push(ac) unless ac.nil?
       end
-      debug_puts(__method__)
     end
 
     # 自分側が移動カードを取り除く
@@ -593,31 +568,26 @@ module Unlight
         ac = @pl_table.pop
         @pl_ac.push(ac) unless ac.nil?
       end
-      debug_puts(__method__)
     end
 
     # 敵側がカードを回転させる
     def foe_entrant_card_rotate_action(_args)
       # args 0:回転させるカードの場所:int,1:カードidx:int,2:カードID:int,3:カードを回す方向:Boolean
-      debug_puts(__method__)
     end
 
     # 自分がカードを回転させる
     def pl_entrant_card_rotate_action(_args)
       # args 0:回転させるカードの場所:int,1:カードidx:int,2:カードID:int,3:カードを回す方向:Boolean
-      debug_puts(__method__)
     end
 
     # 敵側がイベントでカードを回転させる
     def foe_entrant_event_card_rotate_action(_args)
       # args 0:回転させるカードの場所:int,1:カードidx:int,2:カードID:int,3:カードを回す方向:Boolean
-      debug_puts(__method__)
     end
 
     # 自分がイベントでカードを回転させる
     def pl_entrant_event_card_rotate_action(_args)
       # args 0:回転させるカードの場所:int,1:カードidx:int,2:カードID:int,3:カードを回す方向:Boolean
-      debug_puts(__method__)
     end
 
     # 自分が戦闘カードを出す
@@ -627,7 +597,6 @@ module Unlight
         ac = @pl_ac.pop
         @pl_table.push(ac) unless ac.nil?
       end
-      debug_puts(__method__)
     end
 
     # 敵側が戦闘カードを出す
@@ -637,7 +606,6 @@ module Unlight
         ac = @foe_ac.pop
         @foe_table.push(ac) unless ac.nil?
       end
-      debug_puts(__method__)
     end
 
     # 自分が戦闘カードを取り除く
@@ -647,7 +615,6 @@ module Unlight
         ac = @pl_table.pop
         @pl_ac.push(ac) unless ac.nil?
       end
-      debug_puts(__method__)
     end
 
     # 敵側が戦闘カードを取り除く
@@ -657,55 +624,38 @@ module Unlight
         ac = @foe_table.pop
         @foe_ac.push(ac) unless ac.nil?
       end
-      debug_puts(__method__)
     end
 
     # 自分のキャラカードを変更する
     def pl_entrant_chara_change_action(args)
       # args 0:デッキカードidx:int,1:カードid:int,2:装備効果:String
       @pl_card_idx = args[0]
-      debug_puts(__method__)
     end
 
     # 相手のキャラカードを変更する
-    def foe_entrant_chara_change_action(_args)
-      debug_puts(__method__)
-    end
+    def foe_entrant_chara_change_action(_args); end
 
     # 敵側のイニシアチブフェイズの完了アクション
-    def foe_entrant_init_done_action(_args)
-      debug_puts(__method__)
-    end
+    def foe_entrant_init_done_action(_args); end
 
     # 敵側のイニシアチブフェイズの完了アクション
-    def pl_entrant_init_done_action(_args)
-      debug_puts(__method__)
-    end
+    def pl_entrant_init_done_action(_args); end
 
     # 敵側の攻撃フェイズの完了アクション
-    def foe_entrant_attack_done_action(_args)
-      debug_puts(__method__)
-    end
+    def foe_entrant_attack_done_action(_args); end
 
     # 敵側の防御フェイズの完了アクション
-    def foe_entrant_deffence_done_action(_args)
-      debug_puts(__method__)
-    end
+    def foe_entrant_deffence_done_action(_args); end
 
     # プレイヤー側の攻撃フェイズの完了アクション
-    def pl_entrant_attack_done_action(_args)
-      debug_puts(__method__)
-    end
+    def pl_entrant_attack_done_action(_args); end
 
     # プレイヤー側の防御フェイズの完了アクション
-    def pl_entrant_deffence_done_action(_args)
-      debug_puts(__method__)
-    end
+    def pl_entrant_deffence_done_action(_args); end
 
     # 自分が移動する
     def pl_entrant_move_action(_args)
       # args 0:距離:int
-      debug_puts(__method__)
     end
 
     # ===================
@@ -718,7 +668,6 @@ module Unlight
       @pl_hps[@pl_card_idx] = 0 if (@pl_hps[@pl_card_idx]).negative?
       @pl_damege[@pl_card_idx] += args[0][0]
       @pl_damege[@pl_card_idx] = @pl_max_hps[@pl_card_idx] if @pl_damege[@pl_card_idx] > @pl_max_hps[@pl_card_idx]
-      debug_puts(__method__)
     end
 
     # 敵ダメージのハンドラのイベント
@@ -728,7 +677,6 @@ module Unlight
       @foe_hps[@foe_card_idx] = 0 if (@foe_hps[@foe_card_idx]).negative?
       @foe_damege[@foe_card_idx] += args[0][0]
       @foe_damege[@foe_card_idx] = @foe_max_hps[@foe_card_idx] if @foe_damege[@foe_card_idx] > @foe_max_hps[@foe_card_idx]
-      debug_puts(__method__)
     end
 
     # プレイヤーの回復イベント
@@ -738,7 +686,6 @@ module Unlight
       @pl_hps[@pl_card_idx] = 0 if @pl_hps[@pl_card_idx] > @pl_max_hps[@pl_card_idx]
       @pl_damege[@pl_card_idx] -= args[0]
       @pl_damege[@pl_card_idx] = 0 if (@pl_damege[@pl_card_idx]).negative?
-      debug_puts(__method__)
     end
 
     # 敵の回復イベント
@@ -748,7 +695,6 @@ module Unlight
       @foe_hps[@foe_card_idx] = 0 if @foe_hps[@foe_card_idx] > @foe_max_hps[@foe_card_idx]
       @foe_damege[@foe_card_idx] -= args[0]
       @foe_damege[@foe_card_idx] = 0 if (@foe_damege[@foe_card_idx]).negative?
-      debug_puts(__method__)
     end
 
     # プレイヤーのパーティ回復イベント
@@ -758,7 +704,6 @@ module Unlight
       @pl_hps[args[0]] = 0 if @pl_hps[args[0]] > @pl_max_hps[args[0]]
       @pl_damege[args[0]] -= args[1]
       @pl_damege[args[0]] = 0 if (@pl_damege[args[0]]).negative?
-      debug_puts(__method__)
     end
 
     # 敵のパーティ回復イベント
@@ -768,7 +713,6 @@ module Unlight
       @foe_hps[args[0]] = 0 if @foe_hps[args[0]] > @foe_max_hps[args[0]]
       @foe_damege[args[0]] -= args[1]
       @foe_damege[args[0]] = 0 if (@foe_damege[args[0]]).negative?
-      debug_puts(__method__)
     end
 
     # プレイヤーのパーティ蘇生イベント
@@ -776,7 +720,6 @@ module Unlight
       # args 0:デッキカードidx:int,1:回復ポイント:int
       @pl_hps[args[0]] = args[1]
       @pl_damege[args[0]] = @pl_max_hps[args[0]] - args[1]
-      debug_puts(__method__)
     end
 
     # 敵のパーティ蘇生イベント
@@ -784,13 +727,11 @@ module Unlight
       # args 0:デッキカードidx:int,1:回復ポイント:int
       @foe_hps[args[0]] = args[1]
       @foe_damege[args[0]] = @foe_max_hps[args[0]] - args[1]
-      debug_puts(__method__)
     end
 
     # プレイヤーの行動制限イベント
     def plEntrant_constraint_event(_args)
       # args ;flag
-      debug_puts(__method__)
     end
 
     # プレイヤーのHP変更イベント
@@ -798,7 +739,6 @@ module Unlight
       # args 0:変更後HP:int
       @pl_hps[@pl_card_idx] = args[0]
       @pl_damege[@pl_card_idx] = @pl_max_hps[@pl_card_idx] - args[0]
-      debug_puts(__method__)
     end
 
     # 敵のHP変更イベント
@@ -806,7 +746,6 @@ module Unlight
       # args 0:変更後HP:int
       @foe_hps[@foe_card_idx] = args[0]
       @foe_damege[@foe_card_idx] = @foe_max_hps[@foe_card_idx] - args[0]
-      debug_puts(__method__)
     end
 
     # プレイヤーのパーティダメージイベント
@@ -816,7 +755,6 @@ module Unlight
       @pl_hps[args[0]] = 0 if (@pl_hps[args[0]]).negative?
       @pl_damege[args[0]] += args[1]
       @pl_damege[args[0]] = @pl_max_hps[args[0]] if @pl_damege[args[0]] > @pl_max_hps[args[0]]
-      debug_puts(__method__)
     end
 
     # 敵のパーティダメージイベント
@@ -826,7 +764,6 @@ module Unlight
       @foe_hps[args[0]] = 0 if (@foe_hps[args[0]]).negative?
       @foe_damege[args[0]] += args[1]
       @foe_damege[args[0]] = @foe_max_hps[args[0]] if @foe_damege[args[0]] > @foe_max_hps[args[0]]
-      debug_puts(__method__)
     end
 
     # プレイヤーの状態回復イベント
@@ -834,7 +771,6 @@ module Unlight
       @pl_state.each_index do |i|
         @pl_state[i] = []
       end
-      debug_puts(__method__)
     end
 
     # 敵の状態回復イベント
@@ -842,7 +778,6 @@ module Unlight
       @foe_state.each_index do |i|
         @foe_state[i] = []
       end
-      debug_puts(__method__)
     end
 
     # プレイヤーアクションカード使用イベント
@@ -851,7 +786,6 @@ module Unlight
       unless @pl_table.empty?
         @pl_table.pop
       end
-      debug_puts(__method__)
     end
 
     # 敵アクションカード使用イベント
@@ -860,7 +794,6 @@ module Unlight
       unless @foe_table.empty?
         @foe_table.pop
       end
-      debug_puts(__method__)
     end
 
     # プレイヤーアクションカード破棄イベント
@@ -869,7 +802,6 @@ module Unlight
       unless @pl_ac.empty?
         @pl_ac.pop
       end
-      debug_puts(__method__)
     end
 
     # 敵のアクションカード破棄イベント
@@ -878,7 +810,6 @@ module Unlight
       unless @foe_ac.empty?
         @foe_ac.pop
       end
-      debug_puts(__method__)
     end
 
     # プレイヤーアクションカード破棄(fromテーブル)イベント
@@ -887,7 +818,6 @@ module Unlight
       unless @pl_table.empty?
         @pl_table.pop
       end
-      debug_puts(__method__)
     end
 
     # 敵のアクションカード破棄(fromテーブル)イベント
@@ -896,25 +826,21 @@ module Unlight
       unless @foe_table.empty?
         @foe_table.pop
       end
-      debug_puts(__method__)
     end
 
     # プレイヤーのポイントが更新された場合のイベント
     def plEntrant_point_update_event(_args)
       # args 0:ACList:String,1:ACOnList:int(BIT演算),2:ポイント:int
-      debug_puts(__method__)
     end
 
     # プレイヤーのポイントが更新された場合のイベント
     def plEntrant_point_rewrite_event(_args)
       # args 0:ポイント:int
-      debug_puts(__method__)
     end
 
     # 敵のポイントが更新された場合のイベント
     def foeEntrant_point_rewrite_event(_args)
       # args 0:ポイント:int
-      debug_puts(__method__)
     end
 
     # プレイヤーが特別にカードを配られる場合のイベント
@@ -925,7 +851,6 @@ module Unlight
         @pl_ac.push({ id: 0, dir: true })
       end
       decre_deck_num(ac_arr.size) unless ac_arr.empty?
-      debug_puts(__method__)
     end
 
     # 敵が特別にカードを配られる場合のイベント
@@ -935,7 +860,6 @@ module Unlight
         @foe_ac.push({ id: 0, dir: true })
       end
       decre_deck_num(args[2]) if (args[2]).positive?
-      debug_puts(__method__)
     end
 
     # プレイヤーに墓地のカードが配られる場合のイベント
@@ -945,7 +869,6 @@ module Unlight
       ac_arr.size.times do
         @pl_ac.push({ id: 0, dir: true })
       end
-      debug_puts(__method__)
     end
 
     # 敵に墓地のカードが配られる場合のイベント
@@ -954,7 +877,6 @@ module Unlight
       args[2].times do
         @foe_ac.push({ id: 0, dir: true })
       end
-      debug_puts(__method__)
     end
 
     # プレイヤーに相手の手札のカードが配られる場合のイベント
@@ -967,7 +889,6 @@ module Unlight
       args[2].times do
         @foe_ac.pop
       end
-      debug_puts(__method__)
     end
 
     # 敵にプレイヤーの手札のカードが配られる場合のイベント
@@ -980,7 +901,6 @@ module Unlight
       args[2].times do
         @pl_ac.pop
       end
-      debug_puts(__method__)
     end
 
     # プレイヤーが特別にイベントカードを配られる場合のイベント
@@ -990,7 +910,6 @@ module Unlight
       ac_arr.size.times do
         @pl_ac.push({ id: 0, dir: true })
       end
-      debug_puts(__method__)
     end
 
     # 敵が特別にイベントカードを配られる場合のイベント
@@ -999,25 +918,21 @@ module Unlight
       args[2].times do
         @foe_ac.push({ id: 0, dir: true })
       end
-      debug_puts(__method__)
     end
 
     # プレイヤーに仮のダイスが振られるときのイベント
     def plEntrant_dice_roll_event(_args)
       # args 0:atkのダイス値:String,1:defのダイス値:String
-      debug_puts(__method__)
     end
 
     # 敵に仮のダイスが振られるときのイベント
     def foeEntrant_dice_roll_event(_args)
       # args 0:atkのダイス値:String,1:defのダイス値:String
-      debug_puts(__method__)
     end
 
     # プレイヤーの装備カードが更新されるときのイベント
     def plEntrant_update_weapon_event(_args)
       # args 0:plの更新パラメータ:String,1:foeの更新パラメータ:String
-      debug_puts(__method__)
     end
 
     # アクションカードの数値が更新されるときのイベント
@@ -1028,7 +943,6 @@ module Unlight
       else
         @override_cards[args[0]] = { 'u_value' => args[1], 'b_value' => args[2] }
       end
-      debug_puts(__method__)
     end
 
     # アクションカードの数値が更新されるときのイベント
@@ -1039,84 +953,59 @@ module Unlight
       else
         @override_cards[args[0]] = { 'u_value' => args[1], 'b_value' => args[2] }
       end
-      debug_puts(__method__)
     end
 
     # プレイヤーの最大カード枚数が更新された場合のイベント
     def plEntrant_cards_max_update_event(_args)
       # args 0:カード最大枚数:int
-      debug_puts(__method__)
     end
 
     # プレイヤーのボーナスが変化した際のイベント
     def plEntrant_duel_bonus_event(_args)
       # args 0:ボーナスタイプ:int,1:ボーナス値:int
-      debug_puts(__method__)
     end
 
     # プレイヤーの特殊メッセージのイベント
-    def plEntrant_special_message_event(_args)
-      debug_puts(__method__)
-    end
+    def plEntrant_special_message_event(_args); end
 
     # プレイヤーの特殊メッセージのイベント
-    def foeEntrant_special_message_event(_args)
-      debug_puts(__method__)
-    end
+    def foeEntrant_special_message_event(_args); end
 
     # プレイヤーの汎用メッセージのイベント
-    def plEntrant_duel_message_event(_args)
-      debug_puts(__method__)
-    end
+    def plEntrant_duel_message_event(_args); end
 
     # プレイヤーの汎用メッセージのイベント
-    def foeEntrant_duel_message_event(_args)
-      debug_puts(__method__)
-    end
+    def foeEntrant_duel_message_event(_args); end
 
     # プレイヤーのトラップ発動イベント
-    def plEntrant_trap_action_event(_args)
-      debug_puts(__method__)
-    end
+    def plEntrant_trap_action_event(_args); end
 
     # 敵のトラップ発動イベント
-    def foeEntrant_trap_action_event(_args)
-      debug_puts(__method__)
-    end
+    def foeEntrant_trap_action_event(_args); end
 
     # プレイヤーのトラップ遷移イベント
-    def plEntrant_trap_update_event(_args)
-      debug_puts(__method__)
-    end
+    def plEntrant_trap_update_event(_args); end
 
     # 敵のトラップ遷移イベント
-    def foeEntrant_trap_update_event(_args)
-      debug_puts(__method__)
-    end
+    def foeEntrant_trap_update_event(_args); end
 
     # 現在ターン数変更のイベント
     def plEntrant_set_turn_event(args)
       # args 0:変更ターン値:int
       @turn = args[0]
-      debug_puts(__method__)
     end
 
     # 現在ターン数変更のイベント
     def foeEntrant_set_turn_event(args)
       # args 0:変更ターン値:int
       @turn = args[0]
-      debug_puts(__method__)
     end
 
     # カードロックイベント
-    def plEntrant_card_lock_event(_args)
-      debug_puts(__method__)
-    end
+    def plEntrant_card_lock_event(_args); end
 
     # カードロック解除イベント
-    def plEntrant_clear_card_locks_event(_args)
-      debug_puts(__method__)
-    end
+    def plEntrant_clear_card_locks_event(_args); end
 
     # =====================
     # DeckEvent
@@ -1126,7 +1015,6 @@ module Unlight
     def deck_init(args)
       # args 0:デッキサイズ:int
       @deck_num += args[0]
-      debug_puts(__method__)
     end
 
     # =====================
@@ -1145,12 +1033,9 @@ module Unlight
         end
       end
       @deck_num = @deck_num < args[3] ? 0 : @deck_num - args[3]
-      debug_puts(__method__)
     end
 
-    def action_card_heal_event(_args)
-      debug_puts(__method__)
-    end
+    def action_card_heal_event(_args); end
 
     # =====================
     # CharaCardEvent
@@ -1164,7 +1049,6 @@ module Unlight
         @foe_state[args[0][1]] << { id: args[0][2], value: args[0][3], turn: args[0][4] }
       end
       @log_list << [args[1][0], [args[1][1], args[1][2]]]
-      debug_puts(__method__)
     end
 
     # 状態付加ON時の敵側側ハンドラ
@@ -1176,7 +1060,6 @@ module Unlight
         @foe_state[args[0][1]] << { id: args[0][2], value: args[0][3], turn: args[0][4] }
       end
       @log_list << [args[1][0], [args[1][1], args[1][2]]]
-      debug_puts(__method__)
     end
 
     # 状態付加Off時のプレイヤー側ハンドラ
@@ -1194,7 +1077,6 @@ module Unlight
         end
         @foe_state[args[1]].delete_at(idx)
       end
-      debug_puts(__method__)
     end
 
     # 状態付加Off時の敵側側ハンドラ
@@ -1212,7 +1094,6 @@ module Unlight
         end
         @foe_state[args[1]].delete_at(idx)
       end
-      debug_puts(__method__)
     end
 
     # 状態付加Update時のプレイヤー側ハンドラ
@@ -1236,7 +1117,6 @@ module Unlight
           @foe_state[args[3]][idx][:value] = args[2]
         end
       end
-      debug_puts(__method__)
     end
 
     # 状態付加Update時の敵側側ハンドラ
@@ -1260,290 +1140,166 @@ module Unlight
           @foe_state[args[3]][idx][:value] = args[2]
         end
       end
-      debug_puts(__method__)
     end
 
     # 猫状態Update時のプレイヤー側側ハンドラ
-    def pl_entrant_cat_state_update_event(_args)
-      debug_puts(__method__)
-    end
+    def pl_entrant_cat_state_update_event(_args); end
 
     # 猫状態Update時の敵側側ハンドラ
-    def foe_entrant_cat_state_update_event(_args)
-      debug_puts(__method__)
-    end
+    def foe_entrant_cat_state_update_event(_args); end
 
     # 必殺技ON時のプレイヤー側ハンドラ
-    def pl_entrant_feat_on_event(_args)
-      debug_puts(__method__)
-    end
+    def pl_entrant_feat_on_event(_args); end
 
     # 必殺技ON時の敵側側ハンドラ
-    def foe_entrant_feat_on_event(_args)
-      debug_puts(__method__)
-    end
+    def foe_entrant_feat_on_event(_args); end
 
     # 必殺技Off時のプレイヤー側ハンドラ
-    def pl_entrant_feat_off_event(_args)
-      debug_puts(__method__)
-    end
+    def pl_entrant_feat_off_event(_args); end
 
     # 必殺技Off時の敵側側ハンドラ
-    def foe_entrant_feat_off_event(_args)
-      debug_puts(__method__)
-    end
+    def foe_entrant_feat_off_event(_args); end
 
     # 必殺技が変更された時のプレイヤー側ハンドラ
     def pl_entrant_change_feat_event(_args)
       # args 0:plか:Boolean,1:必殺技ID:int
-      debug_puts(__method__)
     end
 
     # 必殺技が変更された時の敵側ハンドラ
     def foe_entrant_change_feat_event(_args)
       # args 0:plか:Boolean,1:必殺技ID:int
-      debug_puts(__method__)
     end
 
     # 必殺技が実行された時のプレイヤー側ハンドラ
     def pl_entrant_use_feat_event(_args)
       # args 0:plか:Boolean,1:必殺技ID:int
-      debug_puts(__method__)
     end
 
     # 必殺技が実行された時の敵側ハンドラ
     def foe_entrant_use_feat_event(_args)
       # args 0:plか:Boolean,1:必殺技ID:int
-      debug_puts(__method__)
     end
 
     # パッシブが実行された時のプレイヤー側ハンドラ
     def pl_entrant_use_passive_event(_args)
       # args 0:plか:Boolean,1:パッシブID:int
-      debug_puts(__method__)
     end
 
     # パッシブが実行された時の敵側ハンドラ
     def foe_entrant_use_passive_event(_args)
       # args 0:plか:Boolean,1:パッシブID:int
-      debug_puts(__method__)
     end
 
     # パッシブが実行された時のプレイヤー側ハンドラ
     def pl_entrant_on_passive_event(_args)
       # args 0:plか:Boolean,1:パッシブID:int
-      debug_puts(__method__)
     end
 
     # パッシブが実行された時の敵側ハンドラ
     def foe_entrant_on_passive_event(_args)
       # args 0:plか:Boolean,1:パッシブID:int
-      debug_puts(__method__)
     end
 
     # パッシブが終了した時のプレイヤー側ハンドラ
     def pl_entrant_off_passive_event(_args)
       # args 0:plか:Boolean,1:パッシブID:int
-      debug_puts(__method__)
     end
 
     # パッシブが終了した時の敵側ハンドラ
     def foe_entrant_off_passive_event(_args)
       # args 0:plか:Boolean,1:パッシブID:int
-      debug_puts(__method__)
     end
 
     # キャラカードを更新する。変身用。
     def pl_entrant_change_chara_card_event(_args)
       # args 0:plか:Boolean
-      debug_puts(__method__)
     end
 
     # キャラカードを更新する。変身用。
     def foe_entrant_change_chara_card_event(_args)
       # args 0:plか:Boolean
-      debug_puts(__method__)
     end
 
     # キャラカード変身時のプレイヤー側ハンドラ
     def pl_entrant_on_transform_event(_args)
       # args 0:plか:Boolean
-      debug_puts(__method__)
     end
 
     # キャラカード変身時の敵側側ハンドラ
     def foe_entrant_on_transform_event(_args)
       # args 0:plか:Boolean
-      debug_puts(__method__)
     end
 
     # キャラカード変身時のプレイヤー側ハンドラ
     def pl_entrant_off_transform_event(_args)
       # args 0:plか:Boolean
-      debug_puts(__method__)
     end
 
     # キャラカード変身時の敵側側ハンドラ
     def foe_entrant_off_transform_event(_args)
       # args 0:plか:Boolean
-      debug_puts(__method__)
     end
 
     # きりがくれプレイヤー側ON
     def pl_entrant_on_lost_in_the_fog_event(_args)
       # args 0:plか:Boolean, 1:distance:int, 2:真のdistance:int
-      debug_puts(__method__)
     end
 
     # きりがくれ的側ON
     def foe_entrant_on_lost_in_the_fog_event(_args)
       # args 0:plか:Boolean, 1:distance:int, 2:真のdistance:int
-      debug_puts(__method__)
     end
 
     # きりがくれプレイヤー側OFF
     def pl_entrant_off_lost_in_the_fog_event(_args)
       # args 0:plか:Boolean, 1:distance:int
-      debug_puts(__method__)
     end
 
     # きりがくれ的側OFF
     def foe_entrant_off_lost_in_the_fog_event(_args)
       # args 0:plか:Boolean, 1:distance:int
-      debug_puts(__method__)
     end
 
     # プレイヤー側 霧ライト
     def pl_entrant_in_the_fog_event(_args)
       # args 0:plか:Boolean, 1:range:String
-      debug_puts(__method__)
     end
 
     # 敵側霧ライト
     def foe_entrant_in_the_fog_event(_args)
       # args 0:plか:Boolean, 1:range:String
-      debug_puts(__method__)
     end
 
     # フィールド状態変更イベント
     def plEntrant_set_field_status_event(_args)
       # args 0:kind:int, 1:pow:int, 2:turn:int
-      debug_puts(__method__)
     end
 
     # フィールド状態変更イベント
     def foeEntrant_set_field_status_event(_args)
       # args 0:kind:int, 1:pow:int, 2:turn:int
-      debug_puts(__method__)
     end
 
     # 技の発動条件を更新 PL
     def pl_entrant_update_feat_condition_event(_args)
       # args 0:plか:Boolean, 1:chara_index:int, 3:feat_index:int, 4:condition
-      debug_puts(__method__)
     end
 
     # 技の発動条件を更新 FOE
     def foe_entrant_update_feat_condition_event(_args)
       # args 0:plか:Boolean, 1:chara_index:int, 3:feat_index:int, 4:condition
-      debug_puts(__method__)
     end
 
     # 自身の周囲にヌイグルミ
     def pl_entrant_stuffed_toys_set_event(args)
       # args 0:plか:Boolean, 1:num:int
       @pl_stuffed_toy_num = args[1]
-      debug_puts(__method__)
     end
 
     # 自身の周囲にヌイグルミ
     def foe_entrant_stuffed_toys_set_event(args)
       # args 0:plか:Boolean, 1:num:int
       @foe_stuffed_toy_num = args[1]
-      debug_puts(__method__)
-    end
-
-    def debug_puts(method)
-      return
-
-      puts "******************** #{method} ********************"
-      pl_deck_ids = []
-      foe_deck_ids = []
-      @pl_cards.each_index do |s|
-        if @pl_cards[s] # 念のためのチェック
-          pl_deck_ids << @pl_cards[s].id
-        end
-      end
-      @foe_cards.each_index do |s|
-        if @foe_cards[s] # 念のためのチェック
-          foe_deck_ids << @foe_cards[s].id
-        end
-      end
-      puts "pl_deck_ids    :#{pl_deck_ids}"
-      puts "foe_deck_ids   :#{foe_deck_ids}"
-      puts "pl_card_idx    :#{@pl_card_idx}"
-      puts "foe_card_idx   :#{@foe_card_idx}"
-      puts "pl_hps         :#{@pl_hps}"
-      puts "foe_hps        :#{@foe_hps}"
-      puts "pl_max_hps     :#{@pl_max_hps}"
-      puts "foe_max_hps    :#{@foe_max_hps}"
-      puts "pl_state       :#{@pl_state}"
-      puts "foe_state      :#{@foe_state}"
-      puts "pl_ac_size     :#{@pl_ac.size}"
-      puts "foe_ac_size    :#{@foe_ac.size}"
-      puts "pl_table_size  :#{@pl_table.size}"
-      puts "foe_table_size :#{@foe_table.size}"
-      puts "pl_initi       :#{@pl_initi}"
-      puts "turn           :#{@turn}"
-      puts "phase          :#{@phase}"
-      puts "******************** #{method} ********************"
-    end
-
-    def debug_last_puts(method)
-      return
-
-      puts "******************** #{method} ********************"
-      if @pl_cards
-        pl_deck_ids = []
-        @pl_cards.each_index do |s|
-          if @pl_cards[s] # 念のためのチェック
-            pl_deck_ids << @pl_cards[s].id
-          end
-        end
-      end
-      if @foe_cards
-        foe_deck_ids = []
-        @foe_cards.each_index do |s|
-          if @foe_cards[s]      # 念のためのチェック
-            foe_deck_ids << @foe_cards[s].id
-          end
-        end
-      end
-      puts "pl_deck_ids    :#{pl_deck_ids}"      if pl_deck_ids
-      puts "foe_deck_ids   :#{foe_deck_ids}"     if foe_deck_ids
-      puts "pl_card_idx    :#{@pl_card_idx}"     if @pl_card_idx
-      puts "foe_card_idx   :#{@foe_card_idx}"    if @foe_card_idx
-      puts "pl_hps         :#{@pl_hps}"          if @pl_hps
-      puts "foe_hps        :#{@foe_hps}"         if @foe_hps
-      puts "pl_max_hps     :#{@pl_max_hps}"      if @pl_max_hps
-      puts "foe_max_hps    :#{@foe_max_hps}"     if @foe_max_hps
-      puts "pl_damege      :#{@pl_damege}"       if @pl_damege
-      puts "foe_damege     :#{@foe_damege}"      if @foe_damege
-      puts "pl_state       :#{@pl_state}"        if @pl_state
-      puts "foe_state      :#{@foe_state}"       if @foe_state
-      puts "pl_ac_size     :#{@pl_ac.size}"      if @pl_ac
-      puts "foe_ac_size    :#{@foe_ac.size}"     if @foe_ac
-      puts "pl_table_size  :#{@pl_table.size}"   if @pl_table
-      puts "foe_table_size :#{@foe_table.size}"  if @foe_table
-      puts "deck_max       :#{@deck_max}"        if @deck_max
-      puts "deck_num       :#{@deck_num}"        if @deck_num
-      puts "distance       :#{@dist}"            if @dist
-      puts "pl_initi       :#{@pl_initi}"        if @pl_initi
-      puts "stage          :#{@stage}"           if @stage
-      puts "turn           :#{@turn}"            if @turn
-      puts "phase          :#{@phase}"           if @phase
-      puts "phase_args     :#{@phase_args}"      if @phase_args
-      puts "******************** #{method} ********************"
     end
   end
 end
