@@ -1350,9 +1350,7 @@ module Unlight
         end
         # デッキの先頭にモンスターが入っていないか？
         if ret && d && !cs.empty?
-          case cs[0].kind
-          when CC_KIND_CHARA, CC_KIND_REBORN_CHARA, CC_KIND_RENTAL, CC_KIND_EPISODE
-          else
+          unless [CC_KIND_CHARA, CC_KIND_REBORN_CHARA, CC_KIND_RENTAL, CC_KIND_EPISODE].include?(cs[0].kind)
             ret = false
           end
         end
@@ -2370,14 +2368,12 @@ module Unlight
 
     # チケットを特定枚数つかう
     def use_copy_tickets
-      ret = false
-      copy_tickets.each do |t|
-        t.use(self)
-        @event.item_use_event(t.id) if @event
-        ret = true
-        break
-      end
-      ret
+      ticket = copy_tickets.first
+      return false if ticket.nil?
+
+      ticket.use(self)
+      @event.item_use_event(ticket.id) if @event
+      true
     end
 
     # コインを消費する
@@ -2390,7 +2386,8 @@ module Unlight
       uses.each_index do |i|
         if i >= (TIPS_CARD_ID - COIN_CARD_ID)
           cid = EX_COIN_CARD_ID
-        elsif cid = (COIN_CARD_ID + i).to_i
+        else
+          cid = (COIN_CARD_ID + i).to_i
         end
         uses[i].times do |_c|
           ret << nums[cid].last.id
@@ -2508,16 +2505,16 @@ module Unlight
             p_log.lock!
             p_log.refresh
             # すでにアイテムを渡していたら抜ける
-            return if p_log.result == PaymentLog::STATE_END
-
-            # アイテム付与済みにする
-            p_log.item_got
-            # 個数分の
-            p_log.num.times do
-              # リアルアイテムを付与する
-              real_money_item_to_item(p_log.real_money_item)
+            unless p_log.result == PaymentLog::STATE_END
+              # アイテム付与済みにする
+              p_log.item_got
+              # 個数分の
+              p_log.num.times do
+                # リアルアイテムを付与する
+                real_money_item_to_item(p_log.real_money_item)
+              end
+              ret.push({ payment_id: p_log.id, rm_item_id: p_log.real_money_item_id, num: p_log.num })
             end
-            ret.push({ payment_id: p_log.id, rm_item_id: p_log.real_money_item_id, num: p_log.num })
           end
         end
       end

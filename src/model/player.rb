@@ -297,8 +297,7 @@ module Unlight
 
     # 現在使用中のアバターを返す（現在は問答無用で0番）
     def current_avatar
-      if @current_avatar
-      else
+      unless @current_avatar
         if avatars.empty?
           @current_avatar = Avatar.new(name: name, player_id: id)
         else

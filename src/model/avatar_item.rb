@@ -637,8 +637,6 @@ module Unlight
 
     # クエストMAXを増やす
     def quest_max_up(_v)
-      if @owner
-      end
       -1
     end
 

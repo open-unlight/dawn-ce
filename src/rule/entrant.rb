@@ -1669,8 +1669,7 @@ module Unlight
         counter += 1
       end
       @feat_battle_table_on_list[feat_no] |= tmp_on_list
-      if ret
-      else
+      unless ret
         @feat_battle_table_on_list[feat_no] ^= tmp_on_list
       end
       ret

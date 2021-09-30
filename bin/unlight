@@ -53,9 +53,11 @@ end
 case command
 when 'console', 'rake', 'web'
   ensure_connection
-  return send("run_#{command}") if respond_to?("run_#{command}", true)
-
-  exec("bundle exec #{command} #{ARGV.join(' ')}")
+  if respond_to?("run_#{command}", true)
+    send("run_#{command}")
+  else
+    exec("bundle exec #{command} #{ARGV.join(' ')}")
+  end
 when 'authentication', 'chat', 'global_chat', 'game', 'lobby', 'data_lobby', 'matching',
      'raid', 'raid_chat', 'raid_data', 'raid_rank', 'quest', 'watch'
   ensure_connection

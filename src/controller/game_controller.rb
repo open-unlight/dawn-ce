@@ -395,7 +395,7 @@ module Unlight
     end
 
     # 0ターン切断をした回数をチェック
-    def check_zero_turn_cut(cnt = 0)
+    def check_zero_turn_cut(_cnt = 0)
       cnt = CACHE.get("zero_turn_cut_cnt_player_id:#{@uid}")
       cnt ||= 0
       cnt += 1

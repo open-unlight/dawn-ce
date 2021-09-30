@@ -462,6 +462,7 @@ end
 # 新しい物が頭に追加される順序付きハッシュ
 class OrderHash < Hash
   def initialize
+    super
     @keys = []
   end
 
@@ -482,7 +483,8 @@ class OrderHash < Hash
     if @keys.include?(key)
       @keys.delete(key)
       super(key)
-    elsif yield(key)
+    else
+      yield(key)
     end
   end
 
@@ -531,10 +533,11 @@ class OrderHash < Hash
   end
 
   def sort_hash(&block)
-    if block
-      arr_tmp = sort(&block)
-    elsif arr_tmp = sort
-    end
+    arr_tmp = if block
+                sort(&block)
+              else
+                sort
+              end
     hash_tmp = OrderHash.new
     arr_tmp.each do |item|
       hash_tmp[item[0]] = item[1]

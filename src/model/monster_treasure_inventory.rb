@@ -30,17 +30,12 @@ module Unlight
       t = treasure_data
       if t
         case t.treasure_type
-        when TG_NONE
         when TG_CHARA_CARD
           ret = { step: step, item: [Unlight::Reward::RANDOM_CARD, t.value, num] }
         when TG_SLOT_CARD
           ret = { step: step, item: [SLOTS2REWARD[t.slot_type], t.value, num] } unless (SLOTS2REWARD[t.slot_type]).zero?
         when TG_AVATAR_ITEM
           ret = { step: step, item: [Unlight::Reward::ITEM, t.value, num] }
-        when TG_AVATAR_PART
-        when TG_GEM
-        when TG_OWN_CARD
-        when TG_BONUS_GAME
         end
       end
       ret

@@ -17,11 +17,6 @@ FILE_LIST = /Achievement\z|ActionCard\z|AvatarItem\z|AvatarPart\z|Channel\z|Char
 opt = OptionParser.new
 # オプションがjの時日本語用のDBに接続L
 #
-opt.on('-j', '--japanese', '日本語版で作る') do |v|
-  if v
-  end
-end
-
 opt.on('-s', '--sandbox', 'sandboxをのバックアップファイルを作る') do |v|
   if v
     ORIG = false
