@@ -144,7 +144,7 @@ module Unlight
       @initiative = false            # イニシアチブを取ったか
       @transformable = false         # 死ぬと変身する。(キャラカード差し替え)
       @exit = false                  # ゲームから出たか？
-      @bp_calc_unenabled             # 攻撃失敗
+      @bp_calc_unenabled = nil         # 攻撃失敗
       @bp_calc_range_free = false      # 距離を廃したbp計算
       @seconds = false                 # 必ず後攻
       @hiding_was_finished = false     # ハイド終了
@@ -308,7 +308,6 @@ module Unlight
 
     # 使用中の装備補正を返す
     def current_weapon_bonus
-      ret = []
       weapon_bonus(@current_chara_card_no)
     end
 
@@ -1366,7 +1365,6 @@ module Unlight
       return tmp_focus if tmp_focus.zero?
 
       counter = 0
-      detected = false
 
       @table.each do |a|
         if a.u_type == ActionCard::FCS
@@ -1694,7 +1692,6 @@ module Unlight
     # 与えられたタイプの中で最高値のタイプを調べる。
     # bp_calcと衝突しないよう、ビットを立てる処理は後ろに分離する。
     def greater_check_type_set(_feat_no, typeSigns, point)
-      max_value_type = []
       max_value_type = get_max_value_type(typeSigns, point)
 
       !max_value_type.empty?
@@ -1702,7 +1699,6 @@ module Unlight
 
     # on_listを書き換える 距離に対応するカードが意味を持たない場合
     def reset_on_list_by_type_set(feat_no, typeSigns, point, min = false)
-      max_value_type = []
       max_value_type = get_max_value_type(typeSigns, point, min)
 
       return if max_value_type.empty?

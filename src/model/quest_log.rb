@@ -49,9 +49,7 @@ module Unlight
 
     # リミットずつのログをもらう(1ページスタート)
     def self.get_page(a_id, page)
-      ret = []
       ids = []
-      content = []
       QuestLog.filter(avatar_id: a_id).limit(QUEST_LOG_LIMIT, page * QUEST_LOG_LIMIT).order(Sequel.desc(:created_at)).all.each do |a|
         ids << a.id
       end

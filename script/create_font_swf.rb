@@ -61,8 +61,6 @@ opt.on('-fr', '--french', 'フランス語用') do |v|
     check_file = 'all_griph_nbr.txt'
     font_h = 'nbr.otf'
     font_r = 'palatino.otf'
-    font_h_size = 1.5
-    font_r_size = 1.5
     all_griph = true
 
   end
@@ -99,7 +97,7 @@ File.open('./data/backup/string_constants.txt') do |file|
   end
 end
 file = Pathname.new('./data/backup/string_constants.txt')
-f = file.open('w') { |f| new_const.each { |a| f.puts a } }
+file.open('w') { |f| new_const.each { |a| f.puts a } }
 
 # グリフチェックがある場合
 # ======================

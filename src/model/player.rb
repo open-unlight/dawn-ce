@@ -155,7 +155,6 @@ module Unlight
                   end
                 end
                 pre_no_set << "#{pre[:type]}_#{pre[:id]}_#{pre[:num]}_#{pre[:sct_type]}" if is_set_pre
-                ret = true
               end
               notice_str += pre_no_set.join(',')
               current_avatar.write_notice(NOTICE_TYPE_COMEBKED_SUCC, notice_str)
@@ -430,7 +429,7 @@ module Unlight
 
     #  ブロックリンクを作る
     def create_block_link(o_id)
-      ret = FriendLink.create_block_link(id, o_id, server_type)
+      FriendLink.create_block_link(id, o_id, server_type)
     end
 
     # フレンドを招待した

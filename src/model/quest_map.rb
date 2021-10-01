@@ -55,7 +55,6 @@ module Unlight
       SERVER_LOG.info("<UID:>QuestServer: [#{__method__}] clear_num:#{clear_num},time:#{time},cleard:#{cleared_map}")
       r = QuestMap.get_realty(time)
       s = 0
-      boss = false
       boss = (clear_num >= difficulty) || cleared_map
       until s.positive?
         q = Quest.get_map_in_reality(id, r, boss)

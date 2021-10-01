@@ -45,7 +45,6 @@ module Unlight
 
     # Duel開始時のBossのダメージを取得(avatar_idが0の場合、Boss回復)
     def self.get_start_boss_damage(prf_id)
-      ret = [[], 0]
       dmg = [0, 0, 0]
       id  = 0
       list = ProfoundLog.filter([profound_id: prf_id]).order(:id).all
@@ -102,7 +101,6 @@ module Unlight
 
     # ダメージログを取得
     def self.get_profound_damage_log(prf_id, a_id, p_log_id = 0)
-      ret = nil
       ProfoundLog.filter([profound_id: prf_id]).filter { id > p_log_id }.exclude(avatar_id: a_id).order(:id).all
     end
 

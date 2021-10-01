@@ -364,7 +364,6 @@ module Unlight
 
     # セール時間情報を要求
     def cs_request_sale_limit_info
-      ret = ''
       if @avatar
         ret = @avatar.get_sale_limit_rest_time(true)
         sc_update_sale_rest_time(@avatar.sale_type, ret)
@@ -513,7 +512,6 @@ module Unlight
       if @avatar
         ics = InfectionCollaboSerial.check(serial, @avatar.player_id, @avatar.server_type)
         if ics
-          notice_str = ''
           item_no_set = []
           INFECTION_COLLABO_PRESENTS.each do |item|
             @avatar.get_treasures(item[:type], item[:id], item[:sct_type], item[:num])

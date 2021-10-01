@@ -175,9 +175,7 @@ module Unlight
       BASE_RANKING_NUM.times do |i|
         step_unum_sets << [step_sets[i], user_num_sets[i]] unless (user_num_sets[i]).zero?
       end
-      before_er = nil
       c_rank = 1
-      c_point = 0
 
       est_rank_list = EstimationRanking.filter(rank_type: rank_type, server_type: server_type).order(Sequel.asc(:id)).all
 

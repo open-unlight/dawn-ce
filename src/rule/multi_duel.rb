@@ -91,10 +91,10 @@ module Unlight
       @event_decks = [@event_deck1, @event_deck2] # 対戦者全員
       add_finish_listener_three_to_three_duel(method(:finish_game))      # ゲーム結果を監視
       @@current_list << self                                             # ゲームリストに追加
-      @tmp_damage                                                        # ダメージの一時保管
+      @tmp_damage = nil                                                  # ダメージの一時保管
       @tmp_dice = []                                                     # ダイスの一時保管
-      @tmp_dice_heads_atk                                                # 攻撃側ダイスの出目
-      @tmp_dice_heads_def                                                # 防御側ダイスの出目
+      @tmp_dice_heads_atk = nil                                          # 攻撃側ダイスの出目
+      @tmp_dice_heads_def = nil                                          # 防御側ダイスの出目
       @dice_attributes = []
       @result = []
       @roll_cancel = false                                               # ダイスロールの中止

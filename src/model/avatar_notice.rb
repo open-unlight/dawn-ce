@@ -67,7 +67,6 @@ module Unlight
       refresh
       ret = []
       if types && !types.empty?
-        match_str = types.join('|')
         body_arr = body.split('|')
         leave_arr = []
         body_arr.each do |mes|
@@ -91,7 +90,6 @@ module Unlight
       refresh
       ret = []
       if types && !types.empty?
-        match_str = types.join('|')
         body_arr = body.split('|')
         leave_arr = []
         body_arr.each do |mes|

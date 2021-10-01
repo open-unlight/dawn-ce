@@ -239,7 +239,6 @@ module Unlight
     def useless_card_mearge
       # 判定結果にゴミカードを混ぜる
       @hand_useless_value.each do |l, w|
-        v = 0
         if @hand_value[l]
           v = @hand_value[l][0]
           @hand_value[l][0] = w + v

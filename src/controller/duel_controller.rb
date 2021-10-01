@@ -638,7 +638,7 @@ module Unlight
         name = duel.initi[0] == @no ? DUEL_NAME_PL : DUEL_NAME_FOE
         set_message_str_data(DUEL_MSGDLG_BTL_RESULT, name)
       else
-        a = audience_str_data = nil
+        audience_str_data = nil
       end
       initi = (duel.initi[0] == @no)
       ret_str_0 = ret[0].join(',')

@@ -282,7 +282,6 @@ module Unlight
     end
 
     def do_logout
-      uid = @uid
       # イベントを外す
       if @avatar
         @avatar.remove_all_event_listener

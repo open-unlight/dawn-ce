@@ -350,7 +350,6 @@ module Unlight
       unless @event_rule.allow_context.empty?
         c = @event_rule.allow_context.map { |a| "context_check(\"#{a}\")" }.join('||')
         st = "if #{c}\n"
-        en = ''
         en = "\n          else\n"
         en += '          end'
         doc = st + doc + en
@@ -377,7 +376,6 @@ module Unlight
 
     # 終了条件チェック部分を返す
     def self.goal_check_gen
-      f = @event_rule.func
       if @event_rule.type == :instant
         if @event_rule.goal_list.empty?
           <<-END

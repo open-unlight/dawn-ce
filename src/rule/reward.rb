@@ -43,10 +43,10 @@ module Unlight
 
       @initialized = false                              # 最初のカードリストを渡したか？
 
-      @avatar                                           # 自身のアバターID
-      @challenged                                       # ハイローを決定した
-      @final_result                                     # 最終取得カード
-      @channel_rule                                     # チャンネルルール
+      @avatar = nil                                     # 自身のアバターID
+      @challenged = nil                                 # ハイローを決定した
+      @final_result = nil                               # 最終取得カード
+      @channel_rule = nil                               # チャンネルルール
       @lose = false                                     # 負けたか？
       @deck_exp_pow = 1                                 # デッキ経験値倍率
       @card_bonus_pow = 1                               # カードボーナス倍率
@@ -510,8 +510,6 @@ module Unlight
       ret = 0
       # 取得するキャラカードをデッキ内からランダムで更新
       update_chara_card
-      level = 0
-      #     puts "level1!!!!!!!! : #{level}"
       # レベルを補正する
       level = @pl_cc.level + dec
       if level < 1
@@ -599,7 +597,6 @@ module Unlight
 
     # By_K2 (무한의탑 입장권)
     def get_tower_item_data
-      ret = nil
       [2, 102, 2]
     end
 

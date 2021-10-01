@@ -1458,18 +1458,16 @@ module Unlight
     ITEM_SET_CALC_CHECK_COMP_NUM  = 0b111111
 
     # レベルチェック
-    def level_check(avatar, v, inv, success_cond = nil)
+    def level_check(avatar, v, inv, _success_cond = nil)
       inv.progress = avatar.level
       inv.save_changes
-      success_cond ||= v
       avatar.level >= v
     end
 
     # デュエル勝ち数チェック
-    def duel_win_check(avatar, v, inv, success_cond = nil)
+    def duel_win_check(avatar, v, inv, _success_cond = nil)
       inv.progress = avatar.win
       inv.save_changes
-      success_cond ||= v
       avatar.win >= v
     end
 
@@ -1482,18 +1480,16 @@ module Unlight
     end
 
     # フレンド数チェック
-    def friend_num_check(avatar, v, inv, success_cond = nil)
+    def friend_num_check(avatar, v, inv, _success_cond = nil)
       inv.progress = avatar.player.confirmed_friend_num
       inv.save_changes
-      success_cond ||= v
       avatar.player.confirmed_friend_num >= v
     end
 
     # 固有アイテム数チェック
-    def item_num_check(avatar, v, inv, success_cond = nil)
+    def item_num_check(avatar, v, inv, _success_cond = nil)
       inv.progress = avatar.item_count(v[0])
       inv.save_changes
-      success_cond ||= v[1]
       avatar.item_count(v[0]) >= v[1]
     end
 
@@ -1860,11 +1856,10 @@ module Unlight
     end
 
     # デュエルクリアチェック
-    def duel_clear_check(_avatar, v, inv, success_cond = nil)
+    def duel_clear_check(_avatar, v, inv, _success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond ||= v
       if inv.progress >= v
         ret = true
       end
@@ -1872,11 +1867,10 @@ module Unlight
     end
 
     # デュエル勝利チェック
-    def duel_clear_win_check(_avatar, v, inv, success_cond = nil)
+    def duel_clear_win_check(_avatar, v, inv, _success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond ||= v
       if inv.progress >= v
         ret = true
       end
@@ -1884,11 +1878,10 @@ module Unlight
     end
 
     # クエストをプレゼントしたときのチェック
-    def quest_present_check(_avatar, v, inv, success_cond = nil)
+    def quest_present_check(_avatar, v, inv, _success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond ||= v
       if inv.progress >= v
         ret = true
       end
@@ -1896,11 +1889,10 @@ module Unlight
     end
 
     # レコードクリアチェックチェック
-    def record_clear_check(_avatar, v, inv, success_cond = nil)
+    def record_clear_check(_avatar, v, inv, _success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond ||= v
       if inv.progress >= v
         ret = true
       end
@@ -1908,11 +1900,10 @@ module Unlight
     end
 
     # 取得カードレベルチェック
-    def get_card_level_check(_avatar, v, inv, success_cond = nil)
+    def get_card_level_check(_avatar, v, inv, _success_cond = nil)
       ret = false
       inv.progress += 1
       inv.save_changes
-      success_cond ||= v[3]
       if inv.progress >= v[3]
         ret = true
       end
@@ -2044,7 +2035,6 @@ module Unlight
     def raid_all_damage_check(avatar, v, inv, success_cond = nil)
       ret = false
       set_damage = inv.progress
-      dmg = nil
       dmg = ProfoundLog.filter([avatar_id: avatar.id]).select_append { sum(damage).as(sum_damage) }.filter { created_at > inv.created_at }.all.first
       SERVER_LOG.info("<UID:#{avatar.player_id}>Achievement [#{__method__}] dmg:#{dmg[:sum_damage]}") if dmg && dmg[:sum_damage]
       set_damage = dmg[:sum_damage] if dmg && dmg[:sum_damage]
@@ -2072,12 +2062,12 @@ module Unlight
     end
 
     # イベントポイントチェック
-    def event_point_check(avatar, v, inv, success_cond = nil, point = 0)
+    def event_point_check(avatar, _v, inv, _success_cond = nil, point = 0)
       ret = false
       inv.progress += point
       inv.save_changes
       CACHE.set("achi_check_inv:#{avatar.id}_#{inv.achievement_id}", inv)
-      success_cond ||= v
+      # success_cond ||= v
       # 加算用レコードなので、クリア判定なし
       # if success_cond != -1 && inv.progress >= success_cond
       #   ret = true
@@ -2180,18 +2170,16 @@ module Unlight
     end
 
     # 固有アイテム数全チェック
-    def item_full_num_check(avatar, v, inv, success_cond = nil)
+    def item_full_num_check(avatar, v, inv, _success_cond = nil)
       inv.progress = avatar.full_item_count(v[0])
       inv.save_changes
-      success_cond ||= v[1]
       avatar.full_item_count(v[0]) >= v[1]
     end
 
     # 新たに取得した持アイテム数チェック
-    def item_later_num_check(avatar, v, inv, success_cond = nil)
+    def item_later_num_check(avatar, v, inv, _success_cond = nil)
       inv.progress = avatar.item_count_later(v[0], inv.created_at)
       inv.save_changes
-      success_cond ||= v[1]
       avatar.item_count_later(v[0], inv.created_at) >= v[1]
     end
 

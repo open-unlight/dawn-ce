@@ -149,8 +149,8 @@ module Unlight
         u = users.split(',')
         if @player
           SERVER_LOG.info("<UID:#{@player.id}>AUTHServer: [cs_update_invited_users] #{users}")
-          a = InviteLog.check_already_invited?(@player.name) # すでに自分がインバイトアイテムをもらっているか？
-          t = @player.update_invited_users(u)
+          InviteLog.check_already_invited?(@player.name) # すでに自分がインバイトアイテムをもらっているか？
+          @player.update_invited_users(u)
         end
       end
 

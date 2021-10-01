@@ -3,7 +3,6 @@ require 'pathname'
 require 'optparse'
 require 'fileutils'
 OUTPUT = false
-opt = OptionParser.new
 
 filename = '../server/src/server_ip.rb'
 

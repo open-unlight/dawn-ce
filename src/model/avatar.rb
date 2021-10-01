@@ -735,7 +735,6 @@ module Unlight
 
     # タイムオーバーしたパーツを調べる
     def check_time_over_part(r = true)
-      ret = false
       refresh if r
       part_inventories.each do |pi|
         if pi.work_end?
@@ -1284,7 +1283,6 @@ module Unlight
           ret = chara_card_decks[index].chara_card_check(a) unless index.zero?
           if ret.zero?
             old_deck = a.chara_card_deck
-            old_position = a.position
             a.chara_card_deck = chara_card_decks[index]
             a.position = position
             # 移動もとがバインダーでない場合は同じデッキの同じデッキポジションのSlotカードもすべて移動させる
@@ -1397,17 +1395,12 @@ module Unlight
     def update_check(r = true)
       tmp_exp = exp
       tmp_gems = gems
-      tmp_energy = energy
       tmp_energy_max = energy_max
       tmp_level = level
       tmp_point = point
-      tmp_quest_point = quest_point
       tmp_win = win
       tmp_lose = lose
       tmp_draw = draw
-      tmp_fdc = free_duel_count
-      tmp_deck_level = chara_card_decks[current_deck].level
-      tmp_deck_exp = chara_card_decks[current_deck].exp
       energy_recovery_check(r) # ここでrefreshする
       if @event
         @event.get_exp_event unless tmp_exp == exp
@@ -1784,7 +1777,6 @@ module Unlight
     def use_item(inv_id, quest_map_no = 0)
       # インベントリにあるか調べる
       ret = ERROR_ITEM_NOT_EXIST
-      i = nil
       refresh
       it = ItemInventory[inv_id]
       if it && it.state == ITEM_STATE_NOT_USE && it.avatar_id == id
@@ -1884,7 +1876,6 @@ module Unlight
 
     # 渦を取得済みか判定
     def is_acquired_profound(hash)
-      ret = false
       ProfoundInventory.is_acquired_profound(id, hash)
     end
 
@@ -1920,10 +1911,7 @@ module Unlight
           ret = ERROR_PRF_FINISHED
         else
           # すでに渦は終了している
-          owner_name = ''
           found_avatar = Avatar[prf.found_avatar_id]
-          owner_black_list = FriendLink.get_black_list(found_avatar.player_id, found_avatar.server_type)
-          # SERVER_LOG.info("<UID:#{self.player_id}>DataServer: [#{__method__}] black_list:#{owner_black_list.size > 0}");
           # 発見者のBlackListに入っていたら、取得出来ない
           if FriendLink.is_blocked(found_avatar.player_id, player_id, server_type)
             SERVER_LOG.info("<UID:#{player_id}>DataServer: [#{__method__}] your blocked for profound owner!!! hash:#{hash}")
@@ -1938,7 +1926,6 @@ module Unlight
 
     # 渦を取得する
     def get_profound(profound, owner, _owner_name = nil)
-      ret = 0
       # 既に所持しているか
       have_prf = ProfoundInventory.get_avatar_profound_for_id(id, profound.id)
       if have_prf
@@ -1976,7 +1963,7 @@ module Unlight
       inv = ProfoundInventory.get_new_profound_inventory(id, profound.id, owner, start_score)
       ret = inv
       # ランキングデータを初期化
-      rank = inv.init_ranking
+      inv.init_ranking
 
       # 各情報を送信
       if owner
@@ -2000,7 +1987,6 @@ module Unlight
 
     # 友達にも渦を追加する
     def send_profound_friends(profound)
-      start_at = Time.now
       links = FriendLink.get_link(player_id, server_type)
       links.each do |a|
         if a.friend_type == FriendLink::TYPE_FRIEND
@@ -2014,7 +2000,7 @@ module Unlight
           end
         end
       end
-      fin_at = Time.now
+      Time.now
     end
 
     # フレンドのアバターID一覧を取得
@@ -2400,7 +2386,6 @@ module Unlight
 
     # 指定したアイテムを購入する
     def buy_item(shop_id, item_id, amount = 1)
-      ret = [false, []]
       refresh
       ret = Shop.buy_article(shop_id, SHOP_ITEM, item_id, self.gems, coins, amount)
       if ret[0]
@@ -2440,7 +2425,6 @@ module Unlight
 
     # 指定したキャラカードを購入する
     def buy_chara_card(shop_id, card_id, amount = 1)
-      ret = [false, []]
       # 買えるショップか調べる
       ret = Shop.buy_article(shop_id, SHOP_CHARA_CARD, card_id, self.gems, coins, amount)
       if ret[0]
@@ -2616,7 +2600,6 @@ module Unlight
       # SQLで必要なものを一気に取得
       return ret if friend_pl_ids.size <= 0
 
-      sql = "SELECT id,name FROM avatars WHERE player_id IN (SELECT id FROM players WHERE id IN (#{friend_pl_ids.join(',')}) AND login_at > '#{login_at_border.strftime('%Y-%m-%d %H:%M:%S')}')"
       sql = "SELECT avatars.id,avatars.name FROM avatars INNER JOIN players ON avatars.player_id=players.id WHERE avatars.player_id IN (#{friend_pl_ids.join(',')}) AND players.login_at > '#{login_at_border.strftime('%Y-%m-%d %H:%M:%S')}'"
       avatars_tmp = DB.fetch(sql).all
       return ret if avatars_tmp.nil? || avatars_tmp.size <= 0
@@ -3131,7 +3114,6 @@ module Unlight
 
     # 地形を攻略した
     def land_clear(inv, land_no)
-      ret = 0
       # クエストインベントリが存在するか？
       unless inv && inv.avatar_id == id
         ret = ERROR_QUEST_INV_IS_NONE
@@ -3621,7 +3603,6 @@ module Unlight
     end
 
     def update_quest_clear_num(i, map_id = 0)
-      clear_num = 0
       if map_id < QUEST_TUTORIAL_MAP_START
         self.quest_clear_num = quest_clear_num + i
         @event.quest_clear_num_update_event(quest_clear_num) if @event
@@ -3649,8 +3630,6 @@ module Unlight
     # クエストマップを攻略済みにする
     # クエスト進行度を更新する
     def quest_map_clear(map_id)
-      flag = 0
-      clear_num = 0
       if map_id < QUEST_TUTORIAL_MAP_START
         self.quest_flag = map_id
         self.quest_clear_num = 0
@@ -4573,8 +4552,7 @@ module Unlight
       ret
     end
 
-    def clear_notice(n, args)
-      arg_set = Hash[*args.split(',')]
+    def clear_notice(n, _args)
       if avatar_notice
         # 渦と選択レコード関連以外を消すように調整
         noncheck_types = PRF_NOTICE_TYPES.clone.push(NOTICE_TYPE_GET_SELECTABLE_ITEM)
@@ -4617,7 +4595,7 @@ module Unlight
               item_set = Achievement[a_id].get_selectable_array
               if item_set.size > select_index
                 item = item_set[select_index]
-                r = get_treasures(item[0], item[1], item[3], item[2], false)
+                get_treasures(item[0], item[1], item[3], item[2], false)
               end
             end
           end
@@ -4640,7 +4618,7 @@ module Unlight
 
     def profound_notice_clear(n)
       if avatar_notice
-        ret = avatar_notice.get_type_message(PRF_NOTICE_TYPES)
+        avatar_notice.get_type_message(PRF_NOTICE_TYPES)
         avatar_notice.clear_body(n)
       end
     end

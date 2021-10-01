@@ -88,7 +88,6 @@ module Unlight
         return ret
       end
       avatar = @player.current_avatar
-      deck = avatar.chara_card_decks[avatar.current_deck]
       # コスト判定か、レベル判定か
       if DUEL_RADDER_MATCH_COST
         check_val = avatar.chara_card_decks[avatar.current_deck].current_cost
@@ -207,7 +206,6 @@ module Unlight
           end
           # 規定時間を経過した
           if Unlight::Protocol::MatchServer.server_channel.is_radder? && Unlight::Protocol::MatchServer.server_channel.cpu_matching_type? != 0
-            d = t[1][:time_limit] - Time.now.utc
             if (t[1][:time_limit] - Time.now.utc).negative?
               list[t[0]][:started] = AI_PLAYER_ID if list[t[0]][:started] == false
             end
@@ -521,7 +519,7 @@ module Unlight
         # FIXME: SHould not return array
         CpuRoomData[75]
       else
-        o = Unlight::MatchServer.match_channel.order
+        Unlight::MatchServer.match_channel.order
         rs = CpuRoomData.filter([[:level, 1..99]])
         r = rs.all[rand(rs.count)]
         r || CpuRoomData[1]
@@ -690,13 +688,11 @@ module Unlight
     # QuickMatch専用のCPUルームに入る
     def cpu_quickmatch_join(room_id)
       @match = server_channel.room_list[room_id] if server_channel && @player
-      ret = false
 
       # AbortPenaltyがtrueなら入れない
       abort_penalty = CACHE.get("penalty_id:#{@uid}")
       if abort_penalty
         sc_error_no(ERROR_DUEL_CREATE_ROOM)
-        ret = false
       end
 
       # カレントデッキがない、カードが入っていないならそもそも入れない
@@ -752,7 +748,6 @@ module Unlight
     def cs_room_join(room_id)
       # AbortPenaltyがtrueなら入れない
       abort_penalty = CACHE.get("penalty_id:#{@uid}")
-      abort_penalty = false
       if abort_penalty
         sc_error_no(ERROR_DUEL_JOIN_ROOM)
         return

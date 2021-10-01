@@ -44,7 +44,6 @@ module Unlight
     # 指定したキャラのランキングを取得する
     def self.get_ranking(i_id, server_type, point = 0)
       index = get_order_ranking_item_id(server_type).index(i_id)
-      lr = last_ranking(server_type)
       if index
         ret = { rank: index + 1, arrow: get_arrow_set(server_type)[index], point: point }
       end

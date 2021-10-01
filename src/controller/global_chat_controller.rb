@@ -133,11 +133,8 @@ module Unlight
 
     # 送信管理
     def self.sending_init
-      init = false
-
       # 送信キーリストの最後まで送信した
       if @@sending_key_list && !@@sending_key_list.empty?
-        init = true
         pop_key = @@help_key_list.shift    # 先頭のキーを抜く
         del_help = get_help_cache(pop_key) # 削除予定のヘルプを一時取得 ログ表示の為
         delete_help_cache(pop_key)         # キーのヘルプをキャッシュから削除
@@ -145,7 +142,6 @@ module Unlight
         SERVER_LOG.info("GlobalChatController: [#{__method__}] help cache delete!! key:#{pop_key} help:#{del_help}")
       end
 
-      key = nil
       help = nil
       key = @@help_key_list.first
       help = get_help_cache(key) if key
@@ -173,7 +169,6 @@ module Unlight
           # 必要数に足りてない為、先端から再度実行
           if @@sending_key_list.size < @@sending_set_cnt
             @@sending_idx = 0
-            set_cnt = @@sending_set_cnt - @@sending_key_list.size
             @@sending_key_list.concat(send_list_candidate.slice(@@sending_idx, @@sending_set_cnt))
           end
         end
@@ -215,10 +210,9 @@ module Unlight
         owner = Player.get_prf_owner_player
         if owner && owner.current_avatar
           if owner.current_avatar.get_prf_inv_num < PRF_AUTO_PRF_MAX
-            pr = Profound.get_new_profound_for_group(owner.current_avatar.id, RAID_EVENT_AUTO_CREATE_GROUP_ID, 10, PRF_TYPE_MMO_EVENT)
             pr = Profound.get_new_profound_for_group(owner.current_avatar.id, RAID_EVENT_AUTO_CREATE_GROUP_ID, owner.server_type, 10, PRF_TYPE_MMO_EVENT)
             start_score = pr.p_data.finder_start_point
-            inv = ProfoundInventory.get_new_profound_inventory(owner.current_avatar.id, pr.id, true, start_score)
+            ProfoundInventory.get_new_profound_inventory(owner.current_avatar.id, pr.id, true, start_score)
             SERVER_LOG.info("GlobalChatController: [#{__method__}] create auto profound hash:#{pr.profound_hash}")
           end
         end
