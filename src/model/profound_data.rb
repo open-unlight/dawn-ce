@@ -107,7 +107,7 @@ module Unlight
       ret << '"' << boss_name << '",'
       ret << max_hp.to_s << ','
       ret << '"' << (caption || '') << '",'
-      rank_bonus, all_bonus, defeat_bonus, found_bonus = ProfoundTreasureData.get_level_treasure_list(treasure_level)
+      _rank_bonus, all_bonus, _defeat_bonus, _found_bonus = ProfoundTreasureData.get_level_treasure_list(treasure_level)
       all_bonus_set = []
       all_bonus.each do |b|
         all_bonus_set << "#{b[:type]}_#{b[:id]}_#{b[:num]}_#{b[:sct_type]}"

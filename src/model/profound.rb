@@ -234,7 +234,6 @@ module Unlight
       else
         buffs ||= {}
         # 保存 limitはturn*1分
-        now = Time.now.utc
         buffs[id] = { value: value, turn: turn, limit: Time.now.utc + turn * 60 } if id != 0
       end
       CACHE.set("prf_#{self.id}_buffs", buffs, set_time)
@@ -251,8 +250,6 @@ module Unlight
             ret[b_id] = { value: v[:value], turn: v[:turn], limit: v[:limit] }
           end
         end
-      else
-        buffs = {}
       end
       CACHE.set("prf_#{self.id}_buffs", ret, p_data.ttl.to_f * 60 * 60)
     end
@@ -278,15 +275,12 @@ module Unlight
             ret[b_id] = { value: v[:value], turn: v[:turn] }
           end
         end
-      else
-        buffs = {}
       end
       CACHE.set("prf_#{self.id}_buffs", ret, p_data.ttl.to_f * 60 * 60)
     end
 
     # 時間判定を行わない状態異常か
     def check_non_limit_buff(buff_id)
-      ret = false
       case buff_id
       when CharaCardEvent::STATE_STIGMATA, CharaCardEvent::STATE_CURSE, CharaCardEvent::STATE_TARGET
         true

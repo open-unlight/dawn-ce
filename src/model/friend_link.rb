@@ -31,7 +31,10 @@ module Unlight
     # リンクをゲット出来る(リンクを五分間キャッシュする)
     def self.get_link(p_id, server_type)
       link = CACHE.get("friend_link_get:#{p_id}")
-      unless link = FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).exclude(friend_type: TYPE_BLOCK).filter(server_type: server_type).all
+      new_link = FriendLink.filter(Sequel.|({ relating_player_id: p_id }, { related_player_id: p_id })).exclude(friend_type: TYPE_BLOCK).filter(server_type: server_type).all
+      if new_link
+        link = new_link
+      else
         CACHE.set("friend_link_get:#{p_id}", link, 300)
       end
       link
@@ -199,7 +202,7 @@ module Unlight
     def status(me_id)
       begin
         refresh
-      rescue StandardError => e
+      rescue StandardError
         SERVER_LOG.fatal('FriendLink: errot link is deleted.')
         return 0
       end

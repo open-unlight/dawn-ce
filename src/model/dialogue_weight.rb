@@ -58,7 +58,6 @@ module Unlight
 
     # ダイアログのIDを返す
     def self.get_dialogue_id(type, my_parent_id, my_chara_id, other_parent_id, other_chara_id, level)
-      ret = []
       # oc = CharaCard[other_id]
       ret = DialogueWeight.where([[:dialogue_type, type], [:chara_id, [my_parent_id, my_chara_id]], [:other_chara_id, [other_parent_id, other_chara_id]]])
                           .filter((Sequel.cast_string(:level) <= level))

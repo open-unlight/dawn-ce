@@ -183,7 +183,6 @@ module Unlight
         rem = 0
         (rare_num[r].size - 1).downto(0) do |i|
           if (rare_num[r][i]).zero?
-            j = (i - 1).negative? ? 0 : i - 1
             rem += (LOT_PERCENT[i])
           else
             @@rarity[r][i] += (LOT_PERCENT[i]) + rem

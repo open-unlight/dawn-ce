@@ -28,7 +28,6 @@ module Unlight
 
     # インベントリ作成
     def self.get_new_profound_inventory(avatar_id, prf_id, owner, start_score = PRF_JOIN_ADD_SCORE)
-      ret = nil
       if owner
         set_state = PRF_INV_ST_INPROGRESS
       else
@@ -294,11 +293,9 @@ module Unlight
         break if count >= FIN_VIEW_RANKING_NUM
 
         list.each do |data|
-          inv_id = 0
           ava = nil
           if defeat_avatar.id == data[:a_id]
             ava = defeat_avatar
-            inv_id = id
           end
           ava ||= Avatar[data[:a_id]]
           if ava
@@ -442,7 +439,6 @@ module Unlight
 
     # ランキング関連初期化
     def init_ranking(full_clear = false)
-      inited = false
       @ranking_all ||= "prf_#{profound_id}_ranking:all"
       @ranking_all_id ||= "prf_#{profound_id}_ranking:all_id"
       @ranking_all_id_before ||= "prf_#{profound_id}_ranking:all_id_before"
@@ -614,7 +610,6 @@ module Unlight
     def get_self_rank
       refresh
       index = get_order_ranking_id.index(avatar_id)
-      lr = last_ranking
       if index && index < RANKING_COUNT_NUM
         ret = { rank: index + 1, arrow: get_arrow_set[index], score: self.score }
       else

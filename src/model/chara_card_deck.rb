@@ -459,8 +459,6 @@ module Unlight
     end
 
     def invaid_slot_card_check
-      m = cards.size - 1
-
       chara_card_slot_inventories.each(&:position)
     end
 
@@ -500,14 +498,13 @@ module Unlight
 
     # デッキレベルアップをチェック
     def check_deck_level_up(update = true)
-      ret = false
       self.max_cost = 45 unless max_cost
       self.level = 1 unless level
       if self.exp >= DECK_LEVEL_EXP_TABLE[level]
         self.max_cost += 1
         self.level += 1
         save_changes if update
-        ret = true
+        true
       end
     end
 

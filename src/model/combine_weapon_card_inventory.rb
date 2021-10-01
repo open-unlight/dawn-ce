@@ -52,7 +52,6 @@ module Unlight
       end
 
       use_materials = {}
-      material_num = material_id_list.size
       material_id_list.each do |set|
         m = nil
         if set[:type] == COMBINE_WEAPON_TYPE_COMBINE

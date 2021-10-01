@@ -21,7 +21,6 @@ module Unlight
     def cs_get_quest(quest_map_id, time)
       SERVER_LOG.info("<UID:#{@uid}>QuestServer: [cs_get_quest] #{quest_map_id} time:#{time}")
       if @player
-        ret = 0
         ret = @player.current_avatar.get_quest(quest_map_id, time)
         if ret.positive?
           sc_error_no(ret)
@@ -547,7 +546,6 @@ module Unlight
       current_inv = AvatarQuestInventory[@current_inv_id]
       # 結果を送る
       if @avatar && current_inv
-        bonus_on = false
         # 宝箱を調べる
         tr = @avatar.get_land_treasure(current_inv, @current_no)
         # 宝箱があってかつ中身がボーナスならばボーナスか？

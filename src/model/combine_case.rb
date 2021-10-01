@@ -84,7 +84,6 @@ module Unlight
 
     # 合成を行う。変更後のweaon_idと変化値をハッシュで返す
     def self.combine(base_id, add_id_list, case_list)
-      case_list
       # ベースに適応するかチェック
       ok = {}
       # 排他条件順に集める
@@ -274,12 +273,12 @@ module Unlight
 
     # 0
     def add_point(t, n)
-      ret = { t => n }
+      { t => n }
     end
 
     # 1
     def add_point_rnd(t, min, max)
-      ret = { t => rand(max) + min }
+      { t => rand(max) + min }
     end
 
     def shift_point_rnd(list, t, n)
@@ -316,12 +315,12 @@ module Unlight
 
     # 6
     def set_max(t, n)
-      ret = { :set => true, t => n }
+      { :set => true, t => n }
     end
 
     # 7
     def set_passive(n)
-      ret = { set: true, passive_id: n }
+      { set: true, passive_id: n }
     end
 
     # 9

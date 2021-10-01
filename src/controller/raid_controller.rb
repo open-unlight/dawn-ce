@@ -33,7 +33,6 @@ module Unlight
         err, set_data = @avatar.profound_start_set_up(inv_id, use_ap)
         if err.zero?
           @prf_inv        = set_data[:inv]
-          prf_data        = set_data[:data]
           boss_deck       = set_data[:boss_deck]
           avatar_deck_idx = set_data[:deck_idx]
           avatar_deck     = set_data[:avatar_deck]
@@ -385,12 +384,9 @@ module Unlight
           b_name = @boss_name[@duel.beta.current_chara_card_no].force_encoding('UTF-8')
           prf_log.each do |pl|
             if pl.avatar_id.positive?
-              a_name = pl.avatar_name.force_encoding('UTF-8')
-              dmg = pl.damage.to_s.force_encoding('UTF-8')
               add_damage += pl.damage
             else
               if @set_heal_log_ids.nil? || @set_heal_log_ids.index(pl.id).nil?
-                point = pl.damage.to_s.force_encoding('UTF-8')
                 add_damage -= pl.damage
               end
             end
@@ -535,7 +531,7 @@ module Unlight
     # 状態異常解除
     def unset_boss_buff_handler(_target, ret)
       if @prf_inv
-        buffs = @prf_inv.profound.unset_boss_buff(ret[1])
+        @prf_inv.profound.unset_boss_buff(ret[1])
       end
     end
 
@@ -679,8 +675,6 @@ module Unlight
 
     # ログアウト時の処理
     def do_logout
-      uid = @uid
-
       # イベントを外す
       if @avatar
         @avatar.remove_all_event_listener
@@ -697,7 +691,7 @@ module Unlight
             defeat_avatar = Avatar[@prf_inv.profound.defeat_avatar_id] if @prf_inv.profound.defeat_avatar_id != 0
             if defeat_avatar
               @prf_inv.boss_battle_finish
-              err = defeat_avatar.profound_duel_finish(@prf_inv) if defeat_avatar
+              defeat_avatar.profound_duel_finish(@prf_inv) if defeat_avatar
               # 渦の待機時間を変更
               @prf_inv.profound.set_losstime
             end

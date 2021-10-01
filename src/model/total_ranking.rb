@@ -31,7 +31,6 @@ module Unlight
 
     # ソート済みのランキングを取得する
     def get_order_ranking(server_type = SERVER_SB, st_i = 0, end_i = 99, _cache = true) # rubocop:disable Metrics/ParameterLists
-      ret = nil
       ret = CACHE.get("#{@ranking_all}_#{server_type}")
       unless ret
         ret = ranking_data.filter(server_type: server_type).order(Sequel.desc(:point)).limit(RANKING_COUNT_NUM).all

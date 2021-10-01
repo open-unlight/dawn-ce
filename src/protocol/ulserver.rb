@@ -24,7 +24,7 @@ module Unlight
         @@receive_cmd = nil
         @@online_list = {}; # オンラインのリストIDとインスタンスのハッシュ
         @@check_list = Array.new(60) { [] } # ソケットのハートビートを60分にいっぺん送るためのリスト
-        @check_min                       # 自分が何処に入っているか？
+        @check_min = nil                 # 自分が何処に入っているか？
         @error_count = 0                 # 無効なコマンドが送られてきた数
         @db_connect_prev_check_time = nil # 前回のDBとの接続チェック時間
         # 終了のシグナルを受け取った場合
@@ -307,7 +307,7 @@ module Unlight
       def self.check_db_connection
         if @@online_list.size <= 0
           # CPUのPlayerデータを取るだけ
-          cpu_player = Player[AI_PLAYER_ID]
+          Player[AI_PLAYER_ID]
           SERVER_LOG.info("#{@@class_name}: [#{__method__}] prev check time:#{@db_connect_prev_check_time}")
           @db_connect_prev_check_time = Time.now.utc
         end
