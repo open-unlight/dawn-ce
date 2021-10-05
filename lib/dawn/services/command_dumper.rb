@@ -32,8 +32,8 @@ module Dawn
         require file
         type = file.basename.to_s[/(.*)command/, 1]
         command = {
-          client: convert(Unlight::Command::SEND_COMMANDS),
-          server: convert(Unlight::Command::RECEIVE_COMMANDS)
+          server: convert(Unlight::Command::SEND_COMMANDS),
+          client: convert(Unlight::Command::RECEIVE_COMMANDS)
         }
         ::Unlight.send(:remove_const, :Command)
         [type, command]
@@ -72,7 +72,8 @@ module Dawn
       when :String then 'string'
       when :int
         return 'int32' if size == 4
-      when :char then 'uint8'
+        return 'int8' if size == 1
+      when :char then 'char'
       when :Boolean then 'bool'
       else 'unknown'
       end
