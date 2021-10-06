@@ -178,7 +178,7 @@ module Unlight
 
     # クラスにインスタンスメソッドが存在するか？
     def self.instance_method_include?(klass_name, method_name)
-      eval("Unlight::#{klass_name}.instance_methods.include?(:#{method_name})")
+      eval("Unlight::#{klass_name}.instance_methods.include?(:#{method_name}) # Unlight::OneToOneAi.instance_methods.include?(:desc)", binding, __FILE__, __LINE__)
     end
   end
 

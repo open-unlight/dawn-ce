@@ -10,6 +10,11 @@ require 'forwardable'
 require 'optparse'
 
 module Dawn
+  # Server
+  #
+  # The game server base class
+  #
+  # @since 0.1.0
   class Server
     class << self
       extend Forwardable

@@ -54,7 +54,7 @@ module Unlight
           num += 1
           # パネルの場合
         when /^Panel:(.*)\n$/
-          set = eval("[#{Regexp.last_match(1)}]")
+          set = eval("[#{Regexp.last_match(1)}] # [1]", binding, __FILE__, __LINE__)
           @command_set << panel_to_proc(set)
           num += 1
           @command_set << stop_to_proc(set)
@@ -69,7 +69,7 @@ module Unlight
             @jump_set[Regexp.last_match(1)] = num
           end
         when /^FlagCheck:(.*)\n$/
-          set = eval("[#{Regexp.last_match(1)}]")
+          set = eval("[#{Regexp.last_match(1)}] # [1]", binding, __FILE__, __LINE__)
           @command_set << flag_check_to_proc(set)
           num += 1
         when /^FlagSet:(.*)\n$/

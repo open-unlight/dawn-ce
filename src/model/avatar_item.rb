@@ -288,7 +288,7 @@ module Unlight
       227 => [:not_use, 0],                               # 227:黒真珠
       228 => [:not_use, 0],                               # 228:ヴォランドのパネル
       229 => [:not_use, 0],                               # 229:コッブのパネル
-      230 => [:get_ev_land, [QM_EV_4th_LAND, 0]],         # 230:かぼちゃのたね
+      230 => [:get_ev_land, [QM_EV_4TH_LAND, 0]],         # 230:かぼちゃのたね
       231 => [:find_group_profound, [103, 0]], # 231:かぼちゃ
       232 => [:get_gems, 4],                              # 232:アニバーサリーコイン 4GEM
       233 => [:get_ev_land, [QM_EV_INQUISITOR, 0]],       # 233:ケイオシウムカウンター
