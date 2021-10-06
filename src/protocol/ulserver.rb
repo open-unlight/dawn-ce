@@ -139,6 +139,7 @@ module Unlight
       # ---- Tail: -----
       # :2byte(end_marker)
 
+      EMPTY_LEN = [0, nil].freeze
       def data2command(data)
         a = []
         i = 0
@@ -150,7 +151,7 @@ module Unlight
           # 最初の2バイトを呼んで長さに変換
           len = data[i, 2].unpack1('n*')
           # もしサイズが０ならば全サイズが長さ,またはnilならば全サイズを入れる（とばすため）
-          len = d_size if [0, nil].include?(len)
+          len = d_size if EMPTY_LEN.include?(len)
           # 長さの後ろに改行が入っているか？（正しいコマンドかをチェック）
           if data[i + len + 2] == "\n"
             d = @crypt.decrypt(data[i + 2, len])

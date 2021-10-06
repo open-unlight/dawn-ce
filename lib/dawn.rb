@@ -4,6 +4,11 @@ require 'semantic_logger'
 
 require 'dawn/version'
 
+# Dawn
+#
+# The OpenUnlight Version Unlight server implemented
+#
+# @since 0.1.0
 module Dawn
   module_function
 

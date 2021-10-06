@@ -14,6 +14,11 @@ require 'sequel'
 require 'dawn'
 
 module Dawn
+  # Database
+  #
+  # Manage the database connection from config or environment to improve deployment
+  #
+  # @since 0.1.0
   class Database
     class << self
       extend Forwardable

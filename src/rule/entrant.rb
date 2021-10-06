@@ -100,9 +100,8 @@ module Unlight
             @arrow_dp[s] = 0                                                    # 遠防御ボーナス
             @weapon_cards[s].each { |w| @arrow_dp[s] += w.arrow_dp(ai) }
             @arrow_deffence_dice_bonus[s] = 0                                   # 遠ダイス防御ボーナス
-            @weapon_cards[s].each { |w| @arrow_deffence_dice_bonus[s] += w.arrow_deffence_dice_bonus(ai) }
-
             @weapon_cards[s].each do |w|
+              @arrow_deffence_dice_bonus[s] += w.arrow_deffence_dice_bonus(ai)
               @weapon_passives[s] = w.get_passive_id(ai)
             end
             @chara_cards[s].weapon_passive = (@weapon_passives[s])
@@ -1534,10 +1533,7 @@ module Unlight
     # テーブルに置いたカードのうち、タイプA、タイプBの最大同値を返す
     def get_table_max_value_same_arrow_sword(typeA, typeB)
       ret = 0
-      swords = []
-      @table.each do |a|
-        swords << a.battle_point(typeA) unless swords.include?(a.battle_point(typeA))
-      end
+      swords = @table.map { |item| item.battle_point(typeA) }.uniq
       @table.each do |a|
         ret = a.battle_point(typeB) if swords.include?(a.battle_point(typeB)) && ret < a.battle_point(typeB)
       end
