@@ -225,7 +225,7 @@ module Unlight
     end
 
     inline do |builder|
-      builder.c <<-EOF
+      builder.c <<-CLANG
         VALUE
         param64_to_point(VALUE num, VALUE bit, VALUE shifter)
         {
@@ -235,11 +235,11 @@ module Unlight
           int ret = x & 127;
           return INT2NUM(s ? -ret : ret);
         }
-      EOF
+      CLANG
     end
 
     inline do |builder|
-      builder.c <<-EOF
+      builder.c <<-CLANG
         VALUE
         point_to_param64(VALUE num, VALUE p,  VALUE bit, VALUE shifter)
         {
@@ -248,11 +248,11 @@ module Unlight
           m = m << NUM2INT(shifter);
           return ULL2NUM(m|n);
         }
-      EOF
+      CLANG
     end
 
     inline do |builder|
-      builder.c <<-EOF
+      builder.c <<-CLANG
         VALUE
         point_to_param32(VALUE num, VALUE p,  VALUE bit, VALUE shifter)
         {
@@ -261,11 +261,11 @@ module Unlight
           m = m << NUM2INT(shifter);
           return ULL2NUM(m|n);
         }
-      EOF
+      CLANG
     end
     # 32はunsignedのみ
     inline do |builder|
-      builder.c <<-EOF
+      builder.c <<-CLANG
         VALUE
         param32_to_point(VALUE num, VALUE bit, VALUE shifter)
         {
@@ -273,7 +273,7 @@ module Unlight
           int ret = (int)n;
           return INT2NUM(ret);
         }
-      EOF
+      CLANG
     end
 
     def refresh

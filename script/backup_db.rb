@@ -73,7 +73,7 @@ Find.find('./src/model') do |f|
   puts "BackUp #{m}"
   filename = "./data/backup/#{m}_#{Time.now.strftime('%y%m%d')}"
   oldname = "./data/backup/old/#{m}_#{Time.now.strftime('%y%m%d')}"
-  doc = <<-END
+  doc = <<-DSL
      Unlight::#{m}.db = BDB unless ORIG
       file = Pathname.new("#{filename}.csv")
       i = 0
@@ -89,7 +89,7 @@ Find.find('./src/model') do |f|
         puts "Create BackUpFile"+file.to_s
         file.open('w') {|f| f.puts csv_output(Unlight::#{m})}
       end
-  END
+  DSL
   #  puts doc if OUTPUT
   eval doc
 end

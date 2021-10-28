@@ -171,30 +171,30 @@ module Unlight
         # チェック関数を作る
         method_name = "condisin_f#{f.id}"
         @@condition_set[f.id] = method_name.to_sym
-        e = <<-EOF
+        e = <<-DSL
         def self::#{method_name}(owner,range_free=false)
             #{condition_check_gen(f.condition).gsub('__FEAT__', f.feat_no.to_s)}
         end
-        EOF
+        DSL
         instance_eval(e)
 
         # AI用距離チェック関数を作る（Ownerを渡して距離が合致しているか返す）
         method_name = "ai_dist_condition_f#{f.id}"
         @@ai_dist_cond_set[f.id] = method_name.to_sym
-        e = <<-EOF
+        e = <<-DSL
         def self::#{method_name}(range_free=false)
             #{ai_dist_cond_gen(f.condition).gsub('__FEAT__', f.feat_no.to_s)}
         end
-        EOF
+        DSL
         instance_eval(e)
         # AI用フェイズチェック関数を作る（）
         method_name = "ai_phase_condition_f#{f.id}"
         @@ai_phase_cond_set[f.id] = method_name.to_sym
-        e = <<-EOF
+        e = <<-DSL
         def self::#{method_name}(phase)
             #{ai_phase_cond_gen(f.orig_caption)}
         end
-        EOF
+        DSL
         instance_eval(e)
 
         # AI用カードチェック関数を作る（Ownerを渡して、持っているカードが条件を満たしていたら番号と表裏、満たしてなければFalseを返す）
