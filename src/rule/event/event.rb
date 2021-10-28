@@ -263,7 +263,7 @@ module Unlight
 
     # 初期化部分を返す
     def self.init_gen
-      <<~END
+      <<~DSL
         # 初化期
               a = Module.nesting[0].to_s
               #　初期化リストのメソッドを登録
@@ -342,7 +342,7 @@ module Unlight
                 end
               end
 
-      END
+      DSL
     end
 
     # コンテキストチェック部分を返す
@@ -378,16 +378,16 @@ module Unlight
     def self.goal_check_gen
       if @event_rule.type == :instant
         if @event_rule.goal_list.empty?
-          <<-END
+          <<-DSL
         if (@#{@f}_context[0] == :active||@#{@f}_context.first == :return)&&(@#{@f}_context.last == nil ||@#{@f}_context.last.last == :#{@f})
             #{finish_event_gen}
             event_finish(@#{@f}_context,:#{@f}_init)
             #{@f}_init
         end
-          END
+          DSL
         else
           c = @event_rule.goal_list.to_s
-          <<~END
+          <<~DSL
             # もしコンテキストが実行中でかつこのイベントが最後ならばイベントを終了する
                     if (@#{@f}_context.first == :active||@#{@f}_context.first == :return)&&(@#{@f}_context.last == nil ||@#{@f}_context.last.last == :#{@f})
                       if list_check?(#{c})#{duration_result_gen}
@@ -400,7 +400,7 @@ module Unlight
                       end
 
                     end
-          END
+          DSL
 
         end
       else
@@ -410,17 +410,17 @@ module Unlight
 
     def self.finish_event_gen
       if @event_rule.event_type[:finish]
-        <<-END
+        <<-DSL
             @#{@f}_finish_event_handlers.each {|i| i.call(self, ret)}  unless guarded
-        END
+        DSL
       end
     end
 
     def self.start_event_gen
       if @event_rule.event_type[:start]
-        <<-END
+        <<-DSL
         #{@f}_start_event_do
-        END
+        DSL
       end
     end
 
@@ -439,7 +439,7 @@ module Unlight
 
     # メイン実行部分を返す
     def self.instant_main_gen
-      <<-END
+      <<-DSL
           @#{@f}_context = event_start(:#{@f}) if @#{@f}_context == []
           if @#{@f}_context.first == :active
             #{start_event_gen}
@@ -454,7 +454,7 @@ module Unlight
             send_all_hook(@#{@f}_after_hook_func)
           end
             #{act_list_gen}
-      END
+      DSL
     end
 
     def self.act_list_gen
@@ -474,7 +474,7 @@ module Unlight
 
     def self.before_main_gen
       h = @event_rule.hook_func
-      <<-END
+      <<-DSL
 
         #{start_event_gen}
         ret = nil
@@ -485,12 +485,12 @@ module Unlight
 
         #{h[0]}.#{h[1]}_before_hook_func.sort!{|a,b| a[1]<=>b[1]}
         #{hook_add_remove_gen}
-      END
+      DSL
     end
 
     def self.after_main_gen
       h = @event_rule.hook_func
-      <<-END
+      <<-DSL
 
         #{start_event_gen}
         ret = nil
@@ -500,18 +500,18 @@ module Unlight
 
         #{h[0]}.#{h[1]}_after_hook_func.sort!{|a,b| a[1]<=>b[1]}
         #{hook_add_remove_gen}
-      END
+      DSL
     end
 
     def self.proxy_main_gen
       h = @event_rule.hook_func
-      <<-END
+      <<-DSL
 
             #{start_event_gen}
         ret = nil
         #{h[0]}.#{h[1]}_proxy_func = method(:#{@event_rule.func})
         #{hook_add_remove_gen}
-      END
+      DSL
     end
 
     def self.hook_add_remove_gen
@@ -519,19 +519,19 @@ module Unlight
       unless @event_rule.goal_list.empty?
         case @event_rule.type
         when :before
-          <<-END
+          <<-DSL
         #{h[0]}.#{h[1]}_before_hook_func.unshift([method(:remove_before_hook_#{@f}),-1])
-          END
+          DSL
         when :after
-          <<-END
+          <<-DSL
 
         #{h[0]}.#{h[1]}_before_hook_func.unshift([method(:remove_after_hook_#{@f}),-1])
-          END
+          DSL
         when :proxy
-          <<-END
+          <<-DSL
 
         #{h[0]}.#{h[1]}_before_hook_func.unshift([method(:remove_proxy_hook_#{@f}),-1])
-          END
+          DSL
         end
       end
     end
@@ -552,7 +552,7 @@ module Unlight
     def self.before_remove_gen
       h = @event_rule.hook_func
       c = @event_rule.goal_list
-      <<-END
+      <<-DSL
         def remove_before_hook_#{@f}
           if list_check?(#{c})
            #{finish_event_gen}
@@ -561,13 +561,13 @@ module Unlight
            #{h[0]}.#{h[1]}_before_hook_func.delete([method(:remove_before_hook_#{@f}), -1])
           end
         end
-      END
+      DSL
     end
 
     def self.after_remove_gen
       h = @event_rule.hook_func
       c = @event_rule.goal_list
-      <<-END
+      <<-DSL
         def remove_after_hook_#{@f}
           if list_check?(#{c})
           #{finish_event_gen}
@@ -576,13 +576,13 @@ module Unlight
            #{h[0]}.#{h[1]}_before_hook_func.delete([method(:remove_after_hook_#{@f}), -1])
           end
         end
-      END
+      DSL
     end
 
     def self.proxy_remove_gen
       h = @event_rule.hook_func
       c = @event_rule.goal_list
-      <<-END
+      <<-DSL
 
         def remove_proxy_hook_#{@f}
           if list_check?(#{c})
@@ -592,39 +592,39 @@ module Unlight
            #{h[0]}.#{h[1]}_before_hook_func.delete([method(:remove_proxy_hook_#{@f}), -1])
           end
         end
-      END
+      DSL
     end
 
     def self.duration_result_gen
       case @event_rule.duration_type
       when :times
-        <<~END
+        <<~DSL
           || (@#{@f}_counter >= #{@event_rule.duration_value})
-        END
+        DSL
       when :sec
-        <<~END
+        <<~DSL
           ||(Time.now-(@#{@f}_timer|| @#{@f}_timer =Time.now)>#{@event_rule.duration_value})
-        END
+        DSL
       end
     end
 
     def self.duration_check_gen
       case @event_rule.duration_type
       when :times
-        <<-END
+        <<-DSL
         @#{@f}_counter += 1
-        END
+        DSL
       when :sec
-        <<-END
+        <<-DSL
         @#{@f}_timer || @#{@f}_timer =Time.now
-        END
+        DSL
       end
     end
 
     def self.regist_event(eventrule)
       @event_rule = eventrule.instance
       @f = underscore(eventrule.to_s.gsub(/Unlight::|.*::/, ''))
-      doc = <<-END
+      doc = <<-DSL
       #{init_gen}
 
       def #{@f}(*arg)
@@ -633,7 +633,7 @@ module Unlight
       end
 
       #{hook_remove_gen}
-      END
+      DSL
       puts doc if EVAL_OUTPUT
       module_eval doc
       @event_rule = nil

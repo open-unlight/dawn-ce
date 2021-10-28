@@ -66,7 +66,7 @@ module Unlight
 
     # material_add_paramの数値変換用
     inline do |builder|
-      builder.c <<-EOF
+      builder.c <<-CLANG
         VALUE
         param_to_point(VALUE num, VALUE bit, VALUE shifter)
         {
@@ -76,7 +76,7 @@ module Unlight
           int ret = x & 127;
           return INT2NUM(s ? -ret : ret);
         }
-      EOF
+      CLANG
     end
 
     # CSVで返す

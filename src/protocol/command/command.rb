@@ -50,12 +50,12 @@ module Unlight
       cmd.each do |c|
         n = "#{c[0].id2name}_r"
         @method_list << n.intern
-        ret = <<~EOF
+        ret = <<~DSL
                     def #{n}(data)
                      # p data
           #{gen_receve_cmd(c[1], c[0])}
                     end
-        EOF
+        DSL
         puts ret if OUTPUT_EVAL
         @klass.class_eval(ret)
       end
@@ -105,7 +105,7 @@ module Unlight
     def init_send(cmd)
       cmd.each_index do |i|
         n = cmd[i][0].id2name
-        ret = <<~EOF
+        ret = <<~DSL
                     def #{n}(#{gen_arg(cmd[i][1])})
           #            puts "#{n}が実行されました#{i}"
                       data =""
@@ -113,7 +113,7 @@ module Unlight
           #{gen_send_cmd(cmd[i][1], cmd[i][2])}
                       send_data(data)
                     end
-        EOF
+        DSL
         puts ret if OUTPUT_EVAL
         @klass.class_eval(ret)
       end
