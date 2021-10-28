@@ -95,6 +95,7 @@ module Unlight
       ret
     end
 
+    # TODO: Create service object to calculate ranking
     # 指定したアバターのランキングを更新する(外部でかつslaveから更新せよ)
     def self.update_ranking(server_type)
       before_rank_id_set = get_order_ranking_id(server_type)
@@ -123,13 +124,13 @@ module Unlight
             w.server_type = server_type
             w.save_changes
           else
-            WeeklyQuestRanking.new do |w|
-              w.avatar_id = ranking[i][0]
-              w.name = Avatar[ranking[i][0]].name if Avatar[ranking[i][0]]
-              w.point = ranking[i][1]
-              w.arrow = create_arrow(before_rank_id_set, w.avatar_id, i)
-              w.server_type = server_type
-              w.save_changes
+            WeeklyQuestRanking.new do |rank|
+              rank.avatar_id = ranking[i][0]
+              rank.name = Avatar[ranking[i][0]].name if Avatar[ranking[i][0]]
+              rank.point = ranking[i][1]
+              rank.arrow = create_arrow(before_rank_id_set, rank.avatar_id, i)
+              rank.server_type = server_type
+              rank.save_changes
             end
           end
         else
@@ -141,13 +142,13 @@ module Unlight
             w.arrow = 0
             w.save_changes
           else
-            WeeklyQuestRanking.new do |w|
-              w.avatar_id = 0
-              w.name = ''
-              w.point = 0
-              w.arrow = 0
-              w.server_type = server_type
-              w.save_changes
+            WeeklyQuestRanking.new do |rank|
+              rank.avatar_id = 0
+              rank.name = ''
+              rank.point = 0
+              rank.arrow = 0
+              rank.server_type = server_type
+              rank.save_changes
             end
           end
 
@@ -164,12 +165,11 @@ module Unlight
             w.point = ranking[i + 100][1]
             w.save_changes
           else
-            WeeklyQuestRanking.new do |w|
-              # w.id = i+101
-              w.avatar_id = ranking[i + 100][0]
-              w.point = ranking[i + 100][1]
-              w.server_type = server_type
-              w.save_changes
+            WeeklyQuestRanking.new do |rank|
+              rank.avatar_id = ranking[i + 100][0]
+              rank.point = ranking[i + 100][1]
+              rank.server_type = server_type
+              rank.save_changes
             end
           end
           sleep RANK_OUT_SLEEP

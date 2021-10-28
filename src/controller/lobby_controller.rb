@@ -890,9 +890,9 @@ module Unlight
             SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_login_tower_bonus] tg_type:#{b[0]} slot_type:#{b[1]} value or id:#{b[2]}")
           end
 
-          bns = @avatar.get_login_bonus
-          bns.each do |b|
-            sc_login_bonus(b[0], b[1], b[2], b[3])
+          login_bonus = @avatar.get_login_bonus
+          login_bonus.each do |bonus|
+            sc_login_bonus(bonus[0], bonus[1], bonus[2], bonus[3])
             SERVER_LOG.info("<UID:#{@uid}>LobbyServer: [sc_login_bonus] tg_type:#{b[0]} slot_type:#{b[1]} value or id:#{b[2]}")
           end
           @avatar.reset_free_duel_count

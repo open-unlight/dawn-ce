@@ -151,12 +151,12 @@ module Unlight
       SERVER_LOG.info("<UID:#{@uid}>DataServer: [cs_find_avatar] #{avatar_name}")
       if @player
         st = @player.server_type
-        a = Avatar.filter { [Sequel.like(:name, "#{avatar_name}%"), player_id.positive?, { server_type => st }] }.all
+        avatars = Avatar.filter { [Sequel.like(:name, "#{avatar_name}%"), player_id.positive?, { server_type => st }] }.all
         ret = []
-        a.each do |a|
-          if @player.id != a.player_id
-            ret << a.player_id
-            ret << a.id
+        avatars.each do |avatar|
+          if @player.id != avatar.player_id
+            ret << avatar.player_id
+            ret << aavatar.id
           end
         end
         sc_result_avatars_list(ret.join(','))
