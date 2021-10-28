@@ -595,7 +595,7 @@ module Unlight
     end
 
     def cs_get_notice_selectable_item(args)
-      SERVER_LOG.info("<UID:#{@uid}>#{$SERVER_NAME}: [#{__method__}] args:#{args}")
+      SERVER_LOG.info("<UID:#{@uid}>#{Dawn::Server.name}: [#{__method__}] args:#{args}")
       if @avatar
         @avatar.get_notice_selectable_item(args)
       end

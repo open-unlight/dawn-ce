@@ -394,9 +394,6 @@ module Unlight
 
   Sequel.default_timezone = :utc
 
-  # ============== 関連定数 ==================
-  $SERVER_NAME ||= 'none'
-
   # ログの出力先
   SERVER_LOG = Dawn.logger
   # ログレベル

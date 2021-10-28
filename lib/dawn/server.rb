@@ -19,10 +19,13 @@ module Dawn
     class << self
       extend Forwardable
 
-      delegate %w[id port hostname] => :instance
+      delegate %w[id type name port hostname] => :instance
     end
 
     include Singleton
+
+    # @since 0.1.0
+    attr_reader :type
 
     # @since 0.1.0
     def initialize
@@ -30,6 +33,8 @@ module Dawn
       @parser.on('-i ID') { |id| @id = id.to_i }
       @parser.on('-p PORT') { |port| @port = port.to_i }
       @parser.on('-h HOSTNAME') { |name| @hostname = name }
+      # TODO: Check type is valid
+      @parser.on('-t TYPE') { |type| @type = type&.strip }
       @parser.parse!
     end
 
@@ -38,6 +43,13 @@ module Dawn
     # @since 0.1.0
     def id
       @id || 0
+    end
+
+    # @return [String] the server name with port
+    #
+    # @since 0.1.0
+    def name
+      @name ||= "#{(type || 'UNKNOWN').upcase}_SERVER_#{port}"
     end
 
     # @param port [Integer] port to listen
