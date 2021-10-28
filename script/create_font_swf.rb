@@ -95,8 +95,8 @@ file.open('w') { |f| new_const.each { |a| f.puts a } }
 # ======================
 if check_file
   check_hash = {}
-  File.open("../client/data/#{check_file}") do |file|
-    file.each_line do |line|
+  File.open("../client/data/#{check_file}") do |file_to_check|
+    file_to_check.each_line do |line|
       p line if OUTPUT
       line.scan(/./m) do |ch|
         check_hash[ch] = 'OK'
@@ -113,8 +113,8 @@ Find.find('./data/backup') do |f|
 
   Find.prune if f.split('/').size > 4
   # バックアップ以下のファイルをに対して
-  File.open(f) do |file|
-    file.each_line do |line|
+  File.open(f) do |backup_file|
+    backup_file.each_line do |line|
       p line if OUTPUT
       line.scan(/./m) do |ch|
         puts ch if OUTPUT

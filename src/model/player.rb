@@ -474,16 +474,16 @@ module Unlight
           if pl && pl.current_avatar && i.invited == false
             if item_counter < INVITE_MAX
               notice_str = "#{my_name},"
-              pre_nums = {}
-              INVITE_PRESENTS.each do |pre|
-                pl.current_avatar.get_item(pre)
-                pre_nums[pre] = 0 unless pre_nums[pre]
-                pre_nums[pre] += 1 # 各アイテムの個数を数える
+              presents = {}
+              INVITE_PRESENTS.each do |id|
+                pl.current_avatar.get_item(id)
+                presents[id] ||= 0
+                presents[id] += 1 # 各アイテムの個数を数える
                 ret = true
               end
               # NoticeにIDと個数を渡す
-              pre_nums.each do |k, i|
-                pre_no_set << "#{k}_#{i}"
+              presents.each do |id, amount|
+                pre_no_set << "#{id}_#{amount}"
               end
               notice_str += pre_no_set.join(',')
               SERVER_LOG.info("<UID:#{id}>#{$SERVER_NAME}: [player.invite_succeed]#{pl.id}: #{notice_str}")
