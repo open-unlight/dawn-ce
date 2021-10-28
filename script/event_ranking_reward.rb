@@ -1,7 +1,6 @@
 $LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
-$arg = ARGV.shift
 
 module Unlight
   REWARD_TYPE_STR = %w[none 消費アイテム アバター衣装 キャラカード 装備カード イベントカード]

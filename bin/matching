@@ -13,8 +13,8 @@ $LOAD_PATH.unshift Bundler.root.join('src')
 require 'bootstrap'
 require 'protocol/matchserver'
 
-# TODO: Replace with Dawn::Server.name
-$SERVER_NAME = "MATCHING_SERVER_#{Dawn::Server.port}"
+# TODO: Use single boot server entrypoint by type
+ARGV.push('-t matching')
 
 module Unlight
   include Protocol

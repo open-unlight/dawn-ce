@@ -14,8 +14,8 @@ $LOAD_PATH.unshift Bundler.root.join('src')
 require 'bootstrap'
 require 'protocol/chatserver'
 
-# TODO: Replace with Dawn::Server.name
-$SERVER_NAME = "CHAT_SERVER_#{Dawn::Server.port}"
+# TODO: Use single boot server entrypoint by type
+ARGV.push('-t chat')
 
 module Unlight
   include Protocol

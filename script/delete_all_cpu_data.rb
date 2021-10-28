@@ -1,7 +1,6 @@
 $LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
-$arg = ARGV.shift
 
 module Unlight
   puts 'CPUデータを削除します(y/n)'

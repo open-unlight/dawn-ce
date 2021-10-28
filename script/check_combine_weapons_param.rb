@@ -2,7 +2,6 @@ $LOAD_PATH.unshift(File.join(File.expand_path('.'), 'src'))
 require 'pathname'
 require 'unlight'
 require "#{File.expand_path('.')}/script/sql_create.rb"
-$arg = ARGV.shift
 
 module Unlight
   puts '合成武器のパラメータチェックをしますか？（y/n）'
