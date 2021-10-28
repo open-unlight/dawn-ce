@@ -10,7 +10,6 @@ font_r = 'KozMinProVI-Regular.otf'
 
 filename = '../client/src/FontLoader.as'
 use_char_no = ''
-delete_mode = true
 mode_reg = /LOCALE_TCN|LOCALE_SCN|LOCALE_EN|LOCALE_KR|LOCALE_FR|LOCALE_ID|LOCALE_TH/
 check_file = nil
 end_reg = /;/
@@ -19,15 +18,11 @@ all_griph = false
 # オプションがsの時sandbox用のURL
 #
 opt.on('-e', '--english', '英語用') do |v|
-  if v
-    delete_mode = true
-    mode_reg = /LOCALE_TCN|LOCALE_SCN|LOCALE_JP|LOCALE_KR|LOCALE_FR/
-  end
+  mode_reg = /LOCALE_TCN|LOCALE_SCN|LOCALE_JP|LOCALE_KR|LOCALE_FR/ if v
 end
 
 opt.on('-c', '--chinese', '繁体中国語') do |v|
   if v
-    delete_mode = true
     font_h = 'wt004.ttf'
     font_r = 'cwming.ttf'
     check_file = 'all_griph_HanWangMingHeavy.txt'
@@ -37,7 +32,6 @@ end
 
 opt.on('-sc', '--schinese', '中国大陸版') do |v|
   if v
-    delete_mode = true
     font_h = 'SourceHanSansSC-Heavy.otf'
     font_r = 'SourceHanSansSC-Heavy.otf'
     check_file = 'all_griph_SimpleChineseHeavy.txt'
@@ -49,14 +43,12 @@ opt.on('-kr', '--korean', '韓国語') do |v|
   if v
     font_h = 'batang.ttf'
     font_r = 'batang.ttf'
-    delete_mode = true
     mode_reg = /LOCALE_TCN|LOCALE_JP|LOCALE_SCN|LOCALE_EN|LOCALE_FR|LOCALE_ID|LOCALE_TH/
   end
 end
 
 opt.on('-fr', '--french', 'フランス語用') do |v|
   if v
-    delete_mode = true
     mode_reg = /LOCALE_TCN|LOCALE_JP|LOCALE_SCN|LOCALE_KR|LOCALE_EN|LOCALE_ID|LOCALE_TH/
     check_file = 'all_griph_nbr.txt'
     font_h = 'nbr.otf'
@@ -75,7 +67,7 @@ File.open('./data/backup/string_constants.txt') do |file|
   skip = false
   bracket_skip = 0
   bracket_check = false
-  while line = file.gets
+  file.each_line do |line|
     if line.force_encoding('UTF-8')&.match?(mode_reg)
       skip = true
       bracket_check = true
@@ -104,7 +96,7 @@ file.open('w') { |f| new_const.each { |a| f.puts a } }
 if check_file
   check_hash = {}
   File.open("../client/data/#{check_file}") do |file|
-    while line = file.gets
+    file.each_line do |line|
       p line if OUTPUT
       line.scan(/./m) do |ch|
         check_hash[ch] = 'OK'
@@ -122,7 +114,7 @@ Find.find('./data/backup') do |f|
   Find.prune if f.split('/').size > 4
   # バックアップ以下のファイルをに対して
   File.open(f) do |file|
-    while line = file.gets
+    file.each_line do |line|
       p line if OUTPUT
       line.scan(/./m) do |ch|
         puts ch if OUTPUT

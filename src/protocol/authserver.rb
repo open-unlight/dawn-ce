@@ -41,7 +41,8 @@ module Unlight
           # 認証のスタート
           SERVER_LOG.info("#{@@class_name}: [auth_start] #{name} ,#{client_pub_key} ,#{@@online_list.size}")
           # プレイヤーは登録されているか？
-          if @player = Player[name: name]
+          @player = Player[name: name]
+          if @player
             if @player.penalty?
               # ペナルティではじく
               SERVER_LOG.error("#{@@class_name}: [auth_fail] penalty #{name}")
@@ -102,7 +103,8 @@ module Unlight
         # 認証のスタート
         SERVER_LOG.info("#{@@class_name}: [cs_os_auth_start] #{name} ,#{client_pub_key}")
         # プレイヤーは登録されているか？
-        if @player = Player[name: name]
+        @player = Player[name: name]
+        if @player
           if @player.penalty?
             # ペナルティではじく
             SERVER_LOG.error("#{@@class_name}: [cs_os_auth_fail] penalty #{name}")

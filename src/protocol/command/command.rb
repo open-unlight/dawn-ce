@@ -90,17 +90,14 @@ module Unlight
     private :gen_receve_cmd
 
     # 型によって返す変換する文字列を返す
+    TYPE_DECODE_METHODS = {
+      String: '',
+      int: ".unpack('N')[0]",
+      char: ".unpack('c')[0]",
+      Boolean: ".unpack('C')[0]==0? false:true"
+    }.freeze
     def type_rec_res(t)
-      case t
-      when :String
-        ''
-      when :int
-        ".unpack('N')[0]"
-      when :char
-        ".unpack('c')[0]"
-      when :Boolean
-        ".unpack('C')[0]==0? false:true"
-      end
+      TYPE_DECODE_METHODS[t]
     end
     private :type_rec_res
 
