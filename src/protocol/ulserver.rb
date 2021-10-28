@@ -78,7 +78,8 @@ module Unlight
       def do_command
         track_user_context
 
-        while cmd = @command_list.shift
+        until @command_list.empty?
+          cmd = @command_list.shift
           if cmd[0] > @func_list.size
             SERVER_LOG.error("#{@@class_name}: [invalid comanndNo.] >> #{cmd[0]}")
             # エラー数をカウントして
