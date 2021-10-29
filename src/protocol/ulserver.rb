@@ -163,6 +163,10 @@ module Unlight
         a
       end
 
+      def respond_to_missing?(*_args)
+        false
+      end
+
       def method_missing(msg, *_arg)
         SERVER_LOG.warn("#{@@class_name}:Command [#{msg}] is Undefined")
       end
@@ -312,108 +316,6 @@ module Unlight
           Player[AI_PLAYER_ID]
           SERVER_LOG.info("#{@@class_name}: [#{__method__}] prev check time:#{@db_connect_prev_check_time}")
           @db_connect_prev_check_time = Time.now.utc
-        end
-      end
-    end
-  end
-end
-
-if RUBY_VERSION == '1.9.2'
-  #  Dateクラスで重たいmethod_missingを差し替え（クソ重たい処理をクソさぼっているので）
-  module Date
-    module Format
-      class Bag
-        def method_missing(t, *args)
-          t = t.to_s
-          set = t.chomp!('=')
-          t = t.intern
-          ret = nil
-          if set
-            ret = @elem[t] = args[0]
-          else
-            ret = @elem[t]
-          end
-          ret
-        end
-
-        def year=(v)
-          @elem[:year] = v
-        end
-
-        def mon=(v)
-          @elem[:mon] = v
-        end
-
-        def mday=(v)
-          @elem[:mday] = v
-        end
-
-        def hour=(v)
-          @elem[:hour] = v
-        end
-
-        def min=(v)
-          @elem[:min] = v
-        end
-
-        def sec=(v)
-          @elem[:sec] = v
-        end
-
-        def _comp=(v)
-          @elem[:_comp] = v
-        end
-
-        def sec_fraction=(v)
-          @elem[:sec_fraction] = v
-        end
-
-        def offset=(v)
-          @elem[:offset] = v
-        end
-
-        def zone=(v)
-          @elem[:zone] = v
-        end
-
-        def year
-          @elem[:year]
-        end
-
-        def mon
-          @elem[:mon]
-        end
-
-        def mday
-          @elem[:mday]
-        end
-
-        def hour
-          @elem[:hour]
-        end
-
-        def min
-          @elem[:min]
-        end
-
-        def sec
-          @elem[:sec]
-        end
-
-        def sec_fraction
-          @elem[:sec_fraction]
-        end
-
-        def zone
-          @elem[:zone]
-        end
-
-        def _comp
-          @elem[:_comp]
-        end
-
-        def offset
-          @elem[:offset]
         end
       end
     end

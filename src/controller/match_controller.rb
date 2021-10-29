@@ -3,17 +3,6 @@
 # This software is released under the MIT License.
 # http://opensource.org/licenses/mit-license.php
 
-puts RUBY_VERSION
-if RUBY_VERSION == '1.9.2'
-  module Date
-    module Format
-      class Bag
-        def method_missing(*arg); end
-      end
-    end
-  end
-end
-
 module Unlight
   module MatchController
     RADDER_DECK_COST_LIMEN  = 5 # コストレベル差の制限
