@@ -246,7 +246,7 @@ module Unlight
 
     def self.auth_off_all
       SERVER_LOG.debug('Player: Auth all off')
-      Player.filter("state >= #{Unlight::ST_AUTH}").all(&:auth_off)
+      Player.filter(Sequel.lit("state >= #{Unlight::ST_AUTH}")).all(&:auth_off)
     end
 
     def login?
