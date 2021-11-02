@@ -59,7 +59,7 @@ module Unlight
 
     # スタックしている未送信のメッセージを配列で取得
     def self.get_massage_notice(time)
-      AvatarNotice.filter(Sequel.cast_string(:updated_at) > time).and(~{ body: '' }).all
+      AvatarNotice.where(Sequel.cast_string(:updated_at) > time).where(~{ body: '' }).all
     end
 
     # 特定のタイプのノーティスを引き抜く
