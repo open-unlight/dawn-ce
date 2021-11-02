@@ -82,20 +82,14 @@ module Unlight
 
     # プレイヤーのなかからCPU専用キャラを返す。なければでっち上げる
     def self.get_cpu_player
-      ret = CACHE.get('cpu_player')
-      unless ret
-        ai = Player.filter({ role: ROLE_CPU }).all
-        if ai.empty?
-          ret = Player.create(name: 'CPU', role: ROLE_CPU, email: 'auto_create_mska@be.to', salt: '6600342d86408afb5b82')
-          # CPU用のアバターを作る
-          Avatar.regist('CPU', ret.id, [], [], ret.server_type)
-          ret.save_changes
-        else
-          ret = ai[rand(ai.size)]
-        end
-        CACHE.set('cpu_player', ret)
-      end
-      ret
+      ai = Player.filter({ role: ROLE_CPU }).all
+      return ai[rand(ai.size)] unless ai.empty?
+
+      player = Player.create(name: 'CPU', role: ROLE_CPU, email: 'auto_create_mska@be.to', salt: '6600342d86408afb5b82')
+      # CPU用のアバターを作る
+      Avatar.regist('CPU', player.id, [], [], player.server_type)
+      player.save_changes
+      player
     end
 
     def self.get_prf_owner_player
