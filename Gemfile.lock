@@ -238,7 +238,7 @@ GEM
     sentry-ruby-core (4.7.1)
       concurrent-ruby
       faraday
-    sequel (4.49.0)
+    sequel (5.50.0)
     simplecov (0.17.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -298,7 +298,7 @@ DEPENDENCIES
   rubocop-thread_safety (>= 0.4.2)
   semantic_logger
   sentry-ruby
-  sequel (~> 4.0)
+  sequel (~> 5.0)
   simplecov (~> 0.17.1)
   simplecov-cobertura
   sqlite3
