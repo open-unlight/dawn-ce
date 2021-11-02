@@ -54,7 +54,7 @@ module Unlight
       st = Time.now.utc - 60 * 5
       unless list
         list = []
-        ProfoundComment.limit(100).filter([profound_id: prf_id]).filter { created_at > st }.order(:id).all.each do |pc|
+        ProfoundComment.limit(100).where(profound_id: prf_id).where { created_at > st }.order(:id).all.each do |pc|
           list << { id: pc.id, a_id: pc.avatar_id, comment: pc.comment, a_name: pc.name }
         end
       end

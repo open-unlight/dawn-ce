@@ -47,7 +47,7 @@ module Unlight
     # 参加ユーザーのデータ取得
     def self.get_profound_data_list(prf_id)
       ret = []
-      inv_list = ProfoundInventory.filter([profound_id: prf_id]).filter { score.positive? }.exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).all
+      inv_list = ProfoundInventory.where(profound_id: prf_id).where { score.positive? }.exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).all
       ret = inv_list if inv_list
       ret
     end
@@ -60,26 +60,26 @@ module Unlight
 
     # 撃破者のインベントリ取得
     def self.get_defeat_user_data(prf_id, _r = true)
-      inv_list = ProfoundInventory.filter([profound_id: prf_id, defeat: true]).all
+      inv_list = ProfoundInventory.where(profound_id: prf_id, defeat: true).all
       inv_list.first if inv_list
     end
 
     # 撃破判定
     def self.is_defeat_boss(prf_id, _inv_id, _r = true)
-      cnt = ProfoundInventory.filter([profound_id: prf_id, defeat: true]).count
+      cnt = ProfoundInventory.where(profound_id: prf_id, defeat: true).count
       cnt.positive?
     end
 
     # 発見者のインベントリ取得
     def self.get_found_user_data(prf_id)
-      inv_list = ProfoundInventory.filter([profound_id: prf_id, found: true]).all
+      inv_list = ProfoundInventory.where(profound_id: prf_id, found: true).all
       inv_list.first if inv_list
     end
 
     # 参加ユーザーのアバターID一覧取得
     def self.get_profound_avatar_list(prf_id)
       ret = []
-      inv_list = ProfoundInventory.filter([profound_id: prf_id]).filter { score.positive? }.exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).all
+      inv_list = ProfoundInventory.where(profound_id: prf_id).where { score.positive? }.exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).all
       ret = inv_list.map(&:avatar_id) if inv_list
       ret
     end
@@ -91,7 +91,7 @@ module Unlight
       finder = Avatar[prf.found_avatar_id] if prf
       # 発見者のフレンドは省くよう調整
       friends_list = finder ? finder.get_friend_avatar_ids : []
-      ProfoundInventory.filter([profound_id: prf_id]).exclude([[:state, [PRF_INV_ST_FAILED, PRF_INV_ST_GIVE_UP]]]).exclude([[:avatar_id, friends_list]]).all.size
+      ProfoundInventory.where(profound_id: prf_id).exclude(state: [PRF_INV_ST_FAILED, PRF_INV_ST_GIVE_UP]).exclude(avatar_id: friends_list).all.size
     end
 
     # 特定ユーザの報酬などの確認が必要な渦を取得
@@ -455,12 +455,12 @@ module Unlight
 
     # 取得Filter
     def get_filter(prf_id)
-      ProfoundInventory.filter([profound_id: prf_id]).exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).order(Sequel.desc(:damage_count))
+      ProfoundInventory.where(profound_id: prf_id).exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).order(Sequel.desc(:damage_count))
     end
 
     # 取得Filter
     def get_score_filter(prf_id)
-      ProfoundInventory.filter([profound_id: prf_id]).exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).order(Sequel.desc(:score))
+      ProfoundInventory.where(profound_id: prf_id).exclude(state: PRF_INV_ST_FAILED).exclude(state: PRF_INV_ST_GIVE_UP).order(Sequel.desc(:score))
     end
 
     # ランキング取得

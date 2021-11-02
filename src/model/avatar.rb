@@ -366,7 +366,7 @@ module Unlight
       chara_card_decks.each do |ccd|
         deck_id_list.push(ccd.id)
       end
-      CharaCardSlotInventory.filter([[:chara_card_deck_id, deck_id_list]]).filter([kind: SCT_WEAPON]).filter([[:card_id, list]]).all
+      CharaCardSlotInventory.where(chara_card_deck_id: deck_id_list, kind: SCT_WEAPON, card_id: list).all
     end
 
     # デュエルに使用するデッキを返す

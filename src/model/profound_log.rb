@@ -47,7 +47,7 @@ module Unlight
     def self.get_start_boss_damage(prf_id)
       dmg = [0, 0, 0]
       id  = 0
-      list = ProfoundLog.filter([profound_id: prf_id]).order(:id).all
+      list = ProfoundLog.where(profound_id: prf_id).order(:id).all
       list.each do |log|
         if log.avatar_id.zero?
           dmg[log.chara_no] -= log.damage
@@ -62,10 +62,10 @@ module Unlight
     # ダメージをマイナスで保存しないとだめだろ。
     # 総ダメージを取得
     def self.get_all_damage(prf_id)
-      dmg = ProfoundLog.filter([profound_id: prf_id])
+      dmg = ProfoundLog.where(profound_id: prf_id)
                        .select_append { sum(damage).as(sum_damage) }
-                       .filter { avatar_id.positive? }.all.first
-      heal = ProfoundLog.filter([profound_id: prf_id, avatar_id: 0])
+                       .where { avatar_id.positive? }.all.first
+      heal = ProfoundLog.where(profound_id: prf_id, avatar_id: 0)
                         .select_append { sum(damage).as(sum_damage) }.all.first
       add_dmg = dmg && dmg[:sum_damage] ? dmg[:sum_damage] : 0
       add_heal = heal && heal[:sum_damage] ? heal[:sum_damage] : 0
@@ -80,7 +80,7 @@ module Unlight
       damage = last_id.zero? ? 0 : now_dmg
       log_set = (damage == now_dmg)
       name_view = false
-      list = ProfoundLog.filter([profound_id: prf_id]).filter { id > last_id }.order(:id).all
+      list = ProfoundLog.where(profound_id: prf_id).where { id > last_id }.order(:id).all
       list.each do |log|
         log_set = true if damage == now_dmg
         if log.avatar_id.zero?
@@ -101,15 +101,15 @@ module Unlight
 
     # ダメージログを取得
     def self.get_profound_damage_log(prf_id, a_id, p_log_id = 0)
-      ProfoundLog.filter([profound_id: prf_id]).filter { id > p_log_id }.exclude(avatar_id: a_id).order(:id).all
+      ProfoundLog.where(profound_id: prf_id).where { id > p_log_id }.exclude(avatar_id: a_id).order(:id).all
     end
 
     # キャラランキングを取ってくる（デフォルトは5位まで）
     def self.get_chara_ranking(prf_id, rank_limit = 5)
       ret = CACHE.get("prf_log_chara_ranking_#{prf_id}")
       unless ret
-        ret = ProfoundLog.filter([profound_id: prf_id])
-                         .filter { avatar_id.positive? }
+        ret = ProfoundLog.where(profound_id: prf_id)
+                         .where { avatar_id.positive? }
                          .select_group(:atk_charactor)
                          .select_append { sum(damage).as(sum_damage) }
                          .order(Sequel.desc(:sum_damage))
