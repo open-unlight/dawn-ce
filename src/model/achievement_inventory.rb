@@ -80,7 +80,7 @@ module Unlight
     def progress_inheriting
       prev_id = achievement.get_inheriting_progress
       if prev_id != 0
-        prev_ai = AchievementInventory.filter([avatar_id: avatar_id, achievement_id: prev_id]).all.first
+        prev_ai = AchievementInventory.where(avatar_id: avatar_id, achievement_id: prev_id).all.first
         self.progress = prev_ai.progress
         save_changes
       end
