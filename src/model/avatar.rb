@@ -4789,9 +4789,9 @@ module Unlight
     def set_result_image(id, image_no)
       refresh
       item_id = AvatarItem.filter(cond: id.to_s).first.id
-      ItemInventory.filter([avatar_id: self.id, avatar_item_id: item_id, state: ITEM_STATE_USING]).update(state: ITEM_STATE_NOT_USE)
+      ItemInventory.where(avatar_id: self.id, avatar_item_id: item_id, state: ITEM_STATE_USING).update(state: ITEM_STATE_NOT_USE)
       if image_no.positive?
-        ItemInventory.filter([avatar_id: self.id, avatar_item_id: item_id]).update(state: ITEM_STATE_USING)
+        ItemInventory.where(avatar_id: self.id, avatar_item_id: item_id).update(state: ITEM_STATE_USING)
       end
     end
 

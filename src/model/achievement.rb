@@ -2035,7 +2035,7 @@ module Unlight
     def raid_all_damage_check(avatar, v, inv, success_cond = nil)
       ret = false
       set_damage = inv.progress
-      dmg = ProfoundLog.filter([avatar_id: avatar.id]).select_append { sum(damage).as(sum_damage) }.filter { created_at > inv.created_at }.all.first
+      dmg = ProfoundLog.where(avatar_id: avatar.id).select_append { sum(damage).as(sum_damage) }.filter { created_at > inv.created_at }.all.first
       SERVER_LOG.info("<UID:#{avatar.player_id}>Achievement [#{__method__}] dmg:#{dmg[:sum_damage]}") if dmg && dmg[:sum_damage]
       set_damage = dmg[:sum_damage] if dmg && dmg[:sum_damage]
       inv.progress = set_damage
