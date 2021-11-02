@@ -3,3 +3,9 @@ development:
   socket: /tmp/mysql.sock
   database: unlight_db
   user: root
+
+development:
+  adapter: mysql2
+  socket: /tmp/mysql.sock
+  database: unlight_test
+  user: root
