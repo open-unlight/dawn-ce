@@ -99,20 +99,14 @@ module Unlight
     end
 
     def self.get_prf_owner_player
-      ret = CACHE.get('prf_owner')
-      unless ret
-        pl = Player.filter({ name: 'prf_owner' }).all
-        if pl.empty?
-          ret = Player.create(name: 'prf_owner', role: ROLE_ADMIN, email: 'auto_create_mska@be.to', salt: '6600342d86408afb5b82')
-          # CPU用のアバターを作る
-          Avatar.regist('prf_owner', ret.id, [1], [1], ret.server_type)
-          ret.save_changes
-        else
-          ret = pl.first
-        end
-        CACHE.set('prf_owner', ret)
-      end
-      ret
+      players = Player.filter({ name: 'prf_owner' }).all
+      return players.first unless players.empty?
+
+      player = Player.create(name: 'prf_owner', role: ROLE_ADMIN, email: 'auto_create_mska@be.to', salt: '6600342d86408afb5b82')
+      # CPU用のアバターを作る
+      Avatar.regist('prf_owner', player.id, [1], [1], player.server_type)
+      player.save_changes
+      player
     end
 
     # ログイン処理
