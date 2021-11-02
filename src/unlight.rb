@@ -25,7 +25,9 @@ Sequel::Model.plugin :json_serializer
 
 require 'dawn'
 
+# TODO: Refactor to Dawn::AppLoader
 # Initialize Extensions
+require_relative '../config/initializers/config'
 require_relative '../config/initializers/sentry'
 # TODO: Require necessary library for Game / API mode
 require_relative '../config/initializers/oj'
