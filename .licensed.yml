@@ -24,11 +24,15 @@ reviewed:
     - faraday-patron # MIT
     - faraday-rack # MIT
     # MIT
-    - dry-core
+    - config
     - concurrent-ruby
+    - dry-core
+    - dry-initializer
     - dry-configurable
     - dry-container
     - dry-logic
     - dry-types
     - dry-inflector
+    - dry-schema
+    - dry-validation
     - sequel
