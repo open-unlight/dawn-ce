@@ -526,7 +526,7 @@ module Unlight
 
     def item_inventories(r = true)
       @item_inventories = nil if r
-      @item_inventories ||= ItemInventory.filter(avatar_id: id).and(state: ITEM_STATE_NOT_USE).all
+      @item_inventories ||= ItemInventory.where(avatar_id: id, state: ITEM_STATE_NOT_USE).all
       @item_inventories
     end
 
@@ -599,7 +599,7 @@ module Unlight
     # 使用できるアイテムインベントリのリストを返す
     def unused_item_inventories(r = true)
       if r || @unused_item_inventories.nil?
-        @unused_item_inventories = ItemInventory.filter(avatar_id: id).and { state < ITEM_STATE_USED }.all
+        @unused_item_inventories = ItemInventory.where(avatar_id: id).where { state < ITEM_STATE_USED }.all
       end
       @unused_item_inventories
     end
@@ -2467,7 +2467,7 @@ module Unlight
     def get_all_deck_num_include_payment_log
       now_decks_num = decks_num
       p_logs = PaymentLog.filter({ player_id: player_id, result: PaymentLog::STATE_PAYED }).filter([[:real_money_item_id, RM_ITEM_DECK_ID]]).all
-      deck_items = ItemInventory.filter([[:avatar_id, id], [:avatar_item_id, DECK_ITEM_ID]]).and(state: ITEM_STATE_NOT_USE).all
+      deck_items = ItemInventory.where(avatar_id: id, avatar_item_id: DECK_ITEM_ID, state: ITEM_STATE_NOT_USE).all
       add_num = 0
       p_logs.each { |plog| add_num += plog.num }
       add_num += deck_items.size unless deck_items.empty?

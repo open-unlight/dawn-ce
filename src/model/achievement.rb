@@ -1849,7 +1849,7 @@ module Unlight
     # レアカードを作成時のアチーブメント
     def get_rare_card_check(avatar, v, _inv, _success_cond = nil)
       ret = false
-      if CardInventory.graph(CharaCard, id: :chara_card_id).filter(chara_card_deck_id: Range.new(avatar.binder.id, avatar.binder.id + 3)).and(Sequel.cast_string(:card_inventories__created_at) >= event_start_at).and([[:chara_cards__rarity, Range.new(6, 10)], [:chara_cards__id, Range.new(1, 1000)]]).all.count >= v
+      if CardInventory.graph(CharaCard.dataset, id: :chara_card_id).where(chara_card_deck_id: Range.new(avatar.binder.id, avatar.binder.id + 3)).where(Sequel.cast_string(:card_inventories__created_at) >= event_start_at).where(chara_cards__rarity: Range.new(6, 10), chara_cards__id: Range.new(1, 1000)).all.count >= v
         ret = true
       end
       ret

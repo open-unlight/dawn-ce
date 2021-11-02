@@ -75,9 +75,9 @@ module Unlight
       ret = 0
       if p.positive?
         er = EstimationRanking
-             .filter(rank_type: t, server_type: stype)
-             .and(Sequel.cast_string(:point) <= p)
-             .and(Sequel.cast_string(:point) > 0) # rubocop:disable Style/NumericPredicate
+             .where(rank_type: t, server_type: stype)
+             .where(Sequel.cast_string(:point) <= p)
+             .where(Sequel.cast_string(:point) > 0) # rubocop:disable Style/NumericPredicate
              .order(:rank_index)
              .all
              .first
