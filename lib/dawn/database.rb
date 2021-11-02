@@ -23,29 +23,44 @@ module Dawn
     class << self
       extend Forwardable
 
-      delegate %w[current] => :instance
+      delegate %w[migrate! config current] => :instance
     end
 
     include Singleton
 
     attr_reader :config_file
 
+    # @since 0.1.0
     def initialize
       # TODO: Add config manager
       @config_file = Dawn.root.join('config/database.yml')
       @mutex = Mutex.new
     end
 
+    # @return [Hash] the database config
+    #
+    # @since 0.1.0
     def config
       return @config if @config
       return @config = ENV['DATABASE_URL'] unless config_file.exist?
 
       @config ||=
-        YAML.safe_load(config_file.read).fetch(Dawn.env)
+        YAML.safe_load(config_file.read).fetch(Dawn.env, nil)
       @config ||= ENV['DATABASE_URL']
       @config
     end
 
+    # Migrate database to specify version
+    #
+    # @since 0.1.0
+    def migrate!(version = nil)
+      Sequel.extension :migration
+      Sequel::Migrator.run(current, Dawn.root.join('db/migrations'), target: version&.to_i)
+    end
+
+    # @return [Sequel] the current database object
+    #
+    # @since 0.1.0
     def current
       return @current if @current
 

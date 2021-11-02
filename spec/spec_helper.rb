@@ -33,6 +33,11 @@ SimpleCov.start do
   end
 end
 
+ENV['DAWN_ENV'] = 'test'
+
+require 'dawn/database'
+Dawn::Database.migrate!
+
 require_relative '../src/unlight'
 
 Dir[Bundler.root.join('spec/support/**/*.rb')].sort.each { |support| require support }
