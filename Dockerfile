@@ -22,7 +22,7 @@ WORKDIR $UNLIGHT_HOME
 
 COPY Gemfile* $UNLIGHT_HOME/
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
-RUN gem install bundler:2.2.5 \
+RUN gem install bundler:2.2.28 \
     && bundle config --local deployment 'true' \
     && bundle config --local frozen 'true' \
     && bundle config --local no-cache 'true' \
