@@ -3,9 +3,13 @@
 # This software is released under the MIT License.
 # http://opensource.org/licenses/mit-license.php
 
+require 'model/concerns/avatars/rookie'
+
 module Unlight
   # アバタークラス
   class Avatar < Sequel::Model
+    include Avatars::Rookie
+
     NAME_INPUT_SUCCESS = 0 # 名前入力可能
     NAME_ALREADY_USED  = 1 # 使用済み名前
     NAME_CANT_USE      = 2 # 使用不可
@@ -36,7 +40,7 @@ module Unlight
 
     # インサート時の前処理
     before_create do
-      self.created_at = Time.now.utc
+      self.created_at ||= Time.now.utc
       self.recovery_interval = Unlight::AVATAR_RECOVERY_SEC
     end
 
@@ -4136,101 +4140,44 @@ module Unlight
       achievement_inventories.each do |ai|
         # 削除処理を行ったレコードか判定
         next if !now_exclusion_list.empty? && (now_exclusion_list.include?(ai.achievement.id.to_s) || now_exclusion_list.include?(ai.achievement.id))
+        next unless ai.state == ACHIEVEMENT_STATE_START && (no == false || (no && ai.achievement && no.include?(ai.achievement.id)))
+        next if ai.check_time_over?
 
-        if ai.state == ACHIEVEMENT_STATE_START && (no == false || (no && ai.achievement && no.include?(ai.achievement.id)))
-          # タイムオーバーしているか？
-          if ai.check_time_over?
-            # タイムオーバーしていたアチーブメントも更新
-          else
-            # 条件は成功しているか？
-            ai.refresh
-            # SERVER_LOG.info("<UID:#{self.player_id}>Avatar: [#{__method__}] ai.achievement.id:#{ai.achievement.id} ai.state:#{ai.state}")
-            if ai.state == ACHIEVEMENT_STATE_START && ai.achievement.cond_check(self, no, ai, card_list, point)
-              # アイテムを付与する
-              notice_items = []
-              ai.achievement.get_items.each do |i|
-                # SERVER_LOG.info("<UID:#{self.player_id}>Avatar: [#{__method__}] items 0:#{i[0]} 1:#{i[1]} 2:#{i[2]} 3:#{i[3]}") if ai.achievement.id == 542
-                set_notice = true
+        # 条件は成功しているか？
+        ai.refresh
+        # SERVER_LOG.info("<UID:#{self.player_id}>Avatar: [#{__method__}] ai.achievement.id:#{ai.achievement.id} ai.state:#{ai.state}")
+        if ai.state == ACHIEVEMENT_STATE_START && ai.achievement.cond_check(self, no, ai, card_list, point)
+          achievement_notice_items(ai)
+          achievement_notice_selectable_items(ai)
+          achievement_notice_rookie_sale(ai)
 
-                r = get_treasures(i[0], i[1], i[3], i[2], false)
-                set_notice = false if ERROR_PARTS_DUPE == r
-                # # 成功のイベントを送る
-                if set_notice
-                  if @event
-                    @event.achievement_clear_event(ai.achievement.id, i[0], i[1], i[2], i[3] || 0)
-                  else
-                    notice_items.push("#{i[0]}_#{i[1]}_#{i[2]}_#{i[3]}")
-                  end
-                end
-              end
+          # アチーブメントの状態をクリアにする
+          ai.finish
+          # 削除するアチーブメントがあるかチェック
+          check_exclusion_achievement(ai.achievement.get_exclusion_list, card_list)
+          now_exclusion_list.concat(ai.achievement.get_exclusion_list)
+          now_exclusion_list.uniq!
+          # 新たにアチーブメントが増えるかチェックする
+          check_new_achievement(ai.achievement.id, card_list)
 
-              # 選択アイテムがあればNoticeに追加する
-              s_items = ai.achievement.get_selectable_items
-              if s_items
-                # 選択アイテムが取得可能か判定する
-                can_list = []
-                s_arr = ai.achievement.get_selectable_array
-                s_arr.each do |item|
-                  # アイテムがパーツの場合のみ、所持判定
-                  if item[0] == TG_AVATAR_PART
-                    if parts_dupe_check(item[1]) == false
-                      can_list << item
-                    end
-                  else
-                    can_list << item
-                  end
-                end
-                write_notice(NOTICE_TYPE_GET_SELECTABLE_ITEM, ai.achievement.id.to_s) unless can_list.empty?
-              end
+          increment_achievement_loop(ai, loop_stop)
+          check_set_loop_achievement(ai.achievement.get_set_loop_list, card_list)
 
-              # 成功イベントが送れない為、ノーティスに記録
-              unless notice_items.empty?
-                notice_items.unshift(ai.achievement.id)
-                write_notice(NOTICE_TYPE_ACHI_SUCC, notice_items.join(','))
-              end
-
-              # 初心者レコードの最後をクリアして、条件を満たしている場合、Noticeを出す
-              if ai.achievement_id == ROOKIE_SALE_CHECK_ACHEVEMENT_ID && can_sale_start
-                write_notice(NOTICE_TYPE_SALE_START, [SALE_TYPE_ROOKIE, ROOKIE_SALE_TIME].join(','))
-              end
-
-              # アチーブメントの状態をクリアにする
-              ai.finish
-              # 削除するアチーブメントがあるかチェック
-              check_exclusion_achievement(ai.achievement.get_exclusion_list, card_list)
-              now_exclusion_list.concat(ai.achievement.get_exclusion_list)
-              now_exclusion_list.uniq!
-              # 新たにアチーブメントが増えるかチェックする
-              check_new_achievement(ai.achievement.id, card_list)
-              # 繰り返し可能な場合、同じアチーブメントを追加
-              if ai.achievement.loop.positive?
-                if loop_stop == false
-                  add_loop_achievement(ai)
-                else
-                  stop_loop_achievement(ai)
-                end
-              end
-              # セットのループが発生するかチェックする
-              check_set_loop_achievement(ai.achievement.get_set_loop_list, card_list)
-
-              # Achievemnt報酬で武器カード取得した場合、レコードクリア処置後にレコードチェックを行う（二重クリア防止）
-              if @get_weapon_record_check
-                achievement_check(GET_WEAPON_ACHIEVEMENT_IDS) if GET_WEAPON_ACHIEVEMENT_IDS
-                @get_weapon_record_check = false
-              end
-            end
-
-            # check判定をしたアチーブメントは更新の為、情報を保持
+          # Achievemnt報酬で武器カード取得した場合、レコードクリア処置後にレコードチェックを行う（二重クリア防止）
+          if @get_weapon_record_check
+            achievement_check(GET_WEAPON_ACHIEVEMENT_IDS) if GET_WEAPON_ACHIEVEMENT_IDS
+            @get_weapon_record_check = false
           end
-          id_list.push(ai.achievement_id)
-          state_list.push(ai.state)
-          set_prog = ai.achievement.get_progress(self, ai)
-          set_prog ||= ai.progress
-          progress_list.push(set_prog)
-          end_at_str = ai && !ai.end_at.nil? ? ai.end_at.strftime('%a %b %d %H:%M:%S %Z %Y') : ''
-          end_at_list << end_at_str
-          code_list << ai.code
+          # check判定をしたアチーブメントは更新の為、情報を保持
         end
+        id_list.push(ai.achievement_id)
+        state_list.push(ai.state)
+        set_prog = ai.achievement.get_progress(self, ai)
+        set_prog ||= ai.progress
+        progress_list.push(set_prog)
+        end_at_str = ai && !ai.end_at.nil? ? ai.end_at.strftime('%a %b %d %H:%M:%S %Z %Y') : ''
+        end_at_list << end_at_str
+        code_list << ai.code
       end
 
       # アチーブメントの情報を送る
@@ -4767,16 +4714,6 @@ module Unlight
       ret
     end
 
-    # セール開始条件を満たしているか
-    def can_sale_start
-      ret = false
-      unless created_at.nil?
-        check_time = created_at + ROOKIE_SALE_START_COND_AT_TIME
-        ret = (Time.now.utc <= check_time)
-      end
-      ret
-    end
-
     # お気に入りキャラIDを設定する
     def set_favorite_chara_id(id)
       self.favorite_chara_id = id
@@ -4965,6 +4902,60 @@ module Unlight
           set_sale_limit(ONE_DAY_SALE_TIME, SALE_TYPE_ROOKIE)
         end
       end
+    end
+
+    private
+
+    def achievement_notice_rookie_sale(ai)
+      return unless ai.achievement_id == ROOKIE_SALE_CHECK_ACHEVEMENT_ID
+      return unless rookie_sale?
+
+      write_notice(NOTICE_TYPE_SALE_START, [SALE_TYPE_ROOKIE, ROOKIE_SALE_TIME].join(','))
+    end
+
+    def achievement_notice_items(ai)
+      notice_items = []
+      ai.achievement.get_items.each do |i|
+        res = get_treasures(i[0], i[1], i[3], i[2], false)
+        next if ERROR_PARTS_DUPE == res
+
+        if @event
+          @event.achievement_clear_event(ai.achievement.id, i[0], i[1], i[2], i[3] || 0)
+        else
+          notice_items.push("#{i[0]}_#{i[1]}_#{i[2]}_#{i[3]}")
+        end
+      end
+
+      return if notice_items.empty?
+
+      notice_items.unshift(ai.achievement.id)
+      write_notice(NOTICE_TYPE_ACHI_SUCC, notice_items.join(','))
+    end
+
+    def achievement_notice_selectable_items(ai)
+      selectable_items = ai.achievement.get_selectable_items
+      return unless selectable_items
+
+      # TODO: Refacto to use Enumerator#select
+      allowed_items = []
+      selectable_array = ai.achievement.get_selectable_array
+      selectable_array.each do |item|
+        if item[0] == TG_AVATAR_PART
+          next if parts_dupe_check(item[1])
+        end
+
+        allowed_items << item
+      end
+      return if allowed_items.empty?
+
+      write_notice(NOTICE_TYPE_GET_SELECTABLE_ITEM, ai.achievement.id.to_s)
+    end
+
+    def increment_achievement_loop(ai, stop)
+      return unless ai.achievement.loop.positive?
+      return stop_loop_achievement(ai) if stop
+
+      add_loop_achievement(ai)
     end
   end
 
