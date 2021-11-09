@@ -3,9 +3,13 @@
 # This software is released under the MIT License.
 # http://opensource.org/licenses/mit-license.php
 
+require 'model/concerns/avatars/rookie'
+
 module Unlight
   # アバタークラス
   class Avatar < Sequel::Model
+    include Avatars::Rookie
+
     NAME_INPUT_SUCCESS = 0 # 名前入力可能
     NAME_ALREADY_USED  = 1 # 使用済み名前
     NAME_CANT_USE      = 2 # 使用不可
@@ -4708,13 +4712,6 @@ module Unlight
         ret = (now <= check_time)
       end
       ret
-    end
-
-    def rookie_sale?
-      return false if created_at.nil?
-
-      sale_end_at = created_at + ROOKIE_SALE_START_COND_AT_TIME
-      sale_end_at >= Time.now.utc
     end
 
     # お気に入りキャラIDを設定する
