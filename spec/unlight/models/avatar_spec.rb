@@ -142,4 +142,26 @@ RSpec.describe Unlight::Avatar do
       expect(event).to have_received(:update_achievement_info_event).with('', '', '', '', '')
     end
   end
+
+  describe '#rookie_sale?' do
+    subject { avatar.rookie_sale? }
+
+    let(:avatar) { create(:avatar, created_at: DateTime.parse('2021-11-09')) }
+
+    before { allow(Time).to receive(:now).and_return(DateTime.parse('2021-11-10').to_time) }
+
+    it { is_expected.to be_truthy }
+
+    context 'when over 30 days' do
+      before { allow(Time).to receive(:now).and_return(DateTime.parse('2021-12-25').to_time) }
+
+      it { is_expected.to be_falsy }
+    end
+
+    context 'when created_at is nil' do
+      before { allow(avatar).to receive(:created_at).and_return(nil) }
+
+      it { is_expected.to be_falsy }
+    end
+  end
 end
