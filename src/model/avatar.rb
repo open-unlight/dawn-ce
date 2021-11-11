@@ -589,17 +589,6 @@ module Unlight
       ret
     end
 
-    # クエストインベントリのリストの発見時間をを文字列で返す
-    def parts_end_at_list_str(r = true)
-      ret = []
-      refresh if r
-      now = Time.now.utc
-      part_inventories.each do |p|
-        ret << p.get_end_at(now)
-      end
-      ret.join(',')
-    end
-
     # タイムオーバーしたパーツを調べる
     def check_time_over_part(r = true)
       refresh if r
@@ -609,16 +598,6 @@ module Unlight
           vanish_part_event(pi.id) if @event
         end
       end
-    end
-
-    # アバターパーツの使用フラグを返す
-    def part_used_list_str(r = true)
-      ret = []
-      refresh if r
-      part_inventories.each do |p|
-        ret << p.used
-      end
-      ret.join(',')
     end
 
     # アバターパーツを装備する(同じインベントリを装備しようとすると外れる)
@@ -691,35 +670,6 @@ module Unlight
       Unlight::AvatarPart.all_params_check(get_equiped_parts_list).each do |k, v|
         method(k).call(v)
       end
-    end
-
-    # 装備中のパーツリストのidを返す
-    def setted_parts_id_list
-      ret = []
-      part_inventories.each do |p|
-        ret << p.avatar_part_id if p.equiped?
-      end
-      ret
-    end
-
-    # 装備済みのパーツリストを文字列返す
-    def setted_parts_list_str
-      ret = []
-      part_inventories.each do |p|
-        ret << p.avatar_part_id if p.equiped?
-      end
-      ret.join(',')
-    end
-
-    # 装備済みのパーツリスト
-    def get_equiped_parts_list
-      ret = []
-      part_inventories.each do |p|
-        p.work_end? # もし時間切れのパーツがあれば消す
-        pt = AvatarPart[p.avatar_part_id]
-        ret << pt if pt && p.equiped?
-      end
-      ret
     end
 
     # カードのIDのリストを返す
