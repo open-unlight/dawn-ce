@@ -4,11 +4,17 @@
 # http://opensource.org/licenses/mit-license.php
 
 require 'model/concerns/avatars/rookie'
+require 'model/concerns/avatars/item'
+require 'model/concerns/avatars/part'
+require 'model/concerns/avatars/quest'
 
 module Unlight
   # アバタークラス
   class Avatar < Sequel::Model
     include Avatars::Rookie
+    include Avatars::Item
+    include Avatars::Part
+    include Avatars::Quest
 
     NAME_INPUT_SUCCESS = 0 # 名前入力可能
     NAME_ALREADY_USED  = 1 # 使用済み名前
@@ -570,69 +576,6 @@ module Unlight
       ret
     end
 
-    # アバターアイテムのIDのリストを返す
-    def item_list_str(r = true)
-      ret = []
-      refresh if r
-      unused_item_inventories(r).each do |p|
-        ret << p.avatar_item_id
-      end
-      ret.join(',')
-    end
-
-    # アバターアイテムのステートのリストを返す
-    def item_state_list_str(r = true)
-      ret = []
-      refresh if r
-      unused_item_inventories(r).each do |p|
-        ret << p.state
-      end
-      ret.join(',')
-    end
-
-    # アバターアイテムインベントリのIDのリストを返す
-    def item_inventories_list(r = true)
-      ret = []
-      refresh if r
-      unused_item_inventories(r).each do |p|
-        ret << p.id
-      end
-      ret
-    end
-
-    # 使用できるアイテムインベントリのリストを返す
-    def unused_item_inventories(r = true)
-      if r || @unused_item_inventories.nil?
-        @unused_item_inventories = ItemInventory.where(avatar_id: id).where { state < ITEM_STATE_USED }.all
-      end
-      @unused_item_inventories
-    end
-
-    # アバターアイテムインベントリのIDのリストを返す
-    def item_inventories_list_str(r = true)
-      item_inventories_list(r).join(',')
-    end
-
-    # アバターパーツのIDのリストを返す
-    def part_list_str(r = true)
-      ret = []
-      refresh if r
-      part_inventories.each do |p|
-        ret << p.avatar_part_id
-      end
-      ret.join(',')
-    end
-
-    # アバターパーツインベントリのIDのリストを返す
-    def part_inventories_list(r = true)
-      ret = []
-      refresh if r
-      part_inventories.each do |p|
-        ret << p.id
-      end
-      ret
-    end
-
     # パーツインベントリリストからIDが適合するものを返す
     def part_from_inventories(p_id, r = true)
       ret = nil
@@ -646,97 +589,6 @@ module Unlight
       ret
     end
 
-    # アバターパーツインベントリのIDのリストを返す
-    def part_inventories_list_str(r = true)
-      part_inventories_list(r).join(',')
-    end
-
-    # クエストインベントリのIDのリストを返す
-    def quest_inventories_list(r = true)
-      ret = []
-      refresh if r
-      avatar_quest_inventories.each do |p|
-        ret << p.id
-      end
-      ret
-    end
-
-    # クエストインベントリのIDのリストを文字列で返す
-    def quest_inventories_list_str(r = true)
-      quest_inventories_list(r).join(',')
-    end
-
-    # クエストインベントリのリストのクエストIDを文字列で返す
-    def quest_id_list_str(r = true)
-      ret = []
-      refresh if r
-      avatar_quest_inventories.each do |p|
-        if p.status == QS_PENDING
-
-          if p.quest_find?
-            ret << p.quest_id
-          else
-            ret << 0
-          end
-        else
-          ret << p.quest_id
-        end
-      end
-      ret.join(',')
-    end
-
-    # クエストインベントリのリストのステータスを文字列で返す
-    def quest_status_list_str(r = true)
-      ret = []
-      refresh if r
-      avatar_quest_inventories.each do |p|
-        ret << p.status
-      end
-      ret.join(',')
-    end
-
-    # クエストインベントリのリストの発見時間をを文字列で返す
-    def quest_find_time_list_str(r = true)
-      ret = []
-      refresh if r
-      now = Time.now.utc
-      avatar_quest_inventories.each do |inv|
-        if inv.status == QS_PENDING
-          t = (inv.find_at - now).to_i
-          ret << t
-        else
-          ret << 0
-        end
-      end
-      ret.join(',')
-    end
-
-    def quest_ba_name_list_str(r = true)
-      ret = []
-      refresh if r
-      avatar_quest_inventories.each do |p|
-        if p.before_avatar_id&.zero? || p.before_avatar_id.nil?
-          ret << QUEST_PRESENT_AVATAR_NAME_NIL
-        elsif defined?(Avatar[p.before_avatar_id].name)
-          ret << Avatar[p.before_avatar_id].name
-        else
-          ret << QUEST_PRESENT_AVATAR_NAME_NIL
-        end
-      end
-      ret.join(',').force_encoding('UTF-8')
-    end
-
-    # クエストインベントリのリストの発見時間をを文字列で返す
-    def parts_end_at_list_str(r = true)
-      ret = []
-      refresh if r
-      now = Time.now.utc
-      part_inventories.each do |p|
-        ret << p.get_end_at(now)
-      end
-      ret.join(',')
-    end
-
     # タイムオーバーしたパーツを調べる
     def check_time_over_part(r = true)
       refresh if r
@@ -746,16 +598,6 @@ module Unlight
           vanish_part_event(pi.id) if @event
         end
       end
-    end
-
-    # アバターパーツの使用フラグを返す
-    def part_used_list_str(r = true)
-      ret = []
-      refresh if r
-      part_inventories.each do |p|
-        ret << p.used
-      end
-      ret.join(',')
     end
 
     # アバターパーツを装備する(同じインベントリを装備しようとすると外れる)
@@ -828,35 +670,6 @@ module Unlight
       Unlight::AvatarPart.all_params_check(get_equiped_parts_list).each do |k, v|
         method(k).call(v)
       end
-    end
-
-    # 装備中のパーツリストのidを返す
-    def setted_parts_id_list
-      ret = []
-      part_inventories.each do |p|
-        ret << p.avatar_part_id if p.equiped?
-      end
-      ret
-    end
-
-    # 装備済みのパーツリストを文字列返す
-    def setted_parts_list_str
-      ret = []
-      part_inventories.each do |p|
-        ret << p.avatar_part_id if p.equiped?
-      end
-      ret.join(',')
-    end
-
-    # 装備済みのパーツリスト
-    def get_equiped_parts_list
-      ret = []
-      part_inventories.each do |p|
-        p.work_end? # もし時間切れのパーツがあれば消す
-        pt = AvatarPart[p.avatar_part_id]
-        ret << pt if pt && p.equiped?
-      end
-      ret
     end
 
     # カードのIDのリストを返す
