@@ -5,7 +5,6 @@
 
 module Unlight
   # 1000000が基数
-  puts "OLD_LOT IS  #{OLD_LOT}"
   if OLD_LOT
     LOT_REALITY = [
       1_000_000, # Reality 1 32%     99
@@ -73,7 +72,6 @@ module Unlight
       Unlight::RareCardLot.get_lot_list(lk).each do |r|
         if r.article_kind == a_k && r.article_id == a_i && r.id != id
           ret = [:article_kind, "error article no ,id:#{r.id}"]
-          puts 'errr'
           break
         end
       end
@@ -86,7 +84,6 @@ module Unlight
       r_str = r.rarity.to_s
       o_str = r.order.to_s[0]
       ret = [:order, "error order no, id:#{r.id}"] if r_str != o_str
-      puts "errr #{r},#{r_str},#{o_str}" if ret
       ret
     end
 
@@ -197,7 +194,6 @@ module Unlight
     def self.get_percent(lot_kind, rarity)
       r = CACHE.get(PERCENT_CASH)
       unless r
-        puts "cache とるの失敗。#{PERCENT_CASH}更新します"
         RareCardLot.initialize_percent
         r = CACHE.get(PERCENT_CASH)
       end

@@ -110,7 +110,6 @@ module Unlight
         end
       end
       ranking = avatars.to_a.sort { |a, b| b[1] <=> a[1] }
-      puts "rankin size #{ranking.size}"
       weekly_ranking = WeeklyQuestRanking.filter(server_type: server_type).order(Sequel.asc(:id)).all
       (0..99).each do |i|
         if ranking[i]

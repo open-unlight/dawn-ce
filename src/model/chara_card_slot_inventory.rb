@@ -15,7 +15,6 @@ module Unlight
     plugin :hook_class_methods
 
     PARAM2_DEFAULT = 0B0010_0000_0000_0000_0010_1000_0000_0000
-    puts "param2 default #{PARAM2_DEFAULT}"
 
     # param 計算用マスク
     COMB_PARAM_MASK_BASE_SA     = [0B1111_1111_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000, 56] # +-127
@@ -199,7 +198,6 @@ module Unlight
       # exp
       add_exp = 0
       sci_list.each do |sci|
-        puts "add_exp:#{add_exp} set_exp:#{sci.have_exp} sci_exp:#{sci.exp} mat_exp:#{sci.card.material_exp}"
         add_exp += sci.have_exp
       end
       self.exp += add_exp
@@ -409,7 +407,6 @@ module Unlight
     end
 
     def combine_cnt_a=(n)
-      puts "#{__method__} @combine_cnt_a:#{@combine_cnt_a} n:#{n}"
       if @combine_cnt_a != n
         @combine_cnt_a = n
         modified!
@@ -422,7 +419,6 @@ module Unlight
     end
 
     def combine_cnt_a_max=(n)
-      puts "#{__method__} @combine_cnt_a_max:#{@combine_cnt_a_max} n:#{n}"
       if @combine_cnt_a_max != n
         @combine_cnt_a_max = n
         modified!
@@ -435,7 +431,6 @@ module Unlight
     end
 
     def combine_cnt_b=(n)
-      puts "#{__method__} @combine_cnt_b:#{@combine_cnt_b} n:#{n}"
       if @combine_cnt_b != n
         @combine_cnt_b = n
         modified!
@@ -448,7 +443,6 @@ module Unlight
     end
 
     def combine_cnt_b_max=(n)
-      puts "#{__method__} @combine_cnt_b_max:#{@combine_cnt_b_max} n:#{n}"
       if @combine_cnt_b_max != n
         @combine_cnt_b_max = n
         modified!
@@ -462,14 +456,11 @@ module Unlight
 
     def set_combine_cnt(n, idx = 0)
       list = %w[combine_cnt_a combine_cnt_b]
-      puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
       send("#{list[idx]}=", n)
     end
 
     def combine_cnt(idx = 0)
       list = %w[combine_cnt_a combine_cnt_b]
-      puts "#{__method__} idx:#{idx}"
-      puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])}"
       send(list[idx])
     end
 
@@ -479,13 +470,11 @@ module Unlight
 
     def set_combine_cnt_max(n, idx = 0)
       list = %w[combine_cnt_a_max combine_cnt_b_max]
-      puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
       send("#{list[idx]}=", n)
     end
 
     def combine_cnt_max(idx = 0)
       list = %w[combine_cnt_a_max combine_cnt_b_max]
-      puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])}"
       send(list[idx])
     end
 
@@ -518,7 +507,6 @@ module Unlight
     end
 
     def combine_pass_a=(n)
-      puts "#{__method__} @combine_pass_a:#{@combine_pass_a} n:#{n}"
       if @combine_pass_a != n
         @combine_pass_a = n
         modified!
@@ -531,7 +519,6 @@ module Unlight
     end
 
     def combine_pass_b=(n)
-      puts "#{__method__} @combine_pass_b:#{@combine_pass_b} n:#{n}"
       if @combine_pass_b != n
         @combine_pass_b = n
         modified!
@@ -545,13 +532,11 @@ module Unlight
 
     def set_combine_pass(n, idx = 0)
       list = %w[combine_pass_a combine_pass_b]
-      puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])} n:#{n}"
       send("#{list[idx]}=", n)
     end
 
     def combine_pass(idx = 0)
       list = %w[combine_pass_a combine_pass_b]
-      puts "#{__method__} idx:#{idx} list[idx]:#{send(list[idx])}"
       send(list[idx])
     end
 
@@ -564,7 +549,6 @@ module Unlight
 
     def combine_passive_num_max
       @combine_passive_num_max ||= param32_to_point(combine_param3, *COMB_PARAM_MASK_PSV_NUM_MAX)
-      puts "#{__method__} @combine_num:#{@combine_passive_num_max}"
       @combine_passive_num_max
     end
 
@@ -581,7 +565,6 @@ module Unlight
       combine_passive_num_max.times do |i|
         list << combine_pass(i) if combine_cnt(i).positive?
       end
-      puts "#{__method__} list.size:#{list.size}"
       list.size
     end
 
@@ -825,10 +808,8 @@ module Unlight
         when :add_max
           self.combine_add_max = v
         when :passive_id
-          puts "#{__method__} passive_id idx:#{combine_passive_set_idx}"
           if combine_passive_set_idx > -1
             idx = combine_passive_set_idx
-            puts "#{__method__} passive_id idx:#{idx}"
             set_combine_pass(v, idx)
             set_combine_cnt(COMB_PASSIVE_SET[v][2], idx)
             set_combine_cnt_max(COMB_PASSIVE_SET[v][2], idx)

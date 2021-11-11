@@ -164,7 +164,6 @@ module Unlight
       Feat.all.each do |f|
         # 文字列を作る
         cap_str = Feat.condition_str_gen(f.condition)
-        # puts cap_str
         @@condition_str_set[f.id] = f.orig_caption.force_encoding('UTF-8').gsub('__CONDITION__', cap_str) if f.orig_caption
         @@condition_str_set[f.id] = @@condition_str_set[f.id].gsub('__POW__', f.pow.to_s) if f.pow.to_s && @@condition_str_set[f.id]
 

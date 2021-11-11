@@ -399,7 +399,6 @@ module Unlight
   # ログレベル
   #  SERVER_LOG.level = Logger::DEBUG
   SERVER_LOG.level = Logger::INFO
-  #  puts"いまconstantsがDBを初期化"
   #  SERVER_LOG.debug("Avatar: [add_new_achievement] ID: #{a_id}")
 end
 

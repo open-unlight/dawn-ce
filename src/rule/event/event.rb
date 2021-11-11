@@ -394,7 +394,6 @@ module Unlight
                        #{finish_event_gen}
                         event_finish(@#{@f}_context,:#{@f}_init)
                      else
-                        #puts "finish event #{@f}"
                         @#{@f}_act_counter = 0
                         event_suspend(@#{@f}_context)
                       end
@@ -634,7 +633,6 @@ module Unlight
 
       #{hook_remove_gen}
       DSL
-      puts doc if EVAL_OUTPUT
       module_eval doc
       @event_rule = nil
       EventRule.dispose

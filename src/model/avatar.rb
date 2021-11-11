@@ -2660,7 +2660,6 @@ module Unlight
       end
 
       if get_boss_map.positive?
-        puts "get_boss_map:#{get_boss_map}"
         boss_quest_id = QuestMap[get_boss_map].get_boss_quest_id
         if boss_quest_id != 1
           # クエストインベントリをすぐに追加
@@ -4665,7 +4664,6 @@ module Unlight
           s.avatar_id = id
           s.set_flag(flags[0], flags[1])
           s.save_changes
-          puts 'save done'
         end
       end
     end

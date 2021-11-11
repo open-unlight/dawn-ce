@@ -201,7 +201,7 @@ module Unlight
             SERVER_LOG.info("#{@@class_name}: [online num] #{@@online_list.size}")
           end
         rescue StandardError => e
-          puts e.message
+          Sentry.capture_exception(e)
         end
         SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}")
       end
