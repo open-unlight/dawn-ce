@@ -374,5 +374,5 @@ module Unlight
   end
 
   # TODO: Move to top
-  require 'model/chara_card_event'
+  require 'events/chara_card_event'
 end
