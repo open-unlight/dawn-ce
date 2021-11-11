@@ -4,11 +4,13 @@
 # http://opensource.org/licenses/mit-license.php
 
 require 'model/concerns/avatars/rookie'
+require 'model/concerns/avatars/item'
 
 module Unlight
   # アバタークラス
   class Avatar < Sequel::Model
     include Avatars::Rookie
+    include Avatars::Item
 
     NAME_INPUT_SUCCESS = 0 # 名前入力可能
     NAME_ALREADY_USED  = 1 # 使用済み名前
@@ -568,49 +570,6 @@ module Unlight
       ret = 0
       chara_card_decks.each { |d| ret += d.chara_card_slot_inventories.size } if chara_card_decks
       ret
-    end
-
-    # アバターアイテムのIDのリストを返す
-    def item_list_str(r = true)
-      ret = []
-      refresh if r
-      unused_item_inventories(r).each do |p|
-        ret << p.avatar_item_id
-      end
-      ret.join(',')
-    end
-
-    # アバターアイテムのステートのリストを返す
-    def item_state_list_str(r = true)
-      ret = []
-      refresh if r
-      unused_item_inventories(r).each do |p|
-        ret << p.state
-      end
-      ret.join(',')
-    end
-
-    # アバターアイテムインベントリのIDのリストを返す
-    def item_inventories_list(r = true)
-      ret = []
-      refresh if r
-      unused_item_inventories(r).each do |p|
-        ret << p.id
-      end
-      ret
-    end
-
-    # 使用できるアイテムインベントリのリストを返す
-    def unused_item_inventories(r = true)
-      if r || @unused_item_inventories.nil?
-        @unused_item_inventories = ItemInventory.where(avatar_id: id).where { state < ITEM_STATE_USED }.all
-      end
-      @unused_item_inventories
-    end
-
-    # アバターアイテムインベントリのIDのリストを返す
-    def item_inventories_list_str(r = true)
-      item_inventories_list(r).join(',')
     end
 
     # アバターパーツのIDのリストを返す
