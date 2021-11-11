@@ -39,7 +39,7 @@ module Unlight
             logout
           end
         rescue StandardError => e
-          puts e.message
+          Sentry.capture_exception(e)
         end
         SERVER_LOG.info("#{@@class_name}: Connection unbind >> #{@ip}.player#{@player.id}") if @player
       end

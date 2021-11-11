@@ -49,7 +49,6 @@ module Unlight
         case s
           # ダイアログの場合
         when /^\s*"(.*)"\s*$/
-          puts Regexp.last_match(1)
           @command_set << dialogue_to_proc(Regexp.last_match(1))
           num += 1
           # パネルの場合

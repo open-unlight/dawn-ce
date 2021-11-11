@@ -28,7 +28,6 @@ module Unlight
 
     # コメントの保存
     def self.set_comment(prf_id, a_id, a_name, comment)
-      puts __method__.to_s
       ret = ProfoundComment.new do |pc|
         pc.profound_id = prf_id
         pc.avatar_id   = a_id

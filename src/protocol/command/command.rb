@@ -56,7 +56,6 @@ module Unlight
           #{gen_receve_cmd(c[1], c[0])}
                     end
         DSL
-        puts ret if OUTPUT_EVAL
         @klass.class_eval(ret)
       end
     end
@@ -107,14 +106,12 @@ module Unlight
         n = cmd[i][0].id2name
         ret = <<~DSL
                     def #{n}(#{gen_arg(cmd[i][1])})
-          #            puts "#{n}が実行されました#{i}"
                       data =""
                       data << [#{i}].pack('n')
           #{gen_send_cmd(cmd[i][1], cmd[i][2])}
                       send_data(data)
                     end
         DSL
-        puts ret if OUTPUT_EVAL
         @klass.class_eval(ret)
       end
     end
@@ -157,7 +154,6 @@ module Unlight
         ret << "            data2 = Zlib::Deflate.deflate(data2)\n"
         ret << "            data << data2\n"
       end
-      #      puts ret
       ret
     end
     private :gen_receve_cmd

@@ -170,7 +170,6 @@ module Unlight
 
     # ハイローをスキップ
     def skip
-      #     puts  "skip"
       @challenged = true
       @win_skip = false
       challenge(:skip)
@@ -187,9 +186,6 @@ module Unlight
         @final_result = [nil, [], nil, @step_num, inv_id]
       else
         if @avatar
-          #         puts "cancel !!!!!!!!!!!!!!!!!"
-          #         puts @candidate_list
-          #         puts @win_num
           cc = @candidate_list[@win_num]
           cc ||= @candidate_list.last # おそらくMAXの時には最後を返す
           @add_point = 0
@@ -211,22 +207,18 @@ module Unlight
             @add_point = add_point
             @total_gems = @gems + add_point
           when ITEM
-            #           puts "cancel set ITEM!!!!!!!!!!!!!!!!!x#{cc[2]},id:#{cc[1]}"
             cc[2].times do
               @avatar.get_item(cc[1])
             end
           when EVENT_CARD
-            #           puts "cancel set EVENT CARD!!!!!!!!!!!!!!!!!x#{cc[2]},id:#{cc[1]}"
             cc[2].times do
               @avatar.get_slot_card(SCT_EVENT, cc[1])
             end
           when WEAPON_CARD
-            #           puts "cancel set WEAPON CARD!!!!!!!!!!!!!!!!!x#{cc[2]},id:#{cc[1]}"
             cc[2].times do
               @avatar.get_slot_card(SCT_WEAPON, cc[1])
             end
           else
-            #          puts "cancel set CC!!!!!!!!!!!!!!!!! x#{cc[2]},id:#{cc[1]}"
             add_cards = []
             cc[2].times do
               CardInventory.new do |c|
@@ -255,7 +247,6 @@ module Unlight
     # 報酬ゲームを続ける
     def retry_reward
       # ハイローで失敗しているときはリトライ出来ない
-      #     puts "retry event"  if  @high_low_result[0]
       @selected = :retry if @high_low_result[0]
       update
     end
@@ -265,7 +256,6 @@ module Unlight
     def reroll
       @reroll = true
       ret = true
-      #     puts "reroll"
       @selected = :reroll
       update
       ret
@@ -275,7 +265,6 @@ module Unlight
     # 報酬ゲームでダイスを修正
     def amend(v)
       ret = false
-      #     puts "amend"
       b_calc = 0
       @bottom_dice.each do |a|
         b_calc += a
@@ -407,7 +396,6 @@ module Unlight
         if r < (b + v)
           @before_genre << k
           @before_genre.shift if @before_genre.size > @before_max
-          #         puts "genre selected!!! #{ret}"
           return ret
         else
           b += v
@@ -418,7 +406,6 @@ module Unlight
     # ジャンルの再選択（前回をなしにしてひき直す）
     def reselect_genre
       @before_genre.pop
-      #     puts "reslected genre !!"
       select_genre
     end
 
@@ -462,7 +449,6 @@ module Unlight
         when :wild_item
           ret = get_wild_item
         end
-        #        puts "select genre !!!!!! #{ret}"
         if (ret[2]).zero?
           g = reselect_genre
         else
@@ -470,7 +456,6 @@ module Unlight
         end
       end
       @step_num += 1 if @step_num < @step_cap
-      #     puts "update step_num is #{@step_num}"
       ret
     end
 
@@ -479,7 +464,6 @@ module Unlight
       ret = [0, 0, 0]
       # アイテムはハッシュの配列 指定ステップの最大値のアイテムを返す
       @wild_items.each do |w|
-        #       puts "#step is #{@step_min+w[:step]},#{step_num}"
         #       ret = w[:item] if (w[:step]+@step_min) < step_num
         ret = w[:item] if (w[:step] + @step_min) == step_num
       end
@@ -515,7 +499,6 @@ module Unlight
       if level < 1
         level = 1
       end
-      ##     puts "level2!!!!!!!! : #{level}"
       cid = @pl_cc.kind == CC_KIND_CHARA ? @pl_cc.charactor_id : @pl_cc.base_charactor_id
       if @pl_cc.kind == CC_KIND_RENTAL
         # レンタルカードの場合 GEM男

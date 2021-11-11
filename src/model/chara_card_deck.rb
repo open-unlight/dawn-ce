@@ -490,7 +490,6 @@ module Unlight
     # デッキ経験値をセット
     def set_deck_exp(i, is_get_bp = 0, update = true)
       calc = i + i * is_get_bp * (RADDER_DUEL_DECK_EXP_POW - 1)
-      puts "selfexpis #{exp}, #{calc}"
       self.exp = 0 unless exp
       self.exp += calc
       save_changes if update
