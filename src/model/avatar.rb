@@ -5,12 +5,14 @@
 
 require 'model/concerns/avatars/rookie'
 require 'model/concerns/avatars/item'
+require 'model/concerns/avatars/part'
 
 module Unlight
   # アバタークラス
   class Avatar < Sequel::Model
     include Avatars::Rookie
     include Avatars::Item
+    include Avatars::Part
 
     NAME_INPUT_SUCCESS = 0 # 名前入力可能
     NAME_ALREADY_USED  = 1 # 使用済み名前
@@ -572,26 +574,6 @@ module Unlight
       ret
     end
 
-    # アバターパーツのIDのリストを返す
-    def part_list_str(r = true)
-      ret = []
-      refresh if r
-      part_inventories.each do |p|
-        ret << p.avatar_part_id
-      end
-      ret.join(',')
-    end
-
-    # アバターパーツインベントリのIDのリストを返す
-    def part_inventories_list(r = true)
-      ret = []
-      refresh if r
-      part_inventories.each do |p|
-        ret << p.id
-      end
-      ret
-    end
-
     # パーツインベントリリストからIDが適合するものを返す
     def part_from_inventories(p_id, r = true)
       ret = nil
@@ -603,11 +585,6 @@ module Unlight
         end
       end
       ret
-    end
-
-    # アバターパーツインベントリのIDのリストを返す
-    def part_inventories_list_str(r = true)
-      part_inventories_list(r).join(',')
     end
 
     # クエストインベントリのIDのリストを返す
