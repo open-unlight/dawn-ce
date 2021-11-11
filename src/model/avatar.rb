@@ -6,6 +6,7 @@
 require 'model/concerns/avatars/rookie'
 require 'model/concerns/avatars/item'
 require 'model/concerns/avatars/part'
+require 'model/concerns/avatars/quest'
 
 module Unlight
   # アバタークラス
@@ -13,6 +14,7 @@ module Unlight
     include Avatars::Rookie
     include Avatars::Item
     include Avatars::Part
+    include Avatars::Quest
 
     NAME_INPUT_SUCCESS = 0 # 名前入力可能
     NAME_ALREADY_USED  = 1 # 使用済み名前
@@ -585,81 +587,6 @@ module Unlight
         end
       end
       ret
-    end
-
-    # クエストインベントリのIDのリストを返す
-    def quest_inventories_list(r = true)
-      ret = []
-      refresh if r
-      avatar_quest_inventories.each do |p|
-        ret << p.id
-      end
-      ret
-    end
-
-    # クエストインベントリのIDのリストを文字列で返す
-    def quest_inventories_list_str(r = true)
-      quest_inventories_list(r).join(',')
-    end
-
-    # クエストインベントリのリストのクエストIDを文字列で返す
-    def quest_id_list_str(r = true)
-      ret = []
-      refresh if r
-      avatar_quest_inventories.each do |p|
-        if p.status == QS_PENDING
-
-          if p.quest_find?
-            ret << p.quest_id
-          else
-            ret << 0
-          end
-        else
-          ret << p.quest_id
-        end
-      end
-      ret.join(',')
-    end
-
-    # クエストインベントリのリストのステータスを文字列で返す
-    def quest_status_list_str(r = true)
-      ret = []
-      refresh if r
-      avatar_quest_inventories.each do |p|
-        ret << p.status
-      end
-      ret.join(',')
-    end
-
-    # クエストインベントリのリストの発見時間をを文字列で返す
-    def quest_find_time_list_str(r = true)
-      ret = []
-      refresh if r
-      now = Time.now.utc
-      avatar_quest_inventories.each do |inv|
-        if inv.status == QS_PENDING
-          t = (inv.find_at - now).to_i
-          ret << t
-        else
-          ret << 0
-        end
-      end
-      ret.join(',')
-    end
-
-    def quest_ba_name_list_str(r = true)
-      ret = []
-      refresh if r
-      avatar_quest_inventories.each do |p|
-        if p.before_avatar_id&.zero? || p.before_avatar_id.nil?
-          ret << QUEST_PRESENT_AVATAR_NAME_NIL
-        elsif defined?(Avatar[p.before_avatar_id].name)
-          ret << Avatar[p.before_avatar_id].name
-        else
-          ret << QUEST_PRESENT_AVATAR_NAME_NIL
-        end
-      end
-      ret.join(',').force_encoding('UTF-8')
     end
 
     # クエストインベントリのリストの発見時間をを文字列で返す
