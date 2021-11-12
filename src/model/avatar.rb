@@ -287,70 +287,6 @@ module Unlight
       ret
     end
 
-    # チケットのインベントリを返す
-    def tickets
-      refresh
-      ret = []
-      item_inventories.each do |i|
-        ret << i if i.avatar_item_id == RARE_CARD_TICKET
-      end
-      ret
-    end
-
-    # チケットのインベントリを返す
-    def copy_tickets
-      refresh
-      ret = []
-      item_inventories.each do |i|
-        ret << i if i.avatar_item_id == COPY_TICKET
-      end
-      ret
-    end
-
-    # 特定のアイテムの個数を返す
-    def item_count(item_id, r = true)
-      refresh if r
-      ret = 0
-      item_inventories(r).each do |i|
-        ret += 1 if i.avatar_item_id == item_id
-      end
-      ret
-    end
-
-    # 特定の時間以降に取得したアイテムの個数を返す
-    def item_count_later(item_id, check_at, r = true)
-      refresh if r
-      ret = 0
-      item_inventories(r).each do |i|
-        if i.avatar_item_id == item_id && i.created_at > check_at
-          ret += 1
-        end
-      end
-      ret
-    end
-
-    # 特定の時間以降に取得した複数のアイテムの合計個数を返す
-    def set_item_count_later(item_id_list, check_at, r = true)
-      refresh if r
-      ret = 0
-      item_inventories(r).each do |i|
-        if item_id_list.include?(i.avatar_item_id) && i.created_at > check_at
-          ret += 1
-        end
-      end
-      ret
-    end
-
-    # 特定のアイテムの全個数を返す（使用、未使用問わず）
-    def full_item_count(item_id, r = true)
-      refresh if r
-      ret = 0
-      full_item_inventories(r).each do |i|
-        ret += 1 if i.avatar_item_id == item_id
-      end
-      ret
-    end
-
     # 特定の武器リストのインベントリを返す
     def get_some_weapon_list(list, r = true)
       refresh if r
@@ -516,24 +452,6 @@ module Unlight
     # アバターパーツの数を返す
     def parts_num
       part_inventories.size
-    end
-
-    def item_inventories(r = true)
-      @item_inventories = nil if r
-      @item_inventories ||= ItemInventory.where(avatar_id: id, state: ITEM_STATE_NOT_USE).all
-      @item_inventories
-    end
-
-    # 使用、未使用問わず取得数を調べる
-    def full_item_inventories(r = true)
-      @full_item_inventories = nil if r
-      @full_item_inventories ||= ItemInventory.filter(avatar_id: id).all
-      @full_item_inventories
-    end
-
-    # アバターアイテムの数を返す
-    def items_num
-      unused_item_inventories(false).size
     end
 
     # カードの枚数を返す
