@@ -66,14 +66,6 @@ module Unlight
       end
     end
 
-    # イベント処理 12/8 クリスマスイベント
-    def self.cristmas_event_on
-      Avatar.all do |a|
-        a.recovery_interval = Unlight::AVATAR_RECOVERY_SEC
-        a.save_changes
-      end
-    end
-
     # クリスマスイベント処理 12/17 クランプス出現可否の最終チェック時刻
     def get_last_check_time
       ret = @last_check_time
@@ -100,14 +92,6 @@ module Unlight
     end
 
     attr_writer :present_has_received
-
-    # 空のアバターに対してフレンドMAX数を入れ直す
-    def self.set_all_friend_max
-      Avatar.all do |a|
-        a.friend_max = 10 unless a.friend_max
-        a.save_changes
-      end
-    end
 
     # アバターを登録
     def self.regist(name, pid, parts, cards, server_type = SERVER_SB)
