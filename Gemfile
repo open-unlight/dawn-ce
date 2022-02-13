@@ -14,7 +14,7 @@ gem 'sequel', '~> 5.0'
 gem 'dalli'
 
 # API Server
-gem 'puma', '>= 5.3.1'
+gem 'puma', '>= 5.6.2'
 gem 'rack'
 
 # Game API
