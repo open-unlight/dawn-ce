@@ -15,7 +15,7 @@ gem 'dalli'
 
 # API Server
 gem 'puma', '>= 5.3.1'
-gem 'rack'
+gem 'rack', '>= 3.0.0'
 
 # Game API
 gem 'grape'
@@ -70,7 +70,7 @@ group :test do
   gem 'simplecov', '~> 0.17.1', require: false
   gem 'simplecov-cobertura', require: false
 
-  gem 'rack-test', require: false
+  gem 'rack-test', '>= 2.0.0', require: false
 
   gem 'super_diff', require: false
 end
