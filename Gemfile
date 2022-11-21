@@ -11,7 +11,7 @@ gem 'mysql2', '~> 0.5.2'
 gem 'sequel', '~> 5.0'
 
 # Cache
-gem 'dalli'
+gem 'dalli', '>= 3.2.3'
 
 # API Server
 gem 'puma', '>= 5.3.1'
