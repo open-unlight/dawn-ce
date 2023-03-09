@@ -15,7 +15,7 @@ gem 'dalli'
 
 # API Server
 gem 'puma', '>= 5.3.1'
-gem 'rack'
+gem 'rack', '>= 2.2.6.3'
 
 # Game API
 gem 'grape'
