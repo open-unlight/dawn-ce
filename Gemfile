@@ -15,7 +15,7 @@ gem 'dalli'
 
 # API Server
 gem 'puma', '>= 5.3.1'
-gem 'rack'
+gem 'rack', '>= 2.2.6.4'
 
 # Game API
 gem 'grape'
@@ -30,7 +30,7 @@ gem 'rack-cors'
 gem 'sentry-ruby'
 
 # Utils
-gem 'activesupport'
+gem 'activesupport', '>= 6.1.7.3'
 gem 'config'
 gem 'gmp'
 gem 'rake'
