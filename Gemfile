@@ -11,11 +11,11 @@ gem 'mysql2', '~> 0.5.2'
 gem 'sequel', '~> 5.0'
 
 # Cache
-gem 'dalli'
+gem 'dalli', '>= 3.2.3'
 
 # API Server
-gem 'puma', '>= 5.3.1'
-gem 'rack'
+gem 'puma', '>= 5.6.4'
+gem 'rack', '>= 3.0.0'
 
 # Game API
 gem 'grape'
@@ -30,7 +30,7 @@ gem 'rack-cors'
 gem 'sentry-ruby'
 
 # Utils
-gem 'activesupport'
+gem 'activesupport', '>= 6.1.7.3'
 gem 'config'
 gem 'gmp'
 gem 'rake'
@@ -70,7 +70,7 @@ group :test do
   gem 'simplecov', '~> 0.17.1', require: false
   gem 'simplecov-cobertura', require: false
 
-  gem 'rack-test', require: false
+  gem 'rack-test', '>= 2.0.0', require: false
 
   gem 'super_diff', require: false
 end
