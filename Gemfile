@@ -18,10 +18,10 @@ gem 'puma', '>= 5.3.1'
 gem 'rack'
 
 # Game API
-gem 'grape'
-gem 'grape-entity'
-gem 'grape-swagger', require: false
-gem 'grape-swagger-entity', require: false
+gem 'grape', '>= 1.6.0'
+gem 'grape-entity', '>= 0.10.0'
+gem 'grape-swagger', '>= 1.4.1', require: false
+gem 'grape-swagger-entity', '>= 0.5.2', require: false
 gem 'oj'
 gem 'pagy'
 gem 'rack-cors'
@@ -30,7 +30,7 @@ gem 'rack-cors'
 gem 'sentry-ruby'
 
 # Utils
-gem 'activesupport'
+gem 'activesupport', '>= 6.1.7.5'
 gem 'config'
 gem 'gmp'
 gem 'rake'
@@ -63,9 +63,9 @@ group :test do
   gem 'rspec_junit_formatter', require: false
 
   gem 'cucumber', require: false
-  gem 'database_cleaner', require: false
+  gem 'database_cleaner', '>= 2.0.2', require: false
   gem 'database_cleaner-sequel', require: false
-  gem 'factory_bot', require: false
+  gem 'factory_bot', '>= 6.2.1', require: false
   gem 'faker', require: false
   gem 'simplecov', '~> 0.17.1', require: false
   gem 'simplecov-cobertura', require: false
