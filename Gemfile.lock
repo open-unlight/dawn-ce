@@ -162,7 +162,7 @@ GEM
     mustermann-grape (1.0.1)
       mustermann (>= 1.0.0)
     mysql2 (0.5.3)
-    nio4r (2.5.8)
+    nio4r (2.7.0)
     oj (3.13.3)
     optimist (3.0.1)
     overcommit (0.58.0)
@@ -178,7 +178,7 @@ GEM
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    puma (5.5.1)
+    puma (6.4.2)
       nio4r (~> 2.0)
     rack (2.2.3)
     rack-accept (0.4.5)
@@ -284,7 +284,7 @@ DEPENDENCIES
   overcommit
   pagy
   pry
-  puma (>= 5.3.1)
+  puma (>= 5.6.8)
   rack
   rack-cors
   rack-test
@@ -305,4 +305,4 @@ DEPENDENCIES
   super_diff
 
 BUNDLED WITH
-   2.2.28
+   2.1.4
