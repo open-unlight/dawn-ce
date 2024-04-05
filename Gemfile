@@ -15,16 +15,16 @@ gem 'dalli'
 
 # API Server
 gem 'puma', '>= 5.3.1'
-gem 'rack'
+gem 'rack', '>= 2.2.8.1'
 
 # Game API
-gem 'grape'
+gem 'grape', '>= 1.6.0'
 gem 'grape-entity'
-gem 'grape-swagger', require: false
-gem 'grape-swagger-entity', require: false
+gem 'grape-swagger', '>= 1.4.1', require: false
+gem 'grape-swagger-entity', '>= 0.5.2', require: false
 gem 'oj'
 gem 'pagy'
-gem 'rack-cors'
+gem 'rack-cors', '>= 2.0.0'
 
 # Monitor
 gem 'sentry-ruby'
@@ -70,7 +70,7 @@ group :test do
   gem 'simplecov', '~> 0.17.1', require: false
   gem 'simplecov-cobertura', require: false
 
-  gem 'rack-test', require: false
+  gem 'rack-test', '>= 2.0.0', require: false
 
   gem 'super_diff', require: false
 end
