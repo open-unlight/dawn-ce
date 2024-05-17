@@ -43,17 +43,17 @@ group :build do
 end
 
 group :development, :test do
-  gem 'rubocop', '~> 1.19.0', require: false
-  gem 'rubocop-performance', '>= 1.11.5', require: false
-  gem 'rubocop-rspec', '>= 2.4.0', require: false
-  gem 'rubocop-sequel', '>= 0.3.1', require: false
-  gem 'rubocop-thread_safety', '>= 0.4.2', require: false
+  gem 'rubocop', '~> 1.20.0', require: false
+  gem 'rubocop-performance', '>= 1.12.0', require: false
+  gem 'rubocop-rspec', '>= 2.5.0', require: false
+  gem 'rubocop-sequel', '>= 0.3.4', require: false
+  gem 'rubocop-thread_safety', '>= 0.4.4', require: false
 end
 
 group :development do
   gem 'dotenv'
 
-  gem 'overcommit', require: false
+  gem 'overcommit', '>= 0.59.0', require: false
 
   gem 'pry'
 end
