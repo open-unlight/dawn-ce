@@ -43,7 +43,7 @@ group :build do
 end
 
 group :development, :test do
-  gem 'rubocop', '~> 1.19.0', require: false
+  gem 'rubocop', '~> 1.66.0', require: false
   gem 'rubocop-performance', '>= 1.11.5', require: false
   gem 'rubocop-rspec', '>= 2.4.0', require: false
   gem 'rubocop-sequel', '>= 0.3.1', require: false
@@ -53,7 +53,7 @@ end
 group :development do
   gem 'dotenv'
 
-  gem 'overcommit', require: false
+  gem 'overcommit', '>= 0.64.1', require: false
 
   gem 'pry'
 end
