@@ -15,10 +15,10 @@ gem 'dalli'
 
 # API Server
 gem 'puma', '>= 5.3.1'
-gem 'rack'
+gem 'rack', '>= 2.2.12'
 
 # Game API
-gem 'grape'
+gem 'grape', '>= 2.1.0'
 gem 'grape-entity'
 gem 'grape-swagger', require: false
 gem 'grape-swagger-entity', require: false
@@ -46,7 +46,7 @@ group :development, :test do
   gem 'rubocop', '~> 1.19.0', require: false
   gem 'rubocop-performance', '>= 1.11.5', require: false
   gem 'rubocop-rspec', '>= 2.4.0', require: false
-  gem 'rubocop-sequel', '>= 0.3.1', require: false
+  gem 'rubocop-sequel', '>= 0.4.0', require: false
   gem 'rubocop-thread_safety', '>= 0.4.2', require: false
 end
 
