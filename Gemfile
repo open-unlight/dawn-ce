@@ -24,7 +24,7 @@ gem 'grape-swagger', require: false
 gem 'grape-swagger-entity', require: false
 gem 'oj'
 gem 'pagy'
-gem 'rack-cors'
+gem 'rack-cors', '>= 3.0.0'
 
 # Monitor
 gem 'sentry-ruby'
